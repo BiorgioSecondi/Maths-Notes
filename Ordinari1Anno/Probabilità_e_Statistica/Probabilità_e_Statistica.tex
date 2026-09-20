@@ -1,0 +1,2146 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[sexy]{evan} %BLBLBLBLBLBLBLBLBLBLBLB EVANCHEN
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{asymptote}
+\usepackage{amsthm}
+\usepackage{gensymb}
+\usepackage{amsfonts}
+\usepackage[english,italian]{babel}
+\usepackage{quoting}
+\quotingsetup{font=big}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{lmodern}
+\usepackage{bbm}
+\newcommand{\dif}{\text{d}}
+\newcommand{\parti}[1]{\mathcal{P}\!\left(#1\right)}
+\newcommand{\eset}{\varnothing}
+
+%%% the pure symbol, see https://tex.stackexchange.com/a/718194/4427
+\newcommand{\cind}{\perp\mspace{-9mu}\perp}
+%%% define \indep
+\NewDocumentCommand{\indep}{e{_}}{%
+	\mathrel{%
+		\IfNoValueTF{#1}{% no subscript
+			\cind
+		}{% subscript
+			\mathchoice{\mathop{\cind}\limits_{#1}}{\cind_{#1}}{\cind_{#1}}{\cind_{#1}}%
+		}%
+	}%
+}
+
+\begin{document}
+	\title{Appunti di Probabilità e Statistica}
+	\subtitle{Giambattista Giacomin - UNIPD}
+	\date{Febbraio - Giugno 2026}
+	
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\newpage
+	
+	\section{Assiomi della probabilità discreta}
+	\subsection{Definizione e prime proprietà}
+	\begin{definition}[Probabilità discreta]
+		Sia $\Omega$ un insieme non vuoto numerabile o finito, che chiameremo \textit{spazio campionario}. E sia $\parti{\Omega}$ il suo insieme delle parti. Una funzione $P:\parti{\Omega}\to [0,1]$ è detta \textit{probabilità} se valgono le seguenti proprietà:
+		\begin{itemize}
+			\item Vale $P(\Omega)=1$.
+			\item Per ogni successione $A_n$ a valori in $\parti{\Omega}$ tale che per ogni $n,m\in\NN$ si ha
+			$$A_n\cap A_m = \eset$$
+			allora 
+			$$P\left(\bigsqcup_{n\in\NN}A_n\right)=\sum_{n\in\NN}P(A_n)$$
+			dove il simbolo $\sqcup$ indica l'unione disgiunta. Questa proprietà viene detta $\sigma$-additività.
+		\end{itemize}
+		La coppia $(\Omega,P)$ si dice \textit{spazio di probabilità discreto}, e gli elementi di $\parti{\Omega}$ si dicono \textit{eventi}.
+	\end{definition}
+	Così com'è questa definizione è abbastanza astratta. Vediamo alcune conseguenze:
+	\begin{proposition}[Probabilità del vuoto]
+		Per ogni $P:\parti{\Omega}\to [0,1]$ probabilità abbiamo 
+		$$P(\eset)=0$$
+	\end{proposition}
+	\begin{proof}
+		Consideriamo la successione di insiemi
+		$$A_n:=\eset$$
+		questa è una successione di insiemi disgiunti, quindi abbiamo per la $\sigma$-additività:
+		$$P(\eset)=P\left(\bigsqcup_{n\in\NN}A_n\right)=\sum_{n\in\NN}P(A_n)=\sum_{n\in\NN}P(\eset)$$
+		cioè scrivendo la serie con un limite
+		$$P(\eset)=\lim_{n\to\infty}\sum_{i=1}^{n}P(\eset)=\lim_{n\to \infty}nP(\eset)$$
+		da cui usando la continuità
+		$$\lim_{n\to\infty}(n-1)P(\eset)=0$$
+		cioè necessariamente $P(\eset)=0$.
+	\end{proof}
+	Più facilmente abbiamo
+	\begin{proposition}[Le probabilità sono additive]
+		Per ogni $P:\parti{\Omega}\to [0,1]$ probabilità, abbiamo che, dati $A_1,A_2,\dots,A_k$ insiemi disgiunti con $k\in\NN$ vale
+		$$P\left(\bigsqcup_{n=1}^kA_n\right)=\sum_{n=1}^kP(A_n)$$
+	\end{proposition}
+	\begin{proof}
+		Semplicemente completiamo la successione $A_1,A_2,\dots,A_k$ con infiniti elementi vuoti, ovvero definiamo 
+		$$A_n:=\eset$$
+		per ogni $n>k$. Dunque abbiamo
+		$$P\left(\bigsqcup_{n\in\NN}A_n\right)=\sum_{n\in\NN}^kP(A_n)$$
+		d'altra parte l'unione di tutti gli $A_n$ è semplicemente uguale all'unione dei primi $k$ insiemi, e la somma di tutte le probabilità è semplicemente uguale alla somma delle prime $k$ probabilità (dato che $P(\eset)=0$). Dunque abbiamo la tesi.
+	\end{proof}
+	In effetti abbiamo dimostrato che la $\sigma$-additività implica l'additività. Verrebbe naturale da pensare che anche il viceversa sia vero, dopotutto è la definizione di serie. Tuttavia sorprendentemente questo è falso, la costruzione dei controesempi è delicata e non banale e non verrà trattata in questo corso. Finora abbiamo solo lavorato con sottoinsiemi disgiunti, cominciamo a lavorare per poter trattare anche insiemi non disgiunti:
+	\begin{proposition}[Probabilità della differenza]
+		Siano $A\subseteq B\in\parti{\Omega}$, allora data una probabilità $P:\parti{\Omega}\to[0,1]$ vale
+		$$P(B\setminus A)=P(B)-P(A)$$
+	\end{proposition}
+	\begin{proof}
+		Dato che $B$ contiene $A$ possiamo scrivere 
+		$$B=A\sqcup (B\setminus A)$$
+		e quindi applicando l'additività abbiamo
+		$$P(B)=P(A)+P(B\setminus A)$$
+		che girando un po' i termini ci dà subito la tesi.
+	\end{proof}
+	Due importanti corollari di ciò sono subito:
+	\begin{corollary}[Probabilità del complementare]
+		Se $P$ è una probabilità abbiamo
+		$$P\left(A^c\right)=1-P(A)$$
+	\end{corollary}
+	\begin{corollary}[Ordine delle probabilità]
+		Dati due $A\subseteq B\in \parti{\Omega}$ e una probabilità $P$ abbiamo
+		$$P(A)\le P(B)$$ 
+	\end{corollary}
+	E quindi finalmente
+	\begin{proposition}[Probabilità dell'unione]
+		Dati due $A,B\in \parti{\Omega}$ e una probabilità $P$ abbiamo
+		$$P(A\cup B)=P(A)+P(B)-P(A\cap B)$$
+	\end{proposition}
+	\begin{proof}
+		Per una nota identità tra insiemi abbiamo
+		$$B\setminus A = B\setminus (A\cap B)$$
+		quindi passando alle probabilità abbiamo
+		\begin{equation}
+			P(B\setminus A)=P(B)-P(A\cap B)
+		\end{equation}
+		inoltre dalla nota identità
+		$$A\cup B = A \sqcup (B\setminus A)$$
+		applicando la probabilità da entrambi i lati otteniamo
+		\begin{equation}
+			P(A\cup B)=P(A)+P(B\setminus A)
+		\end{equation}
+		e ora mettendo insieme la (1) e la (2) abbiamo la tesi.
+	\end{proof}
+	\begin{corollary}[Subadditività della probabilità]
+		Dati $n$ insiemi $A_1,A_2,\dots,A_n\subseteq \Omega$ abbiamo che 
+		$$P(A_1\cup A_2 \cup \dots \cup A_n)\le \sum_{i=1}^{n}P(A_i)$$ 
+	\end{corollary}
+	\begin{proof}
+		Procediamo per induzione. Il passo base segue dal fatto che 
+		$$P(A\cup B)=P(A)+P(B)-P(A\cap B)\le P(A)+P(B)$$
+		dato che $P(A\cap B)\ge 0$. Supponiamo ora la tesi valga fino a $k$, allora abbiamo
+		$$P(A_1\cup \dots \cup A_k \cup A_{k+1})=P(A_1\cup \dots \cup A_k)+P(A_{k+1})-P(A_1\cup \dots \cup A_k \cap A_{k+1})$$
+		che implica come prima
+		$$P(A_1\cup \dots \cup A_k \cup A_{k+1})\le P(A_1\cup \dots \cup A_k)+P(A_{k+1})$$
+		da cui per ipotesi induttiva
+		$$P(A_1\cup \dots \cup A_k \cup A_{k+1})\le \dots \le P(A_{k+1})+\sum_{i=1}^k P(A_i)=\sum_{i=1}^{k+1}P(A_i)$$
+		che dunque conclude la dimostrazione per induzione.
+	\end{proof}
+	\begin{exercise}
+		Calcolare la probabilità di ottenere almeno un $1$ lanciando $4$ dadi.
+		\begin{answer*}
+			Prima di tutto dobbiamo formalizzare il problema. Lo spazio campionario è in questo caso
+			$$\Omega=\left\{1,2,3,4,5,6\right\}^4=\left\{(\omega_1,\omega_2,\omega_3,\omega_4):\omega_i\in \left\{1,2,3,4,5,6\right\}\text{ per ogni $i$}\right\}$$
+			e per ogni singoletto, definiamo la probabilità come
+			$$P(\left\{\left(\omega_1,\omega_2,\omega_3,\omega_4\right)\right\}):=\frac{1}{6^4}.$$
+			A questo punto l'esercizio ci chiede di calcolare la probabilità dell'evento
+			$$A:=\left\{\omega \in \Omega:\text{ esiste un $i$ tale che } \omega_i=1\right\}$$
+			a questo punto usando l'additività in realtà per ogni insieme possiamo calcolare la probabilità sommando le probabilità dei singoletti che lo formano, ovvero otteniamo
+			$$P(B)=\frac{\abs{B}}{\abs{\Omega}}$$
+			infine per trovare la probabilità di $A$ contiamo quanti elementi ha $A^c$, ovvero
+			$$P(A^c)=\frac{\abs{A^c}}{\abs{\Omega}}=\frac{5^4}{6^4}$$
+			e quindi la probabilità di $A$ sarà
+			$$P(A)=1-\left(\frac{5}{6}\right)^4.$$
+			come richiesto.
+		\end{answer*}
+	\end{exercise}
+	\begin{exercise}
+		Quante volte bisogna lanciare un dado per avere una probabilità di al più $10^{-6}$ di \textbf{non} aver visto nessun $1$.
+		\begin{answer}
+			In questo caso dobbiamo ricondurci ad uno spazio di probabilità discreto ponendoci nello spazio campionario
+			$$\Omega_k=\left\{1,2,3,4,5,6\right\}^k$$
+			per $k$ finito, e chiedendoci cosa succede per $k$ arbitrari. L'evento di cui vogliamo studiare la probabilità allora è
+			$$A_k=\left\{\omega\in \Omega_k:\omega_i\ne 1\quad\forall i\le k\right\}$$
+			usando i complementari come prima si trova facilmente
+			$$P(A_k)=\left(\frac{5}{6}\right)^k$$
+			e quindi la domanda del problema diventa \textit{per quale $k$ questa probabilità diventa $\le 10^{-6}$}. Che è facile risolvere facendo un paio di logaritmi.
+		\end{answer}
+	\end{exercise}
+	Notiamo che per fare questo problema siamo passati per un prodotto cartesiano finito. Cosa sarebbe successo se invece avessimo usato come spazio di probabilità l'insieme
+	$$\Omega=\left\{1,2,3,4,5,6\right\}^\NN$$
+	formato da tutte le successioni a valori in $\left\{1,2,3,4,5,6\right\}$? Purtroppo ci troveremmo davanti al problema che 
+	$$P(\left\{\omega\right\})=0$$
+	per ogni $\omega\in\Omega$! E inoltre $\Omega$ sarebbe non numerabile, quindi la $\sigma$-additività non si applicherebbe. Un bel casino.
+	\subsection{Densità di probabilità}
+	Il concetto parallelo di probabilità è quello di densità:
+	\begin{definition}[Densità di probabilità discreta]
+		Una funzione $p:\Omega\to [0,\infty)$ si dice \textit{densità discreta} se $\Omega$ è un insieme al più numerabile e 
+		$$\sum_{\omega\in \Omega}p(\omega)=1.$$
+	\end{definition}
+	\begin{proposition}[Probabilità da una densità]
+		Sia $p$ una densità di probabilità, allora $P:\parti{\Omega}\to \RR$ definita da 
+		$$P(A)=\sum_{\omega\in A}p(\omega)$$
+		è una probabilità su $\Omega$.
+	\end{proposition}
+	\begin{proof}
+		Dal fatto che $p$ è una densità discreta si vede chiaramente che $P:\parti{\Omega}\to[0,1]$, e per lo stesso motivo abbiamo anche $P(\Omega)=1$. L'unica altra proprietà che ci rimane da dimostrare è la $\sigma$-additività, d'altra parte consideriamo una successione $A_n$ di sottoinsiemi disgiunti di $\Omega$, dobbiamo dimostrare che, definito
+		$$A:=\bigsqcup_{n\in\NN}A_n$$
+		dobbiamo dimostrare che 
+		$$P(A)=\sum_{n\in\NN}P(A_n).$$
+		d'altra parte applicando la definizione di $P$ abbiamo che $P(A)$ si riscrive come
+		$$P(A)=\sum_{\omega\in A}p(\omega)=\sum_{n\in\NN}\sum_{\omega\in A_n}p(\omega)=\sum_{n\in\NN}P(A_n)$$
+		che era la tesi.
+	\end{proof}
+	\begin{example}
+		Data una funzione $p:\Omega \to [0,\infty)$ con $\Omega=\NN$ tale che 
+		$$p(\omega)=\frac{1}{\omega(\omega+1)}$$
+		verificare che questa è una densità di probabilità, e calcolare $P(2\NN)$.
+	\end{example}
+	\subsection{Continuità monotona}
+	La seguente proposizione ci sarà molto utile in futuro
+	\begin{theorem}[Continuità monotona della probabilità]
+		Sia $(\Omega,P)$ uno spazio di probabilità discreto. Allora data una successione $A_n$ di sottoinsiemi di $\Omega$ abbiamo:
+		\begin{itemize}
+			\item Se $A_n\subseteq A_{n+1}$ per ogni $n$ allora
+			$$P\left(\bigcup_{n\in\NN}A_n \right)=\lim_{n\to\infty}P(A_n)$$
+			\item Se $A_{n+1}\subseteq A_n$ per ogni $n$ allora
+			$$P\left(\bigcap_{n\in\NN}A_n\right)=\lim_{n\to\infty}P(A_n)$$
+		\end{itemize}
+	\end{theorem}
+	\begin{proof}
+		Nel primo caso possiamo scrivere ogni termine della successione come
+		$$A_n=\bigcup_{i=1}^{n}A_i$$
+		d'altra parte possiamo anche definire la successione di insiemi disgiunti
+		$$
+		\begin{cases}
+			B_1=A_1 \\
+			B_I:=A_i\setminus A_{i-1}
+		\end{cases}
+		$$
+		che soddisfa
+		$$A_n= \bigsqcup_{i=1}^n B_n$$
+		ma allora abbiamo 
+		$$\bigsqcup_{i=1}^n B_n=\bigcup_{i=1}^{n}A_i$$ 
+		e in effetti passando al limite\footnote{In realtà visto che stiamo lavorando con insiemi dovremmo dire cosa intendiamo, ma non è troppo difficile vedere che questa cosa rimane vera.} 
+		$$\bigcup_{n\in \NN}A_n=\bigsqcup_{n\in\NN} B_n$$
+		da cui abbiamo per $\sigma$-additività: 
+		$$P\left(\bigcup_{n\in \NN}A_n\right)=P\left(\bigsqcup_{n\in\NN} B_n\right)=\sum_{n\in \NN}P(B_n)$$
+		e usando la definizione di serie
+		$$P\left(\bigcup_{n\in \NN}A_n\right)=\dots=\sum_{n\in \NN}P(B_n)=\lim_{n\to\infty}\sum_{k=1}^{n}P(B_n)=\lim_{n\to \infty}P\left(\bigsqcup_{k=1}^n B_n\right)=\lim_{n\to\infty}P(A_n)$$
+		come richiesto. Il secondo punto è equivalente facendo i complementari.
+	\end{proof}
+	In effetti questo non è altro che un caso specifico del famoso problema dello scambio tra segno di limite e segno di integrale. Per vedere come mai ci torna utile definire 
+	\begin{definition}[Funzione Indicatrice]
+		Dato un insieme $A\subseteq \Omega$ definiamo la sua \textit{funzione indicatrice} come $\mathbbm{1}_A:\Omega\to \left\{0,1\right\}$ tale che:
+		$$\mathbbm{1}_A(\omega):=
+		\begin{cases}
+			1 & \text{se $\omega\in A$} \\
+			0 & \text{se $\omega\in \Omega\setminus A$}.
+		\end{cases}$$
+	\end{definition}
+	Utilizzando questa nozione possiamo usare il concetto di limite di una successione di funzioni per definire il limite di una successione di insiemi:
+	\begin{definition}[Definizione di limite di successione di insiemi]
+		Sia $A_n$ una successione di insiemi in $\Omega$, allora prese le funzioni caratteristiche $\mathbbm{1}_{A_n}$ se esiste il limite della successione di funzioni
+		$$\lim_{n\to\infty}\mathbbm{1}_{A_n}(\omega)=f(\omega)$$
+		chiaramente $f:\Omega\to \left\{0,1\right\}$, quindi sarà la funzione caratteristica di un certo sottoinsieme di $\Omega$. Definiamo quindi
+		$$\lim_{n\to\infty}A_n:=\Omega\setminus\ker{f}=:A_\infty$$
+		dove con ker in questo caso si intende il sottoinsieme di $\Omega$ che va in $1$.
+	\end{definition}
+	\begin{lemma}[Limite di una successione monotona di insiemi]
+		Data una successione monotonamente crescente di insiemi $A_n\subset \Omega$ abbiamo
+		$$A_\infty=\bigcup_{n\in\NN}A_n$$
+		analogamente vale per le monotonamente decrescenti.
+	\end{lemma}
+	\begin{proof}
+		Per ogni $\omega\in \Omega$ succede una e una sola di due cose:
+		\begin{itemize}
+			\item $\omega\in A_{n_0}$ per qualche $n_0\in\NN$. 
+			\item Per ogni $n\in\NN$ vale che $\omega\not\in A_n$.
+		\end{itemize}
+		Nel primo caso, dato che per ogni $n$ vale $A_n\subseteq A_{n+1}$, abbiamo che $\omega\in A_n$ per ogni $n\ge n_0$, ovvero $\mathbbm{1}_{A_n}(\omega)=1$ per ogni $n\ge n_0$, che è equivalente a
+		$$\lim_{n\to \infty}\mathbbm{1}_{A_n}(\omega)=1.$$ 
+		Notiamo inoltre che in questo caso abbiamo che 
+		$$\omega\in \bigcup_{n\in\NN}A_n,$$
+		dato che appartiene ad almeno un $A_n$. \\
+		Nell'altro caso chiaramente abbiamo che 
+		$$\omega\not \in\bigcup_{n\in\NN}A_n$$
+		e inoltre abbiamo che 
+		$$\mathbbm{1}_{A_n}(\omega)=0 \,\,\, \forall n\in\NN \quad \iff \quad \lim_{n\to\infty}\mathbbm{1}_{A_n}(\omega)=0. $$
+		Per tutti gli $\omega\in\Omega$ quindi abbiamo che 
+		$$\lim_{n\to\infty}\mathbbm{1}_{A_n}(\omega)$$
+		esiste, ed in particolare è $1$ se e solo se 
+		$$\omega\in \bigcup_{n\in \NN}A_n$$
+		che era esattamente la tesi.
+	\end{proof}
+	Alcuni risultati che discendono direttamente sono:
+	\begin{corollary}[Continuità monotona generalizzata]
+		Comunque data una successione di eventi $A_n$ abbiamo:
+		$$P\left(\bigcup_{n\in \NN} A_n\right)=\lim_{n\to\infty}P\left(\bigcup_{i=1}^nA_i\right)$$
+		$$P\left(\bigcap_{n\in \NN} A_n\right)=\lim_{n\to\infty}P\left(\bigcap_{i=1}^nA_i\right)$$
+	\end{corollary}
+	\begin{proof}
+		Dimostriamo solo la prima proposizione, tenendo conto che l'altra è equivalente passando ai complementari. Definiamo la successione
+		$$B_n:=\bigcup_{i=1}^n A_n$$
+		questa è chiaramente crescente, e soddisfa
+		$$\bigcup_{n\in \NN}B_n=\bigcup_{n\in \NN}A_n$$
+		quindi per la continuità monotona abbiamo
+		$$P\left(\bigcup_{n\in \NN}A_n\right)=P\left(\bigcup_{n\in \NN}B_n\right)=\lim_{n\to \infty}B_n= \lim_{n\to \infty}P\left(\bigcup_{i=1}^nA_n\right)$$
+		che è la tesi.
+	\end{proof}
+	\begin{corollary}[Bound sulla probabilità del limite]
+		Comunque data una successione di eventi $A_n$ abbiamo
+		$$P\left(\bigcup_{n=1}^{\infty}A_n\right)\le \sum_{n=1}^{\infty}P(A_n).$$
+	\end{corollary}
+	\begin{proof}
+		Otteniamo direttamente la tesi scrivendo
+		$$\sum_{n=1}^\infty P(A_n)=\lim_{n\to\infty}\sum_{i=1}^{n}P(A_n)\ge\lim_{n\to\infty}P\left(\bigcup_{i=1}^n A_n\right)=P\left(\bigcup_{n\in \NN}A_n\right)$$
+		dove la prima uguaglianza deriva dalla definizione di serie, la seconda dalla subadditività della probabilità e la terza dal corollario precedente.
+	\end{proof}
+	Infine con gli strumenti sviluppati finora possiamo caratterizzare la $\sigma$-attività:
+	\begin{theorem}[Caratterizzazione della $\sigma$-additività]
+		Una funzione $P:\parti{\Omega}\to [0,1]$ monotonamente continua e additiva, cioè tale che se $A_1,\dots,A_n$ sono insiemi disgiunti allora vale
+		$$P\left(A_1\sqcup A_2\sqcup \dots \sqcup A_n\right)=\sum_{i=1}^{n}P(A_i)$$
+		è anche $\sigma$-additiva. 
+	\end{theorem}
+	\begin{proof}
+		Abbiamo dimostrato come la continuità monotona implichi la continuità monotona generalizzata senza bisogno di usare la $\sigma$-additività, dunque se $A_n$ è una successione di sottoinsiemi di $\Omega$ disgiunti, possiamo scrivere
+		$$P\left(\bigsqcup_{n\in \NN}A_n\right)=\lim_{n\to \infty}P\left(\bigsqcup_{i=1}^nA_i\right)$$
+		e usando l'additività abbiamo
+		$$P\left(\bigsqcup_{n\in \NN}A_n\right)=\lim_{n\to \infty}P\left(\bigsqcup_{i=1}^nA_i\right)=\lim_{n\to\infty}\sum_{i=1}^{n}P(A_i)=\sum_{n=1}^{\infty}A_n$$
+		dove l'ultima uguaglianza segue dalla definizione di somma infinita.
+	\end{proof}
+	\subsection{Combinatoria}
+	La combinatoria è l'arte del contare le cose.
+	
+	\subsection{Alcune densità notevoli}
+	\subsubsection{Binomiale}
+	\begin{example}[Estrazioni con reimmissione]
+		Prendiamo un'urna con $M$ palline rosse e $N-M$ palline verdi. Peschiamo $n$ palline, qual è la probabilità di pescarne $k$ rosse e $n-k$ verdi?
+	\end{example}
+	Lo spazio di probabilità in questo caso è l'insieme di tutte le possibili stringhe lunghe $n$ di palline, la probabilità che vogliamo calcolare dunque è
+	$$P(A)=\frac{\abs{A}}{\abs{\Omega}}=\frac{\abs{A}}{N^n}$$
+	a questo punto allora con un po' di combinatoria troviamo che stiamo scegliendo $k$ palline tra $n$, ciascuna delle quali possiamo scegliere in $M$ modi se è rossa, o $N-M$ modi se è verde, quindi la probabilità che abbiamo è
+	$$P(A)=\frac{\binom{n}{k}M^k(N-M)^{n-k}}{N^n}=\binom{n}{k}\left(\frac{M}{N}\right)^k\left(1-\frac{M}{N}\right)^{n-k}.$$
+	Questo è un caso particolare di
+	\begin{definition}[Distribuzione binomiale]
+		Definiamo la \textit{distribuzione binomiale}  $p_n:\ZZ\to \RR_{\ge 0}$ come
+		$$p_n(k)=\begin{cases}
+			\binom{n}{k}p^k(1-p)^{n-k} & \text{se $0\le k\le n$} \\
+			0 & \text{altrimenti.}
+		\end{cases}$$
+	\end{definition}
+	\begin{proposition}[Binomio di Newton]
+		La distribuzione binomiale è una densità discreta, ovvero
+		$$\sum_{k\in\NN}p_n(k)=1$$
+	\end{proposition}
+	\subsubsection{Poisson}
+	\begin{definition}[Poisson]
+		Definiamo la \textit{distribuzione di Poisson} la densità di probabilità discreta:
+		$$P_{\text{poisson},\lambda}(k)=\frac{\lambda^k}{k!}e^{-\lambda}$$
+		questa distribuzione codifica il concetto di "Finestra critica", insomma è la legge che governa gli "eventi rari" (analogamente la possiamo chiamare legge dei piccoli numeri).
+	\end{definition}
+	\begin{proposition}[Poisson è una densità discreta]
+		Per ogni $\lambda\in\CC$ abbiamo
+		$$\sum_{k=1}^{\infty}\frac{\lambda^k}{k!}e^{-\lambda}=1$$
+	\end{proposition}
+	\begin{proof}
+		Per definizione di funzione esponenziale abbiamo
+		$$e^\lambda:=\sum_{k=1}^{\infty}\frac{\lambda^k}{k!}$$
+		dunque abbiamo
+		$$\sum_{k=1}^{\infty}\frac{\lambda^k}{k!}e^{-\lambda}=e^\lambda e^{-\lambda}=1$$
+		come richiesto.
+	\end{proof}
+	\newpage 
+	
+	\section{Probabilità condizionale}
+	
+	\begin{definition}[Probabilità condizionale]
+		Dati due eventi $A,B$ su $(\Omega,P)$ e $P(B)>0$ chiamiamo \textit{probabilità condizionale di $A$ dato $B$} la quantità:
+		$$P(A\mid B):= \frac{P(A\cap B)}{P(B)}$$ 
+	\end{definition}
+	Questa definizione viene dalla cosiddetta interpretazione frequentista di probabilità, ovvero il fatto che per ogni evento possiamo immaginare di fare un "esperimento" aleatorio $N$ volte (con $N$ grande), e vedere cosa succede al seguente limite, che definiamo come la probabilità di $A$:
+	$$\lim_{N\to\infty}\frac{n_N(A)}{N}=:P(A)$$
+	dove $n_N(A)$ è la funzione che conta il numero di volte che l'evento $A$ è avvenuto nei primi $N$ esperimenti. Questo per ora è un risultato intuitivo, ma verrà formalizzato nella legge dei grandi numeri. In questo framework se vogliamo trovare la probabilità di $A$ solo nei casi in cui si è verificato anche $B$, ci basta calcolare il limite
+	$$\lim_{N\to\infty}\frac{n_N(A\cap B)}{n_N(B)}=:P(A\mid B)$$
+	che d'altra parte notiamo proprio soddisfare la definizione di proprietà condizionata.
+	\begin{proposition}[Chain Rule]
+		Dato $n\ge 2 $ e $A_1,\dots,A_n\subseteq \Omega$ eventi con $P(A_1\cap A_2\cap \dots \cap A_{n-1})>0$ si ha
+		$$P\left(\bigcap_{i=2}^n A_i\right)=P(A_1)\prod_{i=1}^{n}P(A_i\mid A_1\cap A_2\cap \dots \cap A_{i-1})$$
+	\end{proposition}
+	\begin{proof}
+		Conti chiari per induzione.
+	\end{proof}
+	\begin{remark}
+		Dato un evento $B$, con $P(B)>0$ la funzione $A\mapsto P(A\mid B)$ è una probabilità.
+	\end{remark}
+	\begin{definition}[Partizione]
+		Diciamo che una famiglia $\left(A_i\right)_{i\in J}$ dove $J$ è un insieme di indici è una \textit{partizione } di $\Omega$ se
+		$$\bigsqcup_{i\in J}A_i=\Omega$$
+		una partizione si dice finita se $J$ è finito, e numerabile se $J$ è numerabile.
+	\end{definition}
+	\begin{lemma}[Disintegrazione e formula delle probabilità totali]
+		Data una partizione $(A_j)_{j\in J}$ di $\Omega$ abbiamo
+		$$P(B)=\sum_{j\in J}P(B\cap A_j)$$
+		e in particolare se $P(A_j)>0$ per ogni $j$ allora
+		$$P(B)=\sum_{j\in J}P(B\mid A_j)P(A_j)$$
+	\end{lemma}
+	\begin{proof}
+		Conti chiari.
+	\end{proof}
+	\begin{theorem}[Bayes]
+		Data una partizione $\left(A_j\right)_{j\in J}$ con $P(A_j)>0$ per ogni $j\in J$ allora per ogni $B\subseteq \Omega$ tale che $P(B)>0$ e per ogni $j\in J$ abbiamo che
+		$$P(A_i\mid B)=\frac{P(B\mid A_i)P(A_i)}{P(B)}=\frac{P(B\mid A_i)P(A_i)}{\sum_{j\in J}P(B\mid A_j)P(A_j)}$$
+	\end{theorem}
+	\begin{proof}
+		Ancora conti chiari e utilizzo della formula delle probabilità totali.
+	\end{proof}
+	\begin{example}[Applicazione ai test clinici]
+		Supponiamo di voler svolgere un test clinico per rilevare la presenza di un patogeno. Il test ha una probabilità $\alpha$ di essere positivo se il paziente ha il patogeno, ovvero se $B$ è l'evento "il test è positivo" e $A$ l'evento "il paziente ha il patogeno" allora
+		$$P(B\mid A)=\alpha$$
+		d'altra parte il test ha una specificità $\beta$, cioè ha una probabilità di falso positivo uguale a 
+		$$P(B\mid A^c)=1-\beta$$
+		vogliamo calcolare $P(A\mid B)$ (ovvero l'affidabilità del test, la probabilità che il paziente abbia effettivamente il patogeno se il test è positivo). 
+	\end{example}
+	\begin{answer}
+		Usando Bayes abbiamo
+		$$P(A\mid B)=\frac{P(B\mid A)P(A)}{P(B)}$$
+		a questo punto usando la formula delle probabilità totali:
+		$$P(A\mid B)=\frac{P(B\mid A)P(A)}{P(B\mid A)P(A)+P(B\mid A^c)P(A^c)}=\frac{1}{1+\frac{P(B\mid A^c)P(A^c)}{P(B\mid A)P(A)}}$$
+	\end{answer}
+	
+	\subsection{Paradosso di Simpson}
+	
+	\begin{example}
+		Supponiamo che la percentuale di promossi sia tra i ragazzi che tra le ragazze sia cresciuta dall'anno 1980 all'anno 1981. Possiamo concludere che la percentuale totale dei promossi sia cresciuta?
+	\end{example}
+	la risposta è \textbf{NO}, perché di solito la gente tende ad assumere che la percentuale di maschi e femmine sia costante. Consideriamo gli eventi $A_1,A_2$ rispettivamente "essere maschio nel 1980" ed "essere maschio nel 1981" e gli eventi $F_1,F_2$ rispettivamente "essere promosso nel 1980" ed "essere promosso nel 1981". Sappiamo che 
+	$$P(A_2\mid F_2)\ge P(A_1\mid F_1)$$
+	$$P(A_2\mid F_2^c) \ge P(A_1 \mid F_1^c)$$
+	vogliamo costruire un controesempio in cui $P(A_1)> P(A_2)$. Imponiamo 
+	$$P(A_2\mid F_2)=0,9$$
+	$$P(A_1\mid F_1)=0,8$$
+	$$P(A_2\mid F_2^c)=0,2$$
+	$$P(A_1 \mid F_1^c)=0,1$$
+	a questo punto allora fissiamo la percentuale di maschi e femmine nel 1980 uguale
+	$$P(F_2)=P(F_2^c)=0,5$$
+	e lasciamola libera di variare nel 1981
+	$$P(F_1)=p=1-P(F_1^c)$$
+	allora per la formula delle probabilità totali abbiamo
+	$$P(A_2)=P(A_2\mid F_2)P(F_2)+P(A_2\mid F_2^c)P(F_2^c)=(0,9+0,2)0,5=0,55$$
+	$$P(A_1)=P(A_1 \mid F_1)P(F_1)+P(A_1\mid F_1^c)P(F_1^c)=(0,8)p+(1-p)(0,1)$$
+	che per $p$ sufficientemente vicini a $1$ produce il controesempio che cercavamo.
+	\subsection{Indipendenza}
+	\begin{definition}[Eventi indipendenti]
+		Due eventi $A,B$ in uno spazio di probabilità $(\Omega,P)$ si dicono \textit{indipendenti} se e solo se
+		$$P(A\cap B)=P(A)P(B)$$
+		in particolare scriviamo $A\indep B$.
+	\end{definition}
+	Questo ci è utile perché una sua caratterizzazione è:
+	\begin{lemma}[Gli eventi indipendenti non si condizionano]
+		Siano $A,B$ due eventi di uno spazio di probabilità. Allora:
+		\begin{itemize}
+			\item Se e solo se $A\indep B$ allora $P(A\mid B)=P(A)$.
+			\item Se $A=\eset$ allora $A\indep B$.
+			\item $A\indep B$ se e solo se $A^c\indep B$ (o una qualsiasi delle altre combinazioni di complementari).
+		\end{itemize}
+	\end{lemma}
+	\begin{proof}
+		L'unico punto non scontato è l'ultimo. In questo caso abbiamo che, per insiemistica elementare:
+		$$P(A\cap B^c)=P(A)-P(A\cap B)$$
+		d'altra parte usando l'indipendenza di $A$ e $B$ e il fatto che 
+		$$P(A^c)=1-P(A)$$
+		abbiamo
+		$$P(A\cap B^c)=\dots = P(B)(1-P(A))=P(A^c)P(B)$$
+		come volevamo mostrare.
+	\end{proof}
+	Vale la pena notare che questa nozione non si estende molto naturalmente a più di $2$ eventi. Basti pensare al caso in cui lanciamo due monete di fila, e agli eventi
+	$$A=\text{La prima moneta esce testa}$$
+	$$B=\text{La seconda moneta esce testa}$$
+	$$C=\text{I due lanci danno risultati diversi}$$
+	che sono a due a due indipendenti, ma è facile rendersi conto che $P(A\cap B \cap C)=0$, e quindi non sono tutti e tre indipendenti. Questo giustifica l'introduzione di una definizione più forte di indipendenza:
+	\begin{definition}[Famiglie di insiemi indipendenti]
+		Sia $(\Omega,P)$ uno spazio di probabilità, data una famiglia i eventi $\left(A_j\right)_{j\in I}$ con $\abs{J}\ge 2$ è una \textit{famiglia di insiemi indipendenti} se per ogni $J\subseteq I$ finito si ha
+		$$P\left(\bigcap_{j\in J}A_j\right)=\prod_{j\in J}P(A_j)$$
+	\end{definition}
+	\begin{proposition}[Caratterizzazione dell'indipendenza di $n$ eventi]
+		Dato $(\Omega,P)$ e $n\ge 2$ eventi $A_1,A_2,\dots,A_n$ le due affermazioni seguenti sono equivalenti:
+		\begin{itemize}
+			\item[(1)] $A_1,A_2,\dots,A_n$ sono indipendenti.
+			\item[(2)] Per ogni scelta di eventi $B_1,B_2,\dots,B_n$ tali che o $B_j=A_j$ o $B_j=A_j^c$ per ogni $j=1,2,3,\dots,n$ si ha
+			$$P\left(\bigcap_{j=1}^n B_j\right)=\prod_{j=1}^n B_j$$ 
+		\end{itemize}
+	\end{proposition}
+	\begin{proof}
+		Svolgiamo un'implicazione alla volta:
+		\begin{description}
+			\item[(2)$\implies$(1)] Procediamo per induzione. Nel caso $n=3$ dobbiamo mostrare che 
+			$$P(A_1\cap A_2 \cap A_3)$$
+			$$P(A_1\cap A_2)$$
+			$$P(A_1\cap A_3)$$
+			$$P(A_2\cap A_3)$$
+			fattorizzano. D'altra parte la prima espressione segue direttamente dalle ipotesi, mentre le altre tre si svolgono tutte in modo analogo, vediamo WLOG la prima:
+			$$P(A_1\cap A_2)=P(A_1\cap A_2\cap \Omega)=P(A_1\cap A_2 \cap (A_3\sqcup A_c^c))$$
+			da cui usando la proprietà distributiva dell'unione disgiunta e l'additività abbiamo
+			$$P(A_1\cap A_2)=\dots=P(A_1\cap A_2\cap A_3)+P(A_1\cap A_2\cap A_3^c)$$
+			che applicando le ipotesi ci dicono che $P(A_1\cap A_2)$ fattorizza.
+			\item[(1)$\implies$(2)]
+		\end{description}
+		
+	\end{proof}
+	Notiamo che a livello computazionale questo è addirittura peggio della definizione originale, ma è teoricamente migliore perchè tutte le condizioni cono intersezioni dello stesso numero di insiemi.
+	
+	\subsection{Prove ripetute}
+	\begin{definition}[Prove ripetute]
+		Dato un $p\in [0,1]$ e $I$ un insieme finito o numerabile e una famiglia di eventi indipendenti $(C_i)_{i\in I}$ con $P(C_i)=p$ per ogni $i\in I$ diciamo che $C_i$ è una \textit{successione di prove ripetute e indipendenti} con probabilità di successo $p$. L'interpretazione intuitiva è che l'evento $C_i$ sia l'evento "La prova $i$-esima ha successo".
+	\end{definition}
+	Esiste uno spazio di probabilità dove ciò è possibile? Dovremo rimandare la discussione a più avanti, per il momento possiamo giocarci un po':
+	\begin{example}
+		Data una successione $C_i$ di prove ripetute e indipendenti con probabilità di successo $p$ abbiamo che la probabilità che nessun esperimento abbia successo nei primi $n$ lanci, ovvero
+		$$F_n=C_1^c\cap C_2^c \cap C_3^c\cap\dots \cap C_n^c$$
+		fattorizza (per la caratterizzazione appena fatta dell'indipendenza) e quindi si ha
+		$$P(F_n)=(1-p)^n$$
+		quindi la probabilità che avvenga almeno una volta è
+		$$P(F_n^c)=1-(1-p)^n$$
+	\end{example}
+	Qualcosa di più interessante è
+	\begin{example}[Scimmia che scrive la Divina Commedia]
+		Una scimmia batte su una tastiera tasti a caso (cioè la scelta di ogni tasto è indipendente da tutte le altre scelte). Qual è la probabilità che dopo aver battuto $n$ caratteri, nella sequenza di lettere si possa leggere il testo della Divina Commedia?
+	\end{example}
+	\begin{answer}
+		Consideriamo quindi gli eventi 
+		$$C_1=\left\{\text{Il testo della divina commedia è stato osservato tra il tempo $1$ ed $N$}\right\}$$
+		$$C_2=\left\{\text{Il testo della divina commedia è stato osservato tra il tempo $N+1$ e $2N$}\right\}$$
+		$$\vdots$$
+		ma questi eventi sono chiaramente tutti indipendenti (per definizione di indipendenza di eventi) e quindi abbiamo che 
+		$$P(C_1)=P(C_2)=P(C_k)=\dots=\left(\frac{1}{25}\right)^N=p_N$$
+		dove $N$ è il numero di caratteri della divina commedia (circa $5\cdot 10^5$). Ma allora la probabilità che la scimmia scriva almeno una volta la divina commedia entro $n$ tentativi è 
+		$$1-(1-p_N)^n$$
+		e quindi se vogliamo che questa probabilità sia maggiore di $q$ dobbiamo avere che
+		$$1-(1-p_N)^n>q$$
+		$$1-q>(1-p_N)^n$$
+		$$\frac{\ln (1-q)}{\ln (1-p_N)}<n.$$
+		Ma qual è la probabilità che ciò avvenga avendo a disposizione un numero arbitrario di tentativi? Beh, l'evento 
+		$$F_\infty=\left\{\text{non si riesce mai}\right\}$$
+		soddisfa per definizione
+		$$F_\infty:=\bigcap_{j\in \NN}C^c_j$$
+		e quindi per la continuità monotona della probabilità:
+		$$P(F_\infty)=\lim_{n\to\infty}(1-p_N)^n=0$$
+		che risponde alla nostra domanda. \qed
+	\end{answer}
+	In realtà successioni di questo tipo pongono alcuni problemi paradossali con cui dobbiamo avere a che fare
+	\begin{example}[Food for Thought]
+		Data una $C_i$ successione di prove ripetute, calcolare la probabilità dell'evento
+		$$A_\infty:=\left\{\text{infiniti successi}\right\}.$$
+	\end{example}
+	\begin{answer}
+		Possiamo riscrivere $A_\infty$ come
+		$$A_\infty = \bigcap_{n\in\NN}\bigcup_{j\le n}C_j=\limsup_{n\to\infty} C_n$$
+		cioè vogliamo che per ogni $C_n$ ci sia almeno un evento $C_j$ successivo soddisfatto. D'altra parte notiamo per De Morgan che:
+		$$\left(\bigcup_{j\le n}C_j\right)^c=\bigcap_{j=n}^\infty C_j^c$$
+		da cui abbiamo 
+		$$P\left(\bigcup_{j\le n}C_j\right)=1-P\left(\bigcap_{j=n}^\infty C_j^c\right)$$
+		che per continuità monotona è
+		$$\dots=1-\lim_{N\to\infty}P\left(\bigcap_{j=n}^N C_j^c\right)=1-\lim_{N\to\infty}(1-p)^N=1$$
+		e dunque dato che l'intersezione di eventi con probabilità $1$ ha probabilità $1$ abbiamo che 
+		$$P(A_\infty)=1.$$
+	\end{answer}
+	\begin{example}[Probabilità del primo successo]
+		Qual è la probabilità che il primo successo si abbia al momento $j$? 
+	\end{example}
+	\begin{answer}
+		Dobbiamo calcolare
+		$$P(C_1^c\cap C_2^c\cap \dots \cap C_{j-1}^c \cap C_j )$$
+		che è per indipendenza
+		$$(1-p)^jp.$$
+	\end{answer}
+	\begin{definition}[Distribuzione geometrica]
+		La funzione $p:\NN\to [0,\infty)$ definita come
+		$$p_\text{Geom}(j)=(1-p)^j p$$
+		si dice \textit{distribuzione geometrica} e si verifica facilmente che sia una densità di probabilità.
+	\end{definition}
+	\begin{example}[Probabilità di $k$ successi]
+		Qual è la probabilità $B_{n,k}$ che avvengano esattamente $k$ successi in $n$ tentativi? 
+	\end{example}
+	\begin{answer}
+		Possiamo scrivere l'evento che ci interessa come
+		$$B_{n,k}=\bigsqcup_{S\subseteq\left\{1,2,3,\dots,k\right\}}\left(\bigcap_{i\in S} C_i\cap \bigcap_{i\in S^c}C_i^c\right)$$
+		ma notiamo che quindi $P(B_{n,k})$ è semplicemente la somma degli eventi disgiunti dentro il $\bigsqcup$, che hanno tutti la stessa probabilità uguale a $(1-p)^{n-k}p^k$, dunque la probabilità a cui arriviamo con un po' di combinatoria è
+		$$P(B_{n,k})=\binom{n}{k}(1-p)^{n-k}p^k$$
+		che è la distribuzione binomiale.
+	\end{answer}
+	Notiamo cosa succede facendo tendere una binomiale all'infinito: definiamo 
+	$$p_n=\frac{\lambda}{n}$$
+	per $k$ fissato facciamo il limite
+	$$\lim_{n\to\infty}\binom{n}{k}p^k(1-p)^{n-k}=\lim_{n\to\infty}\frac{n!}{k!(n-k)!}\left(1-\frac{\lambda}{n}\right)^{n-k}\left(\frac{\lambda}{n}\right)^k$$
+	che possiamo riscrivere come
+	$$\frac{\lambda^k}{k!}\lim_{n\to\infty}\frac{n!}{n^k(n-k)!}\frac{\left(1-\frac{\lambda}{n}\right)^n}{\left(1-\frac{\lambda}{n}\right)^k}=\frac{\lambda^k}{k!}\lim_{n\to\infty}\frac{n!}{n^k(n-k)!}\left(\frac{n}{n-\lambda}\right)^k\left(1-\frac{\lambda}{n}\right)^n=$$
+	$$\dots = \frac{\lambda^k}{k!}\lim_{n\to\infty}\frac{n!}{(n-k)!(n-\lambda)^k}\left(1-\frac{\lambda}{n}\right)^n$$
+	che infine usando il limte notevole per $e$ tende a 
+	$$\dots = \frac{\lambda^k}{k!}e^{-\lambda}$$
+	che è una distribuzione di Poisson.
+	\subsubsection{Esistenza per le prove ripetute indipendenti}
+	
+	Abbiamo lasciato indietro il problema dell'esistenza di uno spazio che abbia come eventi una successione di prove ripetute indipendenti. Questo è facile se l'insieme degli indici è finito, ovvero $I=\left\{1,2,3,\dots,n\right\}$, in questo caso possiamo costruire
+	$$\Omega=\left\{0,1\right\}^I=\left\{0,1\right\}^n.$$
+	Se $\omega\in \Omega$ denotiamo le sue coordinate come $\omega_i$. Allora possiamo  assegnare ad ogni singoletto le probabilità:
+	$$p_n(\omega)=\prod_{j=1}^n p^{\omega_j}(1-p)^{1-\omega_j}$$
+	a questo punto possiamo costruire una successione finita di prove ripetute indipendenti con
+	$$C_i:=\left\{\omega\in \Omega:\omega_i=1\right\}$$
+	che soddisfa tutto quello che abbiamo definito (verifica per esercizio). \\
+	Il problema sorge quando $I$ è infinito, per esempio se $I=\NN$ la costruzione che abbiamo appena fatto verrebbe
+	$$\Omega_\infty=\left\{0,1\right\}^\infty=\left\{0,1\right\}^\NN$$
+	che usando la stessa probabilità di prima diventa
+	$$p_\infty (\omega)=\prod_{n\in\NN}p^{\omega_n}(1-p)^{1-\omega_n}$$
+	che se $\omega$ non ha coordinate definitivamente $0$ vale esattamente $p_\infty(\omega)=0$. D'altra parte ogni evento può essere scritto come unione disgiunta di singoletti, e quindi abbiamo
+	$$1=P(\Omega)=P\left(\bigsqcup_{\Omega\in A}\left\{\omega^n\right\}\right)=\sum_{\omega\in \Omega}P(\left\{\omega\right\})=0$$
+	uhmmmm, contraddizione? e da cosa? \\
+	Il problema è che abbiamo usato la $\sigma$-additività a sproposito, in quanto $\Omega_\infty$ non è numerabile (in effetti è in biezione con $[0,1]$). Costruire questo spazio di probabilità è \textbf{IL} problema della probabilità, ed è quello che necessità della teoria della misura per essere risolto.
+	
+	\subsection{Passeggiate aleatorie}
+	
+	\begin{definition}[Passeggiata aleatoria semplice simmetrica]
+		Modellizziamo una \textit{passeggiata aleatoria semplice simmetrica} come una successione di $n+1$ termini $s_k$ tale che 
+		$$s_k=\begin{cases}
+			0 & \text{se $k=0$} \\
+			s_{k}\pm 1 & \text{altrimenti se $k\le n$.}
+		\end{cases}$$
+		questo definisce uno spazio campionario $\Omega_n'$ formato dai singoletti contenenti ciascuno una successione $s_k$. La probabilità definita su questo spazio è quella uniforme
+		$$P'_n(\left\{\omega\right\})=2^{-n}.$$
+	\end{definition}
+	Il punto del parlare di passeggiate aleatorie invece che di serie di esperimenti ripetuti è che uno è la differenza finita dell'altro: se chiamiamo 
+	$$\Omega_n:=\left\{+1,-1\right\}^n$$
+	e definiamo su di questo una probabilità uniforme
+	$$P_n(\left\{\omega\right\})=2^{-n}$$
+	possiamo costruire una biezione che conserva la probabilità\footnote{praticamente un morfismo.} da $\Omega_n$ a $\Omega_n'$ con la funzione differenza finita:
+	$$T_n(s)=\left\{(a_1,a_2,\dots,a_n)\in \Omega_n:a_i=s_{i-1}-s_i \quad \forall 1\le i \le n\right\}$$
+	e si ha 
+	$$P_n(\left\{T_n(s)\right\})=P'_n(\left\{s\right\}).$$
+	questo spazio di probabilità quindi è "isomorfo" alle prove ripetute, ma portato al limite diventa il cosiddetto \textit{moto browniano}. Cominciamo a farci alcune domande su questo modello:
+	\begin{problem}
+		Qual è la probabilità che la passeggiata passi per $0$ almeno una volta nei primi $n$ passi?
+	\end{problem}
+	Modellizziamo il problema costruendo gli insiemi 
+	$$R_n:=\left\{s\in \Omega'_n\mid \exists k : s_k=0\right\}$$
+	e le loro probabilità
+	$$r_n:=P(R_n).$$
+	Facciamo due osservazioni: gli $R_n$ sono una successione crescente di insiemi
+	$$R_n\subseteq R_{n+1}$$
+	(nel senso che la probabilità è monotona/c'è un'iniezione), e inoltre per ogni $n$ abbiamo
+	$$R_{2n}=R_{2n+1}$$
+	perchè sicuramente un cammino di lunghezza dispari non può ritornare in $0$, e quindi i cammini di lunghezza al più $2n+1$ che passano per l'origine saranno esattamente quelli di lunghezza al più $2n$. \\
+	Dato che questa è una successione crescente di insiemi ha senso chiedersi quale sia
+	$$r_\infty:=\lim_{n\to\infty}P_n(R_n)$$
+	in effetti abbiamo che $r_\infty=1$, ma ci dobbiamo arrivare attraverso alcuni lemmi preliminari:
+	Il primo lemma che ci servirà segue dal fatto che possiamo decomporre $R_{2n}$ come
+	$$R_{2n}=\bigsqcup_{i=1}^{2n}B_{i}$$
+	dove $B_i$ è l'evento "il percorso ritorna per la prima volta in $0$ al passo $i$". Se chiamiamo. Introduciamo inoltre gli eventi
+	$$A_k:=\left\{s\in \Omega_n':s_k=0\right\}$$
+	a questo punto chiamiamo
+	$$f_{2k}:=P(B_k)=\frac{\abs{B_k}}{2^{2k}}$$
+	$$u_{2n}:=P(A_n)=\frac{\abs{A_n}}{2^{2n}}$$
+	abbiamo il seguente lemma
+	\begin{lemma}[Preliminare 1]
+		Vale la seguente identità
+		$$u_{2n}=\sum_{i=1}^{n}f_{2k}u_{2n-2k}$$
+		che è una sorta di \textit{convoluzione}.
+	\end{lemma}
+	\begin{proof}
+		L'idea è che se il cammino aleatorio è passato in $0$ al passo $2n$ allora ci sarà un ultimo momento in cui è passato in $0$ prima che ci passasse al passo $2n$. Se denotiamo con $A_{n,k}$ l'evento
+		$$A_{n,k}:=\left\{\text{Il cammino è passato per la penultima volta in $0$ al passo $k$, e per l'ultima volta al passo $n$}\right\}$$
+		dato che il cammino deve per forza avere avuto un penultimo momento in cui passava in $0$ (possibilmente il momento $n=0$) abbiamo che
+		$$A_n=\bigsqcup_{k=1}^n A_{n,k}$$
+		infine notiamo che
+		$$P(A_{n,k})=\frac{\abs{A_{n,k}}}{2^{2n}}$$
+		d'altra parte abbiamo che 
+		$$\abs{A_{n,k}}=\abs{B_k}\abs{A_{n-k}}=f_{2k}2^{2k}u_{2n-2k}2^{2(n-k)}$$
+		e quindi concludiamo che
+		$$P(A_{n,k})=f_{2k}u_{2n-2k}$$
+		applicando l'additività quindi si ottiene la tesi.
+	\end{proof}
+	\begin{lemma}[Preliminare 2]
+		Siano $(a_n)_{n\in \NN}$ e $(b_n)_{n\in\NN^*}$ due successioni di numeri reali non negativi tali che $a_0=1$ e
+		$$a_n=\sum_{k=1}^{n}b_ka_{n-k}$$
+		per ogni $n$, allora 
+		$$\sum_{k=1}^{\infty}b_k\ge 1 \iff \sum_{n=1}^{\infty}a_n=\infty.$$
+	\end{lemma}
+	\begin{proof}
+		Chiamiamo 
+		$$S:=\sum_{n=1}^{\infty}a_n$$
+		a questo punto sostituiamo la formula di convoluzione che abbiamo per $a_n$:
+		$$S=\sum_{n=1}^{\infty}a_n=\sum_{n=1}^{\infty}\sum_{k=1}^{n}b_k a_{n-k}$$
+		ora vorremmo scambiare le sommatorie, ma incontriamo il problema che la prima somma è infinita, e la seconda dipende da $n$. Facendo un disegnino\footnote{fallo con tikz o copia incolla il disegno di giacomin...} notiamo che 
+		$$\dots=\sum_{k=1}^\infty b_k \sum_{n=k}^{\infty}a_{n-k}$$
+		che d'altra parte, sostituendo abbiamo
+		$$\dots =\sum_{k=1}^\infty b_k \sum_{m=0}^\infty a_m =(S+a_0)\sum_{k=1}^{\infty}b_k$$
+		che quindi se $S$ è $<\infty$ ci porta direttamente a dire che 
+		$$\frac{S}{S+1}=\sum_{k=1}^{\infty}b_k$$
+		che ci dice che la serie dei $b_k$ è minore di $1$, che era un verso della nostra tesi. D'altra parte se $S$ è infinito chiamiamo $S_N$ la somma parziale $N$-esima. abbiamo
+		$$S_N=\sum_{n=1}^{N}\sum_{k=1}^{n}b_k a_{n-k}=\sum_{k=1}^{N}b_k \sum_{n=k}^{N}a_{n-k}=\sum_{k=1}^{N}b_k \sum_{m=0}^{N-k}a_m$$
+		ora sostituiamo l'espressione per $S_N$:
+		$$S_N=\dots= \sum_{k=1}^{N}b_k (S_{N-k})\le \sum_{k=1}^{N}b_k (S_N+a_0)=(S_N+1)\sum_{k=1}^{N}b_k$$
+		che dato che $S_N$ tende a infinito ci dà
+		$$\lim_{N\to\infty}\sum_{n=1}^Nb_K\ge \lim_{N\to\infty}\frac{S_N}{S_N+1}=1$$
+		come volevamo dimostrare.
+	\end{proof}
+	A questo punto possiamo dimostrare che
+	\begin{theorem}[Ricorrenza SSRW]
+		Per lo SSRW in una dimensione vale
+		$$\lim_{n\to\infty}P_n(R_n) = r_\infty=1$$
+	\end{theorem}
+	\begin{proof}
+		Scegliamo le successioni da applicare al lemma preparatorio: 
+		$$a_n=u_{2n}$$
+		$$b_n=f_{2n}$$
+		abbiamo prima di tutto per come abbiamo definito $f_{2n}$:
+		$$\bigsqcup_{n=1}^\infty B_n=R_\infty$$
+		$$\sum_{n=1}^{\infty}f_{2n}=P(R_\infty)=r_\infty$$
+		ma allora dato che $r_\infty$ è una probabilità dovremo avere $r_\infty\le 1$, quindi per il lemma preparatorio $2$ avremo che
+		$$\sum_{n=1}^{\infty}u_{2n}=\infty \iff r_\infty =1$$
+		a questo punto non resta che dimostrare che la serie degli $u_{2n}$ diverge. D'altra parte calcolare esplicitamente $u_{2n}$ non è difficile con un po' di combinatoria, infatti è
+		$$u_{2n}=\frac{\abs{\left\{s\in \Omega'_{2n}:s_{2n}=0\right\}}}{2^{2n}}$$
+		il fatto che il cammino finisca su $0$ vuol dire che ci sono stati esattamente lo stesso numero di $+1$ e di $-1$ nella successione delle differenze finite. Questo è equivalente dunque a scegliere $n$ elementi nella sequenza delle $2n$ differenze finite, cioè abbiamo
+		$$u_{2n}=\frac{1}{2^{2n}}\binom{2n}{n}$$
+		ora dobbiamo dimostrare che diverge la seguente serie: 
+		$$\sum_{n=1}^{\infty}u_{2n}=\sum_{n=1}^{\infty}\frac{1}{2^{2n}}\binom{2n}{n}$$
+		a prima vista mostruosa, ma applicando il criterio del confronto asintotico con Stirling abbiamo che questa diverge se e solo se diverge
+		$$\sum_{n=1}^{\infty}\frac{1}{\sqrt{n\pi}}$$
+		che è ben noto divergere, e quindi abbiamo finito.
+	\end{proof}
+	Questo risultato si può generalizzare a più dimensioni:
+	\begin{theorem}[SSRW in più dimensioni]
+		Per lo SSRW in dimensione $d$ abbiamo che
+		$$r_\infty=\begin{cases}
+			1 & \text{se $d\le 2$} \\
+			<1 & \text{altrimenti.}
+		\end{cases}$$
+	\end{theorem}
+	\begin{proof}
+		Non costruiamo esplicitamente lo spazio di probabilità, ma è tutto perfettamente analogo al caso $1$ dimensionale. In effetti lo spazio delle differenze sarebbe
+		$$\Omega_{n,d}=\left\{\left\{+1,-1\right\}^d\right\}^n$$
+		e il risultato chiave per ricondursi al caso $1$ dimensionale è dimostrare che è isomorfo a 
+		$$(\Omega_{n,1})^d\simeq \Omega_{n,d}.$$
+		dunque come prima abbiamo che il valore di $r_\infty$ dipende dalla convergenza di
+	\end{proof}
+	
+	\newpage
+	
+	\section{Variabili aleatorie}
+	
+	\begin{definition}[Variabile aleatoria]
+		Sia $(\Omega,P)$ uno spazio di probabilità ed $E$ un insieme qualsiasi. Una funzione $X:\Omega\to E$ è detta una \textit{variabile aleatoria a valori in $E$}. Se $E=\RR$ diciamo che $X$ è una \textit{variabile aleatoria reale}. 
+	\end{definition}
+	In un certo senso questo è un modo per \textit{probabilizzare} insiemi generici: il valore di $X(\omega)$ è un elemento di $E$ che dipende dall'esito $\omega$ di un certo esperimento. 
+	\begin{example}[Variabile costante]
+		Un esempio molto stupido di variabile aleatoria è
+		$$X(\omega)=c \qquad \forall \omega\in \Omega$$
+		dove $c$ è un elemento di $E$ costante.
+	\end{example}
+	\begin{example}[Funzione indicatrice]
+		Un esempio importantissimo e famosissimo di variabile aleatoria è, dato un $A\subseteq \Omega$ la funzione indicatrice dell'insieme $A$:
+		$$X(\omega):=\mathbbm{1}_A(\omega).$$
+	\end{example}
+	\begin{example}[Prove ripetute indipendenti]
+		Dato uno spazio di probabilità $(\Omega_n,P)$ con $\left(C_j\right)_{j\le n}$ prove ripetute indipendenti, introduciamo le variabili aleatorie
+		$$S_n(\omega)=S(\omega):=\sum_{k=1}^{n}\mathbbm{1}_{C_k}(\omega)$$
+		$$T_n(\omega)=T(\omega):=\min\left\{1\le i\le n: \omega \in C_i\right\}$$
+		notiamo che queste due funzioni ci permettono di definire in modo estremamente conciso le quantità di cui abbiamo parlato con tanta fatica nella sezione precedente:
+		$$A_{n,k}=\left\{\omega\in \Omega: S(\omega)=k\right\}$$
+		$$B_{n,k}=\left\{\omega\in \Omega: T(\omega)=k\right\}$$
+		cioè sono le \textit{controimmagini} delle funzioni $S$ e $T$.
+	\end{example}
+	Quanto appena visto motiva la seguente importante definizione, che è probabilmente il motivo più importante per introdurre le variabili aleatorie:
+	\begin{definition}[Eventi generati da una variabile aleatoria]
+		Dato un $A\subseteq E$ l'\textit{evento generato dalla variabile aleatoria} $X:\Omega\to E$ come la \textit{controimmagine/preimmagine} dell'insieme $E$, che denotiamo con $X^{-1}(E)$.
+	\end{definition}
+	\begin{lemma}[La preimmagine commuta con tutto]
+		Data una variabile aleatoria $X:\Omega\to E$, per ogni $A,B\in E$ abbiamo
+		$$X^{-1}\left(A\cup B\right)=X^{-1}\left(A\right)\cup X^{-1}\left(B\right)$$
+		$$X^{-1}\left(A\cap B\right)=X^{-1}\left(A\right)\cap X^{-1}\left(B\right)$$
+		$$X^{-1}\left(A^\complement\right)=\left(X^{-1}(A)\right)^\complement$$
+		e in particolare per ogni insieme $J$ di indici e $\left(A_j\right)_{j\in J}$ abbiamo che
+		$$\bigcup_{j\in J} X^{-1}(A_j)=X^{-1}\!\left(\bigcup_{j\in J} A_j\right)$$
+		$$\bigcap_{j\in J} X^{-1}(A_j)=X^{-1}\!\left(\bigcap_{j\in J} A_j\right)$$
+	\end{lemma}
+	\begin{proof}
+		Per casa.
+	\end{proof}
+	\subsection{Leggi di variabili aleatorie ed uguaglianza quasi certa}
+	Il secondo motivo per introdurre le variabili aleatorie è il concetto di \textit{distribuzione}:
+	\begin{definition}[Legge/Distribuzione di una variabile aleatoria]
+		Data una variabile aleatoria $X:\Omega\to E$ definiamo la sua \textit{distribuzione}, o \textit{legge} come la funzione $\mu_X: \parti{E}\to [0,1]$ tale che
+		$$\mu_X(A):=P(X^{-1}(A))$$
+		con un piccolo abuso di notazione di solito si denota 
+		$$P(X\in A):=P(X^{-1}(A)).$$
+	\end{definition}
+	\begin{proposition}[La distribuzione è una probabilità]
+		Per ogni $X:\Omega\to E$ la sua distribuzione $\mu_X$ è una probabilità su $E$.
+	\end{proposition}
+	\begin{proof}
+		\`E un'applicazione brutale del lemma sopra. Il primo assioma della probabilità è che
+		$$\mu_X(E)=1$$
+		d'altra parte chiaramente abbiamo che $X^{-1}(E)=\Omega$, e quindi abbiamo
+		$$\mu_X(E)=P(\Omega)=1.$$
+		La seconda è la $\sigma$-additività, cioè prendendo una successione $B_i$ di insiemi disgiunti abbiamo
+		$$\mu_X\!\left(\bigsqcup_{i\in \NN}B_i\right)=P\left(X^{-1}\left(\bigsqcup_{i\in \NN}B_i\right)\right)=P\left(\bigsqcup_{i\in \NN}X^{-1}(B_i)\right)=\sum_{i\in\NN}P(X^{-1}(B_i))=\sum_{i\in\NN}\mu_X(B_i)$$
+		per la $\sigma$-additività di $P$ e per la proprietà di commutazione della controimmagine.
+	\end{proof}
+	\begin{definition}[Quasi certamente uguali]
+		Due variabili aleatorie $X,Y$ definite sullo stesso spazio $(\Omega,P)$ e a valori in $E$ si dicono \textit{quasi certamente uguali} se
+		$$P(X=Y)=1$$
+		dove $X=Y$ è un abuso di notazione per
+		$$\left\{X=Y\right\}:=\left\{\omega\in \Omega:X(\omega)=Y(\omega)\right\}.$$
+	\end{definition}
+	\begin{example}[Uguale in legge non implica uguali]
+		Sia $\Omega=\NN\setminus\left\{0\right\}$ e definiamo le variabili aleatorie $X,Y:\Omega\to\Omega$ tali che
+		$$X(\omega)=\omega$$
+		$$Y(\omega)=\omega^2$$
+		se introduciamo la probabilità $P:\parti{\Omega}\to [0,1]$ tale che 
+		$$P(\left\{1\right\})=1$$
+		$$P(\left\{i\right\})=0 \qquad \forall i\ne 1 \in \NN$$ 
+		allora $X,Y$ sono due variabili aleatorie distinte, ma quasi certamente uguali, perchè l'evento $X=Y$ è semplicemente $\left\{1\right\}$, che ha probabilità $1$.
+	\end{example}
+	\begin{problem}
+		Lanciamo $2$ dadi identici. Cerchiamo la legge della della somma dei dadi.
+	\end{problem}
+	\begin{answer}
+		Costruiamo lo spazio: 
+		$$\Omega=\left\{1,2,3,4,5,6\right\}^2=\left\{(\omega_1,\omega_2)\in \left\{1,2,3,4,5,6\right\}^2\right\}$$
+		la variabile aleatoria in questo caso è definita sull'insieme $E=\left\{1,2,\dots,12\right\}$ ed è
+		$$S(\omega)=\omega_1+\omega_2.$$
+	\end{answer}
+	\begin{proposition}[Quasi certamente uguali implica uguali in legge]
+		Se $X$ e $Y$ sono due variabili aleatorie quasi certamente uguali, allora 
+		$$\mu_X=\mu_Y$$
+		cioè $X$ e $Y$ sono \textit{uguali in legge}, e questo si denota di solito con $X\sim Y$.
+	\end{proposition}
+	\begin{proof}
+		Definiamo 
+		$$\tilde{\Omega}:=\left\{X=Y\right\}$$
+		per ipotesi quindi abbiamo che
+		$$P(\tilde{\Omega})=1$$
+		d'altra parte prendiamo un $A\subseteq \Omega$, per definizione di distribuzione abbiamo
+		$$\mu_X(A):=P\left(X\in A\right)$$
+		d'altra parte sappiamo che intersecando per eventi con probabilità $1$ la probabilità non cambia, quindi
+		$$\mu_X(A)=\dots = P\left(\left\{X\in A\right\}\cap \tilde{\Omega}\right)$$
+		ma d'altra parte $\tilde{\Omega}$ è proprio l'insieme in cui $X=Y$, e quindi abbiamo che 
+		$$\mu_X(A)=\dots=P\left(\left\{X\in A\right\}\cap \tilde{\Omega}\right)=P\left(\left\{Y\in A\right\}\cap \tilde{\Omega}\right)=P\left(Y\in A\right)=\mu_Y(A)$$
+		che era la tesi.
+	\end{proof}
+	Il converso della proposizione sopra è \textbf{completamente falso}. Prima di tutto perché due variabili a valori nello stesso insieme $E$ possono avere la stessa legge ma essere definite su spazi di probabilità diversi. Tuttavia la faccenda è più seria di così, e anche se aggiungiamo l'ipotesi che $X$ e $Y$ siano definite sullo stesso spazio:
+	\begin{example}[Variabili di Bernoulli]
+		Prendiamo $\Omega$=$\left\{0,1\right\}$ con probabilità uniforme, e le variabili aleatorie $X,Y:\Omega\to\Omega$  tali che
+		$$X(\omega)=\omega$$
+		$$Y(\omega)=1-\omega$$
+		e qui chiaramente abbiamo che 
+		$$\left\{X=Y\right\}=\eset$$
+		e quindi
+		$$P(X=Y)=0$$
+		quindi sicuramente $X$ e $Y$ non sono quasi certamente uguali. D'altra parte la legge di $X$ è
+		$$\mu_X(\left\{1\right\})=\half$$ 
+		$$\mu_X(\left\{0\right\})=\half$$
+		e allo stesso modo
+		$$\mu_Y(\left\{1\right\})=\half$$
+		$$\mu_Y(\left\{0\right\})=\half$$
+		quindi le due variabili $X$ e $Y$ hanno la stessa legge, ma sono \textit{certamente diverse}.
+	\end{example}
+	\begin{example}[Vettore aleatorio]
+		Continuiamo l'esempio sopra introducendo la variabile aleatoria $Z:\Omega\to \left\{0,1\right\}^2$ tale che
+		$$Z:=\left(X,Y\right)$$
+		per i prodotti cartesiani di variabili aleatorie in questo modo, di solito si definisce la notazione standard:
+		$$\mu_Z=\mu_{(X,Y)}=:\mu_{X,Y}$$
+		d'altra parte la legge di $Z$ è
+		$$\mu_{X,Y}(\left\{(0,0)\right\})=0$$
+		$$\mu_{X,Y}(\left\{(1,1)\right\})=0$$
+		$$\mu_{X,Y}(\left\{(1,0)\right\})=\half$$
+		$$\mu_{X,Y}(\left\{(0,1)\right\})=\half$$
+	\end{example}
+	Notiamo che le variabili aleatorie ci permettono di costruire in realtà delle probabilità anche su spazi non numerabili. Questo è dovuto al fatto che se $X:\Omega\to E$ è una variabile aleatoria su uno spazio numerabile, allora l'immagine di $X$ ha cardinalità minore o uguale dalla cardinalità di $\Omega$, indipendentemente da cosa sia $E$. Introduciamo infine
+	\begin{definition}[Variabile aleatoria discreta]
+		Se $(\Omega,P)$ è uno spazio di probabilità numerabile e $X:\Omega\to E$ una variabile aleatoria su di esso la \textit{densità discreta} di $X$ è la funzione  $p_X:E\to[0,1]$
+		tale che 
+		$$\sum_{x\in E} p_X(x)=\sum_{x\in X(\Omega)}p_X(x)=\sum_{x\in X(\Omega)}\mu_X(\left\{x\right\})=\mu_X(X(\Omega))=1.$$ 
+		Se $X$ ammette una densità discreta essa viene detta \textit{variabile aleatoria discreta}.
+	\end{definition}
+	\`E chiaro come data una densità discreta di una variabile aleatoria, possiamo ricostruire la distribuzione, e viceversa. Tuttavia è anche chiaro come specificare una densità sia \textbf{molto} più comodo dello specificare una distribuzione, per una questione di cardinalità.
+	\begin{definition}[Variabile aleatoria di Bernoulli]
+		Una variabile aleatoria di Bernoulli è $X:\Omega\to \left\{0,1\right\}$ tale che
+		$$\mu_X(\left\{1\right\})=p$$
+		$$\mu_X(\left\{0\right\})=1-p$$
+		insomma è una variabile aleatoria definita a valori in $\left\{0,1\right\}$.
+	\end{definition}
+	\begin{example}[Funzione indicatrice]
+		Dato un $A\subseteq \Omega$ una variabile di Bernoulli è
+		$$X(\omega)=\mathbbm{1}_A(\omega) \qquad \forall \omega\in \Omega.$$
+	\end{example}
+	\subsection{Variabili aleatorie reali}
+	Da qui in poi in questa sezione ci concentriamo sulle variabili aleatorie reali, ovvero le variabili aleatorie del tipo $X:\Omega\to \RR$.
+	\subsubsection{Valore Atteso}
+	\begin{definition}[Valore atteso positivo]
+		Data una variabile aleatoria $X:\Omega\to [0,\infty]$ definiamo il \textit{valore medio o valore atteso, o aspettazione} di $X$ la quantità:
+		$$E[X]:=\sum_{x\in \RR_{\ge 0}} p_X(x)x$$
+		(notiamo che se $\Omega$ è uno spazio numerabile, questa è una somma numerabile, nonostante non lo sembri).
+	\end{definition}
+	\begin{example}[Cannonare le prove ripetute]
+		Prendiamo di nuovo le prove ripetute indipendenti. Sia $C_i$ una successione di eventi ripetuti indipendenti tali che
+		$$P(C_i)=p$$
+		per tutti gli $i$. Allora definiamo la variabile aleatoria:
+		$$S_n:=\sum_{i=1}^{n}\mathbbm{1}_{C_i}$$
+		il numero di successi in $n$ prove. Cerchiamo la legge di questa variabile aleatoria, sappiamo che tutte le funzioni indicatrici sono bernoulli, di cui conosciamo la distribuzione, e quindi abbiamo 
+		$$P(S_n=k)=\binom{n}{k}p^k(1-p)^{n-k}$$
+		che è una binomiale. Ora vogliamo calcolare anche l'aspettazione di questa variabile, dato che è definita reale positiva:
+		$$E[X]=\sum_{k=0}^{n}p_{S_n}(x)x=\sum_{k=1}^{n}k \binom{n}{k}p^{k}(1-p)^{n-k}$$
+		che\dots ci blocca. C'è un modo per uscirne facendo conti con somme parziali e/o double counting, ma il vero modo probabilistico sarà utilizzare la linearità del valore atteso, con il quale si giunge facilmente a trovare che il valore atteso è $np$.
+	\end{example}
+	\begin{example}
+		Ancora sulle prove ripetute, possiamo definire $T_n$ come la variabile aleatoria
+		$$T_n(\omega):=\min\left\{j\in \left\{1,2,\dots,n\right\}:\omega\in C_i\right\}$$
+		a questo punto la densità discreta è
+		$$p_{T_n}(j)=P(T_n=j)=
+		\begin{cases}
+			(1-p)^j p & \text{se $j\in \left\{1,2,3\dots,n\right\}$} \\
+			(1-p)^n & \text{se $j=\infty$}
+		\end{cases}$$
+		(dove abbiamo definito $\min\eset=\infty$, per questo abbiamo il caso $j=\infty$). Notiamo che questo ci porta alla strana conclusione che $E[T_n]$ sia
+		$$E[T_n]\ge \infty p_{T_n}(\infty)=\infty$$
+		questo è ancora più controintuitivo se consideriamo il limite $T_\infty=T$, perchè in questo caso la densità è proprio una distribuzione geometrica. Come definiamo formalmente tuttavia $T$ senza usare un $\Omega$ infinito (che abbiamo già visto dare problemi)? Definire solo la legge è facile, ci basta definire una variabile aleatoria $T'$ quasi uguale a $T$ definita da $\NN$ a $\NN$ tale che la sua distribuzione sia
+		$$P_{T'}(j)=(1-p)^j p.$$
+		Ci rimane in effetti il dubbio che esista uno spazio di probabilità dove possiamo costruire $T$. Anyway, il valore atteso è la succosa sommatoria
+		$$E[T]=\sum_{n=1}^{\infty}n(1-p)^{n-1}p=p\sum_{n=1}^{\infty}n(1-p)^{n-1}$$
+		a questo punto usando un trucchetto sloppy, abbiamo
+		$$E[T]=\dots=p\sum_{n=1}^{\infty}\frac{\dif }{\dif (1-p)}\left((1-p)^n\right)=p\frac{\dif}{\dif(1-p)}\sum_{n=1}^{\infty}(1-p)^n=p\frac{\dif}{\dif (1-p)}\frac{1}{p}=\frac{1}{p}$$
+		abbiamo scambiato la sommatoria con una derivata\dots\, ad analisi reale vedrete che in queste condizioni si può fare. 
+	\end{example}
+	D'ora in poi definendo una variabile aleatoria ne daremo solo la legge (o ancora meglio, la densità discreta) da cui si può ricavare tutta la funzione. Tuttavia rimane sempre il dubbio che esista effettivamente uno spazio di probabilità in cui esista una tale variabile aleatoria. Questo nel caso finito o numerabile ha sempre risposta positiva, infatti data una $X$ con densità discreta $p_X$ ci basta definire uno spazio 
+	$$\Omega=\left\{x:p_X(x)>0\right\}$$
+	e la sua probabilità $P\left(\left\{\omega\right\}\right)=p_X(\omega)$ a questo punto dunque se definiamo $X$ come
+	$$X(\omega):=\omega$$
+	abbiamo proprio una variabile con la distribuzione cercata.
+	
+	Ricordiamo ora la definizione di parte positiva e parte negativa:
+	\begin{definition}[Parte positiva e parte negativa]
+		Definiamo le funzioni \textit{parte positiva} e \textit{parte negativa}:
+		$$x^+:=\max\left\{x,0\right\}$$
+		$$x^-:=\max\left\{-x,0\right\}$$
+		e quindi in particolare si ha
+		$$x=x^+-x^-.$$
+	\end{definition}
+	Questo ci è utile per definire il valore atteso per una variabile aleatoria generica a valori reali:
+	\begin{definition}[Valore atteso generale]
+		Sia $X$ una variabile aleatoria generale sullo spazio $\Omega$. Diciamo che $X$ ha \textit{valore atteso} $E(X)$ se esistono finiti i valori attesi delle variabili $X^-$ e $X^+$, ed è quindi la seguente quantità:
+		$$E(X)=E(X^+)-E(X^-)\in [-\infty,\infty]$$
+		ovvero
+		$$E(X):=\sum_{x>0}xp_X(x)+\sum_{x<0}xp_X(x)$$
+		cioè, infine
+		$$E(X):=\sum_{x\in\RR}xp_X(x)$$
+		che è sempre definita a meno di riordinamenti quando quella serie converge assolutamente, ovvero quando le somme parziali positiva e negativa convergono individualmente.
+	\end{definition}
+	Notiamo che abbiamo fatto tutto questo casino perchè volevamo che il valore atteso \textbf{non dipendesse dall'ordinamento}.
+	\subsubsection{Trasferimento e densità congiunte}
+	
+	\begin{proposition}[Conservazione della legge]
+		Se $X$ e $Y$ sono variabili aleatorie a valori in $E$, ed $f:E\to F$ è una funzione generica si ha
+		$$X\sim Y \implies f(X)\sim f(Y).$$
+	\end{proposition}
+	\begin{proof}
+		Consideriamo la distribuzione di $f(A)$:
+		$$\mu_{f(X)}(A)=P\left(f(x)\in A\right)$$
+		ma allora 
+		\begin{align*}
+			\mu_{f(X)}(A)=P\left(f(X)\in A\right)= & \\
+			P(X\in f^{-1}(A))= & \\
+			\mu_X(f^{-1}(A))=  & \\
+			\mu_Y(f^{-1}(A))=  & \\
+			\dots & \\
+			=\mu_{f(Y)}(A) & 
+		\end{align*}
+		come era richiesto.
+	\end{proof}
+	\begin{example}[Dado equilibrato]
+		Prendiamo un dado equilibrato a $6$ facce (quindi uno spazio $\Omega=\left\{1,2,\dots,6\right\}$ con probabilità uniforme). Definiamo le variabili
+		$$X(\omega):=\mathbbm{1}_{\left\{2,4,6\right\}}(\omega)$$
+		$$Y(\omega):=\mathbbm{1}_{\left\{1,3,5\right\}}(\omega)$$
+		$$Z(\omega)=\omega$$
+		calcoliamo le leggi di 
+		\begin{enumerate}
+			\item $X$.
+			\item $Y$.
+			\item $Z$.
+			\item $X\times Y$ (ovvero $(X,Y)$).
+			\item $X\times Y \times Z$ (ovvero $(X,Y,Z)$).
+			\item $Z^2$ ovvero $Z^2(\omega)=\omega^2$ come numero.
+			\item $ZX$ di nuovo come numeri.
+		\end{enumerate}
+	\end{example}
+	\begin{proof}[Soluzione]
+		Più o meno tutti conti chiari.
+	\end{proof}
+	\begin{definition}[Densità congiunte e densità marginali]
+		Date $n$ variabili aleatorie 
+		$$X_i:\Omega\to E_i$$
+		definiamo la loro \textit{densità congiunta} come la densità
+		$$p_{X_1,X_2,\dots,X_n}:E_1\times E_2\times\dots\times E_n\to [0,1]$$
+		tale che 
+		$$p_{X_1,\dots,X_n}(x_1,\dots,x_n)=P(X_1=x_1,\dots,X_n=x_n)=\bigcap_{i=1}^n P(X_i=x_i)$$
+		per ogni lista di $n$ variabili in $E_1\times E_2\times \dots \times E_n$. Le densità discrete del prodotto di \textbf{solo alcune} delle variabili $X_i$ si dicono \textit{densità marginali}. Si dimostra agilmente che sommando su una variabile la si elimina dalla densità, ovvero per esempio nel caso $n=3$
+		$$p_{X_2,X_3}(x_2,x_3)=\sum_{x_1\in E_1}p_{X_1,X_2,X_3}(x_1,x_2,x_3)$$
+		e analogamente per tutte le altre formuline.
+	\end{definition}
+	Infine arriviamo alla formula di trasferimento:
+	\begin{proposition}[Formula di trasferimento]
+		Sia $(\Omega,P)$ uno spazio di probabilità discreto, $X$ una variabile aleatoria a valori in $E$, e $g$ una funzione $g:E\to \RR$, allora se $g(X)$ ha valor medio abbiamo 
+		$$E(g(x))=\sum_{x\in E}g(x)p_X(x).$$
+	\end{proposition}
+	\begin{proof}
+		Facciamo prima il caso $g:E\to[0,\infty)$. Siano $x,y$ tali che
+		$$g(x)=y.$$
+		Per definizione di valore atteso abbiamo:
+		$$E(g(x))=\sum_{y\ge 0}yp_{g(X)}(y).$$
+		Guardiamo meglio come si comporta la densità discreta di $g(X)$: 
+		$$p_{g(X)}(y)=P(g(X)=y)=P(X\in g^{-1}(y))$$
+		che d'altra parte per additività è proprio
+		$$\dots=\sum_{g(x)=y}p_X(x)$$
+		e ora sostituendo 
+		$$E(g(x))=\sum_{y\ge 0}\sum_{g(x)=y}yp_X(x)$$
+		che notiamo essere proprio la tesi, scrivendo $y=g(x)$ e notando che la somma che abbiamo scritto procede su tutto $E$. Il caso $y\le 0$ è completamente analogo.
+	\end{proof}
+	
+	\subsubsection{Indipendenza}
+	
+	Come fatto per gli eventi definiamo:
+	\begin{definition}[Variabili aleatorie indipendenti]
+		Sia $X_1,\dots,X_n,\dots$ una successione di variabili aleatorie con $X_i$ a valori in $E_i$. Diciamo che $X_1,\dots,X_n$ sono indipendenti se, per ogni scelta di $A_i\in \parti{E_i}$ per ogni $1\le i\le n$ abbiamo
+		$$P\left(\bigcap_{i=1}^n \left\{X_i\in A_i\right\}\right)=\prod_{i=1}^n P(X_i\in A_i).$$ 
+		Diciamo inoltre che $\left(X_i\right)_{i\in \NN}$ è una successione infinita di variabili aleatorie indipendenti, se per ogni insieme finito $J\subseteq \NN$ abbiamo che $\left(A_j\right)_{j\in J}$ è indipendente. Insomma la nozione di indipendenza di variabili aleatorie si riduce al dire che tutti gli eventi sono indipendenti se sono generati dalla preimmagine delle due variabili.
+	\end{definition}
+	\begin{example}[Prove ripetute indipendenti]
+		Se $\left(C_j\right)$ è una successione di prove ripetute indipendenti, la successione di variabili aleatorie definite come
+		$$X_i:=\mathbbm{1}_{C_i}\sim \text{Ber}(P(C_i))$$
+		è indipendente.
+	\end{example}
+	
+	\subsubsection{Proprietà del valore atteso}
+	
+	Una formula che semplifica fortemente il calcolo del valore atteso è la seguente:
+	\begin{proposition}[Valore atteso per singoletti]
+		Sia $X:\Omega\to\RR$ una variabile aleatoria reale su uno spazio di probabilità $(\Omega,P)$, allora $X$ ammette valor medio se e solo se la famiglia di numeri reali $X(\omega)P(\left\{\omega\right\})$ ammette una somma, e in questo caso si ha
+		$$E(X)=\sum_{\omega\in\Omega}X(\omega)P(\left\{\omega\right\})$$
+	\end{proposition}
+	\begin{proof}
+		Supponiamo prima di tutto $X\ge 0$ per ogni $\omega$, allora abbiamo per definizione
+		$$E(X):=\sum_{x>0}xp_X(x)=\sum_{x>0}xP\left(\left\{\omega\in\Omega:X(\omega)=x\right\}\right)$$
+		ma allora decomponendo gli eventi come singoletti, per $\sigma$-additività:
+		$$=\sum_{x>0}x\underset{X(\omega)=x}{\sum_{\omega\in\Omega}}P(\left\{\omega\right\})$$
+		ma dunque portando dentro la $x$ possiamo scrivere semplicemente
+		$$\sum_{x>0}\underset{X(\omega)=x}{\sum_{\omega\in\Omega}}X(\omega)P(\left\{\omega\right\})$$
+		da cui notiamo che la somma davanti è proprio quella della tesi, e quindi abbiamo finito. 
+	\end{proof}
+	\begin{proposition}[Proprietà del valore atteso]
+		Sia $(\Omega,P)$ uno spazio di probabilità e $X,Y$ due variabili aleatorie reali su di esso, allora abbiamo:
+		\begin{description}
+			\item[Monotonia:] Se $X(\omega)\le Y(\omega)$ per ogni $\omega\in\Omega$ allora $E(X)<E(Y)$.
+			\item[Disuguaglianza triangolare:] Abbiamo che
+			$$\abs{E(X)}\le E(\abs{X}).$$
+			\item[Linearità] Se i valori attesi di $X$ e di $Y$ sono entrambi finiti, per ogni $a,b\in\RR$ abbiamo 
+			$$E(aX+bY)=aE(X)+bE(Y)$$
+			e in particolare quindi la variabile aleatoria a sinistra ammette valore atteso.
+		\end{description}
+	\end{proposition}
+	\begin{proof}
+		Dimostriamo una cosa alla volta:
+		\begin{description}
+			\item[Monotonia:] Usando la formula appena trovata possiamo tranquillamente scrivere
+			$$E(X)=\sum_{\omega\in\Omega}X(\omega)P(\left\{\omega\right\})$$
+			$$E(Y)=\sum_{\omega\in\Omega}Y(\omega)P(\left\{\omega\right\})$$
+			da cui per il teorema del confronto abbiamo proprio
+			$$E(X)=\sum_{\omega\in\Omega}X(\omega)P(\left\{\omega\right\})<\sum_{\omega\in\Omega}Y(\omega)P(\left\{\omega\right\})=E(Y)$$
+			la tesi.
+			\item[Jensen o disuguaglianza triangolare:] Per la disuguaglianza triangolare applicata alle somme parziali abbiamo
+			$$\abs{\sum_{\omega\in\Omega}X(\omega)P(\left\{\omega\right\})}\le\sum_{\omega\in\Omega}\abs{X(\omega)P(\left\{\omega\right\})}$$
+			che è la tesi in quanto $P(\left\{\omega\right\})\ge 0$.
+		\end{description}
+	\end{proof}
+	Il valore atteso ci dà un certo quantitativo di informazioni sulla nostra variabile aleatoria. Se $X$ è generica ci sono molte variabili aleatorie con lo stesso valore atteso. La faccenda si fa già molto più interessante quando $X\ge 0$:
+	\begin{proposition}[Valore atteso di variabili aleatorie positive]
+		Se $X$ è una variabile aleatoria positiva, allora se il suo valore atteso è $E(X)=0$ allora $X$ è quasi certamente $0$.
+	\end{proposition}
+	\begin{proof}
+		Dobbiamo dimostrare che 
+		$$P(X=0)=1$$
+		e questo segue abbastanza facilmente dal fatto che 
+		$$0=E(X)=\sum_{x>0}xp_X(x)>x_0p_X(x_0)$$
+		e quindi se per assurdo $x_0\ne 0$ avesse probabilità positiva avremmo 
+		$$0=x_0p_X(x_0)>0$$
+		assurdo.
+	\end{proof}
+	\begin{example}[Sommatoria di prove ripetute indipendenti]
+		Abbiamo già visto che, data una successione di prove ripetute indipendenti $X_i$ il numero di successi all'$n$-esimo tentativo è
+		$$S_n=\sum_{i=1}^{n}\mathbbm{1}_{X_i}$$
+		che ha valore atteso, per linearità
+		$$E(S_n)=\sum_{i=1}^{n}E(\mathbbm{1}_{X_i})=np$$
+		ma notiamo che questo non usa minimamente il fatto che gli eventi siano indipendenti. Potremmo definire la successione di eventi $Y_i$ tale che per ogni $i$ $Y_i=X_1$, e per questa la sua variabile aleatoria somma
+		$$Z_n:=\sum_{i=1}^{n}\mathbbm{1}_{Y_i}$$
+		che rappresenta il numero di successi in $n$ lanci. Notiamo che $Z_n$ ed $S_n$ sono due variabili profondamente diverse, ma nonostante questo per $n\to\infty$ $S_n$ sarà circa $np$, e quindi tenderà ad essere $Z_n$ questa è l'intuizione della \textit{legge dei grandi numeri}, che vedremo poi. 
+	\end{example}
+	Un'ultima idea importante da considerare è la seguente, che enunciamo sotto forma di proposizione, nonostante la dimostrazione sia risibile:
+	\begin{proposition}[Probabilità per funzione indicatrice]
+		Comunque dato un evento $A\subseteq \Omega$ la sua probabilità è data da
+		$$P(A)=E\left[\mathbbm{1}_A\right].$$
+	\end{proposition}
+	\begin{proof}
+		Per definizione di valore atteso abbiamo
+		$$E\left[\mathbbm{1}_A\right]=1\cdot P\left(\mathbbm{1}_A=1\right)+0\cdot P\left(\mathbbm{1}_A=0\right)$$
+		da cui discende direttamente la tesi.
+	\end{proof}
+	\newpage
+	
+	\section{Varianza e momenti di variabili aleatorie reali}
+	
+	\begin{definition}[Spazio $L^p$]
+		Se $(\Omega,P)$ è uno spazio di probabilità discreto, se $p\in (0,\infty)$ definiamo lo spazio 
+		$$L^p:=L^p(\Omega,P):=\left\{X\in \RR^\Omega:E(\abs{X}^p)<\infty\right\}.$$
+	\end{definition}
+	Osserviamo prima di tutto che gli spazi $L^p$ sono ordinati:
+	\begin{lemma}[Ordine degli spazi $L^p$]
+		Per ogni $\infty>q>p>0$ vale
+		$$L^q\subset L^p$$ 
+	\end{lemma}
+	\begin{proof}
+		Dobbiamo dimostrare che se $E(\abs{X}^q)$ è finito allora anche $E(\abs{X}^p)$ è finito. Per fare ciò consideriamo che se $\abs{X}\le 1$ abbiamo la disuguaglianza:
+		$$\abs{X}^q\ge\abs{X}^p $$
+		mentre nell'altro caso abbiamo chiaramente
+		$$1\ge \abs{X}^p$$
+		da cui
+		$$1+\abs{X}^q\ge \abs{X}^p$$
+		che, usando la monotonia del valore atteso:
+		$$E\left(1+\abs{X}^q\right)\ge E\left(\abs{X}^p\right)$$
+		e chiaramente quindi se $x\in L^q$ il lato sinistro è finito, dato che per linearità
+		$$1+E\left(\abs{X}^q\right)\ge E\left(\abs{X}^p\right)$$
+		dunque lo sarà anche il lato destro, il che conclude la dimostrazione.
+	\end{proof}
+	\begin{proposition}[Prodotto in $L^2$]
+		Se $X,Y\in L^2$ allora $XY\in L^1$, quindi in particolare $XY\in L^2$.
+	\end{proposition}
+	\begin{proof}
+		Abbiamo la nota disuguaglianza
+		$$\abs{XY}\le \frac{\abs{X}^2}{2}+\frac{\abs{Y}^2}{2}$$
+		da cui, per monotonia e linearità troviamo
+		$$E(\abs{XY})\le \frac{E(\abs{X}^2)}{2}+\frac{E(\abs{Y}^2)}{2}$$
+		che è un bound che implica la tesi.
+	\end{proof}
+	\begin{lemma}[$L^p$ è uno spazio vettoriale]
+		Per ogni $p\in(0,\infty)$ lo spazio $L^p$ è uno spazio vettoriale su $\RR$ con vettore nullo la variabile aleatoria identicamente nulla. Inoltre se $p\ge 1$ il valore atteso $E:L^p\to \RR$ è una funzione lineare.
+	\end{lemma}
+	\begin{proof}
+		Dimostriamo prima di tutto che $L^p$ è chiuso rispetto alla moltiplicazione per scalare, ovvero data una $X\in L^p$ abbiamo
+		$$\abs{\lambda X(\omega)}=\abs{\lambda}\abs{X(\omega)}$$
+		cioè questo ci permette di portare fuori i $\lambda$ dalle sommatorie quando calcoliamo il valore atteso:
+		$E(\abs{\lambda X}^p)=\abs{\lambda^p}E(\abs{E}^p)$
+		e quindi il LHS è finito. Dimostriamo ora che $L^p$ è chiuso rispetto alla somma, abbiamo che per la disuguaglianza triangolare, comunque dati due numeri reali:
+		$$\abs{x+y}\le \abs{x}+\abs{y}$$
+		ma elevando entrambi i lati alla $p$ abbiamo
+		$$\abs{x+y}^p=\left(\abs{x}+\abs{y}\right)^p\le 2^p\max\left\{\abs{x}\right\}^p\le 2^p\left(\abs{x}^p+\abs{y}^p\right)$$
+		e dunque applicando questa disuguaglianza per monotonia e linearità di $E$ abbiamo che
+		$$E\left(\abs{X+Y}^p\right)\le 2^pE\left(\abs{X}^p\right)+2^pE\left(\abs{Y}^p\right)$$ 
+		che implica la convergenza del LHS. Rimane da dimostrare che $E$ è una funzione lineare. D'altra parte se $p\ge 1$ abbiamo sicuramente che 
+		$$L^p\subseteq L^1$$
+		e dato che $L^1$ è proprio lo spazio avente tutti i valori attesi finiti, per la linearità del valore atteso dimostrata in precedenza abbiamo proprio che il valore atteso è lineare.
+	\end{proof}
+	\begin{definition}[Momento Assoluto]
+		Data una variabile aleatoria $X:\Omega\to\RR$ il suo \textit{momento assoluto} (o semplicemente momento) di ordine $k$ è la quantità 
+		$$E\left(\abs{X}^k\right)\in [0,\infty]$$
+		se $k$ non è intero di solito questa quantità si chiama \textit{momento frazionario di ordine $k$}
+	\end{definition}
+	
+	\begin{example}[Zeta di Riemann]
+		Sia $X:\NN\to\RR$ una variabile aleatoria con densità discreta
+		$$p_X(n)=\frac{C}{n^3}$$
+		con ovviamente $C\in\RR^+$. Si dimostri che $X\in L^1$ e calcolare $E(X)$. 	\\
+		Mostrare che $X\not\in L^2$.
+	\end{example}
+	\begin{proof}[Soluzione]
+		Dato che $p_X$ è una legge di una variabile aleatoria abbiamo che la sua somma deve essere $1$, ovvero
+		$$\sum_{n\in\NN}\frac{C}{n^3}=1$$
+		ovvero
+		$$\sum_{n\in\NN}\frac{1}{n^3}=\frac{1}{C}$$
+		che è una serie armonica generalizzata, o meglio la \textit{zeta di Riemann}:
+		$$\zeta(s):=\sum_{n\in\NN}\frac{1}{n^s}$$
+		che sappiamo convergere per $s$ reale se e solo se $s>1$, dunque il valore atteso di $X$ è
+		$$E(X):=\sum_{n\in\NN}C\frac{n}{n^3}=C\sum_{n\in\NN}\frac{1}{n^2}$$
+		che notoriamente converge a $C\frac{\pi^2}{6}$ e quindi abbiamo che $X\in L^1$. D'altra parte $X$ non è i n $L^2$, perchè
+		$$E\left(\abs{X}^2\right)=\sum_{n\in\NN}C\frac{n^2}{n^3}=C\sum_{n\in\NN}\frac{1}{n}=\infty$$
+		e quindi abbiamo finito. In effetti abbiamo qualcosa di più forte, possiamo scrivere
+		$$E\left(\abs{X}^p\right)=C\frac{\zeta(3-p)}{\zeta(3)}$$
+		che converge se e solo se $p\in (0,2)$, quindi $X\in L^\varepsilon$ per ogni $\varepsilon>0$.
+	\end{proof}
+	\subsection{Varianza e covarianza}
+	\begin{definition}[Varianza e Covarianza]
+		Se $X,Y$ sono variabili aleatorie in $L^1$ allora la loro \textit{covarianza} è definita come
+		$$\text{cov}\left(X,Y\right)=E[XY]-E[X]E[Y]$$
+		mentre se $X$ è una variabile aleatoria in $L^2$ la sua varianza è definita come
+		$$\text{var}(X)=E[X^2]-E[X]^2.$$
+		Se due variabili hanno covarianza $0$ si dicono \textit{scorrelate} o \textit{decorrelate}, ovvero abbiamo che $E[XY]=E[X]E[Y]$, cioè il valore atteso fattorizza.
+	\end{definition}
+	Questa sembra tanto una definizione data a caso. In realtà possiamo fare due osservazioni importanti che danno più profondità a questo concetto appena introdotto, la prima è sotto forma di proposizione:
+	\begin{proposition}[Caratterizzazione della covarianza]
+		Date due variabili aleatorie $X,Y\in L^1$ abbiamo che 
+		$$\text{cov}(X,Y)=E\left[(X-E[X])(Y-E[Y])\right]$$
+		e dunque in particolare abbiamo che se $X\in L^2$:
+		$$\text{var}(X)=\text{cov}(X,X)=E\left[(X-E[X])^2\right]\ge 0$$
+	\end{proposition}
+	\begin{proof}
+		Un calcolo diretto, abbiamo
+		$$E\left((X-E[X])(Y-E[Y])\right)=E\left[XY-E[X]Y-E[Y]X+E[X]E[Y]\right]$$
+		che per linearità è
+		$$\dots=E[XY]-E[E[X]Y]-E[E[Y]X]+E[E[X]E[Y]]$$
+		ma notiamo che $E[X]$ ed $E[Y]$ sono scalari, quindi possiamo di nuovo applicare la linearità del valore atteso per ottenere
+		$$\dots=E[XY]-E[X]E[Y]-E[X]E[Y]+E[X]E[Y]=E[XY]-E[X]E[Y]$$
+		che era la tesi.
+	\end{proof}
+	La seconda è sotto forma di definizione:
+	\begin{definition}[Matrice di covarianza e di correlazione]
+		Date $n$ variabili aleatorie $X_1,X_2,\dots,X_n$ definiamo la loro \textit{matrice di covarianza} come la matrice $M$ tale che
+		$$M_{ij}=\text{cov}(X_i,X_j).$$
+		In particolare sulla diagonale avremo le varianze, e  quindi:
+		$$M=
+		\begin{pmatrix}
+			\text{cov}(X_1,X_1) & \text{cov}(X_1,X_2) & \dots & \text{cov}(X_1,X_n) \\
+			\text{cov}(X_2,X_1) & \text{cov}(X_2,X_2) & \dots & \text{cov}(X_2,X_n) \\
+			\vdots & \vdots & \ddots & \vdots \\
+			\text{cov}(X_n,X_1) & \text{cov}(X_n,X_2) & \dots & \text{cov}(X_n,X_n)
+		\end{pmatrix}
+		$$ 
+		Definiamo inoltre la \textit{matrice di correlazione} come la matrice $R$ tale che
+		$$R_{ij}:=\frac{\text{cov}(X_i,X_j)}{\sqrt{\text{var}(X_i)\text{var}(X_j)}}$$ 
+		questi termini si dicono \textit{coefficienti di correlazione}, e di solito si denotano con
+		$$\varrho(X,Y):=\frac{\text{cov}(X,Y)}{\sqrt{\text{var}(X)\text{var}(Y)}}$$
+		notiamo che la matrice di correlazione è in un certo senso uguale alla matrice di covarianza "normalizzata".
+	\end{definition}
+	Vediamo ora un paio di proprietà interessanti della varianza e della covarianza:
+	\begin{proposition}[Proprietà della covarianza]
+		Per due variabili aleatorie $X,Y\in L^1$ abbiamo che la covarianza soddisfa le seguenti proprietà:
+		\begin{description}
+			\item[Simmetria:] $\text{cov}(X,Y)=\text{cov}(Y,X)$.
+			\item[Bilinearità:] Per ogni $a,b\in \RR$ e per ogni variabile aleatoria $Z$ abbiamo
+			$$\text{cov}(aX+bY,Z)=a\,\text{cov}(X,Z)+b\,\text{cov}(Y,Z).$$
+		\end{description}
+	\end{proposition}
+	\begin{proof}
+		Il primo risultato è ovvio. Il secondo discende dal fatto che
+		\begin{align*}
+			E\left[(aX+bY-E[aX+bY])(Z-E[Z])\right]= \\
+			=E\left[a(X-E[X])(Z-E[Z])+b(Y-E[Y])(Z-E[Z])\right]= \\
+			=aE\left[(X-E[X])(Z-E[Z])\right]+bE\left[(Y-E[Y])(Z-E[Z])\right]
+		\end{align*}
+		che era la tesi.
+	\end{proof}
+	\begin{remark}[La covarianza è un prodotto interno]
+		Dal lemma sopra osserviamo immediatamente che la covarianza è un prodotto interno in $L^1$! In particolare è un prodotto definito positivo, come possiamo notare dal fatto che la matrice di covarianza soddisfa
+		$$\sum_{i\in I,j\in J}x_iM_{ij}x_j\ge 0$$
+		per ogni insieme di indici $I,J$.
+	\end{remark}
+	\begin{corollary}[Proprietà della varianza]
+		Per ogni $X\in L^2$ abbiamo che la varianza soddisfa le seguenti proprietà:
+		\begin{description}
+			\item[Quadraticità:] Per ogni $a,b\in\RR$ abbiamo
+			$$\text{var}(aX+b)=a^2\text{var}(X).$$
+			\item[Varianza di somme:] Si ha
+			$$\text{var}\left(\sum_{i=1}^{n}X_i\right)=\sum_{i=1}^{n}\text{var}(X_i)+2\sum_{i=1}^{n}\sum_{j=i+1}^{n}\text{cov}(X_i,X_j)$$
+			e quindi in particolare per liste di variabili scorrelate si ha che la varianza distribuisce sulla somma.
+			\item[Varianza misura la distanza dal valore atteso:] Se la varianza di $X$ è $0$ allora si ha
+			$$X=E[X]$$
+			cioè $X$ è quasi certamente costante a $E[X]$.
+			\item[Caratterizzazione della varianza:] La varianza è il minimo del valore atteso di $E[(X-c)^2]$, ovvero
+			$$\text{var}(X)=\min_{c\in\RR}E\left[(X-c)^2\right]$$
+			e in particolare quindi si ha che il valore atteso di $X$ è l'argmin di quell'espressione.
+		\end{description}
+	\end{corollary}
+	\begin{proof}
+		Il primo punto si dimostra esattamente come la proposizione precedente:
+		\begin{align*}
+			E\left[(X-E[X])^2\right]=\\
+			=E\left[(aX+b-E[aX+b])^2\right]=\\
+			=E\left[(aX-aE[X]+b-b)\right]=\\
+			=E\left[a^2(X-E[X])^2\right]=\\
+			=a^2E\left[(X-E[X])^2\right]=\\
+			=a^2\text{var}(X).
+		\end{align*}
+		Il secondo punto d'altra parte segue direttamente dalla proposizione precedente, per bilinearità. \\
+		Il terzo punto segue dal fatto che $(X-E[X])^2$ è una variabile positiva, quindi se il suo valore atteso è nullo (ovvero, la varianza di $X$ è nulla), allora è quasi certamente nulla. Dunque abbiamo che quasi certamente 
+		$$(X-E[X])^2=0$$
+		cioè quasi certamente
+		$$X=E[X]$$
+		che era la tesi. \\
+		Il quarto punto segue sommando e sottraendo una quantità conveniente:
+		\begin{align*}
+			E[(X-c)^2]= \\
+			E\left[(X-E[X]+E[X]-c)^2\right]=\\
+			E\left[(X-E[X])^2+(E[X]-c)^2+2(E[X]-c)(X-E[X])\right]=\\
+			\text{var}(X)+(E[X]-c)^2+2(E[X]-c)E\left[X-E[X]\right]
+		\end{align*}
+		ma notiamo che quell'ultimo termine si cancella per linearità, e quindi rimaniamo con 
+		$$E[(X-c)^2]=\text{var}(X)+(E[X]-c)^2$$
+		e dunque abbiamo che 
+		$$E[(X-c)^2]\ge \text{var}(X)$$
+		con uguaglianza che sussiste sse $E[X]=c$.
+	\end{proof}
+	Infine vediamo un'interpretazione della indipendenza di variabili aleatorie con la covarianza
+	\begin{lemma}[Indipendenti implica scorrelate]
+		Date due variabili aleatorie $X,Y\in L^1$ tali che $X\indep Y$ abbiamo
+		$$E[XY]=E[X]E[Y]$$
+		ovvero la loro covarianza è nulla.
+	\end{lemma}
+	\begin{proof}
+		Procediamo prima di tutto dimostrando il risultato per variabili aleatorie positive. 
+		Per la formula di trasferimento applicata al vettore aleatorio $(X,Y)$ e alla funzione $(X,Y)\mapsto XY$ abbiamo
+		$$E[XY]=\sum_{x\ge 0,y\ge 0}xy p_{X,Y}(x,y)$$
+		d'altro canto per definizione di indipendenza di variabili aleatorie abbiamo
+		$$\dots=\sum_{x\ge 0,y\ge 0}xy p_X(x)p_Y(y)$$
+		che per il prodotto di Cauchy (che possiamo applicare in quanto entrambe le serie sono assolutamente convergenti) ci dà
+		$$\dots=\left(\sum_{x\ge 0}p_X(x)x\right)\left(\sum_{y\ge 0}p_Y(y)y \right)=E[X]E[Y]$$
+		che era la tesi. \\
+		Passiamo ora al caso generale, scriviamo le variabili $X$ e $Y$ come
+		$$X=X^+-X^-$$
+		$$Y=Y^+-Y^-$$
+		Notiamo che le variabili $X^\pm$ e $Y^\pm$ sono positive, quindi vale la tesi per come è stata dimostrata sopra. Applicando quindi la linearità del valore atteso e la tesi del caso positivo otteniamo:
+		\begin{align*}
+			E[XY]=E\left[\left(X^+-X^-\right)\left(Y^+-Y^-\right)\right]=\\
+			=E\left[X^+Y^+-X^+Y^--X^-Y^++X^-Y^-\right]=\\
+			=E\left[X^+Y^+\right]-E\left[X^+Y^-\right]-E\left[X^-Y^+\right]+E\left[X^-Y^-\right]=\\
+			=E\left[X^+\right]E\left[Y^+\right]-E\left[X^+\right]E\left[Y^-\right]-E\left[X^-\right]E\left[Y^+\right]+E\left[X^-\right]E\left[X^-\right]= \\
+			=E\left[X^+\right]\left(E\left[Y^+\right]-E\left[Y^-\right]\right)-E\left[X^-\right]\left(E\left[Y^+\right]-E\left[Y^-\right]\right)= \\
+			=\left(E\left[X^+\right]-E\left[X^-\right]\right)E\left[Y\right]= \\
+			=E[X]E[Y]
+		\end{align*}
+		che era la tesi.
+	\end{proof}
+	\subsection{Disuguaglianze probabilistiche}
+	Le seguenti disuguaglianza sono di fondamentale importanza, e discendono tutte dalla seguente
+	\begin{theorem}[Disuguaglianza di Markov]
+		Se $X:\Omega\to \RR\setminus\RR^-$ è una variabile aleatoria non negativa per ogni $t\in \RR^+$ abbiamo
+		$$P\left(X\ge t\right)\le \frac{E[X]}{t}.$$
+	\end{theorem}
+	\begin{proof}
+		Consideriamo la funzione indicatrice dell'insieme $\left\{X\ge t\right\}\subseteq \Omega$, ovvero $\mathbbm{1}_{X\ge t}(\omega)$. Notiamo che, per definizione se $$\mathbbm{1}_{X\ge t}(\omega)=1$$
+		allora 
+		$$X(\omega)\ge t \iff \frac{X(\omega)}{t}\ge 1$$
+		dunque abbiamo che la seguente disuguaglianza è valida per ogni $\omega\in\Omega$:
+		$$\mathbbm{1}_{X\ge t}(\omega)\le \frac{X(\omega)}{t}\mathbbm{1}_{X\ge t}(\omega)$$
+		ma d'altro canto dato che $\mathbbm{1}_{X\ge t}(\omega)\le 1$ per ogni $\omega$ abbiamo
+		$$\mathbbm{1}_{X\ge t}(\omega)\le \frac{X(\omega)}{t}\mathbbm{1}_{X\ge t}(\omega)\le \frac{X(\omega)}{t}$$
+		da cui abbiamo, per monotonia del valore atteso
+		$$E\left[\mathbbm{1}_{X\ge t}\right]\le E\left[\frac{X}{t}\right]=\frac{E[X]}{t}$$
+		ma d'altra parte abbiamo già dimostrato che il valore atteso della funzione indicatrice è la probabilità, e quindi abbiamo esattamente la tesi.
+	\end{proof}
+	Due corollari di questa disuguaglianza sono le seguenti:
+	\begin{corollary}[Disuguaglianza di Bienayme-Tchebychev]
+		Se $X\in L^2(\Omega,P)$ allora per ogni $t>0$ 
+		$$P\left(\abs{X-E[X]}\ge t\right)\le \frac{\text{var}(X)}{t^2}.$$
+	\end{corollary}
+	\begin{proof}
+		Semplicemente la disuguaglianza di Markov applicata a 
+		$$Y:=\left[X-E[X]\right]^2$$
+		che è evidentemente una variabile aleatoria non negativa.
+	\end{proof}
+	\begin{corollary}[Disuguaglianza di Chernov]
+		Data una variabile aleatoria $X$, per ogni $a>0$ e per ogni $t\in\RR$ si ha
+		$$P(X\ge t)\le E\left[\exp(aX)\right]\exp\left(-at\right).$$
+	\end{corollary}
+	\begin{proof}
+		Di nuovo la disuguaglianza di Markov applicata a 
+		$$Y:=e^{a(X-t)}$$
+		che per ogni $a,t,X$ è non negativa, ci dà la disugugaglianza
+		$$P\left(e^{a(X-t)}\ge 1\right)\le E\left(\exp\left(a(X-t)\right)\right)=E\left(\exp(aX)\right)\exp\left(-at\right)$$
+		d'altronde dato che $a>0$ abbiamo che 
+		$$e^{aX}\ge e^{at} \iff X\ge t$$
+		quindi
+		$$P\left(X\ge t\right)=P\left(e^{a(X-t)}\ge 1\right)\le E\left(\exp(aX)\right)\exp\left(-at\right)$$
+		come richiesto.
+	\end{proof}
+	\subsubsection{Legge dei grandi numeri}
+	Finalmente raggiungiamo il primo teorema limite importante del corso. Lo enunciamo in due versioni:
+	\begin{theorem}[Legge dei grandi numeri]
+		Sia $X_1,X_2,\dots$ una successione di variabili aleatorie IID, tali che $X_1\in L^2(\Omega,P)$, allora per ogni $\varepsilon>0$ abbiamo
+		$$P\left(\abs{\frac{X_1+X_2+\dots+X_n}{n}-E[X]}\ge\varepsilon\right)\le \frac{\text{Var}(X)}{\varepsilon^2n}$$
+		e dunque per $n\to\infty$ abbiamo per il teorema dei carabinieri
+		$$\lim_{n\to\infty}P\left(\abs{\frac{X_1+X_2+\dots+X_n}{n}-E[X]}\ge\varepsilon\right)=0.$$
+	\end{theorem}
+	\begin{proof}
+		Essenzialmente l'idea è la stessa di Tchebychev. Applichiamo la disuguaglianza di Markov alla variabile
+		$$Y:=\left[\frac{X_1+X_2+\dots+X_n}{n}-E[X_1]\right]^2\ge 0$$
+		abbiamo dunque che per ogni $\varepsilon>0$ vale
+		$$P\left(Y\ge \varepsilon^2\right)\le \frac{E[Y]}{\varepsilon^2}.$$
+		Ora grazie al fatto che
+		$$E[X]=\frac{nE[X]}{n}=E\left[\frac{X_1+X_2+\dots+X_n}{n}\right]$$ 
+		possiamo scrivere
+		$$E[Y]=E\left[\left[\frac{X_1+X_2+\dots+X_n}{n}-E[X_1]\right]^2\right]=\text{Var}\left(\frac{X_1+X_2+\dots+X_n}{n}\right)$$
+		ma dato che le variabili sono tutte indipendenti saranno anche scorrellate, inoltre avranno tutte la stessa varianza in quanto hanno tutte la stessa legge, dunque
+		$$E[Y]=\frac{\text{Var}(X)n}{n^2}=\frac{\text{Var}(X)}{n}$$
+		che sostituito nella disuguaglianza di markov e prendendo le radici dentro a $P$ ci dà la tesi.
+	\end{proof}
+	La seconda versione della LGN è un po' più forte, e si estende al caso delle variabili non indipendenti:
+	\begin{theorem}[Legge dei grandi numeri generalizzata]
+		Sia $X_1,X_2,\dots\in L^2(\Omega,P)$ una successione di variabili aleatorie non necessariamente indipendenti uguali in legge e non necessariamente indipendenti che soddisfino le seguenti condizioni:
+		\begin{itemize}
+			\item $E[X]:=E[X_i]=E[X_i]$ per ogni $i,j$.
+			\item Esiste una costante $C$ tale che 
+			$$\text{Var}(X_i)\le C$$
+			per ogni $i$.
+			\item Le variabili sono a due a due scorrelate, cioè $\text{Cov}(X_i,X_j)=0$ per ogni $i,j$.
+		\end{itemize}
+		allora per ogni $\varepsilon>0$ abbiamo
+		$$P\left(\abs{\frac{X_1+X_2+\dots+X_n}{n}-E[X]}\ge \varepsilon\right)\le \frac{C}{\varepsilon^2n}$$
+		e come prima per il teorema dei carabinieri abbiamo che il LHS tende a $0$ per $n\to\infty$.
+	\end{theorem}
+	\begin{proof}
+		Per Tchebychev abbiamo semplicemente
+		$$P\left(\abs{\frac{X_1+X_2+\dots+X_n}{n}-E\left[\frac{X_1+X_2+\dots+X_n}{n}\right]}\ge \varepsilon\right)\le \frac{\text{Var}\left(\frac{X_1+X_2+\dots+X_n}{n}\right)}{\varepsilon^2}$$
+		dunque dato che tutte le variabili hanno lo stesso valore atteso abbiamo
+		$$E\left[\frac{X_1+X_2+\dots+X_n}{n}\right]=E[X]$$
+		inoltre per la bilinearità della varianza e per il fatto che tutte le variabili sono scorrelate tra loro
+		$$\text{Var}\left(\frac{X_1+X_2+\dots+X_n}{n}\right)=\frac{\text{Var}(X_1)+\text{Var}(X_2)+\dots+\text{Var}(X_n)}{n^2}\le \frac{Cn}{n^2}=\frac{C}{n}$$
+		che sostituendo nella disuguaglianza originale danno la tesi. 
+	\end{proof}
+	\subsubsection{Disuguaglianze analitiche}
+	Le seguenti due disuguaglianze ci sono certamente più note nel caso non probabilistico, ma grazie alla definizione di valore atteso possono essere scritte in modo particolarmente elegante.
+	\begin{theorem}[Disuguaglianza di Jensen]
+		Sia $X$ una variabile aleatoria reale e $\varphi:\RR\to\RR$ una funzione convessa, allora
+		$$E\left[\varphi(X)\right]\ge \varphi\left(E[X]\right).$$ 
+	\end{theorem}
+	La seguente è una generalizzazione della disuguaglianza tra le medie $p$-esime:
+	\begin{definition}[Norma $L^p$]
+		Data una variabile aleatoria $X\in L^p(\Omega,P)$ definiamo la sua \textit{norma} come la quantità
+		$$\abs{\abs{X}}_p:=E\left[\abs{X}^p\right]^{1/p}.$$
+	\end{definition}
+	\begin{theorem}[Monotonia delle norme $L^p$]
+		Per ogni $q\ge p$ per ogni variabile aleatoria $X\in q$ abbiamo
+		$$\abs{\abs{X}}_q\ge \abs{\abs{X}}_p.$$
+	\end{theorem}
+	\begin{proof}
+		Abbiamo già visto che se $X\in L^q$ e $q\ge p$ allora $X\in L^p$, dunque abbiamo che entrambe le norme sono finite. D'altra parte esplicitamente possiamo scrivere
+		$$\abs{\abs{X}}_q=E[\abs{X}^{q}]^{1/q}=E[\abs{X}^q]^{\frac{p}{q}\frac{1}{p}}=\left(E\left[\abs{X}^q\right]^{\frac{p}{q}}\right)^{\frac{1}{p}}$$
+		dunque per la monotonia della funzione $x^{1/p}$ e per la convessità della funzione $x^{p/q}$ possiamo applica la disuguaglianza di Jensen per ottenere
+		$$\abs{\abs{X}}_q=\left(E\left[\abs{X}^q\right]^{\frac{p}{q}}\right)^{\frac{1}{p}}\ge E\left[\abs{X}^{q\frac{p}{q}}\right]^{1/p}=\abs{\abs{X}}_p$$
+		che era la tesi.
+	\end{proof}
+	\begin{theorem}[Disuguaglianza di Cauchy-Schwarz]
+		Se $X,Y\in L^2(\Omega,P)$ allora, dato che $XY\in L^1(\Omega,P)$ abbiamo
+		$$\abs{E(XY)}\le \abs{\abs{XY}}_1\le \sqrt{E(X^2)E(Y^2)}.$$
+	\end{theorem}
+	\begin{proof}
+		La prima disuguaglianza è già stata dimostrata, la seconda è tra variabili aleatorie tutte in valore assoluto, e quindi possiamo assumere che $X\ge 0$ e $Y\ge 0$. Inoltre possiamo assumere che $X,Y$ non siano quasi certamente nulle (altrimenti la tesi sarebbe ovvia). Consideriamo la seguente variabile aleatoria sempre $\ge 0$
+		$$0\le E\left[\left(\frac{X}{\sqrt{E(X^2)}}-\frac{Y}{\sqrt{E(Y^2)}}\right)^2\right]$$
+		sviluppando il RHS e usando la linearità del valore atteso dunque
+		$$E\left[\left(\frac{X}{\sqrt{E(X^2)}}-\frac{Y}{\sqrt{E(Y^2)}}\right)^2\right]=E\left[\frac{X}{E\left[X^2\right])}\right]+E\left[\frac{Y}{E\left[Y^2\right])}\right]-2\frac{E\left[XY\right]}{\sqrt{E(X^2)E(Y^2)}}$$
+		che d'altra parte si semplifica a 
+		$$0\le 2-2\frac{E\left[XY\right]}{\sqrt{E(X^2)E(Y^2)}}$$
+		che implica direttamente la tesi.
+	\end{proof}
+	\subsection{Funzioni di ripartizione}
+	\begin{definition}[Funzione di ripartizione]
+		Se $X$ è una variabile aleatoria reale definiamo la sua \textit{funzione di ripartizione} come
+		$$F_X(x):=P(X\le x).$$
+	\end{definition}
+	Notiamo subito che la funzione di ripartizione in generale non è continua, ma in un certo senso è \textit{l'integrale} della variabile aleatoria $X$. Notiamo che per variabili aleatorie facili sappiamo più o meno disegnare il grafico della funzione di ripartizione (per esempio per una Bernoulli è semplicemente una funzione tale che per $x\ge 1$ è $1$, per $x<0$ è $0$ e per $x\in [0,1)$ è uguale al parametro della Bernoulli).  \\
+	In effetti possiamo costruire variabili la cui funzione di ripartizione sia molto brutta, per esempio 
+	$$X:\QQ\to\RR$$
+	tale che, presa una enumerazione dei razionali $\QQ=\left\{p_1,p_2,\dots\right\}$ abbia densità discreta tale che se $\omega=p_j$ allora
+	$$p(\omega)=2^{-j}.$$
+	La funzione di ripartizione di questa funzione ha un insieme di discontinuità che \textbf{è denso} su $\RR$, e quindi non sappiamo davvero disegnarla. Formalizziamo allora:
+	\begin{proposition}[Proprietà della funzione di ripartizione]
+		Per ogni variabile aleatoria $X$ (anche non numerabile! Infatti non useremo questo fatto nella dimostrazione) la sua funzione di ripartizione soddisfa le seguenti proprietà:
+		\begin{description}
+			\item[Monotonia:] Per ogni $x\ge y$ si ha
+			$$F_X(x)\ge F_X(y).$$
+			\item[Estremi:] Valgono i seguenti limiti
+			$$\lim_{x\to -\infty}F_X(x)=0$$
+			$$\lim_{x\to\infty}F_X(x)=1$$
+			\item[Gradini:] La funzione $F_X(x)$ è continua a destra, inoltre per ogni $x\in X$ abbiamo
+			$$P(X=x)=F_X(x)-\lim_{y\to x^{-}}F_X(y).$$
+		\end{description}
+	\end{proposition}
+	\begin{proof}
+		Dimostriamo una cosa alla volta:
+		\begin{description}
+			\item[Monotonia:] \'E facile.
+			\item[Estremi:] Dimostriamo solo la seconda uguaglianza, tenendo conto che la prima è analoga. Possiamo caratterizzare il limite all'infinito con la seguente condizione: per ogni successione $x_n$ crescente tale che $x_n\to \infty$ dobbiamo dimostrare che si ha
+			$$\lim_{n\to\infty}F_X(x_n)=1$$
+			(notiamo che in realtà questa è una condizione apparentemente più forte di quella vista ad analisi 1A, tuttavia ci si riconduce facilmente a quella sulle successioni non monotone passando ai limsup e liminf). Riscriviamo quindi $F_X(x)$ con la distribuzione:
+			$$\lim_{n\to\infty}F_X(x_n)=\lim_{n\to\infty}\mu_X((-\infty,x_n])$$
+			ma a questo punto usando la continuità monotona di $\mu_X$ (e il fatto che $\mu_X$ è una probabilità) abbiamo
+			$$\lim_{n\to\infty}F_X(x_n)=\dots=\mu_X\left(\lim_{n\to\infty}(-\infty,x_n]\right)=\mu_X(\RR)=1$$
+			che era la tesi.
+			\item[Gradini:] Dimostriamo prima di tutto che $F_X(x)$ è continua a destra. Come prima lavoriamo con le successioni, dobbiamo mostrare che per ogni successione monotonamente decrescente $x_n$ tale che $x_n\to x$ si ha:
+			$$\lim_{n\to\infty}F_X(x_n)=F_X(x)$$
+			Di nuovo per la continuità monotona il LHS diventa
+			$$\lim_{n\to\infty}F_X(x_n)=\lim_{n\to\infty}\mu_X((-\infty,x_n])=\mu_X\left(\lim_{n\to\infty}(-\infty,x_n]\right)=\mu_X((-\infty,x])=F_X(x)$$
+			e quindi abbiamo la continuità. La seconda parte della tesi segue calcolando il limite da sinistra allo stesso modo: per ogni successione $y_n$ crescente tale che $x'_n\to x$ calcoliamo
+			$$\lim_{n\to\infty}F_X(y_n)=\mu_X\left(\lim_{n\to\infty}(-\infty,y_n]\right)$$
+			e questa volta dato che il limite viene fatto da sinistra quel limite di insiemi è uguale all'unione di tutti gli intervalli (prima era l'intersezione), e quindi abbiamo
+			$$\lim_{n\to\infty}F_X(y_n)=\dots=\mu_X((-\infty,x))$$
+			dunque abbiamo dimostrato che 
+			$$\lim_{y\to x^-}F_X(y)=\mu_X((-\infty,x))$$
+			che per additività dunque ci dà la tesi:
+			$$P(X=x)=\mu_X(\left\{x\right\})=\mu_X((-\infty,x])+\mu_X((-\infty,x)).$$ 
+		\end{description}
+		Abbiamo dimostrato tutti i punti e dunque abbiamo concluso.
+	\end{proof}
+	
+	\begin{example}
+		Siano $T_1,T_2$ due variabili aleatorie indipendenti, con leggi geometriche di parametri $p_1$ e $p_2$. Calcolare la legge di
+		$$T_1\land T_2:=\min\left\{T_1,T_2\right\}.$$
+		Ricordando che una geometrica ha densità
+		$$p_{T_1}(n)=(1-p_1)^{n-1}p_1$$
+		usiamo la funzione di ripartizione per calcolare la densità di $T_1\land T_2$:
+		$$1-F_{T_1\land T_2}(k)=1-P\left(T_1\land T_2\le k\right)=P(T_1\land T_2>k)$$
+		ma d'altra parte questa cosa è uguale a
+		$$\dots=P(\left\{T_1> k\right\}\cap\left\{T_2>k\right\})$$
+		che per indipendenza delle due variabili è
+		$$\dots=P(T_1>k)P(T_2>k)$$
+		punto è a questo punto calcolare la probabilità
+		$$P(T_1>k)=\sum_{j=k+1}^{\infty}p_1(1-p_1)^{j+1}=1-p_1\frac{(1-p_1)^{k+1}-1}{1-p_1-1}=(1-p_1)^{k+1}$$
+		e quindi abbiamo
+		$$\-F_{T_1\land T_2}(k)=P(T_1>k)P(T_2>k)=\left[(1-p_1)(1-p_2)\right]^k-1$$
+		che è di nuovo una geometrica, di parametro $p_1p_2-p_1-p_2$.
+	\end{example}
+	
+	\subsection{Funzioni generatrici}
+	
+	\begin{definition}[Funzione generatrice dei momenti]
+		Se $X$ è una variabile aleatoria reale definiamo la sua \textit{funzione generatrice dei momenti} come la funzione $M_X:\RR\to (0,\infty]$ definita da
+		$$M_X(t):=E\left[e^{tX}\right].$$
+	\end{definition}
+	Notiamo subito che questa funzione è stata cucinata ad arte perchè soddisfi la proprietà che derivandola $n$ volte e poi valutandola in $t=0$ otteniamo il momento $n$-esimo della variabile $X$:
+	$$\frac{\dif^n M_X}{\dif t^n}(0)=E\left[X^n\right]$$
+	che si dimostra facilmente scambiando le derivate con le serie:
+	$$\frac{\dif}{\dif t}E\left[e^{Xt}\right]=\frac{\dif}{\dif f}\sum_{k=1}^{\infty}$$
+	Allo stesso modo possiamo definire
+	\begin{definition}[Funzione generatrice dei cumulanti]
+		Definiamo la \textit{funzione generatrice dei cumulanti} come
+		$$C_X(t):=\log M_X(t).$$
+	\end{definition}
+	La funzione generatrice dei cumulanti d'altra parte ha la proprietà che prendendo la derivata $n$-esima e valutando la funzione in $t=0$ otteniamo praticamente \textbf{tutte le quantità interessanti rispetto alla variabile aleatoria $X$}:
+	$$\frac{\dif C_X}{\dif t}(0)=E\left[X\right]$$
+	$$\frac{\dif^2 C_X}{\dif t^2}(0)=\text{Var}(X)$$
+	$$\vdots$$
+	assolutamente pazzesco.
+	\begin{theorem}[Proprietà della funzione generatrice dei momenti]
+		se esiste $a>0$ tale che $M_X(t)<\infty$ per ogni $t\in (-a,a)$ allora abbiamo che:
+		\begin{enumerate}
+			\item Tutti i momenti della variabile aleatoria sono finiti, ovvero $E[X^n]<\infty$ per ogni $n$, inoltre per ogni $t\in (-a,a)$ la funzione generatrice soddisfa
+			$$M_X(t)=\sum_{n=0}^{\infty}E\left[X^n\right]\frac{t^n}{n!}.$$
+			\item La funzione $M_X$ è $C^\infty$ in $(-a,a)$ e inoltre le derivate soddisfano
+			$$\left(\frac{\dif}{\dif t}\right)^nM_X(t)\Bigg|_{t=0}=E\left[X^n\right].$$
+		\end{enumerate} 
+	\end{theorem}
+	\begin{remark}
+		Le funzioni generatrici sono importantissime, perché in effetti osserviamo che due variabili con la stessa funzione generatrice hanno la stessa legge, e inoltre se $X\indep Y$ abbiamo
+		$$M_{X+Y}(t)=E\left[e^{t(X+Y)}\right]=E\left[e^{tX}e^{tY}\right]=E\left[e^{tX}\right]E\left[e^{tY}\right]=M_{X}(t)M_Y(t).$$
+	\end{remark}
+	In effetti il teorema sopra ha richieste non banali sulla variabile $X$. Perchè la funzione generatrice sia finita in un intorno di $0$ la variabile $X$ non ha molta liberta, banalmente in effetti una funzione con densità discreta
+	$$p_X(n)=\frac{1}{n^2}\frac{6}{\pi^2}.$$
+	Per ovviare a questo problema di solito invece di usare la funzione generatrice dei momenti si definisce la cosiddetta \textit{funzione caratteristica} della variabile aleatoria $X$ come $E\left[e^{iXt}\right]$ che è sempre finita (in quanto l'argomento del valore atteso ha sempre modulo $1$) e quindi pone molti meno problemi.
+	\begin{definition}[Funzione generatrice di una variabile a valori in $\NN\cup\left\{0\right\}$]
+		Definiamo un caso particolare più gestibile della funzione generatrice dei momenti come
+		$$G_X(s):=E\left[s^X\right]=\sum_{k=0}^{\infty}p_X(k)s^k$$
+		per $X$ una variabile aleatoria $X:\Omega\to \NN\cup\left\{0\right\}$.
+	\end{definition}
+	La prima proprietà interessante di $G_X$ è che per $\abs{s}\le 1$ è assolutamente convergente. La seconda è che nonostante in $0$ abbia qualche problema ad essere definita, sicuramente in un intorno è definita, e quindi la possiamo estendere per continuità. In questo modo possiamo definire che $0^0:=1$ per i nostri scopi con questa funzione. \\
+	Perchè dovremmo voler usare questa funzione? Beh giocandoci un pochino otteniamo
+	$$G_X(0)=\lim_{s\to 0 }G_X(s)=p_X(0)$$
+	che è interessante, ma ancora più interessante è la sua derivata rispetto a $s$:
+	$$G'_X(0)=\sum_{k=1}^{\infty}k p_X(k)s^{k-1}=p_X(1)$$
+	e riusciamo a indovinare che 
+	$$G^{(n)}_X(0)=n!p_X(n)$$
+	quindi sì, riusciamo a ricavare la legge dalla funzione generatrice! Formalizziamo quanto appena visto
+	\begin{theorem}[Proprietà della funzione generatrice $G_X$]
+		La funzione $G_X$ è $C^\infty$ in $(-1,1)$ e inoltre soddisfa
+		$$\frac{\dif^n G_X}{\dif s^n}(0)=n!p_X(n)$$
+		e inoltre per ogni $n\in \NN$ riusciamo a generare più o meno i momenti di $X$, come
+		$$\lim_{x\to 1^{-}}\left(\frac{\dif^n G_X}{\dif s^n}\right)(x)=E\left[X(X-1)(X-2)\dots (X-n+1)\right].$$
+	\end{theorem}
+	
+	\newpage
+	
+	\section{Introduzione agli spazi di probabilità non numerabili}
+	
+	Premettiamo subito che senza avere vere basi di teoria della misura non abbiamo tutti gli strumenti per costruire una teoria completa. Tuttavia svilupperemo una costruzione che ci permetterà di risolvere quasi tutti gli esercizi. 
+	\subsection{Costruire uno spazio non numerabile informalmente}
+	
+	Vogliamo costruire una probabilità sullo spazio $\Omega=[0,1]$ o $\Omega=[0,1)$. Vogliamo costruire una probabilità su $\Omega$, ovvero una funzione
+	$$P:\parti{\Omega}\to [0,1]$$
+	che sia $\sigma$-additiva e tale che $P(\Omega)=1$. Qual è la probabilità più facile che possiamo fare? Vorremmo una probabilità uniforme, che al raddoppiare della lunghezza dell'intervallo scelto raddoppia la probabilità di caderci dentro. Vorremmo quindi che
+	$$P\left([a,b]\right)=b-a$$
+	per ogni $a<b$ in $[0,1]$. Notiamo subito che con una tale probabilità tutti i singoletti hanno probabilità $0$, infatti abbiamo sicuramente per $\sigma$-additività:
+	$$P\left(\left\{\omega\right\}\right)\le P\left(\left[\omega,\omega+\frac{1}{n}\right]\right)=\frac{1}{n}$$
+	per ogni $n\in\NN$. Dunque $P(\left\{\omega\right\})=0$ necessariamente. Da questo riusciamo a calcolare le probabilità anche di intervalli non chiusi:
+	$$P\left([a,b)\right)+P\left(\left\{b\right\}\right)=P\left\{\left[a,b\right]\right\}$$
+	$$P\left((a,b]\right)+P\left(\left\{a\right\}\right)=P\left\{\left[a,b\right]\right\}$$
+	$$P\left((a,b)\right)+P\left(\left\{a,b\right\}\right)=P\left\{\left[a,b\right]\right\}$$
+	e quindi abbiamo
+	$$P\left([a,b]\right)=P\left([a,b)\right)=P\left((a,b]\right)=P\left((a,b)\right)$$
+	inoltre abbiamo che tutti gli insiemi numerabili hanno probabilità $0$, per $\sigma$-additività.
+	\subsection{Variabili aleatorie reali}
+	
+	Le variabili aleatorie in questo caso sono
+	$$X:\Omega\to \RR$$
+	e la loro immagine può essere effettivamente un insieme non numerabile, creando una legge che è una probabilità non numerabile:
+	$$\mu_X(B)=P(X\in B)=\mu_X(B\cap [0,1])$$
+	proviamo a calcolare la \textbf{funzione di ripartizione di questa variabile}:
+	$$F_X(x)=P(X\le x)=\begin{cases}
+		0 & \text{se $x\le 0$} \\
+		P([0,x])=x & \text{se $x\in (0,1)$} \\
+		1 & \text{se $x\ge 1$}
+	\end{cases}$$
+	che è più che continua a destra, è proprio \textbf{continua dappertutto}, $C^0$ in ogni punto. In effetti possiamo scrivere la funzione di ripartizione come
+	$$F_X(x)=\int_{-\infty}^x f_X(y)\dif y$$
+	e in questo caso la $f$ all'interno era la funzione indicatrice di $[0,1]$.
+	\begin{definition}[Densità continua]
+		Data una variabile aleatoria reale $X:\Omega\to \RR$, una funzione $f_X:\RR\to\RR$ che soddisfa
+		$$F_X(x)=\int_{-\infty}^x f_X(y)\dif y$$
+		si dice la sua \textit{densità continua}. Se esiste una densità continua, la variabile $X$ si dice (assolutamente) continua.
+	\end{definition}
+	\begin{example}[Variabile esponenziale]
+		Definiamo la variabile aleatoria $X:\Omega\to \RR$ tale che
+		$$X(\Omega):=\log\frac{1}{1-\omega}$$
+		e studiamone la funzione di ripartizione. 
+		Abbiamo che l'evento
+		$$P(X\le y)=P\left(\left\{\omega\in [0,1]:X(\omega)\le y\right\}\right)$$
+		dunque vogliamo trovare per quali $\omega$ vale 
+		$$X(\omega)\le y$$
+		$$-\log(1-\omega)\le y$$
+		$$1-e^{-y}\le \omega$$
+		ovvero abbiamo che 
+		$$P(X\le y)=1-e^{-y}$$
+		per $y\ge 0$.
+		Questa variabile aleatoria si chiama \textit{esponenziale di parametro} $1$, e si denota con 
+		$$X\sim \text{Exp}(1).$$
+		Si possono fare un sacco di calcoli con questa cosa, per esempio possiamo calcolarne il valore atteso
+		$$E[X]=\int_{-\infty}^\infty xf_X(x)\dif x.$$
+		con un po' di integrazione per parti.
+	\end{example}
+	\subsection{La costruzione formale}
+	
+	Tutto quello che abbiamo appena detto è perfettamente utile a risolvere gli esercizi ed è una buona costruzione in pratica. \\
+	\textbf{Purtroppo è una costruzione matematica falsa}. Nel senso che $P$ per come l'abbiamo definita non può esistere, ovvero non esiste una $P$ dall'insieme delle parti di $\Omega$ a $[0,1]$ che soddisfi queste proprietà. Il problema è che possono esistere degli insiemi "non misurabili" un esempio molto celebre è il seguente:
+	\begin{example}[Insieme di Vitali]
+		Prendiamo $[0,1)$ e definiamo
+		Possiamo costruire una successione di insiemi $B_n$ tali che
+		$$[0,1)=\bigsqcup_{n\in\NN}B_n$$
+		$$P(B_n)=p$$
+		con $p$ costante. Ma dunque abbiamo che la probabilità che abbiamo definito sopra soddisfa, per sigma-additività:
+		$$1=P\left([0,1)\right)=\sum_{n\in\NN}P(B_n)=p\times\infty$$
+		e dunque $p$ non può essere nè maggiore di $0$ nè uguale a $0$. Questo vuol dire che $P$ \textbf{non può essere $\sigma$-additiva!} 
+	\end{example}
+	Ci sono state varie soluzioni storicamente presentate per risolvere questo problema. Quella generalmente più accettata è di limitare l'insieme degli eventi solo a quelli cosiddetti "misurabili". Questo va formalizzato, e non è banale:
+	\begin{definition}[$\sigma$-algebra e insiemi misurabili]
+		Sai $\Omega$ un insieme non vuoto. Un sottoinsieme $\mathcal{A}\subseteq \parti{\Omega}$ è detto $\sigma$-\textit{algebra} di sottoinsiemi di $\Omega$ se
+		\begin{enumerate}
+			\item  $\eset\in \mathcal{A}$.
+			\item  $A\in \mathcal{A}$ implica $A^\complement\in \mathcal{A}$
+			\item Se $A_n$ è una successione di eventi allora 
+			$$\bigcup_{n\in\NN}A_n\in \mathcal{A}.$$
+		\end{enumerate}
+		Allora lo spazio $(\Omega,\mathcal{A})$ è detto \textit{spazio misurabile}, e gli elementi di $\mathcal{A}$ sono detti \textit{insiemi misurabili}.
+	\end{definition}
+	Come abbiamo già visto per gli assiomi della probabilità, le $\sigma$-algebre essenzialmente ci permettono di fare tutte le operazioni elementari con insiemi che ci vengono in mente.
+	\begin{example}[Alcuni esempi di $\sigma$-algebre]
+		Le seguenti sono $\sigma$-algebre:
+		\begin{enumerate}
+			\item $\parti{\Omega}$ è chiaramente una $\sigma$-algebra.
+			\item $\left\{\eset,\Omega\right\}$ è chiaramente una $\sigma$-algebra.
+			\item Dato lo spazio campionario
+			$$\Omega=\left\{1,2,3,4,5,6\right\}$$
+			una $\sigma$-algebra su di esso è
+			$$\mathcal{A}=\left\{\left\{1,3,5\right\},\left\{2,4,6\right\},\eset,\Omega\right\}$$
+		\end{enumerate}
+	\end{example}
+	
+	\begin{lemma}[Intersezioni arbitrarie di $\sigma$-algebre]
+		se $I$ è un insieme arbitrario non vuoto di indici, e per ogni $x\in I$ l'insieme $\mathcal{A}_x$ è una $\sigma$-algebra sullo spazio $\Omega$ allora 
+		$$\bigcap_{x\in I}A_x$$
+		è una $\sigma$-algebra.
+	\end{lemma}
+	\begin{proof}
+		Per esercizio.
+	\end{proof}
+	Questo ci permette di definire:
+	\begin{definition}[$\sigma$-algebra generata da un insieme]
+		Dato un insieme $\mathcal{C}\subseteq \parti{\Omega}$ possiamo definire la \textit{$\sigma$-algebra generata da $\mathcal{C}$} come 
+		$$\sigma\left(\mathcal{C}\right)=\bigcap_{x\in I}A_x$$
+		dove $A_x$ è l'insieme delle $\sigma$-algebre tali che 
+		$$A_x\supseteq \mathcal{C}$$
+		e $I$ è un insieme di indici.
+	\end{definition}
+	\begin{example}[Alcuni esempi di $\sigma$ algebre generate da insiemi]
+		Vediamo alcuni esempi:
+		\begin{enumerate}
+			\item Se $\Omega=\NN$ abbiamo che 
+			$$\sigma\left(\left\{\left\{j\right\}:j\in\NN\right\}\right)=\NN.$$
+			\item Se $\Omega=[0,1]$ abbiamo che 
+			$$\sigma\left(\left\{\left[0,\half\right)\right\}\right)=\left\{\left[0,\half\right),\left[\half,1\right],\Omega,\eset\right\}.$$
+		\end{enumerate}
+	\end{example}
+	\begin{definition}[Boreliani]
+		Prendiamo l'insieme $\Omega=[0,1]$ e consideriamo la $\sigma$-algebra generata da
+		$$\sigma\left(\left\{[a,b]:a,b\in [0,1],a<b\right\}\right)$$
+		denoteremo d'ora in poi con 
+		$$\mathcal{B}\left(\left[0,1\right]\right)$$
+		questo insieme, e lo chiameremo $\sigma$-algebra dei \textit{boreliani}. Per un insieme generico (e anche per $[0,1]$ in particolare), la $\sigma$-algebra dei boreliani è quella generata dagli insiemi aperti.
+	\end{definition}
+	Da qui possiamo finalmente definire la probabilità in senso generale:
+	\begin{definition}[Probabilità generale]
+		Sia $(\Omega,\mathcal{A})$ uno spazio misurabile. Allora se $P:\mathcal{A}\to[0,1]$ è una funzione tale che:
+		\begin{itemize}
+			\item $P(\eset)=0$.
+			\item $P$ è $\sigma$-additiva.
+		\end{itemize}
+		diciamo $P$ è una \textit{probabilità} sullo spazio $(\Omega,\mathcal{A})$. La terna 
+		$(\Omega,\mathcal{A},P)$ si dice \textit{spazio di probabilità} e gli elementi di $\mathcal{A}$ si dicono \textit{eventi}.
+	\end{definition}
+	Un esempio molto famoso di probabilità è
+	\begin{definition}[Delta di Dirac]
+		Dato un elemento $\omega_0\in \Omega$ definiamo la \textit{delta di Dirac} su $\omega_0$ la probabilità $\delta_{\omega_0}:\mathcal{A}\to[0,1] $:
+		$$\delta_{\omega_0}(A)=
+		\begin{cases}
+			0 & \text{se $\omega\not\in A$} \\
+			1 & \text{se $\omega\in A$.}
+		\end{cases}$$ 
+	\end{definition}
+	\begin{proposition}[Restrizioni di probabilità sono di nuovo probabilità]
+		Se $P$ è una probabilità sullo spazio misurabile $(\Omega,\mathcal{A})$ e $\mathcal{A}'$ è una sigma algebra che sia un sottoinsieme di $\mathcal{A}$ allora $P$ ristretta a $\mathcal{A}'$ è di nuovo una probabilità.
+	\end{proposition}
+	\begin{proof}
+		Chiara.
+	\end{proof}
+	E quindi finalmente possiamo definire la probabilità uniforme
+	\begin{definition}[Misura di Lebesgue]
+		Sull'insieme $\Omega=[0,1]$ definiamo una $P:\parti{\Omega}\to[0,1]$ tale che
+		$$P\left([a,b]\right)=b-a$$
+		allora $P$ è una probabilità su $([0,1],\mathcal{B}([0,1]))$ e prende il nome di \textit{probabilità uniforme} o \textit{misura di Lebesgue}.
+	\end{definition}
+	\subsubsection{Funzioni misurabili e variabili assolutamente continue}
+	\begin{definition}[Funzione misurabile]
+		Se $(\Omega,\mathcal{A})$ e $(E,\mathcal{E})$ sono due spazi misurabili allora una funzione $f:\Omega\to E $ si dice \textit{misurabile} se per ogni $B\in \mathcal{E}$ vale che
+		$$f^{-1}(B)\in \mathcal{A}$$
+		ovvero se, in un certo senso \textit{preserva la struttura della $\sigma$-algebra}.
+	\end{definition}
+	Con questo la nozione di Variabile aleatoria, che prima era un po' strana, diventa completamente naturale
+	\begin{definition}[Variabile aleatoria]
+		Dato uno spazio di probabilità $(\Omega,\mathcal{A},P)$ e uno spazio misurabile $(E,\mathcal{E})$ una \textit{variabile aleatoria} è una funzione misurabile $X:\Omega\to E$. Possiamo definire, come prima, la \textit{legge} di una variabile aleatoria come
+		$$\mu_X(B)=P\left(X^{-1}(B)\right)$$
+		per ogni $B\in \mathcal{E}$. Questa è una probabilità sullo spazio $(E,\mathcal{E})$.
+	\end{definition}
+	In particolare di solito porremo che 
+	$$(E,\mathcal{E})=(\RR,\mathcal{B}(\RR))$$
+	e le variabili aleatorie a valori in questo spazio, detto \textit{canonico}, si diranno variabili aleatorie reali.
+	\begin{definition}[Funzione di ripartizione di una v.a.]
+		La \textit{funzione di ripartizione} di una variabile aleatoria reale $X$ è definita come $F_X:\RR\to [0,1]$ tale che
+		$$F_X(x)=P(X\le x).$$
+		Inoltre per ogni funzione $F:\RR\to[0,1]$ esiste una variabile aleatoria tale che $F_X=F$ \textbf{se e solo se}:
+		\begin{enumerate}
+			\item $F$ è monotonamente crescente.
+			\item Il limite a $-\infty$ è $0$ e il limite a $\infty$ è $1$.
+			\item $F$ è continua a destra.
+		\end{enumerate}
+		Inoltre se abbiamo $F_X=F_Y$ allora $X\sim Y$.
+	\end{definition}
+	\begin{definition}[Variabili aleatorie assolutamente continue]
+		Una variabile aleatoria $X$ è detta \textit{(assolutamente) continua} se esiste una funzione $f_X:\RR\to[0,\infty)$ (in realtà è sufficiente che sia positiva quasi ovunque) detta \textit{densità}, tale che per ogni $x\in \RR$ vale
+		$$F_X(x)=\int_{-\infty}^xf_X(t)\dif t.$$
+	\end{definition}
+	In modo analogo possiamo definire il valore atteso in modo generale, tuttavia noi non lo faremo davvero (perché è essenzialmente un integrale di Lebesgue), e useremo direttamente la formula di trasferimento:
+	$$E\left[h(X)\right]=\int_\RR h(x)f_X(x)\dif x.$$
+	\begin{example}[Uniforme]
+		Calcoliamo varianza e valore atteso di $X\sim U([0,1])$. Abbiamo che
+		$$E\left[X\right]=\int_\RR xf_X(x)\dif x$$
+		ma d'altra parte la densità uniforme è semplicemente
+		$$f_X(x)=\mathbbm{1}_{[0,1]}$$
+		e quindi abbiamo
+		$$E\left[X\right]=\int_0^1 x\dif x=\half$$
+	\end{example}
+	\begin{example}[Variabile di Cauchy]
+		Una variabile $X$ si dice \textit{di Cauchy}, se la sua densità è
+		$$f_X(x)=\frac{1}{\pi(1+x^2)}$$
+		che è chiaramente una densità perchè sempre positiva e ha integrale $1$. La sua funzione di ripartizione è
+		$$F_X(y)=P\left(X\le y\right)=\int_{-\infty}^y f_X(x)\dif x=\frac{1}{\pi}\left[\arctan x\right]_{-\infty}^y=$$
+		$$=\frac{1}{\pi}\left[\arctan y-\left(-\frac{\pi}{2}\right)\right]=\frac{\arctan y}{\pi}+\frac{1}{2}.$$
+		Esiste il valore atteso di $X$? Vediamo
+		$$E[X^+]=\frac{1}{\pi}\int_0^\infty \frac{x}{1+x^2}\dif x=\infty$$
+		$$E[X^-]=\frac{1}{\pi}\int_{-\infty}^0 \frac{-x}{1+x^2}\dif x=\infty$$
+		e quindi purtroppo $X$ non è in $L^1$.
+	\end{example}
+	Ci chiediamo se possiamo costruire delle variabili di Cauchy sullo spazio canonico. In effetti sì, infatti notiamo che la funzione di ripartizione è una biezione da $\RR$ a $[0,1]=\Omega$. Questo vuol dire che la possiamo invertire, ovvero sappiamo che 
+	$$F_X(x)=\omega \iff \tan\left(\pi\left(\omega-\half\right)\right)=x$$
+	da cui possiamo definire esplicitamente la variabile aleatoria $X:\Omega\to E$ tale che
+	$$X(\omega)=\tan\left(\pi\left(\omega-\half\right)\right)$$
+	e questa ha esattamente la funzione di ripartizione che vogliamo, cioè è proprio una variabile di Cauchy. Questa procedura è valida per la maggior parte delle funzioni, in particolari quelle tali che
+	$$f_X(x)>0$$
+	ma in realtà possiamo generalizzare questa cosa:
+	\begin{definition}[Pseudo-Inversa]
+		Sia $F:\RR\to\RR$ una funzione crescente, e assumiamo che
+		$$\lim_{x\to-\infty}F(x)=l\in (-\infty,\infty]$$
+		$$\lim_{x\to\infty}F(x)=r \in (-\infty,\infty]$$
+		allora definiamo
+		$$F_{\land}^{-1}(y):=\sup\left\{z:F(z)\le y\right\}=\inf\left\{z:F(z)>y\right\}$$
+		$$F_{\lor}^{-1}(y):=\inf\left\{z:F(z)\le y\right\}=\sup\left\{z:F(z)>y\right\}$$
+		le \textit{pseudo-inverse} superiori e inferiori. In un certo senso, stiamo facendo il limsup e il liminf della funzione (in effetti prendendo i limiti all'infinito otteniamo proprio quelli). 
+	\end{definition}
+	\begin{example}[Cauchy positiva]
+		Consideriamo una variabile $X\sim \text{Cauchy}$ e definiamo
+		$$Y=\max(X,0)$$
+		calcolare la legge di $Y$ e dare una variabile aleatoria sullo spazio canonico con la stessa legge di $Y$.
+	\end{example}
+	\begin{proof}[Soluzione]
+		Semplicemente calcoliamo la funzione di ripartizione di $Y$:
+		$$F_Y(y)=P(X^+\le y)=\begin{cases}
+			0 & \text{se $y< 0$} \\
+			\frac{\arctan y}{\pi}+\half & \text{altrimenti.}
+		\end{cases}.$$
+		Osserviamo che 
+		$$g(y)=F'_Y(y)=\begin{cases}
+			0 &\text{se $y<0$} \\
+			\frac{1}{\pi(1+x^2)} & \text{se $y>0$.}
+		\end{cases}$$
+		dove abbiamo rimosso l'unico punto in cui $F_Y$ non era $C^1$, ovvero $y=0$. In effetti integrando questa funzione
+		$$\int_{-\infty}^y g(x)\dif x=\begin{cases}
+			0 & \text{se $y<0$} \\
+			\frac{\arctan y}{\pi} & \text{se $y\ge 0$}.
+		\end{cases}$$
+		MA QUESTA NON \'E $F_X$! Questo è solo un modo per dire che $Y$ \textbf{non è una variabile aleatoria continua}. Per scriverla esplicitamente nello spazio canonico ci basta usare il lavoro fatto prima per la Cauchy
+		$$Y(\omega)=\max\left\{X,0\right\}=\tan\left(\pi\left(\omega-\half\right)\right)^+$$
+		il che conclude. 
+	\end{proof}
+	Questo ci fa capire bene quale sia il rapporto tra $X$ e $F_X$: in generale abbiamo per il teorema fondamentale del calcolo integrale che
+	$$F_X'=f_X$$ 
+	ma questo vuol dire che perchè $X$ sia assolutamente continua dobbiamo avere che $F_X\in C^1$. E questo come sappiamo non è equivalente a dire che $F_X\in C^0$: sicuramente abbiamo che se $F_X\not\in C^0$ allora $X$ non è assolutamente continua, ma d'altra parte sappiamo bene che esistono funzioni $C^0$ che non sono $C^1$ in alcun punto (si pensi alla funzione di Weierstrass, in ogni caso si rimanda agli appunti di complementi di analisi).
+	\begin{example}[Bernoulli]
+		Prendiamo la variabile di Bernoulli definita come
+		$$X(\omega):=\mathbbm{1}_{[1-p,1]}(\omega)$$
+		la sua funzione di ripartizione chiaramente soddisfa
+		$$F_X(x)=P(X\le x)=\begin{cases}
+			0 & \text{se $x<0$} \\
+			1-p & \text{se $0\le x<1$} \\
+			1 & \text{altrimenti.}
+		\end{cases}$$
+		dimostrare allora che la legge di $X$ soddisfa
+		$$\mu_X(A)=p\delta_1(A)+(1-p)\delta_0(A).$$
+	\end{example}
+	\begin{proof}[Soluzione]
+		Notiamo che il claim che stiamo facendo è generale in effetti: possiamo scrivere sempre
+		$$\sum_{x:p_X(x)\ge 0}p_X(x)\delta_x=\mu_X$$
+		per ogni variabile aleatoria discreta $X$. In ogni caso per dimostrare il claim ci basta dimostrare che la variabile con distribuzione
+		$$\mu:=p\delta_1(A)+(1-p)\delta_0(A)$$
+		ha la stessa funzione di ripartizione di $X$, ovvero
+		$$\mu\left((-\infty,x]\right)=p\delta_1((-\infty,x])+(1-p)\delta_0((-\infty,x])$$
+		che ha tre casi:
+		$$p\delta_1((-\infty,x])+(1-p)\delta_0((-\infty,x])=
+		\begin{cases}
+			0 & \text{se $x<0$} \\
+			1-p & \text{se $0\le x<1$} \\
+			1 & \text{altrimenti.}
+		\end{cases}$$
+		ma questa è proprio la funzione di ripartizione di $X$, e quindi abbiamo proprio che 
+		$$\mu=\mu_X$$
+		che era la tesi.
+	\end{proof}
+	Da quanto abbiamo appena fatto allora deduciamo quanto segue
+	\begin{proposition}[Criterio di assoluta continuità]
+		Una variabile la cui funzione di ripartizione è $C^0$ dappertutto e $C^1$ a tratti, ovvero tale che esiste un insieme finito $J$ tale che $F_X$ è $C^1$ in $\RR\setminus J$ è assolutamente continua e in particolare si ha
+		$$F_X'(x)=f_X(x)$$
+		per ogni $x\not\in J$.
+	\end{proposition}
+	\begin{proof}
+		Facile e noiosa.
+	\end{proof}
+	\begin{example}[Quadrato e radice]
+		Sia $X\sim U[0,1]$, vogliamo studiare la variabile $X^2$.
+	\end{example}
+	\begin{proof}[Soluzione]
+		La funzione di ripartizione è semplicemente
+		$$F_{X^2}(x)=P(X^2(\omega)\le x)=
+		\begin{cases}
+			0 & \text{se $x<0$} \\
+			\sqrt{x} & \text{se $0\le x<1$} \\
+			1 & \text{se $x\ge 1$.}
+		\end{cases}
+		$$
+		che notiamo essere $C^1$ dappertutto tranne che in $0$, quindi possiamo scriverne la densità come
+		$$f_X(x)=
+		\begin{cases}
+			\frac{1}{2\sqrt{y}} & \text{se $0<x< 1$} \\
+			0 & \text{altrimenti.} 
+		\end{cases}$$
+	\end{proof}
+	\subsubsection{Indipendenza, varianza e il resto della teoria}
+	Tutto il resto della teoria che abbiamo sviluppato per le variabili discrete viene brutalmente importato sostituendo alla nozione di "evento" la nozione di insieme misurabile. Per esempio abbiamo
+	\begin{definition}[Variabili aleatorie indipendenti]
+		Diciamo che $X_1,\dots,X_n$ sono variabili aleatorie \textit{indipendenti} se 
+		$$P(X_1\in B_1,X_2\in B_2,\dots,x_n\in B_n)=\prod_{j=1}^n P(X_j\in B_j)$$
+		per ogni lista di insiemi misurabili $B_i\in \mathcal{B}(\RR)$.
+	\end{definition}
+	Come nel caso discreto si ha
+	$$X\indep Y \implies E(XY)=E(X)E(Y)$$
+	ovvero se $X,Y\in L^1$ allora $XY\in L^1$.
+	\begin{example}[Potenza di variabili IID]
+		Prendiamo una lista di variabili aleatorie IID $X_1,X_2,\dots,X_n$ tali che $X_1$ è continua e la densità è
+		$$f_{X_i}(x):=f(x)$$
+		mostrare che $Y_n:=\max\left\{X_1,X_2,\dots,X_n\right\}$ è assolutamente continua.
+	\end{example}
+	\begin{proof}[Soluzione]
+		Scriviamo la funzione di ripartizione di $Y_n$:
+		$$F_{Y_n}=P(\max\left\{X_1,\dots,X_n\right\}\le y)=P\left(\bigcap_{j=1}^n \left\{X_i\le y\right\}\right)=\prod_{j=1}^n P(X_i\le y)=F_{X}^n(y)$$
+		dunque abbiamo
+		$$F'_{Y_n}=nf(n)\left(\int_a^b f(x)\dif x\right)^n=f_{Y_n}$$
+		che integrata restituisce proprio $F_{Y_n}$ e quindi abbiamo finito.
+	\end{proof}
+	\subsection{Esponenziali}
+	Cominciamo con un lemma utile per dimostrare molte cose:
+	\begin{lemma}[Trasformazioni affini di variabili aleatorie]
+		Data una variabile aleatoria $X$ assolutamente continua la variabile aleatoria 
+		$$Y=aX+b$$
+		per $a,b\in \RR$ è continua e ha densità 
+		$$f_Y(x)=\frac{1}{\abs{a}}f_X\left(\frac{x-b}{a}\right).$$
+	\end{lemma}
+	\begin{proof}
+		Banalmente un conto con la formula di integrazione per sostituzione.
+	\end{proof}
+	\begin{example}[Variabile uniforme]
+		Calcolare attesa e varianza di una variabile $Y\sim U([a,b])$.
+	\end{example}
+	\begin{definition}[Variabile esponenziale]
+		Una variabile $X$ assolutamente continua si dice avere legge \textit{esponenziale} se la sua densità è
+		$$f_X(x)=\lambda e^{-\lambda x}\mathbbm{1}_{(0,\infty)}(x)$$
+		e si scrive $X\sim \text{Exp}(\lambda)$.
+	\end{definition}
+	\begin{proposition}[Varianza, attesa e ripartizione di un'esponenziale]
+		Una variabile $X\sim \text{Exp}(\lambda)$ soddisfa
+		$$E\left[X\right]=\frac{1}{\lambda}$$ 
+		$$\text{Var}(X)=\frac{1}{\lambda^2}$$
+		inoltre la funzione di ripartizione è
+		$$F_X(x)=
+		\begin{cases}
+			contenuto...
+		\end{cases}
+		1-e^{-\lambda x}$$
+	\end{proposition}
+	\begin{proposition}[Valore atteso di una variabile aleatoria assolutamente continua]
+		Per qualunque variabile aleatoria assolutamente continua $X\ge 0$ abbiamo che
+		$$E\left[X\right]=\int_0^\infty P\left(X>x\right)\dif x.$$
+	\end{proposition}
+	\begin{proof}
+		Per la formula di trasferimento sappiamo che
+		$$E[X]=\int_0^{\infty}t f_X(t)\dif t$$
+		d'altra parte se $G$ è la\textit{funzione di rischio} di $x$, ovvero
+		$$F_X=1-G_X=P(X>x)$$
+		abbiamo che
+		$$f_X=-G'_X$$
+		dunque l'integrale diventa, svolgendo per parti
+		$$\int_0^\infty -tG'_X(t)\dif t =-tG(t)\bigg|_0^\infty + \int_0^\infty G(t)\dif t$$
+		abbiamo quasi finito, ci resta solo da dimostrare che
+		$$\lim_{t\to\infty}t G(t)=0$$
+		ovvero dobbiamo dimostrare che 
+		$$G(t)=o\left(\frac{1}{t}\right)$$
+		proviamo ad usare Markov e otteniamo
+		$$G_X(t)\le \frac{E[X]}{t}$$
+		ovvero
+		$$G_X(t)=O\left(\frac{1}{t}\right)$$
+		che non basta! Per farlo abbiamo bisogno di 
+		\begin{claim}
+			Se $X\ge 0$ e $E[X]< \infty$ allora $P(X\ge t)=o\left(\frac{1}{t}\right)$.
+		\end{claim}
+		\begin{subproof}
+			Come per Markov possiamo scrivere
+			$$P\left(X\ge t\right)\le E\left[\frac{X}{t}\mathbbm{1}_{\left\{X\ge t\right\}}\right]=\frac{1}{t}\int_t^\infty x f_{X}(x)\dif x$$
+			ma d'altra parte se il valore atteso è finito l'integrale 
+			$$E[X]=\int_0^\infty x f_{X}(x)\dif x<\infty$$
+			converge, e quindi l'integrale da $t$ a $\infty$ per $t\to \infty$ tenderà a $0$. Questo vuol dire che
+			$$\frac{P(X\ge t)}{\frac{1}{t}}\le \int_t^\infty xf_X(x)\dif x$$
+			e dunque dato che per $t\to\infty $ il RHS tende a $0$ abbiamo la tesi per il teorema dei carabinieri.
+		\end{subproof}
+		Usando il claim abbiamo quindi finito.
+	\end{proof}
+	La proprietà caratterizzante delle variabili esponenziali è
+	\begin{lemma}[Assenza di memoria delle variabili esponenziali]
+		Se $X\sim \text{Exp}(\lambda),\lambda>0$ allora per ogni $t,s\ge 0$
+		$$P\left(X>t+s\mid X>s\right)=P(X>t)$$
+		cioè le variabili esponenziali non beneficiano dall'avere informazioni aggiuntive quando cerchiamo di capire se sono $\ge$ di un certo valore. \\
+		Vale lo stesso in modo analogo per una variabile aleatoria geometrica.
+	\end{lemma}
+	\begin{proof}
+		Per definizione di variabile aleatoria esponenziale e probabilità condizionata abbiamo che 
+		$$P(X>s+t\mid X>s)=\frac{P(X>s+t)}{P(X>s)}=\frac{\exp(e^{-\lambda(s+t)})}{e^{-\lambda s}}=e^{-\lambda t}=P(X>t)$$
+		come volevamo mostrare.
+	\end{proof}
+	\subsection{Convoluzioni Gaussiane e Gamma}
+	\begin{proposition}[Convoluzioni]
+		Se $X$ e $Y$ sono due variabili aleatorie assolutamente continue e $X\indep Y$ allora $X+Y$ è assolutamente continua e si ha
+		$$f_{X+Y}(x)=\int_{-\infty}^\infty f_X(t)f_{Y}(x-t)\dif t$$
+		di solito quell'espressione si chiama \textit{convoluzione} e si denota con
+		$$(f_X*f_Y)(z):=\int_{-\infty}^\infty f_X(x)f_{Y}(z-x)\dif x.$$
+	\end{proposition}
+	\begin{proof}
+		Usiamo un trucco: calcoliamo l'aspettazione di $h(X+Y)$ con la formula di trasferimento e cerchiamo di ricondurla ad una formula del tipo
+		$$\int_\RR h(z)g(z)\dif z$$
+		dal quale confrontandola con la formula di trasferimento avremo che $g(z)$ è proprio la densità. Facciamo i conti:
+		grazie al fatto che $X$ e $Y$ sono indipendenti allora possiamo scrivere
+		$$E\left[h(X+Y)\right]=\iint_{\RR^2}h(x+y)f_X(x)f_Y(y)\dif x \dif y $$
+		e qui abbiamo bisogno di usare Fubini-Tonelli per spezzare quell'integrale doppio in due integrali singoli, quindi abbiamo
+		$$=\int_\RR \left(\int_\RR h(x+y)f_X(x)\dif x\right)f_Y(y)\dif y$$
+		ma d'altra parte sostituendo $z=x+y$ abbiamo
+		$$=\int_{\RR}\left(\int_\RR h(z)f_X(z-y)\dif z\right)f_Y(y)\dif y$$
+		e scambiando di nuovo gli integrali
+		$$=\int_{\RR}h(z)\left(\int_\RR f_Y(y)f_X(z-y)\dif y\right)\dif z$$
+		che è appunto della forma cercata, e all'interno abbiamo la convoluzione, come volevamo. 
+	\end{proof}
+	\begin{example}[Convoluzione di esponenziali]
+		Prese due $X,Y\sim \text{Exp}(1)$ abbiamo
+		$$f_X*f_Y=\int_0^\infty \mathbbm{1}_{(0,\infty)}(t)\mathbbm{1}_{(0,\infty)}(x-t)e^{-t}e^{-x+t}\dif t=e^{x}\int_{-\infty}^{\infty}\mathbbm{1}_{(0,\infty)}(t)\mathbbm{1}_{(0,\infty)}(x-t)\dif t$$
+		$$=xe^{-x}\mathbbm{1}_{(0,\infty)}(x)$$
+		ovvero è una variabile Gamma di parametri $(1,1)$
+	\end{example}
+	Questo risultato si generalizza a 
+	\begin{definition}[Variabile aleatoria Gamma]
+		Una variabile aleatoria assolutamente continua si dice avere le legge \textit{Gamma} e si scrive 
+		$$X\sim \text{Gamma}(k,\lambda)$$
+		se la sua densità è
+		$$f_X(x)=\mathbbm{1}_{(0,\infty)}(x)\lambda^k x^{k-1}\frac{e^{-\lambda x}}{\Gamma(k)}$$
+		dove $\Gamma:[0,\infty)\to \RR$ è la funzione Gamma di Eulero, ovvero
+		$$\Gamma(k)=\int_0^\infty x^{k-1}e^{-x}\dif x.$$
+	\end{definition}
+	\begin{proposition}[Somma di IID esponenziali]
+		Se $X_i$ è una successione di variabili IID con legge esponenziale di parametro $\lambda$ allora 
+		$$X_1+X_2+\dots+X_k\sim \Gamma(k,\lambda).$$ 
+	\end{proposition}
+	\begin{proof}
+		Segue per induzione usando il fatto che la somma delle prime $k$ variabili rimane indipendente dalla $k+1$-esima.
+	\end{proof}
+	Per il prossimo risultato avremo bisogno del seguente lemma:
+	\begin{lemma}[Funzione generatrice dei momenti sotto affinità]
+		La funzione generatrice dei momenti soddisfa per ogni $a,b\in \RR$:
+		$$M_{aX+b}(t)=e^{bt}M_X(at)$$
+		e inoltre se $X \indep Y$ abbiamo
+		$$M_{X+Y}(t)=M_X(t)M_Y(t).$$
+	\end{lemma}
+	\begin{proof}
+		Semplicemente per la definizione
+		$$M_{aX+b}(t):=E\left[\exp\left(t(aX+b)\right)\right]=E\left[e^{tb}\right]E\left[\exp(t(aX))\right]=e^{tb}M_{X}(at)$$
+		e la seconda segue in modo analogo dal fatto che $e^{tX}$ e $e^{tY}$ sono indipendenti per la conservazione dell'indipendenza.
+	\end{proof}
+	Per studiare le IID allora l'idea è che è \textbf{molto più facile moltiplicare le funzioni generatrici} che fare un numero arbitrario di convoluzioni. Definiamo infine
+	\begin{definition}[Variabile Normale/Gaussiana]
+		Una variabile $X$ si dice avere legge \textit{normale} o \textit{Gaussiana} se ha legge
+		$$X\sim \mathcal{N}(m,\sigma^2)$$
+		$$f_X(x)=\frac{1}{\sqrt{2\pi \sigma^2}}e^{-\frac{(x-m)^2}{2\sigma^2}}$$
+		in particolare $X$ si dice \textit{normale standard} se ha la legge di $\mathcal{N}(0,1)$ e quindi ha legge
+		$$f_X(x)=\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}.$$
+		Se $\sigma=0$ abbiamo semplicemente una densità tale che 
+		$$P(X=m)=1$$
+		ovvero una delta di Dirac di parametro $m$.
+	\end{definition}
+	Il $\pi$ in quella formula deriva dal molto famoso integrale Gaussiano, che permette di dimostrare che quella è effettivamente una densità. 
+	\begin{lemma}[Varianza e aspettazione di Gaussiane]
+		Una variabile $X\sim \mathcal{N}(m,\sigma^2)$ ha 
+		$$\text{Var}(X)=\sigma^2$$
+		$$E\left[X\right]=m.$$
+	\end{lemma}
+	\begin{proof}
+		Per le trasformazioni affini di variabili aleatorie ci basta dimostrare il risultato per $\mathcal{N}(0,1)$. Abbiamo 
+		$$E[X]=\int_{-\infty}^\infty \frac{x}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}\dif x$$
+		che è evidentemente l'integrale su $\RR$ di una funzione dispari, e quindi viene $0$, come volevamo. Per la varianza quindi usando la formula di trasferimento:
+		$$\text{Var}(X)=E[X^2]-E[X]^2=E[X^2]=\int_{-\infty}^{\infty}x^2f_X(x)\dif x=\int_{-\infty}^\infty \frac{x^2}{\sqrt{2\pi }}e^{-\frac{x^2}{2}}\dif x$$
+		che per sostituzione viene $1$.
+	\end{proof}
+	\begin{example}[Funzione generatrice dei momenti di una Gaussiana]
+		Calcolare la funzione generatrice dei momenti di una Gaussiana. 
+	\end{example}
+	\begin{proof}[Soluzione]
+		Come prima ci basta lavorare su $X\sim \mathcal{N}(0,1)$. Abbiamo per il trasferimento
+		$$M_X(t)=E\left[\exp(tX)\right]=\int_{-\infty}^\infty e^{tx}f_X(x)\dif x=\frac{1}{\sqrt{2\pi}}\int_{\RR}e^{tx-\frac{x^2}{2}}\dif x$$
+		dunque completando il quadrato abbiamo
+		$$tx-\frac{x^2}{2}=\frac{2tx-x^2}{2}=\frac{t^2-(t-x)^2}{2}$$
+		cioè
+		$$\frac{1}{\sqrt{2\pi}}\int_{\RR}e^{tx-\frac{x^2}{2}}\dif x=\frac{1}{\sqrt{2\pi}}\int_{\RR}e^{\frac{t^2-(t-x)^2}{2}}\dif x=e^{\frac{t^2}{2}}\frac{1}{\sqrt{2\pi}}\int_{\RR}e^{-\frac{(t-x)^2}{2}}\dif x$$
+		d'altra parte quell'integrale è semplicemente l'integrale gaussiano traslato, e scalato di un fattore $\sqrt{2}$ e quindi abbiamo
+		$$M_X(t)=e^{\frac{t^2}{2}}$$
+		da cui ricaviamo la funzione generatrice dei momenti per una variabile arbitraria
+		$$M_X(t)=e^{mt+\frac{t^2\sigma^2}{2}}$$
+		che era quanto volevamo.
+	\end{proof}
+	\subsubsection{Teoremi limite}
+	Abbiamo visto che sommando esponenziali IID otteniamo una gamma. In effetti graficando $\Gamma(n,k)$ a $n$ fissato e $k\to \infty$ la distribuzione sembra convergere ad una gaussiana. Questa è la prima evidenza sperimentale di un fenomeno estremamente interessante che porta il nome di \textbf{teorema del limite centrale}. Per arrivarci ripercorriamo quanto avevamo fatto per la legge dei grandi numeri:
+	\begin{theorem}[Legge dei Grandi numeri]
+		Se $X_1,X_2,\dots$ sono variabili aleatorie in $L^2$ scorrelate (ovvero $\text{Cov}(X_i,X_j)=0$ per ogni coppia di indici) e tali che 
+		$$\lim_{n\to\infty}\sum_{j=1}^{n}\frac{E\left[X_j\right]}{n}=m$$
+		e inoltre tali che
+		$$\sup_{i\in\NN} \text{Var}(X_i)<\infty$$
+		abbiamo che per ogni $\varepsilon>0$ vale
+		$$\lim_{n\to\infty}P\left(\abs{\frac{X_1+X_2+\dots+X_n}{n}-m}<\varepsilon\right)=1.$$
+	\end{theorem}
+	In effetti è strano che per la legge dei grandi numeri si abbia bisogno della condizione $L^2$, dato che lo statement coinvolge soltanto momenti primi di variabili aleatorie. In effetti questa ipotesi in più ci dà anche una stima sulla velocità di convergenza di quell'oggetto, ma esiste un risultato valido in $L^1$ analogo 
+	\begin{theorem}[LGN in $L^1$]
+		Data una successione $X_j$ di variabili aleatorie IID abbiamo che per ogni $\varepsilon>0$:
+		$$\lim_{n\to\infty}P\left(\abs{\frac{X_1+X_2+\dots+X_n}{n}-E[X_1]}<\varepsilon\right)=1$$
+	\end{theorem}
+	\begin{theorem}[Teorema del limite centrale]
+		Sia $X_j$ una successione di variabili IID in $L^2$ e poniamo $m:=E[X_1]$ e $\sigma^2=\text{Var}(X_1)$ allora per ogni $x\in\RR$ abbiamo
+		$$\lim_{n\to\infty}P\left(\frac{X_1+X_2+\dots+X_n-nm}{\sqrt{n}}\le x\right)=P\left(X\le x\right)$$
+		dove $X$ è una variabile gaussiana di parametri $\mathcal{N}(0,\sigma^2)$. In pratica questo teorema ci sta dicendo che puntualmente la funzione di ripartizione della somma di tutte le variabili IID/$\sqrt{n}$ converge ad una gaussiana.
+	\end{theorem}
+	\begin{proof}
+		Se $\sigma=0$ il risultato è banale, perchè in quel caso abbiamo che 
+		$$P(X_j=m)=1$$
+		per ogni $j$. E quindi il LHS viene una costante, mentre il RHS è semplicemente $\mathcal{N}(0,0)$ che è la variabile costantemente $0$. Assumiamo allora $\sigma\ne 0$, abbiamo
+		$$\frac{\sum_{j=1}^{n}X_j-nm}{\sqrt{n}}=\frac{1}{\sqrt{n}}\sum_{j=1}^{n}\left(X_j-E[X_j]\right)$$
+		L'evento del LHS allora soddisfa:
+		$$\frac{1}{\sqrt{n}}\sum_{j=1}^{n}\frac{\left(X_j-E[X_j]\right)}{\sigma}\le \frac{x}{\sigma}$$
+		ma così facendo abbiamo \textit{standardizzato} le variabili $X_i$, ovvero definiamo
+		$$Y_i:=\frac{X_i-E[X_i]}{\sigma}$$
+		e $Y_i$ è \textit{standard}, cioè ha aspettazione $0$ e varianza $1$. Ci siamo quindi ricondotti a mostrare che 
+		$$\lim_{n\to\infty}P\left(\frac{1}{\sqrt{n}}\sum_{j=1}^{n}Y_j\le y\right)=P\left(Z\le y\right)$$
+		dove $Z$ è una variabile gaussiana standard. Abbiamo accettato che conoscere la funzione generatrice di momenti $M_X$ e sapere che essa converge in un intorno dell'origine determina la legge di $X$. D'altra parte è anche vero che 
+		\begin{lemma}
+			Se abbiamo una successione $\left(\bar{X}_n\right)_{n\in\NN}$ tale che per ogni $\abs{t}<\delta$ 
+			$$M_{\bar{X}_n}(t)\overset{n\to\infty}{\longrightarrow} M_X(t)$$
+			e se $X$ è una variabile aleatoria assolutamente continua allora anche 
+			$$P\left(\bar{X}_n\le x\right)\overset{n\to\infty}{\longrightarrow}P(X\le x)$$
+			per ogni $x\in \RR$.
+		\end{lemma} 
+		Per usare questo risultato usiamo il fatto che la funzione generatrice della somma di variabili indipendenti è il prodotto delle funzioni generatrici, e quindi abbiamo
+		$$M_{\frac{Y_1+Y_2+\dots+Y_n}{\sqrt{n}}}(t)=\left(M_\frac{Y_1}{\sqrt{n}}(t)\right)^n=\left(M_{Y_1}(t/\sqrt{n})\right)^n$$
+		ora dobbiamo dimostrare che esiste un intorno di $0$ per cui quella funzione converge. Sviluppiamo con Taylor attorno a $0$ allora
+		$$M_{Y_1}(s)=E\left[\exp(sy)\right]=1+sE[Y_1]+\frac{s^2}{2}E[Y_1^2]+R_3(s)$$
+		dove $R_3(s)=O(s^3)$. D'altra parte dato che $Y_1$ è standard abbiamo
+		$$E[Y_1]=0$$
+		$$E[Y_1^]=1$$
+		e quindi abbiamo che
+		$$M_{Y_1}(s)=1+\frac{s^2}{2}+O(s^3)$$
+		sostituiamo quindi quest'espressione nel limite che vogliamo calcolare
+		$$M_{Y_1}\left(\frac{t}{\sqrt{n}}\right)=\left(1+\frac{t^2}{2n}+O\left(\frac{1}{n^{3/2}}\right)\right)^n$$
+		rimane da fare questo limite. D'altra parte abbiamo, portando tutto all'esponente
+		$$=\exp\left(n\log\left(1+\frac{t^2}{2n}+O\left(\frac{1}{n^{3/2}}\right)\right)\right)$$
+		e quindi usando l'asintotico del logaritmo (anche se stiamo omettendo un $O\left(1/n^2\right)$ che viene mangiato dall'alto O) e quindi abbiamo 
+		$$=\exp\left(n\left(\frac{t^2}{2n}+O\left(\frac{1}{n^{3/2}}\right)\right)\right)=\exp\left(\frac{t^2}{2}+O\left(\frac{1}{\sqrt{n}}\right)\right)$$
+		che per $n\to\infty$ è proprio la funzione generatrice di una Gaussiana standard, e quindi abbiamo finito.
+	\end{proof}
+	\begin{example}[Stimare con Gaussiane]
+		Prendiamo $9$ variabili esponenziali IID di parametro $1$. Calcoliamo
+		$$P(X_1+\dots+X_9>12).$$
+		Usiamo l'approssimazione data dal TLC
+		$$S_9\sim \mathcal{N}(9,9)$$
+		quindi vogliamo ricondurci ad una gaussiana standard, e lo facciamo con un po' di magheggi algebrici:
+		$$P(S_9>12)=P\left(S_9-9>3\right)=P\left(\frac{S_9-9}{3}>1\right)=P(Z>1)$$
+		dove 
+		$$Z:=\frac{S_9-9}{3}\sim \frac{\mathcal{N}(9,9)-9}{3}=\mathcal{N}(0,1)$$
+		e quindi possiamo usare le cosiddette tavole della normale standard, ovvero calcoliamo la cosiddetta \textit{funzione di errore} per il valore $1$:
+		$$\text{erf}(x)=\int_{x}^\infty \frac{1}{\sqrt{2\pi}}e^{-\frac{t^2}{2}}\dif t$$
+		cioè
+		$$P(Z>1)=\text{erf}(1).$$
+	\end{example}
+\end{document}

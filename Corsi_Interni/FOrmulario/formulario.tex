@@ -1,0 +1,181 @@
+\documentclass[a4paper,7pt]{article}
+
+\usepackage[
+top=5cm,
+bottom=0.3cm,
+left=0.7cm,
+right=0.7cm
+]{geometry}
+
+\pagestyle{empty}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\abovedisplayskip}{2pt}
+\setlength{\belowdisplayskip}{2pt}
+\setlength{\abovedisplayshortskip}{1pt}
+\setlength{\belowdisplayshortskip}{1pt}
+
+
+\usepackage{amsmath,amssymb,mathtools,bm,physics}
+
+
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{multicol}
+
+\newcommand{\ihat}{\boldsymbol{\hat{\imath}}}
+\newcommand{\jhat}{\boldsymbol{\hat{\jmath}}}
+\newcommand{\khat}{\boldsymbol{\hat{k}}}
+\newcommand{\nhat}{\boldsymbol{\hat{n}}}
+\newcommand{\that}{\boldsymbol{\hat{\tau}}}
+\newcommand{\bhat}{\boldsymbol{\hat{b}}}
+\newcommand{\rhat}{\boldsymbol{\hat{r}}}
+\newcommand{\thetahat}{\boldsymbol{\hat{\theta}}}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\everymath{\displaystyle}
+
+\scriptsize
+
+
+
+\begin{document}
+	\noindent
+	\begin{minipage}{0.5\textwidth}
+		\textbf{Calcolo vettoriale e tensoriale}\\		
+		
+		$\mathbf{a}\times\qty(\mathbf{b}\times \mathbf{c})=\mathbf{b}\qty(\mathbf{a}\cdot \mathbf{c})-\mathbf{c}\qty(\mathbf{a}\cdot \mathbf{b})$\\
+		
+		$\mathbf{a} \cdot (\mathbf{b} \times \mathbf{c}) = \mathbf{c} \cdot (\mathbf{a} \times \mathbf{b})= \mathbf{b} \cdot (\mathbf{c} \times \mathbf{a})$\\	
+		
+		$\varepsilon_{ijk}\varepsilon_{ipq} = \delta_{jp}\delta_{kq} - \delta_{jq}\delta_{kp}$\\
+		
+		$(\mathbf{a}\times \mathbf{b})_i=\varepsilon_{ijk}\mathbf{a}_j\mathbf{b}_k, \quad \mathbf{a}\cdot\mathbf{b}=\mathbf{a}_i\mathbf{b}_i=\delta_{ij}\mathbf{a}_i\mathbf{b}_j$
+		\vspace{0.5 cm}
+		
+		\textbf{Coordinate naturali e polari}\\
+			
+		$\mathbf{v}=\dot{s}\that\qquad \mathbf{a}=\ddot{s}\that+\frac{\dot{s}^2}{\rho}\nhat\qquad \bhat=\that\times\nhat$\\
+		
+		$\dv{\that}{s} = \frac{1}{\rho} \nhat, \qquad \dv{\nhat}{s}=-\frac{1}{\rho}\that+\frac{1}{\sigma}\bhat, \qquad \dv{\bhat}{s} = -\frac{1}{\sigma} \nhat$\\
+		
+		$\mathbf{a}=\rhat(\ddot{r}-r\dot{\theta}^2)+\thetahat\left(r\ddot{\theta}+2\dot{r}\dot{\theta}\right)$
+		
+		\vspace{0.5 cm}
+		
+		\textbf{Equazioni cardinali}\\
+		
+		$M\textbf{a}_{\text{CM}}=\dv{\textbf{P}_{\text{TOT}}}{t} = \mathbf{F}^{\text{ext}}, \qquad \dv{\textbf{L}_O}{t}= \mathbf{M}_O^{\text{ext}} - \mathbf{v}_O \times \mathbf{P}_{\text{TOT}}$ \\
+		\vspace{0.5 cm}
+		
+		\textbf{Equazione di Binet e orbita planetaria}\\
+		
+		$\mu=\frac{Mm}{M+m},\quad V_\text{eff}=U+\frac{\ell^2}{2mr^2}$ \\
+		\vspace{0.2 cm}
+		
+		$\frac{\ell^2u^2}{m}\qty[\dv[2]{u}{\theta}+u]=-f\qty(\frac{1}{u})$\\
+		
+		$r(\theta)=\frac{p}{1+e\cos(\theta)},\qquad p=\frac{\ell^2}{\alpha m},\qquad e=\sqrt{1+\frac{2E\ell^2}{m \alpha^2}}$\\
+		
+		$\frac{\left(1-e^2\right)^2}{p^2}\left(x+\frac{pe}{1-e^2}\right)^2+y^2\left(\frac{1-e^2}{p^2}\right)=1\quad E=-\frac{\alpha}{2a}$
+		\vspace{0.5 cm}
+		
+		\textbf{Vettore di Lenz}\\
+				
+		$\mathbf{N}=\frac{\mathbf{\dot{r}}\times \mathbf{L}}{\alpha}-\mathbf{\hat{r}},\qquad |\mathbf{N}|=\sqrt{1+\frac{2E\ell^2}{m\alpha^2}}$\\
+		\vspace{0.5 cm}
+		
+		\textbf{Sistemi rotanti e non inerziali}\\
+		
+		$\boldsymbol{\omega}=\ihat'\left(-\jhat'\cdot\dv{\khat'}{t}\right)+\jhat'\left(-\khat'\cdot\dv{\ihat'}{t}\right)+\khat'\left(-\ihat'\cdot\dv{\jhat'}{t}\right)$\\
+		
+		A.I.R. parallelo a $\boldsymbol{\omega}$ e passante per $\quad \mathbf{r}'_Q-\frac{1}{\omega^2}\qty(\mathbf{v}_Q\times\boldsymbol{\omega})$\\
+		
+		$m\mathbf{a}'=\mathbf{F}-m\qty[\mathbf{a}_{O'}+\boldsymbol{\dot{\omega}}\times\mathbf{r}'+\boldsymbol{\omega}\times\qty(\boldsymbol{\omega}\times\mathbf{r}')+2\boldsymbol{\omega}\times\mathbf{v}']$\\
+		
+		$\qty(\dv{\mathbf{b}}{t})_{\text{spazio}}=\qty(\dv{\mathbf{b}}{t})_{\text{corpo}}+\boldsymbol{\omega}\times \mathbf{b}$\\
+		
+		$\mathbf{v}_P=\mathbf{v}_{O'}+\mathbf{v}'_P+\boldsymbol{\omega}\times \mathbf{r}'_{P}$
+		
+		\vspace{0.5 cm}
+		
+		
+		
+		
+		
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+		\vspace{-1.4 cm}
+		
+		\textbf{Corpo rigido}\\
+		
+		
+		\vspace{0.2 cm}
+		
+		$\mathcal{I}^{(P)}=\sum\limits_{A=1}^Nm_A\begin{pmatrix}
+			y_A^2+z_A^2 & -x_Ay_A & -x_Az_A\\
+			-x_Ay_A & x_A^2+z_A^2 & -y_Az_A\\
+			-x_Az_A & -y_Az_A & x_A^2+y_A^2
+		\end{pmatrix}$\\
+		
+		Asse fisso $\boldsymbol{\hat{n}}$: $\quad I_n^{(P)}=\sum\limits_{A=1}^Nm_A\qty[\mathbf{r}_A^2-\qty(\mathbf{r}_A\cdot\boldsymbol{\hat{n}})^2]$\\
+		
+		Eulero: $\qquad
+			M_x^{\text{ext}}=I_x\dot{\omega}_x+\qty(I_z-I_y)\omega_z\omega_y$
+			
+		\vspace{0.2 cm}
+		
+		Teorema di Steiner: $\qquad I_{n}^{(P)}=Md^2+I_{n}^{(\text{CM})}$\\
+		\vspace{0.5 cm}
+		
+		\textbf{Piccole oscillazioni}\\
+		
+		$q_i=q_i^{(0)}+\eta_i,\qquad \boldsymbol{\eta}=\qty(\eta_1,\dots,\eta_n)^\intercal$\\
+		
+		$V_{jk}=\eval{\frac{\partial^2U}{\partial q_j\partial q_k}}_{q^{(0)}},\qquad T_{jk}=\sum\limits_{\ell}m_\ell\,\eval{\left(\pdv{\mathbf{r}_\ell}{q_j}\cdot\pdv{\mathbf{r}_\ell}{q_k}\right)}_{q^{(0)}}$\\
+		
+		$T_{\text{osc}}=\frac{1}{2}\boldsymbol{\dot{\eta}}^\intercal T\boldsymbol{\dot{\eta}}\qquad U_{\text{osc}}\approx \frac{1}{2}\boldsymbol{\eta}^\intercal V\boldsymbol{\eta}\qquad \det(V-\omega^2T)=0$\\
+		
+		$\left(V_{ij}-\omega^2_kT_{ij}\right)A_{jk}=0\qquad A_{ij}\zeta_j=\eta_i $
+		\vspace{0.5 cm}
+		
+		\textbf{Equazioni del moto di Hamilton}\\
+		
+		$\mathcal{H}(q_i,p_i,t)=\sum\limits_{i}\dot{q}_ip_i-\mathcal{L}(q_i,\dot{q}_i,t)$\\
+		
+		$\dot{q}_i=\pdv{\mathcal{H}}{p_i}\qquad \dot{p}_i=-\pdv{\mathcal{H}}{q_i}\qquad \dv{\mathcal{H}}{t}=\pdv{\mathcal{H}}{t}=-\pdv{\mathcal{L}}{t}$	\\
+		\vspace{0.5 cm}
+		
+		\textbf{Parentesi di Poisson}\\
+		
+		$\{F, G\} = \sum_{i} \left( \frac{\partial F}{\partial q_i}\frac{\partial G}{\partial p_i} - \frac{\partial F}{\partial p_i}\frac{\partial G}{\partial q_i} \right)$\\
+		
+		$\{q_i, q_j\}=0, \quad \{p_i, p_j\}=0, \quad \{q_i, p_j\}=\delta_{ij} $\\
+		
+		$\dv{f}{t}=\left\{f,\mathcal{H}\right\}+\pdv{f}{t}$
+		
+		\vspace{0.5 cm}
+		
+		\textbf{Trasformazioni canoniche}\\
+		
+		$\mathcal{K}=\mathcal{H}+\pdv{F_i}{t}\quad \forall i$\\
+		
+		$F_1(q,Q,t)\qquad p_i=\pdv{F_1}{q_i}\qquad P_i=-\pdv{F_1}{Q_i}$\\
+		
+		$F_2(q,P,t)\qquad p_i=\pdv{F_2}{q_i}\qquad Q_i=\pdv{F_2}{P_i}$\\
+		
+		$F_3(p,Q,t)\qquad q_i=-\pdv{F_3}{p_i}\qquad P_i=-\pdv{F_3}{Q_i}$\\
+		
+		$F_4(p,P,t)\qquad q_i=-\pdv{F_4}{p_i}\qquad Q_i=\pdv{F_4}{P_i}$\\
+		
+		
+	\end{minipage}
+	
+	
+\end{document}

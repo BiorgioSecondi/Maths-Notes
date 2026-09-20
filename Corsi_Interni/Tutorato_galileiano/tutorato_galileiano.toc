@@ -1,0 +1,35 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\contentsline {part}{\numberline {I}Analisi}{3}{part.1}%
+\contentsline {section}{\numberline {1}11/03/2026 - Serie Numeriche}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Problemi}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Soluzioni}{4}{subsection.1.2}%
+\contentsline {section}{\numberline {2}02/04/2026 - Successioni di Funzioni}{6}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Problemi}{6}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Soluzioni}{7}{subsection.2.2}%
+\contentsline {section}{\numberline {3}16/04/2026 - Successioni di funzioni}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Testi}{9}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Soluzioni}{10}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Integrali 14/05/2026}{12}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Testi}{12}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Soluzioni}{13}{subsection.4.2}%
+\contentsline {part}{\numberline {II}Algebra e Geometria}{15}{part.2}%
+\contentsline {section}{\numberline {5}Azioni di gruppo (18/03/2026)}{15}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Introduzione}{15}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Lemma di Burnside}{17}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Geometria (25/03/2026)}{20}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Geometria}{20}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Trovare tutti i sottogruppi finiti}{23}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Gruppi Abeliani finitamente generati (08/04/2026)}{26}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Automorfismi di $\mathbb Z^n$}{26}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Sottogruppi di $\mathbb Z^n$}{27}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Tutti i gruppi abeliani finitamente generati}{29}{subsection.7.3}%
+\contentsline {part}{\numberline {III}Matematica Applicata}{30}{part.3}%
+\contentsline {section}{\numberline {8}Dinamica di popolazioni - 24/03/2026}{30}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Risolvere le equazioni che ci siamo inventati (31/03/2026)}{31}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Esponenziare tutte le $2\times 2$}{33}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Orbite sullo spazio delle fasi}{36}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Ottimizzazione - 08/05/2026}{38}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Commesso viaggiatore}{39}{subsection.9.1}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

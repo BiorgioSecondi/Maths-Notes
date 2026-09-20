@@ -1,0 +1,39 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\contentsline {section}{\numberline {1}Funzioni e teoria degli insiemi}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Funzioni iniettive e suriettive}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Cardinalità}{7}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Insiemi infiniti}{10}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}combinatoria}{11}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Teoria dei numeri}{12}{section.2}%
+\contentsline {subsection}{\numberline {2.1}MCD e divisibilità}{14}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Aritmetica Modulare}{19}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Isomorfismi tra anelli, Congruenze e TCR}{21}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Teoria dei gruppi}{24}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Sottogruppi}{26}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Omomorfismi e Automorfismi}{30}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Ordini}{33}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Qualche caso particolare}{34}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Digressione sui Gruppi Ciclici}{34}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}Digressione sui Gruppi Diedrali}{37}{subsubsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.3}Digressione sui Gruppi Simmetrici}{39}{subsubsection.3.4.3}%
+\contentsline {subsubsection}{\numberline {3.4.4}Digressione sui Gruppi Alterni}{41}{subsubsection.3.4.4}%
+\contentsline {subsection}{\numberline {3.5}Struttura Quoziente}{43}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.5.1}Classi laterali}{44}{subsubsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {3.5.2}Congruenze modulo $H$}{46}{subsubsection.3.5.2}%
+\contentsline {subsubsection}{\numberline {3.5.3}Il gruppo quoziente}{49}{subsubsection.3.5.3}%
+\contentsline {subsubsection}{\numberline {3.5.4}I teoremi d'omomorfismo}{52}{subsubsection.3.5.4}%
+\contentsline {subsection}{\numberline {3.6}Le permutazioni a cosa servono?}{57}{subsection.3.6}%
+\contentsline {subsubsection}{\numberline {3.6.1}Cayley}{58}{subsubsection.3.6.1}%
+\contentsline {section}{\numberline {4}Domini e Anelli}{60}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Congruenze su anelli}{61}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Domini a ideali principali}{66}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Campo dei quozienti e digressione sulle serie formali}{71}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Domini Euclidei}{75}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1}Digressione sugli interi di Gauss}{77}{subsubsection.4.4.1}%
+\contentsline {subsubsection}{\numberline {4.4.2}Digressione sulle serie formali}{78}{subsubsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.5}Elementi irriducibili ed elementi primi}{79}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Domini a fattorizzazione unica}{82}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Il lemma di Gauss}{88}{subsection.4.7}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

@@ -1,0 +1,2811 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[sexy]{evan} %BLBLBLBLBLBLBLBLBLBLBLB EVANCHEN
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{asymptote}
+\usepackage{amsthm}
+\usepackage{gensymb}
+\usepackage{amsfonts}
+\usepackage[english,italian]{babel}
+\usepackage{quoting}
+\quotingsetup{font=big}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{lmodern}
+\usepackage{faktor}
+\usepackage{leftindex}
+\newcommand{\dif}{\text{d}}
+\newcommand{\parti}{\mathcal{P}}
+\newcommand{\inj}{\hookrightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\bij}{\hookrightarrow\mathrel{\mspace{-15mu}}\rightarrow}
+\newcommand{\MCD}{\text{MCD}}
+\newcommand{\Immagine}[1]{\text{Im}\!\left(#1\right)}
+\renewcommand{\ker}[1]{\text{Ker}\!\left(#1\right)}
+\newcommand{\ordine}[2]{\text{ord}_{#1}\left(#2\right)}
+\newcommand{\normal}{\mathrel{\unlhd}}
+\newcommand{\eset}{\varnothing}
+
+%Algebra 1
+
+\begin{document}
+	\title{Appunti di Algebra 1}
+	\subtitle{UNIPD - Giovanna Carnovale - Riccardo Colpi}
+	\date{Ottobre - Gennaio 2025}
+	
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\newpage
+	
+	\section{Funzioni e teoria degli insiemi}
+	
+	\subsection{Funzioni iniettive e suriettive}
+	
+	\begin{definition}[Relazione]
+		Sia $X$ un insieme, allora si dice relazione, e si scrive $\rho$ un sottoinsieme dell'insieme $X\times X$.
+	\end{definition}
+	
+	\begin{definition}[Relazioni D'equivalenza]
+		Una relazione $\rho$ definita sull'insieme $X$ si dice d'equivalenza se per tutti gli elementi di $a,b,c\in X$:
+		\begin{itemize}
+			\item $a\rho a$.
+			\item $a\rho b \implies b\rho a$.
+			\item $a\rho b \land b\rho c \implies a\rho c$.
+		\end{itemize}
+	\end{definition}
+	
+	\begin{definition}[Relazione D'ordine]
+		Una relazione $\rho$ definita sull'insieme $X$ si dice di \textit{ordine largo} se per tutti gli $a,b,c\in X$ soddisfa le seguenti proprietà:
+		\begin{itemize}
+			\item $a\rho a$ (riflessiva).
+			\item $a\rho b \land b\rho a \implies a=b$ (antisimmetrica).
+			\item $a\rho b \land b\rho c \implies a\rho c$ (transitiva).
+		\end{itemize} 
+	\end{definition}
+	
+	\begin{definition}[Proiezione canonica]
+		Se $\rho$ è una relazione di equivalenze su $X$ posso definire una funzione $\pi_\rho$ chiamata \textit{proiezione canonica} tale che:
+		\begin{align}
+			\notag \pi_\rho:  X\to& X/\rho \\ 
+			\notag        x\mapsto& [x] 
+		\end{align}
+		è facile dimostrare che la proiezione canonica è sempre suriettiva.
+	\end{definition}
+	
+	\begin{definition}[Composizione di funzioni]
+		Date due funzioni $f:X\to Y$ e $g:Y\to Z$ definiamo la loro composta, e scriviamo $f\circ g$, la funzione che $f\circ g:X\to Z$ tale che 
+		$$(f\circ g)(x)=f(g(x))$$
+	\end{definition}
+	
+	\begin{definition}[Inverse di funzioni]
+		Una funzione $f:X\to Y$ si dice invertibile a destra se esiste una funzione $g_1:Y\to X$ tale che:
+		$$f\circ g_1 = \text{id}_Y$$
+		analogamente si dice invertibile a sinistra se esiste una funzione $g_2:Y\to X$ tale che
+		$$g_2\circ f = \text{id}_X$$
+		infine una funzione si dice invertibile sse esiste una funzione $f^{-1}$ tale che:
+		$$f^{-1}\circ f = \text{id}_X$$ 
+		$$f \circ f^{-1}= \text{id}_Y$$
+	\end{definition}
+	
+	\begin{definition}[Immagine diretta e inversa]
+		L'immagine diretta è $f_*:\parti(X)\to \parti(Y)$ tale che $f_*(A)=\left\{ f(a),a\in A\right\}$, mentre l'immagine inversa è $f^*:\parti(Y)\to\parti(X)$ tale che $f^*(B)=\left\{x\in X\mid f(x)\in B\right\}$.
+	\end{definition}
+	
+	\begin{exercise}
+		Data $f:X\to Y$ e $A\in\parti(X),B\in\parti(Y)$ si dimostri che
+		$$A\subseteq f^*(f_*(A))$$
+		$$f_*(f^*(B))\subseteq B$$
+	\end{exercise}
+	
+	\begin{exercise}
+		Si dimostra facilmente che sse $f$ è iniettiva anche $f_*$ lo è. Analogamente per la suriettività.
+	\end{exercise}
+	
+	\begin{lemma}[Comportamento di $f_*$ rispetto ad unione e intersezione]
+		Sia $f:X\to Y$. Allora è vero che per ogni $A,B\subseteq X$ che
+		$$f_*(A\cup B)=f_*(A)\cup f_*(B)$$
+		$$f_*(A\cap B)\subseteq f_*(A)\cap f_*(B)$$
+	\end{lemma}
+	
+	\begin{proposition}[Invertibile a dx + invertibile a sx = invertibile]
+		Se una funzione $f:X\to Y$ ammette sia un'inversa destra $g_1$ che un'inversa sinistra $g_2$ allora $f$ è invertibile e in particolare $g_1=g_2=f^{-1}$.
+	\end{proposition}
+	
+	\begin{proof}
+		Consideriamo il prodotto
+		$$g_2\circ f \circ g_1$$
+		Utilizzando la proprietà associativa e le definizioni di inverse destre e sinistre abbiamo
+		$$g_2=g_2\circ \text{id}=g_2\circ (f\circ g_1)=(g_2\circ f)\circ g_1=\text{id}\circ g_1=g_1$$
+	\end{proof}
+	
+	\begin{lemma}[Composizione di iniettive e suriettive]
+		\label{compfunc}
+		Valgono le seguenti proprietà:
+		\begin{enumerate}
+			\item Composizione di funzioni Iniettive sono iniettive.
+			\item Composizione di funzioni Suriettive sono suriettive.
+			\item Composizione di funzioni biettive sono biettive.
+			\item Se $g\circ f$ è suriettiva allora $g$ è suriettiva.
+			\item Se $g\circ f$ è iniettiva allora $f$ è iniettiva.
+		\end{enumerate}
+	\end{lemma}
+	
+	\begin{proof}
+		Dimostriamo ciascun punto separatamente: 
+		\begin{itemize}
+			\item[1.] Consideriamo due funzioni $f:X\to Y$ e $g:Y\to Z$ iniettive. Supponiamo che per due certi $x,x'\in X$ valga
+			$$g(f(x))=g(f(x'))$$
+			allora dato che $g$ è iniettiva anche le controimmagini di $g(f(x))$ e $g(f(x'))$ dovranno essere uguali, ovvero:
+			$$f(x)=f(x')$$ 
+			e analogamente per l'iniettività di $f$ abbiamo
+			$$x=x'$$
+			il che implica che $g \circ f$ è iniettiva.
+			\item[2.] Siano $f:X\to Y$ e $g:Y\to Z$ due funzioni suriettive. Dimostriamo che comunque preso un $z\in Z$ esiste un $x\in X$ tale che 
+			$$g(f(x))=z$$
+			dato che $g$ è suriettiva esisterà almeno un $y\in Y$ tale che $g(y)=z$. Ma d'altro canto dato che $f$ è suriettiva esisterà almeno un $x\in X$ tale che $f(x)=y$, quindi per questo specifico $x$ varrà:
+			$$g(f(x))=z$$
+			come richiesto.
+			\item[3.] Segue dai due punti sopra.
+			\item[4.] Consideriamo $f:X\to Y$ e $g:Y\to Z$ tali che $g\circ f$ è suriettiva. Allora per ogni $z\in Z$ esiste un $x\in X$ tale che:
+			$$g(f(x))=z$$
+			dunque esisterà sempre un $f(x)=y\in Y$ tale che
+			$$g(y)=z$$
+			per qualunque $z\in Z$, che era esattamente quanto volevamo dimostrare.  
+			\item[5.] Consideriamo $f:X\to Y$ e $g:Y\to Z$ tali che $g\circ f$ è iniettiva. Consideriamo due $x,x'\in X$ tali che 
+			$$f(x)=f(x')$$
+			allora se applichiamo ad ambo i lati la funzione $g$ otterremo di nuovo lo stesso elemento da entrambi i lati, in simboli
+			$$g(f(x))=g(f(x'))$$
+			ma questo è equivalente ad applicare la funzione $g\circ f$ da entrambi i lati, dunque per l'iniettività di $g\circ f$ avremo
+			$$x=x'$$
+			che era quanto volevamo dimostrare.
+		\end{itemize}
+	\end{proof}
+	
+	\begin{lemma}[relazioni invertibilità - surj/inj]
+		Una funzione $f:X\to Y$ è iniettiva se e solo se è inversa a sinistra. Analogamente è suriettiva se e solo se è invertibile a destra.
+	\end{lemma}
+	
+	\begin{proof}
+		Dimostriamo ogni implicazione separatamente:
+		\begin{description}
+			\item[Inj $\implies$ Invert.sx] Consideriamo una funzione $f:X\to Y$ iniettiva. Allora costruiamo la sua inversa sinistra $f_l:Y\to X$ nel seguente modo:
+			$$f_l(y)=\begin{cases}
+				f_l(y)\in f^*(\left\{y\right\}) \quad \quad &\text{se }y\in f_*(X)\\
+				x_0 								&\text{altrimenti}
+			\end{cases}$$
+			dove $x_0$ è un certo elemento fissato di $X$. Questa è sempre una funzione dato che $f^*\left(\left\{y\right\}\right)$ è sempre composta al più da un elemento per ogni $y\in Y$, inoltre è proprio l'inversa sinistra di $f$ poiché
+			$$f(x)\in f_*(X)$$
+			e quindi 
+			$$f_l(f(x))=x$$
+			per ogni $x\in X$.
+			\item[Invert.sx $\implies$ Inj] Consideriamo $f:X\to Y$ e la sua inversa sinistra $f_l:Y\to X$. Consideriamo il prodotto
+			$$f_l\circ f=\text{id}_X$$
+			evidentemente l'identità è biettiva, in particolare è iniettiva, e dunque per il lemma \ref{compfunc} anche $f$ sarà iniettiva.
+			\item[Surj $\implies$ Invert.dx] Sia $f:X\to Y$ una funzione suriettiva. Allora costruiamo la sua inversa destra $f_r:Y\to X$ scegliendo per ogni $y\in Y$ un elemento della immagine inversa di ${y}$ (che dato che $f$ è suriettiva è sempre non vuota). Questo è sempre possibile per l'assioma della scelta e dunque abbiamo una funzione tale che per ogni $y\in Y$
+			$$f(f_r(y))=y$$ 
+			che era esattamente quello che cercavamo.
+			\item[Invert.dx $\implies$ Surj] Sia $f:X\to Y$ invertibile a dx e $f_r:Y\to X$ la sua inversa destra. Allora il prodotto
+			$$f\circ f_r=\text{id}_Y$$
+			è certamente biettivo, in particolare è suriettivo, dunque per il lemma \ref{compfunc} $f$ è suriettiva, come richiesto.
+		\end{description}
+	\end{proof}
+	
+	\begin{corollary}[biunivoca equivale a invertibile]
+		Una funzione $f:X\to Y$ è biunivoca se e solo se $f$ è invertibile.
+	\end{corollary}
+	
+	\begin{definition}
+		Notazione:
+		\begin{itemize}
+			\item una funzione iniettiva è $X\hookrightarrow Y$
+			\item una funzione suriettiva è $X\twoheadrightarrow Y$
+			\item una funzione biettiva è entrambe $X\bij Y$
+		\end{itemize}
+	\end{definition}
+	
+	
+	\subsection{Cardinalità}
+	\begin{example}
+		Sia $U$ la collezione di tutti gli insiemi.\footnote{In realtà sarebbe più corretto parlare di un insieme e il suo insieme delle parti, in quanto la "collezione di tutti gli insiemi" non è un oggetto esattamente ben definito.} Dimostrare che su questo insieme la relazione \textit{essere in biezione con} denotata con $\sim$ è una relazione di equivalenza.
+	\end{example}
+	
+	\begin{proof}
+		Chiaramente $\sim$ è riflessiva, perché per ogni insieme $X$ esiste $\text{id}_X:X\xrightarrow{\sim}X$. 
+		Inoltre è simmetrica perché se $f:X\to Y$ è biunivoca, la sua inversa soddisfa $$f\circ f^{-1} = \text{id}_Y$$
+		$$f^{-1}\circ f = \text{id}_X$$
+		e quindi è anche essa biettiva, per il Lemma \ref{compfunc}. Infine è transitiva sempre perché possiamo comporre le due biezioni che vanno da $X$ a $Y$ e da $Y$ a $Z$ e queste sono sempre biettive per il Lemma.
+	\end{proof}
+	
+	Questo ci è utile per dare la seguente definizione
+	
+	\begin{definition}[Cardinalità finita]
+		Un insieme $X$ si dice \textit{finito} e diciamo che ha cardinalità $n$ se e solo se esiste un $n\in\NN$ tale che $X$ è in biezione con $\{1,2,3,\dots n\}$. Denotiamo la cardinalità di $X$ come $|X|$. Due insiemi con la stessa cardinalità si dicono \textit{equipotenti}.
+	\end{definition}
+	
+	\begin{lemma}[Definizione equivalente di cardinalità]
+		\label{eq-card}
+		Siano $X,Y$ insiemi finiti, allora:
+		\begin{enumerate}
+			\item[(i)] $|X|\ge |Y|$ è equivalente a dire che esiste $f:X\surj Y$.
+			\item[(ii)] $|X|\le |Y|$ è equivalente a dire che esiste $f:X\inj  Y$.
+			\item[(iii)] $|X|=|Y|$ è equivalente a dire che esiste $f:X\bij Y$.
+		\end{enumerate}
+	\end{lemma}
+	
+	\begin{proof}
+		Siano $X,Y$ insiemi finiti tali che $|X|=m$ e $|Y|=n$, consideriamo i tre casi riportati sopra:
+		\begin{itemize}
+			\item[($m>n$)] Per la definizione di cardinalità esistono due funzioni biettive $f_1$, $f_2$ tali che:
+			$$
+			\begin{tikzcd}
+				X \arrow{r}{f_1} & \left\{1,2,\dots m\right\} \arrow{d}{g} \\
+				Y \arrow{r}{f_2}& \left\{1,2,\dots n\right\}
+			\end{tikzcd}
+			$$
+			definiamo allora una funzione $g:\left\{1,2\dots m\right\}\to\left\{1,2\dots n\right\}$ tale che
+			$$g(x)=
+			\begin{cases}
+				x & \text{se } x\le n\\
+				n & \text{se } x>n 
+			\end{cases}
+			$$
+			questa è chiaramente suriettiva. Dato che $f_2$ è biettiva sarà anche invertibile, e la sua inversa sarà a sua volta biettiva. In particolare quindi il prodotto 
+			$$f_1\circ g \circ f_2^{-1}:X\to Y$$
+			 sarà suriettivo, in quanto prodotto di funzioni suriettive (\ref{compfunc}).
+			\item[($m<n$)] In modo del tutto analogo a prima si costruisce un'iniezione da $\left\{1,2,\dots m\right\}$ a $\left\{1,2,\dots n\right\}$ e si compone con le due biezioni. 
+			\item[($m=n$)] In modo del tutto analogo a prima si costruisce una biezione da $\left\{1,2,\dots m\right\}$ a $\left\{1,2,\dots n\right\}$ e si compone con le due biezioni. 
+		\end{itemize}
+	\end{proof}
+	
+	\begin{remark}
+		Per il lemma \ref{eq-card} la relazione $|X|\ge |Y|$ è d'ordine totale sugli insiemi finiti.
+	\end{remark}
+	\begin{remark}
+		Se $X$ e $Y$ sono finiti e $\abs{X}=\abs{Y}$ allora sono equivalenti le seguenti affermazioni:
+		\begin{itemize}
+			\item $f:X\hookrightarrow Y$
+			\item $f:X\xrightarrow{\sim} Y$
+			\item $f:X\twoheadrightarrow Y$
+		\end{itemize}
+		\label{proprietà degli insiemi finiti}
+	\end{remark}
+	gli insiemi finiti hanno inoltre le seguenti comode proprietà:
+	
+	\begin{lemma}[Comportamento delle Cardinalità]
+		Se $|X|<\infty$ allora $|X'|<\infty,\forall X'\subseteq X$. \\
+		 Inoltre se $X_1,X_2\dots X_n$ sono sottoinsiemi disgiunti a due a due, e la loro unione è uguale a $X$ (ovvero sono una partizione), la somma delle loro cardinalità è uguale alla cardinalità di $X$. \\
+		 Infine la cardinalità del prodotto cartesiano di due insiemi di cardinalità $m$ ed $n$ è $mn$.
+	\end{lemma}
+	
+	In realtà possiamo estendere la definizione di cardinalità anche ad insiemi non finiti usando questa formulazione equivalente.
+		
+	\begin{definition}[Ordine tra cardinalità]
+		Siano $X,Y$ due insiemi (non necessariamente finiti). Diciamo che $|X|\le |Y|$ se e solo se esiste una $f:X\inj Y$.
+	\end{definition}
+	Non è difficile vedere che questa relazione è riflessiva e transitiva, ma dimostrare l'antisimmetria e la totalità nel caso di insiemi infiniti non è affatto scontato, e richiede i due seguenti importanti teoremi che verranno enunciati senza dimostrazione:
+	\begin{theorem}[Hartogs]
+		Comunque presi due insiemi $X,Y$ deve valere almeno una delle seguenti:
+		$$|X|\ge |Y|$$
+		$$|X|\le |Y|$$
+		in altre parole la relazione d'ordine sulle cardinalità è una relazione di ordine totale.
+	\end{theorem}
+	\begin{theorem}[Cantor-Bernstein]
+		Siano $X,Y$ due insiemi, se esistono $f:X\hookrightarrow Y$ e $g:Y\hookrightarrow X$ allora esiste anche una $h:X\xrightarrow{\sim}Y$.
+	\end{theorem}
+	
+	\begin{definition}[Potenze tra insiemi]
+		Se $X$ e $Y$ sono due insiemi, posso definire $X^Y$ come l'insieme di tutte le possibili funzioni da $f:Y\to X$. Si dimostra abbastanza facilmente che se $X$ e $Y$ sono finiti, allora $$\left|X^Y\right|=\left|X\right|^{\left|Y\right|}$$
+	\end{definition}
+	\begin{remark}
+		Se esiste una $f:A\xrightarrow{\sim}B$ e una $g:C\xrightarrow{\sim}D$ allora esiste una una funzione $F:A^C\xrightarrow{\sim}B^D$.
+	\end{remark}
+	
+	\begin{proposition}[Caratterizzazione della cardinalita delle parti]
+		Dato un insieme $X$ esiste sempre una $f:\parti(X)\xrightarrow{\sim}\{0,1\}^X$.
+	\end{proposition}
+	\begin{proof}
+		Definisci per ogni elemento $A\in\parti(X)$ la funzione caratterisctica $\chi_A:X\to \{0,1\}$ tale che 
+	\end{proof}
+	
+	\begin{lemma}[Cantor]
+		Dato un insieme $X$, esiste sempre una funzione $f:X\hookrightarrow \parti(X)$, e non esiste mai una funzione $g:X\twoheadrightarrow \parti(X)$. 
+	\end{lemma}
+	\begin{proof}
+		Come $f$ prendiamo 
+		\begin{align*}
+			f:X\to & \parti(X) \\
+			  x\mapsto & \{x\}
+		\end{align*}
+		questa è sicuramente iniettiva, e non è suriettiva. La non esistenza di $g$ procede per assurdo: supponiamo per assurdo che esista una suriettiva da $X$ a $\parti(X)$. Allora prendiamo l'insieme 
+		$$X_0=\left\{x\in X | x\not\in g(x)\right\}$$
+		e qui si crea il problema. Dato che $g$ è suriettiva, deve esistere un $x_0$ tale che $g(x_0)=X_0$. Allora se $x_0\in X_0$ per definizione di $X_0$ deve valere anche $x_0 \not \in X_0$, assurdo. Se invece non vi appartiene succede esattamente la stessa cosa (negata). 
+	\end{proof}
+	
+	\subsection{Insiemi infiniti}
+	
+	\begin{theorem}[Definizioni equivalenti di infinito]
+		Sia $X\ne\emptyset$, le tre seguenti affermazioni sono equivalenti:
+		\begin{enumerate}
+			\item $X$ è infinito.
+			\item Esiste una funzione $f:\NN\inj X$ (infinito secondo Dedekind).
+			\item Esiste una funzione non suriettiva $g:X\inj X$ (infinito secondo Cantor).
+		\end{enumerate}
+	\end{theorem}
+	\begin{proof}
+		Procediamo dimostrando una cosa alla volta:
+		\begin{description}
+			\item[1 implica 2] Dato che $X\ne\emptyset$ è infinito, esiste almeno un $x_0\in X$. Poichè $X$ è infinito $X_1=X-\left\{x_0\right\}\ne\emptyset$. Dunque reiterando questo processo definiamo $X_n=X_{n-1}-\left\{x_{n-1}\right\}$. Ogni volta scegliamo $x_n$ come elemento appartenente all'insieme $X_n$ e dato che $X$ è infinito esisterà sempre un $x_n$ per ogni $n$ (se così non fosse per l'elemento $m$, $X$ risulterebbe in biezione con gli elementi $1,2,3,\dots,m$ assurdo). Dunque abbiamo costruito la nostra inieizione da $\NN$ a $X$.
+			\item[2 implica 3] Abbiamo la nostra funzione $f$ definita al punto prima. Consideriamo i due insiemi $f_*(\NN)$ e $X-f_*(\NN)$. Definiamo $g:X\to X$ nel seguente modo
+			$$
+			g(x)=
+			\begin{cases}
+				x & \text{se } x\not\in f_*(\NN) \\
+				f(n+1) & \text{se } x\in f_*(\NN)
+			\end{cases}
+			$$
+			questa funzione è chiaramente iniettiva, perchè è essenzialmente la funzione $f$ "traslata avanti di $1$" sull'immagine di $f$. Tuttavia sicuramente non è suriettiva, perchè $f(0)\not\in g_*(X)$ in quanto non esistono numeri naturali che hanno $0$ come successore, e $f(0)\in f_*(\NN)$ dunque non rientra nel primo caso della funzione.
+			\item[3 implica 1] Questo è immediato per l'osservazione  \ref{proprietà degli insiemi finiti}: se per assurdo $X$ fosse finito allora $g$ iniettiva implicherebbe $g$ suriettiva (perchè $X$ ha la stessa cardinalità di $X$, in quanto in biezione con se stesso tramite id), assurdo.
+		\end{description}
+		Dunque abbiamo costruito un ciclo con le implicazioni, e questo ci dice che ogni elemento del ciclo è logicamente equivalente agli altri.
+	\end{proof}
+	Un importante corollario della definizione di infinito secondo Dedekind è che tra tutte le cardinalità infinite $\NN$ è la più piccola. 
+	\begin{corollary}[Cardinalità del numerabile]
+		Comunque preso un insieme infinito $X$, vale $|\NN|\le X$. Un insieme con una cardinalità uguale a quella di $\NN$ si dice \textit{numerabile}. Inoltre si denota $|\NN|=\aleph_0$.
+	\end{corollary}
+	Altro fatto importante è che, come conseguenza del teorema di Cantor abbiamo
+	\begin{corollary}[Cardinalità del continuo]
+		Per ogni insieme $X$ vale $|X|<|\parti(X)|$. In particolare $|\parti(\NN)|$ si dice cardinalità del \textit{continuo}.
+	\end{corollary}
+	\begin{lemma}[Proprietà della cardinalità per insiemi infiniti]
+		Se $X,Y$ sono insiemi, allora $|X|=|Y|$ implica $|\parti(X)|=|\parti(Y)|$.
+	\end{lemma}
+	\begin{lemma}[Il prodotto cartesiano si comporta bene sulle cardinalità]
+		Se abbiamo quattro insiemi tali che $|X|=|X'|$ e $|Y|=|Y'|$ allora vale anche $|X'\times Y'|=|X\times Y|$. 
+	\end{lemma}
+	\begin{lemma}[Infinito meno finito fa Infinito]
+		Preso un insieme $X$ numerabile e un insieme $F$ finito, allora anche $X\setminus F$ è numerabile.
+	\end{lemma}
+	Chiediamoci ora come si comporta il prodotto cartesiano rispetto alle cardinalità. In particolare chiediamoci quanto fa $|\NN\times\NN|$. In effetti scopriamo proprio che $\aleph_0=|\NN\times\NN|$. La dimostrazione di ciò è il famoso risultato $|\QQ|=|\NN|$ attribuito a Cantor. Una versione più avanzata di questo risultato è il lemma seguente:
+	\begin{lemma}[Unione numerabile di insiemi numerabili è numerabile]
+		Sia $0<|I|\le\aleph_0$ e siano $\left\{A_i\right\}_{i\in I}$ possibilmente infiniti insiemi con cardinalità $|A_i|=\aleph_0$. Allora vale
+		$$\abs{\bigcup_{i\in I}A_i}=\aleph_0.$$
+	\end{lemma}
+	
+	\subsection{combinatoria}
+	
+	La combinatoria è l'arte del contare quanti elementi ha un certo insieme finito. Skill issue se non la sai, leggi una dispensa delle olimpiadi.
+	
+	\newpage
+	
+	\section{Teoria dei numeri}
+	
+	\begin{proposition}[Proprietà degli Interi]
+		L'insiem dei numeri interi, denotato con $\ZZ$ ha le seguenti proprietà:
+		\begin{enumerate}
+			\item $+$ è commutativo.
+			\item $+$ è associativo.
+			\item $\exists 0\in \ZZ$ tale che $x+0=x$ per ogni $x\in\ZZ$.
+			\item Per ogni $x\in \ZZ$ esiste un elemento $-x$ tale che $x+(-x)=0$.
+			\item $\cdot$ è commutativo.
+			\item $\cdot$ è associativo.
+			\item Esiste un elemento $1\in\ZZ$ tale che $x\cdot 1=1\cdot x=x$ per ogni $x\in\ZZ$.
+			\item $+$ è distributivo rispetto al prodotto.
+		\end{enumerate}
+	\end{proposition}
+	
+	I matematici sono pigri, quindi cercano sempre di inventare nomi per non dover elencare le proprietà degli insiemi in questo modo. Per esempio:
+	\begin{definition}[Monoide]
+		Un monoide è un insieme $M$ dotato di un'operazione $(\cdot)$ chiusa e associativa che ammette un elemento neutro all'interno di $M$.
+	\end{definition}
+	\begin{definition}[Gruppo]
+		Un insieme $G$ con un'operazione $\cdot$ binaria che soddisfa:
+		\begin{enumerate}
+			\item $G$ è chiuso rispetto a $\cdot$.
+			\item $\cdot$ è associativo. 
+			\item Esiste un elemento $e\in G$ tale che $x\cdot e=x$ per ogni $x\in G$.
+			\item Per ogni elemento $x$ esiste un elemento $x^{-1}$ tale che $$x\cdot x^{-1}=e.$$
+		\end{enumerate}
+		si dice gruppo.
+	\end{definition}
+	\begin{definition}[Gruppo Abeliano]
+		Un gruppo $G$ con un prodotto commutativo si dice gruppo abeliano.
+	\end{definition}
+	\begin{definition}[Anello]
+		Un anello è un insieme dotato di due operazioni:
+		\begin{itemize}
+			\item una somma $(+)$ rispetto alla quale è un gruppo abeliano.
+			\item un prodotto rispetto al quale è un monoide.
+		\end{itemize}
+		inoltre queste operazioni devono rispettare le seguenti due proprietà:
+		\begin{itemize}
+			\item Se $1$ è l'identità moltiplicativa e $0$ l'identità additiva, allora $0\ne 1$ (se $0=1$ non è difficile vedere che l'unico insieme che soddisfa anche tutte le altre proprietà è quello con un solo elemento).
+			\item Il prodotto distribuisce sulla somma, ovvero
+			$$a\cdot(b+c)=a\cdot b + a \cdot c$$
+			$$(b+c)\cdot a=b\cdot a + c \cdot b$$
+		\end{itemize}
+	\end{definition}
+	\begin{definition}[Anello commutativo]
+		Un anello in cui il prodotto è commutativo si dice anello commutativo.
+	\end{definition}
+	\begin{definition}[Divisibilità]
+		Siano $a,b\in\ZZ$, diremo che $a$ \textit{divide} $b$ e scriveremo $a\mid b$ se e solo se esiste un $k\in\ZZ$ tale che $ak=b$.
+	\end{definition}
+	Notiamo che qualunque numero può dividere $0$, dato che ci basta scegliere $k=0$. Tuttavia notiamo che per la legge di annullamento del prodotto non possiamo trovare divisori "propri" di $0$, ovvero possiamo dire che $\ZZ$ soddisfa:
+	\begin{definition}[Dominio d'integrità]
+		Un anello commutativo si dice dominio (di integrità). Se $\forall a,c\ne 0$ si ha $ac\ne 0$.
+	\end{definition}
+	Analogamente sono interessanti i divisori di $1$. In $\ZZ$ non vi sono divisori non banali di $1$, ma questo può non essere vero per un anello arbitrario. Definiamo allora
+	\begin{definition}[Divisori dell'unità]
+		Gli elementi di un anello che dividono l'unità (l'elemento neutro della moltiplicazione d'ora in poi) si dicono \textit{invertibili}. In particolare l'insieme degli elementi invertibili si denota solitamente con $U(A)$ dove $A$ è l'anello ($U$ sta per unità).
+	\end{definition}
+	\begin{definition}[Corpo]
+		Un anello (non necessariamente commutativo) $R$ tale che $U(R)=R\setminus\left\{0\right\}$ si dice \textit{corpo}.
+	\end{definition}
+	\begin{definition}[Campo]
+		Un anello commutativo $R$ tale che $U(R)=R\setminus\left\{0\right\}$ si dice \textit{campo}.
+	\end{definition}
+	\begin{definition}[Numero Primo]
+		Un numero primo $p\in\ZZ$ è un numero tale che ha sempre esattamente $4$ divisori: $\pm 1$ e $\pm p$. 
+	\end{definition}
+	\begin{example}
+		Su $\NN$ la relazione di divisbilità definisce un poset (ovvero, un \textit{partially ordered set}, un insieme parzialmente ordinato). Tuttavia su $\ZZ$ questo non è vero, perchè la proprietà antisimmetrica non è sempre verificata (infatti $x\mid -x$ e $-x\mid x$, ma $x\ne -x$).
+	\end{example}
+	\begin{lemma}[$U(R)$ è un gruppo]
+		Sia $R$ un anello, allora $U(R)$ è un gruppo rispetto al prodotto dell'anello.
+	\end{lemma}
+	\begin{proof}
+		Sicuramente in prodotto è associativo. Inoltre $1\in U(R)$, dunque anche l'elemento neutro appartiene a  $U(R)$. Ora, per definizione di $U(R)$ tutti gli elementi sono invertibili, ma per lo stesso motivo l'insieme sarà anche chiuso rispetto al prodotto, infatti se $a,b\in U(R)$ sono invertibili, esisterà anche l'inverso di $ab$, in particolare
+		$$(ab)\left(\frac{1}{b}\cdot\frac{1}{a}\right)=1$$
+		e dunque anche $ab\in U(R)$.
+	\end{proof}
+	\begin{proposition}[Elementi Associati]
+		In un dominio $R$ siano $x,y\ne 0\in R$. Se e solo se $x\mid y,y\mid x$ allora esiste un elemento $u\in U(R)$ tale che $y=ux$. In particolare due tali $x,y$ si dicono \textit{associati}.
+	\end{proposition}
+	\begin{proof}
+		Supponiamo che $x,y$ soddisfino $x\mid y$ e $y\mid x$. Allora esistono due elementi $a,b\in R$ tali che:
+		$$xa=y$$
+		$$yb=x$$
+		allora vale anche
+		$$abx=x \iff (ab-1)x=0$$
+		dunque abbiamo due casi, o $x=y=0$ e in questo caso la tesi è ovvia, o $ab=1$, e dunque $a,b\in U(R)$, il che è proprio la tesi. \\
+		Supponiamo ora che esista un $u\in U(R)$ tale che 
+		$$ux=y$$
+		allora per definizione abbiamo $x\mid y$. Inoltre per definizione di $U(R)$ esisterà un elemento $w$ tale che $uw=1$, dunque per l'associatività e la commutatività possiamo scrivere:
+		$$ux=y \iff wux=wy \iff x=wy$$
+		che implica $y\mid x$, la tesi.
+	\end{proof}
+	\subsection{MCD e divisibilità}
+	\begin{definition}[Massimo Comun Divisore e Minimo Comune Multiplo]
+		Siano $a,b\in\ZZ$ denotiamo con 
+		$$d=\text{MCD}(a,b)=:(a,b)$$
+		il numero $d$ e lo chiamiamo \textit{massimo comun divisore} se soddisfa le seguenti proprietà:
+		\begin{itemize}
+			\item $d\mid a \land d\mid b$.
+			\item $\forall c\in \ZZ$ tale che $c\mid a\land c\mid b$ esso soddisfa $c\mid d$.
+		\end{itemize}
+		Analogamente definiamo 
+		$$m=\text{mcm}(a,b)\in\ZZ$$ 
+		il numero $m$ è lo chiamiamo \textit{minimo comune multiplo} se soddisfa le seguenti proprietà
+		\begin{itemize}
+			\item $a\mid m \land b\mid m$.
+			\item $\forall c\in \ZZ$ tale che $a\mid c\land b\mid c$ allora $m\mid c$.
+		\end{itemize}
+	\end{definition}
+	Calcolare l'mcm e l'MCD è un 
+	\begin{proposition}[Unicità di MCD ed mcm]
+		Se sia $d$ che $d'$ sono MCD abbiamo che $d\mid d'$ e $d'\mid d$. Ovvero $d$ e $d'$ sono elementi associati. Analogamente si ha per l'mcm. Per convenzione (sui numeri interi) si sceglie \textit{il} massimo comun divisore e \textit{il} minimo comune multiplo come i numeri $\ge 0$ che soddisfano le proprietà sopra.
+	\end{proposition}
+	\begin{lemma}[Proprietà della divisibilità]\label{proprietà della divisibilità}
+		Siano $a,b,a',b',\alpha,\beta\in\ZZ$, allora
+		\begin{itemize}
+			\item Se $d\mid a$ e $d\mid b$ allora $d\mid a\alpha+b\beta$.
+			\item Se $a\mid a'\land b\mid b'$ allora $ab\mid a'b'$.
+			\item Se due numeri $a,b$ hanno $\text{MCD}(a,b)=1$ si dicono \textit{coprimi}.
+		\end{itemize}
+	\end{lemma}
+	Vorremmo dimostrare che l'MCD e l'mcm sono unici, ma per fare ciò abbiamo bisogno di poter dividere i numeri. Dunque introduciamo
+	\begin{theorem}[Divisione Euclidea]\label{divisione euclidea}
+		Per ogni $a,b\in\ZZ,b\ne 0$ esistono e sono unici due numeri $q,r\in\ZZ$ tali che $a=bq+r$, con $0\le r<|b|$.
+	\end{theorem}
+	\begin{proof}
+		Dobbiamo dimostrare due cose, esistenza e unicità:
+		\begin{description}
+			\item[Esistenza] Supponiamo $a\ge 0$ e $b>0$. Procediamo per induzione su $a$. \\
+			Se $0\le a < b$ allora $a=b\cdot 0+a$, cioè $q=0$ ed $r=a$.\\
+			Se $a=b$ abbiamo $q=1$ ed $r=0$. \\
+			Se $a>b$ supponiamo per induzione che esistano $q,r\in\ZZ$ tali che $a-1=bq+r$ con $0\le r<b$. Dall'ipotesi induttiva abbiamo 
+			$$a=bq+(r+1)$$
+			Se $r+1<b$ abbiamo finito, se invece $r+1=b$ abbiamo $a=b(q+1)+0$. Ci mancherebbe il passo base, ma quello è semplicemente $a=0$ con $q=r=0$. \\
+			Ora ci tocca complicare le cose con $a<0$. Allora dobbiamo dimostrare che esistono $q',r'$ che soddisfano la divisione:
+			$$-a=bq'+r'$$
+			per quanto dimostrato prima. Se $r'=0$ ci basta scegliere $a=b(-q')$, se invece $r'>0$ allora $0<b-r'<b$ allora ci basta sommare e sottrarre $b$ per ottenere
+			$$a=b(-q')-r'=b(-q'-1)+(b-r')$$
+			Invece se $b<0$ con il risultato di prima possiamo dire
+			$$a=(-b)q'+r'$$
+			\item[Unicità] Supponiamo che $a=bq+r=bq'+r'$ con $0\le r,r'<|b|$ allora assumiamo WLOG $r'\ge r$, allora
+			$$0\le r'-r=b(q-q')$$
+			da cui abbiamo 
+			$$|b||q-q'|=\abs{r'-r}= r'-r\le r'<\abs{b}$$
+			ma allora $\abs{q-q'}<1$ ovvero $q=q'$ e quindi anche $r=r'$.
+		\end{description}
+	\end{proof}
+	\begin{theorem}[Esistenza dell'MCD]
+		Siano $a,b\in\ZZ$ con $(a,b)\ne(0,0)$ allora esiste sempre un $d=\text{MCD}(a,b)>0$ ed è il minimo elemento del seguente insieme
+		$$S=\left\{a\alpha+b\beta>0|\alpha,\beta\in\ZZ\right\}\subseteq \NN^*$$
+	\end{theorem}
+	\begin{proof}
+		Consideriamo $S$ l'insieme come definito sopra. Di sicuro $S\subseteq\NN^*$ e $S\ne\emptyset$. Allora $S$ avrà sicuramente un elemento minimo $d$ tale che
+		$$d=\alpha_0 a +\beta_0 b >0$$
+		dimostriamo ora che $d$ è l'MCD di $a$ e $b$. Innanzitutto dimostriamo che $d|a$, applicando la divisone euclide abbiamo
+		$$a=(\alpha_0 a + \beta_0 b)q+r$$
+		allora 
+		$$r=a(1-\alpha_0 q)+b(\beta_0 q)$$
+		ma questo è minore di $d$, dunque deve essere $0$ per la minimalità di $d$. Analogamente si fa $d\mid b$. Tuttavia è evidente che se $c\mid a$ e $c\mid b$ abbiamo $c\mid d$ per le proprietà della divisibilità dimostrate prima, e dunque $d$ è proprio l'MCD. 
+	\end{proof}
+	\begin{corollary}[Bézout]
+		Siano $a,b\in\ZZ$ allora esistono sempre $\alpha_0,\beta_0\in\ZZ$ tali che
+		$$\text{MCD}(a,b)=\alpha_0a+\beta_0b$$
+	\end{corollary}
+	\begin{corollary}[Definizione equivalente di coprimi]
+		Siano $a,b\in\ZZ$, allora essi sono coprimi se e solo se esistono $\alpha_0,\beta_0\in\ZZ$ tali che
+		$$\alpha_0a+\beta_0b=1$$
+	\end{corollary}
+	\begin{proof}
+		Un verso è dato semplicemente da Bezout, l'altro è dato dal fatto che $1$ è necessariamente il minimo dell'insieme delle combinazioni lineari. 
+	\end{proof}
+	\begin{corollary}[Soluzioni di una diofantea lineare]\label{soluzioni di una diofantea lineare}
+		Siano $a,b\in\ZZ$, allora 
+		$$S=\left\{a\alpha+b\beta|\alpha,\beta\in\ZZ\right\}$$
+		è l'insieme di tutti e soli i multipli dell'MCD.
+	\end{corollary}
+	\begin{proof}
+		Sicuramente tutti gli elementi dell'insieme sono divisibili per l'MCD, ma sono tutti? Supponiamo $\text{MCD}(a,b)\mid n$, allora abbiamo 
+		$$k(\alpha_0a+\beta_0b)=n$$
+		e quindi 
+		$$k\alpha_0a+k\beta_0b=n$$
+		ovvero $n\in S$.
+	\end{proof}
+	Ok, adesso finalmente possiamo parlare di come si calcola in modo efficiente l'MCD. Uno dei modi più efficienti è il cosiddetto algoritmo di euclide esteso, che fa uso della seguente proprietà:
+	\begin{lemma}[Algoritmo di Euclide]
+		Siano $a,b,k\in\ZZ$ con $a,b$ non entrambi nulli, allora
+		$$\text{MCD}(a,b)=\text{MCD}(a-kb,b)$$
+	\end{lemma}
+	\begin{proof}
+		Ovvio per \ref{proprietà della divisibilità}.
+	\end{proof}
+	Grazie a questo possiamo essenzialmente dire che dividendo $a$ per $b$, avremo un resto $r$ che soddisfa
+	$$\text{MCD}(a,b)=\text{MCD}(r,b)$$
+	e procedendo finchè il resto non diventa $0$ si raggiunge l'MCD.
+	
+	\begin{lemma}[Lemma di Euclide]
+		Siano $a,b,c\in\ZZ$ allora se $c\mid ab$ e $\MCD(c,a)=1$ allora $c\mid b$.
+	\end{lemma}
+	\begin{proof}
+		Abbiamo che esistono $k,\alpha,\gamma\in\ZZ$ tale che 
+		$$ck=ab$$
+		$$1=\alpha a + \gamma c$$
+		Quindi moltiplicando da entrambi i lati per $b$ e sostituendo
+		$$b=\alpha c k + \gamma c b$$
+		da cui la tesi.
+	\end{proof}
+	\begin{theorem}[Definizione equivalente di numero primo]
+		Un numero $p\in\ZZ$ è primo se e solo se quando $p\mid ab$ allora o $p\mid a$ o $p\mid b$.
+	\end{theorem}
+	\begin{proof}
+		Una direzione segue direttamente dal Lemma di Euclide. DImostriamo quindi che se $p$ soddisfa $(p\mid ab \implies p\mid a \lor p\mid b)$ allora è primo. Supponiamo che esista un $d\in\ZZ$ tale che
+		$$d\mid p$$
+		allora abbiamo
+		$$dk=p\cdot 1$$
+		ma questo significa che $p\mid dk$ quindi $p\mid k \lor p\mid d$. Ma notiamo che analogamente abbiamo $d\mid p \land k\mid p$. Quindi uno tra $d$ e $k$ deve essere associato con $p$, il che implica che l'altro sia $\pm 1$.
+	\end{proof}
+	Finalmente quindi possiamo eunciare il famosissimo:
+	\begin{theorem}[Teorema fondamentale dell'aritmetica]
+		Sia $n\in\ZZ$ con $n\ne 1,0$ allora esistono $k$ numeri primi $p_1,p_2\dots,p_k$ e $e_1,e_2\dots,e_k\in\ZZ$ tali che
+		$$n=p_1^{e_1}p_2^{e_2}\dots p_k^{e_k}$$
+		e la scrittura è unica a meno dell'ordine dei fattori.
+	\end{theorem}
+	\begin{proof}
+		Procediamo per induzione estesa su $n$. Il passo base è chiaro. Ora supponiamo che la tesi sia vera per tutti gli $n<k$. Ora prendo $k$, se è primo ho finito, se invece ha dei divisori propri possiamo scriverlo come 
+		$$k=ab$$
+		con $1<a,b<k$ quindi abbiamo finito per induzione. L'unicità si dimostra nel modo ovvio.
+	\end{proof}
+	\begin{lemma}[Infinità dei numeri primi]
+		I numeri primi sono infiniti.
+	\end{lemma}
+	\begin{proof}
+		Supponiamo per assurdo che i numeri primi siano finiti $p_1,p_2,\dots,p_n$ allora prendiamo
+		$$1+p_1p_2p_3\dots p_n$$
+		questo numero è sicuramente diverso da tutti i numeri primi, quindi è composto. Ma d'altro canto non è divisibile per nessun numero primo, dunque non è possibile fattorizzarlo, assurdo. 
+	\end{proof}
+	\begin{lemma}[MCD come massimo del multiset dei primi]
+		Se $a=p_1^{\alpha_1}p_2^{\alpha_2}\dots p_n^{\alpha_n}$ e $b=p_1^{\beta_1}p_2^{\beta_2}\dots p_n^{\beta_n}$
+		allora avremo 
+		$$\MCD(a,b)=\prod_{i=1}^n p_i^{\min(\alpha_i,\beta_i)}$$
+		$$\mcm(a,b)=\prod_{i=1}^n p_i^{\max(\alpha_i,\beta_i)}$$
+		in particolare quindi avremo $\mcm(a,b)\MCD(a,b)=ab$.
+	\end{lemma}
+	\begin{proof}
+		\'E chiaro come la seconda parte segua dalla prima. Per dimostrare la prima parte si può usare la valutazione $p$-adica e il fatto che MCD è il massimo dell'insieme dei divisori (o che l'mcm è il minimo dell'insieme dei multipli).
+	\end{proof}
+	\begin{exercise}
+		Sia $\text{rad}:\ZZ_{>0}\to \parti(\PP)$ l'insieme che associa ad ogni numero l'insieme dei primi nella sua fattorizzazione.
+		\begin{itemize}
+			\item Dire se rad è suriettiva.
+			\item Dire se rad è iniettiva.
+		\end{itemize}
+	\end{exercise}
+	\subsection{Aritmetica Modulare}
+	\begin{definition}[Relazione compatibile]
+		Sia $\rho$ una relazione definita sull'insieme $X$ e $*:X\times X\to X$ un'operazione binaria. Allora $(*)$ si dice compatibile con $\rho$ sse per ogni $a,b,a',b'\in X$ vale:
+		$$a\rho b \land a'\rho b'\implies a*a'\rho b*b'$$
+	\end{definition}
+	Questa è una nozione molto forte da usare su un generico anello perché ci permette di fare operazioni sul suo quoziente:
+	\begin{lemma}[Operazioni sul quoziente]\label{operazioni su quoziente}
+		Sia $\sim$ una relazione compatibile con $(*)$ definita sull'insieme $X$, allora possiamo ben definire (abusando la notazione, o overloadando $*$) la seguente
+		$$*:\faktor{X}{\sim}\times \faktor{X}{\sim}\to \faktor{X}{\sim}$$
+		in modo che 
+		$$[x]*[y]= [x*y].$$
+	\end{lemma}
+	\begin{proof}
+		Dobbiamo dimostrare che il prodotto non dipende dalla scelta dei rappresentanti, ovvero che se $x\sim x'$ e $y\sim y'$ allora
+		$$[x'*y']=[x*y]$$
+		ovvero vogliamo
+		$$x'*y'\sim x*y$$
+		ma questo è chiaramente ottenuto moltiplicando membro a membro le
+		$$x'\sim x$$
+		$$y'\sim y$$
+		e dunque abbiamo finito.
+	\end{proof}
+	Forti di questa nozione possiamo dunque introdurre l'aritmetica modulare. Tutto inizia dalla definizione
+	\begin{definition}[Congruenza modulo $n$]
+		Siano $a,b\in\ZZ$. Diciamo che $a$ è \textit{congruo a} $b$ \textit{modulo} $n\in\NN^*$ e scriveremo 
+		$$a\equiv b \pmod n$$
+		se e solo se 
+		$$n\mid a-b$$
+		d'ora in poi definiremo con $\bar{a}$ la classe di equivalenza mod $n$ di $a\in\ZZ$.
+	\end{definition}
+	Non è difficile vedere come la definita sopra sia una relazione di equivalenza. \'E anche chiaro come questa sia compatibile con le operazioni dell'anello dei numeri interi. Dunque grazie al \ref{operazioni su quoziente} possiamo definire 
+	\begin{definition}[Anello dei numeri mod n]
+		Definiamo l'\textit{anello dei numeri modulo} $n\in\NN^*$, e scriviamo $\faktor{\ZZ}{n\ZZ}$ l'insieme
+		$$\faktor{\ZZ}{n\ZZ}:=\faktor{\ZZ}{\equiv_n}$$
+		munito delle operazioni $+$ e $\cdot$ ereditate dall'anello $(\ZZ,+,\cdot)$ come fatto nel lemma \ref{operazioni su quoziente}. \'E facile dimostrare che le operazioni di $\faktor{\ZZ}{n\ZZ}$ ereditano tutte le proprietà caratteristiche di un anello da quelle di $\ZZ$.
+	\end{definition}
+	Cos'è esattamente l'insieme che abbiamo appena definito? Per capirlo dobbiamo prima caratterizzare in modo più naturale la relazione di congruenza mod $n$:
+	\begin{proposition}[Classi di resto modulo $n$]
+		L'anello degli interi modulo $n$ ha esattamente $n$ elementi e ognuno di essi contiene tutti e soli gli elementi di $\ZZ$ che danno lo stesso resto nella divisione per $n$.
+	\end{proposition}
+	\begin{proof}
+		Il fatto è essenzialmente equivalente a dimostrare che dati due numeri $a,b\in\ZZ$ allora questi hanno lo stesso resto nella divisione per $n$ se e solo se 
+		$$a\equiv b \pmod n.$$
+		Infatti il numero di classi di equivalenza della relazione "avere lo stesso resto nella divisione per $n$" è chiaramente $n$. Dunque prendiamo due elementi tali che 
+		$$a-b=kn$$
+		e dividiamoli per $n$, ottenendo
+		$$a=nq_a+k_a$$
+		$$b=nq_b+k_b$$
+		vorremmo dimostrare che $k_a-k_b=0$. Semplicemente facendo la differenza tra le due equazioni sopra otteniamo
+		$$kn=a-b=n(q_a-q_b)+(k_a-k_b)$$
+		e quindi riorganizzando i termini abbiamo
+		$$n(k-q_a+q_b)=k_a-k_b \implies n\mid k_a-k_b$$
+		ma ora notiamo che $0\le k_a,k_b<n$ quindi
+		$$k_a<n$$
+		$$-k_b\le0$$
+		sommando membro a membro
+		$$k_a-k_b<n$$ il che vuol dire per il teorema \ref{divisione euclidea} che $k_a-k_b$ è proprio il resto nella divisione per $n$ di $kn$, ovvero $0$.	
+	\end{proof}
+	L'anello dei numeri modulo $n$ ha sicuramente un sacco di proprietà in comune con quello dei numeri interi, ma ne ha anche molte diverse. Un primo esempio ci viene in mente considerando $U=U\left(\faktor{\ZZ}{n\ZZ}\right)$. \\
+	Chi sono gli elementi di $U$? Beh sono gli elementi $\bar{a}\in\faktor{\ZZ}{n\ZZ}$ tali che esiste un $\bar{b}\in\faktor{\ZZ}{n\ZZ}$ tale che
+	$$\bar{a}\cdot \bar{b}=\bar{1}$$
+	ovvero gli $a$ tali che
+	$$ab\equiv 1 \pmod n \iff n\mid ab-1$$
+	questo è equivalente a dire che esiste un $k\in\ZZ$ tale che
+	$$ab-1=kn \iff ab-kn=1$$
+	Ma questa è una diofantea lineare! E la sappiamo risolvere semplicemente applicando \ref{soluzioni di una diofantea lineare}. Dunque gli elementi invertibili sono solo quelli tali che il loro MCD divide $1$, ovvero abbiamo dimostrato
+	\begin{lemma}[Invertibile equivale a coprimo]
+		L'insieme degli elementi invertibili di $\faktor{\ZZ}{n\ZZ}$ è uguale a
+		$$U\left(\faktor{\ZZ}{n\ZZ}\right)=\left\{\bar{a}\in\faktor{\ZZ}{n\ZZ}:\MCD(a,n)=1\right\}$$
+	\end{lemma}
+	 Insomma quello che il lemma sopra ci sta dicendo è che le equazioni del tipo 
+	 $$ax\equiv b \pmod n$$
+	 sono risolvibili se e solo se $\MCD(a,n)\mid b$. Qundi quanti sono effettivamente gli elementi invertibili di $\faktor{\ZZ}{n\ZZ}$? Tutti e soli i coprimi, a questo fine definiamo la funzione
+	 \begin{definition}[Funzione Toziente di Eulero]
+	 	Chiamiamo \textit{funzione toziente di eulero} la funzione $\varphi:\NN^*\to\NN^*$ tale che
+	 	$$\varphi(n)=\#\text{numeri coprimi con $n$ minori o uguali a $n$}$$
+	 	per quanto appena detto abbiamo $\abs{U\left(\faktor{\ZZ}{n\ZZ}\right)}=\varphi(n)$.
+	 \end{definition}
+	\subsection{Isomorfismi tra anelli, Congruenze e TCR}
+	Prima di andare avanti definiamo un paio di nozioni tipicamente algebriche
+	\begin{definition}[Morfismi d'anelli]
+		Siano $R_1$ ed $R_2$ due anelli. Una funzione $f:R_1\to R_2$ è detta un \textit{morfismo} se 
+		\begin{itemize}
+			\item $f(a+b)=f(a)+f(b)$
+			\item $f(ab)=f(a)f(b)$
+			\item $f(1_{R_1})=1_{R_2}$
+		\end{itemize}
+		dove abbiamo chiaramente abusato la notazione per somme e prodotti diverse nei due anelli. \'E molto facile dimostrare che vale anche $f(0_{R_1})=0_{R_2}$. Un morfismo iniettivo ma non suriettivo si dice \textit{monomorfismo}, un morfismo suriettivo ma non iniettivo si dice \textit{epimorfismo}. Infine un morfismo biettivo si dice \textit{isomorfismo}.
+	\end{definition}
+	\begin{example}
+		La proiezione canonica di $\ZZ$ su $\faktor{\ZZ}{n\ZZ}$ è un epimorfismo.
+	\end{example}
+	\begin{example}
+		Se definiamo l'anello $\faktor{\ZZ}{n\ZZ}\times \faktor{\ZZ}{n\ZZ}$ con le due operazioni 
+		$$(\bar{a},\bar{b})\cdot (\bar{a}',\bar{b}'):= (\bar{a}\bar{a}',\bar{b}\bar{b}')$$
+		$$(\bar{a},\bar{b})+ (\bar{a}',\bar{b}'):=(\bar{a}+\bar{a}',\bar{b}+\bar{b}')$$
+		Notiamo che la funzione 
+		\begin{align*}
+			\varphi:\faktor{\ZZ}{mn\ZZ}\to &\faktor{\ZZ}{m\ZZ}\times \faktor{\ZZ}{n\ZZ}\\
+			[x]_{mn}\mapsto & ([x]_m,[x]_n)
+		\end{align*}
+		
+		è un morfismo. In particolare dato che dominio e codominio hanno la stessa cardinalità $\varphi$ è iniettiva se e solo se è suriettiva.
+	\end{example}
+	Quando accade ciò? Beh per capirlo investighiamo prima il seguente importante teorema
+	\begin{theorem}[Cinese del Resto/Sun Tzu]
+		Siano $n_1,n_2,\dots,n_r\in\NN\setminus\left\{0,1\right\}$ a due a due coprimi. Allora il sistema di congruenze
+		$$
+		\begin{cases}
+			x\equiv  b_1 \pmod{n_1} \\
+			x\equiv  b_2 \pmod{n_2} \\
+			\quad \vdots\\
+			x\equiv b_r \pmod{n_r}
+		\end{cases} 
+		$$
+		ha sempre una soluzione unica modulo $n=n_1n_2\dots n_r$.
+	\end{theorem}
+	\begin{proof}
+		Definiamo $n$ come sopra e $a_i=\frac{n}{n_i}$. Notiamo che in effetti 
+		$$a_ix\equiv b_i\pmod{n_1}$$
+		ha sempre una soluzione unica modulo $n_i$ (dato che $\MCD(a_i,n_i)=1\mid b_i$). Chiamimamo $x_i$ questa soluzione. Sorprendentemente una soluzione del sistema originale è esattamente
+		$$x=\sum_{i=1}^r a_ix_i $$
+		è facile verificarlo dato che tutti i $n_i$ sono coprimi. Inoltre questa soluzione è unica, se per assurdo $y$ fosse un'altra soluzione del sistema, avremmo
+		$$x\equiv b_i \equiv y \pmod{n_i}$$
+		per ogni $i$. Ovvero
+		$$n_i\mid x-y$$
+		per ogni $i$, il che per la coprimalità degli $n_i$ implica direttamente che $n\mid x-y$.
+	\end{proof}
+	Ecco allora che possiamo dire
+	\begin{corollary}[Decomposizione degli anelli dei numeri mod $n$]\label{Decomposizione degli anelli dei numeri mod $n$}
+		Se $n=n_1n_2\dots n_r$ con gli $n_i$ a due a due coprimi allora 
+		\begin{align*}
+			\varphi:\faktor{\ZZ}{n\ZZ}\to &\faktor{\ZZ}{n_1\ZZ}\times\dots\times \faktor{\ZZ}{n_r\ZZ}\\
+			[x]_n\mapsto & ([x]_{n_1},\dots,[x]_{n_r})
+		\end{align*}
+		è un isomorfismo tra anelli, e quindi $\faktor{\ZZ}{n\ZZ}$ è isomorfo a $\faktor{\ZZ}{n_1\ZZ}\times\dots\times \faktor{\ZZ}{n_r\ZZ}$.
+	\end{corollary}
+	\begin{proof}
+		contenuto...
+	\end{proof}
+	\begin{lemma}[Decomporre un anello implica decomporre le unità]
+		Siano $R,S$ due anelli, allora
+		$$U(R\times S)=U(R)\times U(S).$$
+	\end{lemma}
+	\begin{proof}
+		\'E chiaro, infatti l'unità è di $R\times S$ è 
+		$$(1_R,1_S)$$
+		quindi è chiaro che comunque scelti elementi di $U(R)$ ed $U(S)$, la loro coppia sarà un elemento di $U(R\times S)$. Inoltre se $(a,b)\in U(R\times S)$ si ha chiaramente che esistono $a'\in R$ e $b'\in S$ tali che
+		$$(a,b)\cdot(a',b')$$
+		ovvero anche $a\in U(R)$ e $b\in U(S)$ come volevasi dimostrare.
+	\end{proof}
+	Applicando quindi il corollario \ref{Decomposizione degli anelli dei numeri mod $n$} e il lemma appena dimostrato si può facilmente derivare
+	\begin{corollary}[Valore della funzione toziente]
+		La funzione $\varphi$ di Eulero è moltiplicativa\footnote{ovvero $\varphi(ab)=\varphi(a)\varphi(b)$ se $a,b$ coprimi.}. Inoltre sulle potenze di numeri primi vale
+		$$\varphi(p^k)=p^{k-1}(p-1)$$
+		e dunque più in generale se $n=p_1^{e_1}p_2^{e_2}\dots p_k^{e_k}$ vale
+		$$\varphi(n)=\prod_{i=1}^k p_i^{e_i-1}(p_i-1)$$
+	\end{corollary}
+	
+	\newpage
+	
+	\section{Teoria dei gruppi}
+	RIcordiamo la definizione di gruppo già data in precedenza
+	
+	\begin{definition}[Gruppo]
+		Un insieme $G$ con un'operazione $\cdot$ binaria che soddisfa:
+		\begin{enumerate}
+			\item $G$ è chiuso rispetto a $\cdot$.
+			\item $\cdot$ è associativo. 
+			\item Esiste un elemento $1_G\in G$ tale che $1_G\cdot x=x\cdot 1_G=x$ per ogni $x\in G$.
+			\item Per ogni elemento $x$ esiste un elemento $x^{-1}$ tale che 
+			$$x^{-1}\cdot x=x\cdot x^{-1}=e.$$
+		\end{enumerate}
+		si dice gruppo.
+	\end{definition}
+	\begin{definition}[Gruppo Abeliano]
+		Un gruppo $G$ con un prodotto commutativo si dice gruppo abeliano.
+	\end{definition}
+	Cominciamo a dimostrare le prime proprietà dei gruppi:
+	\begin{lemma}[Proprietà degli inversi e dell'identità]
+		Sia $G$ un gruppo e $g,h\in G$, allora 
+		\begin{itemize}
+			\item L'inverso di $g\cdot h$ è $h^{-1}g^{-1}$.
+			\item Per ogni elemento di $g$ c'è uno e un solo inverso.
+			\item C'è uno e un solo elemento neutro.
+			\item In un gruppo si può sempre cancellare da uno stesso lato, ovvero
+			$$ab=ac\implies b=c$$
+			e analogamente
+			$$ba=ca \implies b=c$$ 
+		\end{itemize}
+	\end{lemma}
+	\begin{proof}
+		Dimostriamo una cosa per volta:
+		\begin{itemize}
+			\item Semplicemente svolgendo il prodotto e applicando la proprietà associativa
+			$$(g\cdot h) \cdot (h^{-1} \cdot g^{-1})=g\cdot \left(h\cdot h^{-1}\right)\cdot g^{-1}=(g\cdot 1_G)\cdot g^{-1}=g\cdot g^{-1}=1_G$$
+			ovvero $g\cdot h$ e $h^{-1} \cdot g^{-1}$ sono inversi.
+			\item Supponiamo che vi siano due inversi di $g$, chiamiamoli $a$ e $b$, allora:
+			$$a=1_G\cdot b=(ag)b=a(gb)=a\cdot 1_G=b$$
+			dunque $a=b$, ovvero vi è sempre un unico inverso.
+			\item Supponiamo vi siano due elementi neutri $a$ e $b$, allora, dato che per ogni $g_1,g_2\in G$ valgono
+			$$g_1a=g_1$$
+			$$g_2b=g_2$$
+			in particolare per $g_1=b$ e $g_2=a$ si avrà:
+			$$a=ab=ba=b$$
+			quindi $b=a$ come volevasi dimostrare.
+			\item Se $ab=ac$ moltiplichiamo da entrambi i lati a sinistra per $a^{-1}$ e abbiamo la tesi per associatività, analogamente succede per $ba=ca$.
+		\end{itemize}
+		Dunque abbiamo finito. 
+	\end{proof}
+	Il concetto di gruppo in generale dovrebbe contenere in sé il concetto di simmetria. In effetti oltre a molti esempi "numerici" che derivano dalla teoria dei numeri o degli anelli un esempio tipico di gruppo è quello delle simmetrie rispetto alla composizione, o quello delle matrici quadrate rispetto al prodotto.
+	\begin{example}[gruppo simmetrico]\label{gruppo simmetrico}
+		L'insieme delle biezioni di un insieme in sé stesso, ovvero l'insieme delle 
+		$$\sigma:X\bij X$$
+		rispetto alla composizione è un gruppo. In particolare se $X$ è finito questo gruppo avrà cardinalità $\abs{X}!$. Se $|X|=n$ il gruppo si denota con $S_n$ e si dice \textit{gruppo simmetrico}. 
+	\end{example}
+	Per denotare questi gruppi (i cosiddetti gruppi di permutazioni) introduciamo una notazione comoda:
+	\begin{definition}[Notazione per le permutazioni]
+		Sia $\sigma:X\to X$ una permutazione dell'insieme $X$ di $n$ elementi, allora la rappresentiamo con una tabella del tipo
+		$$\sigma = 
+		\begin{pmatrix}
+			1 & 2 & 3 & \dots & n \\
+			8 & 4 & 5 & \dots & n-16
+		\end{pmatrix}
+		$$
+		dove in ogni colonna è rappresentata una particolare coppia controimmagine-immagine della funzione sigma.
+	\end{definition}
+	In generale in un gruppo gli elementi non commutano, tuttavia può capitare che alcuni elementi lo facciano. Per esempio tutte le potenze di $g\in G$ commutano tra loro
+	$$g^ag^b=g^bg^a$$ 
+	d'ora in poi (con un sano abuso di notazione) denoteremo con $g^{-a}$ l'elemento $g^{-1}$ composto con se stesso $a$ volte. Tutte le proprietà usuali delle potenze valgono anche con questa notazione, come è chiaro che sia. In effetti vale qualcosa di un po' più forte di così:
+	\begin{remark}
+		Se in un gruppo $G$ due elementi sono tali che 
+		$$ab=ba$$
+		anche tutte le loro potenze commuteranno:
+		$$a^\alpha b^\beta = b^\beta a^\alpha$$ 
+	\end{remark}
+	
+	\subsection{Sottogruppi}
+	La prima nozione importante necessaria per studiare i gruppi è quella di sottogruppo:
+	\begin{definition}[Sottogruppo]
+		Sia $G$ un gruppo e $H\subseteq G$ un suo sottoinsieme, allora se $H$ è diverso dall'insieme vuoto, ed è un gruppo rispetto alla stessa operazione di $G$, allora $H$ si dice \textit{sottogruppo} e si denota con $H\le G$. 
+	\end{definition}
+	A livello operativo in realtà si utilizza il seguente risultato per dimostrare che un certo insieme è un sottogruppo:
+	\begin{lemma}[Equivalente di sottogruppo]\label{equivalente di sottogruppo}
+		Sia $G$ un gruppo, allora $H\le G$ sse 
+		\begin{itemize}
+			\item $1_G\in H$
+			\item Per ogni $h,g\in H$ abbiamo $gh^{-1}\in H$.
+		\end{itemize}
+	\end{lemma}
+	\begin{proof}
+		Una direzione è chiara. Dimostriamo ora che se valgono le due condizioni richieste allora $H$ è un sottogruppo. In effetti l'inverso appartiene sempre ad $h$, infatti se scegliamo i due elementi $1_G$ e $h$ anche 
+		$$1_G h^{-1}=h^{-1}\in H$$
+		inoltre dato che l'inverso appartiene ad $H$ possiamo applicare la proprietà agli elementi $g_1$ e $g_2^{-1}$ ovvero
+		$$g_1(g_2^{-1})^{-1}=g_1g_2\in H$$
+		che conclude.
+	\end{proof}
+	In realtà vi è un risultato più forte se l'insieme $H$ è finito:
+	\begin{lemma}[Sottogruppi finiti]
+		Se $G$ è un gruppo e $H\subseteq G$ è un suo sottoinsieme finito chiuso rispetto al prodotto di $G$, allora $H\le G$.
+	\end{lemma}
+	\begin{proof}
+		Ci manca solo da dimostrare che $H$ contiene tutti gli inversi e che contiene l'elemento neutro. Prendiamo $h\in H$, e consideriamo gli elementi di $H$
+		$$h,h^2,h^3,h^4,\dots$$
+		questi sono infiniti numerabili, ma $H$ è finito, quindi per il principio dei cassetti dovranno esistere due esponenti $i>j>0$ tali che
+		$$h^i=h^j \iff h^{i-j}=1_G.$$
+		questo dimostra che $1_G\in H$, in quanto $h^{i-j}\in H$, ma dimostra anche che 
+		$$h\cdot h^{i-j-1}=1_G$$
+		ovvero $h^{i-j-1}$ è l'inverso di $h$, e come prima $h^{i-j-1}\in H$ in quanto prodotto di elementi di $H$.
+	\end{proof}
+	Riprendendo la commutatività di cui si stava parlando prima abbiamo il primo caso particolare di sottogruppo:
+	\begin{definition}[Centralizzante]
+		Sia $g\in G$, allora chiamiamo $C_G(g)$ il \textit{centralizzante} di $G$ rispetto a $g$ l'insieme
+		$$C_G(g):=\left\{h\in G: gh=hg\right\}$$
+		chiaramente $G$ è abeliano se e solo se $C_G(g)=G$ per tutti gli $g$.
+	\end{definition}
+	\begin{proposition}[Il centralizzante è un sottogruppo]
+		Se $G$ è un gruppo e $g\in G$, allora $C_G(g)\le G$.
+	\end{proposition}
+	\begin{proof}
+		Prendiamo due elementi $h_1,h_2\in C_G(g)$, allora abbiamo
+		$$gh_1h_2=h_1gh_2=h_1h_2g$$
+		quindi anche $h_1h_2$ apparterrà a $C_G(g)$. Ma d'altra parte se consideriamo $h,h^{-1}\in C_G(g)$ abbiamo:
+		$$hg=gh \iff hgh^{-1}=g \iff gh^{-1}=h^{-1}g$$
+		quindi $C_G(g)$ è chiuso anche rispetto all'inversione, e quindi applicando il \ref{equivalente di sottogruppo} abbiamo la tesi.
+	\end{proof}
+	questo insieme è a tutti gli effetti un sottogruppo, e non è difficile dimostrarlo. \'E chiaro che, come per gli spazi vettoriali l'intersezione si comporta bene rispetto alla relazione di \textit{essere un sottogruppo di}, ovvero
+	\begin{lemma}[Intersezione di sottogruppi]
+		Sia $G$ un gruppo e $H,K\le G$, allora si ha $H\cap K \le G$.
+	\end{lemma}
+	\begin{proof}
+		Prendiamo due elementi $a,b\in H\cap K$. Allora abbiamo che $a,b\in H$ e $a,b\in K$, quindi 
+		$$ab\in H$$
+		$$ab\in K$$
+		ma questo vuol dire che $ab\in H\cap K$, cioè $H\cap K$ è chiuso rispetto al prodotto. Inoltre è anche chiuso rispetto all'inversione, infatti $a\in H \implies a^{-1}\in H$ e $a\in K \implies a^{-i} \in K$, dunque abbiamo la tesi per \ref{equivalente di sottogruppo}.
+	\end{proof}
+	E pure, come per i sottospazi, vale che se $H$ e $K$ sono sottogruppi, la loro unione non è necessariamente a sua volta un sottogruppo. \\
+	Usando il lemma sopra possiamo generalizzare il concetto di centralizzante per arrivare a quello di \textit{centro}:
+	\begin{definition}[Centro]
+		Se $X\subseteq G$ possiamo definire il suo \textit{centralizzante} come
+		$$C_G(X)=\left\{h\in G: \forall x\in X, hx=xh\right\}$$
+		In particolare abbiamo che
+		$$C_G(X)=\bigcap_{x\in X}C_G(x)$$
+		dunque per il lemma di prima anche $C_G(X)$ è un sottogruppo. Riveste particolare importanza il gruppo 
+		$$Z(G):=C_G(G)$$
+		detto il \textit{centro} di $G$ (la $Z$ viene dal tedesco \textit{zentrum}). 
+	\end{definition}
+	\begin{corollary}[Il centro è un sottogruppo]
+		Per ogni gruppo $G$ si ha $Z(G)\le G$, e l'uguaglianza vale se e solo se $G$ è abeliano. 
+	\end{corollary}
+	\begin{example}[Centro di $S_3$]
+		\'E chiaro che $S_n$ non è abeliano, quindi chiedersi chi è il suo centro è una domanda interessante. In particolare per $S_3$ facendo il conto troviamo che
+		$$Z(S_3)=\left\{e\right\}$$
+	\end{example}
+	Un altro grande esempio di sottogruppo è il sottogruppo \textit{ciclico}, ovvero
+	\begin{definition}[Sottogruppo ciclico]
+		Sia $g\in G$, il \textit{sottogruppo ciclico} di $G$ generato dall'elemento $g$ è l'insieme
+		$$\langle g \rangle:=\left\{g^k\in G:k\in\ZZ\right\}$$
+		in particolare $g$ si chiama \textit{generatore} dell'insieme $\langle g \rangle$. 
+	\end{definition}
+	\begin{example}[Gruppo delle affinità]
+		Consideriamo il sottoinsieme $\text{Aff}^1(\RR)$ di $S_\RR$ dato dalle funzioni del tipo (dati due $a,b\in\RR$ con $a\ne 0$)
+		$$f_{ab}:x\mapsto ax+b.$$
+		Queste funzioni (che non sono sempre lineari, la verifica è lasciata per esercizio) si dicono affinità e $\text{Aff}^1(\RR)$ è effettivamente un sottogruppo di $S_\RR$. Possiamo calcolare il centro di questo gruppo e trovare che è $\langle e \rangle$, dunque $\text{Aff}^1(\RR)$ non sarà abeliano.
+		Tuttavia, il sottogruppo di $\text{Aff}^1(\RR)$:
+		 $$\mathcal{O}:=\left\{f_{ab}\in \text{Aff}^1(\RR):a\ne 0, b=0\right\}$$
+		 ovvero il gruppo delle omotetie di $\RR$, è commutativo. Insomma, anche se il centro di un gruppo è banale, possono esistere suoi sottogruppi abeliani. Analogamente possiamo considerare:
+		 $$\mathcal{T}:=\left\{f_{ab}\in \text{Aff}^1(\RR):a=1,b\in\RR\right\}$$
+		 l'insieme di tutte le traslazioni della retta reale, e anche questo è abeliano.
+	\end{example}
+	Caratterizziamo ora meglio la nozione di sottogruppo:
+	\begin{definition}[Sottogruppo generato da un insieme]
+		Sia $X\subseteq G$ dove $G$ è un gruppo. Chiamiamo \textit{sottogruppo generato da un insieme} $X$ l'insieme 
+		$$\langle X \rangle := \left\{\text{tutti i possibili prodotti di elementi di $X$}\right\}$$
+		questo in particolare è equivalente a 
+		$$\langle X \rangle = \bigcap_{H\le G, X \subseteq H} H$$
+		che è per costruzione il più piccolo sottogruppo che contiene $X$.
+	\end{definition}
+	\begin{proof}
+		Dimostriamo un'inclusione alla volta. 
+		\begin{description}
+			\item[Primo $\subseteq$ secondo] In effetti se esiste un $H$ sottogruppo di $G$ tale che $X\subseteq H$ abbiamo sempre che il prodotto di elementi di $X$ appartiene a $H$ (per la chiusura di $H$). Dunque avremo sempre che 
+			$$\langle X \rangle \subseteq H$$
+			e quindi in particolare 
+			$$\langle X \rangle \subseteq \bigcap_{H\le G, X \subseteq H} H.$$
+			\item[Secondo $\subseteq$ primo] D'altro canto se $H$ è il più piccolo sottogruppo che contiene tutti gli elementi di $X$ avremo necessariamente che 
+			$$H\subseteq \langle X \rangle$$
+			dato che $\langle X \rangle$ è un sottogruppo che contiene tutti gli elementi di $X$, e $H$ è il minimo sottogruppo che soddisfa questa proprietà.
+		\end{description}
+		Dunque abbiamo finito.
+	\end{proof}
+	\newpage
+	
+	\subsection{Omomorfismi e Automorfismi}
+	
+	L'algebra dai tempi di Dedekind ha iniziato a studiare, più che i singoli elementi, gli insiemi che li contenevano e in particolare le strutture che si formavano. Per studiare la struttura in sé dobbiamo in qualche modo astrarci dal particolare insieme in cui siamo, a questo fine introduciamo la seguente 
+	\begin{definition}[Omomorfismo di gruppi]
+		Dati due gruppi $G,H$ un'applicazione $f:G\to H$ si dice un \textit{omomorfismo} se e solo se
+		$$f(a)f(b)=f(ab)$$
+		per tutti gli elementi $a,b\in G$. Se $f$ è suriettiva si dice \textit{epimorfismo}, se è iniettiva si dice \textit{monomorfismo} e se è biettiva si dice \textit{isomorfismo}. In questo caso i gruppi $G$ e $H$ si dicono \textit{isomorfi} e si scrive
+		$$G\simeq H.$$
+	\end{definition} 
+	In generale studieremo i gruppi \textit{a meno di isomorfismi}, ovvero l'unica cosa che ci interesserà davvero sarà il modo in cui gli elementi si relazionano tra loro, non cosa sono davvero. \\
+	Abbiamo già incontrato un sacco di isomorfismi tra gruppi nell'ambito della teoria dei numeri (tutte le disquisizioni sul TCR e sulla moltiplicatività) o dell'algebra lineare (tutte le applicazioni lineari in effetti sono omomorfismi). \\
+	Gli isomorfismi ci tornano persino utili per dimostrare alcune proprietà che abbiamo dato per scontate di $S_n$, come la non commutatività; in effetti notiamo che fissando $\sigma(i)=i$ per tutti i $i\le k$ l'insieme delle permutazioni che otteniamo è un sottogruppo di $S_n$, ed è in particolare isomorfo a $S_{n-k}$! \\
+	In questo modo abbiamo che (a meno di isomorfismi appunto):
+	$$S_{1}\le S_2 \le S_3 \le\dots S_n $$ 
+	dove le inclusioni non significano davvero che tutti gli elementi di $S_1$ appartengono a $S_2$ (anzi, nessun elemento di $S_1$ appartiene ad $S_2$), ma che dentro $S_n$ vi è un sottogruppo isomorfo a $S_{n-1}$ per tutti gli $n$.
+	
+	\begin{example}\label{esempio di periodicità}
+		Sia $G$ un gruppo e $g\in G$ un suo elemento. Allora possiamo costruire la funzione $\varphi:(\ZZ,+)\to \langle g \rangle$ tale che
+		$$\varphi:z\mapsto g^z$$
+		che è un omomorfismo per le proprietà delle potenze, in particolare è sicuramente suriettivo, dunque è un epimorfismo.
+	\end{example}
+	\begin{example}
+		Analogamente possiamo costruire un omomorfismo tra $(\RR,+)$ e $(\RR,\cdot)$ utilizzando la funzione esponenziale $f(x)=e^x$, infatti
+		$$f(x)f(y)=e^xe^y=e^{x+y}=f(x+y)$$
+	\end{example}
+	\begin{lemma}[Gli omomorfismi ignorano gli esponenti]
+		Se $G,H$ sono due gruppi e $f:G\to H$ è un omomorfismo allora valgono le seguenti:
+		\begin{itemize}
+			\item $f(1_G)=1_H$
+			\item Gli esponenti passano da dentro a fuori, in altre parole 
+			$$f(g^{-1})=f(g)^{-1}$$
+			e più in generale per ogni $k\in\ZZ$ abbiamo
+			$$f(g^k)=f(g)^k$$
+		\end{itemize}
+	\end{lemma}
+	\begin{proof}
+		Dimostriamo una cosa alla volta
+		\begin{itemize}
+			\item Consideriamo $g\in G$, sappiamo che
+			$$f(g)=f(1_G\cdot g)$$
+			ma a questo punto usando le proprietà dell'omomorfismo abbiamo
+			$$f(g)=f(1_G\cdot g)=f(1_G)\cdot f(g)\iff f(1_G)=1_H$$
+			per la proprietà di cancellazione a destra.
+			\item Come prima consideriamo $g\in G$, allora sappiamo che 
+			$$f(g\cdot g^{-1})=1_H$$
+			dunque applicando proprietà degli omomorfismi e cancellazione abbiamo
+			$$f(g^{-1})=f(g)^{-1}$$
+			come richiesto.
+		\end{itemize}
+		Infine la generalizzazione segue abbastanza chiaramente per induzione una volta dimostrate le prime due. 
+	\end{proof}
+	Esattamente come per le applicazioni lineari definiamo 
+	\begin{definition}[Kernel]
+		Sia $f:G\to H$ un omomorfismo. Allora chiamiamo \textit{kernel} (o nucleo) di $f$ l'insieme
+		$$\ker{f}=\left\{g\in G: f(g)=1_H\right\}$$
+	\end{definition}
+	E anche qui vale
+	\begin{lemma}[Sottogruppi definiti da un omomorfismo]
+		Se $f:G\to H$ è un omomorfismo allora $\ker{f}$ e $\Immagine{f}$ sono sottogruppi rispettivamente di $G$ ed $H$.
+	\end{lemma}
+	e anche questo, come per le applicazioni lineari soddisfa
+	\begin{lemma}[monomorfismo equivale a kernel banale]\label{gruppi:monomorfismo=kernel banale}
+		Se $f:G\to H$ è un omomorfismo, allora $f$ è un monomorfismo se e solo se $\ker{f}={1_G}$.
+	\end{lemma}
+	\begin{proof}
+		Dimostriamo prima di tutto che se il nucleo ha elementi non banali, allora $f$ non è iniettiva. Infatti se $a\in \ker{f}$ con $a\ne 1_G$ abbiamo:
+		$$f(x)f(a)=f(x)$$
+		ovvero
+		$$f(xa)=f(x)$$
+		conn$xa\ne x$, dunque $f$ non è iniettiva. Supponiamo ora che il kernel sia banale, allora se esistono $a,b\in G$ tali che:
+		$$f(a)=f(b)$$
+		possiamo scrivere
+		$$f(ab^{-1})=1_H$$
+		quindi $ab^{-1}\in \ker{f}$, ovvero
+		$$ab^{-1}=1_G\iff a=b $$
+		che è la definizione di iniettività, e dunque abbiamo finito.
+	\end{proof}
+	
+	\begin{lemma}[Isomorfismi e Omomorfismi fanno ciò che ci si aspetta]
+		La composizione di omomorfismi è un omomorfismo. La composizione di isomorfismi è un isomorfismo. Inoltre l'inverso di un isomorfismo è un isomorfismo.
+	\end{lemma}
+	Questo lemma ci dice in effetti che 
+	\begin{corollary}[La relazione di isomorfismo è una relazione di equivalenza]
+		Siano $G$, $H$ ed $L$ tre gruppi, allora
+		\begin{itemize}
+			\item Se esiste un isomorfismo da $G$ ad $H$ allora esiste un isomorfismo da $H$ a $G$.
+			\item Esiste sempre un isomorfismo da $G$ in $G$.
+			\item Se $G$ è isomorfo ad $H$ e $H$ è isomorfo ad $L$, allora $G$ è isomorfo ad $L$. 
+		\end{itemize}
+	\end{corollary}
+	Abbiamo appena menzionato il concetto di isomorfismo da $G$ a $G$, in effetti sono oggetti interessanti, e meritano un nome:
+	\begin{definition}[Endomorfismo e Automorfismo]
+		Un omomorfismo da $G$ a $G$ si dice \textit{endomorfismo}, un isomorfismo da $G$ a $G$ si dice \textit{automorfismo}. In particolare l'insieme di tutti gli automorfismi di $G$ rispetto alla composizione è un gruppo e si denota con
+		$$\text{Aut}(G)=\left\{f\in G^2\mid f:G\to G \text{ è un isomorfismo}\right\}$$
+	\end{definition}
+	La prima osservazione importante è che $\text{Aut}(G)\le S_G$. In seguito per gruppi più specifici diremo molto di più. 
+	
+	\subsection{Ordini}
+	
+	\begin{definition}[Ordine di un gruppo]
+		La cardinalità di un gruppo $G$ si dice \textit{ordine}.
+	\end{definition}
+	
+	Ritorniamo un attimo all'esempio \ref{esempio di periodicità}. Applicando il lemma \ref{gruppi:monomorfismo=kernel banale} troviamo che $\varphi$ è un isomorfismo se e solo se non esistono elementi di $z\in\ZZ\setminus\left\{0\right\}$ tali che $g^z=1_G$. A questo proposito diamo la seguente definizione:
+	\begin{definition}[Ordine di un elemento]
+		Sia $g\in G$, allora diciamo che $g$ ha \textit{ordine} $k$ e scriviamo 
+		$$\ordine{G}{g}=k$$
+		oppure
+		$$\abs{g}=k$$
+		se e solo se $k$ è il minimo numero naturale tale che $g^k=1_G$. In particolare se un tale $k$ non esiste diciamo che $g$ è \textit{aperiodico}. 
+	\end{definition} 
+	\begin{lemma}[L'ordine divide tutte le potenze che danno l'identità]\label{gruppi:ordine divide tutte le potenze che danno l'identità}
+		Sia $g\in G$ un elemento di ordine $n$. Allora se e solo se $g^k=1$ varrà anche $n\mid k$.
+	\end{lemma}
+	\begin{proof}
+		Dividiamo $k$ per $n$ ottenendo un $r<n$. Allora scriviamo
+		$$1=g^{k}=g^{nq+r}=g^{nq}g^r=(g^n)^qg^r=1^qg^r=g^r$$
+		ma allora necessariamente $r=0$ perchè altrimenti avremmo trovato un numero minore di $n$ tale che $g^r=1$ assurdo per la minimalità di $n$. Dunque abbiamo un'implicazione. L'altra è banale.
+	\end{proof}
+	
+	\begin{proposition}[ordine di un prodotto che commuta]
+		Se $g,h\in G$ hanno ordine finito e sono tali che $gh=hg$ allora 
+		$$\ordine{G}{gh}\mid \mcm\left(\ordine{G}{g},\ordine{G}{h}\right)$$
+	\end{proposition}
+	\begin{proof}
+		Prendiamo semplicemente il lungo prodotto
+		$$\overset{\text{$\mcm\left(\ordine{G}{g},\ordine{G}{h}\right)$ volte}}{\overbrace{gh\cdot gh \cdot gh \cdot \dots \cdot gh}}$$
+		applicando la commutatività di $gh$ possiamo riscriverlo come
+		$$g^{\mcm\left(\ordine{G}{g},\ordine{G}{h}\right)}h^{\mcm\left(\ordine{G}{g},\ordine{G}{h}\right)}$$
+		che è chiaramente uguale ad $1_G$ e dunque abbiamo finito.
+	\end{proof}
+	\begin{lemma}[Ordine di una potenza]\label{gruppi:ordine di una potenza}
+		Sia $g\in G$ un elemento con ordine $n$. Allora dimostriamo che
+		$$\ordine{G}{g^k}=\frac{n}{\MCD(n,k)}$$
+	\end{lemma}
+	\begin{proof}
+		Notiamo che in effetti 
+		$$g^{\frac{kn}{\MCD(n,k)}}=g^{\mcm(n,k)}$$
+		e dunque dato che $\mcm(n,k)$ è proprio il minimo degli elementi $a$ di $\NN$ tali che $g^a=1$ (ovvero tali che $n\mid a$) e allo stesso tempo che esista un $q\in \NN$ tale che $(g^k)^q=g^a=1$ (ovvero tali che $k\mid a$), abbiamo finito.  
+	\end{proof}
+	Il concetto di ordine in effetti è meglio compreso con la trattazione dei gruppi ciclici, che approfondiremo nella prossima sezione. In realtà possiamo già dire qualcosa grazie al lemma sopra, ovvero che in un gruppo ciclico il numero di elementi di ordine $n$ è sempre esattamente $\varphi(n)$.
+	
+	\subsection{Qualche caso particolare}
+	
+	Vediamo di applicare le nostre conoscenze a qualche gruppo concreto.
+	
+	\subsubsection{Digressione sui Gruppi Ciclici}
+	
+	
+	Nell'esempio \ref{esempio di periodicità} il kernel di $\varphi$ è costituito da tutti e soli i multipli di $\ordine{G}{g}$, dunque segue
+	\begin{corollary}[Classificazione dei gruppi ciclici]
+		Un sottogruppo ciclico $\langle g \rangle$ generato da un solo elemento o è isomorfo a $(\ZZ,+)$ o è isomorfo a $\left(\faktor{\ZZ}{n\ZZ},+\right)$ per qualche $n\in\NN^*$, in particolare per 
+		$$n=\ordine{G}{g}.$$
+	\end{corollary}
+	\begin{proof}
+		Costruiamo la funzione $\varphi(z)$ come sopra da $(\ZZ,+)$ a $\langle g \rangle$. Quando è un isomorfismo? sicuramente è suriettivo perchè copre tutti gli elementi di $\langle g \rangle$, essendo tutte potenze del generatore $g$. Manca da verificare che sia iniettivo, dunque invocando \ref{gruppi:monomorfismo=kernel banale} ci basta verificare per quali $z$ vale
+		$$\varphi(z)=1_G$$
+		ma d'altro canto questo insieme è banale se e solo se $g$ è aperiodico, e dunque abbiamo che 
+		$$\langle g \rangle \simeq (\ZZ,+) \iff g \text{ aperiodico}$$
+		ripetendo esattamente lo stesso conto, ma con un isomorfismo analogo da $\faktor{\ZZ}{n\ZZ}$ a $\langle g \rangle$ abbiamo che non esistono $z$ che vanno in $1_G$ se e solo se il gruppo di partenza ha al più $\ordine{G}{g}$ elementi, dunque abbiamo la tesi.
+	\end{proof}
+	In particolare dunque abbiamo
+	\begin{corollary}[unicità del gruppo ciclico]
+		Gruppi ciclici finiti dello stesso ordine sono sempre isomorfi fra loro. Questo ci permette di definire con $C_l$ \textbf{il} gruppo ciclico di ordine $l$, che è unico a meno di isomorfismi.
+	\end{corollary}
+	\begin{proof}
+		Possiamo costruire esplicitamente un isomorfismo tra due gruppi ciclici dello stesso ordine. Infatti siano $\langle a \rangle$ e $\langle b \rangle$ due gruppi ciclici di ordine $l$, allora la funzione $f:\langle a \rangle \to \langle b \rangle$:
+		$$f:a^k\mapsto b^k$$
+		è chiaramente un isomorfismo (dato che ogni elemento di entrambi gli insiemi può essere espresso rispettivamente come potenza di rispettivamente $a$ o $b$) tra i due gruppi desiderati, e dunque abbiamo finito. 
+	\end{proof}
+	Vediamo ancora qualche proprietà dei sottogruppi ciclici:
+	\begin{lemma}[I sottogruppi di un ciclico sono ciclici]
+		Siano $G\ge H$ due gruppi, allora se $G$ è ciclico anche $H$ sarà ciclico.
+	\end{lemma}
+	\begin{proof}
+		Sia $g\in G$ un generatore di $G$ e $n$ l'ordine di $G$. Prendiamo $m\in\ZZ$ il più piccolo intero tale che 
+		$$g^m\in H.$$
+		Dimostriamo che $g^m$ è un generatore di $H$. Sia $h$ un elemento di $H$, allora dato che $h\in G$ esisterà un $k$ tale che $g^k=h$. Dimostriamo che $m\mid k$. Applichiamo l'algoritmo della divisione euclidea per trovare un $m>r\ge 0$ e un $q>0$ tali che 
+		$$g^k=g^{mq+r}=g^{mq}g^r$$
+		da cui abbiamo dividendo ambo i lati per $g^{mq}$ che $g^r\in H$, assurdo in quanto avevamo supposto che $m$ fosse il minimo esponente tale che $g^m\in H$, e quindi $m\mid k$. Dunque per ogni elemento $h$ di $H$ esiste un $q$ tale che 
+		$$(g^m)^q=h$$
+		ovvero $H$ è ciclico. 
+	\end{proof}
+	Quindi non solo ogni sottogruppo di $H$ è ciclico, ma abbiamo anche una "ricetta" per calcolarne un generatore. In effetti la condizione di gruppo ciclico è estremamente stringente e possiamo dire molto più del semplice lemma sopra. Infatti possiamo
+	\begin{theorem}[Struttura dei gruppi ciclici]
+		Sia $G$ un gruppo ciclico di ordine $n$ allora:
+		\begin{itemize}
+			\item L'ordine di tutti i suoi sottogruppi è un divisore di $n$.
+			\item Per ogni divisore $d$ di $n$ esiste sempre uno e un solo sottogruppo di ordine $d$.
+			\item Se $g$ è un generatore di $G$ e $H$ un suo sottogruppo di ordine $d$ allora $g^{\frac{n}{d}}$ è un generatore di $H$.
+		\end{itemize}
+	\end{theorem}
+	\begin{proof}
+		Dimostriamo una cosa alla volta:
+		\begin{itemize}
+			\item Dalla dimostrazione precedente dato $H$ sottogruppo possiamo trovare $g$ generatore e $m\in\NN$ tali che $g^m$ è un generatore, ma per \ref{gruppi:ordine di una potenza} sappiamo che l'ordine di $g^m$ è un divisore di $n$, dunque l'ordine di $H$ divide l'ordine di $G$.
+			\item Prendiamo $d$ un divisore di $n$. Allora se $g$ è un generatore di $G$ possiamo sempre costruire il gruppo generato da $g^{n/d}$, che è ciclico e di ordine $d$. Ora supponiamo per assurdo che ci siano due sottogruppi ciclici distinti di ordine $d$, siano $A$ e $B$. Per quanto detto prima possiamo trovare due esponenti distinti minimi tali che $g^a\in A$ e $g^b\in B$. Questi due elementi sono entrambi generatori dei sottogruppi $A$ e $B$, e dunque
+			$$\frac{n}{\MCD(a,n)}=\ordine{G}{g^a}=d=\ordine{G}{g^b}=\frac{n}{\MCD(b,n)}$$
+			ma allora abbiamo
+			$$\MCD(a,n)=\MCD(b,n)$$
+			cioè $a=b$ dato che $a,b<n$ come volevasi dimostrare.
+			\item Questo segue direttamente da quanto appena detto.
+		\end{itemize}
+		Dunque abbiamo finito.
+	\end{proof}
+	
+	Investighiamo ora la struttura degli automorfismi dei gruppi ciclici. La prima cosa che notiamo è che per definire un endomorfismo $f:C_n\to C_n$ di un gruppo ciclico ci basta imporre che soddisfi 
+	$$f(a)f(a)=f(ab)$$
+	e, capire quale sia l'immagine di $f(c)$, dove $\langle c \rangle=C_n$. Se poi vogliamo anche che $f$ sia un automorfismo, dobbiamo imporre che sia iniettivo e suriettivo. Nel caso di gruppi finiti questo è abbastanza semplice, e si traduce nel seguente teorema:
+	\begin{theorem}[Struttura degli automorfismi di un gruppo ciclico]
+		Se $C_n$ è un gruppo ciclico possiamo definire una funzione
+		$$\psi_a:C_n\to C_n$$
+		tale che $\psi(g)=g^a$ per ogni $g\in C_n$. Allora possiamo dimostrare che 
+		\begin{itemize}
+			\item L'insieme di tutti e soli i $\psi_a$ (con $a$ e $n$ coprimi) è l'insieme di tutti e soli gli automorfismi di $C_n$.
+			\item $\text{Aut}(C_n)$ è isomorfo a $U\left(\faktor{\ZZ}{n\ZZ}\right)$.
+		\end{itemize}
+	\end{theorem}
+	\begin{proof}
+		Dimostriamo prima di tutto che ogni automorfismo $\varphi$ di $C_n$ è della forma $\psi_a$. Sia $g$ un generatore di $C_n$, allora
+		$$\varphi(g)=g^a$$
+		per qualche $a$, dato che $g$ è un generatore. Allora per $m$ da $1$ a $n$ saranno tutti distinti i valori
+		$$\varphi(g^m)=\varphi(g)^m=g^{am}$$
+		dunque perchè ciò sia possibile dobbiamo avere $a$ coprimo con $n$, e dunque $\varphi(c)=\psi_a(c)$ per ogni $c\in C_n$. Il fatto che tutti i $\psi_a$ siano automorfismi è chiaro e discende direttamente da \ref{gruppi:ordine di una potenza}. \\
+		Dunque ogni automorfismo è della forma $\psi_a$, e grazie a ciò possiamo costruire l'isomorfismo $\chi$ da $\text{Aut}(C_n)$ a $U\left(\faktor{\ZZ}{n\ZZ}\right)$:
+		$$\chi:\psi_a\mapsto a$$
+		questo è sicuramente suriettivo, dato che per ogni $a$ esiste un $\psi_a$, e dato che i due insiemi hanno la stessa cardinalità (finita), sarà anche biettivo. Per finire è chiaro che sia un omomorfismo, quindi è proprio un omomorfismo, e abbiamo finito.
+	\end{proof}
+	Gli automorfismi del gruppo ciclico infinito invece:
+	\begin{theorem}[Struttura degli automorfismi di $\ZZ$]
+		L'insieme degli automorfismi di $(\ZZ,+)$ è isomorfo a $C_2$.
+	\end{theorem}
+	\begin{proof}
+		Sia $\varphi$ un automorfismo di $(\ZZ,+)$. Imponiamo che
+		$$\varphi(1)=a$$
+		In questo modo tutti i valori di $\varphi$ sono determinati, infatti dato che $\varphi$ è un omomorfismo abbiamo
+		$$\varphi(b)=\varphi(\overset{\text{$b$ volte}}{\overbrace{1+1+\dots+1}})=b\varphi(1)=ba$$
+		e analogamente 
+		$$\varphi(-b)=-\varphi(b)=-ba.$$
+		A questo punto osserviamo che, essenzialmente d'ufficio, $\varphi$ è iniettivo, ma affinché sia anche suriettivo $a$ deve essere $\pm 1$. Se infatti $\abs{a}>1$ abbiamo che per $b\ne 0$
+		$$\abs{\varphi(b)}=\abs{ba}=\abs{b}\abs{a}>1$$
+		e quindi $\varphi$ non potrà mai valere $\pm 1$. Quindi tutti e soli gli automorfismi di $(\ZZ,+)$ sono le due funzioni:
+		$$x\mapsto x$$
+		$$x\mapsto -x$$
+		che si comportano esattamente come il gruppo $\left(\left\{1,-1\right\},\cdot\right)$, isomorfo a $C_2$, come richiesto.
+	\end{proof}
+	
+	\subsubsection{Digressione sui Gruppi Diedrali}
+	Il gruppo diedrale $n$-esimo è quello che comprende tutte le possibili simmetrie e rotazioni di un poligono regolare con $n$ lati che lo mantengano invariato. 
+	\begin{definition}[Gruppo Diedrale]
+		Il gruppo diedrale $n$-esimo (denotato con $D_n$) è il gruppo che contiene le $2n$ trasformazioni del piano che mantengono invariato un poligono di $n$ lati, in particolare
+		\begin{itemize}
+			\item Le $n$ rotazioni.
+			\item Le $n$ simmetrie.
+		\end{itemize}
+	\end{definition}
+	Per $n$ piccoli, $D_n$ e $S_n$ si confondono, in effetti 
+	\begin{proposition}[$D_n$ ed $S_n$ si confondono all'inizio]
+		Il gruppo diedrale $D_3$ è isomorfo a $S_3$. 
+	\end{proposition}
+	\begin{proof}
+		Si può facilmente verificare mostrando che $\langle r,s \rangle=D_3$ e quindi costruendo un isomorfismo a partire solo dalle immagini di $r$ ed $s$.
+	\end{proof}
+	In realtà questo non è vero in generale, e ce ne si può accorgere anche solo semplicemente guardando gli ordini di $S_n$ e $D_n$. In generale però
+	\begin{lemma}[I diedrali sono sottogruppi dei simmetrici]
+		Per ogni $n\in\NN^*$ vale $D_n\le S_n$ e in particolare abbiamo che esistono una rotazione e una simmetria in $D_n$ tali che
+		$$\langle r,s \rangle=D_n$$ 
+	\end{lemma}
+	\begin{proof}
+		Possiamo visualizzare il gruppo diedrale come un insieme delle permutazioni dei vertici di un $n$-agono regolare. Vediamo il caso specifico $n=6$ tenendo a mente che quanto vedremo vale anche in generale:
+		\begin{center}
+			\begin{tikzpicture}
+				[scale=.8,auto=left,every node/.style={circle,fill=blue!20}]
+				
+				\node (n1) at (3,0) {1};
+				\node (n2) at (1.5,2.598)  {2};
+				\node (n3) at (-1.5,2.598)  {3};
+				\node (n4) at (-3,0)  {4};
+				\node (n5) at (-1.5,-2.598) {5};
+				\node (n6) at (1.5,-2.598)  {6};
+				
+				\foreach \from/\to in {n1/n2,n2/n3,n3/n4,n4/n5,n5/n6,n6/n1}
+				\draw (\from) -- (\to);
+			\end{tikzpicture}
+		\end{center}
+		Indicizzando i vertici di un esagono regolare come in figura, alle cinque rotazioni di $D_6$ sono associate le cinque permutazioni:
+		$$\rho_1 \mapsto 
+		\begin{pmatrix}
+			1 & 2 & 3 & 4 & 5 & 6 \\
+			2 & 3 & 4 & 5 & 6 & 1
+		\end{pmatrix}
+		$$
+		$$\rho_2 \mapsto 
+		\begin{pmatrix}
+			1 & 2 & 3 & 4 & 5 & 6 \\
+			3 & 4 & 5 & 6 & 1 & 2
+		\end{pmatrix}
+		$$
+		$$\rho_3 \mapsto 
+		\begin{pmatrix}
+			1 & 2 & 3 & 4 & 5 & 6 \\
+			4 & 5 & 6 & 1 & 2 & 3
+		\end{pmatrix}
+		$$
+		$$\rho_4 \mapsto 
+		\begin{pmatrix}
+			1 & 2 & 3 & 4 & 5 & 6 \\
+			5 & 6 & 1 & 2 & 3 & 4
+		\end{pmatrix}
+		$$
+		$$\rho_5 \mapsto 
+		\begin{pmatrix}
+			1 & 2 & 3 & 4 & 5 & 6 \\
+			6 & 1 & 2 & 3 & 4 & 5
+		\end{pmatrix}
+		$$
+		da qui vediamo subito che $\rho_1$ genera il sottogruppo delle rotazioni, che è effettivamente formato dagli elementi $1,\rho,\rho^2,\rho^3,\rho^4,\rho^5$. Allo stesso modo alle $6$ riflessioni sono associati 
+		$$\sigma_1 \mapsto 
+		\begin{pmatrix}
+			1 & 2 & 3 & 4 & 5 & 6 \\
+			1 & 6 & 5 & 4 & 3 & 2
+		\end{pmatrix}
+		$$
+		$$\sigma_2 \mapsto 
+		\begin{pmatrix}
+			1 & 2 & 3 & 4 & 5 & 6 \\
+			2 & 1 & 4 & 3 & 6 & 5
+		\end{pmatrix}
+		$$
+		$$\sigma_3 \mapsto 
+		\begin{pmatrix}
+			1 & 2 & 3 & 4 & 5 & 6 \\
+			3 & 2 & 1 & 6 & 5 & 4
+		\end{pmatrix}
+		$$
+		$$\sigma_4 \mapsto 
+		\begin{pmatrix}
+			1 & 2 & 3 & 4 & 5 & 6 \\
+			4 & 3 & 2 & 1 & 6 & 5
+		\end{pmatrix}
+		$$
+		$$\sigma_5 \mapsto 
+		\begin{pmatrix}
+			1 & 2 & 3 & 4 & 5 & 6 \\
+			5 & 4 & 3 & 2 & 1 & 6
+		\end{pmatrix}
+		$$
+		$$\sigma_6 \mapsto 
+		\begin{pmatrix}
+			1 & 2 & 3 & 4 & 5 & 6 \\
+			6 & 5 & 4 & 3 & 2 & 1
+		\end{pmatrix}
+		$$
+		queste assegnazioni definiscono un monomorfismo $f:D_n\to S_n$, e dato che $D_n$ è un gruppo finito, avremo che $\Immagine{f}\simeq D_n$, da cui $D_n\simeq\Immagine{f}\le S_n$. Si vede poi geometricamente che $\langle \rho, \sigma_1\rangle=D_n$.
+	\end{proof}
+	Proviamo ora a calcolare il centro del diedrale. Chiaramente le rotazioni commutano tutte tra loro, il problema è capire cosa succede quando aggiungiamo le riflessioni. In effetti notiamo che se $n$ è pari, esiste una rotazione $\rho^{n/2}$ che è esattamente una riflessione centrale rispetto all'origine del piano. In generale quindi vale
+	\begin{lemma}[Centro di un diedrale]
+		Il centro di un diedrale è
+		$$
+		Z(D_n)=
+		\begin{cases}
+			\left\{\text{id}\right\} & \text{se $n$ è dispari} \\
+			\langle \rho^{n/2}\rangle & \text{se $n$ è pari}
+ 		\end{cases}
+		$$
+		che è quindi sempre un gruppo molto piccolo (in un caso ha ordine $1$, nell'altro ha ordine $2$).
+	\end{lemma}
+	
+	
+	\subsubsection{Digressione sui Gruppi Simmetrici}
+	
+	Cominciamo a studiare i gruppi simmetrici usando
+	\begin{definition}[Permutazione ciclica]
+		Una permutazione $\sigma\in S_n$ si dice \textit{ciclica} (o equivalentemente si dice che è un \textit{ciclo}) se e solo se esiste un insieme 
+		$$\left\{a_1,a_2,\dots,a_m\right\}$$
+		di elementi di $S_n$ tale che 
+		$$\sigma(a_i)=a_{i+1\mod m}$$
+		e per ogni $n\not\in \left\{a_1,a_2,\dots,a_m\right\}$ vale $\sigma(n)=n$. Denoteremo un $k$-ciclo con 
+		$$(a_1, a_2, \dots a_k).$$
+		Due cicli $(a_1, a_2, \dots a_m)$ e $(b_1, b_2, \dots b_{m'})$ si dicono \textit{disgiunti} se i due insiemi dei $b_i$ e degli $a_i$ sono disgiunti. 
+	\end{definition}
+	I cicli sono molto facili da trattare in effetti, è chiaro infatti che 
+	$$\ordine{S_n}{\sigma_k}=k$$
+	e quindi l'inverso di $c_k$ è esattamente $c_k^{k-1}$. Questo è tutto molto bello, ma a cosa ci serve? In effetti tutte le permutazioni possono essere decomposte come prodotti di cicli disgiunti, e questo si vede chiaramente per induzione. 
+	\begin{lemma}[Decomposizione in cicli]
+		Se $c_i$ e $c_j$ sono due cicli disgiunti allora vale sempre
+		$$c_ic_j=c_jc_i.$$
+		Inoltre se $\sigma\in S_n$ esistono sempre al più $n$ cicli $\left\{c_i\right\}$ disgiunti tali che
+		$$\sigma=c_1c_2c_3\dots c_k.$$
+		Per di più questo modo di rappresentare $\sigma$ è \textit{unico}.
+	\end{lemma} 
+	\begin{proof}
+		Procediamo per induzione sul numero di elementi della permutazione. Se stiamo permutando gli elementi di un insieme con cardinalità $1$ la tesi è ovvia. Supponiamo ora per induzione che la tesi sia vera per tutte le permutazioni di meno di $n$ elementi. Prendiamo una permutazione $\sigma$ di $n+1$ elementi, se è un ciclo abbiamo finito. Altrimenti se non è un ciclo significa che, denotando con un esponente la composizione, il minimo $k$ tale che
+		$$\sigma^k(1)=1$$
+		deve essere diverso da $n+1$, infatti se così fosse la permutazione 
+		$$\left(1,\sigma(1),\sigma(\sigma(1)),\dots,\sigma^{n+1}(1)\right)$$
+		sarebbe uguale a $\sigma$, e sarebbe un ciclo di $n+1$ elementi. Dunque $k<n+1$, ovvero possiamo scrivere, per una certa $\sigma'$ permutazione di $n+1-k$ elementi
+		$$\sigma=\sigma'\cdot(1,\sigma(1),\sigma^2(1),\sigma^3(1),\dots,\sigma^k(1))$$
+		ma ora per ipotesi induttiva possiamo decomporre anche $\sigma'$ in cicli, e quindi abbiamo la prima tesi. Per dimostrare che questa decomposizione è unica
+	\end{proof}
+	La dimostrazione è abbastanza ovvia e non la copriremo. Questo fatto ci permette infine di calcolare l'ordine di qualunque permutazione una volta calcolata la sua decomposizione in cicli. Infatti se il ciclo $c_i$ ha lunghezza $l_i$ e
+	$$\sigma=c_1c_2\dots c_k$$
+	allora 
+	$$\ordine{S_n}{\sigma}=\mcm(l_1,l_2,\dots,l_k)$$
+	anche questo è abbastanza chiaro. \\
+	
+	In realtà possiamo fare di meglio. Non ci servono necessariamente tutti i $k$-cicli per esprimere una generica permutazione di $S_n$, ci bastano i $2$-cicli, o le \textit{trasposizioni}. Infatti:
+	\begin{proposition}[Decomposizione in trasposizioni]
+		Ogni $\sigma\in S_n$ può essere espresso come composizione di al più $n$ trasposizioni.
+	\end{proposition} 
+	\begin{proof}
+		Anche questo si fa abbastanza chiaramente per induzione.
+	\end{proof}
+	Dal lemma sopra dunque discende la struttura di $S_n$:
+	\begin{corollary}[Struttura di $S_n$]
+		Il gruppo $S_n$ soddisfa
+		$$S_n=\langle \left\{(ij)\in S_n:i\ne j, 1\le i,j\le n\right\}\rangle$$
+	\end{corollary}
+	in realtà quello sopra non è un generatore minimale (ci sono molti termini di troppo), per ottenere un generatore minimale ci basterebbe costruire un "albero" utilizzando esattamente $n-1$ trasposizioni.
+	\subsubsection{Digressione sui Gruppi Alterni}
+	
+	Abbiamo appena visto che una permutazione può essere decomposta in cicli disgiunti o in trasposizioni. Per i cicli disgiunti la decomposizione era sempre unica, ci chiediamo se valga lo stesso anche per le trasposizioni. In realtà no, e non è difficile trovare un controesempio. In effetti però c'è un'invariante anche quando decomponiamo in trasposizioni, la \textit{parità} del numero di permutazioni. A questo scopo introduciamo:
+	\begin{definition}[Segnatura]
+		Definiamo la \textit{segnatura} di un elemento $\sigma \in S_n$ il valore $\pm 1$ sulla base della parità del \textit{numero di inversioni} di $\sigma$, ovvero definita
+		$$\#\text{inversioni}=\left\{(i,j):1\le i<j\le n,\sigma(i)>\sigma(j) \right\}$$
+		diremo che $\text{sign}(\sigma)=1$ se ha un numero di inversioni pari, $\text{sign}(\sigma)=-1$ altrimenti. 
+	\end{definition}
+	il primo fatto importante su questa nozione è che
+	\begin{proposition}[Segno di una trasposizione]
+		Per ogni trasposizione $(i,j)$ vale
+		$$\text{sign}(i,j)=-1$$
+	\end{proposition}
+	che è abbastanza chiaro una volta che si visualizza quello che sta effettivamente accadendo quando contiamo il numero di inversioni. Inoltre vale:
+	\begin{proposition}[Il segno è un omomorfismo]
+		Per ogni $a,b\in S_n$ vale
+		$$\text{sign}(a)\text{sign}(b)=\text{sign}(ab)$$
+	\end{proposition}
+	queste due proposizioni insieme ci dicono che:
+	\begin{lemma}[segno di una permutazione]
+		Se una permutazione $\sigma\in S_n$ può essere decomposta come prodotto di  $\sigma=r_1r_2\dots r_k$ trasposizioni, allora 
+		$$\text{sign}(\sigma)=(-1)^k$$
+		in particolare tutte le decomposizioni di $\sigma$ hanno un numero di trasposizioni con la stessa parità, che coincide con la parità di $\sigma$.
+	\end{lemma}
+	E finalmente possiamo definire:
+	\begin{definition}[Gruppo Alterno]
+		Denotiamo con $A_n$ l'$n$-esimo \textit{gruppo alterno}, ovvero se $\text{sign}:S_n\to \{1,-1\}$ è l'omomorfismo definito sopra, allora:
+		$$A_n:=\ker{\text{sign}}$$
+		ovvero $A_n$ è il gruppo delle permutazioni pari.
+	\end{definition}
+	
+	\newpage
+	
+	\subsection{Struttura Quoziente}
+	Consideriamo la seguente trasformazione
+	\begin{definition}[Coniugio]
+		Sia $G$ un gruppo e $g\in G$. Allora definiamo la trasformazione
+		\begin{align*}
+			\gamma_g:G\to & G \\
+			x \mapsto & gxg^{-1}
+		\end{align*}
+		questo è un omomorfismo (molto facile da verificare) e inoltre possiamo sempre trovare un'inversa bilatera ($\gamma_{g^{-1}}\cdot \gamma_g=\text{id}$), dunque è un isomorfismo. In particolare è un automorfismo. Per denotare l'operazione di coniugazione tra due elementi scriviamo
+		$$x^g:=gxg^{-1}$$
+	\end{definition}
+	questa trasformazione è di fondamentale importanza nello studio della teoria dei gruppi e delle rappresentazioni, dunque introduciamo la nozione
+	\begin{definition}[Elementi Coniugati]
+		Due elementi di $x,y\in G$ si dicono coniugati se e solo se esiste un $g\in G$ tale che
+		$$\gamma_g(x)=y$$
+	\end{definition}
+	Investighiamo in particolare il caso delle permutazioni. Come fatto prima ci basta considerare i cicli, vale il seguente lemma
+	\begin{lemma}[Coniugio di un ciclo]
+		Sia $\sigma\in S_n$ e sia 
+		$$c=(a_1,\dots,a_k)$$
+		allora vale sempre
+		$$\gamma_\sigma(c)=\sigma c \sigma^{-1}=\left(\sigma(a_1),\sigma(a_2),\dots,\sigma(a_k)\right)$$
+	\end{lemma}
+	\begin{proof}
+		Quello che stiamo facendo essenzialmente è "cambiare il nome agli elementi di $\left\{1,2,3,\dots,n\right\}$" con la permutazione $\sigma$, per poi far ritornare tutti i nomi ai valori di partenza. Si può facilmente dimostrare algebricamente facendo un po' di conti.
+	\end{proof}
+	Grazie al fatto che $\gamma_g$ è un omomorfismo per ogni $g\in G$ allora possiamo calcolare il coniugio di ogni elemento di $S_n$. In particolare quindi se $x$ è una permutazione che possiamo decomporre in $k$ cicli di lunghezze $l_1,\dots,l_k$ anche la sua coniugata $\gamma_g(x)$ sarà composta dallo stesso numero di cicli con lo stesso numero di elementi. Questo prende forma di un lemma e di una definizione, ovvero
+	\begin{lemma}[Struttura di una permutazione invariante per coniugio]
+		Due permutazioni coniugate si dicono avere \textit{la stessa struttura ciclica}, ovvero si possono decomporre nello stesso modo e con lo stesso numero di cicli della stessa lunghezza.
+	\end{lemma} 
+	\subsubsection{Classi laterali}
+	\begin{definition}[Classe laterale]
+		Sia $(G,\cdot)$ un gruppo moltiplicativo e sia $H$ un suo sottogruppo. Per ogni $g\in G$ resta definito il sottoinsieme di $G$ denotato con 
+		$$Hg:=\left\{hg:h\in H\right\}\subseteq G$$
+		questa si chiama \textit{classe laterale destra} di $H$, e analogamente si può denotare la classe laterale sinistra.
+	\end{definition}
+	In effetti questo concetto è molto utile, per esempio in $(\ZZ,+)$ le classi laterali formalizzano il concetto di classi di resto. Il primo importante risultato sulle classi laterali è
+	\begin{lemma}[classe laterale come sottogruppo]
+		Se $g\not\in H$ allora $Hg$ non è un sottogruppo di $G$. In particolare abbiamo
+		$$Hg=H \iff g\in H$$
+	\end{lemma}
+	\begin{proof}
+		Dimostriamo prima di tutto che se $Hg=H$ allora $g\in H$. Esisterà un $h\in H$ tale che $$g\cdot h=1_G$$
+		ma $h$ allora è proprio l'inverso di $g$, ovvero $g$ è l'inverso di $h$. Ma dato che $H$ è un sottogruppo gli inversi di tutti i suoi elementi apparterranno ad $H$, ovvero
+		$$g=h^{-1}\in H.$$
+		L'altro verso è che se $g\in H$ allora $Hg=H$. Ma d'altro canto per ogni $h\in H$ esisterà sempre $h\cdot g^{-1}\in H$ tale che $(h\cdot g^{-1})g=h$ e dunque $H\subseteq Hg$. Il fatto che $Hg\subseteq H$ si deduce facilmente dalla chiusura di $H$.
+	\end{proof}
+	non solo! Se abbiamo
+	$$Ha=Hb$$
+	avremo sicuramente anche che
+	$$H=Hba^{-1}$$
+	e quindi avremo
+	$$ba^{-1}\in H$$
+	ma questo vale anche per gli inversi, e quindi analogamente troviamo una condizione equivalente all'uguaglianza di due laterali sinistri:
+	$$\dots \iff b^{-1}a \in H \iff aH=bH.$$
+	Più formalmente abbiamo
+	\begin{lemma}[Aritmetica delle classi laterali]\label{gruppi:aritmetica delle classi laterali}
+		Le classi laterali si possono sempre moltiplicare e dividere per uno stesso elemento, ovvero
+		$$Ha=Hb \iff Hac=Hbc$$
+		in particolare quindi abbiamo
+		$$Ha=Hb \iff ab^{-1}\in H$$
+		$$aH=bH \iff b^{-1}a\in H$$
+	\end{lemma}
+	\begin{proof}
+		La dimostrazione consiste nel mostrare che i quantificatori messi nel modo giusto commutano, non è troppo interessante e quindi non la riporteremo.
+	\end{proof}
+	Definiamo quindi delle relazioni di equivalenza sfruttando questo fatto:
+	\begin{definition}[Congruenza mod $H$]
+		Se $H$ è un sottogruppo di $G$ possiamo definire le due relazioni di congruenza mod $H$ nel modo seguente
+		$$a\sim_d b \iff Ha=Hb$$
+		$$a\sim_s b \iff aH=bH$$
+		Queste due definizioni per quanto detto prima sono equivalenti, e sono equivalenti a
+		$$ab^{-1}\in H$$ 
+		$$b^{-1}a\in H.$$
+		Non è difficile vedere come queste siano effettivamente delle relazioni di equivalenza (è un conto che è già stato fatto a geometria, letteralmente lo stesso).
+		\`E facile vedere come in notazione additiva, per il lemma precedente, questo diventi esattamente la definizione di congruenza modulo un numero naturale (e in quel caso si abbia che $\sim_d$ e $\sim_s$ coincidono). 
+	\end{definition}
+	
+	Ma quindi abbiamo effettivamente delineato due partizioni di $G$ in classi di equivalenza modulo $H$, e quindi abbiamo
+	$$\bigcup_{g\in G} Hg=G.$$ 
+	siamo molto vicini a concludere qualcosa di molto importante sulle cardinalità di $G$ e di $H$, ci manca solo:
+	\begin{lemma}[Biezione tra classi]
+		Le classi laterali (sinistre e destre) di $H$ hanno tutte cardinalità uguale ad $H$.
+	\end{lemma}
+	\begin{proof}
+		Si dimostra costruendo esplicitamente una funzione $f:H\to Hg$ tale che
+		$$f:h\mapsto hg$$
+		e notando che questa ha sempre un'inversa, ovvero $g:Hg\to H$ tale che
+		$$g:k\mapsto kg^{-1}$$
+		questa è un'inversa bilatera, quindi $f$ è biettiva, e abbiamo finito.
+	\end{proof}
+	\begin{definition}[Indice di un sottogruppo]
+		Se vi è solo un numero finito di classi laterali (in particolare se $\abs{G}<\infty$) tale numero delle classi è detto indice di $H$ in $G$, e si denota con
+		$$(G:H)$$
+	\end{definition}
+	
+	e quindi abbiamo immediatamente un importante teorema sulla cardinalità di $H$:
+	
+	\begin{theorem}[Lagrange]
+		Se $G$ è un gruppo finito e $H$ un suo sottogruppo allora
+		$$\abs{G}=(G:H)\abs{H}$$
+		in particolare quindi $\abs{H}$ divide sempre $ \abs{G}$.
+	\end{theorem}
+	\begin{proof}
+		Semplicemente scriviamo
+		$$\dot{\bigcup}Hg=G$$
+		e passando alla cardinalità
+		$$\sum\abs{Hg}=\abs{G}$$
+		ma dato che tutte le classi laterali hanno la stessa cardinalità, abbiamo immediatamente la tesi.
+	\end{proof}
+	\begin{corollary}[Teorema di Eulero-Fermat generalizzato]
+		Sia $G$ un gruppo finito e sia $g$ un arbitrario elemento di $G$. Allora 
+		$$\ordine{G}{g}\mid \abs{G}$$
+	\end{corollary}
+	\begin{proof}
+		Basta considerare $\langle g \rangle$ e osservare che è un sottogruppo di $G$ con ordine esattamente $\ordine{G}{g}$, dunque la tesi segue immediatamente per Lagrange.
+	\end{proof}
+	La prima cosa che bisogna sottolineare è che purtroppo il teorema di Lagrange non si può sempre invertire. Per i gruppi ciclici abbiamo già visto che in effetti esiste uno e un solo sottogruppo per ogni divisore della cardinalità del gruppo, tuttavia per un gruppo generico ciò non è sempre vero.
+	
+	\subsubsection{Congruenze modulo $H$}
+	
+	Abbiamo già definito le congruenze modulo $H$ a partire dal concetto di classe laterale. Vediamo che in effetti avremmo potuto definire il concetto di classe laterale a partire dal concetto di congruenza, infatti se avessimo definito
+	\begin{definition}[Congruenza modulo $H$]
+		Una relazione di equivalenza $\sim$ su $(G,\cdot)$ è detta una \textit{congruenza} se è compatibile con $\cdot$, ovvero equivalentemente se possiamo ben definire un prodotto tra classi di equivalenza tale che per ogni $a,b\in G$:
+		$$[a]_\sim\cdot[b]_\sim:=[a\cdot b]_\sim$$
+	\end{definition}
+	\dots e $H$ dove sarebbe in questa definizione? Sorprendentemente abbiamo
+	\begin{proposition}[Una congruenza delinea un gruppo]
+		Sia $\sim$ una congruenza su $G$, allora posto
+		$$H:=[1_G]_\sim$$
+		vale $H\le G$ e inoltre 
+		$$a\sim b \iff aH=bH \iff Ha=Hb$$
+	\end{proposition}
+	\begin{proof}
+		Cominciamo con il dimostrare che $H\le G$. Intanto sicuramente avremo $H\ne \eset$, in quanto $1_G\in H$. Ora se avessimo $a,b\in H$ avremmo
+		$$a\sim 1_G$$
+		$$b\sim 1_G$$
+		e dunque dato che $\sim$ è compatibile abbiamo
+		$$ab\sim 1^2_G=1_G$$
+		e dunque $H$ è chiuso. D'altro canto se $a\in H$ abbiamo
+		$$a\sim 1$$
+		e dunque sempre per la compatibilità abbiamo
+		$$a\cdot a^{-1}\sim a^{-1}\iff 1_G\sim a^{-1}\iff a^{-1}\in H$$
+		e dunque $H$ è proprio un sottogruppo di $G$. \\ 
+		a questo punto non è difficile rendersi conto del fatto che 
+		$$a\sim b \iff ab^{-1}\sim 1_G \iff ab^{-1}\in H \iff Ha=Hb$$
+		dove l'ultima uguaglianza logica viene dal lemma \ref{gruppi:aritmetica delle classi laterali}. Analogamente troviamo
+		$$a\sim b \iff 1_G\sim a^{-1}b \iff aH = bH$$
+		e dunque abbiamo finito. 
+	\end{proof}
+	
+	Notiamo che però in questo modo abbiamo qualcosa di speciale, ovvero $\sim_d$ e $\sim_s$ per il gruppo $H$ coincidono. Questa proprietà salta fuori essere importantissima, e quindi merita una sua definizione:
+	\begin{definition}[Sottogruppo normale]
+		Un sottogruppo $H$ di $G$ si dice \textit{normale} e si denota con $H\normal G$ se e solo se
+		$$Hg=gH$$
+		per ogni $g\in G$.
+	\end{definition}
+	\begin{lemma}[Congruenze generate dai gruppi normali]
+		Se $H$ è un sottogruppo di $G$ allora le tre seguenti sono equivalenti:
+		\begin{itemize}
+			\item[(i)] La relazione $\sim_d$ è una congruenza.
+			\item[(ii)] La relazione $\sim_s$ è una congruenza.
+			\item[(iii)] $H$ è normale.
+		\end{itemize}
+	\end{lemma}
+	\begin{proof}
+		è chiaro che la (i) e la (iii) siano equivalenti. Dimostriamo prima di tutto che se $Hg=gH$ allora $\sim_d$ e $\sim_s$ sono congruenze. Se $Hg=gH$ allora per ogni $x,y\in G$ vale
+		$$x\sim_d y \iff x\sim_s y$$
+		quindi le due relazioni sono la stessa, denotiamole semplicemente con $\sim$. prendiamo $a\sim a'$ e $b\sim b'$, allora abbiamo chiaramente
+		$$ab\sim_s a'b$$
+		infatti 
+		$$ab(a'b)^{-1}\in H \iff abb^{-1}(a')^{-1}\in H \iff a(a')^{-1}\in H$$
+		che è la definizione di $a\sim a'$. Analogamente avremo
+		$$a'b\sim a'b'$$
+		e quindi
+		$$ab\sim a'b\sim a'b'$$
+		che implica proprio che $\sim$ sia una congruenza. Ma d'altro canto non è difficile dimostrare che se $\sim_d$ è una congruenza anche $\sim_s$ lo è, e questo implica immediatamente che per ogni $g$:
+		$$[g]_{\sim_d}=[g]_{\sim_s}$$
+		e ora notando che valgono proprio $Hg=[g]_{\sim_d}$ e $gH=[g]_{\sim_s}$ otteniamo la nostra tesi.
+	\end{proof}
+	\begin{lemma}[Caratterizzazione dei sottogruppi normali]
+		Sia $H$ un sottogruppo di $G$, allora le quattro seguenti affermazioni sono equivalenti:
+		\begin{itemize}
+			\item[(i)] $H$ è normale.
+			\item[(ii)] L'insieme $H$ è uguale a
+				$$gHg^{-1}:=\left\{ghg^{-1}\in G:h\in H\right\}$$
+			\item[(iii)] $H$ è chiuso rispetto alla coniugazione rispetto a qualunque elemento di $G$.
+		\end{itemize}
+	\end{lemma}
+	\begin{proof}
+		Per prima cosa notiamo che (i) è equivalente a (ii), infatti se tutti i laterali commutano vuol dire che per ogni $g\in G,h\in H$ esiste un $k\in H$ tale che 
+		$$gh=kg$$
+		ovvero
+		$$ghg^{-1}=k\in H$$
+		e la stessa cosa vale anche al contrario. D'altronde è chiaro come la (ii) implichi la (iii), ci manca da dimostrare che la (iii) implica la (ii). Orbene il fatto che 
+		$$gHg^{-1}\le H$$
+		vuol dire che comunque preso un $g\in G$ e un $h\in H$ esiste un $k\in H$ tale che 
+		$$ghg^{-1}=k$$
+		ora se scegliamo invece di $g$ l'elemento $g^{-1}$ abbiamo
+		$$g^{-1}hg=k \iff h=gkg^{-1}$$
+		ovvero 
+		$$H\le gHg^{-1}$$
+		(ogni elemento di $H$ si può scrivere come un coniugato di $g$ per ogni $g\in G$) e dunque abbiamo finito.
+	\end{proof}
+	
+	Da questo lungo e pedante esercizio di formalizzazione estraiamo finalmente
+	\begin{corollary}[Caratterizzazione delle congruenze]
+		Una relazione $\sim$ su $G$ è una congruenza se e solo se esiste un $H\normal G$ tale che 
+		$$a\sim b \iff aH=bH$$
+		in tal caso si ha $H=[1]_\sim$.
+	\end{corollary}
+	è chiaro a questo punto il seguente lemma:
+	\begin{lemma}[I sottogruppi degli abeliani sono tutti normali]
+		Sia $G$ un gruppo abeliano, allora
+		$$H\le G \iff H\normal G. $$
+	\end{lemma}
+	Inoltre un altro lemma utile è il seguente
+	\begin{lemma}[Sottogruppi di indice $2$]
+		Sia $G$ un gruppo e $H	\le G$ tale che 
+		$$(G:H)=2$$
+		allora $H$ è normale in $G$. 
+	\end{lemma}
+	\begin{proof}
+		\'E chiaro che $H$ stesso è sia un laterale destro che un laterale sinistro. Dato che gli $Ha$ e gli $aH$ sono classi di equivalenza di una relazione su $G$ la loro unione disgiunta deve essere $G$, dunque avremo che l'unica classe laterale destra a parte $H$ e l'unica classe laterale sinistra a parte $H$ soddisferanno
+		$$aH\dot{\cup}H=Ha\dot{\cup}H$$
+		e quindi
+		$$aH=G\setminus H = Ha$$
+		che, dato che $aH$ e $Ha$ sono le uniche classi laterali, è proprio la definizione di sottogruppo normale.
+	\end{proof}
+	
+	\subsubsection{Il gruppo quoziente}
+	
+	Finalmente possiamo introdurre quindi la nozione di \textit{struttura quoziente}, o gruppo quoziente:
+	\begin{definition}[Gruppo Quoziente]
+		Sia $G$ un gruppo e $N\normal G$. Allora definiamo il \textit{gruppo quoziente} "$G$ modulo $N$" come:
+		$$\faktor{G}{N}:=\faktor{G}{\sim_N}$$ 
+		dove $\sim_N$ è la relazione di equivalenza definita da $N$. Questo insieme ha la struttura di un gruppo con l'operazione
+		$$(Na)(Nb):=Nab$$
+	\end{definition} 
+	
+	Studiamo un po' meglio quello che sta succedendo. Ricordiamo che la proiezione canonica di un insieme rispetto ad un'operazione è 
+	$$\pi:G\to \faktor{G}{N}$$
+	tale che 
+	$$\pi:g\mapsto [g]=Ng$$
+	questa è suriettiva, in quanto ad ogni classe di equivalenza appartiene almeno un elemento di $G$. Non solo, per quanto abbiamo appena detto in effetti la proiezione canonica è un omomorfismo. Questa funzione sarà la protagonista di questa sezione, iniziamo subito dicendo che 
+	\begin{lemma}[Il kernel è normale]
+		Sia $f:G\to H$ un omomorfismo, allora $\ker{f}\normal G$. Inoltre due elementi di $G$ hanno la stessa immagine se e solo se 
+		$$f(g_1)=f(g_2) \iff g_1g_2^{-1}\in \ker {f}$$
+		una conseguenza di ciò è semplicemente il fatto che per ogni $h\in H$ la fibra di $h$ è un laterale del kernel.
+	\end{lemma}
+	\begin{proof}
+		Dimostriamo che il kernel è chiuso rispetto al coniugio. Sia $k\in \ker {f}$, allora
+		$$f(gkg^{-1})=f(g)f(k)f(g^{-1})=f(g)1_Hf(g^{-1})=1_H$$
+		e quindi il kernel è proprio normale. Non solo, ma abbiamo che 
+		$$f(g_1)=f(g_2)\iff g_1\sim_{\ker {f}}g_2 \iff g_1g_2^{-1}\in \ker {f}$$
+		infatti abbiamo:
+		$$f(g_1g_2^{-1})=1_H \iff f(g_1)f(g_2)^{-1}=1_H \iff f(g_1)=f(g_2)$$
+		e quindi in particolare la relazione di "avere la stessa immagine rispetto a $f$" è uguale a $\sim_{\ker {f}}$, ma dato che le classi di equivalenza della prima relazione sono proprio le fibre, questo significa che ogni fibra è proprio una classe laterale del kernel.
+	\end{proof}
+	Ora, vediamo un'importante proprietà dell'immagine 
+	\begin{lemma}[Proprietà dell'immagine]
+		Siano $G$ ed $H$ due gruppi finiti, allora se $f:G\to H$ è un omomorfismo valgono:
+		\begin{enumerate}
+			\item La cardinalità dell'immagine divide sia $\abs{G}$ che $\abs{H}$, in particolare vale
+			$$\abs{G}=\abs{\ker{f}}\abs{\Immagine{f}}$$ 
+			\item Se $G$ è ciclico anche $\Immagine{f}$ è ciclico.
+			\item Se $g\in G$ allora
+			$$\ordine{H}{f(g)}\mid \ordine{G}{g}$$
+		\end{enumerate} 
+	\end{lemma}
+	\begin{proof}
+		Dimostriamo una cosa per volta:
+		\begin{enumerate}
+			\item Il fatto che la cardinalità dell'immagine divida quella di $H$ segue direttamente dal teorema di Lagrange. Dimostriamo ora che il numero di elementi dell'immagine è uguale al numero di laterali destri di $\ker{f}$. Per quanto visto prima abbiamo
+			$$f(a)=f(b) \iff (\ker {f})a=(\ker{f})b$$
+			ovvero il numero di classi di equivalenza modulo $\ker{f}$ è uguale al numero di classi di equivalenza modulo la funzione $f$ (cioè, i sottoinsiemi di $G$ che vanno nella stessa immagine) ma questo ci dice proprio che
+			$$(G:\ker{f})=\abs{\text{Im}(f)}$$
+			dunque da Lagrange segue che 
+			$$\abs{G}=(G:\ker{f})\abs{\ker{f}}=\abs{\text{Im}f}\abs{\ker{f}}$$
+			come volevamo dimostrare.
+			\item Supponiamo che esiste un $g\in G$ tale che 
+			$$\langle g \rangle = G$$
+			allora per ogni $y\in \text{Im}f$ esisterà un $k\in\NN$ tale che 
+			$$f(g^k)=y$$
+			ma allora per le proprietà degli omomorfismi
+			$$f(g)^k=y$$
+			ovvero $f(g)$ genera $\text{Im}f$, che implica che l'immagine sia ciclica.
+			\item Prendiamo un $y\in \text{Im}f$ e un $g\in G$ tale che $f(g)=y$. Usando le proprietà degli omomorfismi abbiamo
+			$$f(g)^{\ordine{G}{g}}=f\left(g^{\ordine{G}{g}}\right)=f(1_G)=1_H$$
+			ma allora per il lemma \ref{gruppi:ordine divide tutte le potenze che danno l'identità} abbiamo immediatamente la tesi.
+		\end{enumerate}
+	\end{proof}
+	
+	\subsubsection{I teoremi d'omomorfismo}
+	\begin{theorem}[Primo teorema d'omomorfismo]
+		Siano $G$ e $H$ due gruppi, $\varphi:G\to H$ un omomorfismo, e $\pi:G\to \faktor{G}{\ker{\varphi}}$ la proiezione canonica di $G$ su $\faktor{G}{\ker{\varphi}}$. Esiste sempre uno e un solo monomorfismo $\hat{\varphi}$ tale che 
+		$$\hat{\varphi}\circ \pi =\varphi$$
+		quest'ultima identità si dice \textit{epi-mono fattorizzazione} di $\varphi$ (perchè $\pi$ è un epimorfismo e $\hat{\varphi}$ è un monomorfismo). In particolare vale $\text{Im}\varphi=\text{Im}\hat{\varphi}$, dunque 
+		$$\hat{\varphi}:\faktor{G}{\ker{\varphi}}\bij \text{Im}\varphi$$
+		è un isomorfismo.
+	\end{theorem}
+	prima di dimostrare il teorema vediamo come esprimerlo in termini di \textit{diagrammi commutativi}. Essenzialmente quello che siamo dicendo è che se abbiamo
+	$$
+	\begin{tikzcd}
+		G \arrow{r}{\varphi} \arrow[swap,d,two heads,"\pi"] & H \\
+		\faktor{G}{\ker{\varphi}} 
+	\end{tikzcd}
+	$$
+	possiamo costruire sempre una unica freccia iniettiva che \textit{completa il triangolo} nel seguente modo
+	$$
+	\begin{tikzcd}
+		G \arrow{r}{\varphi} \arrow[swap,d,two heads,"\pi"] & H \\
+		\faktor{G}{\ker{\varphi}} \arrow[swap,ru,hook,"\hat{\varphi}"]
+	\end{tikzcd}
+	$$ 
+	\begin{proof}
+		La condizione che abbiamo è già molto forte, ci basterà verificare che $\hat{\varphi}$ sia effettivamente ben definita e che sia un omomorfismo per avere tutto il resto del teorema. Cominciamo con il notare che 
+		$$\varphi(g)=\hat{\varphi}(\pi(g))$$
+		per ogni $g\in G$, ovvero la funzione $\hat{\varphi}$, se esiste, è sempre unica ed è definita come
+		\begin{align*}
+			\hat{\varphi}:\faktor{G}{\ker{\varphi}}\to & H \\
+			(\ker{\varphi})g \mapsto & \varphi(g)
+		\end{align*}
+		(è unica in quanto $\varphi(g)$ è unica). Verifichiamo quindi che una $\hat{\varphi}$ di questa forma sia effettivamente ben definita e sia un monomorfismo. \\
+		Pendiamo due laterali destri del kernel uguali, $(\ker {\varphi})g_1=(\ker{\varphi})g_2$. Allora 
+		$$g_1g_2^{-1}\in\ker{\varphi} \iff \varphi(g_1g_2^{-1})=1_H \iff \varphi(g_1)=\varphi(g_2)$$
+		che dimostra che in effetti la funzione è ben definita. \'E facile verificare inoltre che
+		$$\hat{\varphi}\left((\ker{\varphi})g_1(\ker {\varphi})g_2\right)=\hat{\varphi}\left(\left(\ker {\varphi}\right)g_1g_2\right)=\varphi(g_1g_2)=\varphi(g_1)\varphi(g_2)=\hat{\varphi}((\ker{\varphi})g_1)\hat{\varphi}((\ker{\varphi})g_2)$$
+		e infine per verificare che $\hat{\varphi}$ ci basta calcolarne il kernel, ovvero
+		$$(\ker{\varphi}) g\in \ker{\hat{\varphi}} \iff \hat{\varphi}((\ker{\varphi}) g)=\varphi(g)=1_H$$
+		ma gli elementi $g\in G$ che soddisfano l'ultima uguaglianza sono per definizione gli elementi di $\ker{\varphi}$, dunque l'unico elemento di $\ker{\hat{\varphi}}$ è $\ker{\varphi}$, ovvero $\hat{\varphi}$ ha kernel banale, cioè è un monomorfismo. \\
+		Il resto del teorema segue facilmente da quanto appena visto.
+	\end{proof}
+	\begin{remark}
+		Questo teorema è importantissimo almeno per due motivi:
+		\begin{itemize}
+			\item Ci dà un modo per dimostrare isomorfismi "gratis" a partire da omomorfismi opportunamente definiti tra gruppi scelti in modo abbastanza furbo.
+			\item Ci dà un modo per dimostrare che un sottoinsieme $N$ di un determinato gruppo $G$ è $N\normal G$, semplicemente scegliendo un altro gruppo $H$ tale che un omomorfismo opportunamente definito abbia come kernel $N$.
+		\end{itemize}
+	\end{remark}
+	Analogamente a come abbiamo definito la nozione di gruppo quoziente ora possiamo definire la nozione di gruppo prodotto, in particolare scriveremo:
+	\begin{definition}[Prodotto diretto]
+		Sia $G$ un gruppo e $H,N$ due sottoinsiemi tali che 
+		$$H\le G$$
+		$$N\normal G$$
+		allora possiamo definire 
+		$$HN:=\left\{hn:h\in H, n\in N\right\}$$
+		il \textit{prodotto diretto} di $H$ ed $N$. Questo oltre ad essere un sottogruppo di $G$ soddisfa 
+		$$HN=NH=\langle N \cup H\rangle$$
+	\end{definition}
+	\begin{proof}
+		Cominciamo con il dimostrare che se $nh\in NH$ allora $nh\in HN$ (questo dimostra che $NH\subseteq HN$, l'altra inclusione si dimostra in modo del tutto simmetrico). Possiamo scrivere
+		$$nh= 1_G\cdot nh=hh^{-1}nh=hn^{h^{-1}}$$
+		ma dato che $N$ è normale il coniugato di $n$ sarà sempre in $N$, dunque $nh$ sarà della forma $hn'$ per qualche $n'$ e abbiamo $nh\in HN$. A questo punto si verifica facilmente che $NH$ è chiuso rispetto a prodotto e inversione, infatti
+		$$n_1h_1n_2h_2=n_1n_2^{h_1}h_1h_2$$	
+		e con un conto analogo si dimostra che è chiuso rispetto all'inversione. D'altro canto abbiamo che $N\subseteq NH$ e $H\subseteq NH$, quindi sicuramente
+		$$\langle N \cup H \rangle \subseteq NH$$
+		infine abbiamo che $NH\subseteq \langle N \cup H \rangle$ perchè $NH$ è sottogruppo di tutti i sottogruppi che contengono sia $N$ che $H$, essendo formato da tutti i prodotti di elementi di $N$ e $H$.
+	\end{proof}
+	\begin{theorem}[di Corrispondenza]
+		Sia $G$ un gruppo e $N$ un suo sottogruppo normale. Sia $\pi$ la proiezione canonica, allora:
+		\begin{itemize}
+			\item Per ogni sottogruppo $H$ di $G$ abbiamo
+			$$\pi_*(H)=\faktor{NH}{N}$$
+			\item La funzione $\pi_*$ è biettiva dall'insieme degli $H$ tali che 
+			$$H\le G$$
+			$$N \subseteq H$$
+			all'insieme dei sottogruppi di $\faktor{G}{N}$.
+			\item La funzione $\pi_*$ è biettiva dall'insieme degli $N\le H$ sottogruppi normali di $G$ all'insieme dei sottogruppi normali di $\faktor{G}{N}$.
+		\end{itemize}
+	\end{theorem}
+	\begin{proof}
+		Dimostriamo un punto alla volta:
+		\begin{itemize}
+			\item Dato che $\pi$ è un omomorfismo è chiaro che mandi sottogruppi in sottogruppi (si verifica molto facilmente applicando le proprietà di base). Inoltre abbiamo
+			$$\pi_*(H)=\left\{Nh:h\in H\right\}=\left\{N(nh):h\in H,n\in N\right\}=\faktor{NH}{N}$$
+			e quindi il primo punto è dimostrato.
+			\item Notiamo che se $N\subseteq H$ allora $NH=H$. Dunque abbiamo che 
+			$$\pi_*(H)=\faktor{H}{N}.$$
+			Cerchiamo un'inversa bilatera di $\pi_*$; il candidato ideale è proprio $\pi^*$, in effetti dato che $\pi$ è suriettiva, anche $\pi_*$ lo sarà, e in particolare quindi varrà
+			$$\pi_*\circ \pi^*=\text{id}$$
+			(ovvero $\pi_*$ ha un'inversa destra, che coincide con l'immagine inversa), ma d'altra parte
+			$$\pi^*(\pi_*(H))=\pi^*\left(\faktor{H}{N}\right)=\left\{g\in G:\text{esiste un $h\in H$ tale che } Ng=Nh\right\}$$
+			ma d'altra parte abbiamo che $Ng=Nh$ è equivalente a $gh^{-1}\in N$, ovvero è equivalente a $g\in NH$, quindi
+			$$\dots=\left\{g\in G: g\in NH=H\right\}=H$$
+			cioè abbiamo appena dimostrato:
+			$$\pi^*\circ \pi_*=\text{id}$$
+			e quindi abbiamo finito.
+			\item Infine dobbiamo dimostrare che se e solo se $H$ è normale in $G$ allora $\faktor{H}{N}$ è normale in $\faktor{G}{N}$. Tuttavia questo è chiaro, infatti se supponiamo che $H$ sia normale, e proviamo a coniugare $\faktor{H}{N}$ abbiamo
+			$$(Ng)(Nh)(Ng^{-1})=N(ghg^{-1})\in \faktor{H}{N}$$
+			poichè $H$ è chiuso per coniugazione. Analogamente se $\faktor{H}{N}$ è normale vale sicuramente
+			$$(Ng)(Nh)(Ng^{-1})=N(ghg^{-1})\in \faktor{H}{N}$$
+			ovvero 
+			$$Nghg^{-1}=Nk$$
+			per qualche $k\in H$, ma dato che $N\le H$ abbiamo sicuramente che $$Nk\subseteq H$$
+			ovvero $ghg^{-1}\in H$ e quindi abbiamo che $H$ è normale.
+		\end{itemize}
+		Dunque abbiamo finito.
+	\end{proof}
+	Notiamo che questo risultato si può facilmente generalizzare ad un generico omomorfismo suriettivo $\varphi$ attraverso il primo teorema d'omomorfismo, che ci permette di costruire una $\hat{\varphi}_*$ biettiva da $\faktor{G}{N}$ ad $H$, che composta con $\pi_*$ costruisce una corrispondenza biunivoca tra sottogruppi normali di $G$ ed $H$. 
+	\begin{corollary}[Teorema di corrispondenza generale]
+		Se $\varphi:G\surj H$ è un omomorfismo suriettivo, allora la funzione 
+		$$\varphi_*=\hat{\varphi}_*\circ \pi_*$$
+		definisce una corrispondenza biunivoca tra sottogruppi normali di $G$ contenenti $\ker{\varphi}$ e sottogruppi normali di $H$.
+	\end{corollary}
+	Vi sono molte altre conseguenze di questi due grossi teoremi appena dimostrati, queste vanno di solito sotto il nome di secondo e terzo teorema di omomorfismo:
+	\begin{corollary}[Secondo teorema di omomorfismo/teorema dell'aquilone]
+		Siano $H\le G$ e $N\normal G$. Allora vale il seguente diagramma
+		$$
+		\begin{tikzcd}
+			 & HN\arrow[dl,"\normal",swap] \arrow[dr,no head] & \\
+			N&   						 	&H\arrow[ld,"\normal"] \\
+			 &  H\cap N\arrow[no head,ul] 	&
+		\end{tikzcd}
+		$$
+		e inoltre vale
+		$$\faktor{HN}{N}\simeq \faktor{H}{H\cap N}.$$
+	\end{corollary}
+	\begin{proof}
+		Il fatto che $N$ sia normale in $HN$ è chiaro ($N$ è chiuso rispetto al coniugio in $G$ e $HN$ è un sottogruppo di $G$). D'altra parte se prendiamo un $x\in H\cap N$ e lo coniughiamo per un elemento di $H$ avremo sempre un elemento $x^h$ di $H$ (perchè stiamo moltiplicando tra loro elementi di $H$), ma avremo $x^g\in N$, dato che $x\in N$ ed $N$ è chiuso rispetto al coniugio in $G$. Dunque $x^g\in H\cap N$ e quindi $H\cap N$ è normale in $H$. Costruiamo ora un isomorfismo con il primo teorema d'omomorfismo. Sia 
+		$$\pi:H\to \faktor{G}{N}$$
+		la proiezione canonica di $H$, allora avremo
+		$$\ker{\pi} = \left\{h\in H:Nh=N\right\}=\left\{h\in H:h\in N\right\}=H\cap N$$
+		d'altra parte per il teorema di corrispondenza sappiamo che 
+		$$\text{Im}\pi=\pi_*(H)=\faktor{NH}{N}$$
+		e dunque abbiamo immediatamente la tesi per il primo teorema d'omomorfismo.
+	\end{proof}
+	\begin{corollary}[Terzo teorema di omomorfismo]
+		Sia $G$ un gruppo e $N, H \normal G$ con $N\subseteq H$.
+		Per il secondo teorema di omomorfismo abbiamo $N \normal H\normal G$, e per il teorema di corrispondenza $\faktor{H}{N}\normal \faktor{G}{N}$ dunque vale la seguente relazione:
+		$$\faktor{\faktor{G}{N}}{\faktor{H}{N}}\simeq \faktor{G}{H}.$$
+	\end{corollary}
+	\begin{proof}[Dimostrazione]
+		Vorremmo davvero tanto poter usare il primo teorema d'omomorfismo, costruiamo allora una funzione 
+		\begin{align*}
+			\varphi: \faktor{G}{N} \to & \faktor{G}{H} \\
+								Ng	\mapsto & Hg
+		\end{align*}
+		Per prima cosa questa funzione è sicuramente ben definita, infatti se $Ng_1=Ng_2$ allora 
+		$$g_1g_2^{-1}\in N$$
+		ma dato che $N\le H$ abbiamo
+		$$g_1g_2^{-1}\in H$$
+		quindi $Hg_1=Hg_2$. Calcoliamo il kernel usando il fatto che $N\normal H$:
+		$$\ker{\varphi}=\left\{Ng\in \faktor{G}{N}:Ng=H\right\}=\left\{Ng:g\in H\right\}=\faktor{HN}{N}=\faktor{H}{N}$$
+		infine abbiamo che $\varphi$ è suriettiva, infatti se per assurdo esistesse un $g\in G$ tale che $Hg$ non è nell'immagine di $\varphi$ avremmo che, dato che i laterali destri di $H$ sono una partizione di $G$, esiste almeno un $g'$ che non appartiene ad alcun laterale destro dell'immagine di $\varphi$. Ma d'altro canto sicuramente 
+		$$g'\in \varphi(Ng')$$
+		assurdo, quindi $\varphi$ è suriettiva. Dunque per il primo teorema d'omomorfismo abbiamo finito.
+	\end{proof}
+	\begin{proof}[Sketch di dimostrazione alternativa]
+		Al posto di $\varphi$ possiamo usare la funzione $\pi_1\circ \pi_2$, dove
+		$$\pi_1:G\to\faktor{G}{N}$$
+		$$\pi_2:\faktor{G}{N}\to\faktor{\faktor{G}{N}}{\faktor{H}{N}}.$$
+		Come prima calcoliamo il kernel (con il teorema di corrispondenza) e poi chiudiamo con il primo teorema d'omomorfismo.
+	\end{proof}
+	\subsection{Le permutazioni a cosa servono?}
+	
+	Le permutazioni sono biezioni di un insieme finito in sé stesso. In effetti abbiamo già incontrato l'insieme degli automorfismi di un gruppo $G$. Abbiamo menzionato di sfuggita che
+	$$\text{Aut}(G)\le S_G$$
+	questa cosa sembra molto interessante: indipendentemente dalla struttura di $G$ riusciamo a trovare un sottoinsieme di un simmetrico\dots ci sarà di più?
+	\begin{definition}[Automorfismo Interno]
+		Sia $G$ un gruppo arbitrario, e $g\in G$ un suo elemento. Consideriamo la funzione di coniugazione:
+		\begin{align*}
+			I_g:G\to &G \\
+			x\mapsto & gxg^{-1}
+		\end{align*}
+		Non è difficile verificare che $I_g$ è un automorfismo per ogni $g$. L'insieme di questi particolari automorfismi di $G$ è detto \textit{gruppo degli automorfismi interni di $G$}. Si denota con
+		$$\text{Int}(G):\left\{I_g:g\in G\right\}$$
+	\end{definition}
+	\begin{proposition}[gli automorfismi interni sono normali]
+		Se $G$ è un gruppo vale: 
+		$$\text{Int}(G)\normal\text{Aut}(G)$$
+	\end{proposition}
+	\begin{proof}
+		Non è difficile verificare che sia effettivamente un sottogruppo. Dimostriamo che è normale usando il fatto che è chiuso per coniugio. Per ogni $g\in G$ e per ogni $\varphi\in \text{Aut}(G)$ calcoliamo 
+		$$\varphi I_g \varphi^{-1}$$
+		da quanto abbiamo visto prima sulla coniugazione, ci viene da sperare che questo sia esattamente $I_{\varphi(g)}$
+		espandendo
+		$$\varphi I_g \varphi^{-1}(x)=\varphi\left(g\varphi^{-1}(x)g^{-1}\right)=\varphi(g)\varphi(\varphi^{-1}(x))\varphi(g^{-1})=\varphi(g)x\varphi(g^{-1})=I_{\varphi(g)}$$
+		e dunque abbiamo finito.
+	\end{proof}
+	Ma quello che abbiamo appena fatto è in effetti associare ad ogni elemento $g$ di $G$ la sua coniugazione $I_g$, questa è una funzione dal gruppo $G$ al gruppo $\text{Aut}(G)$\dots Sarà un omomorfismo?
+	\begin{lemma}[Struttura degli automorfismi interni]
+		La funzione $\psi:G\to \text{In}(G)$ tale che 
+		$$\psi:g\mapsto I_g$$
+		è un omomorfismo con
+		$$\Immagine{\psi}=\text{Int}(G)$$
+		$$\ker{\psi} = Z(G)$$
+		e quindi in particolare abbiamo
+		$$\faktor{G}{Z(G)}\simeq \text{Int}(G)$$
+	\end{lemma}
+	\begin{proof}
+		Per prima cosa è chiaro che 
+		$$I_g\circ I_h=I_{gh}$$
+		quindi $\psi$ è effettivamente un omomorfismo. L'immagine è per definizione l'insieme degli automorfismi interni, inoltre il kernel è 
+		$$\psi(I_g)=\text{id}_G$$
+		ovvero l'insieme degli elementi $I_x$ tali che per ogni $g\in G$ vale
+		$$I_x(g)=g \iff xgx^{-1}=g \iff xg=gx$$
+		che è la definizione di centro, e dunque abbiamo finito per il primo teorema d'omomorfismo.
+	\end{proof}
+	ora c'è una cattiva notizia:
+	\begin{corollary}[I gruppi abeliani hanno automorfismi interni banali]
+		Se $G$ è abeliano allora $\text{Int}(G)=\left\{\text{id}_G\right\}$ 
+	\end{corollary}
+	ma c'è anche una buona notizia:
+	\begin{theorem}[Automorfismi di un simmetrico]
+		Sia $n\in\NN$ tale che $n\ge 2$ e tale che $n\ne 6$ allora
+		$$\text{Int}(S_n)=\text{Aut}(S_n)$$
+	\end{theorem}
+	\subsubsection{Cayley}
+	Sia $G$ un gruppo arbitrario. Allora per ogni $g\in G$ restano definite le funzioni $\lambda_g,\rho_g:G\to G$ che mandano 
+	$$\lambda_g:x\mapsto gx$$
+	$$\rho_g:x\mapsto xg$$
+	questa disgraziatamente non sono omomorfismi se $g\ne 1_G$. Tuttavia sono biettive, perché hanno chiaramente delle inverse bilatere:
+	$$\lambda_g\circ \lambda_{g^{-1}}=\lambda_{g^{-1}} \circ \lambda_g = \text{id}$$
+	$$\rho_g\circ \rho_{g^{-1}}=\lambda_{g^{-1}} \circ \lambda_g = \text{id}$$
+	
+	\begin{theorem}[Cayley]
+	L'assegnazione $\psi:G\to S_{G}$ che manda
+	$$g\mapsto \lambda_g$$
+	è un ben definito monomorfismo di gruppi. In particolare $G\simeq \Immagine{\psi}\le S_G$, ovvero ogni gruppo è isomorfo a un sottogruppo di un particolare gruppo di permutazioni. Analogamente sarebbe successo usando $\rho_g$ al posto di $\lambda_g$.
+	\end{theorem}
+	\begin{proof}
+		La funzione è ben definita perchè per quanto detto prima $\lambda$ e $\rho$ sono biettive. D'altro canto vediamo che $\psi$ è abbastanza chiaramente un omomorfismo, infatti
+		$$\psi(ab)=\lambda_{ab}=\lambda_a\circ \lambda_b$$
+		infine il nucleo di questo omomorfismo è banale. Ovvero
+		$$\ker{\psi}=\left\{g\in G:\psi(g)=\text{id}\right\}=\left\{g\in G:gx=x,\forall x\in G\right\}=\left\{1_G\right\}$$
+		e dunque abbiamo finito.
+	\end{proof}
+	
+	\newpage
+	
+	\section{Domini e Anelli}
+	Ricordiamo alcune definizioni:
+	\begin{definition}[Anello]
+		Un insieme $R$ munito di due operazioni $(+)$ e $(\cdot)$ si dice \textit{anello} se e solo se è un gruppo abeliano rispetto a $+$, un monoide rispetto a $\cdot$ e gli elementi neutri di $+$ e $\cdot$ (di solito denotati con $0$ e $1$ sono distinti). 
+	\end{definition}
+	\begin{definition}[Sottoanello]
+		Un sottoanello $S$ dell'anello $R$ è un sottoinsieme $S$ di $R$ tale che le restrizioni delle operazioni di $R$ a $S$ sono ben definite e inducono in $S$ una struttura di anello. Operativamente dobbiamo dimostrare che 
+		\begin{itemize}
+			\item Per ogni $a,b\in S$ vale $a-b\in S$.
+			\item $1_R\in S$.
+			\item Per ogni $a,b\in S$ vale $ab\in S$.
+		\end{itemize}
+		come per i sottogruppi se $S$ è un sottoanello di $R$ possiamo scrivere $S\le R$.
+	\end{definition}
+	Sia ora $R$ un anello arbitrario. Costruiamo la funzione $f:\ZZ\to R$ tale che:
+	$$n\mapsto \overset{\text{$n$ volte}}{\overbrace{1_R+1_R+\dots+1_R}} $$
+	questo è abbastanza chiaramente un morfismo di anelli. Ci chiediamo cosa succeda quando questo morfismo è iniettivo. In effetti se è iniettivo avremmo che il nucleo è banale, ovvero nessun elemento a parte $0$ va in $0_R$. Questo vuol dire che $1_R$ è \textit{aperiodico} nel sottogruppo additivo di $R$. Se invece il kernel di $f$ non è banale, vuol dire che $1_R$ ha un ordine diverso da $0$, e quindi $R$ conterrà un sottoanello isomorfo a $\faktor{\ZZ}{n\ZZ}$. Insomma abbiamo:
+	\begin{definition}[Caratteristica di un anello]
+		Un anello $R$ con sottogruppo additivo $P$ si dice avere \textit{caratteristica} $n$ se e solo se
+		$$\ordine{P}{1_R}=n$$
+		in particolare si dice che ha \textit{caratteristica} $0$ se e solo se $1_R$ è aperiodico in $P$. Un anello di caratteristica $n$ contiene sempre un sottogruppo isomorfo a 
+		$$\faktor{\ZZ}{n\ZZ}$$
+		e un anello di caratteristica $0$ contiene sempre un sottogruppo isomorfo a $\ZZ$. Tali sottoanelli si chiamano \textit{sottoanelli fondamentali} e si dimostra (abbastanza facilmente) che sono i più piccoli sottoanelli dell'anello. 
+	\end{definition}
+	\begin{example}[Matrici]
+		Le matrici rispetto a somma e prodotto tra matrici sono un anello. Un loro sottoanello sono le matrici scalari (ovvero quelle con tutti e soli i coefficienti lungo la diagonale diversi da $0$).
+	\end{example}
+	\begin{example}[Interi di Gauss]
+		Abbiamo le seguenti inclusioni come anelli
+		$$\ZZ[i]\le \QQ[i]\le \RR[i]=\CC$$
+		in particolare $\ZZ[i]$ è detto insieme degli \textit{interi di Gauss}. Non è difficile vedere che gli interi di Gauss hanno caratteristica $0$.
+	\end{example}
+	\begin{exercise}
+		Chi sono gli insiemi $U\left(\ZZ[i]\right)$ e $U\left(\QQ[i]\right)$? Dedurne se sono o meno campi.
+	\end{exercise}
+	
+	\subsection{Congruenze su anelli}
+	Come per i gruppi ci chiediamo quando una relazione di equivalenza è una congruenza su un anello $R$. La risposta in questo caso non è un particolare caso di sottoanello, ma un ideale.
+	\begin{definition}[Ideale]
+		Sia $R$ un anello e $I\in R$ un suo sottoinsieme, allora $I$ si dice \textit{ideale} se e solo se $I$ è un sottogruppo di $(R,+)$ e inoltre vale la \textit{proprietà di assorbimento}, ovvero soddisfa per ogni $r\in R$ una o più delle seguenti 
+		$$rI:=\left\{ri:i\in I\right\}\subseteq I$$
+		$$Ir:=\left\{ir:i\in I\right\}\subseteq I$$
+		se soddisfa solo la prima si dirà \textit{ideale sinistro}, se soddisfa solo la seconda si dirà \textit{ideale destro}, se le soddisfa entrambe si dirà \textit{ideale bilatero}. Come per i sottogruppi normali scriviamo $I\normal R$ (e in effetti notiamo che $(I,+)$ è normale in $(R,+)$).
+	\end{definition}
+	\begin{proposition}[Ideale banale]\label{anelli:ideale banale}
+		Un ideale $I\normal R$ è uguale a $R$ se e solo se $U(R)\cap I\ne \eset$. 
+	\end{proposition}
+	\begin{proof}
+		Un verso è banale. Se $I$ è un ideale destro e contiene un elemento invertibile $u$ di $R$ possiamo scrivere
+		$$r=r\cdot 1_R=r(u^{-1}\cdot u)=(ru^{-1})u$$
+		e quindi  dato che $rI\subseteq I$ avremo che ogni $r\in R$ è contenuto in $R$.  
+	\end{proof}
+	\begin{corollary}[Perchè gli ideali ci importano solo sugli anelli]
+		Tutti i campi hanno solo ideali banali. Questa cosa non è necessariamente invertibile, infatti esistono anelli con solo ideali banali che non sono campi.
+	\end{corollary}
+	\begin{example}[Classi di resto modulo $n$]
+		Gli interi congrui a $0$ modulo $n$ sono un ideale bilatero di $\ZZ$, ovvero $n\ZZ$.
+	\end{example}
+	\begin{example}[Matrici Colonna]
+		Le matrici riga e le matrici colonna sono due ideali delle matrici.
+	\end{example}
+	\begin{lemma}[Comportamento sotto intersezione]
+		Intersezione (anche infinita) di sottoanelli e ideali è a sua volta un sottoanello o un ideale.
+	\end{lemma}
+	L'ultimo lemma ci consente di definire:
+	\begin{definition}[Ideali Principali]
+		Sia $X\subseteq R$ tale che $X\ne \eset$, allora definiamo il sottoanello generato da $X$ come l'intersezione di tutti i sottoanelli contenenti $X$. Analogamente si definisce l'ideale generato da $X$. Si può dimostrare che i seguenti ideali sono quelli generati da $X$:
+		$$\left(X\right):=\left\{\sum_{x\in X}s_x x d_x:\text{finite, con } s_x,r_x\in R\right\}$$ 
+		$$\leftindex_{R}{\left(X\right)}:=\left\{\sum_{x\in X}s_x x :\text{finite, con } s_x\in R\right\}$$ 
+		$$\left(X\right)_R:=\left\{\sum_{x\in X} x d_x:\text{finite, con } d_x\in R\right\}$$ 
+		In particolare un ideale generato da un solo elemento $r\in R$ è detto \textit{ideale principale}.
+	\end{definition}
+	Abbiamo già visto che intersezione di anelli e ideali è sempre rispettivamente un anello o un ideale. Cosa possiamo dire delle unioni? Cominciamo con il definire:
+	\begin{definition}[Somma sugli anelli]
+		Siano $A,B$ due sottoinsiemi di un anello $R$, allora definiamo la loro \textit{somma} come
+		$$A+B:=\left\{a+b:a\in A,b\in B\right\}$$
+	\end{definition}
+	\begin{lemma}[Somma di Ideali è sempre un ideale]
+		Siano $I,J\normal R$ in $R$ anello. Allora anche $I+J\normal R$ in particolare
+		$$I+J=\left(I\cup J\right)$$
+	\end{lemma}
+	\begin{proof}
+		Abbiamo già visto che la somma (il prodotto in notazione moltiplicativa) di gruppi è un gruppo, quindi chiaramente $I+J$ è un gruppo abeliano rispetto a $+$. Inoltre $I+J$ assorbe, infatti preso un elemento $r\in R$ e due $i\in I, j\in J$ abbiamo
+		$$r(i+j)=ri+rj\in rI+rJ\subseteq I+J$$
+		E quindi $I+J$ è proprio un ideale.
+	\end{proof}
+	Tuttavia \textbf{questo per i sottoanelli non è necessariamente vero}, infatti se prendiamo $\RR\le \CC$ e $\ZZ[i]\le \CC$ la loro somma non è a sua volta un sottoanello di $\CC$ in quanto non è chiuso rispetto alla moltiplicazione. Possiamo però dimostrare il seguente fatto:
+	\begin{lemma}[Traslare un sottoanello di un ideale]
+		Se $S\le R$ è un sottoanello di $R$ e $I\normal R$ è un ideale bilatero di $R$ allora abbiamo
+		$$S+I\le R$$
+		$$S\cap I \normal S$$
+		e in particolare $S\cap I$ è un ideale bilatero di $S$.
+	\end{lemma}
+	\begin{proof}
+		Osserviamo prima di tutto che $(S+I,+)\le (R,+)$ in quanto somma di sottogruppi, inoltre abbiamo
+		$$(s_1+i_1)(s_2+i_2)=s_1s_2+s_1i_2+s_2i_1+i_1i_2$$
+		il primo addendo è in $S$, mentre gli altri tre sono tutti in $I$ (per l'assorbenza di $I$) e quindi $S+I$ è anche chiuso rispetto al prodotto, e abbiamo finito. A questo punto non ci resta che dimostrare che $S\cap I$ assorbe in $S$, ovvero se $k\in S\cap I$ e $s\in S$ abbiamo
+		$$ks\in S$$
+		$$sk\in S$$
+		(per la chiusura di $S$) e inoltre
+		$$ks\in I$$
+		$$sk\in I$$
+		per l'assorbenza di $I$, dunque $sk\in S\cap I$ e abbiamo finito.
+	\end{proof}
+	\begin{example}[Polinomi generati da un anello]
+		Sia $R$ un anello commutativo e $S$ un suo sottoanello proprio. Allora se $x\in R\setminus S$ abbiamo che
+		$$\left(S\cup \left\{x\right\}\right)=\left\{s_0+s_1x+s_2x^2+\dots+s_nx^n:n\in\NN,s_i\in S\right\}$$
+		spesso un tale insieme si denota con $S[x]$. 
+	\end{example}
+	\begin{example}[Anello delle funzioni reali]
+		Definiamo il seguente anello 
+		$$R:=\RR^{(a,b)}=\left\{f\mid f:(a,b)\to \RR \text{ è una funzione.}\right\}$$
+		rispetto alle operazioni di somma e prodotto sulle immagini, allora notiamo che preso $X\subseteq (a,b)$ non vuoto il seguente insieme è un ideale di $R$:
+		$$I_X:=\left\{f\in R:\forall x\in X, f(x)=0\right\}$$
+		inoltre è anche un ideale principale, infatti comunque presa una funzione $h:(a,b)\to \RR$ tale che 
+		$$h(x)=0 \iff x\in X$$
+		vediamo che $(h)=I_X$. 
+	\end{example}
+	Con quanto abbiamo appena definito possiamo articolare una nuova caratterizzazione del concetto di campo.
+	\begin{proposition}[Caratterizzazione dei campi]
+		Un anello $R$ commutativo è un campo se e solo se gli unici suoi ideali sono $\left\{0\right\}$ e $R$.
+	\end{proposition}
+	\begin{proof}
+		Se $R$ è un campo è chiaro che tutti i suoi elementi eccetto $0$ saranno in $U(R)$, dunque gli unici due ideali possibili sono $\{0\}$, o, per la proposizione \ref{anelli:ideale banale}, tutto $R$. Se d'altra parte gli unici ideali di $R$ sono solo $\left\{0\right\}$ e $R$ se supponiamo per assurdo che ci sia un elemento di $r\in R$ non $0$ e non invertibile allora possiamo prendere $(r)$ l'ideale principale generato da $r$, e questo dovrà per forza essere
+		$$(r)=R$$
+		ovvero esisterà un $r'\in R$ tale che 
+		$$r\cdot r'=1_R$$
+		cioè $r$ è invertibile, assurdo.
+	\end{proof}
+	Vediamo ora il motivo per cui gli anelli sono stati introdotti, come per i gruppi, ovvero le congruenze sugli anelli. Tutta la trattazione già svolta per i gruppi sulle congruenze ci aveva portato a considerare e studiare con attenzione i sottogruppi normali di un gruppo. Per gli anelli avviene una cosa completamente analoga con gli ideali, ovvero:
+	\begin{theorem}[Caratterizzazione degli ideali per congruenze]
+		Sia $\sim$ una relazione di equivalenza sull'anello $R$. Allora $\sim$ è una congruenza su $R$ se e solo se esiste un ideale bilatero $I\normal R$ tale che la congruenza $\sim_I$ definita come
+		$$x\sim_I y \iff x-y\in I$$
+		è equivalente a $\sim$. In questo caso in particolare si ha $I=[0]_\sim$. 
+	\end{theorem}
+	\begin{proof}
+		La dimostrazione è del tutto analoga a quella per i gruppi, con l'unica differenza che $(R,+)$ è abeliano e che bisogna controllare la compatibilità di $\sim$ con il prodotto. Quindi prendiamo 
+		$$x_1\sim x_2 \iff x_1-x_2\in I$$
+		$$y_1\sim y_2 \iff y_1-y_2\in I$$
+		verifichiamo che se $I$ è un ideale la relazione $\sim_I$ è compatibile con il prodotto. Abbiamo infatti che 
+		$$x_1y_1-x_2y_2=x_1y_1-x_1y_2+x_1y_2-x_2y_2=x_1(y_1-y_2)+y_2(x_1-x_2)$$
+		che è chiaramente in $I$ in quanto sia $x_1-x_2$ che $y_1-y_2$ sono dentro $I$ e $I$ assorbe. L'altro verso dell'implicazione si trova facendo un po' di conti (e si trova che l'ideale deve essere bilatero perchè "i laterali destri e sinistri devono coincidere").
+	\end{proof}
+	Possiamo dunque importare dai gruppi tutta la teoria sulla struttura quoziente, definendo:
+	\begin{definition}[Anello quoziente]
+		Se $R$ è un anello e $I$ un ideale bilatero allora possiamo definire \textit{l'anello quoziente} di $R$ modulo $I$ come
+		$$\faktor{R}{I}:=\faktor{R}{\sim_I}.$$
+		Questo ha la struttura di un anello con le operazioni di somma e prodotto tra insiemi definite sopra. In particolare gli elementi sono tutti della forma
+		$$I+r,\forall r\in R$$
+		e le operazioni si riducono a 
+		$$I+a+I+b=I+(a+b)$$
+		$$\left(I+a\right)\cdot\left(I+b\right)=I+(a\cdot b)$$
+	\end{definition}
+	per concludere quindi vediamo come per i gruppi
+	\begin{proposition}[Proprietà di immagine e kernel]
+		Sia $f:R\to S$ un morfismo d'anelli. Allora valgono le seguenti:
+		\begin{itemize}
+			\item $\Immagine{f}$ è un sottoanello di $S$.
+			\item Il kernel di $f$ è un ideale bilatero di $R$.
+			\item Se e solo se $f(x)=f(y)$ allora $\left(\ker{f}\right)+x=\left(\ker{f}\right)+y$ 
+		\end{itemize}
+	\end{proposition}
+	\begin{proof}
+		La dimostrazione è identica al caso dei gruppi essenzialmente. L'unica particolarità è che vogliamo che il kernel assorba. Si vede allora che se $r\in R$ e $k\in \ker{f}$ abbiamo
+		$$f(rk)=f(r)f(k)=f(r)\cdot 0_R=0_R \iff rk\in \ker{f}$$
+		come richiesto.
+	\end{proof}
+	esattamente come per i gruppi si dimostra nuovamente il \textbf{teorema fondamentale di omomorfismo}, che non enunceremo di nuovo. Si noti che come conseguenza interessante della proposizione sopra abbiamo:
+	\begin{corollary}[Tutti i morfismi di campi sono iniettivi]
+		Se $f:R\to S$ è un morfismo d'anelli e $R$ è un campo allora $f$ è iniettivo.
+	\end{corollary}
+	\begin{proof}
+		Il fatto che $R$ sia un campo ci garantisce che tutti gli ideali bilateri siano o $R$ o $\left\{0\right\}$. Ma abbiamo appena dimostrato che $\ker{f}$ è un ideale bilatero di $R$, dunque $\ker{f}$ o è tutto $R$ o è banale. Il primo caso è escluso dalla condizione $$f(1_R)=1_S\ne 0_S$$
+		della definizione di morfismo d'anelli, e quindi abbiamo finito.
+	\end{proof}
+	Allo stesso modo abbiamo
+	\begin{theorem}[di corrispondenza]
+		Sia $I\normal R$ un ideale bilatero e $\pi$ la proiezione canonica. Le restrizioni $\pi_*$ e $\pi^*$ inducono corrispondenze biunivoche tra i sottoanelli di $R$ contenenti gli ideali $I$ e i sottoanelli del quoziente. Allo stesso modo accade per gli ideali. In particolare l'immagine di un arbitrario $R'\le R$ è
+		$$\pi_*(R')=\faktor{R'+I}{I}.$$
+	\end{theorem}
+	\begin{theorem}[Secondo Teorema di omomorfismo]
+		Sia $R$ un anello e siano $S\le R$ e $I\normal R$ bilatero, allora abbiamo che $I$ è un ideale bilatero in $S+I$ e $I\cap S$ è un ideale bilatero in $S$, inoltre:
+		$$\faktor{S+I}{I}\simeq \faktor{S}{S\cap I}$$ 
+	\end{theorem}
+	\begin{theorem}[Terzo Teorema di omomorfismo]
+		Siano $I\subseteq J$ due ideali bilateri in $R$, allora
+		$$\faktor{\faktor{R}{I}}{\faktor{J}{I}}\simeq \faktor{R}{J}$$
+	\end{theorem}
+	e come per i gruppi il teorema di corrispondenza si generalizza al caso di arbitrari epimorfismi tramite il primo teorema di omomorfismo:
+	\begin{theorem}[di corrispondenza generalizzato]
+		Se $\varphi:R\to S$ è un morfismo d'anelli suriettivo, allora la funzione
+		$$\varphi_*=\hat{\varphi}\circ \pi_*$$
+		(dove $\hat{\varphi}$ è la funzione iniettiva la cui esistenza è garantita dal primo teorema d'omomorfismo) definisce una corrispondenza biunivoca tra ideali di $R$ contenenti $\ker{\varphi}$ e ideali di $S$.
+	\end{theorem}
+	\subsection{Domini a ideali principali}
+	Richiamiamo prima di tutto la definizione di dominio:
+	\begin{definition}[Dominio]
+		Un anello \textbf{commutativo} $D$ si dice dominio se per ogni $a,b\in D$ tali che 
+		$$ab=0$$
+		allora almeno uno tra $a$ e $b$ è uguale a $0$.
+	\end{definition}
+	Il motivo per cui ci interessa lavorare sui domini è:
+	\begin{lemma}[Nei domini si può cancellare]
+		Presi tre elementi $a,b,c\ne 0\in D$ un dominio, allora se vale
+		$$ac=bc$$
+		vale anche
+		$$a=b$$
+		e dato che un dominio è sempre commutativo, anche $ca=bc$ o $ca=cb$ si possono cancellare.
+	\end{lemma}
+	\begin{proof}
+		Riscriviamo l'ipotesi come
+		$$ac-bc=0 \iff (a-b)c=0$$
+		a questo punto dato che $c\ne 0$ dobbiamo per forza avere
+		$$a-b=0 \iff a=b$$
+		come richiesto.
+	\end{proof}
+	\begin{example}
+		Prendiamo l'anello dei polinomi a coefficienti reali $\RR[x]$ e l'ideale principale generato da $(x^2+1)$. L'anello
+		$$\faktor{\RR[x]}{(x^2+1)}$$
+		è isomorfo al campo complesso $\CC$. Analogamente abbiamo
+		$$\faktor{\ZZ[x]}{(x^2+1)}\simeq \ZZ[i]$$
+		Per dimostrare ciò consideriamo la valutazione in $i$, ovvero la funzione 
+		$$\varphi:\RR[x]\to \RR[i]$$
+		che valuta ogni polinomio nel valore $i$. Questo è chiaramente un morfismo d'anelli, ed è suriettivo, quindi l'immagine sarà esattamente $\CC$, inoltre il kernel è costituito esattamente dai polinomi multipli di $(x^2+1)$, ovvero l'ideale generato da $(x^2+1)$. Questo per il primo teorema d'omomorfismo chiude.  
+	\end{example}
+	
+	Il risultato sopra ci dice, fra le altre cose, per il teorema di corrispondenza, che ideali di $\RR$ contenenti il kernel (ovvero l'ideale di $x^2+1$) corrispondono uno ad uno ad ideali di $\CC$. Ma sappiamo che $\CC$ è un campo, e quindi i suoi unici ideali sono $\left\{0\right\}$ e $\CC$. Questo significa che tutti gli ideali di $\RR[x]$ contenenti $(x^2+1)$ sono esattamente solo $(x^2+1)$ ed $\RR[x]$. Questo motiva la seguente definizione:
+	\begin{definition}[Ideale massimale]
+		Un ideale $I\normal R$ in un anello $R$ tale che $I\ne R$ si dice \textit{massimale} se e solo se per ogni $J\normal R$ tale che 
+		$$I\subseteq J \subseteq R$$
+		si ha $J=I$ oppure $J=R$.
+	\end{definition}
+	Analogamente abbiamo:
+	\begin{definition}[PID]
+		Un anello in cui tutti gli ideali bilateri sono principali si dice \textit{anello ad ideali principali}. In particolare se un dominio d'integrità è a ideali principali, allora si dice che è un \textit{dominio ad ideali principali}, o brevemente un PID.
+	\end{definition}
+	\begin{lemma}[Caratterizzazione della divisibilità per ideali]
+		Se $R$ è un PID e $(a),(b)\normal R$ allora abbiamo che 
+		$$(a)\subseteq (b)\iff b\mid a$$ 
+		e quindi due ideali di un PID sono uguali se e solo se sono generati da elementi associati (ovvero che differiscono a meno di un prodotto per un'unità).
+	\end{lemma}
+	\begin{proof}
+		Il fatto che $(a)\subseteq (b)$ è equivalente a 
+		$$a\in (b)$$
+		scrivendo questa cosa con la definizione di ideale principale otteniamo
+		$$a=rb$$
+		per qualche $r\in R$. Questo è esattamente la definizione di divisibilità e quindi abbiamo finito. La seconda parte del lemma è una diretta conseguenza della prima.
+	\end{proof}
+	Ora, nei numeri interi sappiamo che la definizione di \textit{primo} è essenzialmente un numero $p$ tale che
+	$$p\mid ab 	\iff p\mid a \lor p\mid b$$
+	grazie al lemma appena dimostrato possiamo tradurre questa cosa nel linguaggio degli ideali:
+	\begin{definition}[Ideale Primo]
+		Sia $R$ un anello commutativo. Un ideale $P$ di $R$ è primo se per ogni $a,b\in R$ 
+		$$ab\in P \iff a\in P \lor b\in P.$$
+		Notiamo che questa definizione non è ben posta se $R$ non è commutativo (!), infatti se avessimo che $a\in P$ e $b\in P$ non sarebbe chiaro quale tra $ab$ e $ba$ debba appartenere a $P$, e queste due cose si equivalgono se e solo se $P$ è bilatero (che appunto, non è scontato se $R$ non è commutativo). 
+	\end{definition}
+	In effetti ci accorgiamo che avremmo potuto generalizzare la nozione di primo anche in un altro modo, ovvero un numero è primo se non ha divisori propri, cioè se 
+	$$p=ab$$
+	allora uno tra $a$ e $b$ deve essere uguale a $p$, e l'altro deve essere un'unità di $\ZZ$. Questo, se lo formalizziamo utilizzando gli ideali diventa che se
+	$$p=ab$$
+	abbiamo chiaramente che uno tra $a$ e $b$ deve appartenere all'ideale $(p)$. Ma allo stesso tempo abbiamo che $p$ è scritto come un qualche multiplo sia di $a$ che di $b$, quindi 
+	$$p\in (a)$$
+	$$p\in (b)$$
+	ma questo significa che $(a),(b)\subseteq(p)$. Ovvero l'ideale $(p)$ soddisfa
+	$$(p)\subseteq(a) \implies (a)=(p) \lor (a)=\ZZ.$$
+	Questa è proprio la definizione di ideale massimale! Dunque possiamo dire che in un dominio a ideali principali un'altra generalizzazione del concetto di primo è che il suo ideale principale sia massimale. Proprio riguardo a questo generalizzando l'esempio dei numeri complessi possiamo enunciare il seguente teorema:
+	\begin{proposition}[Quozientare per un ideale massimale]
+		Sia $R$ un anello commutativo e $I$ un suo ideale, allora $I$ è massimale se e solo se $\faktor{R}{I}$ è un campo.
+	\end{proposition}
+	\begin{proof}
+		La dimostrazione è essenzialmente analoga al caso specifico.
+		Infatti, se e solo se $\faktor{R}{I}$ è un campo allora tutti i suoi ideali sono banali. Ma d'altro canto per il teorema di corrispondenza questo vuol dire che ci sono solo due ideali contenenti $I$, ovvero $I$ stesso e $R$. Questa è la definizione di ideale massimale, quindi le due cose sono equivalenti, e abbiamo finito.
+	\end{proof}
+	\begin{example}
+		Sia $n\in\ZZ$. Il suo ideale principale nell'anello degli interi si denota con $n\ZZ$, allora abbiamo che 
+		$$\faktor{\ZZ}{n\ZZ}$$
+		è un campo se e solo se $n\ZZ$ è massimale, ovvero se e solo se $n$ è primo.
+	\end{example}
+	Una caratterizzazione analoga per gli ideali primi è la seguente.
+	\begin{proposition}[Quozientare per un ideale primo]
+		Sia $R$ un anello commutativo e $I$ un suo ideale, allora $I$ è primo se e solo $\faktor{R}{I}$ è un dominio. 
+	\end{proposition}
+	\begin{proof}
+		Il fatto che $\faktor{R}{I}$ sia un dominio è equivalente a dire che comunque si facciano prodotti tra classi laterali degli ideali il risultato sia sempre diverso da $I$, ovvero per ogni $a,b\in R$ tali che $a+I\ne I$ e $b+I\ne I$ vale
+		$$I+ab\ne I$$
+		ma usando il fatto che gli ideali inducono congruenze sugli anelli, riscriviamo queste tre condizioni come: se $a\not\in I$ e $b\not\in I$ allora
+		$$ab\not\in I$$
+		d'altro canto il contronominale di ciò è proprio che se 
+		$$ab\in I$$
+		allora deve valere una delle due
+		$$a\in I$$
+		$$b\in I$$
+		ma questa è proprio la definizione di ideale primo! Dunque abbiamo finito.
+	\end{proof}
+	ma da queste due proposizioni possiamo ricavare un importante corollario:
+	\begin{corollary}[Tutti gli ideali massimali sono primi]
+		Se $I$ è un ideale massimale di $R$ anello commutativo, allora $I$ è un ideale primo.
+	\end{corollary}
+	\begin{proof}
+		Segue chiaramente dal fatto che se $I$ è massimale, allora $\faktor{R}{I}$ è un campo, ma allora $\faktor{R}{I}$ è anche un dominio, e quindi $I$ è un ideale primo.
+	\end{proof}
+	Come per i numeri primi, siamo indotti a generalizzare il concetto di coprimalità a partire dal teorema di Bezòut: dati due numeri $a,b\in\ZZ$ questi sono coprimi se e solo se il loro MCD è $1$, e quindi esistono due $m,n\in\ZZ$ tali che
+	$$ma+nb=\MCD(a,b)=1$$
+	ovvero, comunque preso un $z\in\ZZ$ esistono due $m',n'\in\ZZ$ tali che 
+	$$m'a+n'b=z$$
+	ovvero, scritto utilizzando gli ideali
+	$$(a)+(b)=(\MCD(a,b))=\ZZ.$$
+	Generalizziamo allora:
+	\begin{definition}[Ideali Coprimi]
+		Due ideali $I,J\normal R$ si dicono coprimi se e solo se 
+		$$I+J=R$$
+	\end{definition}
+	una cosa che discende immediatamente da questa definizione è che due ideali massimali distinti sono coprimi. \\
+	Abbiamo definito gli ideali per codificare il concetto di congruenza su di un anello generico. Come abbiamo fatto per le congruenze sugli interi, vorremmo avere un modo per "comporre e scomporre" le congruenze in congruenze più piccole, rispetto a ideali coprimi. Questa è una generalizzazione del teorema cinese del resto che, forti delle nostre nuove definizioni, possiamo ora enunciare e dimostrare:
+	\begin{theorem}[Teorema Cinese del Resto generalizzato]
+		Siano $I,J\normal R$ due ideali coprimi. Allora si ha che 
+		$$\faktor{R}{I\cap J}\simeq \faktor{R}{I}\times \faktor{R}{J}$$
+		tramite l'isomorfismo
+		$$\varphi:I\cap J+r\mapsto (I+r,J+r)$$
+	\end{theorem}
+	\begin{proof}
+		Consideriamo il morfismo $\varphi_0:R\to \faktor{R}{I}\times \faktor{R}{J}$ che ad ogni elemento di $R$ associa la sua classe di equivalenza in $I$ e in $J$ (effettivamente combinando insieme le due proiezioni canoniche di $R$ modulo $I$ e $J$). Ora ci piacerebbe poter applicare brutalmente il primo teorema d'omomorfismo, e per fare ciò dobbiamo prima di tutto dimostrare che $\varphi_0$ è suriettiva. Siano allora $a,b\in R$ e quindi sia
+		$$(I+a,J+b)\in \faktor{R}{I}\times\faktor{R}{J}$$
+		verifichiamo che esiste un $r$ tale che $(I+a,J+b)$ sia l'immagine di $r$. Vogliamo trovare un $r$ tale che 
+		$$r\equiv_I a$$
+		$$r\equiv_J b$$
+		tuttavia noi sappiamo che $I$ e $J$ sono coprimi, ovvero $I+J=R$, ovvero possiamo scrivere $a\in R$ come 
+		$$i_1+j_1=a$$
+		e allo stesso modo
+		$$i_2+j_2=b$$
+		quindi scegliendo $r=i_1+j_2\in R$ abbiamo esattamente quanto volevamo, dunque $r$ è la controimmagine di $(I+a,J+b)$ e quindi $\varphi_0$ è suriettiva. A questo punto ci manca solo da dimostrare che $\ker{\varphi_0}=I\cap J$, ma questo è chiaro, infatti
+		$$\ker{\varphi}=\left\{r\in R:\varphi_0(r)=(I,J)\right\}=\left\{r\in R: I+r=I \land J+r=J\right\}=\left\{r\in R:r\in I,r\in J\right\}$$
+		ovvero $\ker{\varphi_0}$ è proprio $I\cap J$, e dunque per il primo teorema d'omomorfismo abbiamo finito.
+	\end{proof}
+	\subsection{Campo dei quozienti e digressione sulle serie formali}
+	\begin{definition}[Estensione di un anello]
+		Siano $R,S$ due anelli. Diciamo che $R$ è un'\textit{estensione} di $S$, o che $S$ \textit{si immerge} in $R$ se esiste un omomorfismo $\varphi:S\inj R$ iniettivo. Euristicamente possiamo dire che $R$ è un'estensione di $S$ se dentro $R$ c'è un sottoanello isomorfo a $S$.
+	\end{definition}
+	Un primo modo che abbiamo di generare estensioni di un anello $R$ è semplicemente quello di aggiungere una "variabile formale" $x$, e creare l'anello di tutti i polinomi a coefficienti in $R$ della variabile $x$. Questo si denota di solito con 
+	$$R\lneq R[x]$$
+	è chiaro perchè $R[x]$ sia un'estensione di $R$, infatti ci basta prendere
+	\begin{align*}
+		\varphi:R\to & R[x] \\
+		r \mapsto & r+0_Rx
+	\end{align*}
+	che è chiaramente iniettiva. Allo stesso modo possiamo estendere l'anello dei polinomi su $R$ all'insieme delle \textit{serie formali} su $R$, ovvero l'insieme $R[[x]]$ contenente le espressioni del tipo
+	$$\sum_{n=0}^\infty a_nx^n$$
+	dove $a_n$ è una successione di elementi di $R$, con le operazioni
+	$$\sum_{n=0}^\infty a_nx^n+\sum_{n=0}^\infty b_nx^n=\sum_{n=0}^\infty (a_n+b_n)x^n$$
+	$$\left(\sum_{n=0}^\infty a_nx^n\right)\left(\sum_{n=0}^\infty b_nx^n\right)=\sum_{n=0}^\infty c_nx^n$$
+	dove i $c_n$ sono definiti come
+	$$c_0=a_0b_0$$
+	$$c_1=a_1b_0+a_0b_1$$
+	$$c_2=a_2b_0+a_1b_1+a_0b_2$$
+	$$\vdots$$
+	$$c_i=\sum_{r+s=i}a_rb_s$$
+	e dunque vediamo che $R[[x]]$ è effettivamente un'estensione di $R[x]$, infatti gli elementi di $R[x]$ sono le serie formali associati a successioni $a_n$ definitivamente nulle. Notiamo immediatamente una cosa particolare di questo nuovo anello, ovvero che, a differenza di quanto succedeva passando da $R$ a $R[x]$, alcuni elementi passano dall'essere non invertibili all'essere invertibili. Un caso lampante di ciò è $1-x$, che in $R[x]$ non aveva inverso, mentre in $R[[x]]$ ha
+	$$(1-x)(1+x+x^2+x^3+\dots)=1+0+0+0+0+\dots=1$$
+	\begin{proposition}[Serie formali invertibili]
+		Le serie formali invertibili sono esattamente:
+		$$U\left(R[[x]]\right)=\left\{\sum_{i=0}^{\infty}a_ix^i\in R[[x]]:a_0\in U(R)\right\}$$
+	\end{proposition}
+	\begin{proof}
+		La dimostrazione si basa sul costruire iterativamente l'inversa della generica serie
+		$$s=\sum_{i=0}^{\infty}a_ix^i$$
+		essenzialmente notiamo che la serie $s'$ inversa deve soddisfare
+		$$ss'=1$$
+		ovvero, se la sua successione di coefficienti associata è $b_i$ deve soddisfare:
+		$$a_0b_0=1$$
+		(esiste almeno un $b_0$ che soddisfa questa perchè $a_0$ è invertibile) dunque fissato $b_0$ scegliamo $b_1$ tale che 
+		$$a_0b_1+a_1b_0=0$$
+		che di nuovo possiamo fare perchè $a_0$ è invertibile, quindi scegliamo un $b_2$ tale che 
+		$$a_0b_2+a_1b_1+a_2b_0=0$$
+		e così via, determinando induttivamente tutti i termini della successione. La serie che abbiamo costruito è per definizione l'inversa di $s$, e dunque abbiamo che $s$ è invertibile.
+	\end{proof}
+	In realtà possiamo fare di meglio, così come da $\ZZ$ possiamo costruire $\QQ$ il minimo campo con sottoanello $\ZZ$, ci aspettiamo di poterlo fare anche per un generico dominio d'integrità. 
+	\begin{definition}[Campo dei quozienti]
+		Sia $R$ un dominio d'integrità. Un campo $K$ è detto \textit{campo dei quozienti} di $R$ se e solo se soddisfa:
+		\begin{itemize}
+			\item$K$ è un estensione del dominio $R$.
+			\item Per ogni elemento $k\in K$ esistono due elementi $r,s\in R\subseteq K$ tali che $k=rs^{-1}$ (si noti che affinchè l'inverso abbia senso dobbiamo prendere $r,s$ in $K$, e non in $R$, quindi l'uguaglianza scritta è usando il prodotto di $K$, non di $R$).
+		\end{itemize}
+	\end{definition}
+	Questa è la definizione "dall'alto" del campo dei quozienti, ovvero quella che parte avendo già $K$. Vi è un modo di definire $K$ solo a partire da $R$ costruendolo esplicitamente e in modo univoco come insieme delle frazioni di elementi di $R$ con un'opportuna definizione di somma e prodotto. Questo ci suggerisce che $K$ debba essere unico, e infatti il prossimo teorema afferma proprio che:
+	\begin{theorem}[Il campo dei quozienti è unico]
+		Sia $R$ un dominio d'integrità e $Q_1$, $Q_2$ due suoi campi dei quozienti, allora 
+		$$Q_1\simeq Q_2$$
+		in particolare la restrizione di questo isomorfismo alle copie isomorfe di $R$ in $Q_1$ e $Q_2$ è la funzione identità.
+	\end{theorem}
+	\begin{proof}
+		Essenzialmente la dimostrazione consiste nel far vedere che tutti i campi di quozienti sono isomorfi al campo $Q$ costruito esplicitamente come insieme delle frazioni di $R$. Questo passaggio è lungo, contoso e neanche troppo istruttivo. Una volta fatto questo però, è facile costruire l'isomorfismo cercato da $Q$ a un generico campo dei quozienti $Q_1$, semplicemente estendendo un isomorfismo $\varphi:R'\to R_1$ tra i sottoanelli isomorfi a $R$ rispettivamente dentro a $Q$ e $Q_1$, all'isomorfismo 
+		$$\varphi:Q\to Q_1$$ 
+		che grazie alla seconda proprietà di campo dei quozienti si dimostra facilmente essere suriettivo. Dato quindi che ogni morfismo di campi è iniettivo, abbiamo finito.
+	\end{proof}
+	Il prossimo risultato potrebbe di primo acchito sembrare più forte e più semplice da dimostrare del precedente, tuttavia osserviamo che non è necessariamente vero che se esistono due anelli $A$ e $B$ e due monomorfismi
+	$$\psi_1:A\inj B$$
+	$$\psi_2:B\inj A$$
+	allora esiste un isomorfismo da $A$ a $B$. Questa sarebbe una estremamente comoda generalizzazione del teorema di Cantor-Bernstein, che tuttavia non è possibile fare. Dunque il campo dei quozienti soddisfa anche la proprietà seguente:
+	\begin{theorem}[Il campo dei quozienti è il più piccolo campo contenente il dominio]
+		Sia $R$ un dominio e $Q(R)$ il suo campo dei quozienti tale che $R\subseteq Q(R)$. Se $F$ è un'estensione di $R$ ed è anche un campo allora per ogni $\varphi:R\inj F$ possiamo completare il seguente diagramma commutativo:
+		$$
+		\begin{tikzcd}
+			R \arrow[r,"\varphi",hook]\arrow[d,"\text{id}_R",hook,swap] & F	\\
+			Q(R) \arrow[hook,dashed,"\tilde{\varphi}",ur,swap] &
+		\end{tikzcd}
+		$$
+		con un unico monomorfismo $\tilde{\varphi}$ che quindi, se $q\in Q$ tale che $q=rs^{-1}$ con $r,s\in R$,  soddisfa:
+		$$\tilde{\varphi}(q)=\varphi(r)\varphi(s)^{-1}$$
+	\end{theorem}
+	\begin{proof}
+		Per definizione di campo dei quozienti per ogni $q\in Q(R)$ esistono $r,s\in R$ tali che 
+		$$q=rs^{-1}$$
+		definiamo allora $\tilde{\varphi}:Q(R)\to F$ come
+		$$q\mapsto \varphi(r)\varphi(s)^{-1}$$
+		notiamo che questa definizione è ben posta, infatti se abbiamo 
+		$$rs^{-1}=q=r's'^{-1} \iff rs'=r's$$
+		abbiamo
+		$$\varphi(rs')=\varphi(r's)$$
+		$$\varphi(r)\varphi(s')=\varphi(r')\varphi(s)$$
+		$$\varphi(r)\varphi(s)^{-1}=\varphi(r')\varphi(s')^{-1}$$
+		come volevamo dimostrare. Inoltre analogamente $\tilde{\varphi}$ è iniettivo, infatti se 
+		$$\tilde{\varphi}(q)=\tilde{\varphi}(q')$$
+		allora esisteranno $r,s,r',s'\in R$ tali che 
+		$$q=rs^{-1}$$
+		$$q'=r's'^{-1}$$
+		e inoltre
+		$$\varphi(r)\varphi(s)^{-1}=\varphi(r')\varphi(s')^{-1}$$
+		che riarrangiando un po' e usando il fatto che $\varphi$ è un omomorfismo iniettivo diventa
+		$$\varphi(r)\varphi(s')=\varphi(r')\varphi(s) \iff \varphi(rs')=\varphi(r's)$$
+		quindi
+		$$rs'=r's \iff q=rs^{-1}=r's'^{-1}=q'$$
+		come volevamo mostrare. L'unicità a questo punto segue dal fatto che 
+		$$\varphi=\tilde{\varphi}\circ \text{id}_R$$
+		infatti se prendiamo un $q\in Q(R)$ e due $r,s\in R$ tali che
+		$$q=rs^{-1}$$
+		abbiamo che 
+		$$\varphi=\tilde{\varphi}\circ \text{id}_R \implies \tilde{\varphi}(r)=\varphi(r)$$
+		$$\varphi=\tilde{\varphi}\circ \text{id}_R \implies \tilde{\varphi}(s)=\varphi(s)$$
+		ovvero moltiplicando membro a membro
+		$$\tilde{\varphi}(r)\varphi(s)=\tilde{\varphi}(s)\varphi(r)$$
+		ma quindi usando il fatto che $\tilde{\varphi}$ ha sia come dominio che come codominio un campo, otteniamo
+		$$\tilde{\varphi}(r)\tilde{\varphi}(s)^{-1}=\varphi(r)\varphi(s)^{-1} \iff \tilde{\varphi}(q)=\varphi(r)\varphi(s)^{-1}$$
+		che era proprio la definizione di $\tilde{\varphi}$ che avevamo dato prima, e quindi abbiamo finito.
+	\end{proof}
+	\subsection{Domini Euclidei}
+	Quali sono i domini $R$ per i quali vale un analogo dell'algoritmo di Euclide?
+	\begin{definition}[Dominio Euclideo]
+		Un \textit{dominio euclideo} è un particolare dominio $R$ in cui è definita una funzione $\nu:R\setminus\left\{0\right\}\to \NN$ detta \textit{valutazione}, tale che:
+		\begin{itemize}
+			\item Per ogni $a,b\in R$ non nulli si ha che
+			$$\nu(a)\le \nu(ab)$$
+			\item Per ogni $a,b\in R$ con $b\ne 0$ esistono quoziente $q$ e resto $r$ in $R$ tali che 
+			$$a=bq+r$$
+			e inoltre valga $\nu(r)<\nu(b)$.
+		\end{itemize}
+	\end{definition}
+	\begin{example}
+		Su $\ZZ$ la valutazione è $\abs{x}$, mentre su $\RR[x]$ è la funzione $\deg(P(x))$.
+	\end{example}
+	vediamo subito alcune proprietà di $\nu$:
+	\begin{proposition}[Valutazione delle unità]
+		Sia $R$ un dominio euclideo con valutazione $\nu:R\setminus\left\{0\right\}\to \NN$ allora abbiamo:
+		\begin{itemize}
+			\item Se $a\in R\setminus\left\{0\right\}$ e $u\in U(R)$ allora $\nu(u)\le \nu(a)$
+			\item Se $a\in R\setminus\left\{0\right\}$ allora il fatto che $a$ sia invertibile è equivalente a $\nu(a)=\nu(1)$.
+		\end{itemize}
+	\end{proposition}
+	\begin{proof}
+		Per ogni $a\in R$ abbiamo
+		$$\nu(a)=\nu(a\cdot 1)\ge \nu(1)$$
+		quindi la valutazione di qualunque elemento dell'anello è maggiore di $1$. D'altro canto vediamo che tutte le unità hanno la stessa valutazione, infatti se $u$ è invertibile esisterà $u^{-1}$ tale che 
+		$$uu^{-1}=1$$
+		dunque valutando entrambi i lati
+		$$\nu(u)\le\nu(uu^{-1})=\nu(1)$$
+		quindi $\nu(u)=\nu(1)$ per tutte le unità, e dunque abbiamo la prima tesi. La seconda tesi segue considerando un elemento $a$ tale che 
+		$$\nu(a)=\nu(1)$$
+		allora dividendo $1$ per $a$ otteniamo
+		$$1=aq+r$$
+		che ci dice che $\nu(r)<\nu(a)$ oppure $r=0$. D'altro canto dato che $a$ ha la valutazione minima possibile (ovvero ha la valutazione di $1$), possiamo escludere il primo caso, e dunque $r=0$, ma questo vuol dire che esiste un $q\in R\setminus\left\{0\right\}$ tale che 
+		$$1=aq$$
+		cioè $a$ ha un inverso, e quindi abbiamo finito.
+	\end{proof}
+	In effetti notiamo che ogni campo è un dominio euclideo, anche se non uno dei più interessanti, infatti come valutazione possiamo prendere banalmente la funzione identicamente nulla. Il seguente teorema ci mostra perché abbiamo introdotto i domini euclidei:
+	\begin{theorem}[Ogni Dominio Euclideo è un PID]
+		In un dominio euclideo $R$ ogni ideale è principale, in particolare se $I=(i)$ e $J=(j)$ allora
+		$$I+J=(\MCD(i,j))$$
+		$$I\cap J = \left(\mcm(i,j)\right)$$
+	\end{theorem}
+	\begin{proof}
+		Sia $I\normal R$ con $I\ne (0)$, prendiamo il suo elemento con valutazione minima (che esiste sempre dato che il codominio della valutazione è $\NN$). Prima di tutto notiamo che 
+		$$(i)\subseteq I$$
+		ma in effetti se prendiamo un $a\in I$ e facciamo la divisione euclidea:
+		$$a=iq+r$$
+		$r$ deve sempre appartenere ad $I$, dato che $iq\in I$ e $I$ è chiuso rispetto alla somma. Ma allora o $r$ deve avere valutazione strettamente minore di $i$, il che è assurdo per come abbiamo definito $i$, o $r=0$. \\
+		Dunque abbiamo
+		$$a=iq$$
+		ovvero ogni elemento di $I$ è un multiplo di $i$, cioè abbiamo proprio 
+		$$I=(i)$$
+		come richiesto. La seconda parte dell'enunciato segue dal fatto che se $I=(i)$ e $J=(j)$ allora 
+		$$I\subseteq J \iff j\mid i$$
+		e cioè, $I+J$ è generato dal massimo divisore comune a $i$ e $j$, infatti 
+		$$I\subseteq I+J$$
+		$$J\subseteq I+J$$
+		e inoltre $I+J$ è il minimo anello che contiene sia $I$ che $J$. Analogamente abbiamo che 
+		$$I\cap J=(\mcm(i,j))$$
+		ovvero 
+		$$I\cap J=\left(\frac{ij}{\MCD(i,j)}\right)$$
+		come prima dedotto dalle inclusioni naturali che si trovano con $I$ e $J$.
+	\end{proof}
+	\subsubsection{Digressione sugli interi di Gauss}
+	Gli interi di Gauss sono in effetti un dominio euclideo, infatti abbiamo $$U(\ZZ[i])=\left\{1,-1,i,-i\right\}$$
+	e la valutazione può essere definita come la norma sui numeri complessi, cioè per ogni $z\in\ZZ[i]$ tale che $a+ib=z$:
+	$$\nu(z)=\abs{\abs{z}}=\abs{z}^2=a^2+b^2$$
+	notiamo prima di tutto che $\Immagine{\nu}\subseteq \NN\setminus\left\{0\right\}$. Verifichiamo che questa funzione soddisfi effettivamente le ipotesi di dominio euclideo: per ogni $z_1,z_2\in \ZZ[i]$ si ha che
+	$$\abs{z_1z_2}^2=\abs{z_1}^2\abs{z_2}^2\ge \abs{z_1}^2$$
+	dato che $z_2$ ha sempre modulo maggiore o uguale di $1$. D'altro canto notiamo che possiamo tranquillamente dividere in $\ZZ[i]$, infatti in $\QQ[i]$ possiamo dividere due elementi $z_1,z_2\ne 0$ con
+	$$z_1z_2^{-1}=\frac{z_1\overline{z_2}}{\abs{z_2}^2}\in \QQ[i]$$
+	questo è un elemento di $\QQ[i]$, e avrà dei coefficienti frazionari $c$ e $d$
+	$$z_1z_2^{-1}=c+id$$
+	prendiamo allora $\alpha,\beta$ le parti intere di $c$ e $d$, e $\alpha',\beta'$ le parti frazionarie, allora abbiamo
+	$$z_1z_2^{-1}=\alpha +\beta i +\alpha'+i\beta'$$
+	ma allora abbiamo praticamente fatto la divisione euclidea, infatti
+	$$z_1=z_2\left(\alpha+\beta i\right)+z_2\left(\alpha'+i\beta'\right).$$
+	Ora, il LHS è chiaramente intero, e il primo addendo del RHS è chiaramente intero, dunque anche il secondo addendo del RHS dovrà essere intero. L'unica cosa che ci manca da dimostrare è che la valutazione del quoziente sia minore della valutazione di $z_2$. In effeti questo è ovvio, perchè per come sono definiti $\alpha',\beta'\le \half$ dunque la loro norma sarà minore o uguale di $1/4$.
+	\subsubsection{Digressione sulle serie formali}
+	Le serie formali (a coefficienti in un campo) sono in effetti un dominio euclideo, come valutazione possiamo definire 
+	$$\nu:K[[x]]\setminus\left\{0\right\}\to\NN$$
+	la funzione che manda ogni serie $s$ nel valore $i$ tale che possiamo raccogliere una $x^i$ ed esprimere la serie come:
+	$$s=x^iu$$
+	dove $u$ è un invertibile nell'anello delle serie formali. In effetti questo è sempre possibile farlo dato che siamo in un campo, e quindi gli unici coefficienti non invertibili sono gli $0$. Cerchiamo ora un modo costruttivo per fare la divisione in $K[[x]]$. Prendiamo due elementi $s_1,s_2$ che soddisfino
+	$$s_1=x^iu$$
+	$$s_2=x^jv$$ 
+	abbiamo due casi: \\
+	Se $i\ge j$ allora:
+	$$s_1=x^{i-j}s_2uv^{-1}$$
+	che funziona in quanto ha resto $0$.\\
+	Se $i<j$ allora
+	$$s_1=0\cdot s_2+s_1$$
+	che funzione in quanto ha resto $s_1$ che avevamo supposto avere valutazione strettamente minore si $s_2$. 
+	A questo punto è chiaro chi sia il campo dei quozienti di $K[[x]]$, in effetti per come abbiamo definito la divisione euclidea possiamo molto facilmente definire una divisione per due termini arbitrari come
+	$$\frac{s_1}{s_2}=x^{i-j}\frac{u}{v}$$
+	ma in questo caso $i-j$ può essere negativo, quindi abbiamo che tutti e soli i quozienti sono le serie formali in cui la variabile $x$ può partire anche con esponente negativo. Questo si chiama insieme delle \textit{serie di Laurent}. \\
+	E infine ci chiediamo, chi sono gli ideali di $K[[x]]$? In effetti è abbastanza facile rispondere a questa domanda, infatti per quanto abbiamo appena dimostrato $K[[x]]$ è euclideo, e quindi è un PID, ma allora sicuramente tutti i suoi ideali saranno della forma 
+	$$s=(x^iu)=(x^i)$$
+	ovvero gli ideali sono tutti e soli quelli generati da $x$ (più gli ideali $(1)$ e $(0)$). \'E chiaro che vi sia solo un ideale massimale, ovvero $(x)$, in quanto tutti gli ideali sono contenuti uno dentro l'altro. \\
+	Notiamo che questo non è necessariamente vero per i polinomi:
+	\begin{proposition}[I polinomi su un campo hanno tanti ideali massimali]
+		Preso $K$ un campo e $K[x]$ l'anello dei suoi polinomi, esistono almeno tanti ideali massimali in $K[x]$ quanti elementi di $K$.
+	\end{proposition}
+	\begin{proof}
+		Semplicemente prendiamo l'omomorfismo:
+		$$\varphi_k:K[x]\to K$$
+		tale che $\varphi_k:p(x)\mapsto p(k)$ per qualche $k\in K$ costante. Allora sicuramente avremo
+		$$\ker{\varphi_k}=(x-k)$$
+		e inoltre sicuramente $\varphi$ è suriettiva (basta prendere i polinomi di grado $0$), dunque abbiamo per il primo teorema d'omomorfismo:
+		$$\faktor{K[x]}{(x-k)}\simeq K$$
+		ma allora dato che $K$ è un campo, $(x-k)$ deve essere massimale. Quindi comunque scelto $k$ si ha un ideale massimale, e la tesi è dimostrata.
+	\end{proof}
+	Se poi consideriamo addirittura i polinomi $R[x]$ su un $R$ dominio ma non campo possiamo anche trovare degli ideali primi ma non massimali, come è chiaro dall'esempio con $\ZZ=R$. Infatti se consideriamo 
+	$$\faktor{\ZZ[x]}{(x)}$$
+	questo è isomorfo a $\ZZ$, un dominio e non un campo, e quindi abbiamo che $(x)$ è primo e non massimale. Analogamente riusciamo a trovare ideali massimali non principali, infatti se consideriamo $(p,x)$ dove $p$ è un numero primo possiamo scrivere per il terzo teorema d'omomorfismo:
+	$$\faktor{\ZZ[x]}{(p,x)}\simeq \frac{\faktor{Z[x]}{(x)}}{\faktor{(p,x)}{(x)}}$$
+	ma notiamo che per quanto detto prima il numeratore è isomorfo a $\ZZ$, mentre il denominatore è costituito a tutti gli effetti solo dai numeri da $1$ a $p$, quindi abbiamo
+	$$\dots\simeq \faktor{\ZZ}{p\ZZ}$$
+	che è un campo! E quindi abbiamo che $(p,x)$ è un ideale massimale, ma non principale.
+	
+	\subsection{Elementi irriducibili ed elementi primi}
+	Ricordiamo e mettiamo in chiaro alcune definizioni che abbiamo implicitamente già dato:
+	\begin{definition}[Divisibilità]
+		Sia $R$ un dominio e siano $a,b\in R$. Diciamo che $a$ \textit{divide} $b$ se e solo se esiste un $k\in R$ tale che:
+		$$a\mid b \iff b=ka.$$
+	\end{definition}
+	\begin{definition}[Massimo Comun divisore e minimo comune multiplo]
+		Presi due elementi di un dominio $R$ definiamo il loro massimo comun divisore come l'elemento (se esiste) che soddisfa
+		$$\MCD(a,b)\mid a \land \MCD(a,b)\mid b$$
+		e inoltre per ogni $d\in R$ tale che $d\mid a\land d\mid b$ vale
+		$$d\mid \MCD(a,b)$$
+		analogamente definiamo l'mcm come l'elemento (se esiste) che soddisfa
+		$$a\mid \mcm(a,b)$$
+		$$b\mid \mcm(a,b)$$
+		$$a\mid m \land b\mid m \implies \mcm(a,b)\mid m$$
+	\end{definition}
+	\begin{definition}[Elementi associati]
+		Sia $R$ un dominio e siano $a,b\in R$. Diciamo che $a,b$ sono \textit{associati} se e solo se 
+		$$a\mid b \land b \mid a$$
+		questo per i numeri diversi da $0$ è equivalente a dire che $a,b$ differiscono a meno di un'unità.
+	\end{definition}
+	\begin{definition}[Elementi Primi]
+		Preso un $p\in R\setminus U(R)$, diciamo che $p$ è \textit{primo} se e solo se per tutti gli $a,b\in R$ vale 
+		$$p\mid ab \implies p\mid a \lor p\mid b$$
+		o equivalentemente se e solo se $(p)$ è un ideale primo.
+	\end{definition}
+	\begin{definition}[Elementi irriducibili]
+		Diciamo che un certo elemento $0\ne i\in R\setminus U(R)$ è \textit{irriducibile} se e solo se per ogni $a,b\in R$ vale:
+		$$i=ab \implies a\in U(R) \lor b\in U(R)$$
+		equivalentemente, se $(i)$ è l'ideale generato da $i$, questo deve essere anche massimale tra gli ideali principali di $R$, infatti se esiste un 
+		$$(i)\subseteq(a)$$
+		questo vuol dire che esiste un $b$ tale che 
+		$$i=ab$$
+		ma questo è equivalente a dire che uno tra $a,b$ deve essere invertibile, e quindi uno tra $(a)$ e $(b)$ coincide con $R$, mentre l'altro coincide con $(i)$. Notiamo che questo vale solo per gli ideali principali (!), nulla ci garantisce che non ci siano ideali non principali che contengano $(i)$ e che siano diversi da $(i)$ ed $R$, quindi non è necessariamente vero che $\faktor{R}{(i)}$ sia un campo (!!).
+	\end{definition}
+	da quanto appena detto discendono le seguenti proposizioni:
+	\begin{proposition}[Irriducibile implica primo in un PID]
+		Se $D$ è un PID, allora $p\in D$ irriducibile implica $p$ primo.
+	\end{proposition}
+	\begin{proof}
+		Se $p$ è irriducibile allora $(p)$ è massimale tra gli ideali principali, d'altra parte dato che $D$ è un PID gli ideali principali sono tutti e soli gli ideali di $D$, quindi $(p)$ è anche massimale. Dunque $\faktor{R}{(p)}$ è un campo, in particolare è un dominio, quindi $(p)$ è un ideale primo, allora $p$ è primo, come richiesto.
+	\end{proof}
+	d'altro canto vale anche:
+	\begin{proposition}[Primo implica irriducibile in un dominio]
+		Se $R$ è un dominio allora ogni primo di $R$ è irriducibile.
+	\end{proposition}
+	\begin{proof}
+		Sia $p\in R\setminus \left\{0\right\}$ un primo, e supponiamo che
+		$$p=ab$$
+		per qualche $a,b\in R$ allora sicuramente abbiamo che
+		$$p\mid ab \implies p\mid a \lor p\mid b$$
+		d'altro canto abbiamo che 
+		$$a\mid p$$
+		$$b\mid p$$
+		quindi almeno uno tra $a$ e $b$ sarà associato con $p$, ma allora se $p$ è associato con $a$ avremo che $b$ è un'unità (dato che $p=ab$), e analogamente nell'altro caso. Dunque comunque venga scritto $p$ come prodotto di due elementi di $R$, uno dei due deve essere un'unità, e dunque $p$ è proprio irriducibile.
+	\end{proof}
+	E in particolare quindi nel caso dei PID abbiamo:
+	\begin{corollary}[Primo equivale a irriducibile in un PID]\label{primo equivale a irriducibile in un pid}
+		Se $R$ è un PID allora $p\in R$ è irriducibile se e solo se è primo.
+	\end{corollary}
+	Questo purtroppo non è sempre vero se togliamo l'ipotesi che gli ideali siano tutti principali, infatti esistono domini non PID in cui vi sono ideali primi non massimali, e domini non PID in cui elementi irriducibili non sono primi. 
+	\begin{example}[Domini con ideali primi non massimali]
+		Prendiamo $R=\ZZ[i\sqrt{3}]$, verifichiamo che $z=1+i\sqrt{3}$ è irriducibile ma non primo. Notiamo prima di tutto che 
+		$$U\left(\ZZ[i\sqrt{3}]\right)=\left\{1,-1\right\}$$
+		infatti se per un $\alpha\in R$ esiste un $\beta\in R$ tale che 
+		$$\alpha\beta=1$$
+		allora sicuramente avremo che la norma di $\alpha$ deve essere $1$, ovvero
+		$$\abs{\alpha}^2=1 \implies a^2+3b^2=1$$
+		che implica immediatamente $a=\pm 1$ e $b=0$. A questo punto chiaramente $z$ è irriducibile, perchè se lo scriviamo come
+		$$1+i\sqrt{3}=(a+i\sqrt{3}b)(c+i\sqrt{3}d)$$
+		e prendiamo la norma da entrambi i lati
+		$$4=(a^2+3b^2)(c^2+3d^2)$$
+		notiamo che $a^2+3b^2$ non può mai essere uguale a $2$, quindi uno tra $a^2+3b^2$ e $c^2+3d^2$ deve avere norma $1$, e quindi uno dei due deve essere un'unità. Infine notiamo che $z$ sicuramente non è un primo infatti possiamo scrivere l'elemento $4$ in due modi, in modo che in un caso sia divisibile per $1+i\sqrt{3}$, ma nell'altro sia costituito da elementi tutti non divisibili per $1+i\sqrt{3}$. Abbiamo infatti
+		$$2\cdot 2 = 4 = \left(1+i\sqrt{3}\right)\left(1-i\sqrt{3}\right)$$
+		dunque sicuramente $1+i\sqrt{3}\mid 4$, ma $1+i\sqrt{3}\nmid 2$ (per una questione di norma), quindi abbiamo quanto volevamo.
+	\end{example}
+	Notiamo che questo ragionamento è più o meno sempre reiterabile quando possiamo fattorizzare uno stesso numero in più modi diversi. Non ci stupirà più di tanto allora che la classe di anelli che soddisfa la proprietà che ogni irriducibile sia primo è quella dei domini a fattorizzazione unica.
+	\subsection{Domini a fattorizzazione unica}
+	Abbiamo visto che prendendo un PID $D$ e prendendo il suo anello dei polinomi $D[x]$ questo non è necessariamente un PID (si pensi a $\ZZ$ e a $\ZZ[x]$, che non è un PID). Ci piacerebbe cercare una classe di domini tale che "è chiusa rispetto ai polinomi", cioè se prendiamo l'anello dei polinomi di un insieme in questa classe, rimaniamo in questa classe. Questo è specialmente importante se si pensa che la geometria alebrica è lo studio delle superfici viste come zeri di polinomi in più variabili; in un caso del genere ci farebbe molto comoda una classe che, indipendentemente dal numero di variabili del polinomio, continua a contenere il nostro insieme. Dunque abbiamo:
+	\begin{definition}[Dominio a fattorizzazione unica]
+		Un dominio $D$ è detto \textit{a fattorizzazione unica} (abbreviato UFD) se valgono le seguenti proprietà:
+		\begin{itemize}
+			\item Per ogni $d\in D$ diverso da $0$ e non invertibile esistono $i_1,\dots,i_r\in D$ irriducibili tali che 
+			$$d=i_1i_2\dots i_r$$
+			notiamo che gli $i_j$ possono essere uguali tra loro.
+			\item Tutti gli elementi irriducibili di $D$ sono anche primi.
+		\end{itemize}
+	\end{definition}
+	Come anticipato abbiamo quindi
+	\begin{theorem}[Teorema fondamentale dell'aritmetica generalizzato]
+		Se $D$ è un dominio in cui ogni elemento è fattorizzabile come prodotto di irriducibili, allora $D$ è un UFD se e solo se tutte le fattorizzazioni sono \textit{essenzialmente uniche}, ovvero se esistono $j_1,\dots,j_s$ e $i_1,\dots,i_r$ irriducibili in $D$ e un certo $d\in D$ tali che  
+		$$d=j_1j_2\dots j_s=i_1i_2\dots i_r$$
+		si ha $r=s$ ed esiste una permutazione $\sigma\in S_r$ tale che per ogni $1 \le k\le r$ esiste un $u\in U(D)$ tale che: 
+		$$i_{\sigma(k)}=u j_k$$
+		cioè i due elementi sono associati.
+	\end{theorem}
+	\begin{proof}
+		Dimostriamo prima di tutto che se la fattorizzazione non è unica, allora esistono irriducibili non primi. Prendiamo un elemento $x$ scrivibile in due modi distinti come prodotto di irriducibili
+		$$a_1a_2\dots a_n=x=b_1b_2\dots b_m$$
+		dato che le due fattorizzazioni sono distinte, WLOG $a_1$ \textbf{non} sarà esprimibile come 
+		$$a_1=ub_i$$
+		per qualche $u\in U(D)$ e qualche $1\le i\le m$. Abbiamo quindi 
+		$$a_1\mid b_1b_2\dots b_m$$
+		ma d'altra parte se avessimo che
+		$$a_1\mid b_i$$
+		per qualche $i$, avremmo che esiste un $k\in D$ tale che 
+		$$a_1k=b_i$$
+		ma dato che $b_i$ è irriducibile, abbiamo che $k=u^{-1}$ per qualche $u\in U(D)$, e dunque 
+		$$a_1=ub_i$$
+		che abbiamo detto prima essere assurdo. Dunque $a_1$ divide il prodotto $b_1b_2\dots b_m$, ma non divide nessuno dei fattori, ovvero è irriducibile ma non è primo. Viceversa, se esiste un $p\in D$ tale che esistono $a,b\in D$ tali che
+		$$p\mid ab$$
+		ma 
+		$$p\nmid a \land p\nmid b$$
+		dimostriamo che la fattorizzazione non può essere unica. Abbiamo che esiste un $q\in D$ tale che
+		$$pq=ab$$
+		d'altra parte, fattorizzando $q,a,b$ in irriducibili:
+		$$pq_1q_2\dots q_k=a_1a_2\dots a_n b_1b_2 \dots b_m$$
+		ma ora notiamo che queste due fattorizzazioni sono essenzialmente diverse, infatti non esiste nessun $a_i$ o $b_i$ tale che 
+		$$p=a_iu \lor p=b_iu$$
+		per qualche $u\in U(D)$, infatti se per assurdo avessimo $p=a_iu$ (l'altro caso è completamente analogo), avremmo
+		$$pu^{-1}=a_i \implies p\mid a_i \implies p\mid a_1a_2\dots a_i \dots a_n \implies p\mid a$$
+		che è assurdo per come avevamo definito $p$, e dunque abbiamo finito.
+	\end{proof}
+	\begin{definition}[PIACC]
+		SIa $D$ un dominio. Diciamo che in $D$ vale la \textit{condizione catenaria ascendente per gli ideali principali}, in inglese abbreviata PIACC, se per ogni successione ascendente di ideali principali
+		$$(a_0)\subseteq (a_1)\subseteq \dots \subseteq(a_n)\subseteq \dots$$
+		numerabile,\footnote{Per generalizzare questa cosa a catene non numerabili abbiamo bisogno del lemma di Zorn.} esiste un certo $n_0\in \NN$ tale che $(a_n)=(a_{n_0})$ per ogni $n\ge n_0$. Detto in altri termini, \textbf{ogni catena ascendente di ideali principali è definitivamente stazionaria}.
+	\end{definition}
+	Più in generale vale la seguente proposizione:
+	\begin{proposition}[I domini a ideali principali sodisfano la condizione sulle catene ascendenti]\label{I domini a ideali principali sodisfano la condizione sulle catene ascendenti}
+		Se $D$ è PID allora $D$ è PIACC.
+	\end{proposition}
+	\begin{proof}
+		Prendiamo una catena
+		$$(a_0)\subseteq (a_1)\subseteq (a_2)\subseteq \dots $$
+		consideriamo ora il "sup" di questa catena, ovvero
+		$$I:=\bigcup_{n\in\NN}(a_n)$$
+		questo è un ideale, infatti sicuramente è chiuso per differenze: presi due $x,y\in I$ esisteranno due $a_i,a_j$ tali che
+		$$x\in (a_i),y\in (a_j)$$
+		dunque abbiamo che 
+		$$x,y\in(a_i)\cup (a_j)= \left(\max(a_i,a_j)\right)\subseteq I$$
+		e quindi anche la differenza tra $x$ e $y$ sarà in $I$. Analogamente si dimostra l'assorbenza. Ma dato che siamo in un PID $I$ deve essere principale, quindi esiste un $a\in I$ tale che 
+		$$(a)=I$$
+		ma quindi proprio perchè $a\in I$ esisterà un $n_0$ tale che $a\in (a_{n_0})$. Ma allora abbiamo
+		$$a\mid a_{n_0}$$
+		e d'altra parte dato che $a_{n_0}\in I=(a)$ 
+		$$a_{n_0} \mid a$$
+		dunque tutti gli $a_n$ con $n\ge n_0$ sono associati ad $a$, ovvero $D$ è PIACC.
+	\end{proof}
+	Prima di dimostrare quanto abbiamo detto all'inizio abbiamo bisogno di un paio di risultati preparatori:
+	\begin{lemma}[Fattorizzazione unica equivale all'esistenza dell'MCD]
+		Se $D$ è un dominio in cui tutti gli elementi possono essere fattorizzati in irriducibili, allora $D$ è un UFD se e solo se per ogni coppia di $a,b\in D$ esiste in $D$ il loro MCD.
+	\end{lemma}
+	\begin{proof}
+		Supponiamo che $D$ sia un UFD, allora prendiamo due elementi $a,b\in D$ e costruiamo il loro MCD. Cominciamo fattorizzando:
+		$$a=p_1^{\alpha_1}p_2^{\alpha_2}\dots p_n^{\alpha_n}$$
+		$$b=p_1^{\beta_1}p_2^{\beta_2}\dots p_n^{\beta_n}$$
+		possiamo allora costruire l'MCD prendendo il numero
+		$$M=p_1^{\min\left\{\alpha_1,\beta_1\right\}}p_2^{\min\left\{\alpha_2,\beta_2\right\}}\dots p_n^{\min\left\{\alpha_n,\beta_n\right\}}$$
+		questo in effetti soddisfa
+		$$M\mid a \land M\mid b$$
+		e inoltre per ogni $d\in D$ tale che $d\mid a$, $d\mid b$, abbiamo che, se $\gamma_i$ è l'esponente dell'irriducibile $i$-esimo nella fattorizzazione di $d$, abbiamo
+		$$\gamma_i\le \alpha_i$$
+		$$\gamma_i\le \beta_i$$
+		per ogni $i$, e quindi avremo anche
+		$$\gamma_i \le \min\left\{\alpha_i,\beta_i\right\}$$
+		per ogni $i$, e quindi
+		$$d\mid \MCD(a,b)$$
+		come richiesto. D'altra parte se assumiamo che per ogni $a,b$ esista un MCD possiamo dimostrare che tutti gli irriducibili sono primi. Prendiamo un $a$ irriducibile tale che 
+		$$a\mid bc \land a\nmid b$$
+		dimostriamo che $a\mid c$. Per ipotesi sappiamo che esiste 
+		$$\MCD(ac,bc)$$
+		inoltre dato che $c\mid ac,c\mid bc$ abbiamo, per definizione di MCD che 
+		$$c\mid \MCD(ac,bc) \iff k_1\MCD(ac,bc)=ac$$
+		$$\MCD(ac,bc) \mid ac \iff k_2c=\MCD(ac,bc)$$
+		per qualche $k_1,k_2\in D$. Sostituendo abbiamo
+		$$k_2k_1=a$$
+		da cui abbiamo che uno tra $k_1$ e $k_2$ è invertibile e l'altro è associato con $a$. D'altra parte se $k_2\in U(D)$ abbiamo che $\MCD(ac,bc)\sim ac$, ma quindi 
+		$$ac\sim \MCD(ac,bc)\mid bc$$
+		e quindi per qualche $k_3\in D$ avremo
+		$$k_3ac=bc \iff (k_3a-b)c=0$$
+		ma visto che siamo in un dominio e $c\ne 0$ abbiamo
+		$$k_3a=b$$
+		ovvero $a\mid b$ assurdo. Dunque dobbiamo per forza avere $\MCD(ac,bc)\sim c$ e quindi dato che per ipotes
+		$$a\mid bc$$
+		e ovviamente anche 
+		$$a\mid ac$$
+		per definizione di MCD avremo
+		$$a\mid c$$
+		come richiesto.
+	\end{proof}
+	\begin{theorem}[Caratterizzazione degli UFD con la condizione delle catene]
+		Sia $D$ un dominio, allora $D$ è un UFD se e solo se $D$ è PIACC e in $D$ ogni irriducibile è primo.
+	\end{theorem}
+	\begin{proof}
+		Dimostriamo prima di tutto che se $D$ è un UFD allora è anche PIACC (il fatto che ogni irriducibile è primo è semplicemente nella definizione di UFD). Prendiamo una catena ascendente di ideali principali:
+		$$(a_0)\subseteq (a_1)\subseteq (a_2) \subseteq \dots\subseteq (a_n)\subseteq \dots$$
+		per la caratterizzazione dell'inclusione tra ideali principali trovata in precedenza abbiamo che 
+		$$a_{i+1}\mid a_i$$
+		per ogni $i$. Tuttavia dato che siamo in un UFD, possiamo fattorizzare $a_0$ in un prodotto di finiti irriducibili
+		$$a_0=b_1b_2b_3\dots b_k$$
+		ma a questo punto nelle fattorizzazioni di tutti i divisori di $a_0$ (in particolare tutti gli $a_i$) dovranno apparire tutti e soli gli irriducibili presenti in un certo sottoinsieme di $\left\{b_1,b_2,\dots,b_n\right\}$. Analogamente possiamo dire per tutti gli altri $a_i$, ovvero il numero di irriducibili nella fattorizzazione di $i$ decresce monotonamente (anche se non strettamente). Questo per il principio della discesa infinita implica che $a_n$ è definitivamente costante (a meno di un invertibile), ovvero che $(a_n)$ è definitivamente costante. \\
+		Dimostriamo ora che se un dominio è PIACC e tale che tutti gli irriducibili sono primi allora è anche un UFD. Supponiamo per assurdo che esista un $a\in D$ che non si possa fattorizzare come prodotto finito di irriducibili. Chiaramente $a$ non può essere irriducibile, altrimenti avremmo finito, quindi esisteranno due $a_1,a_2$ tali che
+		$$a=b_1c_1$$
+		di nuovo, $b_1$ e $c_1$ non potranno essere entrambi irriducibili, quindi uno tra $b_1$ e $c_1$ (WLOG $b_1$) dovrà scriversi come prodotto di due elementi $b_2,c_2$, e così via all'infinito. Allora possiamo costruire una catena
+		$$(b_1)\subseteq (b_2)\subseteq (b_3)\subseteq \dots \subseteq (b_n) \subseteq \dots$$
+		che non può essere definitivamente costante, perchè implicherebbe che a un certo punto tutti gli elementi della fattorizzazione di $a$ si decompongono come prodotto di irriducibili; ma d'altra parte per PIACC la catena deve proprio essere definitivamente costante, e quindi abbiamo un assurdo, come richiesto.
+	\end{proof}
+	Da questa dimostrazione si evince che essenzialmente PIACC è una caratterizzazione della condizione che ogni elemento del dominio sia fattorizzabile (in modo non necessariamente unico). \\
+	Quindi come promesso:
+	\begin{corollary}[I PID sono particolari UFD]
+		Comunque preso $D$ un PID, questo sarà anche un UFD, ma esistono UFD che non sono PID. 
+	\end{corollary}
+	\begin{proof}
+		Banalmente, in ogni PID vale PIACC per \ref{I domini a ideali principali sodisfano la condizione sulle catene ascendenti}, ma d'altra parte è già stato dimostrato in \ref{primo equivale a irriducibile in un pid} che ogni irriducibile è primo in un PID, quindi abbiamo per il teorema appena dimostrato che è l'insieme è un UFD, come richiesto. Infine notiamo che $\ZZ[x]$ è un UFD, ma non un PID, come si verifica facilmente prendendo l'ideale $(p,x)$ per $p\in \ZZ$ primo.
+	\end{proof}
+	Abbiamo già visto molti esempi di domini euclidei: un campo $K$, l'anello $K[x]$, $K[[x]]$, $\ZZ[i]$\dots\, tuttavia trovare esempi di PID che non siano euclidei è abbastanza difficile, perchè ci richiede di dimostrare che non si può definire una funzione di valutazione, e questo richiede strumenti più avanzati che non abbiamo ancora. 
+	\begin{example}[Un PID non euclideo]
+		Sia il numero complesso
+		$$\alpha:=\frac{1+i\sqrt{19}}{2}$$
+		allora il dominio $\ZZ[\alpha]$ è a ideali principali, ma non è euclideo. 
+	\end{example}
+	\begin{proof}
+		contenuto...
+	\end{proof}
+	Abbiamo anche già visto molti esempi di UFD che non sono PID, banalmente se prendiamo $\ZZ[x]$ o $\QQ[x,y]:=\QQ[x][y]$. Abbiamo anche già visto almeno un esempio di dominio che non è un UFD, ovvero $\ZZ[i\sqrt{3}]$, che contiene l'elemento $1+i\sqrt{3}$ irriducibile ma non primo. 
+	\begin{example}[I primi non necessariamente rimangono primi per estensione]
+		Il numero $13$ in $\ZZ$ è primo, ma in $\ZZ[i]$ non è primo. Questo si vede osservando che $\ZZ[i]$ è euclideo, e $13$ in $\ZZ[i]$ non è irriducibile, infatti
+		$$13=(3+2i)(3-2i)$$
+		e dato che $3+2i$ e $3-2i$ sono irriducibili, dato che se per assurdo esistessero $z_1,z_2\in \ZZ[i]$ 
+		$$3+2i=z_1z_2$$
+		passando alla norma
+		$$13=\abs{\abs{z_1}}\abs{\abs{z_1}}$$
+		cioè la norma di uno dei due deve per forza essere $1$, e quindi uno tra $z_1$ e $z_2$ deve essere un'unità. Ma dunque quella che abbiamo scritto è proprio la fattorizzazione unica di $13$, e quindi $13$ non è irriducibile.
+	\end{example}
+	\begin{lemma}[Gli UFD sono chiusi rispetto ai polinomi]
+		Comunque preso un $D$ dominio a fattorizzazione unica, anche $D[x]$ è a fattorizzazione unica.
+	\end{lemma}
+	
+	 \subsection{Il lemma di Gauss}
+	 
+	 Rimaniamo sui polinomi, in particolare sui polinomi $D[x]$ ad una sola variabile definiti sul dominio $D$. Vogliamo studiare la relazione che c'è tra i polinomi irriducibili a coefficienti in $D$, e quelli a coefficienti nel campo dei quozienti $Q(D)[x]$. Questo è importante perchè $D[x]$ è un UFD, ma $Q(D)[x]$ è un dominio euclideo, e quindi l'algoritmo di Euclide ci fornisce una potenza di fuoco notevole con cui fattorizzare i polinomi in $Q(D)[x]$. \\
+	 Cominciamo considerando il campo $K=Q(D)$, e l'anello dei polinomi $K[x]$. Abbiamo visto che gli invertibili nel campo dei polinomi sono esattamente
+	 $$U\left(K[x]\right)=U\left(K\right)$$
+	 inoltre per definizione di irriducibile, un polinomio irriducibile in $K[x]$ non può essere invertibile, e non può essere $0$, quindi gli irriducibili hanno tutti grado $>0$. Quindi, un polinomio irriducibile per definizione non può essere scritto come prodotto di polinomi irriducibili, ovvero $p(x)$ è irriducibile se per ogni $f,g\in K[x]$ tali che $\deg f, \deg g >0$ vale:
+	 $$p(x)\ne f(x)g(x)$$
+	 Per esempio $6x^4-96$ non è irriducibile in $K[x]$, perchè può essere scritto come
+	 $$6x^4-96=6(x-2)(x+2)(x^2+4).$$
+	 \begin{definition}[Polinomio primitivo]
+	 	Se $D$ è un UFD e 
+	 	$$f(x)=a_0+a_1x+\dots+a_nx^n\in D[x]$$
+	 	è un polinomio a coefficienti in $D$, diciamo che $f$ è \textit{primitivo} se il massimo comune divisore di tutti i suoi coefficienti è $1$. Euristicamente, un polinomio è primitivo se e solo se non possiamo raccogliere costanti. In generale, non solo per polinomi primitivi, l'MCD dei coefficienti di un polinomio si dice \textit{contenuto}.
+	 \end{definition}
+	 per ritornare all'esempio di prima, preso il polinomio $6x^4-96$, la sua fattorizzazione in $D[x]$ differisce da quella in $K[x]$ solo per la fattorizzazione del contenuto (in questo caso abbiamo $D=\ZZ$):
+	 $$6x^4-96=2\cdot 3(x-2)(x+2)(x^2+4)$$
+	 questo che abbiamo appena visto in questo esempio, è essenzialmente l'enunciato del lemma di Gauss, che era il risultato a cui volevamo arrivare in questa sezione:
+	 \begin{theorem}[Lemma di Gauss]
+	 	SIa $D$ un UFD e sia $Q$ il suo campo dei quozienti. Dato $f(x)\in D[x]$ con $f(x)\ne 0$ abbiamo che $f(x)$ è irriducibile se e solo se o $f$ è una costante in $D$, e quindi è invertibile in $Q[x]$, o è primitivo e irriducibile in $Q[x]$.
+	 \end{theorem}
+	 \begin{proof}
+	 	contenuto...
+	 \end{proof}
+	 Grazie a questo risultato, possiamo effettivamente fattorizzare tutti i polinomi in $D[x]$ lavorando in $Q[x]$, dove abbiamo tutta l'immensa potenza di fuoco dataci dall'algoritmo della divisione euclidea.
+\end{document}
+

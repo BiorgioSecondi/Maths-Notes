@@ -1,0 +1,1216 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[sexy]{evan} %BLBLBLBLBLBLBLBLBLBLBLB EVANCHEN
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{asymptote}
+\usepackage{amsthm}
+\usepackage{gensymb}
+\usepackage{amsfonts}
+\usepackage[english,italian]{babel}
+\usepackage{quoting}
+\quotingsetup{font=big}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{lmodern}
+\usepackage{algpseudocode}
+\usepackage{epigraph} 
+\newcommand{\dif}{\text{d}}
+\newcommand{\bigo}{\mathcal{O}}
+
+\begin{document}
+	\title{Appunti di Algorithm Design}
+	\subtitle{SGSS - Francesco Silvestri}
+	\date{Ottobre - Dicembre 2025}
+	
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\newpage
+	
+	\section{Introduzione agli Algoritmi}
+	
+	\begin{example}\label{Integer Mult}
+		Dati due initeri positivi $A$ e $B$ con 
+		$$A=\overline{a_{n-1}a_{n-2}a_{n-3}\dots a_0}$$
+		$$B=\overline{b_{n-1}b_{n-2}b_{n-3}\dots b_0}$$
+		Calcolare $C=A\cdot B$.
+	\end{example}
+	In questo esempio i due interi $A$ e $B$ sono l'input, e $C$ è l'output. L'input ha sempre una \textbf{taglia}, ovvero un numero che caratterizza la sua grandezza. A voler essere rigorosi
+	\begin{definition}[Input Size]
+		L'input size $N$ è il numero di bit necessari a rappresentare l'input.
+	\end{definition}
+	In questo caso l'input è costituito da $N=2n$ cifre decimali. L'approccio naive di questo problema porta ad una complessità di $\bigo(n^2)$. Un miglioramento è già l'algoritmo di Karatsuba, che dà una complessità di circa $\bigo(n^{1.58})$. \\
+	Diamo la prima importante definizione
+	\begin{definition}[Computational Problem]
+		Un problema computazionale $\Pi$ è una relazione tra due insiemi $I$ (insieme delle istanze) ed $S$ (insieme delle soluzioni):
+		$$\Pi\subseteq I\times S$$
+	\end{definition}
+	Nel caso dell'esempio 1 l'insieme delle istanze è l'insieme di tutte le possibili coppie ordinate di numeri interi ($I=\NN\times\NN$), mentre $S$ è sempre l'insieme dei numeri naturali (tutti i possibili prodotti).
+	
+	\begin{definition}[Algoritmo]
+		Un algoritmo è una sequenza ben definita e finita di step base che trasforma un dato input $\iota$ in un unico output $\sigma$.
+	\end{definition} 
+	
+	Il concetto di "step base" è praticamente primitivo, per esempio se lavoro con insiemi di numeri posso assumere che sommare e moltiplicare due cifre sia un'operazione base. \\
+	Notiamo che in un problema computazionale provede che una stessa istanza abbia più di una soluzione, mentre un algoritmo per come è definito qui \textbf{è una funzione}.
+	\begin{definition}[Risolvere un problema computazionale con un algoritmo]
+		Diciamo che un algoritmo $A$ risolve il problema computazionale $\Pi=I\times S$ se e solo se
+		\begin{enumerate}
+			\item $I\subseteq\text{dom}(f_A)$
+			\item $\forall i\in I,(\iota,f_A(\iota))\in \Pi$
+		\end{enumerate}
+	\end{definition}
+	In realtà un algoritmo può avere un dominio anche più grande di $I$, e un codominio diverso da $S$ (si pensi per esempio ai messaggi di errore che l'algoritmo può restituire).
+	\begin{definition}[encoding]
+		Chiamiamo $\hat{I}$ il dominio dell'algoritmo $f_A$. Un encoding è una funzione $E:I\to \hat{I}$. Questa funzione spesso è elementare, ma per oggetti di $I$ più complicati diventa più difficile da definire (si pensi ad esempio ai grafi, o alla rappresentazione dei numeri reali in virgola mobile).
+	\end{definition}
+	Da qui in avanti chiameremo $\hat{I}$ il dominio dell'algoritmo $f_A$. \\
+	Per progettare un algoritmo in modo che risolva un determinato problema computazionale dobbiamo verificare che l'algoritmo soddisfi le seguenti:
+	\begin{enumerate}
+		\item[1)] Correttezza $\to$ L'algoritmo $A$ risolve effettivamente $\Pi$
+		\item[2)] Efficienza $\to$ l'algoritmo ha un running time ridotto
+	\end{enumerate}
+	\begin{definition}[Running time]
+		Sia $A$ un algoritmo, allora $$\hat{T}_A(\iota)=\#\text{operazioni da eseguire per } A(\iota)$$
+		è il \textit{running time} dell'algoritmo per quello specifico input.
+	\end{definition}
+	\begin{definition}[Worst Case Running Time]
+		Definiamo $T_A(n)$ il \textit{worst case running time} come
+		$$T_A(n)=\max_{\iota\in \hat{I},|\iota|=n }\left\{\hat{T}_A(\iota)\right\}$$
+		dove $n$ è l'input size di $\iota$.
+	\end{definition}
+	Il vantaggio dell'usare il worst case è che i casi peggiori sono di solito anche i più facili da trattare matematicamente. Per esempio abbiamo:
+	$$T_{\text{mergesort}}(n)\sim n\log(n)$$
+	$$T_{\text{bubblesort}}(n)\sim n^2$$
+	\begin{definition}[Notazione asintotica O grande]
+		Date due funzioni $f(n)$ e $t(n)$ diciamo che:
+		$$t(n)=\bigo(f(n))$$ 
+		se esistono $c>0,n_0>0$ tali che $t(n)\le c\cdot f(n)$ per ogni $n\ge n_0$.
+	\end{definition}
+	Per esempio
+	$$2n^2+3n-1=\bigo(n^2)$$
+	In questo corso useremo sempre il worst case running time per misurare l'efficienza di un algoritmo. Si tenga conto che questo non è l'unico modo, e che ce ne sono molti altri, più indicati in altri casi (per esempio quando si fa parallel computing).
+	\begin{definition}[Notazione omega grande]
+		Per esprimere il tempo minimo che un algoritmo $A$ può impiegare per risolvere il problema computazionale $\Pi$ utilizziamo la notazione omega grande. Diciamo che
+		$$f(n)=\Omega(g(n))$$
+		se e solo se esistono due costanti $\varepsilon,n_0>0$ tali che 
+		$$f(n)\ge \varepsilon g(n)$$
+		per ogni $n>n_0$.
+	\end{definition}
+	Di solito non riusciamo davvero a trovare informazioni sul lower bound dell'algoritmo, e quando ci riusciamo non sono decisive. Questo eccetto alcuni esempi molto famosi.
+	
+	\newpage
+	
+	\section{Divide and Conquer}
+	
+	La tecnica del divide and conquer consiste inizialmente nello scomporre un problema grande in problemi più piccoli ($s_i$). Questo ha senso quando i problemi più piccoli sono più "facili" di quelli grandi (divide). Il secondo passo è risolvere ogni sottoproblema $s_i$ appena creato. Infine rimettiamo insieme tutti i sottoproblemi e risolviamo il problema grande (conquer).
+	
+	\subsection{Sorting}
+	
+	\begin{example}
+		Si consideri il seguente problema computaizonale:
+		\begin{description}
+			\item[Input] Una sequenza di numeri interi $A=\left\{a_0,a_1\dots,a_n\right\}$.
+			\item[output] Una permutazione di $\sigma$ tale che $\sigma(A)$ sia in ordine crescente. 
+		\end{description}
+	\end{example}
+	Un approccio è Bubble Sort, ovvero presa la lista itero sulle coppie adiacenti a partire dall'inizio, e le inverto se sono nell'ordine sbagliato. In questo modo alla fine della sequenza dopo ogni iterazione appare il numero più grande, poi il secondo più grande, poi il terzo più grande... questo dà una complessità di $\bigo(n^2)$. \\
+	Possiamo fare di meglio, infatti con Merge Sort otteniamo una complessità di $\bigo(n\log n)$. Merge Sort è una famosa applicazione di divide and conquer, e i due step ad alto livello seguono in questo modo:
+	\begin{description}
+		\item[Divide] Dividiamo la sequenza di input in due sequenze lunghe la metà e ordiniamole.
+		\item[Conquer] Uniamo le due sequenze in tempo lineare in modo che il risultato sia ancora ordinato.
+	\end{description}
+	
+	\begin{algorithm}[Merging]
+		Cominciamo con il dichiarare il problema computazionale
+		\begin{description}
+			\item[Input] Due sequenze $A$ e $B$ ordinate.
+			\item[Output] Una sequenza $C=A\cup B$ ordinata.
+		\end{description}
+		Scriviamo lo pseudocodice:
+		\begin{algorithmic}[1]
+			\State $n=\abs{A}+\abs{B}$
+			\State $P_A \gets 0$
+			\State $P_B \gets 0$
+			\State $P_C \gets 0$
+			\State vettore $C(n)$
+			\State $A$.append($\infty$)
+			\State $B$.append($\infty$)
+			\While{$P_C<n$}
+				\If{$A[P_A]\le B[P_B]$}
+					\State $C[P_C]\gets A[P_A]$
+					\State $P_C++$
+					\State $P_A++$
+				\Else
+					\State $C[P_C]\gets B[P_B]$
+					\State $P_C++$
+					\State $P_B++$
+				\EndIf
+			\EndWhile
+		\end{algorithmic}
+	\end{algorithm}
+	
+	\begin{theorem}[Correttezza ed efficienza del merging]
+		L'algoritmo di Merging è corretto e richiede $T_\text{merge}(n)=\bigo(n)$.
+	\end{theorem}
+	\begin{proof}
+		Come detto prima, dobbiamo dimostrare due cose:
+		\begin{description}
+			\item[Correctness] Procediamo per induzione, dimostriamo che alla fine dell'$i$-esima iterazione i primi $i$ elementi di $C$ sono i primi $i$ elementi più piccoli di $A\cup B$. \\
+			Passo base $i=0$: per la definizione del problema computazionale uno tra $A[0]$ e $B[0]$ è il minimo elemento di $A\cup B$, dunque il minore tra i due sarà proprio l'elemento cercato. \\
+			Supponiamo ora per induzione che i primi $i$ elementi di $C$ siano i più piccoli elementi di $A\cup B$ in ordine crescente. Per ipotesi del problema uno tra $A[P_A]$ e $B[P_B]$ conterrà il prossimo elemento più piccolo di $A\cup B$ (si dimostra per assurdo, se vuoi). Dunque se prendiamo $\min\left\{A[P_A],B[P_B]\right\}$ abbiamo esattamente quello che vogliamo, dato che $C$ rimane ordinato e contiene i primi $i+1$ elementi più piccoli di $A\cup B$.
+			\item[Efficiency] Osservando gli step dell'algoritmo notiamo che
+			$$T_\text{merge}(n)=\bigo(1)+\bigo(n)=\bigo(n)$$
+			In questo caso l'analisi è \textit{stretta}, ovvero non esiste un'istanza che fa meno (asintoticamente) di $\bigo(n)$. In questo caso dunque si scrive
+			$$T_\text{merge}(n)=\Theta(n)$$
+		\end{description}
+	\end{proof}
+	A questo punto usando questa primitiva possiamo effettivamente scrivere l'algoritmo del mergesort:
+	\begin{algorithm}[Mergesort]
+		Assumiamo l'implementazione precedente di Merge, allora
+		\begin{algorithmic}[1]
+			\Function{Mergesort}{$A$,$n$}
+				\If{$n\le 1$} 
+				\State \Return $A$
+				\EndIf
+				\State split $A$ into $A_1$,$A_2$ of size $\floor{n/2}$ and $\ceiling{n/2}.$
+				\State $A_1 \gets$ \Call{Mergesort}{$A_1$,$\floor{n/2}$}
+				\State $A_2 \gets$ \Call{Mergesort}{$A_2$,$\ceiling{n/2}$}
+				\State $\tilde{A} \gets$ \Call{Merge}{$A_1$,$A_2$}
+			\State \Return $\tilde{A}$ 
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+	A questo punto dimostriamone correttezza ed efficienza
+	\begin{lemma}[Correttezza ed efficienza di Mergesort]
+		Mergesort ordina effettivamente l'input e va in $\bigo(n\log n)$.
+	\end{lemma}
+	\begin{proof}
+		La correttezza segue abbastanza chiaramente dalla correttezza del merge. Assumiamo che $n$ sia una potenza di due, se così non è abbiamo delle costanti in più davanti al $T$, ma la complessità non cambierà. Consideriamo quindi l'albero delle chiamate di mergesort. Essenzialmente è un albero binario, dove ogni nodo è l'esecuzione di una chiamata dell'algoritmo. Esprimiamolo come
+		$$T(n)=
+		\begin{cases}
+			2T(\frac{n}{2})+cn & n>1 \\
+			c & n\le 1
+		\end{cases}
+		$$
+		Abbiamo messo la stessa costante perché abbiamo scelto la peggiore tra quelle di entrambi i casi. Ora se trovassimo una formula chiusa per questa successione avremmo finito. Tirando a indovinare che sia 
+		$$T(n)=cn\log{2n}$$
+		possiamo facilmente verificare che sia la funzione giusta e che soddisfi $T(n)=\bigo(n\log n)$.
+	\end{proof}
+	\subsection{Integer Multiplication}
+	\epigraph{A smart thing we can do to multiply better is to divide \\(and conquer).}{\href{https://youtu.be/KzT9I1d-LlQ?si=jjfIM4Gbbx8EPMqu&t=693}{Sheafification of G (Youtube)}}
+	Torniamo al problema della molitplicazione di interi \ref{Integer Mult}. Dalle scuole elementari sappiamo risolverlo in $\bigo(n^2)$. Sarebbe molto strano se potessimo fare di meglio... no? Non è ancora noto se sia possibile risolverlo in tempo lineare, tuttavia l'algoritmo di Karatsuba permette di ottenere una complessità di circa
+	$$T(n)=\bigo(n^{1,59}).$$
+	L'idea è applicare divide and conquer dividendo i due numeri in due sottonumeri lunghi la metà $A=(A_1,A_2)$ e $B=(B_1,B_2)$ (denotiamo con le parentesi la concatenazione tra numeri). A questo punto scrivendo
+	$$A=10^{n/2}A_1+A_2$$
+	$$B=10^{n/2}B_1+B_2$$
+	notiamo che la moltiplicazione è semplicemente
+	$$A\cdot B=10^n A_1B_1+10^{n/2}(A_1B_2+A_2B_1)+A_2B_2$$
+	e questo è interessante perché ci dà un modo per dividere il problema originale in sottoproblemi più piccoli. Abbiamo in questo modo giustificato il seguente algoritmo:
+	\begin{algorithm}[Integer Multiplication]
+		Siano $A$ e $B$ due numeri come descritti in \ref{Integer Mult}. Allora
+		\begin{algorithmic}[1]
+			\Function{IntegerMult}{$A$,$B$}
+			\If{$n=1$}
+				\State \Return $A\cdot B$
+			\EndIf
+				\State split $A$ into $A_1$,$A_2$ of size $n/2$
+				\State split $B$ into $B_1$,$B_2$ of size $n/2$
+				\State $C_4 \gets$\Call{IntegerMult}{$A_2$,$B_2$}
+				\State $C_3 \gets$\Call{IntegerMult}{$A_2$,$B_1$}
+				\State $C_2 \gets$\Call{IntegerMult}{$A_1$,$B_2$}
+				\State $C_1 \gets$\Call{IntegerMult}{$A_1$,$B_1$}
+				\State $C \gets (C_4,C_3+C_2,C_1)$ \qquad //concatenazione
+			\EndFunction
+		\end{algorithmic} 
+	\end{algorithm}
+	Facciamo l'analisi e\dots\, troviamo che la complessità è sempre $\bigo(n^2)$. Il problema è che il modo in cui abbiamo diviso ci porta a fare un numero di operazioni più che lineare (il costo di tutti i sottoproblemi è $2n$). Per applicare un divide and conquer utile dobbiamo ricorrere in modo da avere sottoproblemi il cui running time complessivo sia minore del problema originale. \\
+	Si arriva all'algoritmo di Karatsuba notando che in realtà i numeri che dobbiamo concatenare sono solo $3$, ovvero $C_1$, $C_4$ e $C_3+C_2$. In particolare facciamo questo calcolando il prodotto
+	$$(A_1+A_2)(B_1+B_2)=A_1B_1+A_1B_2+A_2B_1+A_2B_2$$
+	e notando che otteniamo $C_3+C_2$ sottraendo ad esso $C_1+C_4$. Dunque implementandolo abbiamo:
+	\begin{algorithm}[Karatsuba Multiplication]
+		Siano $A$ e $B$ due numeri come descritti in \ref{Integer Mult}. Allora
+		\begin{algorithmic}[1]
+			\Function{KaratsubaMult}{$A$,$B$}
+			\If{$n=1$}
+			\State \Return $A\cdot B$
+			\EndIf
+			\State split $A$ into $A_1$,$A_2$ of size $n/2$
+			\State split $B$ into $B_1$,$B_2$ of size $n/2$
+			\State $\tilde{A} \gets A_1+A_2$
+			\State $\tilde{B} \gets B_1+B_2$
+			\State $C_4\gets$\Call{KaratsubaMult}{$A_2$,$B_2$}
+			\State $C_0\gets$\Call{KaratsubaMult}{$\tilde{A}$,$\tilde{B}$}
+			\State $C_1\gets$\Call{KaratsubaMult}{$A_1$,$B_1$}
+			\State $K \gets C_0-C_1-C_4$
+			\State $C\gets(C_4,K,C_1)$ \qquad //concatenazione
+			\EndFunction
+		\end{algorithmic} 
+	\end{algorithm}
+	Anche qui facendo l'analisi come nei casi precedenti troviamo
+	$$T(n)=
+	\begin{cases}
+		c\left(3T\left(\frac{n}{2}\right)+3n\right) & n>1 \\
+		c & n\le 1
+	\end{cases}
+	$$
+	che svolgendo per induzione e/o provando a tirare a indovinare la formula chiusa ci dà una complessità di 
+	$$T(n)=\bigo\left(n^{\log_2{3}}\right)$$
+	abbastanza sorprendente non c'è che dire.
+	
+	\subsection{Problemi}
+	
+	\begin{problem}
+		Dati $n$ punti in $\RR^2$ trovare la coppia di punti con distanza minore. In altre parole siano $A\subset \RR^2$ con $\abs{A}=n$, trovare
+		$$(p_1,p_2)=\argmin_{p,q\in A}\left\{d(p,q),p\ne q\right\}$$
+	\end{problem}
+	\newpage
+	\begin{proof}[Soluzione]
+		Dividiamo i punti a metà "tirando una riga" tale che i due semipiani generati da essa contengano $\floor{\frac{n}{2}}$ e $\ceiling{\frac{n}{2}}$. Cerchiamo per ogni metà i punti che minimizzano la distanza ricorrendo. Ora prendiamo il minimo delle due distanze trovate. Questo ci dà informazioni su un'eventuale coppia "a cavallo" della linea di separazione che minimizza la distanza. \\
+		Ora dobbiamo fare il merge\dots\, come? \\
+		Tracciamo due nuove linee parallele a distanza $\delta$ dalla linea originale, con $\delta$ la distanza minima tra i punti trovati prima. \\
+		Dividiamo la regione di piano tra le due nuove rette in quattro colonne di quadratini di lato $\delta/2$. Questo riduce notevolmente la quantità di comparazioni che dobbiamo fare, perché sicuramente sappiamo che se c'è una coppia con distanza minore di $\delta$ sarà a cavallo della linea, dunque in ogni quadratino non ci può essere più di un punto. Inoltre ogni quadratino dobbiamo confrontarlo solo con un numero finito  e costante di quadratini (dall'altro lato della retta). \\
+		Dunque questo si può fare in tempo lineare (l'implementazione è un altro paio di maniche). Ma si può fare. Vediamo come
+		\begin{algorithm}[Soluzione]
+			Supponiamo di avere una primitiva \Call{d}{$p_1$,$p_2$} che permette di calcolare la distanza tra due punti in $\bigo(1)$.
+			\begin{algorithmic}[1]
+				\Function{ClosestPair}{$P$} //$P$ insieme di $n$ punti in $\RR^2$
+					\State $P_x\gets $ sort $P$ on $x$
+					\State $P_y\gets $ sort $P$ on $y$ 
+					\State \Return \Call{ClosestPairR}{$P_x$,$P_y$}
+				\EndFunction
+				
+				\Function{ClosestPairR}{$P_x$,$P_y$}
+					\If{$\abs{P_x}\le3$}:
+						\State Find closest pair $(p_1,p_2)$ with bruteforce
+						\State \Return $(p_1,p_2)$
+					\EndIf
+					\State Split $P_x$ in two halves of size $n/2$:
+					\State Construct $q_x,q_y,r_x,r_y$
+					\State $q_x\gets$ subseq of points of $p_x$ with $x$ coordinate $L\le x$
+					\State $q_y\gets$ subseq of points of $p_y$ with $x$ coordinate $L\le x$
+					\State $r_x\gets$ subseq of points of $p_x$ with $x$ coordinate $L> x$
+					\State $r_y\gets$ subseq of points of $p_y$ with $x$ coordinate $L> x$
+					\State $(q_0,q_1)\gets$ \Call{ClosestPairR}{$q_x$,$q_y$}
+					\State $(r_0,r_1)\gets$ \Call{ClosestPairR}{$r_x$,$r_y$}
+					\State $\delta\gets\min(d(q_0,q_1),(r_0,r_1))$
+					\State $S$= points in $p_x$ with distance $<\delta$ from $L$ construct  
+					\State Construct $S_y$ from $p_y$.
+					\ForAll{$z\in S_y$}
+						\State Compare the distance of $z$ with the 
+					\EndFor
+				\EndFunction					
+			\end{algorithmic}
+			Facendo un'analisi temporale troviamo che 
+			$$T(n)=
+			\begin{cases}
+				2T\left(n/2\right)+\bigo(n) & n>3 \\
+				\bigo(1) & n\le 3
+			\end{cases}
+			$$
+			che da una complessità di $\bigo(n\log n)$.
+		\end{algorithm}
+		A meno di implementazione dunque abbiamo finito.
+	\end{proof}
+	
+	\newpage
+	
+	\section{Greedy}
+	
+	Per parlare di algoritmi greedy ci concentreremo su problemi di grafi. Un algoritmo Greedy fa sempre la scelta ottima in un certo istante. 
+	\begin{example}[Knapsack problem]
+		Uno zaino ha volume $8$. Vogliamo riempirlo con pezzi di volume $2$ o $7$ in modo da massimizzare il numero di pezzi. Un algoritmo greedy ragionerebbe per esempio prendendo sempre i pezzi più grandi, prendendo decisioni non per forza ottime a lungo termine.
+	\end{example}
+	
+	Ripassiamo un attimo la definizione di grafo
+	\begin{definition}[Grafi e affini]
+		Un grafo $G$ è una coppia di insiemi $V$ ed $E$. $V$ è un insieme di $n$ nodi (o vertici), mentre $E\subseteq V\times V$ è un insieme di $m$ archi che connettono coppie di nodi. \\
+		Un grafo si dice \textit{diretto} se l'insieme degli archi è formato da coppie ordinate, \textit{indiretto} se l'insieme degli archi è formato da insiemi disordinati. \\
+		Gli archi possono essere \textit{cappi}, ovvero coppie del tipo $\left\{v,v\right\}$, dunque gli elementi di $E$ sono multiset. \\
+		Un grafo può essere \textit{pesato}, ovvero ad ogni arco in $E$ si può associare un \textit{peso} ovvero un numero che codifica una certa informazione.
+	\end{definition}
+	\begin{definition}[Vicinati]
+		Di un vertice $v\in V$ di un grafo si può definire il vicinato, ovvero l'insieme degli elementi di $V$ che condividono un arco con $v$. 
+	\end{definition}
+	\begin{definition}[Percorso]
+		Un percorso su un grafo $G$ dal nodo $a$ al nodo $b$ è una sequenza di archi consecutivi (ovvero che condividono un nodo con quello che viene subito dopo) che "va da $a$ a $b$". \\
+		In modo forse più formale ed equivalente, un percorso è una sequenza di vertici 
+		$$a,v_1,v_2\dots,b$$
+		tale che esiste un arco da ogni nodo a quello successivo (se ce n'è più di uno dobbiamo scegliere in ogni caso quali archi prendere per avere un vero percorso).
+	\end{definition}
+	\begin{definition}[Costo di un percorso]
+		Se un grafo è pesato, il costo di un percorso è la somma dei suoi archi. Altrimenti è semplicemente il numero di archi del percorso.
+	\end{definition}
+	Trattando di algoritmi su grafi, ci tornerà utile esprimere le complessità in funzione del numero di archi. Questo perché solitamente i grafi sono \textit{sparsi}:
+	\begin{definition}[Grafo sparso]
+		Un grafo $G$ con $n$ nodi $m$ archi si dice sparso se e solo se $m\ll n$.
+	\end{definition}
+	Vediamo ora un modo di applicare l'approccio greedy ai grafi.
+	
+	\subsection{Dijkstra e Shortest Path}
+	
+	\begin{example}[Single Source Shortest Path/SSSP]
+		Definiamo il seguente problema computazionale:
+		\begin{description}
+			\item[Input] Un grafo diretto pesato connesso (non necessariamente fortemente connesso) con $n$ vertici ed $m$ archi di pesi non negativi. Un vertice particolare del grafo denotato con $s$. Si assume che $s$ sia connesso con tutti gli altri nodi (ovvero che per ogni nodo ci sia un percorso che parte da $s$ e va in quel nodo).
+			\item[Output] Una lista di numeri $x_1,x_2,\dots,x_{n-1}$ rappresentanti il minimo costo di un percorso che parte da $s$  e si dirige in ciascuno degli altri $n-1$ nodi.
+		\end{description}
+		Da qui in poi denotiamo con $d(s,u)$ il costo del percorso di costo minimo da $s$ a $u$. Dato che il grafo è diretto purtroppo è possibile che
+		$$d(s,u)\ne d(u,s)$$
+	\end{example}
+	\begin{example}[All Pairs Shortest Path / APSP]
+		è analogo ma richiede di calcolare le distanze tra ogni coppia di nodi.
+	\end{example}
+	
+	Per risolvere SSSP esiste un algoritmo greedy inventato nel 1959 da Dijkstra. La principale intuizione consiste nel ricorrere su sottoproblemi già risolti. Sia $V'$ un insieme di nodi per cui abbiamo già calcolato gli shortest path e $V$ l'insieme di tutti i vertici eccetto $s$. Il senso di Dijkstra è che possiamo boundare il costo minimo del seguente arco
+	quindi possiamo stimare
+	$$d(s,u)=\min_{e=(a,u),a\in V'}\left\{d(s,a)+w_e\right\}$$
+	e quindi
+	$$V'\gets V'\cup \left\{\argmin_{u\in V\setminus V'}\left\{d(s,u)\right\}\right\} $$
+	vediamo lo pseudocodice quindi
+	\begin{algorithm}[Dijkstra $\bigo(nm)$]
+		Assumiamo le notazioni dell'esempio sopra, allora:
+		\begin{algorithmic}[1]
+			\Function{Dijkstra}{$G:(V,E)$, $s\in V$}
+				\State $V':=\left\{s\right\}$ \quad //l'insieme dei nodi di cui abbiamo già trovato lo shortest path
+				\State $d$ array of numbers  \quad     //conterrà le distanze minime che stiamo cercando
+				\ForAll{$v\in V$}
+					\State $d[v]\gets 0$ if $v=s$
+					\State $d[v]\gets w_{(s,v)}$ if $(s,v)\in E$
+					\State $d[v]\gets \infty$ otherwise.
+				\EndFor
+				\While{$\abs{V'}<n$}
+					\State $d_{min}:=\infty$
+					\State $v_{min}:=$ null
+					\ForAll{$u\in V\setminus V'$}
+						\If{$d[u]<d_{min}$}
+							\State $d_{min} \gets d[u]$
+							\State $v_{min} \gets u$
+						\EndIf
+					\EndFor
+					\State $V' \gets V' \cup \left\{v_{min}\right\}$
+					\ForAll{$(v_{min},u)=e\in V\setminus V'$}
+						\State $d[u]\gets\min\left\{d[u],d[v_{min}+w_e]\right\}$
+					\EndFor
+				\EndWhile
+				\State \Return $d$
+			\EndFunction 
+		\end{algorithmic}
+	\end{algorithm}
+	\begin{lemma}[Dijkstra]
+		L'algoritmo di Dijkstra è corretto e impiega $T(n,m)=\bigo(nm)$ operazioni.
+	\end{lemma}
+	\begin{proof}
+		Dobbiamo come sempre dimostrare due cose diverse:
+		\begin{description}
+			\item[Correttezza] Procediamo per induzione sulla grandezza di $V'$. Il caso base è $\abs{V'}=1$ che è triviale in quanto non ci sono archi con peso negativo (e quindi cappi negativi). Supponiamo per induzione allora che l'algoritmo sia corretto per $\abs{V'}\le k$, dimostriamo che è corretto anche per $\abs{V'}=k+1$. Per ipotesi induttiva conosciamo lo shortest path di tutti i $k$ nodi in $V'$. Dimostriamo che in effetti possiamo aggiungere un nodo a $V'$, chiamiamolo $\hat{u}\in V\setminus V'$, tale che $d[\hat{u}]$ è il minimo tra tutti gli elementi di $V\setminus V'$. Supponiamo per assurdo che vi sia un cammino da $V'$ a $V\setminus V'$ con un costo maggiore di $d[\hat{u}]$, affinchè ciò sia possibile il percorso deve avere almeno un nodo fuori da $V'$, infatti se così non fosse nel primo ciclo for avremmo considerato quel percorso e avremmo aggiornato $d$ di conseguenza. Sia $y$ questo nodo. Per come abbiamo scelto $\hat{u}$ sappiamo che
+			$$d[\hat{u}]\le d[y]$$
+			ma dato che stiamo supponendo che un percorso per $y$ sia minore di $d[\hat{u}]$ abbiamo
+			$$d[\hat{u}]>d[y]+d(y,\hat{u})$$
+			e concatenando e usando il fatto che tutti i percorsi pesano al minimo $0$ (non ci sono archi negativi) abbiamo:
+			$$d[y]\ge d[\hat{u}] > d[y]+d(y,\hat{u})>d[y]$$
+			assurdo. Dunque $d[\hat{u}]$ è effettivamente il peso dello shortest path, e quindi possiamo aggiungere $\hat{u}$ a $V'$. Questo chiude per induzione.
+			\item[Efficienza] Vediamo che l'algoritmo svolge un ciclo while in $n$ iterazioni, e ad ogni iterazione fa un numero lineare di operazioni in $m$, dunque abbiamo una complessità di $\bigo(nm)$.
+		\end{description}
+		Dunque abbiamo dimostrato sia efficienza che correttezza, e abbiamo finito.
+	\end{proof}
+	
+	Il collo di bottiglia del programma precedente è l'iterazione su \textit{tutti} gli archi quando dobbiamo aggiungere un nodo $V'$. In effetti sembra strano che sia necessario per forza controllare tutti quegli archi, dovrebbe esserci un modo per svolgere quello step in modo più efficiente. Questo è ottenuto tramite una priority queue.
+	
+	\subsection{Priority Queue}
+	
+	Una priority queue è un esempio di \textbf{struttura dati}, ovvero un insieme di dati a cui sono associati alcuni algoritmi che prendono in input alcuni dei valori memorizzati nella struttura. \\
+	In particolare una priority queue è una "scatola nera" che ha implementate tre operazioni:
+	\begin{itemize}
+		\item Init: inizializza la struttura e riceve in input $n$ coppie (chiave,valore) da mettere nella struttura.
+		\item Insert: fa quello che ti aspetti.
+		\item Give minimum: ritorna la coppia con il valore minimo.
+		\item Change value($k$,$n$): inserisce una coppia con una determinata chiave, $k$, se non esiste già una coppia con la stessa chiave e valore. Se esiste già una coppia con quella chiave e con quel valore, inserisce una coppia con la stessa chiave ma con diverso valore.
+	\end{itemize}
+	Ci sono vari modi di implementare questa struttura, quello che probabilmente dà i tempi migliori (con un binary heap ad esempio) permette di avere init in $\bigo(n\log n)$, e tutte le altre operazioni in $\bigo(\log n)$ (ammortizzato). Usando questa struttura quindi possiamo implementare dijkstra $\bigo(n\log m)$.
+	
+	\subsection{Scheduling}
+	
+	\begin{example}
+		Supponiamo di avere $n$ task da svolgere, ognuno con un suo tempo di start $s_i\in\RR^+$ e un suo tempo di finish $s_i<f_i\in\RR^+$. Supponiamo anche di poter eseguire solo un task alla volta, di non poter interrompere un task e di poter fare il task solo iniziandolo a $s_i$ e finendolo a $f_i$. Qual è il massimo numero di task che posso eseguire? Più formalmente
+		\begin{description}
+			\item[Input] Un insieme $R$ di $n$ coppie $(s_i,f_i)\in\RR_{\ge 0}^2$ tali che per ogni $i$ $s_i<f_i$.
+			\item[Output] Un insieme massimale $S\subseteq R$ di task compatibili, ovvero un insieme tale che ogni coppia di task è compatibile. Due task $(s_i,f_i)$ e $s_j,f_j$ si dicono compatibili se e solo se $s_i<f_i<s_j<f_j$ oppure $s_j<f_j<s_i<f_i$. 
+		\end{description}
+	\end{example}
+	Un primo approccio greedy a questo problema sarebbe semplicemente quello di scegliere il task con il tempo $s_i$ minimo non già scelto. E questo in effetti funziona, ma solo se tutti gli eventi hanno la stessa lunghezza (ovvero se $f_i-s_i=f_j-s_j$ per ogni $i,j$), tuttavia non è difficile inventarsi un controesempio se le lunghezze degli intervalli sono diverse.\\
+	Proviamo allora a scegliere sempre le task con durata minima. Anche questo fallisce, per esempio quando un intervallo molto piccolo si accavalla con due intervalli grandi consecutivi. \\
+	Un altro approccio ancora sarebbe quello di contare per ogni task $k$ il numero di task in conflitto con esso $c(k)$ e scegliere sempre il minimo tra questi. Anche questo purtroppo non funziona per controesempi con tante cose messe a cascata. \\
+	L'idea corretta in realtà è quella di scegliere sempre l'evento che finisce prima (o quello con il massimo tempo di start equivalentemente).
+	\begin{algorithm}[Scheduling Greedy]
+		Assumiamo la notazione introdotta prima:
+		\begin{algorithmic}[1]
+			\Function{scheduling}{$R$}
+				\State \Call{sort}{$R$,less ending time}
+				\State $S:=\varnothing$ 
+				\For{$j=0$ to $n-1$}
+					\If{$R[j]$ is compatible with $S$}
+						\State $S\gets S\cup \left\{R[j]\right\}$
+					\EndIf
+				\EndFor
+				\State \Return $S$
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+	La complessità è $\bigo(n\log n)$ se per ogni iterazione del for svolgiamo $\bigo(1)$ operazioni, ma questo è chiaramente sempre possibile dato che $S$ è ordinato, e quindi ci basta confrontare $R[j]$ con l'elemento più grande di $S$. Ci manca
+	\begin{lemma}[Correctness dello Scheduling Greedy]
+		Il programma dello scheduling greedy restituisce un insieme che ha la cardinalità di una soluzione massimale.
+	\end{lemma}
+	\begin{proof}
+		Siano $i_0,i_1,\dots,i_{k-1}$ gli elementi di $S$ ordinati per tempo di fine. 
+		Supponiamo di avere un "oracolo" che ci dia una soluzione effettivamente massimale $A$ composta dagli elementi $j_0,j_1,\dots ,j_{h-1}$. \\
+		Supponiamo per assurdo che $h>k$. Dimostriamo per induzione che "$S$ è sempre in vantaggio su $A$" ovvero
+		$$f_{i_l}\le f_{j_l}.$$
+		Il caso base è banale, perché alla prima iterazione prendiamo semplicemente il minimo di $R$. Per ipotesi induttiva ora abbiamo
+		$$f_{i_{l-1}}\le f_{j_{l-1}}$$
+		ora, chiaramente dato che $A$ è compatibile abbiamo
+		$$f_{j_{l-1}} < s_{j_l}$$
+		ma quindi per transitività
+		$$f_{i_{l-1}} < s_{j_l}$$
+		ma questo significa che $j_l$ era compatibile con $i_0,\dots,i_{l-1}$ e dunque dato che $f_{i_l}$ è il minimo nell'insieme delle task compatibili abbiamo
+		$$f_{i_l}\le f_{j_l}$$
+		come richiesto. Ora, $A$ ha almeno un task in più rispetto ad $S$, ovvero $j_k\in A$ ma $j_k\not\in S$, però $j_k$ è in effetti compatibile con $S$, perché sappiamo che
+		$$f_{i_{k-1}}\le f_{j_{k-1}}$$
+		per quanto dimostrato prima, e inoltre 
+		$$s_{j_k}\ge f_{j_{k-1}}$$
+		dunque 
+		$$s_{j_k}\ge f_{i_{k-1}}$$
+		ma allora $S$ deve contenere anche $j_k$, il che è assurdo perché implicherebbe $\abs{S}=k+1$.
+	\end{proof}
+	
+	
+	\newpage
+	
+	\section{Dynamic Programming}
+	
+	La programmazione dinamica (nome inventato da Bellman per attrarre fondi di ricerca) consiste come nel divide and conquer nello scomporre un problema principale in sottoproblemi. La differenza principale è che i sottoproblemi \textbf{non sono disgiunti}. Dunque per calcolare la soluzione all'unione di più sottoproblemi bisogna sforzarsi un po' di più e di solito implementare effettivamente una procedura specializzata per farlo. \\
+	In un certo senso un programma DP fa una sorta di bruteforce in cui itera su tutti i possibili sottoproblemi in modo intelligente, per poi unificarli in modo efficiente. \\
+	In un altro senso ancora un programma DP di solito fa un'\textit{induzione estesa} sul problema.
+	
+	\subsection{Bellman-Ford}
+	Dijkstra faceva una grossa assunzione, ovvero che non ci fossero archi di peso negativo. In realtà questa condizione è anche troppo stringente per trovare un SSSP, infatti esistono grafi con pesi negativi per cui è sempre possibile trovare un SSSP. Il problema vero si ha quando ci sono dei \textit{cicli} negativi, in quel caso infatti entrando in un ciclo e percorrendolo un numero arbitrario di volte possiamo rendere il costo di ogni percorso arbitrariamente basso. Supponiamo allora d'ora in poi che non ci siano cicli negativi. Utilizziamo l'algoritmo di Bellman-Ford per generalizzare quindi Dijkstra
+	(è un algoritmo scoperto quattro volte, nel 1955 da Chimbel, nel 1958 da Bellman, nel 1956 da Ford, nel 1959 da Moore). \\
+	L'idea principale di Bellman-Ford (nel senso della DP) è assumere di conoscere già tutti i cammini minimi con al più $i\ge 0$ archi. Ovvero per ogni nodo $v$ assumiamo di aver calcolato il percorso che va da $s$ a $v$ utilizzando al più $i$ archi e che tra tutti i percorsi che usano al più archi abbia costo minimo. Questo è un vincolo chiaramente, non ci permette di calcolare direttamente la soluzione. Tuttavia notiamo che per $i\to\infty$ le soluzioni diventano sempre più vicine alle ottimali. \\
+	L'idea è aumentare $i$ gradualmente. Notiamo che in realtà per la natura degli shortest path un insieme di percorsi minimali che partono da $s$ e vanno a tutti gli altri nodi costituiscono uno spanning tree del grafo. Dunque non ci possono essere più di $n-1$ archi, e un percorso minimo dunque non può avere più di $n-1$ archi. Dunque aumentando $i$ dovremmo fare al massimo $n-1$ iterazioni. \\
+	Manca il caso base, che è quando $i=0$. In quel caso la distanza dell'origine è $0$, mentre le distanze di tutti gli altri nodi sono $\infty$. \\
+	Vediamo di definire una pseudoimplementazione:
+	\verb|opt|($i$,$v$): costo del percorso minimo con $\le i$ archi da $s$ a $v$. Chiaramente \verb|opt|($0$,$v$)=$0$ se $v=s$, e \verb|opt|($0$,$v$)=$\infty$ altrimenti. Sia $P$ l'arco che effettua quanto detto da opt. Dividiamo in due casi
+	\begin{description}
+		\item[$P$ ha strettamente meno di $i$ archi] In questo caso semplicemente abbiamo
+		$$\verb*|opt|(i,v)=\verb*|opt|(i-1,v)$$
+		\item[$P$ ha esattamente $i$ archi] In questo caso possiamo decomporre $P$ in due percorsi, $P'$ (lungo $i-1$) e un singolo arco dal nodo $u$ al nodo $v$. Notiamo che $P'$ deve essere ottimale, quindi possiamo scrivere
+		$$\verb|opt|(i,v)=\verb*|opt|(i-1,u)+w_{u,v}$$
+	\end{description}
+	Dunque il cuore della DP è proprio questo. Possiamo scrivere
+	$$\verb|opt|(i,v)=\min\left\{\verb|opt|(i-1,v),\min_{n\in V\setminus\left\{v\right\}}\left\{\verb|opt|(i-1,u)+w_{u,v}\right\}\right\}$$
+	che assumendo non ci siano cappi non nulli (si vede facilmente che questo non rompe niente) possiamo riscrivere come
+	$$\verb|opt|(i,v)=\min_{u\in V}\left\{\verb|opt|(i-1,u)+w_{v,u}\right\}$$
+	come accade molto spesso nelle DP possiamo schematizzare tutto con una matrice, ovvero alla riga $i$-esima memorizziamo il valore di $\verb|opt|(i,v)$ al variare di tutti i $v$.
+	$$
+	\begin{bmatrix}
+		+\infty & +\infty & +\infty & 0 & +\infty & \infty  \\
+		 		& 		  &   \vdots &  &         & \\
+		 \verb|opt|(n-1,v_1) & \verb|opt|(n-1,v_2)	& \verb|opt|(n-1,v_3) & \verb|opt|(n-1,s) & \verb|opt|(n-1,v_4) & \verb|opt|(n-1,v_5)
+	\end{bmatrix}
+	$$
+	ogni cella della matrice viene riempita iterando sulla riga sopra e calcolando il minimo. Dunque alla fine, nell'ultima riga, avremo il risultato che cerchiamo.
+	\begin{algorithm}[Bellman-Ford]
+		Assumiamo di non avere cicli negativi, allora
+		\begin{algorithmic}[1]
+			\Function{BL}{$G$,$s$}
+				\State $M:=$ $n\times n$ matrix
+				\State $M[0,v]\gets 0$ if $s=v$, $\infty$ otherwise
+				\For{$i=1$ to $n-1$}
+					\ForAll{$v\in V$}
+						\State $M[i,v]=\min_{u\in V}\left\{M[i-1,u]+w_{v,u}\right\}$
+					\EndFor
+				\EndFor
+				\State \Return last row of $M$.
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+	Scritto così l'algoritmo è \textbf{molto} inefficiente, in effetti alloca una matrice $n\times n$ spendendo $\bigo(n^2)$ memoria e facendo $\bigo(n^3)$ operazioni. In effetti però il costo non dipende in alcun modo da $m$. \\
+	\textbf{La prima ottimizzazione} che possiamo fare è iterare ogni volta che calcoliamo il min solo sulla lista di adiacenza (inversa in realtà, dato che il grafo è diretto) del nodo $v$. Ma in questo modo ogni arco viene utilizzato esattamente una volta, dunqe nel for all faremo al più $m$ operazioni, il che porta la complessità a $\bigo(nm)$. \\
+	\textbf{La seconda ottimizzazione} riguarda la memoria. Non ci serve davvero memorizzare tutta la matrice, ci basta una (al massimo due) righe alla volta. Dunque la memoria passa a $\bigo(n)$. \\
+	E se volessimo avere un modo per costruire esplicitamente tutti i percorsi minimi? Per fare questo dobbiamo introdurre un'altra matrice:
+	$$\verb|prev|[i,v]=\text{il nodo che dava il minimo (eccetto $v$) valore quando abbiamo calcolato $M[i,v]$}$$
+	oppure più formalmente
+	$$\verb*|prev|[i,v]=
+	\begin{cases}
+		 \arg\min_{u\in V}\left\{M[i-1,u]+w_{v,u}\right\} & \arg\min_{u\in V}\left\{M[i-1,u]+w_{v,u}\right\}\ne v \\
+		 \verb*|prev|[i-1,v] & \arg\min_{u\in V}\left\{M[i-1,u]+w_{v,u}\right\}=v
+	\end{cases}
+	$$
+	In questo modo l'ultima riga di $\verb*|prev|$ delinea l'\textit{albero} delle distanze minime. Per ricavare il percorso minimo possiamo semplicemente fare 
+	\begin{algorithm}[DFS]
+		Assumiamo di aver generato \verb*|prev| come descritto prima, consideriamolo qui semplicemente come un array (l'ultima riga della matrice):
+		\begin{algorithmic}[1]
+			\Function{ShortestPath}{$v$}
+				\State $P=(v)$ the path starting from $v$.
+				\While{prev$[v]\ne v$}
+					\State $v\gets $prev[$v$]
+					\State $P\gets (P,v)$
+				\EndWhile
+				\State Reverse $P$
+				\State \Return $P$
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+	
+	\subsection{Trovare i cicli negativi}
+	Per trovare lo shortest path abbiamo ipotizzato non ci fossero cicli negativi, tuttavia, come capiamo se un grafo generico verifica questa ipotesi? \\
+	Un bruteforce non è davvero un'opzione (dovremmo verificare tutti i loop, abbastanza eccessivo). Per fortuna l'algoritmo di Bellman-Ford alla $n$-esima iterazione ci permette di verificare se esistano cicli negativi, vediamo come:\\
+	Prima di tutto eseguiamo BF come al solito per le prime $n-1$ iterazioni, generando $\verb*|opt[i,v]|$ come prima. A questo punto facciamo un'altra iterazione (fare questo non aumenta la complessità, come è evidente), abbiamo due casi:
+	\begin{itemize}
+		\item Se non esistono loop negativi, la prima riga rimane la stessa.
+		\item Se esiste un loop negativo la prima riga diminuirà.
+	\end{itemize} 
+	Dimostriamolo:
+	\begin{lemma}[Trovare i cicli negativi]
+		L'algoritmo di bellman-ford ci permette di rilevare cicli negativi all'$n$-esima iterazione.
+	\end{lemma}
+	\begin{proof}
+		Supponiamo che esista un ciclo $v_0,\dots,v_k$ tale che
+		$$\sum_{i=0}^{k-1} w_{v_i,v_{i+1}}< 0$$
+		assumiamo per assurdo che $\verb*|opt|[n,v]=\verb*|opt|[n-1,v]$ per tutti i $v$. Questo vuol dire che 
+		$$\verb*|opt|[n-1,u]+w_{vu}\ge \verb*|opt|[n,v]$$
+		per ogni $v$ e per ogni $u$. A questo punto quindi sommando la disuguaglianza sopra su tutti i $v$:
+		$$\sum_{i=0}^{k-1}\verb*|opt|[n-1,v_i]\le \sum_{i=0}^{k-1}\verb*|opt|[n,u_i]+w_{u_iv_i}$$
+		possiamo stimare dall'alto questa somma con $u_1,u_2,\dots,u_k$ i vertici tali che
+		$$u_i=v_{i-1}$$
+		allora abbiamo
+		$$\sum_{i=0}^{k-1}\verb*|opt|[n-1,v_i]\le \sum_{i=0}^{k-1}\verb*|opt|[n,v_{i-1}]+w_{v_{i-1}v_i}$$
+		a questo punto dunque "ruotando" gli indici arriviamo a 
+		$$\dots \le \sum_{i=0}^{k-1}\verb*|opt|[n,v_{i-1}]+w_{v_{i-1}v_i}= \sum_{i=0}^{k-1}\verb*|opt|[n,v_{i}]+ \sum_{i=0}^{k-1}w_{v_{i-1}v_i}$$
+		ma quindi
+		$$\sum_{i=0}^{k-1}\verb*|opt|[n,v_{i}]\le\sum_{i=0}^{k-1}\verb*|opt|[n,v_{i}]+ \sum_{i=0}^{k-1}w_{v_{i-1}v_i}$$
+		ovvero 
+		$$0\le\sum_{i=0}^{k-1}w_{v_{i-1}v_i}$$
+		assurdo. D'altro canto se non esistono loop negativi, abbiamo dimostrato prima che Bellman Ford trova lo shortest path, dunque essendo il minimo di un insieme sempre \textit{unico}, la prima riga dovrà rimanere uguale. Da cui la tesi.
+	\end{proof}
+	
+	\subsection{Scheduling Pesato}
+	
+	Ritorniamo al problema dello scheduling:
+	\begin{example}
+		Assumiamo la definizione di insieme compatibile come sopra:
+		\begin{description}
+			\item[Input] Un insieme $R$ di $n$ triplette $(s_i,f_i,w_i)\in\RR_{\ge 0}^3$ tali che per ogni $i$ $s_i<f_i$.
+			\item[Output] Un insieme $S\subseteq R$ di task compatibili tale che la somma dei valori $w_i$ di tutti gli elementi dell'insieme è massima. 
+		\end{description}
+	\end{example}
+	
+	La strategia ottimale in questo caso è fare una DP. Come spesso accade per le DP, qui bisogna fare un ragionamento di "metti o togli", ovvero partiamo dall'inizio e per ogni evento consideriamo due opzioni "metti" e "togli" e per ogni opzione calcoliamo il valore massimo. Cerchiamo di essere un po' più analitici: definiamo un vettore $\verb*|P|[i]$ che contiene per ogni task $v_i$ il più grande indice $j$ tale che $v_i$ e $v_j$ sono compatibili e $f_{v_i}>f_{v_j}$. Generare i $\verb*|P|[i]$ è facile ordinando gli eventi per tempo di fine e facendo una binary search. Dunque abbiamo una complessità di $\bigo(n\log n)$. \\
+	Se il task $i$ sta nella soluzione ottima possiamo ignorare tutti i task a partire da $\verb*|P|[i]$ fino a $i-1$. Definiamo dunque $\verb*|opt|[i]$ il costo della soluzione ottima usando i task fino a $i$ incluso. Le possibilità dunque sono due
+	$$\verb*|opt|[i]=
+	\begin{cases}
+		\verb*|opt|[i-1] & \text{se $i$ non appartiene alla soluzione ottima} \\
+		\verb*|opt|[\verb*|P|[i]]+w_i & \text{se $i$ appartiene alla soluzione ottima}
+	\end{cases}
+	$$
+	incredibilmente, questo ci delinea proprio una DP! in particolare una cosa del tipo
+	$$\verb*|opt|[i]=\max\left\{\verb*|opt|[i-1],\verb*|opt|[\verb*|P|[i]]+w_i\right\}$$
+	l'unica cosa che manca sono i casi base, ma si vede facilmente che 
+	$$\verb*|opt|[-1]=0$$
+	Benissimo, scriviamo lo pseudocodice
+	\begin{algorithm}[Scheduling Pesato Iterativo]
+		Assumiamo come prima tutte le notazioni dell'esempio.
+		\begin{algorithmic}[1]
+			\Function{Compute-Opt}{$R$}
+				\State $\verb|P|:=$ vector of length $n$.
+				\State $\verb*|opt|:=$ vector of length $n+1$.
+				\State $\verb*|opt|[-1]=0$
+				\State \Call{Compute-P}{$R$} 
+				\For{$i=0$ to $n-1$}
+					\State $\verb*|opt|[i]=\max\left\{\verb*|opt|[i-1],\verb*|opt|[\verb*|P|[i]]+w_i\right\}$
+				\EndFor
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+	\begin{algorithm}[Scheduling Pesato Ricorsivo]
+		Assumiamo come prima tutte le notazioni dell'esempio. Assumiamo di avere già $P$ generato.
+		\begin{algorithmic}
+			\Function{Compute-Opt}{$i$,$R$}
+			\If{$i=-1$} 
+				\Return $0$
+			\EndIf
+			\State \Return $\max$(\Call{Compute-Opt}{$i-1$,$R$},\Call{Compute-Opt}{$P[i]$,$R$})
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+	
+	Qual è il costo di questi algoritmi? Quello iterativo è abbastanza chiaramente lineare, quindi abbiamo una complessità di $\bigo(n\log n)$. Quello ricorsivo invece per ogni chiamata a funzione chiama la funzione stessa altre due volte, finendo per avere un complessità $\bigo(2^n)$. La differenza grossa sta nel fatto che in un approccio ci siamo salvati ogni volta le soluzioni, mentre nell'alto no. Per ottenere $\bigo(n\log n)$ anche con l'approccio ricorsivo dobbiamo ricorrere alla \textit{memoization} ovvero salvarsi un vettore in cui salviamo tutte le soluzioni dei sottoproblemi.
+	
+	\newpage
+	
+	\section{NP-completezza}
+	
+	L'NP-completezza studia se un problema è "difficile" o meno. Ovvero se per risolvere un determinato problema è necessario oppure no pagare un costo più che polinomiale (leggi esponenziale). Il focus qui più che sugli algoritmi è proprio sui problemi. Diamo una definizione informale 
+	\begin{definition}[Easy Problem]
+		Diciamo che un problema è \textit{easy} se esiste un algoritmo che lo risolve con tempo di esecuzione $\bigo(n^c)$ con $c\in\RR^+$.
+	\end{definition}
+	\begin{definition}[Hard Problem]
+		Diciamo che un problema è \textit{hard} se non esiste (o non è ancora stato trovato) un algoritmo che ha running time al più $\bigo(n^c)$ per qualche $c\in\RR^+$. 
+	\end{definition}
+	Vediamo subito un problema per fare un esempio:
+	\begin{example}[Maximum Independent Set - MIS]
+		Definiamo il seguente problema computazionale:
+		\begin{description}
+			\item[Input] Un grafo $G=(V,E)$ con $n$ nodi e $m$ archi.
+			\item[Output] Il massimo \textit{insieme indipendente} di $G$. Un \textit{insieme indipendente} in un grafo è un sottoinsieme di $V$ in cui comunque scelti due nodi $u$ e $v$ non esiste un arco da $u$ a $v$.
+		\end{description}
+	\end{example}
+	Questo è un problema hard. Notiamo che questo chiede di trovare il \textit{maximum} independent set, esiste una variante che invece chiede di trovare il \textit{maximal} independent set, che chiede di trovare un insieme indipendente che non si possa ulteriormente allargare; questo invece è un problema easy e si può risolvere con un approccio greedy. \\
+	In effetti questo è uno dei principali problemi di riferimento quando si parla di problemi hard, appartiene (insieme ad altri che vedremo poi) a una famiglia di problemi detti "NP-completi".
+	\begin{example}[Minimum Vertex Cover]
+		Definiamo il seguente problema computazionale
+		\begin{description}
+			\item[Input] Un grafo $G=(V,E)$ con $n$ nodi e $m$ archi.
+			\item[Output] Il minimo sottoinsieme $S$ di $V$ tale che ogni arco è adiacente ad almeno un nodo di $S$.
+		\end{description}
+	\end{example}
+	\begin{problem}
+		Questi due problemi sono relazionati in qualche modo?
+	\end{problem}
+	\textbf{Questa} è esattamente la strategia che seguiremo per approcciare i problemi di NP-completezza, la \textit{riduzione di un problema ad un altro}. Per i due problemi sopra non è ancora stata trovata alcuna soluzione polinomiale. \\
+	In effetti notiamo che
+	\begin{lemma}[MIS=MVC]
+		Sia $V$ un grafo. Date due soluzioni $\hat{s}$ e $\hat{p}$ rispettivamente per il MIS e per il MVC di $V$, allora vale sempre
+		$$\hat{s}=V\setminus \hat{p}$$
+		$$\hat{p}=V\setminus \hat{s}$$
+	\end{lemma}
+	\begin{proof}
+		Sia $\hat{s}$ una soluzione al MIS, allora è facile dimostrare che essendo esso massimale il suo complemento toccherà tutti gli archi esattamente una volta, dunque sarà un MVC. Analogamente si può fare per l'MVC.
+	\end{proof}
+	quello che abbiamo appena fatto è \textit{ridurre} MVC a MIS e viceversa. Ovvero abbiamo costruito un algoritmo che data la soluzione di uno dei due problemi trova la soluzione dell'altro. In particolare questo algoritmo va in tempo lineare (polinomiale), e quindi se risolvessimo uno dei due in tempo polinomiale, avremmo istantaneamente anche l'altro in tempo polinomiale.
+	\begin{definition}[problema riducibile in tempo polinomiale]
+		Un problema $Y$ è \textit{riducibile in tempo polinomiale} ad $X$ se ogni istanza di $Y$ può essere risolta usando un numero polinomiale di operazioni generiche e un numero polinomiale di chiamate ad un algoritmo che risolve $X$. In questo caso scriviamo
+		$$Y\le_p X.$$
+		In un certo senso quindi il problema $Y$ è \textit{più facile} di $X$.
+	\end{definition}
+	Abbiamo appena visto che
+	$$\text{MIS}\le_p \text{MVC}$$
+	e inoltre
+	$$\text{MVC}\le_p \text{MIS}$$
+	dunque possiamo dire
+	$$\text{MIS}=_p\text{MVC}$$
+	\begin{lemma}[Easier problems]
+		Siano $X$ e $Y$ due problemi computazionali tali che
+		$$Y\le_p X$$
+		allora se esiste un algoritmo polinomiale per $X$ esisterà anche per $Y$.
+	\end{lemma}
+	\begin{proof}
+		Per la definizione di riduzione possiamo scrivere
+		$$T_Y(n)=\bigo(n^c)+\bigo(n^c)T_X(k)$$
+		ora il punto di tutto è che $k$ non può essere davvero più grande di $n^c$ (il numero di operazioni già fatte) perché utilizzando operazioni elementari non possiamo far cambiare la taglia dell'istanza di $T_Y$ a più di $n^c+n$. Dunque abbiamo:
+		$$T_Y(n)=\dots=\bigo(n^c)+\bigo(n^c)T_X(n^c)=\bigo(n^c)+\bigo(n^c)\bigo(n^{cl})=\bigo(n^{e})$$
+		che è polinomiale e quindi abbiamo finito.
+	\end{proof}
+	Dunque applicando il converso di ciò abbiamo che se $Y$ non può essere risolto in tempo polinomiale (e dimostriamo che è così) allora $X$ non può essere risolto in tempo polinomiale. 
+	\subsection{Decision Problems}
+	Forti della teoria appena esposta ci interessa trovare una famiglia di problemi a cui possiamo ridurre la maggior parte dei problemi computazionali e di cui possiamo dire qualcosa sulla facilità. \\
+	I decision problems sono problemi a risposta sempre binaria, ovvero il cui unico output è "sì" o "no".
+	\begin{example}[Decision per MIS - $k$-IS]
+		costruiamo il seguente problema riducibile a MIS.
+		\begin{description}
+			\item[Input:] Un grafo $G=(V,E)$ con $n$ nodi e $m$ archi e un intero $k$.
+			\item[Output:] Dire se esiste un IS di taglia $k$.
+		\end{description}
+	\end{example}
+	questi saranno il tipo di problemi che vorremmo trattare. 
+	\begin{example}[Satisfability problems/SAT]
+		Definiamo il seguente problema computazionale:
+		\begin{description}
+			\item[Input:] Sia $t_i$ una lista di variabili booleane. Definiamo la seguente \textit{clause}
+			$$c_i=t_{i_1}\lor t_{i_2} \lor t_{i_3} \lor \dots \lor t_{i_l}$$
+			in cui potenzialmente appaiono anche delle \textit{negazioni} dei singoli $t_i$. con una certa riindicizzazione di $t_i$ e una certa indicizzazione degli $c_i$. A questo punto definiamo una \textit{conjunctive normal form} (CNF) come
+			$$c=c_1\land c_2\land c_3 \land \dots c_k$$
+			per qualche $k$. \`E data una CNF.
+			\item[Output:] Vogliamo verificare se esiste ("sì"/"no") un'assegnazione di valori booleani (vero o falso) alle variabili $t_i$ tale che la CNF sia vera.
+		\end{description}
+	\end{example}
+	\begin{example}[$3$-SAT]
+		Definiamo il seguente problema computazionale
+		\begin{description}
+			\item[Input:] Data una lista di variabili booleane $x_i$ e una CNF del tipo
+			$$c=c_1\land c_2 \land c_3\land \dots c_k$$
+			dove ogni clause ha esattamente $3$ termini.
+			\item[Output:] "Sì" se esiste un'assegnazione di valori tali che $c$ è vera, "No" altrimenti.
+		\end{description}
+	\end{example}
+	il $3$-SAT è uno dei primi problemi di questo tipo ad essere stato studiato. Chiaramente se $3$-SAT è difficile anche SAT sarà difficile, perché è un caso particolare. Il punto di questi tre problemi è che:
+	\begin{lemma}[Il $k$-IS è difficile]
+		$3$-SAT è riducibile in tempo polinomiale a independent set
+		$$\text{$3$-SAT}\le_p \text{$k$-IS}$$
+	\end{lemma}
+	\begin{proof}
+		Dobbiamo dimostrare che ogni clausola di un tri sat può essere ridotta in qualche modo ad un'istanza di un problema di grafi. Il trucco è ridurre ogni $3$-clause ad un triangolo su un grafo. 
+		$$c=(x_1\lor x_4 \lor x_5)\land (\lnot x_3 \lor \lnot x_1 \lor x_4)\land \dots $$
+		dunque esisterà un triangolo tra i nodi $x_1,x_4,x_5$ uno tra i nodi $\lnot x_3, \lnot x_1 $ e $x_4$\dots. La cosa qui è che usiamo \textit{gli stessi nodi} per variabili uguali, e in questo modo stiamo traducendo su un grafo le condizioni logiche che abbiamo. Ok, abbiamo risolto gli $\lor$, per risolvere i $\lnot$ ci basta collegare con un arco i nodi $x_i$ e $\lnot x_i$ per ogni $i$. Vogliamo quindi trovare un $k$-IS di taglia esattamente 
+		uguale al numero di clause, se lo avessimo infatti per ogni elemento del $k$-IS potremmo associare $1$ alla proposizione associata e $0$ a tutte le altre. Dato che ci sono al più tanti triangoli quante clause, abbiamo che sicuramente per ogni triangolo ci sarà almeno un nodo dell'insieme, e quindi avremo $c$ vera. \\
+		In generale quindi dato un CNF con $k$ clausole ci riduciamo a voler trovare un $k$-IS con $k$ nodi. Abbiamo fatto ciò in tempo polinomiale, e dunque abbiamo finito.
+	\end{proof}
+	dato che in $60$ anni di ricerca non è ancora stato scoperto un algoritmo polinomiale per il Tri-SAT è ragionevole pensare che $k$-IS sia un problema difficile. 
+	
+	\subsection{Una gerarchia di difficoltà}
+	
+	La relazione di riducibilità definisce un vero e proprio \textit{ordine parziale} sull'insieme dei problemi computazionali. In particolare l'insieme dei problemi computazionali ha un sottoinsieme detto dei \textit{problemi computabili}, ovvero l'insieme di tutti i problemi risolvibili con un algoritmo. In particolare qui dentro abbiamo due sottoinsiemi interessanti:
+	\begin{definition}[$P$ vs $NP$]
+		Il sottoinsieme dei problemi decisionali "facili" (ovvero, che ammettono una soluzione polinomiale) viene detto $P$. Sia ora $\Pi$ un problema computazionale decisionale, diciamo $\Pi$ appartiene all'insieme $NP$ dei problemi "facili da verificare" se soddisfa la seguente condizione: 
+		esiste un $\beta(s,t)$ polinomiale (un algoritmo certificatore) che soddisfa: $\Pi(s)=\text{yes}$ se e solo se esiste un $t$ di taglia polinomiale rispetto a $s$ (un "certificato", o come dire, una soluzione, nel caso degli independent set è l'insieme dei nodi indipendenti) tale che $\beta(s,t)=\text{yes}$.
+	\end{definition}
+	
+	Possiamo immediatamente dire che $P\subseteq NP$, perché come algoritmo $\beta$ "certificatore" ci basta utilizzare brutalmente l'algoritmo che risolve $\Pi$, in quanto è polinomiale. In effetti con la nostra teoria della riduzione possiamo fare di meglio, ovvero
+	\begin{definition}[problemi $NP$-completi]
+		Un problema tale che ogni elemento di $NP$ può essere ridotto ad esso si dice $NP$-completo.
+	\end{definition}
+	\begin{definition}[Circuito]
+		Un circuito è un grafo diretto aciclico con tre tipi di nodi:
+		\begin{description}
+			\item[Input Nodes:] nodi senza archi in ingresso, che possono assumere solo valori binari in $\left\{0,1\right\}$.
+			\item[Output Nodes:] nodi senza archi in uscita e che possono assumere solo valori binari in $\left\{0,1\right\}$.
+			\item[Internal Nodes]: nodi con un'etichetta corrispondente ad un'operazione booleana (con un numero di input che abbia senso rispetto al numero di archi in entrata). In realtà si può dimostrare che qualunque operazione binaria può essere espressa usando solo ($\land$,$\lor$ e $\lnot$).
+		\end{description} 
+		Insomma un circuito è un vero e proprio computer.
+	\end{definition}
+	\begin{example}[Circuit Satisfability/CS]
+		Definiamo il seguente problema computazionale decisionale:
+		\begin{description}
+			\item[Input:] Un \textit{circuito} $c$.
+			\item[Output:] "Yes" se e solo se esiste un input per $c$ che dia almeno un output "Yes". 
+		\end{description}
+	\end{example}
+	questo problema è estremamente importante perché
+	\begin{lemma}[CS è $NP$-completo]
+		Per ogni problema $\Pi\in NP$ vale 
+		$$\Pi\le_p \text{CS}$$
+	\end{lemma} 
+	\begin{proof}
+		A partire dall'algoritmo $\beta(s,t)$ di check e dalle sue istanze $s$ e $t$ possiamo costruire un circuito $c$ di dimensione polinomiale in $s$ e $t$.\footnote{questo è abbastanza informale, ma non è difficile convincersi che sia vero se si comnsidera che ogni circuito è essenzialmente una rappresentazione scheletrizzata di un computer.} Rappresentando $s$ e $t$ come stringhe binarie, possiamo costruire un circuito che prende in input le due stringhe $s$ e $t$ e restituisce "yes" oppure "no". \\
+		Ora se noi fissiamo i valori di $s$ come sono dati in input al problema $\Pi$ abbiamo effettivamente un problema di CS, con input i valori di $t$ e output l'output di $\beta(s,t)$. \\
+		Eseguiamo quindi CS, otterremo una stringa $t$ e un output di $\beta(s,t)$. Ma per definizione di $\beta$ questo è anche l'output di $\Pi$, e dunque abbiamo risolto $\Pi$.
+	\end{proof}
+	Questo è stato il primo problema $NP$-completo a essere scoperto. Per definizione di $NP$-completezza non è difficile vedere che tutti i problemi $NP$-completi sono equivalenti. Ci piacerebbe molto trovare altri problemi $NP$-completi, a questo fine esiste una "procedura" detta \textbf{riduzione di Karp}. \\
+	Dato un problema $\Pi$ per verificare se è $NP$-completo facciamo:
+	\begin{itemize}
+		\item[(1)] Verifichiamo che il problema è $NP$.
+		\item[(2)] Selezioniamo un problema $NP$ completo $Y$.
+		\item[(3)] Dimostriamo che per ogni istanza $s_\Pi$ di $\Pi$ possiamo costruire un input $s_Y$ per $Y$ tale che 
+		$$\Pi(s_\Pi)=\text{yes}\iff Y(s_Y)=\text{yes}.$$
+		chiaramente la chiamata a $\Pi$ non deve essere necessariamente unica per la definizione di riduzione (basta che sia polinomiale), ma in ogni caso la maggior parte delle riduzioni tra problemi $NP$-completi di solito richiedono solo una chiamata. 
+	\end{itemize}
+	Sicuramente possiamo iniziare dicendo che $3$-SAT è $NP$-completo, in quanto è solo un caso specifico di CS.
+	\begin{example}[Subset Sum]
+		Definiamo il seguente problema computazionale decisionale:
+		\begin{description}
+			\item[Input:] Un insieme $s$ di numeri naturali e un numero target $t\in\NN$.
+			\item[Output:] "yes" se e solo se esiste un sottoinsieme di $s$ la cui somma degli elementi è esattamente $t$.
+		\end{description}
+	\end{example}
+	verifichiamo che questo problema è $NP$-completo:
+	\begin{itemize}
+		\item[(1)] Il problema è abbastanza chiaramente $NP$, il certificato è il sottoinsieme scelto che somma a $t$.
+	\end{itemize}
+	Il passo due è quello più difficile e bisogna affidarsi ad euristiche. Salta fuori che il problema di cui abbiamo bisogno è $3$-Sat. Sia $n$ la cardinalità di $s$, e $k$ il numero di clause che stiamo usando. Costruiamo $2(n+k)$ numeri, ciascuno con $n+k$ cifre nel modo (abbastanza folle) seguente (facciamo un esempio per $n=3$ e $k=4$). Consideriamo la CNF seguente:
+	\begin{align*}
+		c= &(x_1\lor \lnot x_2 \lor x_3)\land  \\
+		 &(\lnot x_1 \lor \lnot x_2 \lor \lnot x_3)\land   \\
+		&(\lnot x_1 \lor \lnot x_2 \lor x_3) \land  \\
+		&(x_1 \lor x_2 \lor x_3) 
+	\end{align*}
+	costruiamo i $2n$ numeri $v_1,\dots v_{2n}$, in rappresentazione decimale, non binaria, nel seguente modo:
+	\begin{center}
+		\begin{tabular}{| c | c | c | c || c | c | c | c | c |}
+			\hline
+			$v_i$ & $x_1$ & $x_2$ & $x_3$ & $c_1$ & $c_2$ & $c_3$ & $c_4$ & vincolo\\
+			\hline
+			$v_1=$ & $1$ & $0$ & $0$ & $1$ & $0$ & $0$ & $1$ & $x_1=1$\\
+			\hline
+			$v_2=$ & $1$ & $0$ & $0$ & $0$ & $1$ & $1$ & $0$ & $x_1=0$\\
+			\hline
+			$v_3=$ & $0$ & $1$ & $0$ & $0$ & $0$ & $0$ & $1$ & $x_2=1$\\
+			\hline
+			$v_4=$ & $0$ & $1$ & $0$ & $1$ & $1$ & $1$ & $0$ & $x_2=0$\\
+			\hline
+			$v_5=$ & $0$ & $0$ & $1$ & $0$ & $0$ & $1$ & $1$ & $x_3=1$\\
+			\hline
+			$v_6=$ & $0$ & $0$ & $1$ & $1$ & $1$ & $0$ & $0$ & $x_3=0$\\
+ 			\hline
+		\end{tabular}
+	\end{center}
+	dove alla riga $i$ colonna $c_j$ è stato messo un $1$ se e solo se, assumendo \textbf{tutti gli altri elementi della clause falsi} e il vincolo della colonna più a destra vero, la clause è vera. Inoltre costruiamo i $2k$ numeri $s_1,s_2\dots s_k$ e $s'_1,s'_2,\dots,s'_k$ come:
+	\begin{center}
+		\begin{tabular}{| c | c | c | c | c | c | c | c | }
+			\hline
+			$s_1=$ 	& $0$ & $0$ & $0$ & $1$ & $0$ & $0$ & $0$ \\
+			\hline
+			$s'_1=$ & $0$ & $0$ & $0$ & $2$ & $0$ & $0$ & $0$ \\
+			\hline
+			$s_2=$ 	& $0$ & $0$ & $0$ & $0$ & $1$ & $0$ & $0$ \\
+			\hline
+			$s'_2=$ & $0$ & $0$ & $0$ & $0$ & $2$ & $0$ & $0$ \\
+			\hline
+			$s_3=$ 	& $0$ & $0$ & $0$ & $0$ & $0$ & $1$ & $0$ \\
+			\hline
+			$s'_3=$ & $0$ & $0$ & $0$ & $0$ & $0$ & $2$ & $0$ \\
+			\hline
+			$s_4=$ 	& $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & $1$ \\
+			\hline
+			$s'_4=$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & $2$ \\
+			\hline
+		\end{tabular}
+	\end{center}
+	A questo punto applichiamo Subset Sum a questi $2(n+k)$ numeri, usando come target
+	$$t=1114444$$
+	questo risolve automaticamente $3$-SAT. Infatti la soluzione per subset-sum sarà costituita esattamente da numeri i cui vincoli corrispondono ad un assignment delle variabili $x_i$ che soddisfa $3$-SAT. Questa cosa si generalizza facilmente usando basi e target abbastanza grande. Dunque abbiamo dimostrato che
+	$$3\text{-SAT}\le_p \text{S-Sum}.$$
+	
+	Infine vediamo
+	\begin{example}[Knapsack Problem]
+		Definiamo il sefguente problema computazionale:
+		\begin{description}
+			\item[Input:] Una lista di $n$ elementi, ognuno con un valore $v_i$ e una dimensione $s_i$, un limite di capacità $B$ e un target $K$.
+			\item[Output:] "yes" se e solo se esiste un sottoinsieme degli oggetti forniti tali che la somma dei loro $s_i$ è minore o uguale $B$ e la somma dei loro $v_i$ è maggiore o uguale a $K$.
+		\end{description}
+	\end{example}
+	questo è un problema $NP$-completo, e non è difficile vedere perché facendo una riduzione di Karp con subset sum.
+	\newpage
+	
+	\section{Approximate and Randomized algorithms}
+	
+	Abbiamo visto con lo studio della $NP$-completezza che alcuni algoritmi hanno costi \textit{worst case} difficilmente aggirabili. Ma nel mondo reale non siamo obbligati ad attenerci al caso peggiore\dots qui nasce l'idea di "barare" attraverso degli algoritmi approssimati. In questi algoritmi "ci accontentiamo" di avere una soluzione sufficientemente vicina all'output che stiamo cercando, invece che esattamente quella desiderata. \\
+	Questo è ragionevole anche perché di solito nel mondo reale gli input hanno comunque del rumore, e quindi non ha troppo senso cercare una soluzione esatta se sarà comunque sporcata dagli errori degli input. \\
+	Inoltre i nostri algoritmi finora sono sempre stati \textit{deterministici}, cioè a parità di input ci aspettiamo parità di output. Se tuttavia rilassiamo questo vincolo in modo ragionevole (per esempio, se costruissimo un algoritmo che $1$ volta su $10000000$ desse un output completamente fuori di testa) possiamo ottenere dei notevoli miglioramenti al costo del nostro algoritmo. Anche qui la cosa ha senso perché se la probabilità che l'algoritmo fallisca è sufficientemente bassa, allora è più probabile che ci sia un problema di hardware (o di altro tipo) che rende impossibile ottenere la soluzione giusta. Dunque in  questa sezione proveremo a rilassare tre vincoli:
+	\begin{itemize}
+		\item Non consideriamo più necessariamente il worst case ("beyond worst case").
+		\item Non vogliamo più necessariamente soluzioni esatte.
+		\item Non vogliamo più necessariamente che l'algoritmo sia deterministico, sia rispetto alla qualità dell'output (ovvero se è giusto o è sbagliato), sia rispetto alla complessità (ovvero può accadere che a parità di output l'algoritmo restituisca l'output in complessità diverse).
+	\end{itemize}
+	La più famosa applicazione di ciò sono forse gli LLM, che di solito usano delle "primitive" costituite da algoritmi randomizzati. 
+	
+	\subsection{Approximate Algorithms}
+	
+	\begin{definition}[Approximation Ratio]
+		Un algoritmo $A$ per un problema $X$ ha un \textit{approximation ratio} $\rho(n)$ se per ogni input $x$ di dimensione $n$ il costo $C$ (quando il problema ammette un qualche tipo di "costo" che è ragionevole rilassare) della soluzione trovata da $A$ è al più differente di un fattore $f(n)$ dal costo ottimale $C^*$. Ovvero
+		$$\max\left\{\frac{C}{C^*},\frac{C^*}{C}\right\}\le \rho(n)$$
+		In questo caso diciamo che $A$ è $\rho(n)$-approssimato.
+	\end{definition}
+	In generale noi vorremmo che $\rho$ sia una funzione "piccola", costante se possibile. La vera potenza di un algoritmo randomizzato però è quando la funzione è della forma
+	$$\rho(n)=1+\varepsilon$$
+	ovvero possiamo possiamo liberamente variare il tasso di approssimazione in base ai nostri bisogni variando contemporaneamente la complessità dell'algoritmo.
+	\begin{exercise}
+		Trovare un algoritmo $2$-approssimato per il $k$-IS. 
+	\end{exercise}
+	Interessantemente questo esercizio è equivalente a dimostrare $P=NP$! Quando facciamo algoritmi approssimati invece, MVC è molto più facile di $k$-IS, infatti possiamo scrivere un algoritmo approssimato per il MVC nel seguente modo:
+	\begin{algorithm}[Maximum Vertex Cover]
+		Consideriamo il seguente algoritmo:
+		\begin{algorithmic}[1]
+			\Function{ApproxVC}{$G:(V,E)$}
+				\State $C:=\emptyset$
+				\While{$E\ne \emptyset$}
+					\State Let $(n,v)$ be an edge in $E$
+					\State $C\gets C\cup \left\{n,v\right\}$
+					\State Remove from $E$ all edges adjacent to $u$, $v$
+				\EndWhile
+				\State \Return $C$
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+	
+	La complessità di questo algoritmo risulta $\bigo(n+m)$. Dimostriamo ora
+	\begin{lemma}[Correctness]
+		L'algoritmo sopra produce un vertex cover di taglia $C$ tale che
+		$$\abs{C^*}\le \abs{C}\le 2\abs{C^*}$$
+		dove $C^*$ è il vertex cover minimo.
+	\end{lemma}
+	\begin{proof}
+		Uno dei due bound è banale, in quanto $\abs{C^*}$ è definito come il minimo.
+		Sia $A$ il set degli archi di $G$ che selezioniamo alla riga $A$. Sicuramente tutti gli elementi di $A$ non hanno vertici in comune fra loro, per come lo abbiamo generato. \\
+		Il vertex cover generato dunque avrà una dimensione:
+		$$\abs{C}=2\abs{A}$$
+		Ora sicuramente noi sappiamo che un insieme ottimale $C^*$ copre tutti gli archi, in particolare dato che ogni arco di $A$ è disgiunto dagli altri, in $C^*$ ci deve essere un nodo per ogni elemento di $A$, dunque abbiamo
+		$$\abs{C^*}\ge \abs{A}$$
+		da cui abbiamo immediatamente la tesi.
+	\end{proof}
+	quindi l'algoritmo che abbiamo fatto è $2$-approssimato. Questo è un primo approccio, abbastanza rozzo, e si può facilmente migliorare (per esempio scegliendo i nodi con degree più alto). Il problema è che più aggiungiamo euristiche, più si possono generare worst case. \\
+	Vogliamo costruire una $1+\varepsilon$-approximation. La complessità di un tale algoritmo dipenerà da due variabili, quindi sarà $T(n,\varepsilon)$. 
+	\begin{definition}[PTAS/FPTAS]
+		Un algoritmo $A$ $1+\varepsilon$-approssimato può essere di due tipi:
+		\begin{description}
+			\item[PTAS] (Polynomial Time Approximation Scheme) Un algoritmo che per ogni input, fissato $\varepsilon$ l'algoritmo è polinomiale in $\varepsilon$. Alcuni esempi sono
+			$$\bigo\left(\frac{n^2}{\varepsilon}\right)$$
+			$$\bigo\left(n^{1/\varepsilon}\right)$$
+			\item[FPTAS] (Fully Polynomial Time Approximation Scheme) Un algoritmo in cui la complessità è polinomiale sia in $n$ che in $1/\varepsilon$.
+		\end{description}
+	\end{definition}
+	Generalmente gli algoritmi non in $P$ non possono essere PTAS e non FPTAS, perché facendo tendere $\varepsilon$ sufficientemente a $0$ (in modo che l'intervallo di affidabilità dell'algoritmo sia minore dello scatto discreto tra due possibili output) avremmo un algoritmo polinomiale per un problema non $P$. 
+	
+	\subsubsection{Knapsack Problem}
+	
+	Vogliamo trovare un FPTAS per il knapsack problem. Utilizziamo una DP, costruiamo $n$ liste $A_j$ tali che la lista $A_j$ contiene la lista di tutte le possibili soluzioni usando solo i primi $j$ elementi a nostra disposizione per cui saranno liste del tipo
+	$$A_j=\left\{\left(t_1,w_1\right),\left(t_2,w_2\right),\dots,\left(t_j,w_j\right)\right\}$$ 
+	dove i $t_i$ sono la somma dei valori della soluzione, e $w_i$ è la somma dei pesi. Ora sicuramente sappiamo che se nella lista $A_j$ ci sono due soluzioni con $t_a\le t_b$ e $w_a\ge w_b$ ci converrà sicuramente sempre la soluzione con indice $b$. Rimuoviamo allora dagli $A_j$ tutte le coppie "dominate" ovvero tali che esiste un'altra coppia con costo minore e valore maggiore (se è tutto uguale ne scegliamo solo una delle due). \\ Sortiamo ora per i valori di $t_i$. Essendo che non ci sono coppie dominate, se cresce il valore deve crescere anche il costo. In questo modo abbiamo garantito che 
+	$$\abs{A_j}\le B+1$$
+	perché ogni peso può essere assunto al più una volta. Ma facendo lo stesso ragionamento sui $t_i$ invece che sui $w_i$ troviamo anche 
+	$$\abs{A_j}\le V+1$$
+	dove $V$ è la somma di tutti i valori di tutti gli oggetti a nostra disposizione, dunque
+	$$\abs{A_j}\le \min\left\{B,V\right\}+1.$$
+	Usiamo ora la DP vera e propria, il caso base è $A_1$, che è semplicemente
+	$$A_1=\left\{(0,0),(v_1,s_1)\right\}$$
+	ora usiamo il famoso "metti o togli", cioè
+	\begin{algorithmic}[1]
+		\State $A_{j+1}=A_j$ 
+		\ForAll{$(t,w)\in A_j$ }
+			\State $(t,w)\gets (t+v_{j+1},w+s_{j+1})$ only if $t+s_{j+1}\le B$.
+		\EndFor
+		\State Remove all dominated pairs
+	\end{algorithmic}
+	Dunque l'algoritmo completo è
+	\begin{algorithm}
+		Consideriamo il seguente algoritmo
+		\begin{algorithmic}[1]
+			\Function{ExactKP}{$s_i$, $v_i$}
+				\State $A_1\gets\left\{(0,0),(v_1,s_1)\right\}$ 
+				\For{$j=2$ to $n$}
+					\State $A_{j+1}=A_j$ 
+					\ForAll{$(t,w)\in A_j$ }
+					\State $(t,w)\gets (t+v_{j+1},w+s_{j+1})$ only if $t+s_{j+1}\le B$.
+					\EndFor
+					\State Remove all dominated pairs
+				\EndFor
+				\State \Return $\max_{(t,w)\in A_j}\left\{t\right\}$
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+	La complessità di questo algoritmo è quella necessaria a scorrere lungo la tabella degli $A_j$, ovvero $\bigo\left(n\min\left\{B,V\right\}\right)$. Ehm, abbiamo appena dimostrato $P=NP$?\\
+	Il problema è che la $NP$ completezza di un problema è definita sulla base del numero di bit necessario a rappresentare l'input (la famosa taglia), e $B$ aumenta esponenzialmente all'aumentare della taglia di $n$, infatti se abbiamo $n$ elementi, ciascuno rappresentato con $k$ bit abbiamo che $B$ nel worst case deve essere il \textbf{massimo numero rappresentabile con $k$ bit}, che è proprio $2^k$. Quindi il running time in funzione della taglia in realtà è
+	$$\bigo\left(2^kkn\right)$$
+	che è esponenziale. Un algoritmo che è polinomiale in funzione delle variabili di input ma esponenziale sulla taglia si dice \textit{pseudopolynomial}. Questo algoritmo in effetti è molto utile se $B$ è piccolo, ma la vera potenza è che può essere esteso ad un FPTAS. Infatti se scegliamo un fattore di scala $\mu$ e dividiamo tutti i valori $v_i$ e $s_i$ per $\mu$, anche la loro somma verrà scalata di un fattore $\mu$, quindi la nostra complessità migliora di un fattore $\frac{1}{\mu}$. Il problema è che in questo modo l'output alla fine sarà sbagliato di un fattore $\mu$, ma ci basterà rimoltiplicare tutto per $\mu$ per correggere questo errore. D'altra parte dato che stiamo lavorando con interi dovremo troncare a un certo punto, e quindi introdurremmo un errore. \\
+	\textbf{Questo} è un esempio di algoritmo approssimato che "ammorbidendo" un po' i constraints sulla precisione migliora di molto il runnging time. Dobbiamo tuttavia quantificare quest'errore. Se scegliamo il valore effettivamente a
+	$$\mu=\frac{\varepsilon \max\{v_i\}}{2n}$$
+	questo ci dà un a complessità di 
+	$$\bigo\left(nV'\right)=\bigo\left(n^2\frac{M}{\mu}\right).$$
+	Più formalmente vogliamo esprimere tutti i $v_i,s_i$ come multipli di $\mu$. Capiamo bene che questo non è sempre possibile in modo esatto, quindi invece di dividere esattamente facciamo le divisioni intere:
+	$$v'_i=\floor{\frac{v_i}{\mu}}$$
+	è chiaro che poi applicheremo semplicemente ExactKP ai vettori $\left\{v'_i\right\},\left\{s'_i\right\}$, che ci darà una soluzione $\verb*|opt'|$, sbagliata di un fattore $\mu$, quindi moltiplicando di nuovo per $\mu$ avremo una soluzione corretta (eccetto che per errori di troncamento quando abbiamo fatto la divisione intera). Questo, chiamando $M$ il massimo di tutto ci dà una complessità di 
+	$$\bigo\left(\frac{n^2M}{\mu}\right)$$
+	e la risposta sarà al più sbagliata di un fattore $\mu n$. Ora esprimiamo la complessità in funzione di $\varepsilon$ il rapporto tra la soluzione ottimale e quella trovata. Abbiamo
+	$$n\mu\le \varepsilon M \le \varepsilon \text{OPT}$$
+	da cui abbiamo 
+	\begin{lemma}[Correctness]
+		L'algoritmo sopra è FPTAS $1+\varepsilon$ approximate con running time 
+		$$\bigo\left(\frac{n^3}{\varepsilon}\right)$$
+	\end{lemma}
+	\begin{proof}
+		Sia $\text{opt}$ la soluzione ottimale del problema di partenza, vogliamo mostrare che c'è un certo $\varepsilon$ tale che 
+		$$\text{opt}\le \text{opt}'(1+\varepsilon)$$
+		sia $S$ la soluzione ottima data dall'algoritmo approssimato, allora usando la definizione $\mu$:
+		$$\text{opt'}=\sum_{i\in S}v_i \ge \sum_{i\in S}v'_i\mu =\mu\sum_{i\in S}v'_i$$
+		d'altra parte se $O$ è l'insieme di indici della soluzione ottimale su $v_i$ (che non possiamo calcolare, ma assumiamo di avere), dato che non abbiamo scalato i costi avremo che la soluzione trovata sui $v'_i$ è sempre minore o uguale di: 
+		$$\dots \ge \mu\sum_{i\in O} v'_i$$ 
+		ma d'altra parte ricordando che 
+		$$\mu(v'_i+1)\ge v_i \iff \mu v'_i \ge v_i-\mu$$ 
+		abbiamo
+		$$\dots \ge \sum_{i\in O}(v_i-\mu)\ge \text{opt}-n\mu$$
+		quindi scegliendo 
+		$$\mu=\frac{\varepsilon M}{2n} \iff \mu n =\frac{\varepsilon M}{2}$$
+		se sostituiamo abbiamo
+		$$\text{opt}'\ge \text{opt}-\frac{\varepsilon M}{2}$$
+		e ricordando che 
+		$$M\ge \sum_{i\in S}v_i=\text{opt}'$$
+	\end{proof}
+	\subsection{Randomized Algorithms}
+	\begin{definition}[Las Vegas e Monte Carlo Algorithms]
+		Un algoritmo randomizzato può essere \textit{Las Vegas} se la correttezza dell'output è deterministica, ma la complessità del running time no. In algoritmi del genere di solito si esamina il valor medio della complessità $\mathbb{E}\left[T(n)\right]$.
+		
+		Un algoritmo si dice \textit{Monte Carlo} se non fornisce necessariamente sempre la soluzione corretta. Di solito per studiare un algoritmo Monte Carlo si definisce il parametro $\delta$ tale che, se definiamo la variabile aleatoria
+		$$X=\begin{cases}
+			1 & \text{se la soluzione è corretta} \\
+			0 & \text{altrimenti.}
+		\end{cases}$$
+		$\delta$ soddisfa
+		$$P[X=1]\ge 1-\delta.$$
+	\end{definition}
+	\subsubsection{Quicksort}
+	L'esempio per eccellenza di algoritmo Las Vegas è quicksort, ovvero 
+	\begin{algorithm}[Quicksort]
+		Definiamo il seguente algoritmo di ordinamento:
+		\begin{algorithmic}[1]
+			\Function{QuickSort}{$S$}
+				\If{$\abs{S}\le 3$}
+					\State Bruteforce the sort on $S$
+					\State \Return sorted $S$
+				\EndIf
+				\State Create empty vector $S^+,S^-$
+				\State Random select $a_i\in S$ uniformly at random, independently
+				\ForAll{$a_j\in S$}
+					\State If $a_j<a_i$ then put $a_j$ in $S^-$
+					\State If $a_j>a_i$ then put $a_j$ in $S^+$
+				\EndFor
+				\State $\hat{S}^+\gets$\Call{QuickSort}{$S^+$}
+				\State $\hat{S}^-\gets$\Call{QuickSort}{$S^-$}
+				\State \Return $\hat{S}^-\cup a_i \cup \hat{S}^+$
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+	Per analizzare la complessità temporale di questo algoritmo definiamo il concetto di "pivot interno": un pivot che si trova tra il primo e l'ultimo quarto dell'array (ovvero che sia nel secondo o terzo quarto). \\
+	Se mettiamo dentro un while la parte in cui l'algoritmo splitta randomicamente l'array con la condizione che il pivot sia tra il primo e l'ultimo quarto dell'array (ovvero, che sia un pivo interno), abbiamo un numero atteso di iterazioni $2$. Studiamo questo algoritmo:
+	\begin{theorem}
+		Quicksort ha un tempo di esecuzione atteso uguale a $\bigo(n\log n)$.
+	\end{theorem}
+	\begin{proof}
+		Chiamiamo un sottoproblema di tipo $j$ se la sua dimensione rispetto all'$n$ di partenza è tra
+		$$n\left(\frac{3}{4}\right)^{j+1}<\abs{S}<n\left(\frac{3}{4}\right)^j$$
+		allora se un sottoproblema $S$ è di tipo $j$ anche $^-/S^+$ sono di tipo $j'>j$ (con l'algoritmo modificato con i pivot interni). Inoltre i sottoproblemi sono sempre tutti distinti, quindi il massimo numero di problemi di tipo $j$ che possiamo avere in tutto nell'albero è 
+		$$\frac{n}{n\left(\frac{3}{4}\right)^{j}}=\left(\frac{4}{3}\right)^{j}<\#\text{sottoproblemi di tipo $j$}<\frac{n}{n\left(\frac{3}{4}\right)^{j+1}}=\left(\frac{4}{3}\right)^{j+1}$$
+		quindi in particolare se sommiamo su ogni tipo di sottoproblema abbiamo
+		$$T(n)=\sum_{j=0}^{\log_{4/3}n}\sum_{S \text{ di tipo $j$}}\bigo(S)$$ 
+		ora ci interessa studiare il valore atteso di questa cosa, quindi
+		$$\mathbb{E}\left(\sum_{j=0}^{\log_{4/3}n}\sum_{S \text{ di tipo $j$}}\bigo(S)\right)$$
+		usando la linearità del valore atteso dunque
+		$$\sum_{j=0}^{\log_{4/3}n}\sum_{S \text{ di tipo $j$}}\mathbb{E}\left(\bigo(S)\right)$$
+		ma allora usando la definizione di sottoproblemi di tipo $j$ e la stima sul numero di sottoproblemi di tipo $j$ trovata prima, troviamo che il valore atteso della complessità di $S$ è senza dubbio 
+		$$\sum_{j=0}^{\log_{4/3}n}\sum_{S \text{ di tipo $j$}}\left(\frac{4}{3}\right)^{j+1}=\sum_{j=0}^{\log_{4/3}n}\frac{4}{3}n=\bigo(n\log_{4/3}n)$$
+		che era quanto volevamo dimostrare.
+	\end{proof}
+	\subsubsection{Min Cut}
+	
+	\begin{definition}[Cut]
+		Se $S\subseteq V$ il suo \textit{cut} è definito come l'insieme
+		$$\delta(S)=\left\{(u,v):u\in S,v\in V\setminus S\right\}$$
+		Ovvero è l'insieme degli archi che vanno da $S$ a fuori $S$.
+	\end{definition}
+	
+	\begin{example}[Min Cut]
+		Definiamo il seguente problema computazionale.
+		\begin{description}
+			\item[Input:] Un certo grafo $G$ non diretto.
+			\item[Output:] Il minimal cut, ovvero tra tutte le scelte di $S$, il cut con dimensione minima:
+			$$\argmin_{S\subseteq V}\left\{\delta(S)\right\}$$
+		\end{description}
+	\end{example}
+	la prima cosa che notiamo è che con la nostra definizione di cut il grado minimo è un upper bound del cut:
+	$$\min_{S\subseteq V}\left\{\delta(S)\right\}\le \min_{v\in V}\left\{\deg(v)\right\}$$
+	in effetti con l'algoritmo ti Ford-Fulkerson questo problema è risolvibile in $\bigo(n^3m^2)$ utilizzando tecniche di flusso. Vogliamo fare di meglio, e per questo vogliamo usare un algoritmo Monte Carlo: L'algoritmo di Karger.
+	\begin{definition}[Contraction]
+		Sia $G$ un grafo. Una sua \textit{contrazione} è un grafo $G'$ (non necessariamente semplice, ovvero ci possono essere archi ripetuti) in cui "due nodi sono schiacciati tra loro" (nodi non necessariamente connessi). Ovvero si rimuovono due nodi $u,v$ e si inserisce un nodo $w$ e lo si collega a tutti i nodi che erano collegati con $u$ o $v$.
+	\end{definition}
+	Per tenere traccia di quello che facciamo aggiungiamo una label a ogni nodo, ovvero definiamo una funzione $l$ tale che inizialmente $l(v)=\left\{v\right\}$ e che se contraiamo i nodi $u$ e $v$ al nodo $w$ la label diventi
+	$$l(w)=l(u)\cup l(v)$$
+	\begin{algorithm}[Karger]
+		Definiamo il seguente algoritmo:
+		\begin{algorithmic}[1]
+			\Function{Contract}{$G=(V,E)$, $e=(u,v)\in E$}
+				\State replace $u,v$ with node $w$.
+				\State $l(w)=l(u)\cup l(v)$
+				\ForAll{$(u,x)\in E$} 
+					\State Add $(w,x)$ to $E$
+					\State remove $(u,x)$ from $E$
+				\EndFor
+				\ForAll{$(v,x)\in E$} 
+					\State Add $(w,x)$ to $E$
+					\State remove $(v,x)$ from $E$
+				\EndFor
+				\State \Return $G$
+			\EndFunction
+			
+			\Function{Karger}{$G=(V,E)$}
+				\While{$\abs{V}<2$}
+					\State random select $e\in E$, $e=(u,v)$
+					\State \Call{Contract}{$G$,$(u,v)$}
+				\EndWhile
+				\State $S\gets l(a)$ \Comment{a questo punto l'insieme $V$ conterrà solo due elementi, ovvero $V=\left\{a,b\right\}$}
+				\State \Return $\abs{\delta(S)}$
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+	Questo algoritmo se facciamo una prima analisi va esattamente in $\bigo(nm)$.
+	Ora il claim chiave è
+	\begin{lemma}[Probabilità di perdere]
+		L'algoritmo di Karger ha una probabilità di circa
+		$$\frac{1}{\binom{n}{2}}= \frac{1}{\bigo\!\left(n^2\right)}$$
+		di generare un cut minimale.
+	\end{lemma}
+	\begin{proof}
+		Siano $e_1,\dots,e_m$ gli archi di $G$ scelti dall'algoritmo all'$i$.esima iterazione del while. Sia $S$ il sottoinsieme dei vertici che dà min cut. Definiamo infine $G_n$ il grafo alla $n$-esima contrazione.
+		\begin{claim}
+			Ogni nodo in $G_i$ ha grado $\ge\abs{\delta(S)}$.
+		\end{claim}
+		questo è chiaro in quanto se valesse l'opposto potremmo generare un set con cut minore di $\abs{\delta(S)}$. Sappiamo che in $G_i$ ci sono $n-i$ nodi. Usando il claim possiamo trovare un lower bound al numero di archi di $G_i$ come
+		$$\abs{E_i}\ge \frac{\abs{\delta(S)}(n-i)}{2}$$
+		la probabilità che l'algoritmo non fallisca è uguale alla probabilità di non scegliere mai un arco di $\abs{\delta(S)}$, ovvero
+		$$P[e_1,e_2,\dots,e_n\not\in \delta(S)]=P[e_1\in \delta(S)]\prod_{j=2}^{n-2}P[e_j\not\in \delta(S)\mid e_1,\dots,e_{j-1}\not\in \delta(S)]$$
+		ma ora per calcolare queste probabilità ci basta fare un conto sul numero degli archi, ovvero
+		$$\dots=\left(1-\frac{\abs{\delta(S)}}{\abs{\delta(S)}n/2}\right)\prod_{j=2}^{n-2}\left(1-\frac{\abs{\delta(S)}}{(n-j+1)\abs{\delta(S)}/2}\right)$$
+		quindi semplificando molto convenientemente i $\delta$ quello che ci resta è
+		$$P[e_1,e_2,\dots,e_n\not\in \delta(S)]=\dots=\frac{n-2}{n}\frac{n-3}{n-1}\frac{n-4}{n-2}\dots$$
+		che si semplifica come volevamo a
+		$$P[e_1,e_2,\dots,e_n\not\in \delta(S)]=\frac{2}{n(n-1)}=\frac{1}{\binom{n}{2}}.$$
+	\end{proof}
+	Con questo lemma è chiaro che se facciamo andare $n^2$ volte l'algoritmo di Karger avremo un valore atteso di $1$ al min cut, ottenendo una complessità di $\bigo(n^3m)$. Se vogliamo garanzie probabilistiche di non perdere maggiori ci basta comunque aggiungere un fattore $\log n$, e per ragioni mistiche di probabilità abbiamo una probabilità di perdere ancora minore. \\
+	In effetti per quanto abbiamo visto prima più contraiamo più rischiamo di perdere. Questo ci motiva un'ottimizzazione dell'algoritmo di Karger che consiste nel "fermarsi prima".
+	\begin{algorithm}[Karger-Steiner]
+		Il seguente algoritmo è un miglioramento dell'algoritmo di Karger
+		\begin{algorithmic}[1]
+			\Function{ImprovedAlg}{$G$}
+				\If{$\abs{V}\le 6$}
+					\State Brute force 
+					\State \Return solutions
+				\Else
+					\State $G_1\gets$ the graph $G$ contracted up to $G/\sqrt{2}$ vertices with Karger's. 
+					\State $G_2\gets$ the graph $G$ contracted up to $G/\sqrt{2}$ vertices with Karger's.
+					\State \Return $\min(\Call{ImprovedAlg}{G_1},\Call{ImprovedAlg}{G_2})$
+				\EndIf
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+	questo algoritmo ha una complessità ricorsiva del tipo
+	$$T(n)=\begin{cases}
+		2T\left(\frac{n}{\sqrt{2}}\right)+\bigo\left(n^2\right) & \text{se $n>1$} \\
+		\bigo(1) & \text{altrimenti.}
+	\end{cases}$$
+	che si riduce a $\bigo(n^2\log n)$.
+	
+	\newpage
+	
+	\section{Direzioni di ricerca}
+	\begin{example}[r-NN problem]
+		Descriviamo il seguente problema computazionale
+		\begin{description}
+			\item[Input:] Un insieme $S$ di $n$ punti in $\RR^d$.
+			\item[Output:] Data una query $q\in\RR^d$, returna un punto $p$ di $S$ tale che esista una distanza $d(p,q)$ tale che $d(p,q)\le r$.
+		\end{description}
+	\end{example}
+	La soluzione banale è in $\bigo(dn)$, ma questo combinato con il fatto che è un problema a query fa velocemente esplodere tutto. Vogliamo quindi implementare una struttura dati che ci faccia fare delle query in tempo migliore. Turns out, che in $d$ dimensioni questo si può fare in con un $kd$-tree in:
+	$$\bigo\left(dn^{1-\frac{1}{d}}\right)$$
+	ma capiamo bene che per $d\to\infty$ questa tende alla soluzione triviale. In effetti capire se esistono soluzioni "truly sublinear" è un importante problema aperto e una direzione di ricerca in algoritmica. La versione approssimata di questo problema è:
+	\begin{example}[r-ANN problem]
+		Descriviamo il seguente problema computazionale
+		\begin{description}
+			\item[Input:] Un insieme $S$ di $n$ punti in $\RR^d$.
+			\item[Output:] Data una query $q\in\RR^d$, returna un punto $x$ di $S$ tale che esista una distanza $d(x,q)$ tale che 
+			$$d(x,q)\le c r$$
+			dove $c$ è un approximation factor, se esiste un punto $p\in S$ tale che $d(p,q)<r$.
+		\end{description}
+	\end{example}
+	questa definizione è estremamente contorta, ma essenzialmente la presenza del $<$ è funzionale al non ricondursi brutalmente al problema esatto. In pratica abbiamo due palle intorno al punto $q$, e la seconda è "flessibile" infatti se abbiamo punti nella corona circolare più esterna e nessun punto nella palla più interna il comportamento è indefinito, ovvero che il nostro algoritmo dia risultati assurdi in quel caso! Con questa approssimazione possiamo raggiungere una complessità di 
+	$$\bigo(dn^{\frac{1}{c^2}}).$$
+	Con una soluzione monte carlo e approssimata che si basa sul locality sensitive hashing possiamo raggiungere una complessità di 
+	$$\bigo\left(n^{\frac{\log p_1}{\log p_2}}\right)$$
+	dove $p_1$ e $p_2$ sono le probabilità scelte dall'hashing locale tali che
+	$$p_1<P[\text{due punti con distanza $\le r$ abbiano lo stesso hash}]$$
+	$$p_2>P[\text{due punti con distanza $\ge cr$ abbiano lo stesso hash}]$$
+	che alla fine si riconduce alla complessità con il $c^2$.
+	
+\end{document}
+

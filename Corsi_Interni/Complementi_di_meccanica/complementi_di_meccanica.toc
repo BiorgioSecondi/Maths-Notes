@@ -1,0 +1,67 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\contentsline {section}{\numberline {1}Calcolo tensoriale}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Coordinate cartesiane}{3}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}Cambio di coordinate}{3}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}Cos'è un vettore fisico?}{5}{subsubsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.2}Notazione tensoriale}{6}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Meccanica del punto materiale}{9}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Cinematica del punto materiale}{9}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Quantità interessanti}{9}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Coordinate polari}{10}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.3}Coordinate Naturali o Intrinseche}{11}{subsubsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.2}Dinamica}{14}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Momento Angolare}{16}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Vincoli bilateri}{17}{subsubsection.2.2.2}%
+\contentsline {section}{\numberline {3}Meccanica celeste}{19}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Teorema di Konig}{20}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Forze centrali}{20}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Equazioni del moto}{21}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Il potenziale efficace}{21}{subsubsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.3}Traiettoria $r(\theta )$}{24}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Primo Metodo - Formula di Binet}{24}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Secondo metodo}{25}{subsubsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.4}Teorema del viriale}{25}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Il caso specifico - Gravità}{26}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.5.1}Primo metodo}{26}{subsubsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {3.5.2}Secondo metodo}{27}{subsubsection.3.5.2}%
+\contentsline {subsubsection}{\numberline {3.5.3}Metodo segreto - il vettore di Lenz}{29}{subsubsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.6}Coniche in polari}{30}{subsection.3.6}%
+\contentsline {subsubsection}{\numberline {3.6.1}I principali risultati sulla gravitazione cannonati}{32}{subsubsection.3.6.1}%
+\contentsline {section}{\numberline {4}Sistemi non inerziali}{35}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Campo delle velocità}{36}{subsection.4.1}%
+\contentsline {subsubsection}{\numberline {4.1.1}Velocità angolare}{38}{subsubsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.2}Campo delle Accelerazioni}{39}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Forze apparenti}{39}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Moto sulla terra}{40}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1}Pendolo di Foucault}{40}{subsubsection.4.4.1}%
+\contentsline {section}{\numberline {5}Corpo Rigido}{43}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Rotazioni e cinematica}{43}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Dinamica}{45}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Tensore d'Inerzia}{45}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Moto attorno ad un asse fisso e momenti d'inerzia}{47}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}Equazioni di Eulero}{48}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.4}Il teorema di Huygens-Steiner}{49}{subsubsection.5.2.4}%
+\contentsline {section}{\numberline {6}Meccanica Lagrangiana e Hamiltoniana}{51}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Da Newton a Lagrange}{52}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Calcolo delle variazioni}{56}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Minima distanza}{57}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Minima azione}{58}{subsubsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.3}Piccole oscillazioni}{59}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}Modi normali}{61}{subsubsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.4}Simmetrie e leggi di conservazione}{64}{subsection.6.4}%
+\contentsline {subsubsection}{\numberline {6.4.1}Traslazioni}{65}{subsubsection.6.4.1}%
+\contentsline {subsubsection}{\numberline {6.4.2}Rotazioni}{66}{subsubsection.6.4.2}%
+\contentsline {subsubsection}{\numberline {6.4.3}Tempo}{67}{subsubsection.6.4.3}%
+\contentsline {subsection}{\numberline {6.5}Hamiltoniana}{69}{subsection.6.5}%
+\contentsline {subsubsection}{\numberline {6.5.1}Equazioni del moto di Hamilton}{70}{subsubsection.6.5.1}%
+\contentsline {subsubsection}{\numberline {6.5.2}Energia totale}{72}{subsubsection.6.5.2}%
+\contentsline {subsection}{\numberline {6.6}Trasformazioni canoniche}{73}{subsection.6.6}%
+\contentsline {subsubsection}{\numberline {6.6.1}Cambi di coordinate}{74}{subsubsection.6.6.1}%
+\contentsline {subsubsection}{\numberline {6.6.2}Saltare da una funzione generatrice all'altra}{76}{subsubsection.6.6.2}%
+\contentsline {subsection}{\numberline {6.7}Tanti esempi, per concludere}{77}{subsection.6.7}%
+\contentsline {section}{\numberline {7}Esercizi}{81}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Testi}{81}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Soluzioni}{83}{subsection.7.2}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

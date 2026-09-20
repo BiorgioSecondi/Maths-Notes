@@ -1,0 +1,1237 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[sexy]{evan} %BLBLBLBLBLBLBLBLBLBLBLB EVANCHEN\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{asymptote}
+\usepackage{amsthm}
+\usepackage{gensymb}
+\usepackage{amsfonts}
+\usepackage[english,italian]{babel}
+\usepackage{quoting}
+\quotingsetup{font=big}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{lmodern}
+\usepackage{bbm}
+\usepackage{faktor}
+\newcommand{\dif}{\text{d}}
+
+
+\begin{document}
+	\title{Appunti del Tutorato Galileiano}
+	\subtitle{
+		SGSS - Marco Cirant (Analisi)\\
+		SGSS - Orsola Tommasi (Algebra e Geometria)\\
+		SGSS - Giulio Giuseppe Giusteri (Matematica Applicata)
+	}
+	\date{anno accademico 2025/2026}
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\newpage
+	\part{Analisi}
+	\section{11/03/2026 - Serie Numeriche}
+	\subsection{Problemi}
+	
+	\begin{problem}
+		Sapendo che il limite 
+		$$\lim_{N\to\infty}\sum_{n=1}^{N}\frac{1}{n}-\log N$$
+		esiste finito ed è uguale alla costante di Eulero-Mascheroni $\gamma$, trovare una costante $c\in \RR$ tale che
+		$$\lim_{N\to\infty}\sum_{n=1}^N\frac{1}{2n-1}-c\log N$$
+		esiste finito (e calcolarlo). 
+	\end{problem}
+	\begin{problem}
+		Sia $a_n$ una successione positiva decrescente tale che 
+		$$\sum_{n=1}^\infty a_n < \infty$$
+		dimostrare allora che 
+		$$\lim_{n\to\infty}na_n=0$$
+		e usare questo fatto per studiare la convergenza di 
+		$$\sum_{n=1}^\infty n^{-1-\frac{1}{n}}.$$
+		Far vedere che la tesi è falsa se si toglie l'ipotesi che $a_n$ sia decrescente.
+	\end{problem}
+	\begin{problem}
+		Sia $a_n$ una successione infinitesima decrescente tale che 
+		$$\sum_{n=1}^\infty a_n < \infty$$
+		allora dimostrare che 
+		$$\infty>\sum_{n=1}^\infty n(a_n-a_{n+1})=\sum_{n=1}^\infty a_n.$$ 
+	\end{problem}
+	\begin{problem}
+		Sia $a_n\ge 0$. Definiamo la somma parziale $N$-esima come
+		$$S_N:=\sum_{n=1}^N a_n.$$
+		Dimostrare che 
+		$$\sum_{n=1}^\infty \frac{a_n}{S_n}$$
+		converge se e solo se 
+		$$\sum_{n=1}^\infty a_n$$
+		converge. \\
+		(Hint: pensa alla versione con gli integrali al posto delle somme.)
+	\end{problem}
+	\newpage
+	
+	\subsection{Soluzioni}
+	\begin{answer}[Problema 1]
+		Scriviamo 
+		$$\lim_{N\to\infty}\left(\sum_{n=1}^N \frac{1}{2n-1}-c\log N \right)=\lim_{N\to\infty}\left(\sum_{n=1}^{2N}\frac{1}{n}-\sum_{n=1}^N \frac{1}{2n}-c\log n -c\log N + \log N -\log 2N + \log 2\right)$$
+		che accoppiando i termini in modo conveniente ci dice che il limite esiste se e solo se $c=\half$, per cui il limite vale $\half \gamma$. Infine la serie degli $n^{-1-\frac{1}{n}}$ diverge, perchè
+		$$\lim_{n\to\infty}\frac{1}{\sqrt[n]{n}}=1$$ 
+		e quindi applicando la contronominale di quanto appena dimostrato abbiamo che la serie non può convergere.
+	\end{answer}
+	\begin{answer}[Problema 2]
+		Se la serie degli $a_n$ converge vuol dire che la successione delle somme parziali è di Cauchy, cioè per ogni $\varepsilon>0$ esiste un $N_0$ tale che se $M\ge N\ge N_0$ si ha
+		$$\abs{\sum_{n=1}^Ma_n-\sum_{n=1}^Na_n}<\varepsilon$$
+		d'altra parte questo si riscrive come
+		$$\abs{\sum_{n=N+1}^M a_n}<\varepsilon$$
+		ora scegliendo $M=2N$ abbiamo
+		$$\abs{\sum_{n=N+1}^{2N}a_n}<\varepsilon$$
+		ma notiamo che la somma all'interno del modulo per la decrescenza di $a_n$ è boundata dal basso da
+		$$\varepsilon>\sum_{n=N+1}^{2N}a_n>Na_{2N}$$
+		cioè abbiamo trovato che esiste e tende a $0$ il seguente limite:
+		$$\lim_{N\to\infty}Na_{2N}=0$$
+		quindi abbiamo anche
+		$$\lim_{N\to\infty}2Na_{2N}=0$$
+		che era la tesi per $n$ pari. Il caso $n$ dispari si fa considerando la serie della somma
+		$$b_n:=a_{n+1}$$
+		in cui i termini di indice pari sono quelli di indice dispari di $a_n$, e quindi abbiamo il risultato che cercavamo.
+	\end{answer}
+	\begin{answer}[Problema 3]
+		Applica la somma per parti e il problema $1$.
+	\end{answer}
+	\begin{answer}[Problema 4]
+		Un verso segue dal fatto che $S_n$ è crescente, e quindi 
+		$$S_n\ge S_1 \iff \frac{a_n}{S_n}\le \frac{a_n}{S_1}$$
+		e quindi 
+		$$\sum_{n=1}^\infty \frac{a_n}{S_n}\le \frac{1}{S_1}\sum_{n=1}^\infty a_n$$
+		cioè la serie converge. L'altro verso segue di nuovo da Cauchy per assurdo (come?). 
+	\end{answer}
+	
+	\newpage
+	
+	\section{02/04/2026 - Successioni di Funzioni}
+	
+	\subsection{Problemi}
+	
+	\begin{problem}[Problema 1]
+		Sia $f:\RR\to\RR$, consideriamo la successione
+		$$f_n(x)=f\left(x+\frac{1}{n}\right)$$
+		dire se è vero che, se $f$ è continua allora $f_n\to f$ uniformemente.
+	\end{problem}
+	\begin{problem}[Problema 2]
+		Sia $\left\{f_n\right\}$ con $f_\RR\to\RR$ una successione tale che
+		$$f_n \overset{\to}{\to} f.$$
+		Se $g:\RR\to\RR$ è continua, vale che $g\circ g_n \overset{\to}{\to} g\circ f$?
+	\end{problem}
+	\begin{problem}[Problema 3]
+		Siano $f,\left\{f_n\right\}$ funzioni definite su un intervallo chiuso e limitato $[a,b]$ tali che:
+		\begin{itemize}
+			\item $f,f_n$ sono continue su $[a,b]$ per ogni $n$.
+			\item $f_n(x)\to f(x)$ per tutti gli $x$ in $[a,b]$.
+			\item $f_n(x)\le f_{n+1}(x)$ per ogni $x$ in $[a,b]$.
+		\end{itemize}
+		allora $f_n$ converge uniformemente a $f$.
+	\end{problem}
+	\begin{theorem}[Scambiare limite e integrale]
+		Sia $f_n$ una successione di funzioni che converge uniform a $f$. Allora
+		$$\lim_{n\to\infty}\int_a^b f_n(x)\dif x=\int_a^b\lim_{n\to\infty}f_n(x)\dif x.$$
+	\end{theorem}
+	\begin{proof}
+		Sicuramente abbiamo che 
+		$$\abs{\int_a^b f_n \dif x-\int_a^b f(x)\dif x}\le \int_a^b \abs{f_n(x)-f(x)}\dif x\le (b-a) \sup_{x\in [a,b]}\abs{f_n(x)-f(x)} $$
+		cioè il limite degli integrali è minore o uguale dell'integrale del limite.
+	\end{proof}
+	\begin{problem}[Problema 4]
+		Se $f_n$ tende uniformemente a $f$ su tutto $\RR$ dire se è vero che
+		$$\lim_{n\to\infty}\int_{-\infty}^{\infty}f_n(x)\dif x=\int_{-\infty}^\infty f(x)\dif x.$$
+	\end{problem}
+	\begin{problem}[Problema 5]
+		Dimostrare che 
+		$$\int_0^\infty e^{-x}\log x = -\gamma$$
+		dove $\gamma$ è la costante di eulero-mascheroni tale che
+		$$\sum_{n=1}^{\infty}\left(\frac{1}{n}-\log n\right)=-\gamma.$$ 
+	\end{problem}
+	\newpage
+	
+	\subsection{Soluzioni}
+	
+	\begin{answer}[Soluzione 1]
+		No, banalmente per $f(x)=x^2$ abbiamo
+		$$\sup_{x\in\RR}\left[f_n(x)-f_{n+1}(x)\right]=\sup_{x\in \RR}\left[x\left(\frac{2}{n}-\frac{2}{n+1}\right)\right]$$
+		che è sempre infinito. Quindi la successione sicuramente non è di Cauchy, e non converge. Che ipotesi manca? \textbf{La continuità uniforme} supponiamo per assurdo che la cosa non converga uniformemente, allora vuol dire che \textbf{non}
+		$$\lim_{n\to\infty}\sup_{x\in\RR}\abs{f\left(x+\frac{1}{n}\right)-f(x)}=0$$
+		cioè quella successione è frequentemente sopra un certo $\varepsilon>0$. Esisterà quindi una successione $n_k$ tale che
+		$$\sup_{x\in \RR}\abs{f\left(x+\frac{1}{n_k}\right)-f(x)}\ge \varepsilon$$
+		ma quindi prendendo la successione $x_{n_k}$ degli argsup abbiamo 
+		$$\abs{f\left(x_{n_k}+\frac{1}{n_k}\right)-f(x_{n_k})}>\frac{\varepsilon}{2}$$
+		che viola direttamente la continuità uniforme, e quindi abbiamo finito.
+	\end{answer}
+	\begin{answer}[Soluzione 2]
+		No, prendendo
+		$$f_n(x)=x+\frac{1}{n}$$
+		$$f(x)=x$$
+		$$g(x)=x^2.$$
+		Cosa ci manca di nuovo? \textbf{La continuità uniforme}. Per la continuità uniforme di $g$ sappiamo che per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che
+		$$\abs{x-y}<\delta \implies \abs{g(x)-g(y)}<\varepsilon$$
+		d'altra parte per la convergenza uniforme di $f$ abbiamo che definitivamente per ogni $x$ vale
+		$$\abs{f(x)-f_n(x)}<\delta$$
+		il che, per la continuità uniforme di $g$ ci dà che definitivamente per $n$, e per ogni $x\in \RR$ vale
+		$$\abs{g(f(x))-g(f_n(x))}<\varepsilon$$
+		che era la tesi. 
+	\end{answer}
+	\begin{answer}[Soluzione 3]
+		Per assurdo come prima, supponiamo che esista una successione $n_k$ tale che definitivamente
+		$$\abs{f_{n_k}(x_{n_k})-f(x_{n_k})}>\varepsilon.$$
+		Per Bolzano weierstrass dato che siamo in un compatto assumiamo WLOG che $x_{n_k}$ sia convergente a un certo $x_0$. A questo punto aggiungendo e togliendo $f(x_0)$ abbiamo per disuguaglianza triangolare
+		$$\abs{f_{n_k}(x_{n_k})-f(x_0)}+\abs{f(x_{n_k})-f(x_0)}>\varepsilon$$
+		ora dato che $f$ è continua, il secondo addendo sarà definitivamente $<\varepsilon/2$. Ci manca da stimare il primo addendo, scriviamolo come
+		$$\abs{f_{n_k}(x_{n_k})-f(x_0)}=\abs{f_{n_k}(x_{n_k})-f_{n_k}(x_0)+f_{n_k}(x_0)-f(x_0)}$$ 
+		per disuguaglianza triangolare allora
+		$$\le \abs{f_{n_k}(x_{n_k})-f_{n_k}(x_0)}+\abs{f_{n_k}(x_0)-f(x_0)}$$
+		e il secondo termine lo sappiamo stimare, per convergenza puntuale. Ci rimane da stimare
+		$$\abs{f_{n_k}(x_{n_k})-f_{n_k}(x_0)}$$
+		ma ora per la monotonia, 
+		$$f_m(x_{n_k})\ge f_{n_k}(x_{n_k})$$
+		per ogni $n_k\ge m$ quindi abbiamo
+		$$\abs{f_m(x_{n_k})-f_m(x_0)}	\ge\abs{f_{n_k}(x_{n_k})-f_{n_k}(x_0)}$$ 
+	\end{answer}
+	\begin{answer}[Problema 4]
+		CONTROESEMPIO CON LE GAUSSIANE \\
+		la successione
+		$$f_n(x)=\frac{1}{n}e^{-\left(\frac{x}{n}\right)^2}$$
+		converge uniformemente a $f(x)=0$ ed è tale che
+		$$\int_{-\infty}^{\infty}f_n(x)\dif x=1$$
+		e dunque è un controesempio.
+	\end{answer}
+	\begin{answer}[Problema 5]
+		Cominciamo scrivendo 
+		$$\int_0^\infty e^{-x}\log x\dif x=\int_0^\infty \lim_{n\to\infty} \left(1-\frac{x}{n}\right)^n\log x \dif x$$
+		esplicitando l'integrale improprio
+		$$\lim_{A\to\infty}\int_0^A \lim_{n\to\infty} \left(1-\frac{x}{n}\right)^n\log x \dif x$$
+		e quindi per il teorema dimostrato prima dobbiamo 
+		$$\lim_{A\to\infty}\lim_{n\to\infty}\int_0^A \left(1-\frac{x}{n}\right)^n \log x \dif x$$
+		BABABABABABABABABABABABS
+		\\
+		
+		Chiamata 
+		$$f_n=\left(1-\frac{x}{n}\right)^n\log x$$
+		$$f(x)=e^{-x}\log x$$
+		vogliamo dimostrare che
+		$$\abs{\int_0^\infty f_n(x)\dif x-\int_0^\infty f(x)\dif x}$$
+		è boundata da un infinitesimo. Allora per disuguaglianza triangolare
+		$$\le \abs{\int_0^A f_n(x)\dif x-\int_0^A f(x)\dif x}+\abs{\int_A^\infty f_n(x)\dif x}+\abs{\int_A^\infty f(x)\dif x}$$
+	\end{answer}
+	
+	\newpage
+	
+	\section{16/04/2026 - Successioni di funzioni}
+	
+	\subsection{Testi}
+	
+	\begin{problem}[Problema 1]
+		Costruire una successione di funzioni $f_n:\RR\to\RR$ e una funzione $f:\RR\to\RR$ tali che
+		$$\lim_{n\to\infty}f_n(x)=f(x)$$
+		per ogni $x\in\RR$, ma per ogni intervallo compatto $[a,b]$ la successione $f_n$ \textbf{non} converge uniformemente a $f$ in $[a,b]$.
+	\end{problem}
+	
+	\begin{problem}[Problema 2]
+		Studiare convergenza puntuale ed uniforme di 
+		$$\sum_{n=0}^{\infty}x\left(1-x\right)^n n$$
+		e 
+		$$\sum_{n=0}^{\infty}x\left(1-x\right)^n \sqrt{n}$$
+	\end{problem}
+	\begin{problem}[Problema 3]
+		Trovare una funzione $f:(-\delta,\delta)\to\RR$ per qualche $\delta$ tale che \textit{sia analitica}, cioè esista una successione $a_n$ tale che
+		$$f(x)=\sum_{n=0}^{\infty}a_nx^n$$
+		e tale che sia la soluzione della seguente equazione differenziale
+		$$
+		\begin{cases}
+			f'(x)=1+f(-x) \\
+			f(0)=a
+		\end{cases}
+		$$
+		e dimostrare che $f$ è l'unica funzione in $C^1(-\delta,\delta)$ che soddisfa quell'equazione.
+	\end{problem}
+	\begin{problem}[Problema 4]
+		Sia $f_n:A\to\RR$ una funzione tale che
+		$$\sum_{n=1}^\infty \sup_{x\in A}\abs{f_{n+1}(x)-f_n(x)}<\infty$$
+		allora $f_n$ converge uniformemente.
+	\end{problem}
+	
+	\newpage
+	
+	\subsection{Soluzioni}
+	
+	\begin{answer}[Problema 1]
+		Una funzione potrebbe essere
+		$$f_n(x)=\cos^{2n}(n!\pi x)$$
+		che tende puntualmente a 
+		$$f(x)=\mathbbm{1}_\QQ(x)$$
+		dimostrarlo però non è molto facile.
+	\end{answer}
+	
+	\begin{answer}[Problema 2]
+		Il criterio della radice o del rapporto ci dà convergenza puntuale tra $(0,2)$, d'altra parte è chiaro che in $0$ ci sia convergenza puntuale. Per Abel abbiamo convergenza uniforme in $(0,2]$. D'altra parte notiamo che 
+		$$S=\sum_{n=1}^{\infty}x\left(1-x\right)^n n\ge \sum_{n=1}^{\infty}x\left(1-x\right)^n \sqrt{n}\ge \sum_{n=1}^{\infty}x\left(1-x\right)^n =x\frac{1}{1-(1-x)}=1$$
+		e quindi dato che in $0$ la convergenza è puntuale a $0$ e convergenza uniforme di funzioni continue deve essere continua, la convergenza non può essere uniforme anche in $0$.
+	\end{answer}
+	
+	\begin{answer}[Problema 3]
+		Sostituendo il fatto che $f$ è analitica e uguagliando coefficiente per coefficiente troviamo che i coefficienti della serie soddisfano
+		$$a_1=a_0+1$$
+		$$na_n=a_{n-1}(-1)^{n-1}$$
+		per tutti gli $n\ne 1$. Che ci dà come formula chiusa 
+		$$a_n=\frac{1}{n!}(a+1)(-1)^{\floor{\frac{n}{2}}}$$
+		d'altra parte per l'unicità supponiamo che esistano due soluzioni $f_1,f_2$, allora sottraendo membro a membro le equazioni differenziali, dato che sono reali abbiamo
+		$$
+		\begin{cases}
+			g'(x)=g(-x)\\
+			g(0)=0
+		\end{cases}
+		$$
+		dove $g(x):=f_1-f_2$. Dobbiamo dimostrare che $g(x)$ deve essere $0$ in un intorno di $0$. SE SOLO AVESSIMO CHE $g\in C^2$ avremmo, derivando entrambi i lati
+		$$g''(x)=-g'(-x)$$
+		e combinando questa cosa con $g'(-x)=g(x)$ abbiamo
+		$$g''(x)=-g(x)$$
+		che è un oscillatore armonico che sappiamo risolvere. Purtroppo non è $C^2$. Però possiamo integrarla! Quindi
+		$$\int_0^x g'(t)\dif t=\int_0^x g(-t)\dif t$$
+		che diventa, usando la condizione su $g(0)$ e operando una sostituzione abbiamo
+		$$g(x)=\int_{-x}^0 g(y)\dif y$$
+		d'altra parte consideriamo il punto di massimo assoluto $x_M$ in un intorno $[-\delta,\delta]$ della funzione $g$ abbiamo che esiste un $M\ge 0$ tale che:
+		$$\abs{g(x)}\le M$$
+		per cui abbiamo 
+		$$\abs{g(x)}=\abs{\int_{-x}^0g(y)\dif y}\le \int_{-x}^0 \abs{g(y)}\dif y\le M\abs{x_M}$$
+		da cui, per $x\gets x_M$ abbiamo
+		$$M=\abs{M}\le M\abs{x_M}$$
+		ovvero
+		$$1\le \abs{x_M}$$
+		che è assurdo se scegliamo un $\delta<1$, e quindi abbiamo per forza $M=0$, che era la tesi. 
+	\end{answer}
+	
+	\newpage
+	
+	\section{Integrali 14/05/2026}
+	Ricordiamo
+	\begin{theorem}[Cauchy-Schwarz in $L^2$]
+		$$\int_a^b fg\dif x\le \left(\int_a^b f^2\dif x\right)^{\half}\left(\int_a^b g^2\dif x\right)^{\half}$$
+	\end{theorem}
+	\subsection{Testi}
+	\begin{problem}[Problema 1]
+		Prendiamo una $f:(a,b)\to\RR$ derivabile (con $a,b$ possibilmente infiniti) tale che esiste
+		$$\int_a^b \left(f'(x)\right)^2\dif x$$
+		dimostrare che allora $f$ si estende a $C(\left[a,b\right])$ e $f$ è $\half$-H\"olderiana ovvero esiste $C>0$ tale che per ogni $x,y$ nel dominio vale
+		$$\abs{f(x)-f(y)}\le C\abs{x-y}^\half.$$
+	\end{problem}
+	\begin{problem}[Problema 2]
+		Prendiamo una $f:[0,\infty)\to\RR$ strettamente crescente tale che $f(0)=0$. Mostrare che per ogni $a,b>0$ vale
+		$$ab\le \int_0^af(x)\dif x+\int_0^b f^{-1}(x)\dif x$$
+		con uguaglianza se e solo se $b=f(a)$.
+	\end{problem}
+	\begin{problem}[Problema 3]
+		Dimostrare che 
+		$$f(x)=
+		\begin{cases}
+			\cos\frac{1}{x} & x\ne 0 \\
+			0 & x=0
+		\end{cases}
+		$$
+		è la derivata di 
+		$$F(x):=\int_0^x f(t)\dif t.$$
+		Dimostrare inoltre che non esiste una funzione tale che
+		$$h'(x)=\left[f(x)\right]^2.$$
+	\end{problem}
+	\newpage
+	
+	\subsection{Soluzioni}
+	\begin{answer}[Problema 1]
+		Per Cauchy-Schwarz abbiamo
+		$$f(y)-f(x)=\int_x^y f'(t)\dif t\le \sqrt{\int_x^y \left[f'(t)\right]^2\dif t}\sqrt{\int_x^y 1 \dif t}\le \left(\int_a^b \left[f'(x)^2\right]\right)\sqrt{y-x}=C\sqrt{x-y}$$
+		da cui abbiamo l'holderianità, che implica uniforme contnuità, che implica l'estendibilità per continuità.
+	\end{answer}
+	\begin{answer}[Problema 2]
+		Per sostituzione abbiamo
+		$$u=f^{-1}(x) $$
+		e quindi
+		$$\dif x=f'(u)\dif u$$
+		da cui
+		$$\int_0^bf^{-1}(x)\dif x=\int_0^{f^{-1}(b)} uf'(u)\dif u$$
+		che facendolo per parti diventa
+		$$\int_0^{f^{-1}(b)} uf'(u)\dif u=f^{-1}(b)b-\int_0^{f^{-1}(b)}f(u)\dif u$$
+		dunque vogliamo dimostrare
+		$$f^{-1}(b)b-\int_0^{f^{-1}(b)}f(u)\dif u+\int_0^a f(x)\dif x\ge ab$$
+		che d'altra parte segue banalmente stimando dal basso la differenza degli integrali con l'inf.
+	\end{answer}
+	\begin{answer}[Problema 3]
+		Il primo punto è semplicemente il teorema fondamentale del calcolo integrale (e il fatto che le funzioni con insieme di discontinuità a misura nulla sono integrabili): dobbiamo calcolare
+		$$\lim_{h\to 0}\frac{F(0+h)-F(0)}{h}=\frac{1}{h}\int_0^h \cos\frac{1}{t}\dif t$$
+		la prima cosa è fare un cambio di variabile $y=\frac{1}{t}$, e quindi abbiamo
+		$$=\frac{1}{h}\int_{\frac{1}{h}}^\infty \frac{\cos(y)}{y^2}\dif $$
+		questo è un integrale improprio oscillante che ci ricorda una serie di Leibniz. Quindi se lo riscriviamo 
+		$$=\frac{1}{h}\sum_{k=1/h}^\infty (-1)^k\int_{k\pi +\frac{\pi}{2}}^{(k+1)\pi +\frac{\pi}{2}}\frac{\abs{\cos(y)}}{y^2}\dif x$$
+		che si stima arrivando effettivamente ad una serie di Leibniz, e poi usando il fatto che il resto la coda è dominata dal primo termine si chiude. Alternativamente si poteva fare per parti. Il secondo punto procede per assurdo. Supponiamo che esista una funzione derivabile tale che
+		$$h'=f^2$$
+		allora dalla formula di duplicazione abbiamo per $x\ne 0$
+		$$\sin^2\frac{1}{x}=\frac{1-\cos\frac{x}{2}}{2}=\frac{1-f\left(\frac{x}{2}\right)}{2}=\frac{1-2F'(\frac{x}{2})}{2}=\half -F'\left(\frac{2}{x}\right)$$
+		e in zero definiamo $x=0$. Quindi abbiamo
+		$$h'(x)+\left(-F\left(\frac{x}{2}\right)\right)'=\cos^2\frac{1}{x}+\sin^2\frac{1}{x}=\begin{cases}
+			1 & x\ne 0 \\
+			0 & x=0
+		\end{cases}$$
+		che è assurdo in quanto non soddisfa la proprietà di Darboux, ovvero:
+		\begin{lemma}[Darboux]
+			Per ogni $f:[a,b]\to\RR$ derivabile in $(a,b)$ e continua in $[a,b]$ allora la sua immagine è un intervallo.
+		\end{lemma}
+	\end{answer}
+	
+	\newpage
+	
+	\part{Algebra e Geometria}
+	\section{Azioni di gruppo (18/03/2026)}
+	\subsection{Introduzione}
+	Ad algebra $1$ abbiamo studiato il gruppo simmetrico su insiemi di naturali. In effetti questo si può definire per un insieme generico.
+	\begin{definition}[Gruppo simmetrico]
+		Dato un insieme $X$, l'insieme delle biezioni da $X$ a $X$ con l'operazione di composizione si dice il suo \textit{gruppo simmetrico}. Gli elementi di questo gruppo si chiamano \textit{permutazioni}. 
+	\end{definition}
+	\begin{definition}[Azione]
+		Dato un gruppo $G$ e un insieme $X$, una \textit{azione} di $G$ su $X$ è un omomorfismo da $\varphi:G\to S(X)$. In realtà in modo equivalente possiamo definire
+		$$G\times X \overset{\sigma}{\to} X$$
+		$$(g,x)\mapsto (\varphi(g))(x)\overset{\text{def}}{=}\sigma(g,x)$$
+		una funzione che soddisfi
+		$$\sigma(1,x)=x$$
+		$$\sigma(g,\sigma(h,x))=\sigma(gh,x)$$
+		per ogni $x$.
+	\end{definition}
+	\begin{example}
+		Gli spazi affini $(\mathbb{A},V)$ non sono altro che gruppi abeliano $(V,+)$ che agiscono sull'insieme di punti $\mathbb{A}$. 
+	\end{example}
+	\begin{example}
+		$S(X)$ agisce su $X$ con l'identità come $\sigma$.
+	\end{example}
+	\begin{problem}
+		Come possiamo far agire $G$ su $G$?
+	\end{problem}
+	Una possibilità è
+	$$\sigma_{\text{sx}}:G\times G\to G$$
+	definita come
+	$$\sigma_{\text{sx}}(g,h):=gh$$
+	notiamo che in realtà finora abbiamo parlato di \textit{azioni sinistre}, (cioè il secondo nostro assioma funzionava solo a sinistra), e quindi definire brutalmente a destra non funzione. Quello che si può fare in realtà è definire un 
+	$$\sigma_{\text{dx}}:G\times G \to G$$
+	tale che 
+	$$\sigma_{\text{dx}}(g,h):=hg^{-1}$$
+	che definisce un buon omomorfismo di gruppi perché tutti gli ordini vengono invertiti, e quindi l'azione compone bene. \\
+	Possiamo andare ancora oltre definendo l'azione di \textit{coniugio}:
+	\begin{definition}[Coniugio]
+		L'azione da $G$ su se stesso definita come
+		$$\sigma(g,h):=ghg^{-1}$$
+		si dice \textit{coniugio}.
+	\end{definition}
+	Queste definizioni ci portano a dimostrare molto naturalmente il teorema di Cayley. Una cosa interessante da fare una volta che si ha un'azione è considerare l'insieme degli elementi:
+	\begin{definition}[Orbita]
+		Dato un elemento $x\in X$ e un gruppo $G$ che agisce su di esso si definisce l'\textit{orbita} di $x$ l'insieme
+		$$\mathcal{O}_x:=G\cdot x := \left\{g\cdot x:g\in G\right\}$$
+		se esiste un $x$ tale che $\mathcal{O}_x=X$ si dice che l'azione di $X$ è \textit{transitiva}.
+	\end{definition}
+	\begin{lemma}[Le orbite sono una partizione]
+		Dato un insieme $X$ e un gruppo che agisce su di esso, le orbite $\mathcal{O}_x$ al variare di $x\in X$ sono una partizione propria di $X$.
+	\end{lemma}
+	Questo giustifica la seguente definizione:
+	\begin{definition}[Insieme di rappresentanti]
+		Dato un $X$ su cui agisce un gruppo $G$, definiamo un \textit{insieme di rappresentanti dell'azione di $G$} come un sottoinsieme di $X$ che interseca ogni orbita esattamente in un punto.
+	\end{definition}
+	\begin{example}
+		Se facciamo agire il gruppo 
+		$$S^1:=\left\{z\in \CC:\abs{z}=1\right\}$$
+		su $\CC$ le orbite sono costituite dai cerchi concentrici di raggio crescente centrati nell'origine. Un insieme dei rappresentanti di quest'azione può essere ad esempio l'insieme dei reali positivi $\RR_{\ge 0}$.
+	\end{example}
+	\begin{example}
+		Fissiamo un $m\in\ZZ$. Possiamo definire un'azione di $\ZZ$ su $\ZZ$ tale che 
+		$$g\cdot x:= x+mg$$
+		le orbite sono le classi di resto modulo $m$. 
+	\end{example}
+	\begin{example}
+		Facciamo agire $GL_{n}(\mathbb{K})$ su $\mathbb{K}^n$ in questo caso abbiamo solo due orbite, una contenente il solo elemento $0$, e un'altra contenente tutti gli altri elementi di $\mathbb{K}^n$.
+	\end{example}
+	\begin{example}
+		Facciamo agire $GL_n(\mathbb{K})$ su $M_n(\mathbb{K})$. Definiamo l'azione
+		$$A\cdot N:=ANA^{-1} $$
+		un insieme di rappresentanti di questa azione può essere un sottoinsieme opportunamente scelto delle matrici in forma di Jordan (quelle che non si possono ottenere una dall'altra permutando opportunamente i blocchi).
+	\end{example}
+	\begin{example}
+		Facciamo agire il gruppo prodotto
+		$$G:=\GL_n(\mathbb{K})\times \GL_m(\mathbb{K})$$
+		sull'insieme delle matrici $M_{m\times n}(\mathbb{K})$ con la seguente azione
+		$$(A,B)\cdot M:=BMA^{-1}$$
+		un insieme dei rappresentanti di questa azione è l'insieme delle matrici della forma
+		$$\left(\begin{array}{c|c}
+			I_r & 0 \\
+			\hline
+			0 & 0
+		\end{array}\right).$$
+		Dove la matrice corrispondente a $r$ rappresenta l'orbita delle matrici con rango $r$.
+	\end{example}
+	\begin{example}
+		Fissato un $\lambda\in\CC$ possiamo far agire $(\RR,+)$ su $\CC$ definendo l'azione
+		$$\sigma(t,z):=e^{\lambda t}z$$
+		qui le orbite dipendono da $\lambda$, per esempio se $\abs{\lambda}=1$ torniamo al caso di $S^1$, se $\lambda$ è puramente reale tutte le trasformazioni hanno la forma di un'omotetia centrata nell'origine. Se $\lambda$ è arbitrario l'azione ha di nuovo solo due orbite, quella nello $0$ e quella contenente tutto il resto.
+	\end{example}
+	
+	\subsection{Lemma di Burnside}
+	
+	\begin{definition}[Gruppo di isotropia]
+		Fissato un $x\in X$ e un'azione di $G$ su $X$ definiamo il \textit{gruppo di isotropia} di $x$ come
+		$$G_x:=\left\{g\in G:g\cdot x = x\right\}$$
+		questo si dice spesso anche lo \textit{stabilizzatore} di $x$. Analogamente possiamo definire il gruppo di isotropia per più punti di $x$, intersecando i gruppi di isotropia di tutti i vari punti.
+	\end{definition}
+	e analogamente
+	\begin{definition}[Luogo dei punti fissi]
+		Dato un $G$ che agisce su $X$ e un $g\in G$ definiamo il \textit{luogo} dei punti fissi di $g$ come il sottoinsieme di $X$ tale che
+		$$\text{Fix}(g)=\left\{x\in X:g\cdot x=x\right\}$$
+		analogamente possiamo definire il luogo dei punti fissi per più elementi di $G$, intersecando tutto.
+	\end{definition}
+	\begin{problem}
+		Dati $g\in G$ e $x\in X$ che rapporto c'è tra 
+		$G_x$ e $G_{g\cdot x}$?
+	\end{problem}
+	\begin{answer}
+		Sorprendentemente abbiamo che
+		$$G_{gx}=gG_xg^{-1}$$
+		la verifica è semplicemente 
+		$$ghg^{-1}\cdot gx=gx$$
+		per ogni elemento $h\in G_x$.
+	\end{answer}
+	Questo motiva il seguente:
+	\begin{lemma}[Normalità per invarianza]
+		Se $G\cdot M\subseteq M$, cioè $M$ è $G$ invariante, allora $G_M$ (il gruppo degli stabilizzatori) è un sottogruppo normale di $G$.
+	\end{lemma}
+	Un lemma che ci servirà più avanti è
+	\begin{lemma}[Orbite-Stabilizzatori]
+		Se $G$ agisce su $X$ abbiamo per ogni $x\in X$ che
+		$$\abs{\mathcal{O}_x}=\frac{\abs{G}}{\abs{G_x}}$$
+	\end{lemma}
+	\begin{proof}
+		Il ragionamento coinvolge un diagramma commutativo molto simile a quello del primo teorema d'omomorfismo. Consideriamo l'applicazione
+		$$\varphi:G/G_x \to \mathcal{O}_x$$
+		questa è sicuramente suriettiva, d'altra parte è anche iniettiva perchè abbiamo quozientato esattamente per il "kernel" (l'insieme delle permutazioni che mandano $x$ in se stesso). Dunque abbiamo una biezione tra le due quantità richieste.
+	\end{proof}
+	\begin{lemma}[Burnside]
+		Se $G$ è un gruppo finito e $X$ è u insieme finito, denotando con $X/G$ l'insieme delle orbite allora
+		$$\frac{1}{\abs{G}}\sum_{g\in G}\abs{\text{Fix}(g)}=\abs{X/G}.$$
+	\end{lemma}
+	\begin{proof}
+		Proviamo a dimostrare prima di tutto il caso in cui l'azione è transitiva. In quel caso abbiamo $\abs{X/G}=1$. Dobbiamo dimostrare che
+		$$\sum_{g\in G}\abs{\text{Fix(g)}}=\abs{G}$$
+		facciamo un double counting. IN GENERALE IL DOUBLE COUNTING consiste, se abbiamo $X,Y$ finiti nel contare gli elementi dell'insieme
+		$$E\subseteq X\times Y$$
+		in due modi diversi. Definite le proiezioni $\pi_X:E\to X$ e $\pi_Y:E\to Y$, se definiamo gli insiemi
+		$$E_x:=\pi_X^{-1}\left\{x\right\}$$
+		$$E^y:=\pi_Y^{-1}\left\{y\right\}$$
+		avremo che
+		$$\sum_{x\in X}\abs{E_x}=\abs{E}=\sum_{y\in Y}\abs{E^y}$$
+		Cioè abbiamo contato gli elementi di $E$ prima come somma degli elementi degli $E_x$ e poi come somma degli elementi di $E^y$.
+		Vogliamo applicare questo principio al nostro problema, scegliamo allora 
+		$$G\times X\supset E=\left\{(g,x)\in G\times X:g\cdot x=x\right\}$$
+		in questo caso gli insiemi delle fibre delle proiezioni su $G$ sono proprio i punti fissi di $g$, e quindi abbiamo
+		$$\sum_{g\in G}\abs{\text{Fix}(g)}=\abs{E}$$
+		ma d'altro canto gli insiemi delle fibre delle proiezioni su $X$ sono gli stabilizzatori, e quindi abbiamo
+		$$\sum_{g\in G}\abs{\text{Fix}(g)}=\abs{E}=\sum_{x\in X}\abs{G_x}$$
+		d'altra parte dato che l'azione è transitiva, comunque dati due elementi $x,y$ di $X$ possiamo trovare un $g$ tale che $g\cdot x=y$, quindi abbiamo per il lemma precedente:
+		$$G_y=G_{gx}=gG_{x}g^{-1}$$
+		ma dato che la cardinalità di un gruppo finito è uguale a quella del suo coniugato (dato che il coniugio è biettivo), abbiamo proprio 
+		$$\abs{G_x}=\abs{G_y}$$
+		per ogni $x,y\in X$. Da cui la somma diventa semplicemente
+		$$\sum_{x\in X}\abs{G_x}=\abs{X}\abs{G_x}$$
+		per un certo $x\in X$ fissato. Ma notiamo che in questo caso, dato che l'azione è transitiva, abbiamo $\abs{\mathcal{O}_x}=\abs{X}$, e quindi per il lemma preparatorio abbiamo la tesi. \\
+		Consideriamo ora il caso in cui abbiamo $n$ orbite disgiunte
+		$$X= \mathcal{O}_{x_1}\sqcup \mathcal{O}_{x_2}\sqcup \dots \sqcup \mathcal{O}_{x_n}$$
+		In questo caso dobbiamo dimostrare che 
+		$$n=\frac{1}{\abs{G}}\sum_{g\in G}\abs{\text{Fix}(g)}$$ 
+		allora ogni insieme di punti può essere decomposto in somme di intersezioni con le orbite, in particolare
+		$$\sum_{i=1}^{n}\abs{\text{Fix}(g)\cap \mathcal{O}_{x_i}}=\abs{\text{Fix}(g)}$$
+		e quindi sostituendo 
+		$$\frac{1}{\abs{G}}\sum_{g\in G}\sum_{i=1}^{n}\abs{\text{Fix}(g)\cap \mathcal{O}_{x_i}}=\frac{1}{\abs{G}}\sum_{i=1}^n\sum_{g\in G}\abs{\text{Fix}(g)\cap \mathcal{O}_{x_i}}$$
+		che sappiamo fare, e quindi abbiamo finito.
+	\end{proof}
+	
+	\section{Geometria (25/03/2026)}
+	
+	\subsection{Geometria}
+	
+	Le azioni di un gruppo di solito sono utili per studiare le simmetrie di oggetti generici. Per esempio possiamo studiare sottospazi affini di $\RR^n$.
+	\begin{example}[Necklace problem]
+		Supponiamo di voler costruire collane lunghe $n$ perline, ciascuna che può essere di uno di $m$ colori differenti. Quante collane distinte posso costruire?
+	\end{example} 
+	\begin{proof}[Soluzione]
+		Modellizziamo la collana come un poligono bidimensionale a $n$ lati su cui agisce il gruppo $D_n$. Contando per ciascun elemento di $D_n$ il numero di punti fissi e applicando burnside, abbiamo la soluzione.
+	\end{proof}
+	\begin{problem}[Simmetrie di un cubo]
+		In quanti modi diversi possiamo numerare i lati di un cubo da $1$ a $6$?
+	\end{problem}
+	Problemi di questo tipo sono facili una volta che il problema è stato ben modellizzato, il problema di solito è su quali gruppi stiamo lavorando. Per problemi geometrici di solito, per esempio cose in cui abbiamo spazi affini e dobbiamo studiare il modo in cui trasformano, torna torna comodo studiare il gruppo delle isometrie affini, ovvero le trasformazioni
+	$$f(x)=Ax+b$$
+	dove $b$ è un punto di $\mathbb{A}^n(\RR)$ e $A\in O_n(\RR)$. 
+	\begin{definition}[Gruppo di simmetria]
+		Dato un sottoinsieme $K$ di $\mathbb{A}^n(\RR)$ definiamo il suo \textit{gruppo di simmetria} come il gruppo di simmetria dei suoi punti:
+		$$G(K)=\left\{g\in \text{Isom}\left(\mathbb{A}^n(\RR)\right):g(K)=K\right\}.$$ 
+		Definiamo inoltre $G^+(K)$ il suo sottogruppo delle trasformazioni a determinante $1$.
+	\end{definition} 
+	\begin{example}[Rettangolo]
+		Prendiamo il rettangolo $[-a,a]\times[-b,b]$ centrato nell'origine. Il suo gruppo di simmetria, per un fatto noto\footnote{non mi convince molto} avrà come insieme fisso il bordo del rettangolo, in particolare avrà come insieme fisso i punti. Non è difficile vedere che, imponendo tutti i possibili cambi, gli elementi che stiamo cercando sono
+		$$\begin{pmatrix}
+			\pm 1 & 0 \\
+			0 & \pm 1
+		\end{pmatrix}$$
+		che è un gruppo isomorfo a $C_2\times C_2$.
+	\end{example}
+	\begin{remark}
+		Per un poliedro $K$ possiamo sempre posizionare $K$ in modo che il suo baricentro cada in $0$, e quindi il suo gruppo di simmetria fisserà $0$, cioè $G(K)\subseteq O_n(\RR)$.
+	\end{remark}
+	Torniamo quindi al problema del cubo, quali sono le simmetrie di $[-1,1]^3\subseteq \RR^3$? Quanti elementi ha il suo gruppo di simmetria? Abbiamo:
+	\begin{itemize}
+		\item L'identità.
+		\item Le rotazioni rispetto alle diagonali: $4\times 2=8$.
+		\item Le rotazioni rispetto alle rette perpendicolari alle facce: $3\times 3=9$.
+		\item Le rotazioni di $180^\circ$ rispetto a una retta che unisce i punti medi di lati opposti: $6\times 1$.
+	\end{itemize}
+	Che ci dà una cardinalità di $G^+(K)$ uguale a $24$. Dato che possiamo quozientare $G(K)$ per il gruppo generato da una singola riflessione, e trovare $G^+(K)$ abbiamo che $G(K)$ ha cardinalità esattamente doppia ed uguale a $48$. Possiamo \textbf{verificare quanto appena fatto contando gli elementi di un orbita e i loro stabilizzatori}. Prendiamo ad esempio $P=(1,1,1)$, il suo stabilizzatore è l'insieme delle trasformazioni a determinante $1$ che fissano l'asse $OP$ del cubo, e che quindi sono esattamente le tre rotazioni attorno all'asse $OP$, e quindi 
+	$$G_p\simeq C_3$$
+	essendo allora che l'orbita di $P$ è tutto il quadrato (formato da $8$ vertici) abbiamo proprio che 
+	$$\abs{G(K)}=\abs{G_p}\abs{\mathcal{O}_P}=3\times 8=24$$
+	$24$ ci ricorda qualcosa. Non sarà per caso $S_4$? In effetti notiamo che questo gruppo è proprio l'insieme di tutte e sole le permutazioni delle quattro diagonali del cubo, e quindi è proprio isomorfo a $S_4$.
+	
+	\begin{example}
+		Qual è il gruppo di simmetria di un ottaedro? Ovvero dato
+		$$O=\left\{x\in\mathbb{A}^3:\abs{x_1}+\abs{x_2}+\abs{x_3}\le 1\right\}$$
+		quale gruppo è $G(O)$.
+	\end{example}
+	\begin{proof}[Soluzione]
+		Possiamo ricondurci al caso precedente considerando che possiamo inscrivere un ottaedro in un cubo, e quindi le simmetrie dell'ottaedro saranno tutte e sole le simmetrie del cubo. 
+	\end{proof}
+	\begin{remark}
+		Notiamo che in effetti anche $G(O)$ poteva essere visto come permutazione delle diagonali, tuttavia avremmo dovuto considerare il gruppo modulo le simmetrie che preservano le diagonali, cioè
+		$$\faktor{G(O)}{C_2^3}\simeq S_3$$
+		dove $C_2^3$ è il gruppo generato dalle tre simmetrie rispetto ai piani che tagliano a metà il cubo circoscritto all'ottaedro, ovvero le matrici del tipo
+		$$
+		\begin{pmatrix}
+			\pm 1 & 0 & 0 \\
+			0 & \pm 1 & 0 \\
+			0 & 0 & \pm 1
+		\end{pmatrix}.
+		$$
+	\end{remark}
+	Questo fatto si può generalizzare
+	\begin{lemma}[Simmetrie di un iperottaedro e di un ipercubo]
+		Se definiamo l'iperottaedro $n$-dimensionale come
+		$$H_n=\left\{x\in \RR^n:\abs{x_1}+\dots+\abs{x_n}\le 1\right\}$$
+		possiamo dimostrare che 
+		$$\faktor{G(H_n)}{C_2^n}\simeq S_n.$$
+		Questo gruppo è sempre isomorfo anche al gruppo delle simmetrie di un ipercubo.
+	\end{lemma}
+	Ok. Possiamo investigare in questo modo anche altri solidi platonici noti? Mancano Tetraedri icosaedri e dodecaedri. Icosaedri e dodecaedri sono di nuovo duali, e il loro gruppo di simmetria è isomorfo ad $A_5$ (è un casino). \\
+	\begin{example}
+		Trovare il gruppo delle simmetrie di un tetraedro $T$.
+	\end{example} 
+	\begin{proof}[Soluzione]
+		Prendendo un vertice $P$, notiamo che il suo stabilizzatore in $G^+(T)$ sono solo le tre rotazioni. Quindi dato che l'azione è transitiva, per orbite stabilizzatori abbiamo 
+		$$\abs{G^+(T)}=3\times 4=12$$
+		$$\abs{G(T)}=12\times 2=24.$$
+		Partiamo con i claim pazzi. Claimiamo che
+		$$G(T)\simeq S_4$$
+		$$G^+(T)\simeq A_4.$$
+		Sarà vero? Chi lo sa, probabilmente sì.
+	\end{proof}
+	
+	\subsection{Trovare tutti i sottogruppi finiti}
+	
+	Passiamo ad altre questioni. 
+	\begin{problem}
+		Quali sono i sottogruppi finiti di $\text{SO}_3(\RR)$?
+	\end{problem}
+	Cominciamo ad elencarne un po':
+	\begin{itemize}
+		\item Tutti i ciclici $C_k$.
+		\item Tutti i diedrali $D_k$.
+		\item Il gruppo di simmetria $T$ di un tetraedro, che ha ordine $12$.
+		\item Il gruppo di simmetria $O$ di un ottaedro, che ha ordine $24$.
+		\item Il gruppo di simmetria $I$ di un icosaedro, che ha ordine $60$.
+	\end{itemize}
+	In particolare
+	$$C_n=\left\{\begin{pmatrix}
+		-1 & 0 & 0 \\
+		0 & \cos\theta & \sin \theta \\
+		0 & \sin\theta & -\cos\theta
+	\end{pmatrix}:\theta=\frac{2\pi}{n}k\right\}
+	$$
+	e il diedrale si genera aggiungendo una simmetria perpendicolare al piano. Come dimostriamo che questi sono tutti e soli i sottogruppi finiti di $\text{SO}_3$? Prendiamo un sottogruppo finito $G$, di cardinalità $N$, di $\text{SO}_3$, vogliamo farlo \textit{agire su qualcosa}. Se lo facciamo \textbf{agire su una sfera} notiamo che ogni elemento di $g$ lascerà fissi due punti di 
+	$$S^2=\left\{\mathbf{x}\in\RR^2:\abs{\mathbf{x}}=1\right\}$$
+	quindi introduciamo l'insieme 
+	$$S^2 \supset I =\left\{(x,g)\in S^2\times\left(G\setminus \left\{1_G\right\}\right):\text{ $x$ è un polo della rotazione $g\in G$, con $g\ne 1$}\right\}$$
+	che ha cardinalità $2\abs{G}-2$. Consideriamo ora un punto $P$ in $I$. Vogliamo trovare orbita e stabilizzatore di $P$.\\
+	Lo stabilizzatore è formato dalle rotazioni che hanno per asse la retta $OP$, che sono un gruppo ciclico, diciamo di ordine $r_p$. In realtà per fare questo stiamo dando per scontato di aver già risolto il problema lavorando su $\text{SO}_2$. In ogni caso lo stabilizzatore soddisfa
+	$$G_p\simeq C_{r_p}$$
+	quindi abbiamo che il numero di elementi di $I$ è esattamente uguale a
+	$$2\abs{G}-2=\abs{I}=\sum_{x\in p(I)}\left(r_x-1\right)$$
+	perchè ogni elemento tranne l'identità stabilizzerà l'elemento $x$. Qui $p(I)$ è la proiezione dell'insieme $I$ su $S^2$. D'altra parte per il teorema orbite-stabilizzatori abbiamo che l'orbita dell'elemento $P$ ha cardinalità $\frac{N}{r_x}$, quindi preso un insieme $R$ di rappresentanti delle orbite, abbiamo che la cardinalità di $I$ è la somma delle cardinalità delle orbite, moltiplicato per gli stabilizzatori (eccetto l'unità):
+	$$2N-2=\sum_{x\in R}n_x\left(r_x-1\right)$$
+	dove $n_x:=\abs{\mathcal{O}_x}$ è la cardinalità dell'orbita di $x$. Dunque applicando orbita stabilizzatori otteniamo
+	$$\sum_{x\in R}\left(1-\frac{1}{r_x}\right)=2-\frac{2}{N}$$
+	e ora dato che $r_x\ge 2$ per tutti gli $x$ abbiamo che 
+	$$2-\frac{2}{N}=\sum_{x\in R}\left(1-\frac{1}{r_x}\right)\ge \abs{R}-\frac{\abs{R}}{2}$$
+	introduciamo a questo punto $p:=\abs{R}$. Dato che sia $N$ che $p$ sono interi abbiamo per forza che $p\le 3$. Abbiamo quindi $3$ casi:
+	\begin{itemize}
+		\item $p=1$, in questo caso abbiamo che c'è un solo rappresentante, cioè
+		$$1-\frac{1}{r_x}=2-\frac{2}{N}$$
+		che è assurdo in quanto il RHS è maggiore o uguale di $1$ e il LHS è minore di $1$.
+		\item $p=2$, in questo caso abbiamo
+		$$2-\frac{1}{r_{x_1}}-\frac{1}{r_{x_2}}=2-\frac{2}{N}$$
+		da cui abbiamo che 
+		$$\frac{2}{N}=\frac{1}{r_{x_1}}+\frac{1}{r_{x_2}}$$
+		sicuramente qui tutti i gruppi ciclici funzionano. In effetti sono anche gli unici a funzionare, infatti per lagrange abbiamo che $r_{x_1},r_{x_2}\mid N$ cioè sono entrambi minori o uguali. Se per assurdo fossero strettamente minori avremmo che il RHS è troppo grande, quindi devono per forza essere entrambi uguali ad $N$. Questo dimostra che c'è un elemento di $G$ di ordine $N$, e quindi abbiamo che $G$ è ciclico.
+		\item Il caso davvero interessante è quando $p=3$, qui si ha
+		$$3-\frac{1}{r_{x_1}}-\frac{1}{r_{x_2}}-\frac{1}{r_{x_3}}=2-\frac{2}{N}$$
+		da cui
+		$$\frac{1}{r_{x_1}}+\frac{1}{r_{x_1}}+\frac{1}{r_{x_2}}=1+\frac{2}{N}$$
+		a questo punto assumiamo WLOG che $r_{x_1}\le r_{x_2}\le r_{x_3}$, sicuramente abbiamo che $r_{x_1}=2$, infatti se fosse più grande il LHS sarebbe più piccolo di $1$. A questo punto abbiamo altri due casi:
+		\begin{itemize}
+			\item $r_{x_1}=r_{x_2}$ in questo caso sostituendo abbiamo
+			$$r_{x_3}=\frac{N}{2}$$
+			cioè $G$ è un diedrale, perchè contiene un sottogruppo normale ciclico di cardinalità $N/2$.
+			\item $r_{x_2}>2$. Sostituendo e imponendo la disuguaglianza abbiamo che
+			$$\frac{1}{r_{x_2}}+\frac{1}{r_{x_3}}=\half +\frac{2}{N}$$
+			e notiamo subito che se $r_{x_2}\ge 4 $ abbiamo il LHS troppo piccolo, quindi abbiamo per forza $r_{x_2}=3$, da cui 
+			$$\frac{1}{r_{x_3}}=\frac{1}{6}+\frac{2}{N}$$
+			per cui abbiamo che $r_{x_3}<6$ i casi allora sono:
+			$$\left(r_{x_1},r_{x_2},r_{x_3}\right)=(2,3,3)$$
+			$$\left(r_{x_1},r_{x_2},r_{x_3}\right)=(2,3,4)$$
+			$$\left(r_{x_1},r_{x_2},r_{x_3}\right)=(2,3,5)$$
+			che ci danno $N$ rispettivamente $12,24,60$. \textbf{ERANO PROPRIO I NUMERI CHE VOLEVAMO ZIOPERA}. Resta da verificare che i gruppi siano effettivamente quelli giusti. Dividiamo in altri tre casi, ma facciamone solo uno: 
+			Se $N=12$ abbiamo che ci sono tre orbite, di cui la seconda ha cardinalità $4$ e un elemento con stabilizzatore di ordine $3$. Ma dato che ogni elemento di un'orbita ha lo stabilizzatore di ordine uguale, abbiamo per forza che l'orbita deve essere formata da un tetraedro. Analogamente si fa per gli altri.
+		\end{itemize}
+		
+	\end{itemize}
+	
+	\newpage
+	
+	\section{Gruppi Abeliani finitamente generati (08/04/2026)}
+	
+	Prendiamo un gruppi abeliano $G$. E $m$ suoi elementi $a_1,\dots,a_m$. Possiamo definire un omomorfismo 
+	\begin{align*}
+		\varphi:\ZZ^m & \longrightarrow G \\
+		\left(x_1,\dots,x_n\right)& \longmapsto a_1x_1+a_2x_2+\dots+a_mx_m
+	\end{align*}
+	dove la moltiplicazione per scalare è quella che si comporta come in uno spazio vettoriale, nel modo chiaro, cioè 
+	$$ka:=\overset{\text{$k$ volte}}{\overbrace{a+a+a+a+\dots+a}}.$$
+	Questo ci serve per il seguente problema
+	\begin{definition}[Gruppo finitamente generato]
+		Un gruppo abeliano si dice \textit{finitamente generato} dall'insieme $a_1,\dots,a_m$ se $\varphi$ è suriettivo.
+	\end{definition}
+	\begin{problem}
+		Classificare tutti i sottogruppi abeliani finitamente generati.
+	\end{problem}
+	Prima di tutto possiamo ricondurci al caso degli interi, perchè abbiamo che, se $G$ è finitamente generato $\varphi$ sarà suriettivo, ovvero per il primo thm di omomorfismo:
+	$$G\simeq \faktor{\ZZ^m}{\ker \varphi}$$
+	cioè per il teorema di corrispondenza questo problema è equivalente al trovare tutti i sottogruppi di $\ZZ^m$. Prima di tutto però
+	\begin{problem}
+		Trovare tutti gli automorfismi di $\ZZ^n$.
+	\end{problem}
+	Questo problema è un po' più facile, presa la base canonica $e_i$ e un automorfismo $\varphi$ possiamo scrivere \textbf{la matrice} dell'omomorfismo come
+	$$
+	\left(
+	\begin{array}{c|c|c|c}
+		\varphi(e_1) & \varphi(e_2) & \dots & \varphi(e_n)   
+	\end{array}
+	\right)
+	$$
+	e perchè questo sia un automorfismo abbiamo bisogno che la matrice sia invertibile, quindi stiamo cercando le matrici a coefficienti interi le cui inverse sono ancora a coefficienti interi. Dunque ci siamo ricondotti a studiare il gruppo $\text{GL}_n(\ZZ)$.
+	\subsection{Automorfismi di $\ZZ^n$}
+	
+	Chiaramente per come lo abbiamo definito $\GL_n(\ZZ)$ agisce su $\ZZ^n$. Capiamo come
+	\begin{example}
+		Qual è l'orbita di $e_1$. Nell'azione di $\GL_n(\ZZ)$.
+	\end{example}
+	\begin{proof}[Soluzione]
+		L'idea chiave è che se abbiamo che un vettore $v\in\ZZ^n$ soddisfa 
+		$$v=kv'$$
+		per qualche $k\in \ZZ $ e $v'\in\ZZ^n$. Allora questo vettore sicuramente \textbf{non} è nell'orbita di $e_1$, perchè se per assurdo ci fosse una matrice $M$ tale che
+		$$Me_1=v=kv'$$
+		avremmo che la prima colonna di $M$ è divisibile per $k$, cioè il suo determinante è divisibile per $k$
+	\end{proof}
+	Il che si generalizza alla seguente potente proposizione:
+	\begin{proposition}[Orbite di $\ZZ^n$]
+		L'MCD classifica le orbite di $\ZZ^n$, ovvero definita la funzione $\varphi:\ZZ^n\to\ZZ$ tale che
+		$$\varphi(\mathbf{z})=\text{MCD}\left(z_1,z_2,\dots,z_n\right)$$
+		le fibre di questa funzione sono esattamente le orbite di $\ZZ^n$.
+	\end{proposition}
+	\subsection{Sottogruppi di $\ZZ^n$}
+	Forti di questo fatto, proviamo a trovare i sottogruppi di $\ZZ^n$:
+	\begin{example}
+		Trovare tutti i sottogruppi di $\ZZ^2$.
+	\end{example}
+	\begin{proof}[Soluzione]
+		Consideriamo un $\Gamma\le \ZZ^2$, qual è l'elemento con MCD non zero più piccolo, che chiamiamo $d_1$? Vediamo
+		\begin{itemize}
+			\item Se $d_1=1$ abbiamo che esiste un vettore $v$ con MCD $1$, quindi abbiamo che esiste un $A\in \GL_2(\ZZ)$ tale che 
+			$$Av=e_1$$
+			Quindi il gruppo 
+			$$\Gamma':=A\Gamma$$
+			conterrà $e_1$, cioè una coordinata è stata completamente resa ininfluente (perchè $e_1$ è l'unità per $\ZZ$!). A questo punto ci basta capire cosa fa l'altra coordinata, ma questo è equivalente a trovare tutti i sottogruppi di $\ZZ$, che sappiamo fare (sono semplicemente gli ideali generati da un elemento), quindi abbiamo
+			$$\Gamma'=\ZZ\times m\ZZ$$
+			per qualche $m$. Dunque \textbf{a meno di automorfismi}, abbiamo caratterizzato tutti i sottogruppi con $d_1=1$.
+			\item Se $d_1=m\ne 1$ applichiamo di nuovo un automorfismo riconducendoci ad un $$A\Gamma=\Gamma'=2\ZZ\times B$$
+			ora chiaramente questo $B$ sarà un sottogruppo di $\ZZ$, quindi esisterà un certo $k$ tale che
+			$$B=k\ZZ$$
+			ma se avessimo $\text{MCD}(d_1,k)< d_1$ avremmo che esiste un vettore con MCD delle coordinate minore di $d_1$, il che contraddice la minimalità di $d_1$, quindi dobbiamo avere $d_1\mid k$, e quindi abbiamo
+			$$\Gamma'=d_1\ZZ\times d_1q\ZZ$$
+			per qualche $q$. E quindi di nuovo, \textbf{a meno di automorfismi}, abbiamo finito.
+		\end{itemize}
+		Dunque a meno di automorfismi abbiamo che tutti i sottogruppi di $\ZZ^2$ sono della forma
+		$$\Gamma'=k\ZZ\times kq\ZZ$$
+		per $k,q\in\ZZ$.
+	\end{proof}
+	Passiamo ora al caso generale:
+	\begin{proposition}[Sottogruppi di $\ZZ^n$]
+		Sia $\Gamma$ un sottogruppo di $\ZZ^n$. Esiste un automorfismo $A\in\GL_n(\ZZ)$ tale che $A\Gamma$ è della forma
+		$$A\Gamma=\ZZ d_1e_1\times \ZZ d_2 e_2\times \dots \times \ZZ d_ne_n$$
+		con 
+		$$d_1\mid d_2 \mid \dots \mid d_n$$
+		e gli $e_i$ sono i vettori della base canonica di $\ZZ^n$.
+	\end{proposition}
+	\begin{proof}
+		I casi $n=0,1,2$ sono o ovvi, o già stati fatti. Supponiamo allora per induzione che la tesi valga fino a $n$. Prendiamo $d_1$ il minimo MCD di un vettore in $\Gamma$, allora esisteranno un $v\in\Gamma$ e un $A\in \GL_n(\ZZ)$ tali che 
+		$$d_1e_1\in A\Gamma$$
+		consideriamo allora 
+		$$\Gamma''=A\Gamma \cap \text{span}(e_2,\dots,e_n)$$
+		ovvero è l'insieme dei vettori di $A\Gamma$ in cui la prima coordinata è nulla. Questo è sicuramente un sottogruppo di $\ZZ^{n-1}$ quindi possiamo applicare l'ipotesi induttiva. Rimane ora da dimostrare che  
+		$$A\Gamma=\ZZ d_1e_1 \times \Gamma''$$
+		cioè, dobbiamo dimostrare che quei due gruppi generano $A\Gamma$ supponiamo che ci sia un $d_1\not\mid\mu$ per cui esiste un $v_1$ tale che
+		$$v_1=\mu e_1+\sum_{i\ge 2}\lambda_i e_i$$
+		ora se $\mu<d_1$ abbiamo che $\text{MCD}(v_1)<d_1$ assurdo. D'altra parte se $\mu\ge d_1$ possiamo costruire un altro vettore 
+		$$v_2=(\mu-kd_1)e_1+\sum_{i\ge 2}\lambda'_i e_i$$
+		con $\mu-kd_i<d_i$ (per la divisione euclidea), contraddicendo di nuovo la minimalità. Dunque per ipotesi induttiva abbiamo
+		$$A\Gamma=\ZZ d_1e_1+ \ZZ d_2e_2+ \dots + \ZZ d_n e_n. $$
+		Ci manca l'ultimo pezzo, ma d'altra parte segue come per il caso specifico per assurdo.
+	\end{proof}
+	
+	\subsection{Tutti i gruppi abeliani finitamente generati}
+	
+	Prendiamo allora un $G$ abeliano finitamente generato. Sappiamo che esiste un
+	$$\varphi:\ZZ^n\to G$$
+	suriettivo. Allora per il primo thm di omomorfismo abbiamo che 
+	$$G\simeq \faktor{\ZZ^n}{\ker\varphi}$$
+	e per la classificazione fatta prima abbiamo 
+	$$A\ker \varphi=\ZZ d_1e_1\times \dots \ZZ d_ne_n$$
+	per qualche $A$ e $d_i$ che soddisfano le ipotesi sopra. L'idea chiave è che $\varphi$ è una cosiddetta \textit{presentazione} di $G$, cioè è una scelta dei suoi generatori. D'altra parte questo è vero per tutti gli omomorfismi, quindi scegliendo l'omomorfismo:
+	\begin{align*}
+		\psi:\ZZ^n\to & G\\
+		z \mapsto & \varphi(A^{-1}z)
+	\end{align*}
+	che ha nucleo per quanto definito prima, esattamente
+	$$\ker \psi=A\ker \varphi=\ZZ d_1e_1\times \dots \ZZ d_ne_n$$
+	e dunque abbiamo proprio che
+	$$G\simeq \faktor{\ZZ^n}{\left(\ZZ d_1e_1+ \dots + \ZZ d_n e_n\right)}.$$
+	Questo è partiolarmente evocativo, perchè intuitivamente capiamo subito che 
+	$$\ZZ^n=\ZZ e_1+ \ZZ e_2+\dots+\ZZ e_n$$
+	e quindi il quoziente è semplicemente (per una forma del teorema cinese del resto):
+	$$\faktor{\ZZ^n}{\left(\ZZ d_1e_1+ \dots + \ZZ d_n e_n\right)}\simeq \faktor{\ZZ}{d_1\ZZ}\times \faktor{\ZZ}{d_2\ZZ}\times \dots \times \faktor{\ZZ}{d_n\ZZ}$$
+	dove i $d_i$ soddisfano quanto detto sopra, e possono essere $0$. Dunque abbiamo scomposto tutti i gruppi abeliani finitamente generati come prodotto di gruppi ciclici, possibilmente infiniti.
+	\newpage
+	
+	\part{Matematica Applicata}
+	
+	\section{Dinamica di popolazioni - 24/03/2026}
+	Possiamo modellizzare la popolazione di una città $u(t)$ in funzione del tempo pensando al fatto che la derivata di $u(t)$ dipenderà dalla funzione stessa, abbiamo due contributi istantanei:
+	\begin{itemize}
+		\item Le nascite, diciamo che in una popolazione di $u(t)$ individui nascono $\alpha u(t)$ individui.
+		\item Le morti, diciamo che in una popolazione di $u(t)$ individui ne muoiono $\beta u(t)$.
+	\end{itemize}
+	dunque abbiamo
+	$$u'(t)=(\alpha-\beta)u(t)$$
+	il coefficiente $\alpha-\beta$ di solito viene chiamato tasso di crescita e si denota con $\gamma$. In generale, data una funzione:
+	\begin{definition}[Tasso di crescita di una funzione]
+		Data una funzione $f(t):\RR\to\RR$, il suo \textit{tasso di crescita} è la sua derivata logaritmica, ovvero
+		$$\frac{f'(t)}{f(t)}=\frac{\dif \ln f(t)}{\dif t}=\gamma.$$
+	\end{definition}
+	Il modello i cui il tasso di crescita è costante si dice \textit{modello di malthus}. Questo chiaramente non è sempre sufficiente, e dipende molto dalla situazione. Può non essere un buon modello globale, anche se è solitamente un buon modello locale. Il grosso problema che ha questo modello nell'astrarre i fenomeni globali è che non tiene conto del fatto che le risorse possono essere limitate. Possiamo introdurre 
+	$$\frac{u'(t)}{u(t)}=\gamma\left(1-\frac{u(t)}{u_{\text{max}}}\right)$$
+	che tiene conto del fatto che c'è un massimo numero di individui che possono sopravvivere nell'ambiente, e più ci si avvicina ad esso più la crescita diminuisce. Questo modello si dice \textit{modello logistico}. Risolviamo quest'equazione
+	$$\int \frac{\dif u}{\gamma \left(u(t)-\frac{u(t)^2}{u_\text{max}}\right)}=\int \dif t$$
+	che integrando restituisce la forma:
+	$$u(t)=\frac{u_\text{max}u_0}{u_0+(u_\text{max}-u_0)e^{-\gamma t}}.$$
+	
+	Un altro modello interessante è quello che studia la dinamica delle epidemie. In questo caso abbiamo più popolazioni, il più basilare prevede due insiemi di individui:
+	$$\mathcal{S}=\text{Insieme dei "susceptible" cioè di coloro che possono essere infettati}$$
+	$$\mathcal{I}=\text{Insieme degli "infected" cioè di coloro che sono già stati infettati}$$
+	Di solito la prima ipotesi su cui si lavora è che $S+I$ sia costante a $1$, ovvero $S$ e $I$ sono le percentuali di infetti e suscettibili sulla popolazione. I tassi in questo caso ragionevolmente sono
+	$$\left(\log I(t)\right)'=\alpha S(t)$$
+	$$\left(\log S(t)\right)'=\alpha I(t)$$
+	questo modello non considera il fatto che gli infetti possono smettere di essere infetti, per fare ciò introduciamo
+	$$I'=\alpha IS-\gamma I$$
+	$$S'=\gamma I -\alpha IS$$
+	che sostituendo
+	$$I'=\alpha I(1-I)-\gamma I$$
+	che è di nuovo un modello logistico. Questo era il cosiddetto modello SIS. Questo modello sulla base delle costanti può prevedere comportamenti diversi, se $\alpha \gg \gamma$ la malattia tenderà a stabilizzarsi e a rimanere endemica, mentre viceversa la malattia non riuscirà a diffondersi. 
+	\\
+	Un modo per emendare questo modello è aggiungere una nuova popolazione, quello dei \textit{recovered} indicati con $R$, che sono quelli che hanno superato la malattia e non possono più essere infettati. In questo caso abbiamo
+	$$S+I+R=1$$
+	dunque abbiamo
+	$$I'=\alpha SI -\gamma_1 I -\gamma_2 I$$
+	$$S'=-\alpha IS$$
+	$$R'=\gamma_1 I + \gamma_2 I$$
+	dove $\gamma_2$ è una costante che indica la probabilità di diventare recovered dopo essere stati infettati.
+	
+	\subsection{Risolvere le equazioni che ci siamo inventati (31/03/2026)}
+	
+	Tutti questi sistemi di equazioni ci fanno venire voglia di capire come si risolvono in generale i sistemi di ODE lineari. Consideriamo un sistema di equazioni differenziali lineari in forma normale
+	$$
+	\begin{cases}
+		u_1'=\alpha_{11}u_1+\alpha_{12}u_2+\dots +\alpha_{1n}u_n \\
+		u_2'=\alpha_{21}u_1+\alpha_{22}u_2+\dots +\alpha_{2n}u_n \\
+		\qquad \vdots \\
+		u_n'=\alpha_{n1}u_1+\alpha_{n2}u_2+\dots +\alpha_{nn}u_n
+	\end{cases}
+	$$
+	lo possiamo scrivere come
+	$$\frac{\dif}{\dif t}\vec{u}(t)=A\vec{u}(t)$$
+	che è sospettosamente simile ad una singola ODE lineare del primo ordine. Ci piacerebbe tanto definire un senso in cui possiamo "esponenziare" le matrici per scrivere la soluzione a questa equazione come
+	$$\vec{u}(t)=e^{tA}\vec{u}_0$$
+	definiamo allora
+	\begin{definition}[Esponenziale di matrici]
+		Data una matrice quadrata $M$ definiamo il suo esponenziale come la matrice 
+		$$e^M:=\sum_{k=0}^{\infty}\frac{M^k}{k!}$$
+		questa è dunque una funzione $\exp:K_{n\times n}\to K_{n\times n}$ (il limite è preso su uno spazio di Banach generato per esempio prendendo la norma uguale alla radice della somma dei quadrati di tutte le entrate).
+	\end{definition}
+	\begin{proposition}[Proprietà dell'esponenziale di matrici]
+		Comunque data una matrice quadrata $M$, il suo esponenziale soddisfa:
+		\begin{itemize}
+			\item $Me^M=e^MM$
+			\item Comunque date due matrici che commutano $MT=TM$ allora vale
+			$$e^{T+M}=e^Me^T$$
+			\item La matrice esponenziale è sempre invertibile, in particolare per ogni $M$ si ha
+			$$e^Me^{-M}=e^{M-M}=I$$
+		\end{itemize}
+	\end{proposition}
+	Dunque abbiamo che tutte le matrici esponenziali sono invertibili, in particolare avranno determinante diverso da $0$, cioè:
+	\begin{proposition}[Determinante di un esponenziale]
+		Comunque data una matrice quadrata $M$ si ha
+		$$\det e^M=e^{\text{tr}M}$$
+	\end{proposition}
+	che è molto facile vedere come sia vero per matrici diagonali, mentre per matrici arbitrarie è un po' più difficile da dimostrare, e ci serve il seguente lemma:
+	\begin{lemma}[Coniugio di un esponenziale]
+		Data una matrice $A$, una matrice $B$ e una matrice invertibile $P$ tali che
+		$$A=PBP^{-1}$$
+		allora abbiamo
+		$$e^A=Pe^BP^{-1}$$
+	\end{lemma}
+	\begin{proposition}[Esponenziali di matrici antisimmetriche]
+		Sia $W$ una matrice antisimmetrica, cioè tale che
+		$$-W=W^\intercal$$
+		abbiamo che la matrice $e^W$ è ortogonale. 
+	\end{proposition}
+	\begin{proof}
+		notiamo prima di tutto che 
+		$$e^{W^\intercal}=\left(e^W\right)^\intercal$$
+		questo segue banalmente dal prendere la trasposta delle somme parziali della serie dell'esponenziale. Ma allora abbiamo
+		$$\left(e^W\right)^\intercal=e^{W^\intercal}=e^{-W}=\left(e^W\right)^{-1}$$
+		come volevamo dimostrare.
+	\end{proof}
+	\begin{example}[Moto armonico]
+		Vogliamo risolvere la nota equazione
+		$$\ddot{x}=-x$$
+		con un esponenziale di matrice. Purtroppo in questo caso l'equazione è del secondo ordine, e quindi dobbiamo un po' ingegnarci per renderla lineare. Introduciamo la velocità $v$ tale che
+		$$\dot{x}=v$$
+		e quindi il sistema diventa
+		$$
+		\begin{cases}
+			\dot{x}=v \\
+			\dot{v}=-x
+		\end{cases}
+		$$
+		che possiamo riscrivere come
+		$$
+		\frac{\dif}{\dif t}
+		\begin{pmatrix}
+			x(t)\\
+			v(t)
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			0 & 1 \\
+			-1 & 0
+		\end{pmatrix}
+		\begin{pmatrix}
+			x(t) \\
+			v(t)
+		\end{pmatrix}
+		$$
+		dunque abbiamo che la soluzione che cerchiamo è
+		$$
+		\begin{pmatrix}
+			x(t) \\
+			v(t)
+		\end{pmatrix}
+		=
+		e^{t\begin{pmatrix}
+				0 & 1 \\
+				-1 & 0
+		\end{pmatrix}}
+		\begin{pmatrix}
+			x_0 \\
+			v_0
+		\end{pmatrix}
+		$$
+		ma a questo punto abbiamo un'esponenziale di una matrice antisimmetrica, che sarà una matrice ortogonale. In particolare avremo che il determinante dovrà essere sempre positivo (dato che è uguale a $\exp\left(\text{tr}(A)\right)\ge 0$), dunque quell'esponenziale sarà per forza una rotazione di un qualche tipo in particolare abbiamo
+		$$e^{t\begin{pmatrix}
+				0 & 1 \\
+				-1 & 0
+		\end{pmatrix}}=\begin{pmatrix}
+		\cos t & -\sin t \\
+		\sin t & \cos t
+	\end{pmatrix}$$
+	che notiamo nello spazio delle fasi al variare del tempo fa muovere il vettore $\vec{x}$ lungo una circonferenza (che proiettando sull'asse della $x$ ci dà la soluzione trigonometrica a cui siamo abituati).
+	\end{example}
+	\subsection{Esponenziare tutte le $2\times 2$}
+	Vediamo allora meglio come si comportano gli esponenziali di matrici $2\times 2$. 	\begin{example}[Più forte di Jordan]
+		Prendiamo la matrice 
+		$$A=
+		\begin{pmatrix}
+			\lambda & b \\
+			0 & \lambda
+		\end{pmatrix}
+		$$
+		vogliamo calcolarne l'esponenziale, per fare ciò la decomponiamo come
+		$$A=\lambda \begin{pmatrix}
+			1 & 0 \\
+			0 & 1
+		\end{pmatrix}+
+		\begin{pmatrix}
+			0 & b \\
+			0 & 0 
+		\end{pmatrix}
+		$$
+		ma notiamo che chiamando $B$ la seconda matrice abbiamo
+		$$e^{B}=I+B$$
+		dato che $B$ è nilpotente, $B^2=0$, e quindi tutte le potenze dopo il $B^2$ andranno a $0$ nella serie. Ma allora abbiamo
+		$$e^A=e^{\lambda I + B}=e^\lambda e^B=(I+B)e^\lambda=\begin{pmatrix}
+			1 & b \\
+			0 & 1
+		\end{pmatrix}e^\lambda$$
+	\end{example}
+	\begin{example}[Antisimmetriche]
+		Prendiamo una matrice antisimmetrica
+		$$A=
+		\begin{pmatrix}
+			a & -b \\
+			b & a
+		\end{pmatrix}
+		$$
+		vogliamo dimostrare che 
+		$$e^A=e^a\begin{pmatrix}
+			\cos b & -\sin b \\
+			\sin b & \cos b
+		\end{pmatrix}$$
+	\end{example}
+	\begin{proof}[Soluzione]
+		Sfruttiamo i numeri complessi. Prendendo un numero complesso $\lambda$ tale che
+		$$\lambda=a+ib$$
+		allora abbiamo che 
+		$$A=\begin{pmatrix}
+			\Re\lambda & -\Im \lambda \\
+			\Im \lambda & \Re\lambda
+		\end{pmatrix}$$
+		ora vogliamo dimostrare per induzione che
+		$$
+		A^k=
+		\begin{pmatrix}
+			\Re\lambda^k & -\Im\lambda^k \\
+			\Im\lambda^k & \Re\lambda^k
+		\end{pmatrix}
+		$$
+		il passo base è semplice, per il passo induttivo dobbiamo dimostrare che 
+		$$
+		\begin{pmatrix}
+			\Re\lambda^k & -\Im\lambda^k \\
+			\Im\lambda^k & \Re\lambda^k
+		\end{pmatrix}
+		\begin{pmatrix}
+			\Re\lambda & -\Im \lambda \\
+			\Im \lambda & \Re\lambda
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			\Re\lambda^{k+1} & -\Im\lambda^{k+1} \\
+			\Im\lambda^{k+1} & \Re\lambda^{k+1}
+		\end{pmatrix}
+		$$
+		che d'altra parte sfruttando le identità
+		$$\Re ab = \Re a \Re b - \Im a \Im b$$
+		$$\Im ab = \Re a \Im b +\Im a \Re b$$
+		(che ci ricordano qualcosa, or not?) viene facile. Dunque l'esponenziale grazie a questo fatto diventa:
+		$$
+		e^A=
+		\sum_{k=0}^{\infty}\frac{1}{k!}
+		\begin{pmatrix}
+			\Re \lambda^k & -\Im\lambda^k \\
+			\Im\lambda^k & \Re \lambda^k
+		\end{pmatrix}
+		$$
+		ma questa notiamo che la possiamo spezzare in quattro serie \textbf{numeriche}, in ogni entrata della matrice. E visto che la parte reale della somma è la somma delle parti reali (e analogamente per le parti immaginarie), abbiamo finalmente
+		$$e^A=\begin{pmatrix}
+			\Re \sum_{k=0}^{\infty}\frac{1}{k!}\lambda^k & -\Im\sum_{k=0}^{\infty}\frac{1}{k!}\lambda^k \\
+			\Im\sum_{k=0}^{\infty}\frac{1}{k!}\lambda^k & \Re \sum_{k=0}^{\infty}\frac{1}{k!}\lambda^k
+		\end{pmatrix}$$
+		che scitto così non è proprio bello, ma usando la serie numerica dell'esponenziale e il fatto che
+		$$e^\lambda = e^a e^{ib}=e^a\left(\cos b +i\sin b\right)$$
+		abbiamo immediatamente la tesi.
+	\end{proof}
+	Prendiamo allora una matrice generica $A$, abbiamo $3$ casi:
+	\begin{itemize}
+		\item La matrice $A$ è diagonalizzabile, nel qual caso l'esponenziale è molto semplice ed è semplicemente
+		$$e^A=P\begin{pmatrix}
+			e^\lambda & 0 \\
+			0 & e^\mu
+		\end{pmatrix}P^{-1}$$
+		dove $P$ è la matrice di cambio di base e $\lambda,\mu$ sono i suoi autovalori.
+		\item La matrice $A$ è jordanizzabile, ma non diagonalizzabile. In questo caso abbiamo
+		$$A=P
+		\begin{pmatrix}
+			\lambda & 1 \\
+			0 & \lambda
+		\end{pmatrix}
+		P^{-1}$$
+		il che vuol dire che il suo esponenziale è, applicando la formula trovata prima:
+		$$e^A=P\begin{pmatrix}
+			e^\lambda & e^\lambda \\
+			0 & e^\lambda
+		\end{pmatrix}P^{-1}.$$
+		\item La matrice non ha autovalori reali, il che vuol dire che il polinomio caratteristico ha radici
+		$$\lambda_{\pm}=a\pm ib$$
+		ma notiamo che allora il polinomio minimo di $A$ sarà uguale al suo polinomio caratteristico, in particolare avremo che la matrice 
+		$$
+		\begin{pmatrix}
+			a & -b \\
+			b & a
+		\end{pmatrix}
+		$$
+		ha di nuovo stesso polinomio caratteristico e minimo, e quindi esistono due matrici di cambio di base tali che
+		$$
+		A=
+		P
+		\begin{pmatrix}
+			a & -b \\
+			b & a
+		\end{pmatrix}
+		P^{-1}
+		$$ 
+		cioè possiamo applicare la formula trovata sopra.
+	\end{itemize}
+	\subsection{Orbite sullo spazio delle fasi}
+	Prendiamo un sistema
+	$$
+	\frac{\dif }{\dif t}
+	\begin{pmatrix}
+		x(t) \\
+		y(t)
+	\end{pmatrix}
+	= 
+	A
+	\begin{pmatrix}
+		x(t)
+		y(t)
+	\end{pmatrix}.
+	$$
+	Proviamo a investigare qualche caso specifico. Per esempio se $A$ è diagonale e $\lambda,\mu<0$
+	In questo caso le orbite si avvicinano tutte asintoticamente allo $0$, rimanendo sullo stesso quadrante . Infatti abbiamo
+	$$
+	\begin{pmatrix}
+		x(t) \\
+		y(t)
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		e^{\lambda t} & 0 \\
+		0 & e^{\mu t} 
+	\end{pmatrix}
+	$$  
+	Se risolviamo esplicitamente abbiamo
+	$$x(t)=e^{\lambda t}x_0$$
+	$$y(t)=e^{\mu t}y_0$$
+	prendendo il logaritmo e facendo il rapporto otteniamo
+	$$\frac{y}{y_0}=\left(\frac{x}{x_0}\right)^{\mu/\lambda}$$
+	viceversa se gli autovalori sono entrambi positivi le orbite tenderanno tutte ad allontanarsi dall'origine.
+	\begin{definition}[Nodi stabili, instabili e sella]
+		Un punto di un \textit{ritratto in fase}, di un sistema di ODE lineari si dice \textit{nodo stabile} se le orbite tendono tutte ad avvicinarcisi, \textit{nodo instabile} se le orbite tendono tutte ad allontanarcisi e \textit{punto sella} se in alcune direzioni si avvicina e in altre si allontana.
+	\end{definition}
+	Abbiamo quindi i seguenti casi:
+	\begin{itemize}
+		\item Se gli autovalori della matrice sono entrambi positivi l'origine è l'unico nodo, ed è stabile. 
+		\item Se gli autovalori della matrice sono entrambi negativi l'origine è l'unico nodo, ed è instabile.
+		\item Se gli autovalore della matrice sono discordi le orbite sarannno delle sorta di iperboli, e l'origine sarà nodo di sella.
+	\end{itemize}
+	Quando la matrice ha autovalori non reali e distinti d'altra parte le matrici che troviamo sono rotazioni composte dilatazioni, e quindi le orbite saranno delle specie di spirali. Se le orbite si tendono ad avvicinare o allontanare dall'origine, quest'ultima si dirà rispettivamente \textit{fuoco stabile o instabile}. Questo è particolarmente importante perché anche \textbf{per sistemi di ODE non lineari}, vicino alle cosiddette configurazioni stabili, il ritratto in fase sarà simile a uno di questi.
+	\begin{definition}[Configurazione di equilibrio]
+		Sia 
+		$$\frac{\dif }{\dif t}\vec{u}=\vec{f}\left(\vec{u}\right)$$
+		una \textit{configurazione di equilibrio} è un punto in cui 
+		$$\frac{\dif }{\dif t}\vec{u}=0$$
+		e quindi in particolare lungo le linee del ritratto avremo $\vec{f}\left(\vec{u}\right)=0$.
+	\end{definition}
+	\begin{example}[Lotka-Volterra]
+		Prendiamo il seguente sistema di equazioni non lineari
+		$$\frac{\dot{x}}{x}=A-By$$
+		$$\frac{\dot{y}}{y}=Cx-D$$
+		che modellizza un sistema in cui le $x$ sono le prede e $y$ i predatori. Provare a trovare le configurazioni stabili e il comportamento della soluzione intorno ad esse.
+	\end{example}
+	
+	\newpage
+	
+	\section{Ottimizzazione - 08/05/2026}
+	
+	In generale l'ottimizzazione è una branca della matematica che cerca di risolvere il problema del trovare
+	$$\min f(x):x\in S$$
+	dove $S$ è un dominio immerso in $\RR^n$ caratterizzato da un insieme di \textit{vincoli}. Il caso più semplice è quello in cui tutto è lineare:
+	\begin{problem}[Knapsack]
+		Abbiamo $n$ oggetti, ognuno con un peso $p_i$ e un valore $v_i$. Vogliamo massimizzare la funzione
+		$$f(x_1,\dots,x_n)=\sum_{i=1}^{n}v_ix_i$$
+		sotto il vincolo
+		$$\sum_{i=1}^{n}p_ix_i\le W$$ 
+		per un certo $W$ il "peso massimo che può reggere il nostro zaino", e sotto l'assunzione che $\vec{x}\in \left\{0,1\right\}^n$. Insomma le variabili $x_i$ denotano se vogliamo scegliere o non scegliere l'elemento $i$.
+	\end{problem}
+	Questo è un esempio di problema di \textit{programmazione lineare intera}, e in particolare è notoriamente un problema NP-completo. Conosciamo un approccio basato sulla dp, ma proviamo ad approcciarlo in modo più "geometrico". \\
+	Il primo passo è rilassare il vincolo, ovvero sostituiamo 
+	$$\vec{x}\in \left\{0,1\right\}^n$$
+	con 
+	$$\vec{x}\in [0,1]^n$$
+	questo ora è un problema che sappiamo risolvere con l'\textit{algoritmo del simplesso}, e ci dà una soluzione $f(\vec{x}\,')$ sicuramente minore o uguale di quella vera. Questo da solo non ci dà un modo per risolvere davvero il problema, ma ci dà un modo per applicare il cosiddetto \textbf{branch and bound}, una strategia per risolvere problemi di programmazione lineare intera che procede come segue:
+	\begin{description}
+		\item[Rilassamento:] Rilasso il problema in modo che smetta di essere intero, e lo risolvo con l'algoritmo del simplesso.
+		\item[Branch:] Controllo se ci sono coordinate della soluzione trovata che non sono intere, se ci sono ho trovato la soluzione, altrimenti per la prima coordinata non intera divido in due sottoproblemi (per esempio $x_2=0$ e $x_2=1$) e ricorro sui problemi (applicando una evidente proprietà di sottostruttura).
+		\item[Bound:] Generato il DAG delle sottoistanze elimino le sottoistanze la cui soluzione del sistema rilassato è comunque minore di una delle soluzioni già trovate (e quindi non può portare alla soluzione ottimale).
+	\end{description}
+	La correttezza di questo algoritmo è abbastanza chiara, quello che rimane strano è la sua complessità. Chiaramente il problema è NP-completo, quindi la worst-case complexity sarà esponenziale, quello che è interessante è la complessità media, che è abbastanza interessante.
+	\subsection{Commesso viaggiatore}
+	Abbiamo il seguente problema computazionale:
+	\begin{problem}[TSP - Travelling Salesman Problem]
+		Dato un grafo $(G,V)$ a $n$ nodi e pesi $c_{ij}$ vogliamo trovare un cammino che passi per tutti i nodi una sola volta e che abbia peso minimo.
+	\end{problem}
+	Questo problema è NP-completo. La formulazione in ricerca operativa come prima si scrive come
+	\begin{problem}[TSP2]
+		Vogliamo minimizzare la funzione
+		$$f(M)=\sum_{i\ne j}c_{ij}x_{ij}$$
+		dove $M$ è la matrice di adiacenza del percorso $P$ in $G$, e quindi deve soddisfare, per ogni $i$ fissato:
+		$$\sum_{j\ne i}x_{ji}=1$$
+		$$\sum_{j\ne i}x_{ij}=1$$
+		cioè ogni nodo ha un solo successivo e un solo precedente (ogni nodo ha grado entrante esattamente $1$ e grado uscente esattamente $1$). Questo da solo non basta ad escludere i cicli purtroppo, per dire che tutti i cammini che troviamo sono connessi dobbiamo imporre che per ogni sottoinsieme proprio non vuoto di vertici $S$, il taglio sia sempre maggiore o uguale di $1$, ovvero
+		$$\sum_{i\in S,j\not\in S}x_{ij}\ge 1.$$
+	\end{problem}
+	Il problema per come è scritto sopra è evidentemente esponenziale (perchè ha un numero di vincoli esponenziale). L'idea in questo caso è applicare branch and bound al problema ottenuto rimuovendo tutti i vincolo problematici su sottoinsiemi, e reintrodurli gradualmente uno alla volta:
+	\begin{itemize}
+		\item Iniziamo con una formulazione senza vincoli di taglio. 
+		\item Troviamo la soluzione via Branch and Bound.
+		\item Troviamo un sottoinsieme $S$ per cui il vincolo di taglio sia violato, e risolviamo di nuovo il problema con Branch and Bound.
+	\end{itemize}
+	Il problema di questo algoritmo è che stiamo facendo tante volte un algoritmo che può essere parecchio costoso (il branch and bound). Si può risolvere questa cosa applicando Ford Fulkerson in qualche modo. Una formulazione migliore del problema tuttavia è quella di aggiungere $n$ variabili ausiliarie $u_i$, che immaginiamo come "l'ordine dei nodi nel tour" e vorremmo aggiungere il vincolo che
+	$$x_{ij}=1 \implies u_j= u_i+1$$
+	questo purtroppo non è lineare, ma lo possiamo riscrivere con un po' di furbizia come
+	$$u_i-u_j+nx_{ij}\le n-1$$
+	per ogni coppia di indici $i,j$. Questo ci porta a $\mathcal{O}\!\left(n^2\right)$ vincoli, che è già molto meglio di prima.
+\end{document}
+

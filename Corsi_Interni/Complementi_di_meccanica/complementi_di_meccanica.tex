@@ -1,0 +1,2717 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[sexy]{evan} %BLBLBLBLBLBLBLBLBLBLBLB EVANCHEN
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{asymptote}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{gensymb}
+\usepackage{amsfonts}
+\usepackage[english,italian]{babel}
+\usepackage{quoting}
+\quotingsetup{font=big}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{lmodern}
+\usepackage{pgfplots}
+\usepackage{bbm}
+\newcommand{\dif}{\text{d}}
+\newcommand{\ihat}{\hat{\imath}}
+\newcommand{\jhat}{\hat{\jmath}}
+\newcommand{\khat}{\hat{k}}
+\newcommand{\posit}{\vec{r}}
+\newcommand{\veloc}{\dot{\vec{r}}}
+\newcommand{\accel}{\ddot{\vec{r}}}
+\newcommand{\LL}{\mathcal{L}}
+
+
+% axis style
+\pgfplotsset{every axis/.append style={
+		axis x line=middle,    % put the x axis in the middle
+		axis y line=middle,    % put the y axis in the middle
+		axis line style={<->}, % arrows on the axis
+		xlabel={$x$},          % default put x on x-axis
+		ylabel={$y$},          % default put y on y-axis
+		no markers,
+}}
+
+% line style
+\pgfplotsset{mystyle/.style={color=blue,no marks,line width=1pt,<->}} 
+
+% arrow style: stealth stands for 'stealth fighter' 
+\tikzset{>=stealth}
+
+
+\begin{document}
+	\title{Appunti di Complementi di Meccanica}
+	\subtitle{SGSS - Francesco D'Eramo}
+	\date{Marzo - Giugno 2026}
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\newpage
+	
+	\section{Calcolo tensoriale}
+	
+	La prima cosa da ricordare quando si fa fisica, è che le leggi \textbf{dipendono dal sistema di riferimento}. Un sistema di riferimento è definito molto informalmente come "un ambiente" in cui facciamo esperimenti. Questo può essere inerziale oppure no, in ogni caso nella prima parte del corso rimarremo all'interno di sistemi inerziali.
+	
+	\subsection{Coordinate cartesiane}
+	
+	\begin{definition}[Sistema di riferimento cartesiano]
+		Presa un'origine $O$ e tre \textit{versori}, ovvero vettori unitari, questi definiscono un sistema di riferimento cartesiano. I versori, oltre ad essere una base ortonormale hanno la caratteristica che 
+		$$\ihat \times \jhat = \khat$$
+		$$\jhat \times \khat = \ihat$$
+		$$\khat \times \ihat = \jhat$$
+	\end{definition}
+	Con i vettori possiamo fare tutte le operazioni a cui siamo abituati. Quella che non sappiamo ancora trattare bene è il prodotto vettoriale, cioè:
+	\begin{definition}[Vettore posizione]
+		Diciamo \textit{vettore posizione} un qualunque oggetto combinazione lineare di versori.
+	\end{definition}
+	\begin{definition}[Prodotto vettoriale]
+		Dati due vettori $\vec{v},\vec{w}$ il loro prodotto vettoriale è definito come l'operazione bilineare alterna che soddisfa le equazioni date per i versori sopra.
+		$$\vec{a}\times \vec{b}=\vec{c}$$
+		 
+		in particolare abbiamo che $\vec{c}$ è la $n$-upla di norma $\abs{\abs{a}}\abs{\abs{b}}\sin\theta$ perpendicolare allo spazio generato dai vettori $\vec{a},\vec{b}$ e che soddisfa la regola della mano destra.
+	\end{definition}
+	Tornando alle coordinate però usando la bilinearità abbiamo
+	$$\vec{v}\times \vec{w}=a_xb_y\khat - a_x b_z \jhat - a_yb_x \khat +a_yb_z \ihat +a_zb_x \jhat -a_z b_y \ihat =(a_yb_z-a_zb_y)\ihat + (a_zb_x-a_xb_z)\jhat + (a_xb_y -a_yb_x)\khat$$
+	questo \textit{fa schifo}. Un modo più umano per ricordarselo è con dei determinantozzi
+	$$\vec{a}\times \vec{b}=
+	\abs{
+		\begin{array}{ccc}
+			\ihat & \jhat & \khat \\
+			a_x & a_y & a_z \\
+			b_x & b_y & b_z
+		\end{array}
+	}
+	$$ 
+	questo è un sano abuso di notazione (perchè questo determinante ha come entrate dei versori), ma è già molto meglio.
+	
+	\subsubsection{Cambio di coordinate}
+	
+	Notiamo che per come le abbiamo definite, le coordinate cartesiane non sono uniche. Ci chiediamo quindi come trattare il cambiamento di sistema di riferimento. Prendiamo un sistema di riferimento $\ihat',\jhat',\khat'$. Il cambio di base è
+	$$\ihat'= (\ihat'\cdot \ihat)\ihat + (\ihat'\cdot \jhat)\jhat+(\ihat'\cdot \khat)\khat=R_{11}\ihat + R_{12}\jhat + R_{13}\khat$$
+	$$\vdots$$
+	questi sono tutti dei \textit{coseni} di angoli, e quindi si chiamano \textbf{coseni direttori} in genere si denotano come $R_{ij}$, ovvero come entrate della matrice di cambiamento di base. Riderivare la matrice di cambiamento di base è facile una volta che ci si è impratichiti con i prodotti scalari: prendiamo un vettore $\vec{v}$ di componenti $v_x,v_y,v_z$, le sue cooordinate trasformate saranno: 
+	$$v_{x'}=\vec{v}\cdot \ihat'=\left(v_x\ihat+v_y\jhat+v_z\khat\right)\cdot \ihat'$$
+	$$v_{y'}=\vec{v}\cdot \jhat'=\left(v_x\ihat+v_y\jhat+v_z\khat\right)\cdot \jhat'$$
+	$$v_{z'}=\vec{v}\cdot \khat'=\left(v_x\ihat+v_y\jhat+v_z\khat\right)\cdot \khat'$$
+	da cui sommando tutto otteniamo proprio
+	$$\begin{pmatrix}
+		v_{x'}\\
+		v_{y'}\\
+		v_{z'}
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		R_{11} & R_{12} & R_{13} \\
+		R_{21} & R_{22} & R_{23} \\
+		R_{31} & R_{32} & R_{33}
+	\end{pmatrix}
+	\begin{pmatrix}
+		v_x \\
+		v_y \\
+		v_z
+	\end{pmatrix}
+	$$
+	in realtà questa matrice è fortemente sovradeterminata, infatti il nuovo sistema di riferimento deve essere ancora ortonormale, cioè tutti i versori devono avere modulo unitario:
+	$$\sum_{l=1}^3R_{il}R_{il}=1$$
+	per $i=1,2,3$ e 
+	$$\sum_{m=1}^3R_{mj}R_{mj}=1$$
+	per $j=1,2,3$. Analogamente imponiamo l'ortogonalità per le righe:
+	$$\sum_{l=1}^3R_{il}R_{jl}=0$$
+	per ogni coppia di $i\ne j$, e per le colonne
+	$$\sum_{l=1}^3R_{mi}R_{mj}$$
+	per ogni coppia di $i\ne j$. Possiamo riassumere tutto con una delta di Kroenecker, come al solito
+	$$\sum_{l=1}^3R_{mi}R_{mj}=\delta_{ij}$$
+	$$\sum_{l=1}^3R_{il}R_{jl}=\delta_{ij}$$
+	per ogni $i,j$. Ecco una prima cosa nuova, in effetti la matrice $R$ è una matrice \textit{ortogonale}, ovvero soddisfa
+	$$R^\intercal R=RR^\intercal=I$$
+	che notiamo sono esattamente le equazioni che abbiamo scritto sopra, ma in notazione matriciale. Dato che lo spazio delle matrici ortogonali $3\times 3$ ha dimensione $3$, per determinare un cambio di base ci bastano $3$ parametri. \\
+	Il cambio di base può essere visto in due modi:
+	\begin{description}
+		\item[Il punto di vista passivo:] Che scriviamo come
+		$$(v)'=Rv$$
+		cioè il vettore $v$ rimane sempre lo stesso, semplicemente viene espresso con altre coordinate nel sistema di riferimento $R$. Usiamo quindi le parentesi per dire che il vettore è sempre lo stesso, semplicemente in un sistema di riferimento diverso. Gli angoli dei coseni direttori in questo caso sono in verso \textbf{antiorario}.
+		\item[Il punto di vista attivo:] Che scriviamo come
+		$$v'=Rv$$
+		cioè il vettore $v'$ è \textbf{diverso} dal vettore $v$, ed è il suo trasformato secondo la matrice $R$. Gli angoli della rotazione in questo caso sono in verso \textbf{orario}.
+	\end{description}
+	\subsubsection{Cos'è un vettore fisico?}
+	\begin{definition}[Operatore]
+		Un \textit{operatore} è una qualsiasi funzione che manda vettori in vettori. 
+	\end{definition}
+	Ci chiediamo, come trasforma l'operatore $A$ sotto cambio di coordinate? Cioè, cambiando le coordinate, come cambia la funzione $A$? Prendiamo dunque un operatore tale che
+	$$w=Av$$
+	cosa succede se cambiamo le coordinate con una matrice $R$? abbiamo
+	$$(w)'=Rw=RAv=RAR^\intercal (Rv)=(RAR^\intercal)(v)'$$
+	cioè l'operatore $A$ è diventato l'operatore $RAR^\intercal$, questo lo scriviamo come
+	$$(A)'=RAR^\intercal$$
+	che dato che $R^\intercal$ è l'inversa di $R$ è una similitudine.
+
+	Nella definizione di operazione abbiamo appena dato per scontata la definizione di vettore. Dobbiamo tenere a mente che un vettore \textbf{fisico} è un oggetto profondamente diverso dal vettore \textbf{matematico}. Per capire cos'è un vettore fisico pensiamo al vettore posizione $\vec{r}$, applicando una trasformazione ortogonale troviamo, componente per componente
+	$$r\mapsto Rr$$
+	cioè il vettore posizione trasformato è proprio $Rr$.
+	\begin{definition}[Vettore fisico]
+		Un vettore fisico è una qualunque $n$-upla di numeri che trasforma come $r$ sotto trasformazioni ortogonali:
+		$$v\overset{\text{attivo}}{\longmapsto} Rv$$
+		cioè comunque scelto un operatore ortogonale l'applicazione ad un vettore dell'operatore ha lo stesso effetto di moltiplicare (componente per componente) la $n$-upla $v$ per la matrice $R$.
+	\end{definition}
+	\begin{definition}[Pseudovettore]
+		Uno \textit{pseudovettore} è una qualunque $n$-upla di numeri che sotto trasformazioni ortogonali trasforma come
+		$$v\mapsto \det R (Rv)$$
+		cioè a seguito di rotazioni trasforma come un vettore, ma rispetto a inversioni spaziali possono succedere cose strane. Un famoso esempio di pseudovettore è il campo magnetico.
+	\end{definition}
+	
+	\subsection{Notazione tensoriale}
+	
+	Abbiamo visto che un vettore generalmente ha coordinate $(v_x,v_y,v_z)$, d'ora in poi tuttavia per noi i vettori avranno coordinate $(v_1,v_2,v_3)$.
+	\begin{definition}[Convenzione di Einstein]
+		Ogni volta che abbiamo \textit{indici ripetuti} \textbf{in un singolo monomio}, omettiamo il simbolo di somma, per esempio per le trasformazioni di coordinate:
+		$$(v)_i'=\sum_{j=1}^{3}R_{ij}v_j=:R_{ij}v_j$$
+		o per i prodotti scalari
+		$$\vec{a}\cdot \vec{b}=\sum_{i=1}^{3}a_ib_i=:a_ib_i.$$
+		Questo ci permette di rendere le formule più facili e brevi, ma anche più incomprensibili.
+	\end{definition}
+	\begin{definition}[Tensori di Kroenecker e di Levi-Civita]
+		Definiamo il tensore di Kroenecker il simbolo
+		$$
+		\delta_{ij}:=
+		\begin{cases}
+			1 & \text{se $i=j$.}\\
+			0 & \text{altrimenti.}
+		\end{cases}
+		$$
+		analogamente definiamo il tensore di Levi-Civita il simbolo
+		$$
+		\varepsilon_{ijk}:=
+		\begin{cases}
+			+1 & \text{se $i,j,k=1,2,3$ oppure sono una permutazione pari} \\
+			-1 & \text{se $ijk$ sono una permutazione dispari} \\
+			0 & \text{altrimenti}.
+		\end{cases}
+		$$
+	\end{definition}
+	questa notazione ci permette di semplificare grandemente la formula del prodotto vettoriale: 
+	\begin{proposition}[Identità utile]
+		Per ogni $1\le j,k,l,m\le 3$ abbiamo 
+		$$\varepsilon_{ijk}\varepsilon_{ilm}=\delta_{jl}\delta_{km}-\delta_{jm}\delta_{kl}$$
+	\end{proposition}
+	\begin{proof}
+		Per casi, brutalmente.
+	\end{proof}
+	\begin{proposition}[Prodotto vettoriale]
+		Se abbiamo
+		$$\vec{a}\times \vec{b}=\vec{c}$$
+		per $i=1,2,3$ abbiamo
+		$$c_i=\varepsilon_{ijk}a_jb_k$$
+		l'indice $i$ in gergo si dice indice \textit{libero}, perchè farlo variare ci dà equazioni indipendenti (invece di sommare le cose).
+	\end{proposition}
+	da questo possiamo finalmente dimostrare il famoso BAC meno CAB:
+	\begin{theorem}[BAC meno CAB]
+		Definiamo il prodotto triplo come
+		$$\vec{w}=\vec{a}\times (\vec{b}\times \vec{c})$$
+		questo soddisfa quindi l'identità:
+		$$\vec{w}=\vec{b}(\vec{a}\cdot \vec{c})-\vec{c}(\vec{a}\cdot \vec{b})$$
+	\end{theorem}
+	\begin{proof}
+		Usando la formula per il prodotto vettoriale appena trovata abbiamo che
+		$$w_i=\varepsilon_{ijk}a_j(\vec{b}\times \vec{c})_k$$
+		di nuovo quindi possiamo usare l'equazione del prodotto vettoriale
+		$$w_i=\varepsilon_{ijk}a_j\varepsilon_{klm}b_lc_m$$
+		a questo punto stiamo sottintendendo tantissime somme, ma dato che tutte le sommatorie sono finite sono anche lineari, e quindi possiamo commutare tutto come se fossero numeri:
+		$$w_i=\varepsilon_{ijk}\varepsilon_{klm}a_jb_lc_m=(\delta_{jl}\delta_{km}-\delta_{jm}\delta_{kl})a_jb_lc_m$$
+		d'altra parte la matrice $\delta_{ij}$ con le somme omesse agisce come
+		$$\delta_{il}b_l=b_i$$
+		quindi distribuendo abbiamo
+		$$\dots = b_ia_jc_j-c_ia_jb_j=b_i(\vec{a}\cdot \vec{c})-c_i(\vec{a}\cdot \vec{b})$$
+		che era proprio la tesi.
+	\end{proof}
+	un'altra cosa che possiamo investigare con questa notazione è cosa succede alla $n$-upla $\vec{a}\times \vec{b}$ sotto trasformazioni ortogonali, prendiamo una matrice $R$, questa trasforma
+	$$(a)'_i=R_{ij}a_j$$
+	$$(b)_i'=R_{ij}b_j$$
+	quindi il trasformato di $\vec{a}\times \vec{b}$ sarà
+	$$(a\times b)'_i=\varepsilon_{ijk}(a)'_j(b)_k'=\varepsilon_{ijk}R_{jl}a_lR_{km}b_m=(\varepsilon_{ijk}R_{jl}R_{km})a_lb_m$$
+	da questa usiamo
+	\begin{theorem}[Formula di Laplace]
+		Con la notazione tensoriale possiamo scrivere la formula esplicita per il determinante come
+		$$\det R = \varepsilon_{ijk}R_{1i}R_{2j}R_{3k}=\varepsilon_{ijk}R_{i1}R_{j2}R_{k3}=\det R^\intercal.$$
+	\end{theorem} 
+	in modo ancora più elegante possiamo scrivere
+	$$\varepsilon_{rsp}\det R= \varepsilon_{ijk}R_{ir}R_{js}R_{kp}$$
+	moltiplicando anche per $R_{lr}$ abbiamo
+	$$R_{lr}\varepsilon_{rsp}\det R=\varepsilon_{ijk}R_{lr}R_{ir}R_{js}R_{kp}$$
+	che applicando l'identità $R_{lr}R_{ir}=\delta_{lr}$ dimostrata nella sezione precedente abbiamo 
+	$$\varepsilon_{rsp}R_{lr}\det R=\varepsilon_{ljk}R_{js}R_{kp}$$
+	che cambiando gli indici
+	$$\varepsilon_{ijk}R_{jl}R_{km}=\varepsilon_{rlm}R_{ir}\det R$$
+	e quindi abbiamo sostituendo
+	$$(\vec{a}\times \vec{b})'_i=\varepsilon_{rlm}R_{ir}\det R a_l b_m=\det R R_{ij}(\vec{a}\times \vec{b})_j$$
+	
+	\newpage
+	\section{Meccanica del punto materiale}
+	
+	\subsection{Cinematica del punto materiale}
+	
+	Vogliamo esprimere le coordinate $\vec{r}_{OP}(t)$ di un punto materiale $P$ rispetto ad un'origine $O$ di posizione $\vec{r}_O(t)$, possibilmente mobile nel tempo. Le coordinate del punto $P$ nel sistema di riferimento centrato in $O$ soddisfano
+	$$\vec{r}(t)=\vec{r}_O(t)+\vec{r}_{OP}(t).$$
+	In realtà per ora ci occupiamo solo del caso specifico in cui $\vec{r}_O(t)$ è costante e uguale al vettore nullo. Definiamo:
+	\begin{definition}[Legge oraria]
+		Dato un punto $P$ la sua \textit{legge oraria} $\vec{r}(t)$ è una funzione dal tempo alla posizione, che restituisce la posizione del punto $P$ al tempo $t$. 
+	\end{definition}
+	\begin{definition}[Traiettoria]
+		Una \textit{traiettoria} è una curva nello spazio, parametrizzata con un parametro (possibilmente $\lambda$), che rappresenta il luogo delle posizioni assunte da un punto $P$. In un certo senso è l'immagine della legge oraria.
+	\end{definition}
+	\begin{example}
+		Consideriamo le seguenti tre leggi orarie:
+		\begin{itemize}
+			\item $\vec{r}(t)=\vec{r}_0(t)+\vec{v}_0 t$
+			\item $\vec{r}(t)=\vec{r}_0(t)+\vec{a} t^2$
+			\item $\vec{r}(t)=\vec{r}_0(t)+\vec{v}_0 t+\vec{a} t^2$
+		\end{itemize} 
+		la prima ha come traiettoria una retta, la seconda una semiretta, la terza una parabola (dimostralo!).
+	\end{example}
+	\subsubsection{Quantità interessanti}
+	
+	\begin{definition}[Velocità]
+		Dato un punto di posizione $\vec{r}(t)$ definiamo la sua \textit{velocità} come
+		$$\vec{v}(t):=\lim_{\Delta t \to 0}\frac{\vec{r}(t+\Delta t)-\vec{r}(t)}{\Delta t}$$
+		quando il $\Delta t $ è finito e non si prende il limite quella quantità si dice \textit{velocità media}.
+	\end{definition}
+	La prima cosa importante è:
+	\begin{lemma}[Ogni traiettoria può essere approssimata con una retta]
+		Dato un punto di legge oraria $\vec{r}(t)$ per ogni $t$ e $\Delta t$ abbiamo che 
+		$$\vec{r}(t+\Delta t)=\vec{r}(t)+\vec{v}(t)\Delta t + o(\Delta t)$$
+	\end{lemma}
+	\begin{proof}
+		Consideriamo la funzione
+		$$\vec{G}(t):=\vec{r}(t+\Delta t)-\vec{r}(t)-\vec{v}(t)\Delta t$$
+		questa soddisfa chiaramente
+		$$\lim_{\Delta t\to 0}\frac{\vec{G}(t)}{\Delta t}=0$$
+		e quindi abbiamo che 
+		$$\vec{G}(t)=o(\Delta t)$$
+		e cioè abbiamo che 
+		$$\vec{r}(t+\Delta t)=\vec{r}(t)+\vec{v}(t)\Delta t + o(\Delta t)$$
+		come volevamo dimostrare.
+	\end{proof}
+	Definiamo a questo punto che 
+	\begin{definition}[Accelerazione]
+		Data una legge oraria $\vec{r}(t)$ definiamo la sua \textit{accelerazione} come la derivata rispetto al tempo della velocità.
+	\end{definition}
+	\textbf{In coordinate cartesiane} queste due quantità si comportano bene rispetto ai versori, cioè \textbf{ovunque nello spazio i versori sono uguali}. Questo implica che, data una legge oraria $\vec{r}(t)$ di componenti $\vec{x}(t)$, $\vec{y}(t)$ e $\vec{z}(t)$ abbiamo
+	$$\dot{\vec{r}}(t)=\ihat\dot{\vec{x}}(t)+\jhat\dot{\vec{y}}(t)+\khat\dot{\vec{z}}(t)$$
+	$$\ddot{\vec{r}}(t)=\ihat\ddot{\vec{x}}(t)+\jhat\ddot{\vec{y}}(t)+\khat\ddot{\vec{z}}(t)$$
+	cioè velocità accelerazioni e posizioni in coordinate cartesiane sono indipendenti tra loro. 
+	\subsubsection{Coordinate polari}
+	Definire un sistema di coordinate significa definire un sistema di versori ortonormali per ogni punto dello spazio. Un esempio notevole è il seguente:
+	\begin{definition}[Coordinate polari]
+		Un \textit{sistema di coordinate polari} si definisce assegnando ad ogni punto dello spazio $2$-dimensionale i versori
+		$$\hat{r}:=\cos\theta \ihat +\sin  \theta \jhat$$
+		$$\hat{\theta}:=-\sin\theta \ihat + \cos \theta \jhat.$$
+	\end{definition}
+	In questo sistema di coordinate ogni posizione si può esprimere semplicemente come
+	$$\vec{r}=r \hat{r}$$
+	tuttavia in questo caso i vettori non sono gli stessi in tutti i punti dello spazio, e quindi abbiamo che 
+	$$\frac{\dif \hat{r}}{\dif t}=\dot{\theta}\hat{\theta}$$
+	$$\frac{\dif \hat{\theta}}{\dif t}=-\dot{\theta}\hat{r}$$
+	dunque la velocità di un punto è
+	$$\dot{\vec{r}}(t)=\dot{r}\hat{r}+r\frac{\dif \hat{r}}{\dif t}=\dot{r}\hat{r}+r\dot{\theta}\hat{\theta}$$
+	e l'accelerazione, con molta fatica si ottiene sostituendo 
+	$$\ddot{\vec{r}}(t)=(\ddot{r}-\dot{\theta}^2r)\hat{r}+(\ddot{\theta}r+2\dot{r}\dot{\theta})\hat{\theta}$$
+	che notiamo contiene quasi tutte le forze apparenti note in casi semplici (a parte la forza di Eulero).
+	
+	\subsubsection{Coordinate Naturali o Intrinseche}
+	
+	Supponiamo di avere una traiettoria nota. Vogliamo costruire un sistema di coordinate che si comporti bene rispetto a questa traiettoria. \\
+	L'idea è che se consideriamo la velocità di un punto che percorre quella traiettoria,  possiamo sempre dire che questa è tangente alla curva. Dunque ci mancano le informazioni sul modulo e sul verso, in questo modo definiamo
+	\begin{definition}[Velocità scalare]
+		Data una traiettoria $\gamma$ definiamo un versore $\hat{\tau}$ in ogni punto tangente alla traiettoria (detto \textit{versore tangente}). Allora la \textit{velocità scalare} è quell'unico scalare tale che 
+		$$\vec{v}(t)=v_s(t)\hat{\tau}$$
+		che ci permette dunque di descrivere completamente la velocità di un punto che percorre quella traiettoria.
+	\end{definition} 
+	Questo però non è sufficiente a descrivere la posizione del punto, e quindi abbiamo:
+	\begin{definition}[Ascissa curvilinea]
+		Data una traiettoria $\gamma$ e un'origine $O$ su di essa, definiamo l'ascissa curvilinea $s(t)$ di una legge oraria $\vec{r}(t)$ vincolata su $\gamma$, come la distanza \textit{lungo la curva} del punto $\vec{r}(t)$ dal punto $O$.
+	\end{definition}
+	Forti di queste due quantità possiamo calcolare la velocità di un punto come:
+	$$\vec{v}(t):=\lim_{\Delta t \to 0}\frac{\vec{r}(t+\Delta t)-\vec{r}(t)}{\Delta t}=\lim_{\Delta t \to 0}\frac{\vec{r}(t+\Delta t)-\vec{r}(t)}{s(t+\Delta t)-s(t)}\frac{s(t+\Delta t)-s(t)}{\Delta t}$$
+	d'altra parte il secondo rapporto sappiamo a cosa tende, è semplicemente $\dot{s}(t)$, cioè la velocità scalare, mentre il primo rapporto è l'approssimazione sempre migliore della traiettoria attraverso una retta, cioè è proprio $\hat{\tau}$. Abbiamo trovato allora, come ci aspettavamo che 
+	$$\vec{v}=v_s \hat{\tau}$$
+	d'altra parte l'accelerazione è
+	$$\vec{a}=\dot{v}_s\hat{\tau}+v_s\frac{\dif \hat{\tau}}{\dif t}$$
+	per calcolare la derivata di quel versore ricorriamo alla chain rule:
+	$$\frac{\dif \hat{\tau}}{\dif t}=\frac{\dif \hat{\tau}}{\dif s}\frac{\dif s}{\dif t}$$
+	a questo punto dobbiamo calcolare la derivata del versore rispetto allo spostamento, a riguardo usiamo un trucchetto carino, cioè sappiamo che
+	$$\frac{\dif}{\dif s}(\hat{\tau}\cdot \hat{\tau})=\frac{\dif}{\dif s}(1)=0$$
+	d'altra parte per la regola del prodotto
+	$$0=\frac{\dif}{\dif s}(\hat{\tau}\cdot \hat{\tau})=2\hat{\tau}\cdot \frac{\dif \hat{\tau}}{\dif s}$$
+	cioè la derivata è perpendicolare a $\hat{\tau}$. Inoltre con i moduli facendo un po' di trigonometria sulla curva si ha
+	$$\abs{\frac{\dif \hat{\tau}}{\dif s}}=\abs{\frac{2\sin\left(\frac{\Delta \theta}{2}\right)}{R \Delta \theta}}=\frac{1}{R}$$
+	da cui, mettendo tutto insieme 
+	$$\vec{a}=\dot{v}_s(\hat{\tau})+\frac{v_s^2}{R}\hat{n}$$
+	(dove $\hat{n}$ è il versore perpendicolare alla curva) e quindi ci rendiamo conto che il secondo termine è proprio l'accelerazione centripeta che conosciamo, il raggio $R$ si dice \textit{raggio di osculazione}. Siamo quindi pronti a definire:
+	\begin{definition}[Coordinate naturali]
+		Data una curva $\gamma$ il suo sistema di \textit{coordinate naturali} è quello definito con la terna di versori ortonormali $\hat{\tau}$ \textit{versore tangente}, $\hat{n}$ il \textit{versore normale} e $\hat{b}$ il \textit{versore binormale} tali che $\hat{\tau}$ tangente a $\gamma$ in ogni punto, $\hat{n}$ soddisfa
+		$$\frac{\dif \hat{\tau}}{\dif s}=\frac{\hat{n}}{\rho}$$
+		e $\hat{b}$ è il versore che completa la terna, ovvero soddisf
+		$$\hat{\tau}\times \hat{n}=\hat{b}$$
+		e tutte le permutazioni cicliche.
+	\end{definition}
+	\begin{lemma}[Formule di Frennet-Serret]
+		Una terna di versori in coordinate naturali soddisfa
+		$$\frac{\dif \hat{n}}{\dif s}=-\frac{1}{\rho}\hat{\tau}+\frac{1}{\sigma}\hat{b}$$
+		$$\frac{\dif \hat{b}}{\dif s}=-\frac{1}{\sigma}\hat{n}$$
+		$$\frac{\dif \hat{\tau}}{\dif s}=\frac{\hat{n}}{\rho}$$
+		dove $\sigma$ viene detto \textit{raggio di torsione}.
+	\end{lemma}
+	\begin{proof}
+		La terza formula è la definizione di versore normale. Per dimostrare la prima e la seconda deriviamo da entrambi i lati rispetto a $s$ la definizione di $\hat{b}$:
+		$$\frac{\dif \hat{b}}{\dif s}=\frac{\dif}{\dif s}\left(\hat{\tau}\times \hat{n}\right)=\frac{\dif\hat{\tau}}{\dif s}\times \hat{n}+\hat{\tau}\times \frac{\dif \hat{n}}{\dif s}$$
+		ora, sappiamo che la derivata di $\hat{\tau}$ è tutta lungo $\hat{n}$, quindi il primo termine è $0$, d'altra parte facendo il prodotto scalare per $\hat{\tau}$ da entrambi i lati e applicando la ciclicità del prodotto triplo otteniamo:
+		$$\hat{\tau}\cdot\frac{\dif \hat{b}}{\dif s}=\hat{\tau}\cdot\left(\hat{\tau}\times \frac{\dif \hat{n}}{\dif s}\right)=\frac{\dif \hat{n}}{\dif s}\cdot\left(\hat{\tau}\times \hat{\tau}\right)=0$$
+		il che ci dice che la derivata di $\hat{b}$ è tutta lungo $\hat{n}$. Chiamiamo $\sigma$ il \textit{raggio di torsione}, ovvero quel $\sigma\in \overline{\RR}$ tale che la seguente equazione è soddisfatta
+		$$\frac{\dif \hat{b}}{\dif s}=-\frac{\hat{n}}{\sigma}$$
+		e per quanto appena detto esiste sempre. Infine per dimostrare la prima equazione consideriamo le identità:
+		$$\frac{\dif}{\dif s}\left(\hat{n}\cdot \hat{\tau}\right)=0$$
+		$$\frac{\dif}{\dif s}\left(\hat{n}\cdot \hat{b}\right)=0$$
+		applicando la regola di derivazione del prodotto otteniamo
+		$$\frac{\dif \hat{n}}{\dif s}\cdot \hat{\tau}+\hat{n}\cdot\frac{\dif \hat{\tau}}{\dif s}=0$$
+		$$\frac{\dif \hat{n}}{\dif s}\cdot \hat{b}+\hat{n}\cdot\frac{\dif \hat{b}}{\dif s}=0$$
+		ovvero, sostituendo le formule appena trovate per le derivate dei versori:
+		$$\frac{\dif \hat{n}}{\dif s}\cdot \hat{\tau}=-\hat{n}\cdot\frac{\dif \hat{\tau}}{\dif s}=-\hat{n}\frac{\hat{n}}{\rho}=-\frac{1}{\rho}$$
+		$$\frac{\dif \hat{n}}{\dif s}\cdot \hat{b}=-\hat{n}\cdot\frac{\dif \hat{b}}{\dif s}=-\hat{n}\frac{\hat{n}}{-\sigma}=\frac{1}{\sigma}$$
+		che unite al fatto ben noto che la derivata di un versore sia sempre perpendicolare a se stesso ci danno la tesi.
+	\end{proof}
+	
+	\newpage
+	
+	\subsection{Dinamica}
+	
+	La dinamica del punto si basa sui primi due principi della dinamica:
+	\begin{itemize}
+		\item Il principio d'inerzia.
+		\item Il secondo principio della dinamica, cioè
+		$$\vec{F}=m\vec{a}=\frac{\dif \vec{p}}{\dif t}.$$
+		Dove $\vec{p}$ è la quantità di moto del punto.
+	\end{itemize}
+	Cruciale è il concetto di \textit{forza}. 
+	\begin{definition}[Forza]
+		Una forza è un quantità \textit{vettoriale} intrinseca dell'interazione tra due corpi che \textbf{non dipende dal sistema di riferimento}, meglio sarebbe descritto il secondo principio come
+		$$\frac{\vec{F}}{m}=\vec{a}$$
+		perché di solito la funzione ad essere definita a priori è la forza.
+	\end{definition}
+	Esplicitando tutte le dipendenze abbiamo
+	$$\ddot{\vec{r}}=\frac{1}{m}\vec{F}(\vec{r},\dot{\vec{r}},t)$$
+	Questa è una equazione differenziale ordinaria del secondo ordine, detta \textbf{equazione del moto}.
+	\begin{definition}[massa inerziale]
+		La quantità $m$ nell'equazione del moto viene detta \textit{massa inerziale}. La massa ha la caratteristica di essere additiva, cioè dati due insiemi di punti disgiunti $A$ e $B$ la massa dell'insieme $A\sqcup B$ è la somma delle masse.
+	\end{definition}
+	Il metodo newtoniano è quello della pura e semplice \textbf{equazione del moto}. Per risolvere qualunque problema di fisica basta risolvere l'equazione del moto. Facciamo alcuni esempi
+	\begin{example}[Moto armonico]
+		Un punto si muove di moto armonico quando soddisfa la seguente equazione
+		$$\ddot{x}=-kx.$$
+		Perché questo è così importante? Perché se una forza ha un punto in cui si annulla:
+		$$F(x_0)=0$$
+		allora possiamo espandere al primo ordine
+		$$F(x)=F(x_0)+(x-x_0)F'(x_0)+o(x-x_0)$$
+		e quindi per $x$ vicini a $0$, se $F'(x_0)$ è negativo, stiamo risolvendo esattamente l'equazione del modo armonico!
+	\end{example}
+	\begin{lemma}[Soluzione del moto armonico]
+		L'equazione differenziale del secondo ordine 
+		$$\ddot{x}=-\omega^2 x$$
+		ha come famiglia di soluzioni
+		$$x(t)=A\cos(\omega t)+ B \sin(\omega t)=x_0\cos(\omega t)+\frac{v_0}{\omega}\sin(\omega t)$$
+		oppure
+		$$x(t)=\mathcal{A}\cos(\omega t + \delta).$$
+	\end{lemma}
+	Si può passare agilmente da una rappresentazione all'altra, derivando la formula
+	$$\mathcal{A}=\sqrt{x_0^2+\frac{v_0^2}{\omega^2}}$$
+	utilizzando la formula 
+	$$e^{i\alpha}=\cos\alpha+i\sin\alpha.$$
+	\begin{example}[Molla appesa al soffitto]
+		Consideriamo l'equazione
+		$$\ddot{x}=-\omega^2 x + \frac{F_0}{m}$$
+		che descrive il moto di una molla appesa al soffitto. Come si risolve questa? sostituiamo
+		$$\xi = x-\frac{F_0}{m\omega^2}$$
+		a questo punto l'equazione diventa
+		$$\ddot{\xi}=-\omega^2\xi$$
+		che sappiamo risolvere! Da questa ricaviamo
+		$$\xi(t)=A\cos(\omega t)+B\sin(\omega t)$$
+		che sostituendo la $x$ ci restituisce
+		$$x(t)=\frac{F_0}{m\omega^2}+A\cos(\omega t)+B\sin(\omega t).$$
+	\end{example}
+	Questo ci dà un assaggio del fatto che quando le nostre equazioni sono \textbf{lineari}, le loro soluzioni sono elementi di sottospazi affini. Ergo, ci basta trovare una soluzione dell'equazione di partenza, e poi tutte le altre si otterrano come combinazione lineare di soluzioni dell'omogenea con essa.
+	\begin{example}[Attrito viscoso]
+		Un punto che si muove sottoposto ad attrito viscoso soddisfa la seguente equazione del moto
+		$$m\ddot{x}=-\gamma \dot{x}$$
+		che sostituendo 
+		$$v=\dot{x}$$
+		diventa
+		$$m\dot{v}=-\gamma v$$
+		che sappiamo risolvere, either separando le variabili oppure raccogliendo da un lato e riconoscendo la derivata del logaritmo.
+	\end{example}
+	\begin{example}[ODE completa]
+		Un palla che cade sottoposta all'attrito viscoso soddisfa la seguente equazione del moto
+		$$m\ddot{x}=-\gamma \dot{x}+F_0$$
+		anche qui possiamo sostituire la velocità, ottenendo
+		$$\dot{v}=-\frac{1}{\tau}v+\frac{F_0}{m}$$
+		dove $\tau:=\frac{\gamma}{m}$.  E qui abbiamo due strade, o separiamo di nuovo le variabili, o applichiamo il teorema sugli spazi affini che ci dice che le soluzioni dell'equazione sono date da una soluzione particolare combinata linearmente con le soluzioni dell'omogenea. Possiamo trovare una soluzione molto facile dell'equazione imponendo che $v$ sia costante, e otteniamo quindi
+		$$v=\frac{F_0 \tau}{m}$$
+		che ci porta alla soluzione generale dell'equazione considerando anche l'omogenea:
+		$$v=\left(v_0-\frac{F_0 \tau}{m}\right)e^{-\frac{t}{\tau}}+\frac{F_0\tau }{m}$$
+		in cui riconosciamo l'equazione della velocità limite $v_L=\frac{F_0 \tau}{m}$:
+		$$v=(v_0-v_L)e^{-t/\tau}+v_L$$
+	\end{example}
+	
+	\subsubsection{Momento Angolare}
+	
+	\begin{definition}[Momento]
+		Il \textit{momento} di un vettore $\vec{F}$ rispetto ad un polo $P$ nel punto $\posit$ è definito come
+		$$\vec{M}_P=(\posit-\posit_P)\times \vec{F}.$$
+	\end{definition}
+	Dato un polo $P$, di solito denotiamo con $\vec{M}_P$ il momento di una forza rispetto a $P$. 
+	\begin{definition}[Momento Angolare]
+		Il momento della quantità di moto di un punto $\posit$ si dice il suo \textit{momento angolare}:
+		$$\vec{L}=(\posit-\posit_P)\times m\vec{v}.$$
+	\end{definition}
+	\begin{theorem}[Conservazione della quantità di moto]
+		La derivata della quantità di moto di un punto soddisfa
+		$$\frac{\dif \vec{L}_P}{\dif t}=\vec{M}_P$$
+	\end{theorem}
+	\begin{proof}
+		Regola del prodotto e secondo principio della dinamica.
+	\end{proof}
+	\begin{definition}[Forza centrale]
+		Una forza $\vec{F}$ si definisce \textit{centrale}, se esiste una funzione $f(r)$ tale che, in coordinate polari
+		$$\vec{F}(\posit)=f(r)\hat{r}$$
+		cioè la forza ha simmetria sferica.
+	\end{definition}
+	Nel caso di forze centrali, abbiamo
+	\begin{theorem}[Seconda legge di Keplero]
+		Il vettore posizione $\posit$ di un punto materiale che si muove in presenza di una forza centrale spazza aree uguali in tempi uguali. Ovvero, la velocità areolare $\dot{A}$ è costante.
+	\end{theorem}
+	\begin{proof}
+		Espandendo al primo ordine in polari.
+	\end{proof}
+	
+	\subsubsection{Vincoli bilateri}
+	
+	Prendiamo una traiettoria $\gamma$ fissata con il suo sistema di coordinate naturali. Come abbiamo visto ieri
+	$$\vec{v}=\dot{s}\hat{\tau}$$
+	$$\accel=\ddot{s}\hat{\tau}+\frac{\dot{s}^2}{\rho}\hat{n}$$
+	e la binormale
+	$$\hat{n}\times \hat{b}=\hat{\tau}$$
+	allora possiamo decomporre una forza generica $\vec{F}$ applicata ad un punto sulla traiettoria come
+	$$\vec{F}=F_\tau \hat{\tau}+F_n \hat{n}+F_b \hat{b}$$
+	a questo punto noi sappiamo per il primo secondo principio che
+	$$m\vec{a}=\vec{F}+\vec{R}$$
+	dove $\vec{R}$ è la cosiddetta reazione vincolare, che è una condizione imposta dal vincolo affinchè la traiettoria rimanga su $\gamma$. La reazione vincolare soddisfa
+	$$m\ddot{s}=F_\tau$$
+	$$m\frac{\dot{s}^2}{\rho}=F_n+R_n$$
+	$$0=F_b+R_b$$
+	queste sono le equazioni di un \textit{vincolo bilatero} ovvero un vincolo a torsione nulla (cioè un vincolo che blocca la traiettoria su di un piano). 
+	\begin{example}[Pendolo semplice]
+		Un pendolo semplice segue una traiettoria circolare di raggio $R$. Se la reazione vincolare in questo caso è identificata nella tensione $T$, allora imponendo le tre equazioni di un vincolo bilatero abbiamo
+		$$m\ddot{s}=-mg\sin\theta$$
+		$$m\frac{\dot{s}^2}{R}=T-mg\cos\theta$$
+		che risostituendo $s=R\theta$ ci permette di ricavare tutto.
+	\end{example}
+	\begin{example}[Pendolo conico]
+		Consideriamo ora un pendolo semplice in $3$ dimensioni, appeso con una corda di lunghezza $l$ e incilinato di un angolo $\alpha$ rispetto alla verticale. In questo caso la traiettoria è sempre un cerchio, le equazioni del vincolo questa volta ci dicono
+		$$m\ddot{s}=F_\tau=0$$
+		$$m\frac{\dot{s}^2}{l\sin\theta}=T\sin \alpha$$
+		$$0=-mg+T\cos\alpha$$
+		che mettendo tutto insieme. Ci dà
+		$$\omega^2=\frac{g}{l\cos\alpha}.$$
+	\end{example}
+	
+	\newpage
+	
+	\section{Meccanica celeste}
+	
+	\begin{problem}[Dei due corpi]
+		Siano dati due corpi di massa $m_1$ ed $m_2$ di posizioni $\posit_1$ e $\posit_2$. Assumendo che non vi siano influenze esterne, capire come evolve il sistema nel tempo.
+	\end{problem}
+	Per prima cosa definiamo i due vettori $\posit$ e $\vec{R}$ tali che
+	$$\posit = \posit_2-\posit_1$$
+	$$\vec{R}=\frac{m_1\posit_1+m_2\posit_2}{m_1+m_2}$$
+	che sono rispettivamente la posizione relativa del corpo $2$ rispetto al corpo $1$ e il centro di massa del sistema. Le equazioni del moto sono
+	$$m_1\accel_1=\vec{F}_{12}=-\vec{F}_{21}$$
+	$$m_2\accel_2=\vec{F}_{21}$$
+	facendo l'accelerazione del centro di massa, ci viene chiaramente $0$, mentre l'accelerazione della posizione relativa è
+	$$\accel=\accel_2-\accel_1=\frac{\vec{F}_{21}}{m_2}-\frac{\vec{F}_{12}}{m_1}=\left(\frac{1}{m_1}+\frac{1}{m_2}\right)\vec{F}_{21}$$
+	quella quantità tra parentesi di solito si definisce \textit{massa ridotta}, ovvero
+	$$\frac{1}{\mu}=\frac{1}{m_1}+\frac{1}{m_2}$$
+	e quindi abbiamo un'unica equazione
+	$$\mu \accel = \vec{F}_{21}.$$
+	Questo ci fa capire una strategia importante quando affrontiamo problemi di meccanica celeste: possiamo lavorare soltanto con $\posit$ e $\vec{R}$ (dato che la forza di solito dipende solo da $\posit$) per risolvere le equazioni del moto, per poi ritornare alle $\posit_1$ e $\posit_2$ sostituendo. In particolare abbiamo
+	$$\posit_1=\vec{R}-\frac{m_2}{m_1+m_2}\posit$$
+	$$\posit_2=\vec{R}+\frac{m_1}{m_1+m_2}\posit.$$
+	Perché abbiamo potuto applicare questa \textit{fattorizzazione}? Sarà per caso perché il sistema era isolato? In realtà se aggiungiamo una forza esterna uguale da entrambi i lati abbiamo
+	$$m_1\accel_1=\vec{F}_{12}+\vec{F}_E$$
+	$$m_2\accel_2=\vec{F}_{21}+\vec{F}_E$$
+	che ci dà
+	$$\left(m_1+m_2\right)\ddot{\vec{R}}=2\vec{F}_E$$
+	$$\accel=\left(\frac{1}{m_1}+\frac{1}{m_2}\right)\vec{F}_{21}+\left(\frac{1}{m_2}-\frac{1}{m_1}\right)\vec{F}_E$$
+	che è sono sì fattorizzate, ma la seconda non ha più il pregio di dipendere solo dalle interazioni tra le due particelle. In realtà questo è un problema che non sussiste se le due forze non sono uguali e dipendono direttamente solo dalla massa dei corpi, ovvero
+	$$F_{E_1}=m_1g$$
+	$$F_{E_2}=m_2g$$
+	
+	\subsection{Teorema di Konig}
+	
+	Per una forza centrale l'energia totale è
+	$$E=\sum_{i=1}^{N}\half m_i \veloc_i \cdot \veloc_i$$
+	che espandendo sostituendo le posizioni relative $r_i'$ rispetto al centro di massa $R$:
+	$$\dots=\sum_{i=1}^{N}\half m_i \left(\dot{\vec{R}}+\dot{\vec{r}}_i\,'\right)\left(\dot{\vec{R}}+\dot{\vec{r}}_i\,'\right)$$
+	che svolgendo tutti i prodotti ci dà
+	$$\dots=\half M \dot{\vec{R}}\dot{\vec{R}}+\sum_{i=1}^{N}\half m_i \dot{\vec{r}}_i\,'\dot{\vec{r}}_i\,'$$
+	che è il cosiddetto \textbf{teorema di Konig} per l'energia di un sistema di particelle. A noi questo teorema importa principalmente per il caso $n=2$, che sostituendo usando la posizione relativa introdotta prima, facendo un po' di contazzi:
+	$$E=\half M \dot{\vec{R}}^2+\half \mu \veloc^{\,2}$$
+	che insomma è un modo per dire di nuovo che un sistema di due corpi si comporta come un corpo solo, con massa $\mu$. 
+	
+	\subsection{Forze centrali}
+	
+	Ci siamo allora ricondotti a studiare il moto di un solo corpo. Per fare ciò dobbiamo introdurre il terzo principio della dinamica. 
+	\begin{proposition}[Terzo principio della dinamica]
+		Se il corpo $m_1$ applica una forza $\vec{F}_{12}$ sul corpo $m_2$ e il corpo $m_2$ applica una forza $\vec{F}_{21}$ sul corpo $m_1$ allora abbiamo
+		$$\vec{F}_{12}+\vec{F}_{21}=0$$
+		$$\left(\vec{r}_1-\vec{r}_2\right)\times \vec{F}_{12}=0$$
+	\end{proposition}
+	dunque se il sistema a cui ci siamo ricondotti è del tipo
+	$$m\accel = \vec{F}(\vec{r})$$
+	abbiamo, dato che $F$ è azione-reazione, che 
+	$$\vec{F}\propto \hat{r}$$
+	in particolare una forza si dirà \textit{centrale}, se 
+	\begin{definition}[Forza centrale]
+		Una forza si dice \textit{centrale} se 
+		$$\vec{F}=f(r)\hat{r}$$
+		per ogni $r$. Notiamo che l'$r$ nella $f$ è scalare, non vettoriale, questo significa proprio che la forza ha simmetria sferica.
+	\end{definition}
+	\begin{lemma}[Conservazione del momento angolare]
+		Nel moto di un corpo in presenza di una forza centrale abbiamo che il momento angolare è costante.
+	\end{lemma}
+	\begin{proof}
+		Il momento della forza è
+		$$\vec{M}=\vec{F}\times \vec{r}=0$$
+		in quanto $F$ è uno scalare per $\hat{r}$. Quindi il momento angolare si conserverà.
+	\end{proof}
+	Una conseguenza di ciò è che il moto di un corpo in campo centrale procede sempre su un piano, perchè $\vec{L}$ è costante, e la posizione deve essere sempre perpendicolare ad esso. Da questo si deduce che il corpo deve essere sul complemento ortogonale di $\vec{L}$, che è un piano. Calcolando esplicitamente il momento angolare in cilindriche abbiamo
+	$$\vec{L}=r\hat{r}\times\left(\dot{r}\hat{r}+\dot{\theta}r\hat{\theta}\right)=mr^2\dot{\theta}\hat{z}.$$
+	denotiamo con $l$ quindi la quantità tale che
+	$$\vec{L}=l\left(\hat{r}\times \hat{\theta}\right)$$
+	cioè è il modulo con segno del momento angolare.
+	\subsubsection{Equazioni del moto}
+	Le equazioni del moto in polari per una forza centrale vengono
+	$$m\left(\ddot{r}-\dot{\theta}^2r\right)=f(r)$$
+	$$m\left(2\dot{r}\dot{\theta}+r\ddot{\theta}\right)=0$$
+	ma notiamo che la seconda equazione è esattamente il fatto che la derivata del momento angolare è costante, e quindi possiamo sostituirla con
+	$$l=mr^2\dot{\theta}$$
+	sostituendo allora abbiamo
+	$$m\ddot{r}=f(r)+\frac{l^2}{mr^3}$$
+	che è la soluzione del nostro problema, che si riduce ad una singola equazione di un singolo corpo in una dimensione, influenzato da due forze (la forza di gravità e la forza centrifuga). 
+	
+	\subsubsection{Il potenziale efficace}
+	
+	Se vogliamo trattare la conservazione dell'energia in questo caso prendiamo l'equazione del moto e moltiplichiamo da ambo i lati per $\dot{r}$:
+	$$m\ddot{r}\dot{r}=-\frac{\partial U}{\partial r}\dot{r}+\frac{l^2}{mr^3}\dot{r}$$
+	ora definiamo il potenziale di $f$ come la sua primitiva a meno di un segno, ovvero
+	$$f(r)=-\frac{\partial U}{\partial r}$$
+	questo ci permette di raccogliere un bel po' di derivate
+	$$\frac{\dif}{\dif t}\left(\half m \dot{r}^2\right)=-\frac{\dif U}{\dif t}-\frac{\dif}{\dif t}\left(\frac{l^2}{2mr^2}\right)$$
+	che portando tutto da un lato diventa
+	$$\frac{\dif}{\dif t}\left(\half m \dot{r}^2+\frac{l^2}{2mr^2}+U\right)=0$$
+	che è una costante del moto, ed espandendo il momento angolare ci dà proprio quello a cui siamo abituati:
+	$$E=\half m \dot{r}^2+\half m r^2\dot{\theta}^2+U.$$
+	Questo ci permette di classificare le orbite soltanto in base a due parametri $l$ ed $E$. Non solo, la conservazione dell'energia ci permette di fare un conto particolarmente interessante:
+	$$\left(\frac{\dif r}{\dif t}\right)^2=\frac{2}{m}\left[E-U(r)-\frac{l^2}{2mr^2}\right]$$
+	(non abbiamo fatto niente di pazzo, abbiamo solo girato la conservazione dell'energia). Che possiamo risolvere e ci dà un'equazione $r(t)$:
+	$$\int_{r_0}^{r(t)} \frac{\dif r}{\sqrt{\frac{2}{m}\left[E-U(r)-\frac{l^2}{2mr^2}\right]}}=\int_{t_0}^t \dif t = t-t_0$$
+	che è abbastanza bruttina, e quindi non ci soddisfa davvero. Per studiare meglio le orbite introduciamo quindi una quantità che si rivelerà essere estremamente conveniente, il \textbf{potenziale efficace}:
+	$$V_\text{eff}(r):=U(r)+\frac{l^2}{2mr^2}$$
+	questo ci sta dicendo che a tutti gli effetti stiamo risolvendo un problema fittizio in una sola dimensione, in cui il corpo si muove sottoposto ad una forza con potenziale $V_\text{eff}(r)$, in quanto abbiamo che
+	$$E-\half m\dot{r}^2=V_\text{eff}$$
+	in analogia a quanto succederebbe effettivamente per un corpo in una sola dimensione che si muove sottoposto ad una forza di potenziale $V_\text{eff}$.
+	\begin{center}
+		\resizebox{350 pt}{!}{%
+			\begin{tikzpicture}
+				\begin{axis}[
+					xticklabels=\empty,
+					yticklabels=\empty,
+					xmin=0,
+					ymin=-4,ymax=4,
+					ylabel style={shift={(-25pt,0)}},
+					xlabel={$r$},
+					ylabel={$V_\text{eff}$},
+					]
+					\addplot[mystyle] expression[domain=0.07:3,samples=3000]{((7.3)^2/(2*4.3*(5*x)^2))-((2*4.3)/(5*x))}; 
+				\end{axis}
+			\end{tikzpicture}
+		}
+	\end{center}
+	Osserviamo che 
+	\begin{itemize}
+		\item La forza è attrattiva, e quindi il potenziale efficace avrà un minimo e non un massimo.
+		\item Se la forza dipende da $\frac{1}{r^2}$ il potenziale dipenderà da $\frac{1}{r}$ e quindi per $r\to\infty$ tenderà a $0$ più lentamente $\frac{1}{r^2}$.
+		\item Per $r\to 0$ il potenziale efficace esplode all'infinito, perché il momento angolare è fissato, e quindi la velocità del corpo dipenderà inversamente dal raggio, facendo sì che il corpo sia portato ad allontanarsi molto velocemente dallo $0$. 
+	\end{itemize}
+	Possiamo allora classificare le orbite al variare dell'energia e tenendo costante il momento angolare:
+	\begin{itemize}
+		\item[$V_\text{eff}<0$:] Se il potenziale efficace è strettamente negativo l'orbita sarà ciclica, e quindi nel caso della gravità sarà ellittica. In particolare quando il potenziale efficace è minimo si avrà che il raggio è costante, e quindi l'orbita sarà circolare.
+		\item[$V_\text{eff}= 0$:] Se il potenziale efficace è uguale a $0$ il corpo si allontanerà indefinitamente lungo l'asintoto, e all'infinito avrà velocità esattamente nulla. Dunque nel caso della gravità l'orbita sarà parabolica.
+		\item[$V_\text{eff}>0$:] Se il potenziale efficace è positivo il corpo si allontanerà indefinitamente, ma all'infinito avrà velocità positiva, il che vuol dire che nel caso gravitazionale l'orbita sarà iperbolica.
+	\end{itemize}
+	
+	L'energia, il momento angolare e il potenziale efficace di solito si chiamano \textbf{integrali primi del moto}, perchè il nostro problema è formato da due ODE del secondo ordine, e per risolverle noi \textbf{integriamo} (possiamo farlo esplicitamente ma è brutto), come abbiamo visto sopra \textbf{quattro volte}. Le quantità conservate ci permettono di saltare una o più di queste integrazioni, una per ogni quantità. \\
+	Se immaginiamo di intersecare il grafico del potenziale efficace con una retta  orizzontale, i punti di intersezione sono i cosiddetti \textit{punti di inversione} del moto, e sono i punti in cui la velocità radiale è nulla. 
+	
+	\subsection{Traiettoria $r(\theta)$}
+	
+	Ora vogliamo trovare un modo per descrivere esplicitamente le traiettorie per una forza centrale. Vi sono due metodi, ed entrambi si basano sulla seguente osservazione chiave:
+	Consideriamo la conservazione del momento angolare
+	$$l=mr^2\dot{\theta}$$
+	riscriviamola come
+	$$\frac{\dif \theta}{\dif t}=\frac{l^2}{mr^2}$$
+	e con un sonoro abuso di notazione scriviamo la seguente uguaglianza tra operatori (grazie alla chain rule):
+	$$\boxed{\frac{\dif}{\dif t}=\frac{l}{mr^2}\frac{\dif }{\dif \theta}}$$
+	dunque vediamo i due metodi.
+	\subsubsection{Primo Metodo - Formula di Binet}
+	Consideriamo la prima equazione del moto, abbiamo
+	$$m\frac{\dif^2 r}{\dif t^2}=\frac{l^2}{mr^3}+f(r)$$
+	possiamo riscriverla usando l'uguaglianza tra operatori trovata sopra
+	$$\frac{\dif }{\dif t}\frac{\dif r}{\dif t}=\frac{l}{mr^2}\frac{\dif}{\dif \theta}\left(\frac{l}{mr^2}\frac{\dif r}{\dif \theta}\right)$$
+	che facendo un po' di conti viene
+	$$\frac{\dif^2r}{\dif t^2}=-\frac{l^2}{m^2r^2}\frac{\dif^2}{\dif\theta^2}\frac{1}{r}$$
+	che sostituendo nell'equazione del moto, e introducendo la variabile $u:=\frac{1}{r}$ abbiamo
+	$$\frac{l^2 u^2}{m}\left[\frac{\dif^2 u}{\dif \theta^2}+u\right]=-f\left(\frac{1}{u}\right)$$
+	questa è la cosiddetta \textbf{formula di Binet}, che può essere usata per trovare la traiettoria a partire dalla legge $f$ della forza. In realtà questa equazione è utile, ed è stata utile storicamente, soprattutto per fare il contrario, ovvero trovare la forza a partire dalla traiettoria: se sappiamo la distanza e l'angolo per un certo numero finito di punti possiamo trovare il valore di $f(1/u)$ approssimativamente per quel numero di punti! Usando questa equazione si può anche dimostrare che tutte le orbite sono simmetriche rispetto ai punti di inversione del moto. In effetti notiamo che per un punto di inversione il raggio assume sicuramente un massimo o un minimo, quindi anche $u$ assumerà un massimo o un minimo, e quindi \dots
+	
+	\subsubsection{Secondo metodo}
+	
+	Ritorniamo all'equazione che avevamo scritto per l'energia:
+	$$\frac{\dif r}{\dif t}=\pm \sqrt{\frac{2}{m}}\sqrt{E-U(r)-\frac{l^2}{2mr^2}}$$
+	a questo punto usando l'uguaglianza tra operatori troviamo
+	$$\frac{1}{r^2}\frac{\dif r}{\dif \theta}=\pm \sqrt{\frac{2m}{l^2}\left(E-U(r)-\frac{l^2}{2mr^2}\right)}$$
+	che di nuovo introducendo la quantità conveniente $u$ ci dà, separando le variabili
+	$$\int_{\theta_0}^\theta\dif \theta=\pm\int_{u_0}^u\frac{\dif u}{\sqrt{\frac{2m}{l^2}\left(E-U\left(\frac{1}{u}\right)\right)-u^2}}$$
+	che risolvendo l'integrale è effettivamente la traiettoria cercata. Questo metodo ha di buono che tutte le costanti di integrazione hanno un significato fisico chiaro, ed è chiara la loro dipendenza da $l$ ed $E$.
+	
+	\subsection{Teorema del viriale}
+	Per un sistema a $N$ particelle definiamo la quantità 
+	$$G=\sum_{i=1}^{N}\vec{p}_i\cdot\posit_i$$
+	derivandola otteniamo
+	$$\frac{\dif G}{\dif t}=\sum_{i=1}^N \left(\dot{\vec{p}}_i\posit_i+\vec{p}_i\dot{\posit}_i\right)$$
+	che d'altra parte possiamo splittare in due sommatorie, la seconda riconosciamo essere l'energia cinetica totale, e quindi abbiamo
+	$$\frac{\dif G}{\dif t}=2K+\sum_{i=1}^{N}\posit_i\cdot \vec{F}_i$$
+	che dunque integrando entrambi i lati rispetto al tempo ci dà
+	$$\frac{G(\tau)-G(0)}{\tau}=\int_0^\tau \frac{\dif G}{\dif t}\dif t=\sum_{i=1}^{N}\langle \posit_i\cdot \vec{F}_i \rangle + 2 \langle K \rangle$$
+	dove i brakets sono una notazione per la media integrale. Questa equazione è molto interessante quando il lato sinistro va a $0$, e questo è proprio
+	\begin{theorem}[Del Viriale]
+		Quando si ha un'orbita periodica, considerando che le medie temporali sono fatte rispetto al periodo $\tau$ abbiamo
+		$$\sum_{i=1}^{N}\langle \posit_i\cdot \vec{F}_i \rangle + 2 \langle K \rangle=0$$
+		se invece consideriamo semplicemente un tempo $\tau\gg 1 $ abbastanza grande (più grande di $NF_\text{max}$, per esempio), abbiamo che
+		$$\sum_{i=1}^{N}\langle \posit_i\cdot \vec{F}_i \rangle + 2 \langle K \rangle\approx 0.$$
+	\end{theorem}
+	\begin{example}[Particella singola]
+		Prendiamo una particella singola in moto rispetto a una forza centrale
+		$$f(r)=\alpha r^n$$
+		visto che $N=1$ abbiamo che il teorema del viriale, in un tempo molto lungo, ci dice che
+		$$2\langle K \rangle + \langle \posit \cdot \vec{F}\rangle=2\langle K \rangle +(n+1)\langle U \rangle\approx 0.$$
+	\end{example}
+	
+	\subsection{Il caso specifico - Gravità}
+	
+	La forza di gravità è una forza centrale tale che
+	$$f(r)=-\frac{\alpha}{r^2}$$
+	e quindi abbiamo 
+	$$U(r)=-\frac{\alpha}{r}$$
+	$\alpha$ è una costante che non ci interesserà troppo, e se ci dovesse servire davvero il suo valore ne parleremo meglio. Come riscaldamento troviamo effettivamente la traiettoria di un pianeta che orbita attorno ad un altro soggetto alla forza di gravità: \\
+	\subsubsection{Primo metodo}
+	Consideriamo l'equazione del primo metodo per trovare la traiettoria di un moto in campo centrale, specializzandola al caso della gravità:
+	$$\frac{l^2u^2}{m}\left[\frac{\dif^2 u}{\dif \theta^2}+u\right]=\alpha u^2$$
+	da cui 
+	$$\frac{\dif^2 u}{\dif \theta^2}=-\left(u-\frac{\alpha m}{l^2}\right)$$
+	d'altra parte se introduciamo la variabile $\xi$ uguale al RHS dell'equazione sopra, abbiamo
+	$$\frac{\dif^2\xi}{\dif \theta^2}=-\xi$$
+	che sappiamo risolvere e fa
+	$$\xi(\theta)=A\cos\theta$$
+	dunque abbiamo 
+	$$r(\theta)=\frac{1}{u(\theta)}=\frac{1}{\xi(\theta)+\frac{\alpha m}{l^2}}=$$
+	$$=\frac{1}{A\cos \theta + \frac{\alpha m}{l^2}}=\boxed{\left(\frac{l^2}{\alpha m}\right)\frac{1}{1+\left(\frac{Al^2}{\alpha m}\cos\theta\right)}}$$ 
+	Introducendo un po' di notazione per tutti quei \textit{cumbersome} fattori:
+	$$r(\theta)=\frac{P}{1+e\cos\theta}.$$
+	Sappiamo già la soluzione: vogliamo che questa sia l'equazione di una conica in polari. Tuttavia abbiamo un po' di dubbi da chiarirci: non è chiaro cosa sia $A$. 
+	
+	\subsubsection{Secondo metodo}
+	
+	Nel caso del secondo metodo l'integrale a cui giungevamo è
+	$$\int_{\theta_0}^\theta\dif \theta=-\int_{u_0}^u\frac{\dif u}{\sqrt{\frac{2m}{l^2}\left(E+\alpha u\right)-u^2}}$$
+	(abbiamo arbitrariamente scelto il segno $-$) se sappiamo fare quell'integrale allora abbiamo finito. La vita però non è così facile, abbiamo un integrale del tipo
+	$$\int \frac{\dif x}{\sqrt{a+bx-x^2}}$$
+	usiamo l'identità
+	$$a+bx-x^2=a-\left(x^2-bx+\frac{b^2}{4}\right)+\frac{b^2}{4}=$$
+	$$=\left(a+\frac{b^2}{4}\right)\left[1-\frac{\left(x-\frac{b}{2}\right)^2}{a+\frac{b^2}{4}}\right]$$
+	per ricondurci all'integrale
+	$$=\frac{1}{\sqrt{a+\frac{b^2}{4}}}\int \frac{\dif x}{\sqrt{1-\frac{\left(x-\frac{b}{2}\right)^2}{a+\frac{b^2}{4}}}}$$
+	tantissimo conti, bruttissimo, dobbiamo sostituire 
+	$$y=\frac{x-\frac{b}{2}}{\sqrt{a+\frac{b^2}{4}}}$$
+	che con tanta tanta sofferenza ci porta a 
+	$$\dots = \arcsin\left(\frac{x-\frac{b}{2}}{\sqrt{a+\frac{b^2}{4}}}\right)$$
+	a questo punto quindi sostituendo 
+	$$a=\frac{2mE}{l^2}$$
+	$$b=\frac{2m\alpha}{l^2}$$
+	e sostituendo viene un mezzo disastro
+	$$\theta-\theta_0=\arcsin\left(\frac{u-\frac{m\alpha}{l^2}}{\sqrt{\frac{2mE}{l^2}+\frac{m^2\alpha^2}{l^4}}}\right)$$
+	e quindi riordinando un minimo abbiamo
+	$$\theta-\theta_0=-\arcsin\left(\frac{u-\frac{m\alpha}{l^2}}{\frac{m\alpha}{l^2}\sqrt{1+\frac{2El^2}{m\alpha^2}}}\right)+cost$$
+	d'altra parte noi abbiamo la libertà di scegliere $\theta_0$ come vogliamo, quindi scegliamo $\theta_0$ in modo da farci cancellare la costante, e quindi facciamo in modo che sia
+	$$\frac{m\alpha}{l^2}\sqrt{1+\frac{2El^2}{m\alpha^2}}=\cos\theta$$
+	che girando tutto e finendo i conti ci porta a 
+	$$r=\frac{\frac{l^2}{m\alpha}}{1+\sqrt{1+\frac{2El^2}{m\alpha^2}}\cos\theta}$$
+	che è quella che avevamo trovato con l'altro metodo, ma ora sappiamo quanto vale $A$.
+	
+	\newpage
+	
+	\subsubsection{Metodo segreto - il vettore di Lenz}
+	
+	Partiamo dal presupposto che a noi piacciono tanto le costanti del moto. Possono esistere alte costanti del moto oltre all'energia e al momento angolare? Provia a sparare che ci sia un vettore costante nel piano dell'orbita. Strano vero? Proviamo con 
+	$$\veloc\times \vec{L}$$
+	vorremmo che sia costante, quindi vogliamo calcolare
+	$$\frac{\dif}{\dif t}\left(\veloc\times \vec{L}\right)=\accel\times \vec{L}=\frac{1}{m}f(r)\hat{r}\times \left(\posit\times m\veloc\right)$$
+	applichiamo il BAC-CAB 
+	$$\dots=f(r)\left[\left(\veloc \cdot \hat{r}\right)\posit-\left(\posit\cdot \hat{r}\right)\veloc\right]$$
+	che ricordando la formula della velocità in polari ci viene
+	$$\dots=f(r)\left[\dot{r}\posit-r\veloc\right]=f(r)\left[\dot{r}r\hat{r}-r\dot{r}\hat{r}-r\dot{\theta}r\hat{\theta}\right]$$
+	che tristimente è uguale a 
+	$$\frac{\dif}{\dif t}\left(\veloc\times \vec{L}\right)=\dots =-f(r)r^2\dot{\theta}\hat{\theta}$$
+	che purtroppo non è $0$, ma se riuscissimo a portarlo a sinistra e a dimostrare che è la derivata totale rispetto al tempo di qualcosa, allora avremmo effettivamente una quantità conservata. In effetti quel $\theta$ è la derivata del versore $\hat{r}$, ma quel $r^2$ ci dà qualche problema. Per fortuna nel caso della gravità l'$r^2$ si cancella, e abbiamo
+	$$\frac{\dif}{\dif t}\left(\veloc\times \vec{L}-\alpha\hat{r}\right)=0$$
+	dove $\alpha$ è la costante della forza di gravità. Questo è noto come il \textbf{vettore di Lenz}, che di solito si denota con 
+	$$\vec{N}:=\veloc\times \vec{L}-\alpha\hat{r}.$$
+	Questo ci è utile per ricavare le orbite, perchè se consideriamo il prodotto scalare tra $N$ ed $r$ abbiamo
+	$$\vec{N}\cdot\vec{r}=Nr\cos\theta$$
+	d'altra parte, passando per la definizione di $N$ abbiamo
+	$$\vec{N}\cdot\vec{r}=\frac{l^2}{m}-\alpha r$$
+	che equagliando ci ridà proprio l'equazione delle orbite:
+	$$\frac{l^2}{m}-\alpha r=Nr\cos \theta$$
+	$$\frac{l^2}{mr}=N\cos\theta+\alpha$$
+	$$r=\frac{\frac{l^2}{m\alpha}}{1+\frac{N}{\alpha}\cos\theta }$$
+	per completare il tutto a questo punto ci piacerebbe sapere quanto vale il modulo di $N$, e dunque calcoliamo
+	$$\vec{N}\cdot \vec{N}=\left(\veloc \times \vec{L}-\alpha\hat{r}\right)\cdot\left(\veloc\times \vec{L}-\alpha\hat{r}\right)$$
+	che svolgendo i prodotti viene
+	\begin{align*}
+		\vec{N}\cdot \vec{N}=\left(\veloc \times \vec{L}-\alpha\hat{r}\right)\cdot\left(\veloc\times \vec{L}-\alpha\hat{r}\right)= \\
+		=\left(\veloc\times\vec{L} \right)^2-2\alpha \frac{\posit}{r}\left(\veloc \times \vec{L}\right)+\alpha^2
+	\end{align*}
+	ma ora dato che il prodotto misto è ciclico possiamo far scalare avanti di uno i vettori in quell'espressione e ottenere
+	\begin{align*}
+		\dots=\left(\veloc\times\vec{L} \right)^2-2\alpha \frac{\posit}{r}\left(\veloc \times \vec{L}\right)+\alpha^2= \\
+		=\veloc^{\,2}l^2-\frac{2\alpha}{mr}\vec{L}\cdot\left(\posit\times \veloc m\right)+\alpha^2= \\
+		= \veloc^{\,2}l^2-\frac{2\alpha}{mr}l^2+\alpha^2= \\
+		= \frac{2l^2}{m}\left(\half m\veloc^{\,2}-\frac{\alpha}{r}\right)+\alpha^2
+	\end{align*}
+	dove dalla seconda alla terza riga abbiamo usato la definizione di momento angolare. Notiamo che la quantità tra parentesi è proprio l'energia, e quindi in sintesi abbiamo
+	$$N^2=\alpha^2+\frac{2El^2}{m}$$
+	$$N=\alpha\sqrt{1+\frac{2El^2}{m\alpha^2}}$$
+	che era proprio la costante a cui eravamo giunti con gli altri due metodi.
+	
+	\subsection{Coniche in polari}
+	
+	Abbiamo trovato le equazioni di un sacco di orbite in polari. Vorremmo capire geometricamente a cosa corrispondono. Dato che dal liceo sappiamo che i pianeti si muovono su orbite coniche, vogliamo evidentemente dimostrare che una traiettoria in polari della forma
+	$$r=\frac{p}{1+e\cos\theta}$$
+	è una conica. In particolare nel caso della gravità che abbiamo visto prima abbiamo:
+	$$e=\sqrt{1+\frac{2El^2}{m\alpha^2}}$$
+	$$p=\frac{l^2}{m\alpha}.$$
+	Come considerazioni iniziali di circostanza possiamo osservare che in base al valore di $e$ ci possono essere da $0$ a $2$ valori di $\theta$ tali che $r=\infty$, e questo corrisponde alla classificazione delle coniche che conosciamo. Ok, ora facciamo effettivamente i conti. In polari abbiamo che
+	$$r\cos\theta=x$$
+	$$r\sin\theta=y$$
+	e in particolare dunque
+	$$\sqrt{x^2+y^2}=r=\frac{p}{1+e\cos\theta}$$
+	da cui abbiamo, moltiplicando
+	$$p=\sqrt{x^2+y^2}+er\cos\theta$$
+	ovvero
+	$$p=\sqrt{x^2+y^2}+ex$$
+	$$\left(p-xe\right)^2=x^2+y^2$$
+	$$p^2+(e^2-1)x^2-2pxe=y^2.$$
+	Ora con un po' di pazienza la riscriviamo nella forma a cui siamo abituati:
+	$$p^2=y^2+x^2(1-e^2)+2pxe$$
+	$$\frac{p^2}{1-e^2}=\frac{1}{1-e^2}y^2+x^2+\frac{2pe}{1-e^2}x$$
+	completiamo il quadrato
+	$$\frac{p^2}{1-e^2}=\frac{1}{1-e^2}y^2+x^2+\frac{2pe}{1-e^2}x+\frac{p^2e^2}{\left(1-e^2\right)^2}-\frac{p^2e^2}{\left(1-e^2\right)^2}$$
+	$$\frac{p^2}{1-e^2}=\frac{1}{1-e^2}y^2+\left(x+\frac{pe}{1-e^2}\right)^2-\frac{p^2e^2}{\left(1-e^2\right)^2}$$
+	$$\frac{p^2}{\left(1-e^2\right)^2}=\frac{1}{1-e^2}y^2+\left(x+\frac{pe}{1-e^2}\right)^2$$
+	che infine si riduce a
+	$$\boxed{\frac{\left(1-e^2\right)^2}{p^2}\left(x+\frac{pe}{1-e^2}\right)^2+y^2\left(\frac{1-e^2}{p^2}\right)=1}.$$
+	Questa è l'equazione di una conica traslata lungo l'asse $x$ della quantità $\frac{pe}{1-e^2}$, della forma
+	$$\frac{x^2}{a^2}+\frac{y^2}{b^2}=1$$
+	per cui si ha che la distanza focale $c$ è
+	$$c=\sqrt{a^2-b^2}$$
+	dove il semiasse maggiore è $a$, il semiasse minore è $b$ e l'eccentricità è
+	$$\text{eccentricità}=\frac{c}{a}.$$
+	\begin{remark}[Due segni]
+		Il segno della traslazione $\frac{pe}{1-e^2}$ dipende dal segno di $p$, e quindi anche dal segno di $\alpha$, in particolare se $\alpha$ è negativo la forza sarà repulsiva, e la traiettoria modellerà un'interazione coulombiana, simile a quella di due protoni. La stessa equazione con un segno invertito d'altra parte può rappresentare il modo di un asteroide attorno ad un pianeta. Insomma, una stessa equazione può modellizzare due situazioni fisiche diverse.
+	\end{remark}
+	\subsubsection{I principali risultati sulla gravitazione cannonati}
+	Grazie a questa formula possiamo cannonare molte cose interessanti:
+	\begin{theorem}[Prima legge di Keplero]
+		L'orbita di un pianeta che orbita intorno al sole sottoposto alla forza di gravità è una conica, di equazione in polari
+		$$r=\frac{p}{1+e\cos\theta}$$
+		con 
+		$$e=\sqrt{1+\frac{2El^2}{m\alpha^2}}$$
+		$$p=\frac{l^2}{m\alpha}$$
+		e in particolare si ha che il sole si trova sempre in uno dei due fuochi della conica.
+	\end{theorem}
+	\begin{proof}
+		La dimostrazione della prima parte del teorema sono i conti che abbiamo fatto finora essenzialmente. Per la seconda parte ci basta calcolare la distanza focale:
+		$$c=\sqrt{a^2-b^2}=\sqrt{\frac{p^2}{\left(1-e^2\right)^2}-\frac{p^2}{1-e^2}}=p\sqrt{\frac{1-(1-e^2)}{\left(1-e^2\right)^2}}=\frac{pe}{1-e^2}$$
+		che era proprio la traslazione che avevamo fatto all'equazione di partenza, e quindi dato che il sole all'inizio era nell'origine abbiamo la tesi.
+	\end{proof}
+	\begin{lemma}[Eccentricità di un'orbita]
+		Per un'orbita conica scritta in polari nella forma
+		$$r=\frac{p}{1+e\cos\theta}$$
+		si ha che $e$ è l'eccentricità, in particolare nel caso della gravità abbiamo che l'eccentricità è esattamente
+		$$e=\sqrt{1+\frac{2El^2}{m\alpha^2}}.$$
+	\end{lemma}
+	\begin{proof}
+		Banalmente utilizzando la formula per l'eccentricità e la formula per la distanza focale trovate prima abbiamo
+		$$\frac{c}{a}=\frac{\frac{pe}{1-e^2}}{\frac{p}{1-e^2}}=e=\sqrt{1+\frac{2El^2}{m\alpha^2}}$$
+		come volevamo dimostrare.
+	\end{proof}
+	e infine
+	\begin{theorem}[Energia di un'orbita]
+		Data l'orbita di un pianeta sottoposto alla forza di gravità, l'energia del pianeta è costante ed uguale a 
+		$$E=-\frac{\alpha}{2a}$$
+		dove $a$ è il semiasse maggiore dell'orbita.
+	\end{theorem}
+	\begin{proof}
+		Si tratta di nuovo di un calcolo diretto: espandiamo la formula per il semiasse maggiore trovata sopra:
+		$$a=\frac{p}{1-e^2}=\frac{\frac{l^2}{m\alpha}}{1-1-\frac{2El^2}{m\alpha^2}}=\frac{l^2\alpha}{-2El^2}=\frac{\alpha}{-2E}$$
+		che ci dà direttamente la tesi.
+	\end{proof}
+	L'ultima cosa che resta da dimostrare è la terza legge di Keplero:
+	\begin{theorem}[Terza legge di Keplero]
+		Per ogni pianeta di massa $M_P$ che orbita, di orbita ellittica, attorno ad una stella di massa $M_S\gg M_P$ sottoposto alla forza di gravità si ha sempre che il cubo del semiasse maggiore dell'orbita diviso il quadrato del periodo è costante ed è uguale a 
+		$$\frac{a^3}{\tau^2}=\frac{GM_S}{4\pi^2}$$
+		dove la costante della forza di gravità è stata espansa come
+		$$\alpha=GM_SM_P.$$
+	\end{theorem}
+	\begin{proof}
+		Dalla seconda legge di keplero sappiamo che la velocità areolare media del pianeta è costante ed è uguale a 
+		$$\dot{\mathcal{A}}_\text{media}=\frac{l}{2m}$$
+		d'altra parte possiamo esprimere la velocità areolare media in funzione dell'area dell'ellisse e del periodo come
+		$$\frac{\pi ab}{\tau}=\frac{l}{2m}.$$
+		Ora possiamo scrivere $b$ a partire dall'equazione dell'orbita come
+		$$b=\frac{p}{\sqrt{1-e^2}}=\frac{\frac{l^2}{m\alpha}}{\sqrt{1-1-\frac{2El^2}{m\alpha^2}}}=\frac{l}{\sqrt{2\abs{E}m}}$$
+		che possiamo riscrivere eliminando $E$ utilizzando la formula trovata sopra per l'energia di un'orbita:
+		$$b=\dots=\frac{l}{\sqrt{2\abs{E}m}}=\frac{l\sqrt{a}}{\sqrt{m\alpha}}.$$
+		Dunque sostituendo nell'equazione della velocità areolare otteniamo:
+		$$\frac{\pi a\frac{l\sqrt{a}}{\sqrt{m\alpha}}}{\tau}=\frac{l}{2m}$$
+		elevando al quadrato entrambi i membri
+		$$\frac{\pi^2 a^3}{\tau^2 m\alpha}=\frac{1}{4m^2}$$
+		a questo punto ricordando che la massa con cui stiamo facendo i conti è quella ridotta del sistema, ovvero
+		$$m=\frac{M_SM_P}{M_S+M_P}$$
+		e inoltre scrivendo esplicitamente la costante di gravitazione come
+		$$\alpha=GM_SM_P$$
+		otteniamo, girando un po' la formula sopra:
+		$$\frac{a^3}{\tau^2}=\frac{G(M_S+M_P)}{4\pi^2}$$
+		che dato che $M_S\gg M_P$ diventa immediatamente la tesi.
+	\end{proof}
+	\newpage
+	
+	\section{Sistemi non inerziali}
+	
+	Il primo principio della dinamica ci dice quali sono i sistemi di riferimento inerziali, cioè quelli in cui \textbf{un corpo non sottoposto a forze sta fermo o si muove di moto rettilineo uniforme}. I sistemi di riferimento non inerziali sono proprio quelli in cui ciò non vale, cioè in cui $\vec{F}\ne m\vec{a}$. In particolare sappiamo sicuramente che la massa di un corpo non dipende dal sistema di riferimento, e quindi abbiamo che il secondo principio della dinamica in un sistema non inerziale si riscrive come
+	$$\vec{F}=m\vec{a}_{NI}+\vec{\Delta}$$
+	mentre in un sistema inerziale abbiamo
+	$$\vec{F}=m\vec{a}_{I}$$
+	dove le $\vec{a}$ sono le accelerazioni in un sistema e nell'altro e $\vec{\Delta}$ è l'insieme delle forze apparenti. Dato che la forza non dipende dal sistema di riferimento possiamo scrivere
+	$$\vec{a}_I-\vec{a}_{NI}=\frac{1}{m}\vec{\Delta}$$
+	cioè ci siamo ridotti ad un problema di pura \textit{cinematica} per calcolare le accelerazioni apparenti $\Delta$. \\
+	Prendiamo allora due sistemi di riferimento, uno inerziale $\mathcal{R}$ e l'altro $\mathcal{R}'$ non inerziale. Nel sistema inerziale abbiamo che la posizione di un punto $P$ è chiaramente
+	$$\posit_P=x(t)\ihat+y(t)\jhat+z(t)\khat$$
+	mentre nel sistema $\mathcal{R}'$ i versori possono cambiare nel tempo, e quindi abbiamo
+	$$\posit^{\,'}_P=x'(t)\ihat'(t)+y'(t)\jhat'(t)+z'(t)\khat'(t)$$
+	evidentemente a questo punto possiamo scrivere la posizione di $P$ nel sistema $\mathcal{R}'$ come
+	$$\posit_P=\posit_{O'}+\posit\,'_P$$
+	dove il secondo vettore è la posizione dell'origine $O'$ del sistema $\mathcal{R}'$ nel sistema $\mathcal{R}$. Abbiamo quindi due tipi di forze apparenti che si generano, quelle legate al fatto che l'origine $O'$ del sistema di riferimento sta variando, e quelle legate al fatto che gli assi stanno ruotando:
+	$$\posit_P=\underset{\text{Moto di Traslazione}}{\underbrace{\posit_{O'}}}+\underset{\text{Moto di rotazione}}{\underbrace{\posit\,'_P}}$$
+	il vero problema quindi nel calcolare le accelerazioni apparenti sarà calcolare le derivate dei versori.
+	\begin{example}[Ruota]
+		Prendiamo una ruota bidimensionale che rotola di puro rotolamento su una strada con velocità $v_0$. Come si muove il punto $P$ sulla sommità della ruota in un sistema di riferimento $\mathcal{R}'$ solidale con la ruota rispetto alla strada?
+	\end{example}
+	\begin{proof}[Soluzione]
+		Cominciamo a calcolare $x'(t)$ e $y'(t)$ le posizioni nel sistema di riferimento solidale:
+		$$
+		P:\begin{cases}
+			x'(t)=0 \\
+			y'(t)=R
+		\end{cases}
+		$$
+		chiaramente. D'altra parte la posizione dell'origine $O$ della ruota rispetto a un sistema di riferimento solidale con la strada si muove come
+		$$
+		O':
+		\begin{cases}
+			x_{O'}(t)=v_0t \\
+			y_{O'}(t)=R
+		\end{cases}
+		$$
+		e dunque possiamo scrivere
+		$$\posit_P=\posit_{O'}+\posit\,'_P$$
+		che nelle componenti risulta essere
+		$$x(t)=v_0t+\ihat R\cdot\jhat'(t)$$
+		$$y(t)=R\left[1+\jhat\cdot\jhat'(t)\right]$$
+		dove i prodotti scalari sono usciti fuori dall'aver cambiato il sistema di riferimento. Di solito si introduce la quantità 
+		$$\omega:=\frac{v}{R}$$
+		la velocità angolare, e quindi abbiamo
+		$$x(t)=R\left[\omega t+\ihat \cdot\jhat'(t)\right]$$
+		$$y(t)=R\left[1+\jhat\cdot\jhat'(t)\right]$$
+		d'altra parte è ovvio che in questa situazione $\jhat'$ ruoti di moto circolare uniforme in questa situazione, e quindi: 
+		$$\jhat'(t)=\ihat \sin(\omega t)+\jhat \cos(\omega t)$$
+		$$\jhat'(0)=\jhat$$
+		e quindi sostituendo abbiamo
+		$$x(t)=R\left[\omega t + \sin(\omega t)\right]$$
+		$$y(t)=R\left[1+\cos(\omega t)\right]$$
+		che è la mitica equazione di una \textit{cicloide}.
+	\end{proof}
+	
+	\subsection{Campo delle velocità}
+	
+	\begin{definition}[Campo vettoriale]
+		Un \textit{campo vettoriale} è una funzione che associa ad ogni punto $P$ rispetto a un certo sistema di riferimento un vettore.
+	\end{definition}
+	Possiamo definire il \textit{campo delle velocità} come una funzione $V:\mathcal{R}'\to \vec{w}\,'_P$ tale che ad ogni punto nel sistema di riferimento $\mathcal{R}'$ mi restituisce la velocità nel sistema di riferimento $\mathcal{R}$, ovvero se $P$ è un punto \textbf{fermo in $\mathcal{R}'$} abbiamo:
+	$$\vec{v}_P:=\frac{\dif \posit_P}{\dif t}=\vec{v}_{O'}+\left[x'\frac{\dif \ihat'}{\dif t}+y'\frac{\dif \jhat'}{\dif t}+z'\frac{\dif \khat'}{\dif t}\right]$$
+	a questo punto introduciamo il campo delle velocità proprio come
+	$$\vec{w}\,'_P:=\vec{v}_P-\vec{v}_{O'}=x'\frac{\dif \ihat'}{\dif t}+y'\frac{\dif \jhat'}{\dif t}+z'\frac{\dif \khat'}{\dif t}$$
+	cioè la velocità di $P$ rispetto ad un sistema di riferimento solidale \textit{traslazionalmente} con $\mathcal{R}'$.
+	Cerchiamo di calcolarne le componenti:
+	$$\left(\vec{w}\,'_P\right)_{x'}=y'\left(\ihat' \cdot \frac{\dif \jhat'}{\dif t}\right)+z'\left(\ihat'\cdot \frac{\dif \khat'}{\dif t}\right)$$
+	$$\left(\vec{w}\,'_P\right)_{y'}=x'\left(\jhat' \cdot \frac{\dif \ihat'}{\dif t}\right)+z'\left(\jhat'\cdot \frac{\dif \khat'}{\dif t}\right)$$
+	$$\left(\vec{w}\,'_P\right)_{z'}=x'\left(\khat' \cdot \frac{\dif \ihat'}{\dif t}\right)+y'\left(\khat'\cdot \frac{\dif \jhat'}{\dif t}\right)$$
+	dove sono spariti alcuni termini dai prodotti scalari perchè la derivata di un versore è sempre perpendicolare al versore stesso. A questo punto tutto ciò può essere messo in una matrice
+	$$\Omega:=\begin{pmatrix}
+		0 & \ihat' \cdot \frac{\dif \jhat'}{\dif t} & \ihat'\cdot \frac{\dif \khat'}{\dif t} \\
+		\jhat' \cdot \frac{\dif \ihat'}{\dif t}  & 0 & \jhat'\cdot \frac{\dif \khat'}{\dif t} \\
+		\khat' \cdot \frac{\dif \ihat'}{\dif t} & \khat'\cdot \frac{\dif \jhat'}{\dif t} & 0
+	\end{pmatrix}$$
+	Questa è proprio la matrice del campo vettoriale! Cioè è quella matrice tale che 
+	$$\Omega \posit\,'_P=\vec{w}\,'_P$$
+	Per ogni vettore posizione $\posit\,'_P$ nel sistema di riferimento $\mathcal{R}'$. \\
+	Studiamo dunque le proprietà di questa matrice, in particolare del suo kernel, perchè è \textbf{il luogo dei punti con velocità nulla}, cioè è \textbf{l'asse istantaneo della rotazione}. \\
+	Apparentemente questa matrice fa schifo, ma notiamo che se sommata alla sua trasposta possiamo raccogliere un sacco di derivate, e troviamo la matrice in cui all'entrata $i,j$ ha la  derivata del prodotto scalare tra l'$i$-esimo e il $j$-esimo versore, dunque proprio $0$, dunque $\Omega$ soddisfa
+	$$\Omega+\Omega^\intercal=0$$
+	cioè è antisimmetrica. Un'altra proprietà importante di questa matrice è che ha rango $2$, quindi il suo kernel avrà dimensione $1$, questo significa che tutti i vettori che si annullano quando valutati nella matrice sono proporzionali. Giocando un po' troviamo che un vettore del kernel è proprio (scritto in cartesiane rispetto al sistema di riferimento $\mathcal{R}'$)
+	$$(\vec{\omega})'=\begin{pmatrix}
+		\left(\vec{\omega}\right)_{x'} \\
+		\left(\vec{\omega}\right)_{y'} \\
+		\left(\vec{\omega}\right)_{z'} 
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		-\jhat' \cdot \frac{\dif \khat '}{\dif t} \\
+		-\khat' \cdot \frac{\dif \ihat '}{\dif t} \\
+		-\ihat' \cdot \frac{\dif \jhat '}{\dif t} 
+	\end{pmatrix}
+	$$
+	soddisfa effettivamente 
+	$$\Omega \left(\vec{\omega}\right)'=0$$
+	Occhio che qui con $\left(\vec{\omega}\right)'$ intendiamo dire che quella è la rappresentazione di $\vec{\omega}$ nel sistema di riferimento $\mathcal{R}'$.
+	\begin{lemma}[Velocità angolare]
+		Il vettore $\omega$ come scritto sopra è
+		$$\vec{\omega}=\half\left[\ihat'\times \frac{\dif \ihat'}{\dif t}+\jhat'\times \frac{\dif \jhat'}{\dif t}+\khat'\times \frac{\dif \khat'}{\dif t}\right]$$
+		che è proprio la \textit{velocità angolare} del sistema di riferimento $\mathcal{R}'$ rispetto a $\mathcal{R}$.
+	\end{lemma}
+	\begin{proof}
+		Prendi i prodotti scalari con ogni componente e applica la formula del prodotto triplo.
+	\end{proof}
+	
+	A questo punto abbiamo che
+	$$\left(\vec{w}\,'_P\right)_{x'}:=\vec{w}\,'_P\cdot \ihat'=y'\frac{\dif \jhat}{\dif t}\cdot\ihat'+\dots=\vec{\omega}\times \posit\,'_P$$
+	e quindi abbiamo
+	$$\vec{w}\,'_P=\vec{\omega}\times \posit\,'_P$$
+	da cui possiamo scrivere infine
+	$$\vec{v}_P=\vec{v}_{O'}+\left(\vec{\omega}\times \vec{r}\,'_P\right).$$
+	Questo ci lascia un dubbio però: noi sappiamo che fisicamente la velocità angolare non dovrebbe dipendere dal sistema di coordinate che abbiamo introdotto (come sembra dalla definizione del lemma: è tutto in funzione dei versori). In realtà notiamo che applicando trasformazioni ortogonali a $\ihat,\jhat,\khat$ lo pseudovettore $\omega$ è invariante, e quindi abbiamo che effettivamente la velocità angolare non cambia. 
+	\subsubsection{Velocità angolare}
+	L'equazione sopra in realtà è meglio riscritta considerando un altro punto $Q$, per cui abbiamo
+	$$\vec{v}_Q=\vec{v}_{O'}+\vec{\omega}\times \vec{r}\,'_Q$$
+	e quindi sottraendo membro a membro abbiamo
+	$$\vec{v}_P=\vec{v}_Q+\vec{\omega}\times\left(\vec{r}\,_P-\vec{r}\,'_Q\right)$$
+	che ci fa capire molto bene come il campo delle velocità sia determinato precisamente da due quantità: una velocità $\vec{v}_Q$ e la \textit{velocità angolare} $\vec{\omega}$. Perché $\omega$ è davvero la velocità angolare? Preso un generico punto $P$ abbiamo che la sua velocità è chiaramente
+	$$\frac{\dif \vec{r}\,'_P}{\dif t}=x'\frac{\dif \ihat'}{\dif t}+y'\frac{\dif \jhat'}{\dif t}+z'\frac{\dif \khat'}{\dif t}$$
+	d'altra parte la velocità possiamo anche calcolarla con il campo delle velocità, ovvero abbiamo
+	$$\frac{\dif \vec{r}\,'_P}{\dif t}=\vec{w}'_P=\vec{v}_P-\vec{v}_{O'}=\frac{\dif (\vec{r}_P-\vec{r}_{O'})}{\dif t}=\vec{\omega}\times \vec{r}\,'_P$$
+	Abbiamo quindi dimostrato che
+	\begin{lemma}[Fare derivate di vettori]
+		Per ogni $P$ solidale traslazionalmente al sistema di riferimento $\mathcal{R}'$ abbiamo che
+		$$\frac{\dif \vec{r}\,'_P}{\dif t}=\vec{\omega}\times \vec{r}\,'_P.$$
+	\end{lemma}
+	Questo ci fa capire che in un certo senso $\omega$ è la velocità angolare, 
+	ma \textbf{fisicamente} cosa vuol dire la direzione di $\vec{\omega}$? Beh notiamo che se abbiamo due punti $P_1,P_2$ solidali a $\mathcal{R}'$ la cui congiungente è parallela a $\vec{\omega}$ nel sistema di riferimento $\mathcal{R}'$ la loro velocità sarà uguale:
+	$$\vec{v}_{P_1}=\vec{v}_Q+\vec{\omega}\times\left(\vec{r}\,_{P_1}-\vec{r}\,'_Q\right)$$
+	$$\vec{v}_{P_2}=\vec{v}_Q+\vec{\omega}\times\left(\vec{r}\,_{P_2}-\vec{r}\,'_Q\right)$$
+	che sottraendo membro a membro notiamo che il RHS si cancella (dato che $\omega\times(r_{P_1}-r_{P_2})=0$) e quindi abbiamo che sono proprio uguali. Inoltre abbiamo che $\vec{\omega}$ è proprio l'asse istantaneo di rotazione, per quanto detto prima, e per conti espliciti che si possono fare.
+	
+	\subsection{Campo delle Accelerazioni}
+	
+	Facciamo la stessa identica cosa fatta sopra, ma per le accelerazioni
+	$$\vec{a}_P=\frac{\dif \vec{v}_P}{\dif t}=\frac{\dif}{\dif t}\left(\vec{v}_Q+\vec{\omega}\times\left(\vec{r}\,'_P-\vec{r}\,'_Q\right)\right)$$
+	dobbiamo fare un po' di conti, vediamo
+	$$=\frac{\dif \vec{v}_Q}{\dif t}+\frac{\dif \vec{\omega}}{\dif t}\times \left(\vec{r}\,'_P-\vec{r}\,'_Q\right)+ \vec{\omega}\times \frac{\dif}{\dif t}\left(\vec{r}\,'_P-\vec{r}\,'_P\right)$$
+	d'altra parte quell'ultima è una derivata di un vettore solidale a $\mathcal{R}'$, e quindi lo possiamo finalmente scrivere come
+	$$\vec{a}_P=\vec{a}_Q+\frac{\dif \vec{\omega}}{\dif t}\times \left(\vec{r}\,'_P-\vec{r}\,'_Q\right)+\vec{\omega}\times\left(\vec{\omega}\times\left(\vec{r}\,'_P-\vec{r}\,'_Q\right) \right)$$
+	che è proprio la formula del campo delle accelerazioni, che come prima è specificato da solo due termini.
+	
+	\subsection{Forze apparenti}
+	
+	Quello che siamo intenzionati a studiare per generalizzare davvero il secondo principio della dinamica, sono le quantità
+	$$\vec{v}\,'_P=\dot{x}\ihat'+\dot{y}\jhat'+\dot{z}\khat'$$
+	$$\vec{a}\,'_P=\ddot{x}\ihat'+\ddot{y}\jhat'+\ddot{z}\khat'$$
+	che sono le velocità e le accelerazioni \textbf{completamente solidali} a $\mathcal{R}'$. Usando
+	$$\vec{r}_P=\vec{r}_{O'}+\vec{r}\,'_P$$
+	e derivandola due volte, usando l'espressione del campo delle velocità trovata prima, troviamo
+	$$\vec{a}_P=\vec{a}_{O'}+\left(\frac{\dif \vec{\omega}}{\dif t}\times \vec{r}\,'_P\right)+\vec{\omega}\times\left(\vec{\omega}\times \vec{r}\,'_P\right)+2\vec{\omega}\times\vec{v}\,'_P+\vec{a}\,'_P$$
+	che moltiplicando da entrambi i lati per $m$ e usando il secondo principio della dinamica diventa
+	$$\vec{F}=m\vec{a}_P=m\left[\vec{a}_{tr}+2\vec{\omega}\times \vec{v}\,'_P+\vec{a}\,'_P\right]$$
+	(l'accelerazione di trascinamento è l'unione dell'accelerazione dell'origine, della forza di Eulero e della forza centrifuga) cioè finalmente ci dà quanto stavamo cercando
+	$$\vec{F}-m\left[\vec{a}_{tr}+2\vec{\omega}\times \vec{v}\,'_P\right]=m\vec{a}\,'_P.$$
+	Quel secondo addendo è proprio l'insieme delle \textbf{forze apparenti} che agiscono sul corpo, e si denotano di solito con 
+	$$\vec{F}_\text{app}=-m\left[\vec{a}_{tr}+2\vec{\omega}\times \vec{v}\,'_P\right]$$
+	
+	\subsection{Moto sulla terra} 
+	
+	In un sistema di riferimento solidale alla terra molte cose si semplificano: prima di tutto l'origine non ha accelerazione e poi la velocità angolare è costante, quindi le equazioni del moto sono
+	$$\vec{F}+\vec{F}_{\text{app}}=m\vec{a}$$
+	$$\vec{F}_{\text{app}}=-m\left[\vec{\omega}\times \left(\vec{\omega}\times \vec{r}\right)+2\vec{\omega}\times\vec{v}\right]$$
+	partiamo dal caso più stupido possibile, \textbf{quando siamo fermi}. In questo caso l'accelerazione è nulla, e quindi abbiamo
+	$$\vec{F}+\vec{F}_\text{app}=0$$
+	cioè, introducendo la gravità e la reazione vincolare
+	$$m\vec{g}+\vec{R}-m\vec{\omega}\times\left(\vec{\omega}\times\vec{r}\right)=0$$
+	che ci permette di risolvere essenzialmente tutto quello che vogliamo risolvere.
+	
+	\subsubsection{Pendolo di Foucault}
+	Vogliamo studiare il celebre moto di precessione del pendolo di Foucault. Mettiamoci in un sistema di riferimento solidale alla terra, che assumiamo stia ruotando con velocità angolare $\omega$ costante. Supponiamo che la latitudine di Padova sia l'angolo $\phi$. Introduciamo un sistema di coordinate sferiche $\ihat,\jhat,\khat$ lungo la superficie della terra, in modo che la rotazione della terra sia nel verso positivo di $\jhat$ e $\khat$ abbia il verso positivo che punta nel verso opposto dell'origine. Consideriamo le forze che agiscono sul pendolo:
+	$$m\accel=m\vec{g}+\vec{T}+2m\veloc\times\vec{\omega}$$
+	dove abbiamo trascurato la forza centrifuga, perchè mettendo i valori numerici reali è effettivamente trascurabile. Concentriamoci sulla forza di Coriolis, abbiamo
+	$$\vec{F}_\text{coriolis}=2m\omega \left[\dot{x}\ihat+\dot{y}\jhat+\dot{z}\khat\right]\times\left[-\cos\phi \ihat+\sin\phi\jhat\right]$$
+	dove abbiamo raccolto il modulo di $\omega$ e scritto la direzione di $\omega$ (che è costante), in funzione dei versori all'angolo $\phi$ (che sono variabili). Abbiamo quindi, facendo il conto
+	$$\vec{F}_\text{coriolis}=2m\omega \left[-\dot{x}\sin\phi \jhat+\dot{y}\cos\phi \khat+\dot{y}\sin\phi \ihat-\dot{z}\cos\phi \jhat\right]$$
+	e quindi abbiamo risolto il primo termine problematico. Il secondo termine problematico è la tensione. Per questo dobbiamo assumere di essere in regime di piccole oscillazioni. Con un po' di trigonometria abbiamo
+	$$T_x=-\frac{x}{l}T$$
+	$$T_y=-\frac{y}{l}T$$
+	$$T_z=\frac{l-z}{l}T$$
+	Dove $l$ è la lunghezza del pendolo. Dunque scrivendo le equazioni del moto:
+	$$m\ddot{x}=-\frac{x}{l}T+2m\omega\dot{y}\sin\phi$$
+	$$m\ddot{y}=-\frac{y}{l}T-2m\omega\left[\dot{x}\sin\phi+\dot{z}\cos\phi\right]$$
+	$$m\ddot{z}=-mg+\frac{l-z}{l}T+2m\omega\dot{y}\cos\phi.$$
+	Queste equazioni sono \textbf{esatte},\footnote{Abbiamo trascurato molte forze apparenti in realtà, ma sono effetti \textbf{molto} piccoli.} introduciamo allora la prima approssimazione: 
+	$$z\approx 0$$
+	ovvero stiamo assumendo che 
+	$$\frac{z}{l}\ll 1$$
+	e quindi 
+	$$\dot{z}=\ddot{z}=0$$
+	da cui possiamo semplificare la terza equazione ottenendo
+	$$T=mg-2m\omega\dot{y}\cos\phi$$
+	la seconda approssimazione che facciamo allora è che il secondo termine della tensione si possa trascurare, e quindi sostituendo e semplificando le masse
+	$$\ddot{x}=-\frac{g}{l}x-2\omega\sin\phi \dot{y}$$
+	$$\ddot{y}=-\frac{g}{l}y-2\omega\sin\phi \dot{x}$$
+	introducendo allora un po' di notazione ci riconduciamo a risolvere il seguente sistema
+	$$
+	\begin{cases}
+		\ddot{x}=-\omega_0^2x+2\alpha\dot{y} \\
+		\ddot{y}=-\omega_0^2y+2\alpha\dot{x}
+	\end{cases}
+	$$  
+	con 
+	$$\omega:=\sqrt{\frac{g}{l}}$$
+	$$\alpha:=\omega\sin\phi$$
+	e infine imponiamo che lo spostamento inizialmente sia
+	$$x(0)=0,y(0)=D$$
+	e le velocità iniziali siano nulle. Ora, il sistema che abbiamo sono due equazioni differenziali del secondo ordine lineari accoppiate. Questo si può risolvere esponenziando matrici, come visto al tutorato, oppure in modo analogo introducendo il numero complesso
+	$$\xi:=x+iy$$
+	e quindi notiamo che moltiplicando una delle due equazioni per $i$ e sommando otteniamo
+	$$\ddot{\xi}+2i\alpha\dot{\xi}+\omega_0^2\xi=0$$
+	che sappiamo risolvere! In particolare le radici del polinomio caratteristico sono
+	$$\gamma=-i\alpha\pm\sqrt{-\alpha^2-\omega_0^2}$$
+	ora usando il fatto che $\omega_0\gg \alpha$ possiamo trascurare il termine nella radice, e otteniamo
+	$$\gamma=-i\alpha\pm i\omega_0$$
+	da cui otteniamo che le soluzioni sono della forma
+	$$\xi(t)=e^{-i\alpha t}\left[Ae^{i\omega_0t}+Be^{-i\omega_0 t}\right]$$
+	ora dobbiamo imporre le condizioni iniziali, che sono
+	$$iD=\xi(0)=A+B$$
+	$$0=\dot{\xi}(0)=Ai(\omega_0-\alpha)-Bi(\omega_0+\alpha) \iff \frac{A}{B}=\frac{\omega_0+\alpha}{\omega_0-\alpha}$$
+	che sostituendo una nell'altra danno
+	$$B\left[1+\frac{\omega_0+\alpha}{\omega_0-\alpha}\right]=iD$$
+	cioè infine
+	$$B=\frac{iD(\omega_0-\alpha)}{2\omega_0}$$
+	$$A=\frac{iD(\omega_0+\alpha)}{2\omega_0}$$
+	che infine sostituendo e approssimando di nuovo dicendo che $\omega_0\gg \alpha$ ci dà 
+	$$\xi(t)=e^{-i\alpha t}\left[\frac{iD}{2}e^{i\omega_0 t}+\frac{iD}{2}e^{-i\omega_0 t}\right]$$
+	che notiamo è praticamente una parte reale, e quindi saltando un po' di conti
+	$$\xi(t)=\dots=D\cos(\omega t)\left[i\cos\omega t +\sin\omega t\right]$$
+	e quindi abbiamo che la parte reale e la parte immaginaria sono
+	$$x(t)=D\cos(\omega t)\sin(\alpha t)$$
+	$$y(t)=D\cos(\omega t)\cos(\alpha t)$$
+	questo si può esprimere sinteticamente introducendo il vettore 
+	$$\vec{r}:=\begin{pmatrix}
+		x(t) \\
+		y(t)
+	\end{pmatrix}$$
+	che ci permette di scrivere quindi 
+	$$\vec{r}(t)=D\cos(\omega t)\vec{n}(t)$$
+	dove $\vec{n}(t)$ è il vettore perpendicolare al piano di precessione, definito come
+	$$\vec{n}(t):=
+	\begin{pmatrix}
+		\sin \alpha t \\
+		\cos \alpha t
+	\end{pmatrix}.
+	$$
+	E quindi abbiamo finito, il periodo di precessione è "di quanto precede il vettore $\vec{n}(t)$ nel tempo", ovvero $\alpha$.
+	
+	\newpage
+	
+	\section{Corpo Rigido}
+	Cos'è un corpo rigido? Mettendoci in un sistema inerziale possiamo dare la seguente definizione:
+	\begin{definition}[Corpo rigido]
+		Un \textit{corpo rigido} è un sistema di $N$ punti materiali tali che si ha
+		$$r_{AB}=\abs{\vec{r}_B-\vec{r}_A}=\text{cost.}$$
+		per ogni $A,B$ punti del sistema.
+	\end{definition}
+	\begin{problem}
+		Quanti gradi di libertà ha un corpo rigido?
+	\end{problem}
+	\begin{proof}[Risposta]
+		In realtà abbiamo $3N$ gradi di libertà, uno per ogni punto, e un certo numero di vincoli. Per avere un'intuizione notiamo che date le posizioni di tre punti non allineati questi costituiscono un sistema di riferimento, e quindi abbiamo che sicuramente il numero di gradi di libertà è minore o uguale di $6$. In realtà è proprio uguale a $6$.
+	\end{proof}
+	Un altro modo per vederlo è che per fissare la posizione di un corpo rigido ci basta fissare un punto $O$ e tre numeri, i tre \textit{coseni direttori}, che sono gli angoli che tre versori fanno con un certo sistema di riferimento cartesiano fissato. Questo ci fa capire perché essenzialmente abbiamo già fatto tutto il lavoro quando abbiamo fatto i sistemi inerziali parlando di punti \textit{traslazionalmente solidali} con sistemi di riferimento inerziali in rotazione.
+	\subsection{Rotazioni e cinematica}
+	Vogliamo descrivere le rotazioni del corpo rigido con il linguaggio dei vettori. In realtà questo lo sappiamo già fare e lo abbiamo già fatto, più o meno implicitamente, ma esplicitiamolo:
+	\begin{definition}[Vettore di una rotazione]
+		Data una rotazione di un corpo rigido definiamo il suo \textit{vettore di rotazione} come un vettore parallelo all'asse di rotazione, uguale in modulo all'angolo di rotazione (e verso che segue la regola del cacciavite).
+	\end{definition}
+	In realtà questa definizione non ci permette di schematizzare le composizioni di rotazioni come somme di vettori, perchè \textbf{le composizioni di rotazioni non commutano, mentre le somme di vettori sì} (questo lo si può vedere facilmente prendendo prodotti di matrici ortogonali, e vedendo che non commutano). \\
+	Risolviamo questo problema prendendo le cosiddette \textit{rotazioni infinitesime}, cioè
+	$$R^{(1)}=I+\varepsilon^{(1)}$$
+	$$R^{(2)}=I+\varepsilon^{(2)}$$
+	e in questo caso notiamo che facendo il prodotto otteniamo
+	$$R^{(1)}R^{(2)}=(I+\varepsilon^{(1)})(I+\varepsilon^{(2)})=1+\varepsilon^{(1)}+\varepsilon^{(2)}+\varepsilon^{(1)}\varepsilon^{(2)}$$
+	$$R^{(2)}R^{(1)}=(I+\varepsilon^{(2)})(I+\varepsilon^{(1)})=1+\varepsilon^{(2)}+\varepsilon^{(1)}+\varepsilon^{(2)}\varepsilon^{(1)}$$
+	e vogliamo dire che queste sono uguali \textit{al primo ordine}. Scriviamo un attimo questa cosa meglio, notiamo che se prendiamo una rotazione infinitesima questa deve essere ortogonale, ovvero
+	$$R^\intercal R=1$$
+	che sostituendo con gli $\varepsilon$ ci dà
+	$$1+\varepsilon+\varepsilon^\intercal\approx R^\intercal R=1$$
+	cioè 
+	$$\varepsilon+\varepsilon^\intercal=0$$
+	cioè la correzione è antisimmetrica, questo ci permette di scrivere
+	$$
+	\varepsilon=
+	\begin{pmatrix}
+		0 & \dif \theta_3 & -\dif \theta_2 \\
+		-\dif \theta_3 & 0 & \dif \theta_1 \\
+		\dif \theta_2 & -\dif \theta_1 & 0
+	\end{pmatrix}
+	$$
+	per delle variabili $\dif \theta_i$ che abbiamo scritto in modo evocativo. Vediamo come agisce in notazione tensoriale questa matrice:
+	$$x_i'=R_{ij}x_j=(\delta_{ij}+\varepsilon_{ij})x_j$$
+	ovvero se consideriamo la differenza
+	$$\delta x_i:=x_i'-x_i=\varepsilon_{ij}x_j$$
+	che notiamo in realtà che per come abbiamo definito la matrice $\varepsilon$ nasconde un tensore di Levi Civita, infatti scrivendo esplicitamente tutto
+	$$\dif x_1=\dif \theta_3 x_2 -\dif\theta_2 x_3$$
+	$$\dif x_2=-\dif \theta_3 x_1 +\dif\theta_1 x_3$$
+	$$\dif x_3=\dif \theta_2 x_1 -\dif\theta_1 x_2$$
+	questo ci spinge a esprimere allora tutto come
+	$$\dif \vec{r}=\vec{r}\times \dif\vec{\theta}$$
+	bisogna fare attenzione perchè $\dif \vec{\theta}$ descrive la rotazione \textit{degli assi}, non dei vettori, e quindi se gli assi ruotano in un verso il il vettore ruoterà nel verso opposto (insomma è un oggetto covariante). Infine dunque possiamo definire
+	$$\vec{\omega}=\frac{\dif \vec{\theta}}{\dif t}.$$ 
+	Avevamo già definito il vettore omega in realtà, si verifica che sono uguali scrivendo entrambi i vettori in $\vec{r}$ e $\dif\vec{r}$ in funzione dei versori, e poi prendendo i prodotti scalari. Mettendo insieme quanto appena fatto come per i sistemi non inerziali abbiamo
+	$$\left(\frac{\dif \vec{b}}{\dif t}\right)_{\text{spazio}}=\left(\frac{\dif \vec{b}}{\dif t}\right)_{\text{corpo}}+\vec{\omega}\times \vec{b}.$$
+	Ovvero la derivata di un vettore rispetto ad un sistema di assi inerziali (spazio) si può sempre scrivere come la somma di una parte di traslazione (corpo) e una di rotazione. 
+	\subsection{Dinamica}
+	Chiaramente per un corpo rigido sul centro di massa varrà il secondo principio della dinamica
+	$$\vec{F}_{\text{ext}}=M\vec{a}_{\text{cm}}.$$
+	Questa è la \textbf{prima equazione cardinale del corpo rigido}. Prendiamo ora il secondo principio della dinamica
+	$$\vec{F}=\frac{\dif \vec{p}}{\dif t}$$
+	moltiplicando a sinistra per $\posit\times $ al LHS otteniamo la somma dei momenti torcenti delle forze agenti sul corpo, mentre a destra, raccogliendo una derivata
+	$$\vec{M}=\posit\times \vec{F}=\posit\times \frac{\dif \vec{p}}{\dif t}=\frac{\dif }{\dif t}\left(\posit\times \vec{p}\right)-\frac{\dif \posit}{\dif t}\times \vec{p}$$
+	ma d'altra parte il secondo termine è semplicemente $m(\veloc\times\veloc)$ e quindi è $0$. Ricordando la definizione di momento angolare otteniamo allora
+	$$\vec{M}=\left(\frac{\dif \vec{L}}{\dif t}\right)_{\text{spazio}}$$
+	Questa è la \textbf{seconda equazione cardinale del corpo rigido} espressa nel sistema di riferimento inerziale (e infatti il pedice vuol dire proprio quello). Per passare a quello non inerziale solidale al corpo usiamo quanto richiamato sopra sulla velocità angolare, e quindi omettendo il pedice "corpo":
+	$$\vec{M}=\frac{\dif \vec{L}}{\dif t}+\vec{\omega}\times\vec{L}$$
+	cioè nel sistema di riferimento solidale al corpo si aggiunge un momento torcente apparente uguale a $\vec{\omega}\times \vec{L}$. Infine se vogliamo esprimere i momenti rispetto ad un polo arbitrario ci basta scrivere tutto come 
+	$$\posit=\vec{P}+\vec{r}_P$$
+	ovvero definendo come
+	$$\vec{M}=\vec{P}\times \vec{F}_P+\vec{M}_P$$
+	abbiamo
+	$$\vec{M}_P=\frac{\dif \vec{L}_P}{\dif t}+\vec{v}_P\times \left(M\vec{v}_{cm}\right)$$
+	ovvero si è aggiunto il \textit{termine di polo mobile}, che dipende dalla velocità del centro di massa e dalla velocità del polo. 
+	\subsubsection{Tensore d'Inerzia}
+	Proviamo a capire queste equazioni calcolando $\vec{L}$ rispetto a un punto fisso nel corpo rigido. Per definizione di momento angolare di un sistema rispetto a un polo $P$ abbiamo
+	$$\vec{L}:=\sum_{A=1}^{N}\vec{r}_A\times m_A\veloc_A$$
+	a questo punto usando la velocità angolare, dato che abbiamo scelto un punto fisso \textit{del corpo rigido} abbiamo che la lunghezza del vettore $\vec{r}_A$ rimarrà costante, quindi possiamo usare la velocità angolare per esprimerne la derivata:
+	$$\dots=\sum_{A=1}^N\vec{r}_A\times m_A\left(\vec{\omega}\times \posit_A\right)$$
+	questo è un BAC-CAB, quindi
+	$$\dots=\sum_{A=1}^{N}m_A\left[\left(\posit_A\cdot\posit_A\right)\vec{\omega}-\left(\vec{\omega}\cdot \posit_A\right)\posit_A\right]$$
+	cosa vuol dire questa equazione? Proviamo a calcolare le singole componenti:
+	$$\vec{L}\cdot \ihat=\sum_{A=1}^N m_A\left[(x_A^2+y_A^2+z_A^2)\omega_x-\left(\omega_zx_A+\omega_yy_A+\omega_zz_A\right)x_A\right]=$$
+	$$\dots=\sum_{A=1}^{N}m_A\left[(z_A^2+y_A^2)\omega_x-x_Ay_A\omega_y-x_Az_A\omega_z\right]$$
+	un modo più compatto per scrivere tutto ciò è, con un po' di fantasia e calcolo tensoriale:
+	$$L_i=\sum_{A=1}^{N}\sum_{j=1}^{3}m_A\left[r_A^2\delta_{ij}-r_{Ai}r_{Aj}\right]\omega_j$$che in modo ancora più compatto possiamo scrivere in notazione di Einstein come
+	$$L_i=I_{ij}\omega_j$$
+	dove abbiamo definito 
+	$$I_{ij}=\sum_{A=1}^{N}m_A\left[r_A^2\delta_{ij}-r_{Ai}r_{Aj}\right]$$
+	ovvero scritto in forma matriciale
+	$$I=\sum_{A=1}^{N}m_A\begin{pmatrix}
+		y_A^2+z_A^2 & -x_Ay_A & -x_Az_A \\
+		-x_Ay_A & x_A^2+z_A^2 & -y_Az_A \\
+		-x_Az_A & -y_Az_A & x_A^2+y_A^2
+	\end{pmatrix}$$
+	e quindi 
+	$$\vec{L}=I\vec{\omega}.$$
+	Questa matrice è il cosiddetto \textit{tensore d'inerzia}, ed è una matrice simmetrica (e quindi diagonalizzabile). Perchè si chiama \textit{tensore}? 
+	\begin{definition}[Tensore]
+		Un \textit{tensore} di rango $2$ è una tabella $k\times k$ controvariante, cioè che trasforma sotto rotazioni ortogonali nel seguente modo
+		$$I_{ij}\mapsto R_{il}R_{jm}I_{lm}$$
+		ovvero scritto in forma matriciale, se $R$ è la matrice tale che
+		$$R\ihat=\ihat'$$
+		$$R\jhat=\jhat'$$
+		$$R\khat=\khat'$$
+		trasforma come
+		$$RI'R^{\intercal}=I$$
+		ovvero
+		$$I'=R^\intercal I R.$$
+		Questo si generalizza per tensori di ragno $n$ arbitrario. Un tensore di rango $1$ è un vettore (in quanto un vettore è controvariante).
+	\end{definition}
+	\begin{definition}[Assi principali di inerzia e momenti principali d'inerzia]
+		Gli autovalori del tensore d'inerzia si dicono \textit{momenti principali d'inerzia}. Le direzioni degli autovettori del tensore d'inerzia si dicono \textit{assi principali d'inerzia}.
+	\end{definition}
+	Un altro modo di vedere il tensore d'inerzia è attraverso i prodotti tensoriali di vettori, come vediamo ora.
+	\begin{definition}[Prodotto tensoriale di vettori]
+		Dati due vettori $a,b\in\RR^n$ definiamo il loro \textit{prodotto tensoriale} come il tensore $a\otimes b$ che agisce sul vettore $x$ come
+		$$\left(a\otimes b\right)x=a\left(b\cdot x\right)$$
+		dunque in componenti possiamo vedere il prodotto tensoriale come la tabella $n\times n$ con componenti
+		$$\left(a\otimes b\right)_{ij}=a_ib_j.$$
+	\end{definition}
+	Dunque partendo dalla formula per il momento angolare ottenuta subito dopo il BAC-CAB abbiamo
+	$$\vec{L}=\sum_{A=1}^{N}m_A\left[\left(\posit_A\cdot\posit_A\right)\vec{\omega}-\left(\vec{\omega}\cdot \posit_A\right)\posit_A\right]$$
+	ovvero introducendo le matrici $\mathbbm{1}$ identità e il prodotto tensoriale 
+	\begin{align*}
+		\vec{L}&= \sum_{A=1}^{N}m_A\left[\left(\posit_A\cdot\posit_A\right)\mathbbm{1}\vec{\omega}-\left(\posit_A\otimes \posit_A\right)\vec{\omega}\right]= \\
+		&=\left[\sum_{A=1}^{N}m_A\left[\left(\posit_A\cdot\posit_A\right)\mathbbm{1}-\left(\posit_A\otimes \posit_A\right)\right]\right]\vec{\omega}= \\
+		&=I\vec{\omega}
+	\end{align*}
+	ovvero abbiamo proprio
+	$$I=\sum_{A=1}^{N}m_A\left[\left(\posit_A\cdot\posit_A\right)\mathbbm{1}-\left(\posit_A\otimes \posit_A\right)\right]$$
+	che calcolando esplicitamente tutto, dato che 
+	$$\posit_A\otimes \posit_A=\begin{pmatrix}
+		x^2 & xy & xz \\
+		yx & y^2 & yz \\
+		zx & zy & z^2
+	\end{pmatrix}$$
+	è proprio uguale alla formula trovata prima, e ci fa capire perché il tensore deve per forza essere simmetrico.
+	\subsubsection{Moto attorno ad un asse fisso e momenti d'inerzia}
+	
+	Vediamo di ritornare a quello che sapevamo già dal liceo. Il nostro moto questa volta è
+	$$\vec{\omega}(t)=\omega(t)\hat{n}$$
+	dove $\hat{n}$ è un versore \textbf{costante}, e quindi l'asse di rotazione non cambia. In questo caso scegliendo un polo lungo l'asse di rotazione abbiamo
+	$$\hat{n}\cdot\frac{\dif \vec{L}}{\dif t}=\vec{M}\cdot\hat{n}$$
+	ovvero
+	$$\frac{\dif L_n}{\dif t}=M_n$$
+	dunque dobbiamo calcolare $L_n$. Usando il tensore d'inerzia:
+	$$L_n=I_{ij}\omega_j n_{i}$$
+	che usando la definizione di $\hat{n}$:
+	$$L_n=I_{ij}\omega(t)n_j n_i=I_n \omega(t)$$
+	dove $I_n$ si dice \textit{momento d'inerzia} rispetto all'asse $\hat{n}$ e per definizione è 
+	$$I_n:=n_{i}I_{ij}n_j=\sum_{A=1}^N m_A\left[r_A^2-\left(\posit_A-\left(\posit_A\cdot\hat{n}\right)^2\right)\right]=\hat{n}^\intercal I \hat{n}.$$
+	In modo analogo possiamo ricavare la formula del liceo per l'energia cinetica rotazionale di un corpo rigido: ricordando la formula per l'energia cinetica di un corpo rigido 
+	$$K=\sum_{A=1}^{N}\half m_A \left(\veloc_A\cdot\veloc_A\right)=\sum_{A=1}^{N}\half m_A \veloc_A\cdot \left(\vec{\omega}\times \posit_A\right)=$$
+	e usando la ciclicità del prodotto misto:
+	$$=\sum_{A=1}^{N}\half\vec{\omega}\cdot \left(\posit_A \times m_A\veloc_A\right)=\frac{\vec{\omega}\cdot\vec{L}}{2}=\frac{\vec{\omega}\cdot I \cdot \vec{\omega}}{2}=\frac{1}{2}I_n \omega^2$$
+	che torna ad essere la formula per l'energia cinetica rotazionale di un corpo rigido a cui siamo abituati.
+	
+	\subsubsection{Equazioni di Eulero}
+	Le equazioni di Eulero sono le equazioni cardinali scritte nel sistema di riferimento degli assi principali d'inerzia, ovvero partiamo dalla seconda equazione cardinale nel sdr solidale al corpo:
+	$$\vec{M}_\text{ext}=\frac{\dif \vec{L}}{\dif t}+\vec{\omega}\times\vec{L}$$
+	dato che siamo nel sistema di riferimento in cui il tensore d'inerzia è diagonale allora possiamo scrivere
+	$$I_{ij}=I^{(i)}\delta_{ij}$$
+	con $I^{(i)}$ che è l'autovalore $i$-esimo. Proiettando il momento lungo gli assi
+	$$M_x=I^{(x)}\dot{\omega}_x+\omega_yL_z-\omega_zL_y=$$
+	$$=I^{(x)}\dot{\omega}_x+\left(I^{(z)}-I^{(y)}\right)\omega_y\omega_z.$$
+	e analogamente otteniamo sostituendo ciclicamente nelle altre tre direzioni.
+	\subsubsection{Il teorema di Huygens-Steiner}
+	Abbiamo visto come calcolare il momento angolare a partire da velocità angolari arbitrarie centrate in un certo punto del corpo rigido. Come facciamo però a passare da un punto all'altro senza ricalcolare tutto il tensore d'inerzia? \\
+	Riprendiamo la definizione di momento d'inerzia attorno ad un asse fisso:
+	$$I_n=\sum_{A=1}^{N}m_A\left[\posit\,^2_A-\left(\posit\,^2_A\cdot \hat{n}\right)^2\right]$$
+	facendo un disegnino ci rendiamo conto che quella quantità dentro alle quadre è uguale alla distanza di $A$ dall'asse $\hat{n}$ passante per $P$ il polo rispetto a cui stiamo calcolando il momento d'inerzia. Quindi usando l'identità vettoriale dimostrata per homework possiamo scrivere
+	$$I_n=\sum_{A=1}^{N}m_A\left(\hat{n}\times \posit_A\right)^2.$$
+	\begin{theorem}[Huygens-Steiner]
+		Se $P$ è un polo generico e cm è il centro di massa di un corpo, vale la seguente identità:
+		$$I_n^{(P)}=M(\posit_{cm}\times \hat{n})^2+I_n^{(cm)}.$$
+		dove $\posit_{(cm)}$ è la posizione del cm rispetto a $P$ e $\hat{n}$ è l'asse di rotazione.
+	\end{theorem}
+	\begin{proof}
+		Vogliamo mettere in relazione il momento d'inerzia calcolato rispetto al centro di massa con quello calcolato rispetto al punto $P$. Per un generico punto $A$ del corpo possiamo scrivere, come è noto, la posizione di $A$ rispetto a $P$ in funzione della posizione di $A$ rispetto a cm:
+		$$\posit_A=\posit_{cm}+\posit\,'_A$$
+		dunque possiamo scrivere il momento d'inerzia rispetto a $P$ come
+		$$I_n^{(P)}=\sum_{A=1}^{N}m_A\left(\hat{n}\times \left(\posit_{cm}+\posit\,'_A\right)\right)^2$$
+		che espandendo diventa
+		\begin{align*}
+			I_n^{(P)}=\sum_{A=1}^{N}m_A\left(\hat{n}\times \left(\posit_{cm}+\posit\,'_A\right)\right)^2= 
+		\end{align*}
+		e le cose si semplificano e viene il risultato.
+	\end{proof}
+	
+	\begin{example}[Momento d'inerzia di una sbarretta]
+		Consideriamo una sbarretta lunga $l$ di massa $m$ e un asse perpendicolare ad essa passante per il suo centro di massa $\hat{n}$ calcolare il suo momento d'inerzia rispetto all'asse.
+	\end{example}
+	\begin{proof}[Soluzione]
+		Per la caratterizzazione del momento d'inerzia vista prima abbiamo che
+		$$I_n^{(cm)}=\sum_{A=1}^{N}m_A\cdot \Delta r_A^2$$
+		che trasformando in un integrale ci dà
+		$$I_n=\int_{-l/2}^{l/2}l^2 \cdot\rho  \dif l$$
+		che risolto ci dà il momento, che è 
+		$$I_n=\frac{1}{12}Ml^2$$
+		come ci ricordavamo dal liceo.
+	\end{proof}
+	
+	
+	\newpage
+	
+	\section{Meccanica Lagrangiana e Hamiltoniana}
+	Perché dovremmo volerci preoccupare del formalismo Lagrangiano e Hamiltoniano? Ci sono tanti motivi, soprattutto avanzati. Al nostro livello in realtà ci rendiamo conto che le lagrangiane ci permettono di risolvere gli esercizi in modo molto più rapido.\\
+	Abbiamo visto che nel problema del Morin del corpo su di un cuneo senza attrito che ci tornava utile applicare il seguente teorema:
+	\begin{theorem}[Lavoro delle forze interne]
+		Il lavoro totale delle forze interne di un sistema di corpi non dipende dal sistema di riferimento, sia esso inerziale o no.
+	\end{theorem}
+	Per esempio, per un corpo rigido il lavoro delle forze interne è sempre nullo, perché nel sistema di riferimento solidale sia rotazionalmente che traslazionalmente con esso tutto è fermo, e quindi tutti i lavori sono nulli. Il nostro primo obbiettivo dunque sarà quello di generalizzare il teorema sopra. 
+	\begin{definition}[Vincolo Olonomo]
+		Un vincolo su un corpo si dice \textit{olonomo}, se è equivalente ad una equazione che la posizione di quel corpo deve soddisfare. Un vincolo su un corpo si dice \textit{anolonomo} se è equivalente ad una \textbf{disequazione} che la posizione di quel corpo deve soddisfare.
+	\end{definition}
+	Per esempio se abbiamo un sistema di $N$ punti nello spazio tridimensionale, con $K$ vincoli olonomi indipendenti, abbiamo esattamente $3N-K$ gradi di libertà.
+	\begin{definition}[Coordinate generalizzate]
+		Ad un sistema di $N$ punti sottoposto a $K$ vincoli olonomi indipendenti possiamo associare $3N-K$ numeri $q_i$, detti \textit{coordinate generalizzate}, tali che possiamo esprimere le posizioni di ciascun punto $\posit_i$ in funzione solo di $q_i$ e del tempo:
+		$$\posit_i=\posit_i\left(q_1,q_2,\dots,q_{3N-K},t\right)$$
+		per tutti gli $i$, e inoltre le coordinate $q_i$ sono \textit{indipendenti} tra loro, ovvero ognuna di esse può variare senza che le altre varino.
+	\end{definition}
+	Useremo tante derivate parziali da qui in poi, e quindi ne richiamiamo la definzione.
+	\begin{definition}[Derivata parziale]
+		 Se $f:\RR^2\to\RR$ è una funzione in due variabili la sua derivata parziale è definita come
+		$$\frac{\partial f(x,y)}{\partial x}:=\lim_{\Delta x \to 0}\frac{f(x+\Delta x, y)-f(x,y)}{\Delta x}$$
+		questa continua a soddisfare gli usuali teoremi sulla derivazione.
+	\end{definition}
+	Un disclaimer importante: quando faremo derivate di posizioni avremo che
+	$$\frac{\dif\posit_i}{\dif t}\ne\frac{\partial \posit_i}{\partial t}$$
+	perchè la prima considera \textbf{tutte} le dipendenze dal tempo, anche esplicite, mentre quella a destra considera solo le dipendenze esplicite dal tempo. In particolare abbiamo che
+	$$\frac{\dif \posit_i}{\dif t}=\frac{\partial \posit_i}{\partial t}+\sum_{j=1}^{n}\frac{\partial \posit_i}{\partial q_j}\dot{q}_j$$
+	applicando lo sviluppo in taylor una coordinata alla volta e la chain rule. Nei conti che seguiranno assumeremo che le derivate parziali rispetto a coordinate generalizzate diverse commutino sempre.
+	
+	\subsection{Da Newton a Lagrange}
+	
+	In un sistema a $N$ punti con $n$ gradi di libertà ogni punto deve soddisfare l'equazione
+	$$m\accel_i=\vec{F}_i=\vec{F}_i^{(a)}+\vec{R}_i$$
+	dove abbiamo distinto le forze in $\vec{F}^{(a)}$ e $\vec{R}$, ovvero forze \textbf{attive} e \textbf{reazioni vincolari}.
+	\begin{definition}[Spostamento virtuale]
+		Uno \textit{spostamento virtuale} al tempo $t_0$ è uno spostamento dei punti del sistema in modo che continuino a soddisfare le equazioni che aveva il vincolo al tempo $t_0$ (non banale, dato che il vincolo può dipendere dal tempo). Denotiamo uno spostamento virtuale con il simbolo $\delta \posit_i$.
+	\end{definition}
+	Espandendo in taylor al primo ordine possiamo trovare che se $\delta \posit_i\ll 1$ abbiamo
+	$$\delta \posit_i\approx \sum_{j=1}^{n}\frac{\partial \posit_i}{\partial q_j}\delta q_j.$$
+	In un sistema all'equilibrio ora, vale chiaramente
+	$$\sum_{i=1}^{N}\left(\vec{F}_i^{(a)}+\vec{R}_i\right)\cdot\delta \posit_i=0$$
+	dato che tutte le accelerazioni sono nulle. Restringiamoci a questo punto a sistemi in cui il lavoro virtuale delle reazioni vincolari è nullo, ovvero
+	$$\sum_{i=1}^{N}\vec{R}_i\cdot\delta \posit_i=0.$$
+	Da queste due deduciamo chiaramente il seguente principio:
+	\begin{proposition}[Principio dei lavori virtuali]
+		Dato un sistema di punti all'equilibrio in cui il lavoro virtuale delle reazioni vincolari è nullo, abbiamo sempre
+		$$\sum_{i=1}^{N}\vec{F}_i^{(a)}\cdot\delta \posit_i=0.$$
+	\end{proposition}
+	prendiamo ora un sistema ad accelerazione arbitraria. Questa volta abbiamo
+	\begin{proposition}[Principio di D'Alambert]
+		Dato un sistema di punti in cui il lavoro virtuale delle reazioni vincolari è nullo abbiamo sempre
+		$$\sum_{i=1}^{N}\left(m_i\accel-\vec{F}_i^{(a)}\right)\cdot\delta\posit_i=0.$$
+	\end{proposition}
+	\begin{proof}
+		Analoga al caso di prima, semplicemente portando a destra l'accelerazione nel secondo principio della dinamica e usando l'assunzione sulle reazioni vincolari.
+	\end{proof}
+	Facciamo un po' di conti, il primo pezzo dentro la sommatoria è uguale a, usando  
+	$$\sum_{i=1}^{N}m_i\frac{\dif^2\posit_i}{\dif t^2}\cdot\delta\posit_i=\sum_{i=1}^{N}\sum_{j=1}^{n}m_i\frac{\dif^2 \posit_i}{\dif t^2}\cdot\frac{\partial \posit_i}{\partial q_j}\delta q_j$$
+	riscriviamola usando un artificio raccogliendo una derivata
+	$$=\sum_{i=1}^{N}\sum_{j=1}^{n}\left[\frac{\dif}{\dif t}\left(m_i\veloc_i\cdot\frac{\partial \posit_i}{\partial q_j}\right)-m_i\veloc_i\frac{\dif}{\dif t}\left(\frac{\partial \posit_i}{\partial q_j}\right)\right]\delta q_j.$$
+	Ora vorremmo ricondurci a delle energie cinetiche all'interno delle parentesi, per fare questo vorremmo dimostrare che
+	\begin{lemma}[De L'h{\^o}pital parziale]
+		Per ogni vettore $\posit_i$ e scalare $q_j$ abbiamo:
+		$$\frac{\partial \veloc_i}{\partial \dot{q}_j}=\frac{\partial \posit_i}{\partial q_j}.$$
+	\end{lemma}
+	\begin{proof}
+		Prendendo la definizione di derivata totale rispetto al tempo:
+		$$\veloc_i=\frac{\dif \posit_i}{\dif t}=\frac{\partial \posit_i}{\partial t}+\sum_{k=1}^{n}\frac{\partial \posit_i}{\partial q_k}\dot{q}_k$$
+		possiamo derivare da entrambi i lati parzialmente rispetto a $\dot{q}_j$:
+		$$\frac{\partial \veloc_i}{\partial \dot{q}_j}=\frac{\partial^2\posit_i}{\partial \dot{q}_j\partial t}+\sum_{k=1}^{n}\left(\frac{\partial^2 \posit_i}{\partial \dot{q}_j \partial q_k}\dot{q}_k+\frac{\partial \posit_i}{\partial q_k}\frac{\partial \dot{q}_k}{\partial \dot{q}_j}\right)$$
+		d'altra parte notiamo che tutti i termini dentro la sommatoria si cancellano per le derivate parziali, e quindi rimaniamo con
+		$$\frac{\partial \veloc_i}{\partial \dot{q}_j}=\frac{\partial^2\posit_i}{\partial \dot{q}_j\partial t}=\frac{\partial}{\partial t}\frac{\partial \posit_i}{\partial \dot{q}_j}=\frac{\partial}{\partial t}\left(\frac{\partial \posit_i}{\partial q_j}\frac{\partial q_j}{\partial \dot{q}_j}\right)$$
+		ma d'altra parte la derivata parziale di $\posit_i$ rispetto a $q_j$ viene trattata come una costante dalla derivata parziale rispetto a $t$, quindi abbiamo
+		$$\dots =\frac{\partial \posit_i}{\partial q_j}\frac{\partial}{\partial t}\left(\frac{\partial q_j}{\partial \dot{q}_j}\right)$$
+		e dato che, di nuovo, le derivate parziali commutano, e le coordinate generalizzate sono indipendenti abbiamo
+		$$\dots=\frac{\partial \posit_i}{\partial q_j}\frac{\partial}{\partial \dot{q}_j}\left(\frac{\partial q_j}{\partial t}\right)=\frac{\partial \posit_i}{\partial q_j}\frac{\partial}{\partial \dot{q}_j}\left(\frac{\dif q_j}{\dif t}\right)=\frac{\partial \posit_i}{\partial q_j} \frac{\partial \dot{q}_j}{\partial \dot{q}_j}=\frac{\partial \posit_i}{\partial q_j}$$
+		che era la tesi.
+	\end{proof}
+	e quindi sostituendo 
+	$$=\sum_{i=1}^{N}\sum_{j=1}^{n}\left[\frac{\dif}{\dif t}\left(m_i\veloc_i\cdot\frac{\partial \veloc_i}{\partial \dot{q}_j}\right)-m_i\veloc_i\frac{\dif}{\dif t}\left(\frac{\partial \posit_i}{\partial q_j}\right)\right]\delta q_j$$
+	notiamo allora che nel primo termine della sommatoria riconosciamo una derivata, e quindi possiamo raccogliere:
+	$$=\sum_{i=1}^{N}\sum_{j=1}^{n}\left[\frac{\dif}{\dif t}\left(\frac{\partial}{\partial \dot{q}_j}\left(\half m_i \veloc\,^2_i\right)\right)-m_i\veloc_i\frac{\dif}{\dif t}\left(\frac{\partial \posit_i}{\partial q_j}\right)\right]\delta q_j.$$
+	Quel termine lo conosciamo, è l'energia cinetica. Per ricondurci all'energia cinetica anche sul secondo termine abbiamo bisogno di far commutare la derivata parziale con quella totale, e quindi espandiamo:
+	$$\frac{\dif}{\dif t}\left(\frac{\partial \posit_i}{\partial q_j}\right)=\sum_{k=1}^{n}\frac{\partial \posit_i}{\partial q_k \partial q_j}\dot{q}_k+\frac{\partial \posit_i}{\partial q_j\partial t}$$
+	dato che le derivate parziali commutano possiamo raccogliere le derivate parziali e ottenere
+	$$\frac{\dif}{\dif t}\left(\frac{\partial \posit_i}{\partial q_j}\right)=\sum_{k=1}^{n}\frac{\partial \posit_i}{\partial q_k \partial q_j}\dot{q}_k+\frac{\partial \posit_i}{\partial q_j\partial t}=\frac{\partial}{\partial q_j}\left(\sum_{k=1}^{n}\frac{\partial \posit_i}{\partial q_k }\dot{q}_k+\frac{\partial \posit_i}{\partial t}\right)=\frac{\partial}{\partial q_j}\left(\frac{\dif \posit_i}{\dif t}\right).$$
+	Utilizzando quindi l'uguaglianza appena trovata nell'equazione di partenza e raccogliendo di nuovo ua derivata giungiamo finalmente a:
+	$$\dots=\sum_{j=1}^{n}\left[\frac{\dif}{\dif t}\left(\frac{\partial T}{\partial \dot{q}_j}\right)-\frac{\partial T}{\partial q_j}\right]\delta q_j$$
+	dove $T$ sono le energie cinetiche. La parte più difficile del conto è stata fatta, mancano le forze, ma queste si giostrano dicendo che 
+	$$\sum_{i=1}^{N}\vec{F}_i^{(a)}\cdot\delta\posit_i \posit_i=\sum_{i=1}^{N}\sum_{j=1}^{n}\left(\vec{F}_i^{(a)}\cdot\frac{\partial \posit_i}{\partial q_j}\right)\delta q_j$$
+	e le quantità tra parentesi di solito si denotano con $Q_j$ e si dicono \textit{forze generalizzate}. Quindi mettendo tutto insieme abbiamo
+	$$\sum_{j=1}^{n}\left[\frac{\dif}{\dif t}\left(\frac{\partial T}{\partial \dot{q}_j}\right)-\frac{\partial T}{\partial q_j}-Q_j\right]\delta q_j=0$$
+	ma dato che tutte le $q_j$ sono linearmente indipendenti, ogni termine della somma deve essere $0$, e quindi abbiamo dimostrato che 
+	$$\frac{\dif}{\dif t}\left(\frac{\partial T}{\partial \dot{q}_j}\right)-\frac{\partial T}{\partial q_j}=Q_j$$
+	per ogni $j$. Sembra un casino. in realtà è molto più bello di quanto non si possa immaginare, infatti
+	$$\vec{F}_i^{(a)}=-\frac{\partial U}{\partial \posit_i}$$ 
+	(il gradiente), e quindi abbiamo che
+	$$Q_j=\sum_{i=1}^{N}-\frac{\partial U}{\partial \posit_i}\cdot \frac{\partial \posit_i}{\partial q_j}=-\frac{\partial U}{\partial q_j}+\frac{\dif}{\dif t}\left(\frac{\partial U}{\partial q_j}\right)$$
+	usando la chain rule + taylor al contrario.	Sostituendo dunque nell'equazione di partenza abbiamo
+	$$\frac{\dif}{\dif t}\left(\frac{\partial T}{\partial \dot{q}_j}\right)-\frac{\partial T}{\partial q_j}=-\frac{\partial U}{\partial q_j}+\frac{\dif}{\dif t}\left(\frac{\partial U}{\partial q_j}\right)$$
+	e quindi portando tutto a sinistra abbiamo
+	$$\frac{\dif}{\dif t}\left(\frac{\partial (T-U)}{\partial \dot{q}_j}\right)-\frac{\partial (T-U)}{\partial q_j}=0$$
+	e la quantità tra parentesi di solito si denota con $\LL$ la \textit{lagrangiana} del sistema:
+	$$\frac{\dif}{\dif t}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}_j}\right)-\frac{\partial \mathcal{L}}{\partial q_j}=0$$
+	queste sono le cosiddette \textit{equazioni di Eulero-Lagrange}, vediamone immediatamente un'applicazione:
+	\begin{example}[Macchina di Atwood]
+		Una macchina di atwood consiste in due masse $m_1$ ed $m_2$ collegate da una carrucola appesa al soffitto. In un tale contesto ci basta una coordinata generalizzata per descrivere il sistema, ovvero l'altezza $z$ di una delle due masse (assumiamo quella di coordinata $z_1$).
+		Imponendo che 
+		$$z_1+z_2=l$$
+		dove $l$ è la lunghezza della fune legata alla carrucola, abbiamo che le due masse hanno velocità ed accelerazioni banalmente uguali a
+		$$\dot{z}_1=\dot{z}$$
+		$$\dot{z}_2=\dot{z}$$
+		$$\ddot{z}_1=\ddot{z}$$
+		$$\ddot{z}_2=\ddot{z}$$
+		quindi la lagrangiana del sistema è
+		$$\mathcal{L}=\half m_1\dot{z}_1^2+\half m_2 \dot{z}_2^2-m_1gz_1-m_2gz_2=\half m_1\dot{z}^2+\half m_2 \dot{z}^2-m_1gz-m_2g(l-z).$$
+		A questo punto abbiamo
+		$$\frac{\partial \mathcal{L}}{\partial \dot{z}}=(m_1+m_2)\dot{z}$$
+		$$\frac{\partial \mathcal{L}}{\partial z}=(m_2-m_1)g$$
+		che, sostituendo nell'equazione di Eulero Lagrange ci descrivono esattamente il moto di $m_1$:
+		$$(m_1+m_2)\ddot{z}=\frac{\dif}{\dif t}\frac{\partial \mathcal{L}}{\partial \dot{z}}=\frac{\partial \mathcal{L}}{\partial z}=(m_2-m_1)g$$
+		ovvero, in accordo con quanto sapevamo dalla meccanica newtoniana:
+		$$\ddot{z}=\frac{m_2-m_1}{m_2+m_1}g.$$
+	\end{example}
+	
+	\subsection{Calcolo delle variazioni}
+	
+	Prendiamo due punti sul piano $P_1$ e $P_2$ di coordinate $x_1,x_2,y_1,y_2$. Supponiamo che ci venga data una funzione
+	$$f\left(y(x),\dot{y}(x),x\right)$$
+	allora definiamo il \textit{funzionale} $J:\RR^\RR\to \RR$ come:
+	$$J[y(x)]:=\int_{x_1}^{x_2}f(y,\dot{y},x)\dif x.$$
+	Vogliamo trovare quindi la funzione $y(x)$ che \textit{estremizza} $J$, cioè che corrisponde ad un estremo del funzionale $J$. Non solo, vogliamo anche che gli estremi di $f$ siano fissati, cioè
+	$$f(x_1)=y_1$$
+	$$f(x_2)=y_2.$$
+	Questo è il problema generale del calcolo delle variazioni, una grande branca della matematica sviluppatasi a partire da problemi di natura fisica. 
+	\subsubsection{Minima distanza}
+	Facciamo un esempio di problema del calcolo delle variazioni.
+	Vogliamo trovare la funzione $f$ che minimizza la lunghezza della curva di $f$ tra i punti $P_1$ e $P_2$. Dalla formula della lunghezza di una curva sappiamo che
+	$$l=\int_{x_1}^{x_2}\sqrt{1+\dot{y}^2}\dif x$$
+	quindi vogliamo minimizzare
+	$$J[y(x)]=\int_{x_1}^{x_2}\sqrt{1+\dot{y}^2}\dif x$$
+	con 
+	$$f(y,\dot{y},x):=\sqrt{1+\dot{y}^2}.$$
+	Parametrizziamo allora tutte le possibili funzioni con un parametro $\alpha$. In ogni punto abbiamo 
+	$$y(x,\alpha)=y(x,0)+\alpha\eta (x)$$
+	con $\eta(x_1)=\eta(x_2)=0$. Ora prepariamoci ad usare tanti teoremi di analisi. Vogliamo minimizzare la funzione:
+	$$J(\alpha)=\int_{x_1}^{x_2}f(y(x,\alpha),\dot{y}(x,\alpha),x)\dif x$$
+	quindi ne prendiamo la derivata parziale e la portiamo dentro all'integrale
+	$$\frac{\partial J}{\partial \alpha}=\int_{x_1}^{x_2}\left[\frac{\partial f}{\partial y}\frac{\partial y}{\partial \alpha}+\frac{\partial f}{\partial\dot{y}}\frac{\partial^2 y}{\partial t\partial x}\right]\dif x$$
+	a questo punto dunque spezziamo i due integrali e facciamo il secondo per parti
+	$$\frac{\partial J}{\partial \alpha}=\int_{x_1}^{x_2}\frac{\partial f}{\partial y}\frac{\partial y}{\partial \alpha}+\left[\frac{\partial f}{\partial \dot{y}}\frac{\partial y}{\partial \alpha}\right]_{x_1}^{x_2}-\int_{x_1}^{x_2}\frac{\dif }{\dif x}\left(\frac{\partial f}{\partial \dot{y}}\right)\frac{\partial y}{\partial \alpha}\dif x$$
+	ma notiamo che il termine di bordo è esattamente $0$, perchè al variare di $\alpha$ la funzione sui bordi non varia. Dunque abbiamo trovato
+	$$\frac{\partial J}{\partial \alpha}=\int_{x_1}^{x_2}\left[\frac{\partial f}{\partial y}-\frac{\dif }{\dif x}\left(\frac{\partial f}{\partial \dot{y}}\right)\right]\frac{\partial y}{\partial \alpha}\dif x$$
+	e all'interno abbiamo proprio le \textbf{Equazioni di Eulero Lagrange}. A questo punto definiamo la variazione di $J$ in $0$ come:
+	$$\delta J=\frac{\partial J}{\partial \alpha}_{\mid \alpha=0}\delta \alpha$$
+	ovvero
+	$$\delta J=\int_{x_1}^{x_2}\left[\frac{\partial f}{\partial y}-\frac{\dif }{\dif x}\left(\frac{\partial f}{\partial \dot{y}}\right)\right]\delta y\dif x$$
+	dove abbiamo usato l'identità
+	$$\delta y = \frac{\partial y}{\partial \alpha}_{\mid \alpha =0}\delta \alpha$$
+	ora se la funzione $y(x,0)$ minimizza effettivamente il funzionale, vogliamo che $\delta J=0$. Ma dato che il $\delta y$ è arbitrario l'unico modo in cui quell'integrale può essere $0$ è che 
+	$$\frac{\partial f}{\partial y}-\frac{\dif }{\dif x}\left(\frac{\partial f}{\partial \dot{y}}\right)=0.$$
+	Guardando indietro dunque abbiamo trovato che se 
+	\begin{theorem}[Eulero-Lagrange]
+		Se vogliamo minimizzare il funzionale
+		$$J=\int_{x_1}^{x_2}f(y,\dot{y},x)\dif x$$
+		con la funzione $y$ a estremi fissati, questa deve soddisfare
+		$$\frac{\partial f}{\partial y}-\frac{\dif }{\dif x}\left(\frac{\partial f}{\partial \dot{y}}\right)=0.$$
+	\end{theorem}
+	Nel caso della retta avevamo 
+	$$f(y,\dot{y},x)=\sqrt{1+\dot{y}^2}$$
+	e quindi le equazioni di Eulero Lagrange sono
+	$$0=\frac{\dif}{\dif x}\left(\frac{2\dot{y}}{\sqrt{1+\dot{y}^2}}\right)$$
+	che implica
+	$$\dot{y}=cost$$
+	cioè abbiamo trovato una retta. 
+	
+	\subsubsection{Minima azione}
+	Cominciamo generalizzando quanto appena fatto con il seguente corollario
+	\begin{corollary}[Eulero-Lagrange generalizzato]
+		Se vogliamo minimizzare il funzionale
+		$$J=\int_{x_1}^{x_2}f(y_1,\dot{y}_1,y_2,\dot{y}_2,\dots,y_n,\dot{y}_2,x)\dif x$$
+		con le funzioni $y$ a estremi fissati, queste devono soddisfare		
+		$$\frac{\partial f}{\partial y_i}-\frac{\dif }{\dif x}\left(\frac{\partial f}{\partial \dot{y}_i}\right)=0$$
+		per ogni $i$.
+	\end{corollary}
+	\begin{proof}
+		Con un conto uguale a quello di prima troviamo
+		$$\delta J=\int_{x_1}^{x_2}\sum_{i=1}^{n}\left[\frac{\partial f}{\partial y_i}-\frac{\dif }{\dif x}\left(\frac{\partial f}{\partial \dot{y}_i}\right)\right]\delta y_i \dif x$$
+		e quindi dato che tutti i $\delta y_i$ sono arbitrari abbiamo la tesi.
+	\end{proof}
+	Finora era tutta matematica. La fisica subentra quando si introduce il \textit{principio di Hamilton}. Questo descrive come si muove un punto \textit{secondo le leggi della dinamica} che si muove tra due punti fissati e dice
+	\begin{proposition}[Principio di Hamilton]
+		Per un sistema \textit{conservativo} cioè in cui esiste un'energia potenziale, e quindi in cui posso definire 
+		$$\mathcal{L}:=T-U$$
+		la traiettoria nello spazio delle configurazioni parametrizzato dalle coordinate generalizzate $q_i$ tra due punti fissati è tale da rendere estremo il funzionale
+		$$I:=\int_{t_1}^{t_2}\mathcal{L}\left(q_i,\dot{q}_i,t\right)\dif t.$$
+		Quel funzionale è noto come \textit{azione}.
+	\end{proposition}
+	e dunque come corollario otteniamo proprio
+	\begin{corollary}[Equazioni del moto di Eulero-Lagrange]
+		Per un sistema conservativo la traiettoria di un corpo che soddisfa le leggi della dinamica la traiettoria in funzione delle coordinate generalizzate $q_i$ soddisfa
+		$$\frac{\dif}{\dif t}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}_j}\right)-\frac{\partial \mathcal{L}}{\partial q_j}=0.$$
+	\end{corollary}
+	Abbiamo infine il seguente teorema:
+	\begin{theorem}[Lagrangiane che differiscono per una derivata totale]
+		Se due Lagrangiane soddisfano
+		$$\mathcal{L}_2(q_i,\dot{q}_i,t)=\mathcal{L}_1(q_i,\dot{q}_i,t)+\frac{\dif F(q_i,t)}{\dif t}$$
+		dove $F$ è una funzione solo delle coordinate (non delle velocità), allora si dice che \textit{differiscono per una derivata totale} e le equazioni di Eulero-Lagrange per entrambe sono le stesse.
+	\end{theorem}
+	\begin{proof}
+		La dimostrazione viene tranquillamente per verifica diretta, tuttavia è più illuminante considerare la variazione dell'azione:
+		$$\delta I_2=\delta \left[\int_{t_1}^{t_2}\mathcal{L}_2\dif t\right]=\delta \left[\int_{t_1}^{t_2}\mathcal{L}_1\dif t\right]+\delta \left[\int_{t_1}^{t_2}\frac{\dif F}{\dif t}\dif t\right]=\delta I_1 +\delta\left[F(q_i(t_2),t_2)-F(q_i(t_1),t_1)\right]$$
+		ma dato che gli estremi sono fissati il termine che coinvolge $F$ ha variazione esattamente nulla, e quindi abbiamo finito.
+	\end{proof}
+	
+	\subsection{Piccole oscillazioni}
+	
+	Il doppio pendolo è il sistema archetipico che vogliamo risolvere in questa sezione. Svilupperemo un formalismo che ci permetterà di approcciare molti problemi, e che avrà poi molte applicazioni in fisica quantistica. \\
+	Il problema che vogliamo studiare è il seguente
+	\begin{problem}[Piccole oscillazioni]
+		Prendiamo un sistema di $N$ particelle e $K$ vincoli tale che vi siano
+		$$n:=3N-K$$
+		gradi di libertà. Assumiamo che i vincoli \textbf{non dipendano dal tempo}, ovvero tutte le posizioni delle particelle si possono scrivere come
+		$$\posit_i=\posit_i\left(q_1,q_2,\dots,q_n\right)$$
+		dove i $q_i$ sono le coordinate generalizzate, e il tempo non compare in quell'elenco. Vogliamo studiare come si comporta il sistema "vicino ad una configurazione di equilibrio stabile".
+	\end{problem}
+	Cominciamo allora prendendo una configurazione di equilibrio. 
+	$$q^{(0)}=\left\{q_1^{(0)},q_2^{(0)},\dots,q_n^{(0)}\right\}$$
+	qui la somma delle forze generalizzate su ogni particella $j$ deve essere $0$, ovvero
+	$$Q_j=\sum_{i=1}^{N}\vec{F}_i\frac{\partial \posit_i}{\partial q_j}=0=-\frac{\partial U}{\partial q_j}$$
+	consideriamo allora uno spostamento vicino all'equilibrio
+	$$q_i=q_i^{(0)}+\eta_i$$
+	possiamo scrivere l'energia potenziale solo in termini delle $q_i$, e quindi abbiamo espandendo con taylor al secondo ordine (dato che il primo ordine si cancella, per quanto detto sulle forze generalizzate), abbiamo
+	$$U(\eta_i)\approx \half \sum_{i=1}^{n}\sum_{j=1}^{n}\frac{\partial^2 U}{\partial q_i \partial q_j}\Bigg|_{q^{(0)}}\eta_i\eta_j$$
+	ora cerchiamo la lagrangiana del sistema, per fare ciò calcoliamo l'energia cinetica
+	$$T=\sum_{l=1}^{N}\frac{m_L}{2}\veloc_l\veloc_l$$
+	a questo punto usando la chain rule per scrivere la derivata totale come somma di parziali
+	$$\veloc_l=\sum_{i=1}^{n}\frac{\partial \posit_l}{\partial q_i}\dot{\eta}_i$$
+	abbiamo
+	$$T=\sum_{l=1}^{N}\frac{m_L}{2}\left(\sum_{i=1}^{n}\frac{\partial \posit_l}{\partial q_i}\dot{\eta}_i\right)\left(\sum_{i=1}^{n}\frac{\partial \posit_l}{\partial q_i}\dot{\eta}_i\right)$$
+	che cambiando un po' gli ordini delle sommatorie diventa
+	$$\half\sum_{i=1}^n\sum_{j=1}^n\left(\sum_{l=1}^N m_l \frac{\partial \posit_l}{\partial q_i}\frac{\partial \posit_l}{\partial q_j}\right)\dot{\eta}_i\dot{\eta}_j$$
+	ora approssimiamo anche l'energia cinetica: l'energia potenziale siamo riusciti a scriverla togliendo la dipendenza dai $\posit_i$, vogliamo fare lo stesso per la cinetica. Abbiamo allora che la lagrangiana del sistema è
+	$$\mathcal{L}=\half \sum_{i=1}^{n}\sum_{j=1}^{n}\left(T_{ij}\dot{\eta}_i\dot{\eta}_j- V_{ij}\eta_i\eta_j\right)$$
+	dove abbiamo introdotto le due matrici
+	$$V_{ij}=\frac{\partial^2U}{\partial q_i\partial q_j}\Bigg|_{q^{(0)}}$$
+	$$T_{ij}=\sum_{l=1}^{N}m_l \frac{\partial \posit_l}{\partial q_i}\Bigg|_{q^{(0)}}\frac{\partial \posit_l}{\partial q_j}\Bigg|_{q^{(0)}}$$
+	che sono due matrici a coefficienti costanti, che ci permettono di ignorare essenzialmente la dipendenza dalle posizioni. \\
+	La matrice $V$ è \textbf{l'Hessiana} del potenziale nel punto di minimo, mentre la matrice $T$ è la matrice della metrica dell'energia cinetica. \\
+	D'ora in poi tutte le somme saranno da $1$ a $n$ e quindi adoperiamo la notazione di Einstein sugli indici ripetuti:
+	$$\mathcal{L}=\half T_{ij}\dot{\eta}_i\dot{\eta}_j-\half V_{ij}\eta_{i}\eta_j$$
+	e la possiamo quindi sostituire nelle equazioni di Eulero-Lagrange
+	$$\frac{\dif}{\dif t}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}_k}\right)-\frac{\partial \mathcal{L}}{\partial q_k}=0$$
+	per $k$ che va da $1$ a $n$. Allora sostituendo le derivate parziali ci permettono di scrivere il LHS come
+	$$\frac{\dif}{\dif t}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}_k}\right)=\frac{\dif}{\dif t}\left(\frac{T_{kj}\dot{\eta}_j+T_{ik}\dot{\eta}_i}{2}\right)$$
+	e usando il fatto che $T_{ij}$ è simmetrica (come si verifica facilmente) abbiamo 
+	$$\dots=T_{kj}\ddot{\eta}_j$$
+	e d'altra parte abbiamo
+	$$\frac{\partial \mathcal{L}}{\partial q_k}=-V_{kj}\eta_j$$
+	che mettendo tutto insieme ci danno le equazioni del moto che dobbiamo risolvere
+	$$T_{kj}\ddot{\eta}_j+V_{kj}\eta_j=0$$
+	che rinominando l'indice $k$
+	$$T_{ij}\ddot{\eta}_j+V_{ij}\eta_j=0.$$
+	\subsubsection{Modi normali}
+	Questo è un succoso sistema di $n$ equazioni differenziali del secondo ordine, cerchiamo allora, come non ci stupisce, soluzioni del tipo
+	$$\eta_j=\Re\left[\mathcal{C}a_j e^{i\omega t}\right]$$ 
+	e quindi dato che è tutto lineare ignoriamo le parti reali per il momento (dato che sono lineari), le prenderemo alla fine. Questi sono i cosiddetti \textbf{modi normali} del sistema, ovvero soluzioni di forma oscillatoria, ognuna associata ad un $\omega$ diverso, dette le \textit{frequenze normali} del sistema. Sostituendo allora nell'equazione abbiamo
+	$$\mathcal{C}\left(-\omega^2 T_{ij}+V_{ij}\right)a_je^{i\omega t}=0$$
+	dato che $\mathcal{C}$ è una costante (e se è identicamente nulla la situazione non è molto interessante) e $e^{i\omega t}$ è un termine di rotazione non $0$ per avere una soluzione dobbiamo avere che il seguente sistema ha una soluzione
+	$$\left(-\omega^2T_{ij}+V_{ij}\right)a_j=0$$
+	e quindi 
+	$$\det\left(\omega^2T-V\right)=0$$
+	siamo tornati alla pura algebra lineare. Rinominiamo persino $\omega^2=\lambda$ e cerchiamo i $\lambda\ge 0$ reali ($\omega$ complessi fanno un casino e quindi non li vogliamo). Il sistema che vogliamo risolvere è
+	$$\left(-\lambda T_{ij}+V_{ij}\right)a_j=0$$
+	e questo in $\lambda$ avrà $n$ soluzioni complesse (perchè $\lambda$ è la soluzione di quell'equazione con il determinante, che è un polinomio di grado $n$). Per ogni $\lambda_k$ quindi denotiamo con $a_j^{(k)}$ le soluzioni per quel $\lambda_k$. Definiamo allora le matrici $A,\Lambda$ tali che
+	$$A_{jk}=a_j^{(k)}$$
+	$$\Lambda_{ij}=\delta_{ij}\lambda_i$$
+	l'equazione che vogliamo risolvere diventa
+	$$V_{ij}A_{jk}=\lambda_kT_{ij}A_{jk}$$
+	(occhio che qui stiamo omettendo una sola somma a destra, nonostante l'indice ripetuto, perchè $\lambda_k$ non è una matrice) se prendiamo allora l'aggiunta da entrambi i lati e cambiamo il nome di $k$ in $l$:
+	$$V_{ij}A_{jl}^*=\lambda_l^*T_{ij}A_{jl}^*$$
+	(dove non abbiamo cambiato i pedici perché le matrici sono tutte simmetriche).
+	Dunque se prendiamo questa equazione e la sua coniugata possiamo moltiplicare da entrambi i lati per una quantità in modo da avere
+	$$A_{jl}^*V_{ij}A_{jk}=\lambda_kT_{ij}A_{jk}A_{jl}^*$$
+	$$A_{jk}V_{ij}A_{jl}^*=\lambda_l^*T_{ij}A_{jl}^*A_{jk}$$
+	che sottraendo membro a membro ci dà
+	$$\left(\lambda_k-\lambda_l^*\right)\left(T_{ij}\left(a_i^{(k)}\right)^*a_j^{(k)}\right)=0$$
+	e dato che il termine con l'energia cinetica è essenzialmente il prodotto scalare $$\langle Ta^{(k)},a^{(k)} \rangle$$
+	definito positivo (dato che tutti i coefficienti sono positivi), abbiamo che $T_{ij}A_jlA_jk^*>0$ da cui abbiamo in particolare per i termini sulla diagonale
+	$$\lambda_k=\lambda_k^*$$
+	cioè è reale. D'altra parte questo per definizione di $A$ implica che tutti gli $A_{ij}$ sono reali. Dunque il fatto che sia positivo si vede semplicemente dal fatto che
+	$$\lambda_k=\frac{V_{ij}A_{jl}A_{jk}}{T_{ij}A_{jl}A_{jk}}$$
+	e il denominatore è positivo per quanto detto prima, mentre il denominatore è positivo perché stiamo considerando i punti di equilibrio \textbf{stabili}, e quindi \textbf{la matrice hessiana} $V_{ij}$ in questi casi sarà definita positiva. Un'altra conseguenza di
+	$$\left(\lambda_k-\lambda_l^*\right)\left(T_{ij}\left(a_i^{(k)}\right)^*a_j^{(k)}\right)=0$$
+	è che se $l\ne k$ abbiamo che 
+	$$T_{ij}a_i^{(l)}a_j^{(k)}=0$$
+	cioè abbiamo che ciascun modo normale è ortogonale agli altri rispetto al prodotto scalare definito dall'energia cinetica. Dato che i modi normali allora erano soluzioni di equazioni omogenee abbiamo la facoltà di riscalarli tutti per uno stesso fattore, e quindi li scaliamo in modo che siano un \textbf{insieme ortonormale} rispetto a $T$, ovvero che
+	$$\langle Ta^{(l)},a^{(k)}\rangle=\delta_{lk}$$
+	Questo vuol dire che l'equazione che abbiamo ottenuto sostituendo la condizione del modo normale nelle equazioni del moto si può scrivere senza pedici in forma matriciale come
+	$$VA=TA\Lambda$$
+	e quindi moltiplicando da entrambi i lati per $A^\intercal$
+	$$A^\intercal VA=A^\intercal TA\Lambda=\Lambda$$
+	dato che $A$ è una matrice ortogonale rispetto alla metrica di $T$, e quindi abbiamo proprio che 
+	$$A^\intercal VA=\Lambda$$
+	cioè abbiamo trovato proprio che quello che volevamo fare era \textbf{diagonalizzare ortogonalmente l'hessiana} (nella metrica di $T$), a questo fine introduciamo le cosiddette \textit{coordinate normali}
+	$$\eta_i=A_{ij}\zeta_j$$ 
+	che sono quelle che ci permettevano di diagonalizzare l'hessiana, ovvero sostituendo nella lagrangiana
+	$$\mathcal{L}=\half \left(A_{ik}\dot{\zeta}_k\right)T_{ij}A_{jl}\dot{\zeta}_l-\half \left(A_{ik}\zeta_k\right)V_{ij}\left(A_{jl}\zeta_l\right)$$
+	che quindi riconoscendo i prodotti scalare nella metrica $T$ si semplifica tutto tremendamente a 
+	$$\mathcal{L}=\half \dot{\zeta}_k^2-\half \lambda_k \zeta_k^2.$$
+	\begin{remark}[Oscillatori armonici indipendenti]
+		Questa equazione fisicamente ci dice che ogni coordinata del sistema in uno dei modi normali si muove come se fosse un oscillatore armonico indipendente.
+	\end{remark}
+	
+	\newpage
+	
+	\subsection{Simmetrie e leggi di conservazione}
+	
+	L'Hamiltoniana nasce dallo studio delle simmetrie di un sistema in relazione alle quantità conservate del sistema. Le equazioni di Eulero Lagrange dicono che 
+	$$\frac{\dif}{\dif t}\left(\frac{\partial T}{\partial \dot{q}_j}\right)-\frac{\partial T}{\partial q_j}=Q_j$$
+	dove le forze generalizzate sono
+	$$Q_j:=\sum_{i=1}^{N}\vec{F}_i\cdot \frac{\partial \posit_i}{\partial q_j}.$$
+	A questo punto se il sistema è conservativo possiamo trovare un potenziale $U$ per esprimere le forze generalizzate, e quindi arriviamo a $\mathcal{L}=T-U$
+	$$\frac{\dif}{\dif t}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}_j}\right)-\frac{\partial \mathcal{L}}{\partial q_j}=0$$
+	\begin{definition}[Momenti Coniugati]
+		Ad un sistema conservativo con lagrangiana $\mathcal{L}$ e coordinate generalizzate $q_j$ associamo i \textit{momenti coniugati}, definiti come
+		$$p_j:=\frac{\partial \mathcal{L}}{\partial \dot{q}_j}.$$
+		In effetti se le coordinate scelte sono cartesiane per ogni coordinata i momenti coniugati sono
+		$$p_x=m\dot{x}$$
+		ovvero sono le quantità di moto (momentum in inglese).
+	\end{definition} 
+	Con i momenti coniugati riscriviamo le equazioni di E-L come 
+	$$\dot{p}_j=\frac{\partial \mathcal{L}}{\partial q_j}.$$
+	\begin{definition}[Coordinata ciclica]
+		In un sistema conservativo con lagrangiana $\mathcal{L}$ e coordinate generalizzate $q_j$ diciamo che la coordinata $q_i$ è \textit{ciclica} se non compare esplicitamente nella lagrangiana.
+	\end{definition}
+	\begin{example}[Pianeti]
+		Per un pianeta sottoposto ad una forza centrale la lagrangiana è 
+		$$\mathcal{L}=\half m\left(\dot{r}^2+r^2\dot{\theta}^2\right)-U(r).$$
+		Qui la coordinata $\theta$ è ciclica, e quindi se consideriamo la sua equazione di E-L abbiamo
+		$$mr\dot{\theta}=\dot{p}_\theta=0$$
+		ovvero la conservazione del momento angolare.
+	\end{example}
+	\subsubsection{Traslazioni}
+	Consideriamo $N$ particelle a $n=3N-K$ gradi di libertà. Supponiamo che esista un $j$ tale che se sostituiamo 
+	$$q_j \mapsto q_j +\delta q_j$$
+	per uno spostamento $\delta q_j$ piccolo, allora \textbf{tutto} il sistema trasla lungo la direzione $\hat{n}$. Presa la posizione $\posit_i$ di una qualunque particella del sistema abbiamo quindi
+	$$\Delta \posit_i=\posit_i\left(q_j+\delta q_j\right)-\posit_i(q_j)$$
+	che espandendo in Taylor al primo ordine
+	$$\Delta \posit_i =\frac{\partial \posit_i}{\partial q_j}\delta q_j$$
+	ma stiamo assumendo che $\Delta \posit_i=\delta q_j \cdot \hat{n}$ e quindi abbiamo
+	$$\frac{\partial \posit_i}{\partial q_j}=\hat{n}.$$
+	Prendiamo allora le equazioni di Eulero Lagrange per questa speciale $j$. Abbiamo che le forze generalizzate sono
+	$$Q_j=\sum_{i=1}^{N}\vec{F}_i\cdot \frac{\partial \posit_i}{\partial q_j}=\vec{F}\cdot \hat{n}$$
+	dove $\vec{f}$ è la somma di tutte le forze applicate a ogni particella. A questo punto sicuramente l'energia cinetica non dipende da $q_j$ perchè se il sistema viene traslato lungo la coordinata $q_j$ la sua energia cinetica deve necessariamente cambiare, quindi abbiamo
+	$$\frac{\dif }{\dif t}\frac{\partial T}{\partial \dot{q}_j}=\vec{F}\cdot \hat{n}$$
+	d'altra parte scrivendo la definizione di energia cinetica troviamo
+	$$\frac{\dif}{\dif t}\left(\sum_{i=1}^{N}m_i \veloc_i\frac{\partial \veloc_i}{\partial \dot{q}_j}\right)=\vec{F}\cdot \hat{n}$$
+	d'altra parte per De l'Hopital Parziale abbiamo
+	$$\frac{\partial \veloc_i}{\partial \dot{q}_j}=\frac{\partial \posit_i}{\partial q_j}$$
+	e quindi abbiamo, usando $\hat{n}$:
+	$$\left(\sum_{i=1}^{N}m_i \accel_i\right)\cdot\hat{n}=\vec{F}\cdot\hat{n}.$$
+	Questo vuol dire che se $q_j$ è anche \textbf{ciclica} abbiamo che, per quanto detto prima
+	$$\frac{\partial T}{\partial q_j}=0$$
+	ma inoltre, dato che $q_j$ è ciclica
+	$$Q_j=\frac{\partial U}{\partial q_j}=\frac{\partial \mathcal{L}}{\partial q_j}=0$$
+	cioè anche $\vec{F}$ è $0$, e cioè abbiamo trovato una quantità conservata del sistema! Abbiamo quindi dimostrato che 
+	\begin{theorem}[Noether Traslazionale]
+		Consideriamo $N$ particelle a $n=3N-K$ gradi di libertà. Supponiamo che esista un $j$ tale che se sostituiamo 
+		$$q_j \mapsto q_j +\delta q_j$$
+		per uno spostamento $\delta q_j$ piccolo, allora \textbf{tutto} il sistema trasla lungo la direzione $\hat{n}$, e inoltre $q_j$ sia ciclico, allora abbiamo che 
+		$$\sum_{i=1}^{N}m_i \veloc_i$$
+		è costante lungo $\hat{n}$.
+	\end{theorem}
+	\subsubsection{Rotazioni}
+	Come prima consideriamo un sistema a $N$ particelle e $n$ gradi di libertà. Supponiamo che esista una coordinata $q_j$ tale che se sostituiamo
+	$$q_j \mapsto q_j +\delta q_j$$
+	allora tutto il sistema ruota attorno ad un asse $\hat{n}$. In questo caso la situazione è simile a quella della velocità angolare, come prima per taylor abbiamo
+	$$\Delta \posit_i=\frac{\partial \posit_i}{\partial q_j}\delta q_j$$
+	d'altra parte la rotazione geometricamente la possiamo scrivere come
+	$$\Delta \posit_i=\hat{n}\times \posit_i \delta q_j$$
+	e quindi come prima confrontando le due equazioni otteniamo
+	$$\frac{\partial \posit_i}{\partial q_j}=\hat{n}\times \posit_i.$$
+	Prendiamo le equazioni di E-L della coordinata $q_j$
+	$$\frac{\dif}{\dif t}\left(\frac{\partial T}{\partial \dot{q}_j}\right)-\frac{\partial T}{\partial q_j}=Q_j$$ 
+	di nuovo, come prima abbiamo
+	$$\frac{\partial T}{\partial q_j}=0$$
+	inoltre il primo termine delle equazioni di E-L diventa
+	$$\frac{\dif }{\dif t}\left(\frac{\partial T}{\partial \dot{q}_j}\right)=\frac{\dif }{\dif t}\left(\sum_{i=1}^{N}m_i \veloc_i \frac{\partial \veloc_i}{\partial \dot{q}_j}\right)$$
+	che cancellando il punto per De L'Hopital parziale e applicando l'equazione per $\hat{n}$ abbiamo come prima
+	$$\hat{n}\cdot\frac{\dif \vec{L}}{\dif t}=\hat{n}\cdot\vec{M}=Q_j$$
+	dove $\vec{M}$ è la somma di tutti i momenti di tutte le forze applicate a tutte le particelle. Abbiamo dimostrato quindi
+	\begin{theorem}[Noether Rotazionale]
+		Consideriamo $N$ particelle a $n=3N-K$ gradi di libertà. Supponiamo che esista un $j$ tale che se sostituiamo 
+		$$q_j \mapsto q_j +\delta q_j$$
+		per uno spostamento $\delta q_j$ piccolo, allora \textbf{tutto} il sistema ruota attorno ad un asse fisso $\hat{n}$, e inoltre $q_j$ sia ciclica, allora abbiamo che 
+		$$\vec{L}\cdot \hat{n}=cost$$
+		dove $\vec{L}$ è il momento angolare totale del sistema rispetto all'origine.
+	\end{theorem}
+	\subsubsection{Tempo}
+	Supponiamo che "il tempo sia ciclico" ovvero
+	$$\frac{\partial \mathcal{L}}{\partial t}=0.$$
+	Vorremmo trovare una quantità conservata anche qui, e ci è stato forse detto che questa deve essere l'energia. La Lagrangiana si conserva? Vediamo
+	$$\frac{\dif \mathcal{L}}{\dif t}=\sum_{i=1}^{n}\left[\frac{\partial \mathcal{L}}{\partial q_i}\dot{q}_i+\frac{\partial \mathcal{L}}{\partial \dot{q}_i}\ddot{q}_i\right]+\frac{\partial \mathcal{L}}{\partial t}$$
+	dunque usando le equazioni di E-L per il primo termine (e cancellando la derivata parziale rispetto al tempo) abbiamo
+	$$\sum_{i=1}^{n}\left[\frac{\dif}{\dif t}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}_i}\right)\dot{q}_i+\frac{\partial \mathcal{L}}{\partial \dot{q}_i}\ddot{q}_i\right]=\sum_{i=1}^n\frac{\dif}{\dif t}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}_i} \dot{q}_i\right)$$
+	ma usando le definizione di momento generalizzato abbiamo trovato che 
+	$$\frac{\dif\mathcal{L}}{\dif t}=\frac{\dif}{\dif t}\left(\sum_{i=1}^{n}p_i \dot{q}_i\right)$$
+	e portando tutto a sinistra abbiamo una quantità conservata. Definiamo allora
+	\begin{definition}[Hamiltoniana]
+		Per un sistema conservativo definiamo la sua \textit{hamiltoniana} come
+		$$H:=\sum_{i=1}^{n}p_i \dot{q}_i -\mathcal{L}.$$
+	\end{definition}
+	Come interpretiamo questa quantità conservata? Se assumiamo che \textbf{la forza conservativa che stiamo considerando non dipenda dalle velocità} abbiamo
+	$$p_j=\frac{\partial\mathcal{L}}{\partial \dot{q}_j}=\frac{\partial T}{\partial \dot{q}_j}=\sum_{i=1}^{N}m_i \veloc_i\cdot \frac{\partial \veloc_i}{\partial \dot{q}_j}$$
+	d'altra parte espandendo la derivata totale 
+	$$\frac{\dif \posit_i}{\dif t}=\sum_{k=1}^{n}\frac{\partial\posit_i}{\partial q_k}\dot{q}_k+\frac{\partial \posit_i}{\partial t}$$
+	quindi abbiamo che
+	$$p_j=\sum_{i=1}^{N}m_i \left(\sum_{k=1}^{n}\frac{\partial\posit_i}{\partial q_k}\dot{q}_k+\frac{\partial \posit_i}{\partial t}\right)\cdot \frac{\partial \posit_i}{\partial q_j}$$
+	d'altra parte se supponiamo anche che \textbf{il vincolo} non dipenda esplicitamente dal tempo quella derivata parziale rispetto al tempo si semplifica e otteniamo che
+	$$\sum_{i=1}^{n}p_i \dot{q}_i=2T$$
+	da cui 
+	$$H=E.$$
+	\newpage
+	
+	\subsection{Hamiltoniana}
+	
+	Nel nostro studio del teorema di Noether ci siamo imbattuti nella quantità $H$, che abbiamo chiamato l'Hamiltoniana del sistema. Per capire meglio cosa questa voglia dire definiamo
+	\begin{definition}[Differenziale]
+		Prendiamo una $f(x,y)$ in due variabili, allora definiamo il suo \textit{differenziale} come
+		$$\dif f:=\frac{\partial f}{\partial x}\dif x+\frac{\partial f}{\partial y}\dif y$$
+		fisicamente questo si interpreta come uno "spostamento infinitesimale", mentre matematicamente è un funzionale lineare, definito a partire dai funzionali $\dif x$ e $\dif y$, che sono i duali della base canonica di $\RR^3$.
+	\end{definition}
+	Denotiamo quindi il differenziale di $\dif f$ come
+	$$\dif f=u\dif x+v\dif y$$
+	$$u:=\frac{\partial f}{\partial x}$$
+	$$v:=\frac{\partial f}{\partial y}$$
+	vorremmo passare da $f$ ad una funzione $g(u,y)$ che dipenda solo da $u$ e da $y$ e che soddisfi chiaramente
+	$$\dif g=\frac{\partial g}{\partial u}\dif u+\frac{\partial g}{\partial y}\dif y.$$
+	A questo fine introduciamo
+	\begin{definition}[Trasformata di Legendre]
+		Definiamo la \textit{trasformata di Legendre} come una funzione $\mathscr{L}:\RR^\RR\to \RR^\RR$ tale che
+		$$\mathscr{L}(f)=f-\frac{\partial f}{\partial x}x.$$ 
+	\end{definition}
+	Notiamo che il differenziale di $\mathscr{L}(f)=g$ soddisfa proprio
+	$$\dif g=\dif f -\dif \left(u\cdot x\right)=\dif f-x\dif u-u\dif x.$$
+	Abbiamo introdotto tutto questo per dimostrare il seguente fatto:
+	\begin{proposition}[L'hamiltoniana è la trasformata di Legendre della lagrangiana]
+		Per un qualunque sistema conservativo abbiamo
+		$$\mathscr{L}(\mathcal{L})=-H.$$
+	\end{proposition}
+	\begin{proof}
+		Nel caso più semplice abbiamo $\mathcal{L}(q,\dot{q})$ e $H=(q,p)$ per definizione di momento abbiamo
+		$$p=\frac{\partial \mathcal{L}}{\partial \dot{q}}$$
+		quindi effettivamente 
+		$$H=p\dot{q}-\mathcal{L}$$
+		che è proprio la definizione di trasformata di Legendre, a meno di un segno. Mettiamoci ora nel caso più generale, abbiamo $\mathcal{L}(q_i,\dot{q}_i,t)$ e 
+		$$H:=p_i \dot{q}_i-\mathcal{L}$$
+		(abbiamo omesso la sommatoria su $i$) che è chiaramente la trasformata di Legendre di $\mathcal{L}$ per definizione di $p_i$ e per linearità della trasformata di Legendre.
+	\end{proof}
+	Insomma abbiamo che l'Hamiltoniana è la Lagrangiana scritta in termini delle coordinate generalizzate e dei momenti coniugati.
+	
+	$$\mathcal{L}(q,\dot{q}_i,t)\mapsto H(q_i,p_i,t).$$
+	\subsubsection{Equazioni del moto di Hamilton}
+	Il differenziale dell'Hamiltoniana è, per definizione di Lagrangiana
+	$$\dif H=\sum_{i=1}^{n}\left[\dot{q}_i\dif p_i+p_i\dif \dot{q}_i\right]-\sum_{i=1}^{n}\left[\frac{\partial \mathcal{L}}{\partial q_i}\dif q_i +\frac{\partial \mathcal{L}}{\partial \dot{q}_i}\dif \dot{q}_i\right]-\frac{\partial \mathcal{L}}{\partial t}\dif t$$
+	d'altra parte per definizione di differenziale
+	$$\dif H=\sum_{i=1}^{n}\left[\frac{\partial H}{\partial q_i}\dif q_i+\frac{\partial H}{\partial p_i}\dif p_i\right]+\frac{\partial H}{\partial t}\dif t$$
+	e quindi confrontando componente per componente (ricordando che i differenziali sono tutti linearmente indipendenti tra loro) abbiamo
+	$$\dot{q}_i=\frac{\partial H}{\partial p_i}$$
+	$$\dot{p}_i=-\frac{\partial H}{\partial q_i}$$
+	$$\frac{\partial H}{\partial t}=-\frac{\partial \mathcal{L}}{\partial t}$$
+	queste sono le cosiddette \textbf{equazioni del moto di Hamilton}, e sono di cruciale importanza per la fisica.
+	\begin{lemma}[Conservazione dell'hamiltoniana]
+		Abbiamo che l'Hamiltoniana si conserva se e solo se 
+		$$\frac{\partial \mathcal{L}}{\partial t}=0.$$
+	\end{lemma}
+	\begin{proof}
+		Un verso è bruta applicazione della terza equazione di Hamilton, il secondo viene considerando
+		$$\frac{\dif H}{\dif t}=\sum_{i=1}^{n}\left[\frac{\partial H}{\partial q_i} \dot{q}_i+\frac{\partial H}{\partial p_i} \dot{p}_i\right]+\frac{\partial H}{\partial t}$$
+		e notiamo che sostituendo la prima e la seconda equazione di Hamilton \textbf{il primo termine si cancella}, e quindi troviamo
+		$$\frac{\dif H}{\dif t}=\frac{\partial H}{\partial t}$$
+		che combinandola con la terza equazione di Hamilton ci dà l'altro verso.
+	\end{proof}
+	\begin{example}[Pianeti]
+		La Lagrangiana per un sistema costituito da un pianeta che si muove sottoposto ad una forza centrale è 
+		$$\mathcal{L}=\half m\left(\dot{r}^2+r^2\dot{\theta}^2\right)-U(r)$$
+		e quindi le equazioni di E-L ci portano a 
+		$$\frac{\dif}{\dif t}mr^2\dot{\theta}=0$$
+		e quindi ci verrebbe voglia di sostituire $l$, il momento angolare costante, nella lagrangiana all'inizio per eliminare una coordinata. Questo non si può fare (perchè?). L'hamiltoniana del sistema d'altra parte è
+		$$H=\dot{r}\frac{\partial \mathcal{L}}{\partial \dot{r}}+\dot{\theta}\frac{\partial \mathcal{L}}{\partial \dot{\theta}}-\mathcal{L}$$
+		e quindi abbiamo 
+		$$H=\frac{m\dot{r}^2}{2}+\frac{mr^2\dot{\theta}^2}{2}+U(r)$$
+		così scritta questa \textbf{non è un'hamiltoniana}, perchè deve essere solo in funzione dei momenti e delle coordinate (pure, senza derivate), dunque in funzione dei momenti è
+		$$H=\frac{p_r^2}{2m}+\frac{p_\theta^2}{2mr^2}-U(r)$$
+		$$\frac{\partial \mathcal{L}}{\partial \dot{r}}=p_r=m\dot{r}$$
+		$$\frac{\partial \mathcal{L}}{\partial \dot{\theta}}=p_\theta=mr^2\dot{\theta}$$
+		le equazioni di Hamilton allora sono
+		$$\begin{cases}
+			\dot{r}=\frac{\partial H}{\partial r}=\frac{p_r}{m} \\
+			\dot{p}_r=-\frac{\partial U}{\partial r}
+		\end{cases}$$
+		$$
+		\begin{cases}
+			\dot{\theta}=\frac{\partial H}{\partial p_\theta}=\frac{p_\theta}{mr^2} \\
+			\dot{p}_\theta=0
+		\end{cases}
+		$$
+		qui invece \textbf{possiamo sostituire le costanti nell'hamiltoniana}, e infatti
+		$$H=\frac{p_r^2}{2m}+\frac{l^2}{2mr^2}+U(r)$$
+		abbiamo cioè \textbf{ignorato completamente la coordinata ciclica $\theta$}, (già dalla prima hamiltoniana che avevamo scritto). Questo è il grosso vantaggio dell'approccio Hamiltoniano: già a partire dal primo step (scrivere l'hamiltoniana) possiamo completamente ignorare le coordinate cicliche (e infatti c'è chi le chiama \textit{coordinate ignorabili}).
+	\end{example}
+	
+	\subsubsection{Energia totale}
+	Mettiamoci nel caso in cui i vincoli non dipendano dal tempo, cioè $\posit_i(q_i)$.
+	Per definizione di energia cinetica abbiamo
+	$$T=\sum_{i=1}^{N}\half m_i \left(\frac{\dif \posit}{\dif t}\right)\cdot\left(\frac{\dif \posit}{\dif t}\right)$$
+	espandendo le derivate totali allora
+	$$\frac{\dif \posit}{\dif t}=\sum_{j=1}^{n}\frac{\partial \posit_i}{\partial q_j}\dot{q}_j$$
+	ovvero
+	$$T=\sum_{i=1}^{N}\half m_i \left[\sum_{j=1}^{n}\frac{\partial \posit_i}{\partial q_j}\dot{q}_j\right]\left[\sum_{k=1}^{n}\frac{\partial \posit_i}{\partial q_k}\dot{q}_k\right]=\half\sum_{j=1}^{n}\sum_{k=1}^{n}\left[\sum_{i=1}^{N}\left(m_i\frac{\partial \posit_i}{\partial q_j}\frac{\partial \posit_i}{\partial q_k}\right)\right]\dot{q}_j\dot{q}_k$$
+	dunque se introduciamo di nuovo la matrice $T$ dei modi normali, rinominandola $M$ abbiamo
+	$$T=\half M_{jk}(q_i)\dot{q}_j\dot{q}_k$$
+	dove abbiamo omesso le sommatorie. Ora dato che supponiamo che le forze non dipendano dalla velocità abbiamo
+	$$\frac{\partial \mathcal{L}}{\partial \dot{q}_i}=\frac{\partial T}{\partial \dot{q}_i}$$
+	e quindi l'hamiltoniana è
+	$$H:=\sum_{i=1}^{n}\dot{q}_i\frac{\partial T}{\partial \dot{q}_i}-\mathcal{L}$$
+	ma d'altra parte $M$ non dipende dalle velocità e quindi è una costante, quindi la portiamo fuori dalla sommatoria e abbiamo
+	$$\sum_{i=1}^{n}\dot{q}_i\frac{\partial T}{\partial \dot{q}_i}-\mathcal{L}=M_{ij}\sum_{i=1}^{n}\sum_{j}^{n}\dot{q}_i\dot{q}_j-\mathcal{L}=2T-\mathcal{L}$$
+	cioè è proprio l'energia totale. Le possibilità che abbiamo allora sono
+	\begin{itemize}
+		\item Se \textbf{i vincoli} non dipendono dal tempo, allora l'hamiltoniana coincide con l'energia.
+		\item Se \textbf{l'hamiltoniana} (o la lagrangiana, per la terza eq. di Hamilton) non dipende dal tempo, allora l'Hamiltoniana è costante.
+	\end{itemize}
+	e queste due condizioni possono essere soddisfatte in modo disgiunto. 
+	\begin{example}[Anello rotante]
+		Prendiamo un anello di raggio $R$ che ruota attorno all'asse $z$ di un riferimento cartesiano in $\RR^3$ con velocità angolare costante $\omega$. La lagrangiana del sistema è
+		$$\mathcal{L}=\half mR^2\left[\dot{\theta}^2+\omega^2\cos^2\theta \right]-mgR\sin\theta$$
+		mentre l'Hamiltoniana è
+		$$H=\frac{p_\theta^2}{2mR^2}-\frac{mR^2\omega^2\cos\theta }{2}+mgR\sin\theta$$
+		che non coincide con l'energia, in effetti
+		$$E=\frac{p_\theta^2}{2mR^2}+\frac{mR^2\omega^2\cos\theta }{2}+mgR\sin\theta$$
+		in particolare abbiamo
+		$$E=H+mR^2\omega^2\cos^2\theta$$
+		ma d'altra parte l'hamiltoniana è conservata, e questo significa che $E$ \textbf{non è conservata}. Questo fisicamente vuol dire che \textbf{il sistema non è isolato}, perchè c'è quialcuno dall'esterno che sta mantenendo $\omega$ costante.
+	\end{example}
+	\begin{example}[Moto unidimensionale]
+		Prendiamo una forza unidimensionale che si fattorizza come
+		$$F(x)=-g'(x)h(t)$$
+		$$U(x)=g(x)h(t)$$
+		qui è ben noto che l'energia non si conserva, d'altra parte la lagrangiana è
+		$$\mathcal{L}=\half m\dot{x}^2-U$$
+		i vincoli non dipendono dal tempo e l'hamiltoniana è uguale all'energia, quindi
+		$$H=m\dot{x}^2-\mathcal{L}=\half m\dot{x}^2+U(x)=\frac{p_x^2}{2m}+g(x)h(t).$$
+	\end{example}
+	
+	\subsection{Trasformazioni canoniche}
+	
+	Limitiamoci come al solito a un sistema meccanico conservativo, in cui possiamo scrivere una Lagrangiana
+	$$\mathcal{L}(q_i,\dot{q}_i,t)=T-U$$
+	le equazioni di E-L ci forniscono $n$ ODE del secondo ordine, e quindi abbiamo bisogno di $2n$ condizioni iniziali. L'approccio Hamiltoniano per contro ci fornisce $2n$ equazioni del primo ordine, e quindi di nuovo abbiamo bisogno di $2n$ condizioni iniziali. Il vantaggio del formalismo hamiltoniano è proprio che le $q_i$ e le $p_i$ rimangono linearmente indipendenti, e quindi ci siamo ricondotti a un sistema più semplice, in cui se una coordinata è ciclica la possiamo ignorare. Se per esempio avessimo un sistema in cui tutte le coordinate sono cicliche allora avremmo
+	$$H=H\left(p_1,p_2,\dots,p_n,t\right)$$
+	ovvero le equazioni di Hamilton sono
+	$$\dot{q}_i=\frac{\partial H}{\partial p_i}$$
+	$$\dot{p}_i=-\frac{\partial H}{\partial q_i}=0$$
+	cioè le $p_i$ sono tutte costanti, e quindi abbiamo
+	$$\dot{q}_i=\gamma_i=cost$$
+	cioè tutte le coordinate si risolvono come
+	$$q_i(t)=\gamma_it+\delta_i$$
+	$$p_i(t)=\alpha_i=cost$$
+	un vero sogno. Ci piacerebbe allora ricondurci sempre a sistemi di questo tipo\dots lo scopo di questa sezione è proprio questo. Il punto fondamentale è proprio che il numero di coordinate cicliche \textbf{dipende dalla scelta delle coordinate}:
+	\begin{example}[Forze centrali]
+		In cartesiane un corpo che si muove sotto l'azione di una forza centrale non ha coordinate cicliche, mentre in polari l'angolo è ciclico.
+	\end{example}
+	La domanda è allora: \textbf{come si cambiano coordinate nel formalismo Hamiltoniano?}
+	\subsubsection{Cambi di coordinate}
+	Un cambio di coordinate in Lagrangiana consiste nel trovare funzioni $Q_i$ linearmente indipendenti tali che 
+	$$Q_i=Q_i(q_1,q_2,\dots,q_n,t)$$ 
+	mentre in Hamiltoniana abbiamo bisogno di 
+	$$Q_i=Q_i(p_j,q_j,t)$$
+	$$P_i=P_i(p_j,q_j,t).$$
+	In Lagrangiana è sufficiente che le $Q_i$ rimangano linearmente indipendenti, e le equazioni di E-L rimangono valide. Per l'Hamiltoniana invece abbiamo bisogno di
+	\begin{definition}[Trasformazione canonica]
+		Un cambio di coordinate $Q_i,P_i$ si dice una \textit{trasformazione canonica} se e solo se esiste una funzione $K$ tale che
+		$$\dot{Q}_i=\frac{\partial K}{\partial \dot{P}_i}$$
+		$$\dot{P}_i=-\frac{\partial K}{\partial Q_i}.$$
+	\end{definition}
+	Abbiamo dimostrato che due Lagrangiane sono equivalenti se differiscono a meno di una derivata totale rispetto al tempo, dunque se vogliamo che un cambio di coordinate preservi effettivamente la fisica del sistema è sufficiente imporre anche che la nuova Hamiltoniana $K$ soddisfi:
+	$$\sum_{i=1}^{n}p_i\dot{q}_i-H=\frac{\dif F(q_i,p_i,Q_i,P_i,t)}{\dif t}+\sum_{i=1}^{n}P_i \dot{Q}_i -K.$$
+	Questo non è necessario, infatti
+	\begin{example}[Lagrangiane proporzionali]
+		Due lagrangiane $\mathcal{L}$ e $\mathcal{L}'$ tali che
+		$$\mathcal{L}'=5\mathcal{L}$$
+		descrivono la stessa fisica.
+	\end{example}
+	Dobbiamo quindi trovare una funzione $F$ che a priori dipende da $4n+1$ coordinate, ma notiamo che queste non sono tutte indipendenti, in particolare grazie alle 
+	$$Q_i=Q_i(p_j,q_j,t)$$
+	$$P_i=P_i(p_j,q_j,t)$$
+	abbiamo che questa dipende da $2n+1$ coordinate indipendenti. La funzione $F$ in questo caso si dice \textit{funzione generatrice} della trasformazione canonica. Abbiamo Quattro casi estremi:
+	\begin{gather}
+		F_1(q_i,Q_i,t) \\
+		F_2(q_i,P_i,t) \\
+		F_3(p_i,Q_i,t) \\
+		F_4(p_i,P_i,t)
+	\end{gather}
+	chiaramente possiamo anche metterne "un po' e un po'" ma per il momento non ce ne interessiamo. D'ora in poi tutte le sommatorie omesse saranno da $1$ a $n$. Cominciamo dal primo caso, in cui abbiamo
+	$$p_i\dot{q}_i-H=P_i\dot{Q}_i-K+\frac{\dif F_1(q_i,Q_i,t)}{\dif t}$$
+	$$p_i\dot{q}_i-J=P_i\dot{Q}_i-K+\frac{\partial F_1}{\partial q_i}\dot{q}_i+\frac{\partial F_1}{\partial Q_i}\dot{Q}_i+\frac{\partial F_1}{\partial t}$$
+	confrontando allora coefficiente per coefficiente sulle $\dot{q}_i$ e sulle $\dot{Q}_i$ abbiamo
+	$$p_i=\frac{\partial F_1}{\partial q_i}$$
+	$$P_i=-\frac{\partial F_1}{\partial Q_i}$$
+	$$K=H+\frac{\partial F_1}{\partial t}$$
+	queste sono le equazioni che descrivono completamente la trasformazione canonica. Queste equazioni sono completamente simmetriche scambiando coordinate nuove con coordinate vecchie, e questo ci fa capire che la trasformazione può andare in entrambi i versi, dipende solo da noi. \\
+	\subsubsection{Saltare da una funzione generatrice all'altra}
+	Notiamo che in effetti
+	$$F_2=\mathscr{L}(F_1)$$
+	in quanto abbiamo semplicemente sostituito alle variabili i loro momenti coniugati. Sostituendo allora usando la definizione di trasformata di Legendre:
+	$$p_i\dot{q}_i-H=P_i\dot{Q}_i-K+\frac{\dif\left(F_2-P_i\dot{Q}_i\right) }{\dif t}$$
+	cioè 
+	$$p_i\dot{q}_i-J=P_i\dot{Q}_i-K+\frac{\partial \left(F_2-P_i\dot{Q}_i\right)}{\partial q_i}\dot{q}_i+\frac{\partial \left(F_2-P_i\dot{Q}_i\right)}{\partial Q_i}\dot{Q}_i+\frac{\partial \left(F_2-P_i\dot{Q}_i\right)}{\partial t}$$
+	ovvero
+	$$p_i\dot{q}_i-J=P_i\dot{Q}_i-K+\frac{\partial F_2}{\partial q_i}\dot{q}_i+\frac{\partial F_2}{\partial Q_i}\dot{Q}_i+\frac{\partial F_2}{\partial t}-\left(P_i\dot{Q}_i+\dot{P}_iQ_i\right)$$
+	ovvero di nuovo confrontando termine a termine abbiamo le stesse equazioni di prima, in particolare
+	$$K=H+\frac{\partial F_2}{\partial t}$$
+	$$p_i=\frac{\partial F_2}{\partial q_i}$$
+	$$Q_i=\frac{\partial F_2}{\partial P_i}$$
+	e in modo analogo per $F_3$ e $F_4$. Notiamo che l'unica equazione a rimanere invariante è quella rispetto al tempo, ovvero
+	$$K=H+\frac{\partial F}{\partial t}$$
+	che vale \textbf{per ogni funzione generatrice}. 
+	\begin{definition}[Parentesi di Poisson]
+		Data una qualsiasi coppia di funzioni $f,g$ dipendenti da $q_i$ e $p_i$ definiamo la loro \textit{parentesi di Poisson} come
+		$$\left\{f,g\right\}:=\frac{\partial f}{\partial q_i}\frac{\partial g}{\partial p_i}-\frac{\partial f}{\partial p_i}\frac{\partial g}{\partial q_i}$$
+		adoperando la convenzione di Einstein.
+	\end{definition}
+	Le parentesi di Poisson sono delle \textbf{invarianti canoniche}, ovvero per ogni trasformazione canonica le parentesi di Poisson rimangono invariate. Alcune identità utili sulle parentesi di Poisson sono
+	$$\left\{q_i,p_j\right\}=\delta_{ij}$$
+	$$\left\{q_i,q_j\right\}=0$$
+	$$\left\{p_i,p_j\right\}=0$$
+	inoltre sono antisimmetriche e bilineari. In meccanica quantistica saranno rimpiazzate dai commutatori. \\
+	Usiamo le parentesi di Poisson per calcolare derivate totali
+	$$\frac{\dif f}{\dif t}=\frac{\partial f}{\partial q_i}\dot{q}_i+\frac{\partial f}{\partial p_i}\dot{p}_i+\frac{\partial f}{\partial t}$$
+	che usando le equazioni del moto di Hamilton diventa
+	$$\frac{\dif f}{\dif t}=\left\{f,H\right\}+\frac{\partial f}{\partial t}.$$
+	\subsection{Tanti esempi, per concludere}
+	Vediamo alcuni esempi di trasformazione canonica per ricapitolare:
+	\begin{example}[Vettori]
+		In notazione di Einstein definiamo la seguente funzione generatrice
+		$$F_2(q_i,P_i,t)=f_i(q_j,t)P_i$$
+		per delle certe funzioni $f_i$. Dato che la trasformazione è canonica abbiamo che le $Q_i$ sono
+		$$Q_i=\frac{\partial F_2}{\partial P_i}=f_i(q_j,t)$$
+		e questo era facile, tuttavia deve valere anche 
+		$$p_i=\frac{\partial F_2}{\partial q_i}=\frac{\partial }{\partial q_i}f_k(q_j,t)P_k$$
+		ovvero, dato che le coordinate sono tutte indipendenti tra loro
+		$$p_i=\frac{\partial f_k}{\partial q_i}P_k.$$
+		Specifichiamo ancora di più la trasformazione che stiamo facendo: sia $R$ una matrice ortogonale costante, allora definiamo
+		$$f_i(q_j,t):=R_{ij}q_j$$
+		dunque abbiamo
+		$$Q_i=R_{ij}q_j$$
+		$$p_i=R_{ki}P_k$$
+		cioè scrivendo in forma vettoriale
+		$$Q=Rq$$
+		$$p=R^\intercal P$$
+		che è una riconferma di quello che sapevamo, ovvero che $q$, $Q$, $p$ e $P$ sono vettori (fisici, controvarianti). \'E sempre bene verificare che le estensioni delle teorie rimangano coerenti con quello che sapevamo già.
+	\end{example}
+	\begin{example}[Momenti coniugati]
+		Definiamo la funzione generatrice
+		$$F_1(q_i,Q_i,t)=q_iQ_i$$
+		qui abbiamo semplicemente che
+		$$p_i=\frac{\partial F_1}{\partial q_i}=Q_i$$
+		$$P_i=-\frac{\partial F_1}{\partial Q_i}=-q_i$$
+		ovvero abbiamo scambiato ciascuna coordinata con il suo momento coniugato. Questo dimostra ancora una volta che le $p_i$ e le $q_i$ sono indipendenti e totalmente simmetriche tra loro.
+	\end{example}
+	\begin{example}[Oscillatore armonico]
+		L'hamiltoniana di un oscillatore armonico unidimensionale è
+		$$H=\frac{p^2}{2m}+\half m\omega^2q^2$$
+		vogliamo capire come agisce la trasformazione di funzione generatrice
+		$$F_1=\half m\omega q^2\cot Q.$$
+	\end{example}
+	\begin{proof}[Soluzione]
+		Il momento vecchio è
+		$$p=\frac{\partial F_1}{\partial q}=m\omega q\cot Q$$
+		il momento nuovo è
+		$$P=-\frac{\partial F_1}{\partial Q}=-\frac{m\omega q^2}{2}\frac{\partial\left(\cot Q\right)}{\partial Q}=\frac{m\omega q^2}{2\sin^2 Q}$$
+		ovvero scrivendo le nuove in funzione delle vecchie:
+		$$Q=\arctan \frac{m\omega q}{p}$$
+		$$P=\frac{m\omega q^2}{2\sin^2 \arctan \frac{m\omega q}{p}}.$$
+		Dunque le trasformazioni inverse sono
+		$$q=\sqrt{\frac{2P}{m\omega}}\sin Q$$
+		$$p=\sqrt{2m\omega P}\cos Q$$
+		in questo modo possiamo scrivere la nuova Hamiltoniana $K$ sostituendo brutalmente queste formule dentro $H$ (dato che non hanno dipendent):
+		$$K(P,Q)=\frac{1}{2m}2m\omega P \cos^2 Q+\half m\omega^2\frac{2P}{m\omega}\sin^2 Q=\omega P$$
+		cioè abbiamo reso \textbf{tutte le coordinate cicliche}, proprio quello che volevamo. Abbiamo allora per le equazioni di Hamilton
+		$$\dot{Q}=\frac{\partial K}{\partial P}=\omega$$
+		$$\dot{P}=-\frac{\partial K}{\partial Q}=0$$
+		cioè abbiamo proprio
+		$$Q(t)=\omega t + \delta$$
+		$$P(t)=P(0)$$
+		che sostituendo dentro le formule per $p$ e $q$ viene effettivamente la soluzione di un oscillatore armonico. A posteriori ci rendiamo conto che $P$ (in $\omega$) era l'energia del sistema, mentre $Q$ era la fase.
+	\end{proof}
+	\begin{example}[Grave in caduta]
+		Consideriamo l'Hamiltoniana
+		$$H=\frac{p^2}{2m}+mgq$$
+		di un grave in caduta. Consideriamo la funzione generatrice
+		$$F_2(q,P,t)=\frac{2}{3}\sqrt{2g}m\left(\frac{P}{mg}-q\right)-Pt$$
+		vogliamo capire come agisce la sua trasformazione canonica. 
+	\end{example}
+	\begin{proof}[Soluzione]
+		Le equazioni della trasformazione sono
+		$$p=\frac{\partial F_2}{\partial q}=-\frac{2}{3}m\sqrt{2g}\cdot \frac{3}{2}\left(\frac{P}{mg}-q\right)^{1/2}$$
+		$$Q=\frac{\partial F_2}{\partial P}=-\frac{2}{3}m\sqrt{2g}\cdot \frac{3}{2}\left(\frac{P}{mg}-q\right)^{1/2}\frac{1}{mg}-t$$
+		per trovare la nuova Hamiltoniana abbiamo bisogno delle trasformazioni inverse, ovvero facendo i quadrati
+		$$p^2=2m(P-mgq)$$
+		cioè
+		$$\frac{p^2}{2m}+mgq=P$$
+		ovvero $P$ è proprio l'energia del sistema! Per calcolare $Q$ invece
+		$$(Q+t)^2=\frac{2}{g}\left(\frac{P}{mg}-q\right).$$
+		MA dato che c'è dipendenza dal tempo in questo caso abbiamo
+		$$K=H-\frac{\partial F_2}{\partial t}=H-P=0$$
+		cioè abbiamo hamiltoniana nulla. Questo vuol dire che tutte le nuove coordinate si conservano
+		$$\dot{Q}=0$$
+		$$\dot{P}=0$$
+		e $Q$ ci permette di trovare esplicitamente la dipendenza di $q$ dal tempo.
+	\end{proof}
+	
+	\newpage
+	
+	\section{Esercizi}
+	
+	\subsection{Testi}
+	
+	\begin{problem}[Piano inclinato]
+		Mettiamoci in $2$ dimensioni. Prendiamo un piano inclinato di angolo $\alpha$,  e massa $M$, sopra di esso è posizionato un corpo puntiforme di massa $m$. Il piano inclinato può muoversi liberamente sul tavolo senza attrito, e il corpo puntiforme può muoversi senza attrito sul piano. Calcolare le equazioni del moto.
+	\end{problem}
+	\begin{problem}[Superficie conica]
+		Sia data una superficie conica  di ampiezza $\alpha$ e un corpo di massa $m$ che si muove al suo interno:
+		\begin{itemize}
+			\item \`E possibile che il corpo compia delle traiettorie circolari? Sotto quali condizioni iniziali?
+			\item Queste traiettorie sono stabili o instabili?
+		\end{itemize}
+	\end{problem}
+	\begin{problem}[Orbite armoniche]
+		Classificare le orbite per una forza armonica. 
+	\end{problem}
+	\begin{problem}[Forma della terra]
+		Calcolare la differenza di $g$ efficace tra il polo nord e l'equatore.
+	\end{problem}
+	\begin{problem}[Grave in caduta]
+		Supponiamo che la terra ruoti da ovest verso est con velocità angolare costante a  $$\omega=7,3\times 10^{-5} \,\text{s}^{-1}$$
+		stabilire se l'effetto della forza di Coriolis sia trascurabile rispetto alla forza di gravità.
+	\end{problem}
+	\begin{problem}[Orbita sperimentale]
+		Un pianeta sottoposto ad una forza centrale si muove per evidenza sperimentale lungo un'orbita che soddisfa la seguente equazione:
+		$$r=a(1+\cos\theta)$$
+		dove $a$ è una costante. A che forza centrale è sottoposto?
+	\end{problem}
+	\begin{problem}[Orbite circolari stabili]
+		Un corpo si muove sottoposto ad una forza centrale con potenziale del tipo:
+		$$U(r)=-\frac{\alpha}{r^n}.$$
+		Per quali valori di $n$ possono esistere orbite circolari stabili?
+	\end{problem}
+	\begin{problem}[Scala al muro]
+		Consideriamo una scala appoggiata al muro con un angolo $\theta_0$ inizialmente. Determinare come si evolve nel tempo $\theta(t)$. 
+	\end{problem}
+	\begin{problem}[Particella che decolla da un cilindro in rtoazione]
+		Sia $m$ una particella puntiforme all'interno di un cilindro pieno. La particella si trova in un solco che parte dalla superficie del cilindro e arriva perpendicolarmente sull'asse. Se il cilindro ruota con velocità angolare $\omega$, calcolare le equazioni del moto.
+	\end{problem}
+	\begin{problem}[Doppio pendolo]
+		Una sbarra ideale di lunghezza $l_1$ è appesa al soffitto, e alla sua estremità è appesa una massa $m_1$. Alla massa $m_1$ è appesa un'altra sbarra ideale di lunghezza $l_2$ e alla sua estremità è appesa un'altra massa $m_2$. Calcolare le equazioni del moto.
+	\end{problem}
+	\begin{problem}[Masse con molle]
+		Prendiamo quattro masse $m_1,m_2,m_3,m_4$ equidistanti su una circonferenza, connesse da $4$ molle, ciascuna con lunghezza a riposo $R\sqrt{2}$ calcolare la frequenza delle piccole oscillazioni attorno all'equilibrio.
+	\end{problem}
+	\begin{problem}[Boost unidimensionale]
+		Consideriamo la seguente trasformazioni unidimensionale:
+		$$
+		\begin{cases}
+			p=P-at \\
+			q=Q+Pt-\half a t^2
+		\end{cases}
+		$$
+		dimostrare che è canonica.
+	\end{problem}
+	\begin{problem}[Poisson]
+		Data la trasformazione unidimensionale
+		$$Q=f(q)$$
+		$$P=(p-\alpha)g(q)$$
+		per un certo $\alpha$ reale, dire per quali condizioni su $f$ e su $g$ questa risulta canonica.
+	\end{problem}
+	\newpage
+	
+	\subsection{Soluzioni}
+	
+	\begin{sol}[Piano inclinato]
+		Vediamo due approcci, il primo basato sulle equazioni del moto e il secondo sull'energia.
+		\begin{proof}[Soluzione - Equazioni del moto]
+			Siano $(x,y)$ le coordinate della massa $m$, e $(X,Y)$ le coordinate del punto $P$ posizionato sulla punta del piano inclinato. Consideriamo le forze agenti su $m$:
+			\begin{itemize}
+				\item La forza peso su $m$.
+				\item La reazione vincolare $R$ di $M$ su $m$.
+			\end{itemize}
+			e quelle agenti su $M$:
+			\begin{itemize}
+				\item La reazione vincolare $N$ del tavolo su $M$.
+				\item La forza peso su $M$.
+				\item La reazione vincolare $-R$ di $m$ su $M$, uguale e opposta a quella di $M$ su $m$.
+			\end{itemize}
+			Scriviamo le equazioni del moto:
+			$$m\ddot{x}=R_x$$
+			$$m\ddot{y}=-mg+R_y$$
+			$$M\ddot{X}=-R_x$$
+			$$M\ddot{Y}=-Mg+N-R_y$$
+			queste sono quattro equazioni e\dots $7$ incognite. Dobbiamo imporre dei vincoli aggiuntivi. I vincoli che stiamo cercando sono $3$:
+			\begin{itemize}
+				\item Il fatto che il piano sia vincolato a muoversi in orizzontale.
+				\item La relazione tra $R_x$ e $R_y$
+				\item Il fatto che il blocco di massa $m$ sia vincolato a muoversi sul piano.
+			\end{itemize}
+			questi ci danno le equazioni:
+			$$Y=0$$
+			$$\frac{R_y}{R_x}=\frac{1}{\tan \alpha}$$
+			$$\frac{y}{X-x}=\tan \alpha \iff y=(X-x)\tan \alpha$$
+			che mettendole insieme alle altre $4$ diventano:
+			$$
+			\begin{cases}
+				m\ddot{x}=R_x \\
+				m(\ddot{X}-\ddot{x})\tan\alpha=-mg+\frac{R_x}{\tan\alpha} \\
+				M\ddot{X}=-R_x
+			\end{cases}
+			$$
+			dove nella seconda abbiamo sostituito la derivata seconda del secondo vincolo.  Notiamo che la prima e la seconda equazione si cancellano. Questo non è un caso, infatti ricordiamo che per la prima equazione cardinale abbiamo
+			$$M_{\text{tot}}\vec{a}_\text{cm}=\vec{F}_\text{ext}$$
+			cioè la quantità di moto si conserva lungo la componente $x$ perché non vi sono forze esterne. Lungo la componente $y$ d'altra parte ci sono forze esterne, e quindi questa cosa non si può fare. 
+			Sommando abbiamo quindi
+			$$\begin{cases}
+				m\ddot{x}=R_x \\
+				\ddot{X}=-\frac{m}{M}\ddot{x} \\
+				m(\ddot{X}-\ddot{x})\tan\alpha=-mg+\frac{R_x}{\tan\alpha}
+			\end{cases}$$
+			che diventa
+			$$\begin{cases}
+				m\ddot{x}=R_x \\
+				\ddot{X}=-\frac{m}{M}\ddot{x} \\
+				m(-\frac{m}{M}\ddot{x}-\ddot{x})\tan\alpha=-mg+\frac{m\ddot{x}}{\tan\alpha}
+			\end{cases}$$
+			che facendo un po' di conti diventa
+			$$\left[\left(1+\frac{m}{M}\right)\tan\alpha+\frac{1}{\tan\alpha}\right]\ddot{x}=g$$
+			$$\left[\left(\frac{M+m}{M}\right)\tan\alpha+\frac{1}{\tan\alpha}\right]\ddot{x}=g$$
+			$$\frac{(m+M)\tan^2\alpha +M}{M\tan \alpha}\ddot{x}=g$$
+			ovvero infine
+			$$\ddot{x}=g\frac{M\tan \alpha}{(M+m)\tan^2\alpha+M}=g\frac{M\sin\alpha \cos\alpha}{M+m\sin^2\alpha}$$
+			che possiamo verificare sia giusto prendendo il limite $\frac{M}{m}\gg 1$. Analogamente troviamo sostituendo
+			$$\ddot{X}=-\frac{m\sin\alpha\cos\alpha}{M+m\sin^2\alpha}g$$
+			$$\ddot{y}=\left(\ddot{X}-\ddot{x}\right)\tan\alpha=\frac{-(M+m)\sin^2\alpha}{M+m\sin^2\alpha}g$$
+			$$R_x=\frac{Mm\sin\alpha\cos\alpha}{M+m\sin^2\alpha}g$$
+			$$R_y=\frac{R_x}{\tan\alpha}.$$
+			Una cosa interessante che osserviamo è che 
+			$$\abs{a}=\sqrt{\ddot{x}^2+\ddot{y}^2}=g\sin\alpha\sqrt{1+\frac{m^2\sin^2\alpha\cos^2\alpha}{(MM+m\sin^2\alpha)^2}}$$
+			che notiamo essere sempre maggiore di $g\sin\alpha$, cioè ha sempre velocità maggiore del caso in cui il piano è fermo a cui siamo abituati. Facendo i conti troviamo anche che
+			$$\frac{\abs{\ddot{y}}}{\abs{\ddot{x}}}=\frac{m+M}{M}\tan\alpha$$
+			che è un angolo maggiore di quanto siamo abituati nel caso statico.
+		\end{proof}
+		\begin{proof}[Soluzione - Energia]
+			Proviamo a risolvere il problema usando l'energia. Controlliamo che forze sono conservative. Sicuramente i pesi sono conservativi, e sicuramente la reazione $N$ è conservativa. Quello che ci dà problemi è $R$, che prima abbiamo calcolato essere ad un angolo diverso da $90^\circ$ con l'accelerazione. Qui ci viene in aiuto un teorema molto potente:
+			\begin{theorem}[Lavoro delle forze interne]
+				Il lavoro totale delle forze interne di un sistema di corpi non dipende dal sistema di riferimento, sia esso inerziale o no.
+			\end{theorem}
+			dunque ci basta trovare un sistema (anche non inerziale!) in cui il lavoro è nullo. Vediamo chiaramente che un sistema solidale con il piano does the job, e quindi possiamo applicare brutalmente la conservazione di energia e quantità di moto. Sappiamo che l'energia totale del sistema è
+			$$E=\half m(\dot{x}^2+\dot{y}^2)+\half M\left(\dot{X}^2+\dot{Y}^2\right)+mgy$$
+			e sappiamo che
+			$$\frac{\dif E}{\dif t}=0$$
+			usando il primo vincolo cancelliamo $Y$, usando il secondo scriviamo $y$ in funzione di $x$ e $X$, e quindi abbiamo
+			$$E=\half m\dot{x}^2+\half m\left[\left(\dot{X}-\dot{x}\right)\tan\alpha\right]^2+\half M\dot{X}^2+mg\left(X-x\right)\tan \alpha$$
+			a questo punto abbiamo esaurito i vincoli\dots\, dobbiamo usare la conservazione della quantità di moto:
+			$$P_x=m\dot{x}+m\dot{X}.$$
+			a questo punto finiscono le idee e iniziano i conti. Derivando da entrambi i lati l'energia:
+			$$0=m\dot{x}\ddot{x}+m\tan^2\alpha\left(\ddot{X}-\ddot{x}\right)\left(\dot{X}-\dot{x}\right)+M\dot{X}\ddot{X}+mg\tan\alpha\left(\dot X -\dot{x}\right)$$
+			$$0=m\ddot{x}+M\ddot{X}$$
+			a questo punto possiamo togliere le derivate seconde di $X$ con la seconda equazione, ma ci ritroviamo in dubbio su come togliere le derivate prime. Per fare ciò ci rendiamo conto che ci basta considerare che $P_x=0$ inizialmente (oppure equivalentemente, ci mettiamo nel sistema di riferimento del centro di massa), e quindi abbiamo
+			$$m\dot{x}+M\dot{X}=0$$
+			che ci permette di finire i conti.
+		\end{proof}
+		\begin{proof}[Soluzione - Lagrangiana]
+			In questa situazione abbiamo $2$ vincoli olonomi, e quindi $2$ gradi di libertà. Chiamiamo $X$ la coordinata del punto $P$ alla base del piano inclinato e $y$ l'altezza della massa $m$. Scriviamo a questo punto le posizioni del cuneo e del corpo puntiforme in funzione delle coordinate generalizzate:
+			$$P:
+			\begin{cases}
+				X=X \\
+				Y=0
+			\end{cases}
+			$$
+			$$m:
+			\begin{cases}
+				x=X-\frac{x}{\tan \alpha} \\
+				y=y
+			\end{cases}
+			$$
+			dunque scriviamo l'energia cinetica
+			$$T=\half M\left(\dot{X}^2+\dot{Y}^2\right)+\half m\left(\dot{x}^2+\dot{y}^2\right)=\half (M+m)\dot{X}^2+\half m\dot{y}^2\left(1+\frac{\cos^2\alpha}{\sin^2\alpha}\right)-\frac{m\dot{X}\dot{y}}{\tan\alpha}$$
+			cioè
+			$$\dots=\half (M+m)\dot{X}^2+\half \frac{m\dot{y}^2}{\sin^2\alpha}-\frac{m\dot{X}\dot{y}}{\tan\alpha}$$
+			l'energia potenziale è ancora più facile perchè è semplicemente
+			$$U=mgy$$
+			e quindi abbiamo che la lagrangiana è
+			$$\mathcal{L}=\half (M+m)\dot{X}^2+\half \frac{m\dot{y}^2}{\sin^2\alpha}-\frac{m\dot{X}\dot{y}}{\tan\alpha}-mgy$$
+			qui la fisica \textbf{è finita}. A questo punto calcolare le derivate parziali è facile
+			$$\frac{\partial\mathcal{L}}{\partial \dot{X}}=\left(M+m\right)\dot{X}-\frac{m\dot{y}}{\tan \alpha}$$
+			e quindi la prima equazione di Eulero-Lagrange è
+			$$\frac{\dif }{\dif t}\left(\left(M+m\right)\dot{X}-\frac{m\dot{y}}{\tan \alpha}\right)=0.$$
+			Notiamo che questa è proprio, riscritta, la conservazione della quantità di moto. Questa è un'applicazione del teorema di Noether, che mette in relazione simmetrie con quantità conservate. Riscriviamo allora
+			$$\left(M+m\right)\ddot{X}-\frac{m\ddot{y}}{\tan \alpha}=0.$$
+			La seconda equazione di Eulero-Lagrange invece è
+			$$\frac{\partial\mathcal{L}}{\partial \dot{y}}=\frac{m\dot{y}}{\sin^2\alpha}-\frac{m\dot{X}}{\tan\alpha}$$
+			e quindi abbiamo, facendo un po' di conti:
+			$$\ddot{y}-\sin\alpha\cos\alpha \ddot{X}+g\sin^2\alpha=0$$
+			quindi il nostro sistema deve soddisfare le due equazioni:
+			$$
+			\begin{cases}
+				\ddot{y}-\ddot{X}\frac{M+m}{m}\tan\alpha=0 \\
+				\ddot{y}-\sin\alpha\cos\alpha \ddot{X}+g\sin^2\alpha=0
+			\end{cases}
+			$$
+			che mettendo insieme e di nuovo facendo un po' di conti ci dà
+			$$\frac{M+m}{m}\tan\alpha\ddot{X}=\sin\alpha\cos\alpha \ddot{X}-g\sin^2\alpha$$
+			$$\left[\frac{M}{m}+1-\cos^2\alpha\right]\ddot{X}=-g\sin\alpha\cos\alpha$$
+			ovvero
+			$$\ddot{X}=\frac{-mg \sin\alpha\cos\alpha}{M+m\sin^2\alpha}$$
+			che si uniforma a quanto trovato con gli altri due metodi.
+		\end{proof}
+	\end{sol}
+	\begin{sol}[Superficie conica]
+		Proponiamo di nuovo due soluzioni, la prima con l'utilizzo delle sole equazioni del moto e la seconda con l'utilizzo del solo potenziale efficace:
+		\begin{proof}[Soluzione - Equazioni del moto]
+			Mettiamoci in cilindriche. Le equazioni del moto sono
+			$$m\left(\ddot{r}-\dot{\theta}^2r\right)=R_r$$
+			$$m\left(\ddot{\theta}r+2\dot{r}\dot{\theta}\right)=R_{\theta}$$
+			$$m\ddot{z}=-mg+R_z$$
+		\end{proof}
+		Dato che la reazione vincolare è sempre perpendicolare al piano abbiamo che $$R_\theta=0$$
+		$$\frac{R_r}{R_z}=\frac{1}{\tan\alpha}$$
+		e quindi otteniamo:
+	\end{sol}
+	\begin{sol}[Orbite armoniche]
+		In questo caso abbiamo che l'equazione del moto in polari è
+		$$m\ddot{r}=f(r)+\frac{l^2}{mr^3}$$
+		con $f(r)=-kr$ una forza elastica di costante $k>0$. Passando ai potenziali quindi abbiamo che il potenziale efficace del sistema è
+		$$V_\text{eff}(r)=\frac{l^2}{2mr^2}+\left(-\int_0^r f(x)\dif x\right)=\frac{l^2}{2mr^2}+\half kr^2$$
+		che ha grafico:
+		\begin{center}
+			\resizebox{350 pt}{!}{%
+				\begin{tikzpicture}
+					\begin{axis}[
+						xticklabels=\empty,
+						yticklabels=\empty,
+						xmin=0,
+						ymin=0,ymax=8,
+						ylabel style={shift={(-25pt,0)}},
+						xlabel={$r$},
+						ylabel={$V_\text{eff}$},
+						]
+						\addplot[mystyle] expression[domain=0.07:3,samples=3000]{((7.3)^2/(2*4.3*(5*x)^2))+(1/2)*0.07*(5*x)^2}; 
+					\end{axis}
+				\end{tikzpicture}
+			}
+		\end{center}
+		Dato che per $r\to\infty$ il potenziale efficace tende all'infinito abbiamo che ci sono solo due tipi di orbite: quelle con potenziale efficace minimo (che sono come sempre circolari), e quelle chiuse con potenziale efficace arbitrario. Per $l=0$ ci riconduciamo al caso di un moto armonico semplice.
+	\end{sol}
+	\begin{sol}[Grave in caduta]
+		La soluzione al problema segue:
+		\begin{proof}[Soluzione]
+			Brutalmente facendo il rapporto tra i moduli delle due forze abbiamo
+			$$\abs{\frac{F_c}{F_g}}=\frac{2mv\omega}{mg}\approx\frac{2\omega\sqrt{2gh}}{g}$$
+			che mettendo i valori numerici è $\ll 1$.
+		\end{proof}
+	\end{sol}
+	\begin{sol}[Orbita sperimentale]
+		Prima di procede con la soluzione osserviamo che il grafico dell'orbita è \textbf{una cardioide}, ovvero:
+		\begin{center}
+			\resizebox{350 pt}{!}{%
+				\begin{tikzpicture}
+					\begin{axis}[
+						xticklabels=\empty,
+						yticklabels=\empty,
+						axis equal,
+						]
+						\addplot[
+							domain=0:360,
+							samples=300,
+							thick,
+						]
+						({(1 + cos(x))*cos(x)},
+						{(1 + cos(x))*sin(x)});
+					\end{axis}
+				\end{tikzpicture}
+			}
+		\end{center}
+		\begin{proof}[Soluzione]
+			L'idea è usare l'equazione differenziale per le orbite:
+			$$\frac{l^2u^2}{m}\left[\frac{\dif^2 u}{\dif \theta^2}+u\right]=-f\left(\frac{1}{u}\right)$$
+			dunque per ipotesi abbiamo che
+			$$u=\frac{1}{a(1+\cos(\theta))}$$
+			ora derivando rispetto a $\theta$ otteniamo
+			$$\frac{\dif u}{\dif \theta}=\frac{1}{a}\frac{-\sin\theta}{\left(1+\cos\theta\right)^2}$$
+			quindi derivando un'altra volta 
+			$$\frac{\dif^2 u}{\dif \theta^2}=\frac{1}{a}\frac{\cos\theta (1+\cos\theta)^2+\sin^2\theta 2(1+\cos\theta)}{(1+\cos\theta)^4}=$$
+			$$=\frac{1}{a}\frac{\cos\theta+\cos^2\theta + 2\sin^2\theta}{(1+\cos\theta)^3}=$$
+			$$=\frac{1}{a}\left[\frac{\cos\theta}{(1+\cos\theta)^2}+\frac{2(1-\cos\theta)(1+\cos\theta)}{(1+\cos\theta)^3}\right]=$$
+			$$=\frac{1}{a}\frac{2-\cos\theta}{(1+\cos\theta)^2}$$
+			d'altra parte abbiamo per ipotesi sull'orbita
+			$$ua=\frac{1}{1+\cos\theta}$$
+			e quindi sostituendo
+			$$\frac{\dif^2 u }{\dif \theta^2}=\frac{1}{a}u^2a^2(3-(1+\cos\theta))=au^2\left(3-\frac{1}{ua}\right)=3u^2a-u$$
+			che finalmente sostituendo dentro l'equazione differenziale dell'orbita ci dà
+			$$\frac{l^2u^2}{m}3u^2=-f\left(\frac{1}{u}\right)$$
+			che riscrivendo in termini di $r$ ci dà finalmente quanto stavamo cercando
+			$$f(r)=-\frac{3l^2a}{mr^4}.$$
+		\end{proof}
+	\end{sol}
+	\begin{sol}[Orbite circolari stabili]
+		La soluzione segue:
+		\begin{proof}[Soluzione]
+			Prendendo il potenziale efficace
+			$$V_\text{eff}(r)=U(r)+\frac{l^2}{2mr^2}$$
+			stiamo cercando i potenziali $U$ per cui esista un minimo locale del potenziale, ovvero stiamo cercando un punto per cui l'orbita sia circolare, cioè vogliamo che esista un $R$ tale che
+			$$\frac{\partial V_\text{eff}}{\partial r}	\mid_{r=R}=0$$
+			e inoltre vogliamo che l'orbita sia stabile, cioè vogliamo che per piccole oscillazioni attorno ad $R$ la forza sia di richiamo. Esprimiamo questa condizione come
+			$$\frac{\partial^2 V_\text{eff}}{\partial r^2}\mid_{r=R}>0$$
+			infine abbiamo bisogno di imporre che la forza sia attrattiva, cioè 
+			$$f(r)=-h(r)$$
+			per una certa $h(r)\ge 0$. Sostituendo questa funzione possiamo riscrivere in modo sintetico le due equazioni per $R$ sopra:
+			$$
+			h(R)=\frac{l^2}{mR^3}
+			$$
+			$$
+			\frac{3l^2}{mR^4}+h'(R)>0
+			$$
+			e sostituendo una dentro l'altra abbiamo che le due condizioni che devono essere soddisfatte sono
+			$$h(R)=\frac{l^2}{mR^3}$$
+			$$\frac{3 h(R)}{R}+h'(R)>0.$$
+			A questo punto tornando al caso specifico sostituendo la forma di forza che ci dà il problema:
+			$$\frac{\alpha}{(n+1)R^{n+1}}=\frac{l^2}{mR^3}$$
+			$$\frac{3\alpha}{(n+1)R^{n+2}}-\frac{\alpha}{R^{n+2}}>0$$
+			da cui troviamo le soluzioni, ovvero $n\in (0,2)$.
+		\end{proof}
+	\end{sol}
+	\begin{sol}[Scala al muro]
+		Vediamo alcune soluzioni:
+		\begin{proof}[Equazioni del moto]
+			Le forze che agiscono sono $3$, le due reazioni vincolari e la forza peso. Dobbiamo capire come queste agiscono sulle equazioni cardinali. In effetti notiamo che il momento della forza peso rispetto a un punto $P$ è
+			$$M_P=\sum_{A=1}^{N}\posit_A \times m_A\vec{g}=\left(\sum_{A=1}^{N}m_A\posit_A\right)\times \vec{g}=\posit_CM\times M\vec{g}$$
+			quindi la forza peso agisce sempre come se fosse applicata nel centro di massa del sistema. Scriviamo allora la prima equazione cardinale:
+			$$\vec{R}_1+\vec{R}_2+m\vec{g}=M\accel_{cm}$$
+			d'altra parte possiamo scrivere le coordinate del centro di massa come
+			$$x_{cm}=\frac{h}{2}\sin\theta$$
+			$$y_{cm}=\frac{h}{2}\cos\theta$$
+			e le loro derivate
+			$$\dot{x}_{cm}=\frac{h}{2}\dot{\theta}\cos\theta$$
+			$$\dot{y}_{cm}=-\frac{h}{2}\dot{\theta}\sin\theta$$
+			$$\ddot{x}_{cm}=-\frac{h}{2}\dot{\theta}^2\sin\theta+\frac{h}{2}\ddot{\theta}\cos\theta$$
+			$$\ddot{y}_{cm}=-\frac{h}{2}\dot{\theta}^2\cos\theta-\frac{h}{2}\ddot{\theta}\sin\theta$$
+			dunque la prima equazione cardinale letta nelle varie componenti ci dice che
+			$$R_1=M\frac{h}{2}\left[\ddot{\theta}\cos\theta-\dot{\theta}^2\sin\theta\right]$$
+			$$R_2-Mg=M\frac{h}{2}\left[-\ddot{\theta}\sin\theta-\dot{\theta}^2\cos\theta\right]$$
+			ora dobbiamo scegliere un polo rispetto al quale utilizzare la seconda equazione cardinale. Proviamo rispetto all'origine:
+			$$\vec{L}_O=\posit_{cm}\times M\vec{v}_{cm}+\vec{L}_{cm}=$$
+			$$=M\frac{h^2}{4}\left(\sin\theta\ihat+\cos\theta\jhat\right)\times \left(\dot{\theta}\cos\theta\ihat-\dot{\theta}\sin\theta\jhat\right)+I_n^{(cm)}\dot{\theta}\khat$$
+			e facendo i conti con quel prodotto vettoriale si ottiene
+			$$\vec{L}_O=\left[I_n^{(cm)}-M\frac{h^2}{4}\right]\dot{\theta}\khat$$
+			dunque facciamo la derivata rispetto al tempo, e possiamo finalmente scrivere la seconda equazione cardinale:
+			$$\frac{\dif \vec{L}_O}{\dif t}=\left[I_n^{(cm)}-M\frac{h^2}{4}\right]\ddot{\theta}\khat=\vec{M}_{ext,O}$$
+			d'altra parte la somma dei momenti esterni è
+			$$\vec{M}_{ext,O}=\posit_1\times\vec{R}_1+\posit_2\times \vec{R}_2+\posit_{cm}\times M\vec{g}$$
+			$$=-R_1h\cos\theta \khat+R_2h\sin\theta\khat-Mh\frac{h}{2}\sin\theta\khat.$$
+			Che ci permette finalmente di finire i conti (che sono tanti e brutti, che schifo). \\
+			Usare il centro di massa come polo è più conveniente. La seconda equazione cardinale si riscrive come
+			$$I_n^{(cm)}\ddot{\theta}\khat=\posit\,'_1\times\vec{R}_1+\posit\,'_2\times\vec{R}_2=-R_1\frac{h}{2}\cos\theta\khat+R_2\frac{h}{2}\sin\theta\khat.$$
+			Che è un po' più carina	ma fa comunque schifo.		
+		\end{proof}
+		\begin{proof}[Equazioni del moto - senza conti]
+			Vogliamo scegliere un polo in modo conveniente, in modo da cancellare tutto e dover usare solo la seconda equazione del moto. Per fare questo scegliamo il punto $S$ sulla congiungente delle due reazioni vincolari $\vec{R}_1$ e $\vec{R}_2$. Questo punto ha un sacco di proprietà fantastiche (tipo, la sua velocità è parallela a quella del centro di massa), ma perchè? In effetti ricordiamo che dalla discussione sul campo delle velocità avevamo dimostrato che in ogni istante esiste un cosiddetto "asse istantaneo di rotazione" tale che
+			$$\vec{v}_P=\vec{v}_S+\vec{\omega}\times\left(\posit_P-\posit_S\right)$$
+			per ogni punto $P$ del corpo rigido. Mettendosi quindi nel sistema di riferimento del centro di massa abbiamo che 
+			$$\vec{v}_P=\vec{\omega}\times\left(\posit_P-\posit_S\right)$$
+			cioè tutte le velocità sono parallele ad esso. Ok scriviamo le equazioni del moto usando il teorema di Steiner per calcolare il momento d'inerzia attraverso $S$:
+			$$I^{(S)}_n=I_n^{(cm)}+M\frac{h^2}{4}=\frac{1}{3}M h^2$$
+			che mettendo tutto nella seconda equazione cardinale diventa:
+			$$\ddot{\theta}=\frac{3}{2}\frac{g}{h}\sin\theta$$
+			questa è molto molto molto più carina di prima. Moltiplichiamo da entrambi i lati per $\dot{\theta}$ e prendendo la primitiva (raccogliendo una derivata) otteniamo
+			$$\frac{\dif}{\dif t}\left[\half \left(\frac{M h^2}{3}\right)\dot{\theta}^2+Mg\frac{h}{2}\cos\theta\right]=0$$
+			che notiamo essere essenzialmente la conservazione dell'energia, quindi sappiamo che abbiamo trovato la risposta giusta.
+		\end{proof}
+	\end{sol}
+	\begin{sol}
+		\begin{proof}[Soluzione - Lagrangiana]
+			Qui a tempo costante il lavoro virtuale è $0$, e quindi possiamo applicare l'approccio Lagrangiano.
+			In questo caso abbiamo un solo grado di libertà, la distanza $r$ della particella dal centro. La posizione è esplicitamente in funzione del tempo stavolta, ed è:
+			$$
+			\begin{cases}
+				x=r\cos(\omega t) \\
+				y=r\sin (\omega t)
+			\end{cases}
+			$$
+			dunque abbiamo
+			$$
+			\begin{cases}
+				\dot{x}= -\omega r \sin(\omega t)+\dot{r}\cos(\omega t) \\
+				\dot{y}= \omega r \cos(\omega t)+\dot{r}\sin(\omega t)
+			\end{cases}
+			$$
+			e dunque l'energia cinetica è
+			$$T=\half m \left(\dot{x}^2+\dot{y}^2\right)=\half m\left[\dot{r}^2+\omega^2r^2\right]$$
+			raccogliendo un po' di seni e coseni al quadrato. Qui \textbf{non c'è energia potenziale}, e quindi la lagrangiana è semplicemente
+			$$\mathcal{L}=\half m \left(\dot{r}^2+\omega^2r^2\right)$$
+			da cui, l'equazione di Eulero-Lagrange è semplicemente
+			$$m\ddot{r}=\frac{\dif}{\dif t}\left(\frac{\partial \mathcal{L}}{\partial \dot{r}}\right)=\frac{\partial \mathcal{L}}{\partial r}=m\omega^2r$$
+			che è banalmente quello che avremmo potuto ricavare applicando l'equazione della forza centrifuga.
+		\end{proof}
+	\end{sol}
+	\begin{sol}[Pendolo doppio]
+		\begin{proof}[Soluzione - Lagrangiana]
+			I gradi di libertà del sistema sono chiaramente $2$, i due angoli $\theta_1$ e $\theta_2$ che le due sbarrette fanno con la verticale. Siano $x_1,y_1$ le coordinate della massa $1$ e $x_2,y_2$ le coordinate della massa $2$:
+			$$
+			\begin{cases}
+				x_1=l_1\sin\theta_1 \\
+				y_1=-l_1\cos\theta_1
+			\end{cases}
+			$$
+			$$
+			\begin{cases}
+				x_2 = l_1\sin\theta_1+l_2\sin\theta_2 \\
+				y_2=-l_1\cos\theta_1-l_2\sin\theta_2
+			\end{cases}
+			$$
+			e le velocità
+			$$
+			\begin{cases}
+				x_1=l_1\dot{\theta}_1\cos\theta_1 \\
+				y_1=l_1\dot{\theta}_1\sin\theta_1
+			\end{cases}
+			$$
+			$$
+			\begin{cases}
+				x_2 = l_1\dot{\theta}_2\cos\theta_1+l_2\dot{\theta}_2\sin\theta_2 \\
+				y_2=l_1\dot{\theta}_2\sin\theta_1+l_2\dot{\theta}_2\cos\theta_2
+			\end{cases}
+			$$
+			da cui abbiamo che l'energia cinetica è
+			$$T=\half m_1\left(\dot{x}_1^2+\dot{y}_1^2\right)+\half m_2\left(\dot{x}_2^2+\dot{y}_2^2\right)=$$
+			$$=\half (m_1+m_2)l_1^2\dot{\theta}_1^2+\half m_2l_2^2\dot{\theta}^2_2+m_2l_1l_2\dot{\theta}_1\dot{\theta}_2\cos\left(\theta_1-\theta_2\right)$$
+			e l'energia potenziale è semplicemente
+			$$U=m_1gy_1+m_2gy_2=-(m_1+m_2)gl_1\cos\theta_1-m_2gl_2\cos\theta_2$$
+			da cui con molta fatica troviamo che la Lagrangiana è
+			$$\mathcal{L}=T-U=\half (m_1+m_2)l_1^2\dot{\theta}_1^2+\half m_2l_2^2\dot{\theta}^2_2+m_2l_1l_2\dot{\theta}_1\dot{\theta}_2\cos\left(\theta_1-\theta_2\right)+(m_1+m_2)gl_1\cos\theta_1+m_2gl_2\cos\theta_2$$
+			\dots e la fisica è finita. Scriviamo le equazioni di Eulero-Lagrange:
+			$$\frac{\dif}{\dif t}\left[(m_1+m_2)l_1^2\dot{\theta}_1+m_2l_1l_2\dot{\theta}_2\cos(\theta_1-\theta_2)\right]=m_2l_1l_2\dot{\theta}_1\dot{\theta}_2\sin(\theta_1-\theta_2)-(m_1+m_2)gl_1\sin\theta_1$$
+			e allo stesso modo la seconda equazione è
+			$$\frac{\dif}{\dif t}\left[m_2l_2^2\dot{\theta}_2+m_2l_1l_2\dot{\theta}_1\cos(\theta_1-\theta_2)\right]=m_2l_1l_2\dot{\theta}_1\dot{\theta}_2\sin(\theta_1-\theta_2)-m_2gl_2\sin\theta_2$$
+			che sono esatte, e sono le equazioni del moto giuste. Possiamo introdurre un'approssimazione considerando il regime di piccole oscillazioni, approssimando i coseni a $1$ e i seni all'input:
+			$$(m_1+m_2)l_1^2\ddot{\theta}_1+m_2l_1l_2\ddot{\theta}_2=-(m_1+m_2)gl_1\theta_1$$
+			$$m_2l_2^2\ddot{\theta}_2+m_2l_1l_2\ddot{\theta}_1=-m_2gl_2\theta_2$$
+			dove abbiamo approssimato a $0$ il pezzo cubico con il prodotto delle derivate dei due angoli. Vediamo ora un caso specifico: imponiamo $m_1=m_2$ e $l_1=l_2$ molte cose si semplificano, e otteniamo
+			$$
+			\begin{cases}
+				2\ddot{\theta}_1+\ddot{\theta}_2=-2\omega \theta_1 \\
+				\ddot{\theta}_1+\ddot{\theta}_2=-\omega^2 \theta_2
+			\end{cases}
+			$$
+			dove abbiamo introdotto $\omega:=\frac{g}{l}$. Queste sono di nuovo due ODE accoppiate del secondo ordine, e quindi per risolverle abbiamo una grande quantità di metodi. Usiamo le matrici stavolta: il sistema è
+			$$
+			\begin{pmatrix}
+				2 & 1 \\
+				1 & 1
+			\end{pmatrix}
+			\begin{pmatrix}
+				\theta_1(t) \\
+				\theta_2(t)
+			\end{pmatrix}
+			=
+			\begin{pmatrix}
+				-2\omega^2 & 0 \\
+				0 & -\omega^2
+			\end{pmatrix}
+			\begin{pmatrix}
+				\theta_1(t) \\
+				\theta_2(t)
+			\end{pmatrix}
+			$$
+			che introducendo il vettore $\Theta(t)$ con quelle componenti e le matrici $K$ e $\Omega$ diventa
+			$$K\ddot{\Theta}+\Omega\Theta=0$$
+			a questo punto stiamo cercando i cosiddetti \textbf{modi normali}, ovvero cerchiamo un vettore $\vec{A}_1$ tale che
+			$$\Theta=\begin{pmatrix}
+				A_1^{(1)} \\
+				A_1^{(2)}
+			\end{pmatrix}\cos(\omega t)$$
+			questo vuol dire che entrambi i pendoli si muovono \textbf{con la stessa frequenza}. Sostituendo nell'equazione iniziale abbiamo
+			$$\left[KA_1(-\omega_1^2)+\Omega A_1\right]\cos(\omega t)=0$$
+		\end{proof}
+		\begin{proof}[Soluzione - Modi normali]
+			Riprendendo la lagrangiana approssimata al primo ordine possiamo scrivere le matrici $T$ e $V$ come
+			$$
+			T=
+			\begin{pmatrix}
+				(m_1+m_2)l_1^2 & m_2l_1l_2 \\
+				m_2l_1l_2 & m_2l_2^2
+			\end{pmatrix}
+			$$
+			e 
+			$$
+			V=
+			\begin{pmatrix}
+				(m_1+m_2)gl_1 & 0 \\
+				0 & m_2gl_2
+			\end{pmatrix}
+			$$
+			cerchiamo allora i modi normali, ovvero le soluzioni di 
+			$$\det\left(\omega^2T-V\right)=0$$
+			quel determinante è
+			$$\det
+			\begin{pmatrix}
+				\left(m_1+m_2\right)l_1^2\omega^2 -(m_1+m_2)gl_1 & m_2l_1l_1\omega^2 \\
+				m_2l_1l_2\omega^2 & m_2l_2^2\omega^2-m_2gl_2
+			\end{pmatrix}=0
+			$$
+			a questo punto per convenienza di notazione introduciamo
+			$$\omega_A^2=\frac{g}{l_1}$$
+			$$\omega_B^2=\frac{g}{l_2}$$
+			ovvero le frequenze naturali dei pendoli. Sostituendo abbiamo
+			$$\det
+			\begin{pmatrix}
+				\left(m_1+m_2\right)l_1^2\left[\omega^2-\omega^2_A\right] & m_2l_1l_1\omega^2 \\
+				m_2l_1l_2\omega^2 & m_2l_2^2\left[\omega^2-\omega^2_B\right]
+			\end{pmatrix}=0
+			$$
+			che quindi è
+			$$\left(m_1+m_2\right)l_1^2\left[\omega^2-\omega^2_A\right]m_2l_2^2\left[\omega^2-\omega^2_B\right]-m_2^2l_1^2l_2^2\omega^4=0$$
+			che dividendo per un po' di costanti diventa
+			$$\left(1+r\right)\left[\omega^2-\omega^2_A\right]\left[\omega^2-\omega^2_B\right]-\omega^4=0$$
+			dove di nuovo per notazione abbiamo introdotto
+			$$r:=\frac{m_1}{m_2}.$$
+			sviluppando il prodotto abbiamo
+			$$r\omega^4-(1+r)(\omega_A^2+\omega_B^2)\omega^2+(1+r)\omega_A^2\omega_B^2=0$$
+			che risolvendo con un po' di fatica ci dà
+			$$\omega^2=\left(\frac{1+r}{2r}\right)\left(\omega_A^2+\omega_B^2\right)\left[1\pm\sqrt{1-\frac{4r}{1+r}\frac{\omega_A^2\omega_B^2}{\left(\omega_A^2+\omega_B^2\right)^2}}\right]$$
+			che sono reali e positive per AM-GM. A questo punto se torniamo al caso specifico in $l_1=l_2$ e $m_1=m_2$ abbiamo che (denotando $\omega_0=\omega_A=\omega_B$):
+			$$\omega^2=2\omega_0^2\left[1\pm\frac{1}{\sqrt{2}}\right]=\omega_0^2\left[2\pm \sqrt{2}\right]$$
+			a questo punto per trovare le coordinate normali dobbiamo trovare un insieme ortonormale di soluzioni al sistema
+			$$\left(V-T\omega^2_{\pm}\right)a^{\pm}=0$$
+			grazie alle assunzioni che abbiamo fatto quella matrice diventa
+			$$\begin{pmatrix}
+				2\left(\omega_\pm^2-\omega_0^2\right) & \omega_\pm^2 \\
+				\omega_\pm^2 & \omega_\pm^2-\omega_0^2
+			\end{pmatrix}
+			\begin{pmatrix}
+				a_1^\pm \\
+				a_2^\pm 
+			\end{pmatrix}=\begin{pmatrix}
+			0 \\
+			0
+			\end{pmatrix}
+			$$
+			che dividendo per $\omega_0^2$ è
+			$$
+			\begin{pmatrix}
+				2\pm2\sqrt{2} & 2\pm \sqrt{2} \\
+				2\pm \sqrt{2} & 1\pm\sqrt{2}
+			\end{pmatrix}
+			\begin{pmatrix}
+				a_1^\pm \\
+				a_2^\pm 
+			\end{pmatrix}=\begin{pmatrix}
+				0 \\
+				0
+			\end{pmatrix}
+			$$
+			che si verifica facilmente non essere indipendenti, e quindi prendendo WLOG la prima possiamo identificare la direzione delle soluzioni, ovvero
+			$$\frac{a_2^\pm}{a_1^\pm}=-\frac{2\pm 2\sqrt{2}}{2\pm \sqrt{2}}=\mp \sqrt{2}$$
+			e razionalizzando abbiamo da cui abbiamo che 
+			$$a^{(\pm)}\propto\begin{pmatrix}
+				1 \\
+				\mp\sqrt{2}
+			\end{pmatrix}$$
+			e quindi non ci rimane che imporre che 
+			$$\langle Ta^{(\pm)},a^{(\pm)}\rangle=1$$
+			cioè
+			$$N_{\pm}^2\left(T_{11}+2T_{22}\mp 2T_{12}\sqrt{2}\right)=1$$
+			dove $N_\pm$ è il fattore di normalizzazione che stiamo cercando ma dato che in questo caso abbiamo
+			$$T=\begin{pmatrix}
+				2ml^2 & ml^2 \\
+				ml^2 & ml^2
+			\end{pmatrix}$$
+			ovvero
+			$$N_\pm^2ml^2\left[4\mp 2\sqrt{2}\right]=1$$
+			che ci permette di trovare effettivamente le coordinate normali che stavamo cercando. Se torniamo all'inizio allora possiamo imporre le condizioni iniziali
+			\begin{gather*}
+				\theta_1(0)=\varepsilon_1 \\
+				\theta_2(0)=\varepsilon_2 \\
+				\dot{\theta}_1(0)=\dot{\theta}_1(0)=0
+			\end{gather*}
+			possiamo scrivere finalmente i $\theta_i$ come
+			$$\theta_1(t)=\mathcal{C}a_1^{(\pm)}e^{i\omega_\pm t}=D_1\cos(\omega t+\varphi)$$
+			$$\theta_2(t)=\mathcal{C}a_2^{(\pm)}e^{i\omega_\pm t}=D_2\cos(\omega t+\varphi)$$
+			e quindi sostituendo le condizioni iniziali troviamo il valore di $\mathcal{C}\in\CC$ e la soluzione che dobbiamo scegliere ($+$ oppure $-$).
+		\end{proof}
+	\end{sol}
+	\begin{sol}
+		Vediamo la soluzione:
+		\begin{proof}[Soluzione - Funzione generatrice]
+			Invertiamo tutto:
+			$$P=p+at$$
+			$$Q=q-pt-\half a t^2$$
+			ora vogliamo trovare una $F_3$ funzione generatrice della trasformazione, questa deve soddisfare
+			$$P=-\frac{\partial F_3}{\partial Q}=p+at$$
+			$$q=-\frac{\partial F_3}{\partial p}=Q+Pt-\half a t^2$$
+			dalla prima equazione possiamo scrivere
+			$$F_3=-Q(p+at)+h(p,t)$$
+			per una certa funzione $h$ che stiamo cercando. Imponendo la seconda condizione abbiamo
+			$$-q=\frac{\partial F_3}{\partial p}=Q+\frac{\partial h}{\partial p}=Q+Pt-\half a t^2$$
+			ovvero abbiamo
+			$$h(p,t)=-\frac{p^2}{2}t-\half pat^2+g(t)$$
+			per una certa $g$ funzione unicamente del tempo.
+		\end{proof}
+	\end{sol}
+	\begin{sol}
+		Vediamo la soluzione
+		\begin{proof}[Soluzione - Parentesi di Poisson]
+			Sappiamo che le parentesi di Poisson non dipendono dal sistema di coordinate. Quindi abbiamo che condizione necessaria e sufficiente affinché la trasformazione sia canonica è proprio che tutte le parentesi di Poisson si conservino
+			$$1=\left\{Q,P\right\}$$
+			d'altra parte nel sistema nuovo la parentesi di Poisson sono
+			$$\left\{Q,P\right\}=\frac{\partial Q}{\partial q}\frac{\partial P}{\partial p}-\frac{\partial Q}{\partial p}\frac{\partial P}{\partial q}$$
+			quindi dato che le seconde due derivate parziali sono $0$ abbiamo
+			$$1=f'(q)g(q)$$
+			e quindi questa è la condizione cercata.
+		\end{proof}
+	\end{sol}
+	
+	
+	
+\end{document}

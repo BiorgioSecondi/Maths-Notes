@@ -1,0 +1,60 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\contentsline {part}{\numberline {I}Modulo A}{3}{part.1}%
+\contentsline {section}{\numberline {1}Numeri Reali}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Intervalli}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Principio di archimede e densità}{6}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Topologia della retta}{7}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Funzioni reali di variabile reale}{10}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Successioni}{12}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Limiti di Successioni}{12}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Teoremi di confronto}{13}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Algebra dei limiti}{14}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Calcolo di forme indeterminate}{17}{subsection.2.4}%
+\contentsline {subsubsection}{\numberline {2.4.1}Limiti notevoli e criteri utili}{18}{subsubsection.2.4.1}%
+\contentsline {subsubsection}{\numberline {2.4.2}Numero di Nepero}{21}{subsubsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.5}Bolzano-Weierstrass e Complementi di Analisi}{24}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Successioni definite per ricorrenza}{26}{subsection.2.6}%
+\contentsline {section}{\numberline {3}Limiti di Funzione}{28}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Continuità}{29}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Limiti destro e sinistro}{30}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Calcolo dei limiti}{31}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Continuità}{33}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Funzioni continue definite su intervalli}{33}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Classificazione delle discontinuità}{35}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Funzioni Lipschitziane e uniformemente continue}{35}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}$\bigstar $ Bonus: successioni equivalenti}{40}{subsubsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.4}Ordini di infinitesimo}{41}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Calcolo Differenziale}{43}{section.5}%
+\contentsline {subsection}{\numberline {5.1}regole di derivazione}{45}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Proprietà locali e teoremi sulle derivate}{46}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Conseguenze del Teorema di Lagrange}{49}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Convessità}{51}{subsection.5.4}%
+\contentsline {part}{\numberline {II}Modulo B}{53}{part.2}%
+\contentsline {section}{\numberline {6}Calcolo Differenziale - continuato}{53}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Teorema di De l'H\^opital}{53}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}I polinomi di Taylor/McLaurin}{55}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Il resto di Lagrange}{58}{subsection.6.3}%
+\contentsline {section}{\numberline {7}Serie numeriche}{59}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Criteri elementari: asintotico, radice e rapporto}{62}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Criteri avanzati: condensazione, Abel-Dirichlet e Leibniz}{64}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Commutatività}{68}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Prodotto di Cauchy}{71}{subsection.7.4}%
+\contentsline {section}{\numberline {8}Integrali di Riemann}{74}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Partizioni e definizione}{74}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Criteri di integrabilità}{76}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Proprietà dell'integrale di Riemann}{79}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Teorema fondamentale del calcolo integrale e primitive}{82}{subsection.8.4}%
+\contentsline {subsection}{\numberline {8.5}Formule d'integrazione}{86}{subsection.8.5}%
+\contentsline {subsection}{\numberline {8.6}Integrali impropri}{88}{subsection.8.6}%
+\contentsline {subsubsection}{\numberline {8.6.1}Convergenza assoluta}{89}{subsubsection.8.6.1}%
+\contentsline {section}{\numberline {9}Successioni e Serie di funzioni}{92}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Teoremi sulla convergenza uniforme di successioni}{94}{subsection.9.1}%
+\contentsline {subsubsection}{\numberline {9.1.1}Passaggio al limite sotto all'integrale}{96}{subsubsection.9.1.1}%
+\contentsline {subsubsection}{\numberline {9.1.2}Passaggio al limite sotto alla derivata}{98}{subsubsection.9.1.2}%
+\contentsline {subsubsection}{\numberline {9.1.3}Il teorema del Dini}{100}{subsubsection.9.1.3}%
+\contentsline {subsection}{\numberline {9.2}Serie di funzioni}{101}{subsection.9.2}%
+\contentsline {subsubsection}{\numberline {9.2.1}Serie di potenze}{102}{subsubsection.9.2.1}%
+\contentsline {subsubsection}{\numberline {9.2.2}Serie di Taylor}{107}{subsubsection.9.2.2}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
