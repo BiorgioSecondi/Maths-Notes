@@ -1,0 +1,1991 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[sexy]{evan} %BLBLBLBLBLBLBLBLBLBLBLB EVANCHEN
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{asymptote}
+\usepackage{amsthm}
+\usepackage{gensymb}
+\usepackage{amsfonts}
+\usepackage[english,italian]{babel}
+\usepackage{quoting}
+\quotingsetup{font=big}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{lmodern}
+\usepackage{faktor}
+\newcommand{\dif}{\text{d}}
+\newcommand{\eset}{\varnothing}
+\newcommand{\parti}{\mathcal{P}}
+
+\begin{document}
+	\title{Appunti di Complementi di Analisi}
+	\subtitle{SGSS - Roberto Monti}
+	\date{Ottobre 2025 - Gennaio 2026}
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\newpage
+	
+	\section{Costruzione dei numeri reali}
+	Assumiamo di sapere tutto sui numeri naturali interi razionali. Assumiamo anche di avere le operazioni fondamentali tra insiemi. Definiamo i numeri reali.
+	\subsection{L'approccio assiomatico}
+	Normalmente i numeri reali vengono introdotti come campo ordinato completo in modo assiomatico.
+	\begin{definition}[Numeri reali...]
+		I numeri reali di solito vengono introdotti come 
+		$$(\RR,+,\cdot,0,1,\le)$$
+	\end{definition}
+	\begin{proposition}[Assioma di completezza]
+		Ogni insieme $A\subseteq \RR$ limitato superiormente ha un sempre uno $\sup(A)\in\RR$ (che si dimostra essere unico). 
+	\end{proposition}
+	Questa definizione ha diversi problemi:
+	\begin{itemize}
+		\item Chi ci dice che esiste un campo ordinato completo?
+		\item Chi ci dice che esiste solo un campo ordinato completo?
+	\end{itemize}
+	
+	\subsection{Le sezioni di Dedekind}
+	
+	\begin{definition}[Sezione di Dedekind]
+		Un insieme $A\subset\RR$ è una sezione se verifica le seguenti proprietà:
+		\begin{enumerate}
+			\item Per prima cosa $A\ne\emptyset$ e $A'=\QQ\setminus A,A'\ne \eset$.
+			\item Per ogni $a\in A$ e per ogni $b\in\QQ$ se $b\le a\implies b\in A$. 
+			\item Per ogni $a\in A$ esiste un $b\in A$ con $b>a$.
+		\end{enumerate}
+	\end{definition}
+	
+	\'E chiaro che ad ogni $q\in\QQ$ si può associare una sezione, in particolare se denotiamo $A_q$ come la sezione associata al numero $q$ possiamo scrivere
+	$$A_q=\left\{a\in\QQ:a<q\right\}$$
+	Questi però non sono tutte le possibili sezioni, per esempio
+	$$A=\left\{a\in\QQ:a\le 0 \lor a^2<2\right\}$$
+	a questa sezione è associata la radice di $2$, ma questo si dimostra non essere un numero razionale. Allora finalmente possiamo chiamare
+	$$\mathcal(A)=\left\{A\subset\QQ:A\text{ sezione}\right\}$$
+	Bene. Dimostriamo ora che questo insieme è effettivamente un campo ordinato completo. 
+	\begin{definition}[Ordine sulle sezioni di Dedekind]
+		Diciamo che la sezione $A$ è minore o uguale alla sezione $B$ se e solo se
+		$$A\le B \iff A\subseteq B$$
+		Si dimostra molto facilmente che questo è un ordine totale.
+	\end{definition}
+	Definiamo ora le operazioni del campo:
+	\begin{definition}[Somma]
+		Definiamo la somma tra due sezioni come
+		$$A+B=\left\{a+b\in\QQ:a\in A\land b\in B\right\}$$
+		
+	\end{definition}
+	Questa eredita tutte le proprietà della somma tra i razionali essenzialmente. In realtà non è troppo chiaro come funzionino gli opposti, vediamolo:
+	\begin{definition}[Opposto additivo]
+		Definiamo l'opposto additivo nel seguente modo
+		$$-A=\left\{a\in\QQ:\exists x\in A' \text{ t.c. } x<-a\right\}$$
+		cioè possiamo sempre trovare un elemento $x$ fuori da $A$ compreso tra $-a$ e $A$.
+	\end{definition}
+	Per la moltiplicazione si procede per casi
+	\begin{itemize}
+		\item Primo caso $A\ge 0$,$B\ge 0$. In questo caso ci basta definire
+		$$A\cdot B=\left\{a\cdot b\in\QQ:a\in A, a\ge 0,b\in B,b\ge 0\right\}\cup A_0$$
+		\item Gli altri casi si fanno facendo in modo che i numeri che moltiplichiamo abbiano sempre senso, per $A\le 0$ e $B\le 0$:
+		$$A\cdot B:=(-A)\cdot (-B)=\left\{a\cdot b\in \QQ: a\ge 0,b\ge 0,a\in -A,b\in -B\right\}$$
+	\end{itemize}
+	A questo punto dobbiamo definire il fatto che esiste il reciproco di qualunque numero, eccetto che lo $0$.
+	\begin{definition}
+		Per $A\ne 0$, $A>0$ definiamo
+		$$A^{-1}:=\left\{b\in\QQ:b>0\text{ t.c. }x\in A',x<b^{-1}\right\}\cup\left\{b\in\QQ:b\le 0\right\}$$
+	\end{definition}
+	E questa sezione soddisfa chiaramente 
+	$$A\cdot A^{-1}=1$$
+	Ora vogliamo dimostrare anche che questo campo è completo. 
+	\begin{theorem}[Teorema di completezza]
+		Sia $\mathcal{B}\ne\emptyset\subset\mathcal{A}$ un insieme superiormente limitato. Allora esiste sempre $$\sup\mathcal{B}\in\mathcal{A}.$$
+	\end{theorem}
+	\begin{proof}
+		Dato che $\mathcal{B}$ è non vuoto ci sarà almeno un elemento $B$. Dato che $\mathcal{B}$ è limitato, esisterà almeno un $A\in\mathcal{A}$ tale che $B\le A$ per ogni $B\in\mathcal{B}$. Definiamo allora
+		$$C:=\bigcup_{B\in\mathcal{B}}B\subset \QQ$$
+		Dimostriamo ora che $C$ è una sezione (!!!).
+		\begin{itemize}
+			\item $C\ne \eset$ poichè le $B$ sono tutte sezioni e quindi non vuote.
+			\item Il complementare della sezione sarà
+			$$C'=\bigcap_{B\in\mathcal{B}}B'$$
+			Ma proprio perchè $B\le A\iff B\subseteq A \iff A'\subseteq B'$, sappiamo che ogni $B'$ ha uno stesso sottoinsieme non vuoto, dunque anche $C'$ è non vuoto.
+			\item Supponiamo che $a\in C$, allora sia $b\le a$. Dimostriamo che $b\in C$. Chiaramente ci sarà almeno un $B\in \mathcal{B}$ tale che $a\in B$, allora per definizione di sezione anche $b\in B$, dunque per la definizione di unione anche $b\in C$.
+			\item Supponiamo che $C$ abbia un massimo. Sicuramente apparterrà almeno ad un $B$, e dunque dovrà essere il massimo anche di $B$. Ma questo è assurdo, perchè $B$ è una sezione.
+		\end{itemize}
+		QUINDI $C\in\mathcal{A}$. Ma a questo punto sicuramente $C$ sarà un maggiorante di $\mathcal{B}$, perchè contiene tutti i suoi elementi. Ma d'altro canto per ogni maggiorante $D$ di $\mathcal{B}$ tutti gli elementi $B\in\mathcal{B}$ sono sottoinsiemi di $D$, dunque anche la loro unione sarà un sottoinsieme. Dunque $C$ è proprio il minimo maggiorante, ovvero il sup.
+	\end{proof}
+	In pratica grazie a questo teorema l'assioma di completezza diventa quello dell'unione: fintanto che posso unire tutte le sezioni in $\mathcal{B}$ posso trovare il suo sup.
+	
+	\section{Spazi metrici}
+	Su $\RR$ è definito il valore assoluto $\abs{x}$. Questo è utile per definire la nozione di distanza, denotata con $d$:
+	$$d:\RR\times\RR\to[0,\infty)$$
+	tale che 
+	$$d(x,y)=\abs{x-y}$$
+	questa soddisfa diverse proprietà:
+	\begin{itemize}
+		\item $d(x,y)\ge 0$ e $d(x,y)=0\iff x=y$.
+		\item $d(x,y)=d(y,x)$ (simmetrica).
+		\item $d(x,y)\le d(x,z)+d(z,y)$ per ogni terna $x,y,z\in\RR$ (disuguaglianza triangolare).
+	\end{itemize}
+	l'ultima cosa si può interpretare in modo geometrico come al solito. Dunque possiamo definire nel seguente modo uno spazio metrico:
+	\begin{definition}
+		Uno spazio metrico è un insieme $X$ con un'operazione 
+		$$d:X\times X\to [0,\infty)$$
+		che soddisfa le tre proprietà sopra.
+	\end{definition}
+	La prossima sezione contiene teoremi e fatti che valgono per uno spazio metrico generico, ma che vengono trattate su $\RR$ per concretezza.
+	
+	\subsection{La retta reale come spazio metrico}
+	\begin{definition}[Limite]
+		Una successione $a_n\in\RR$, $n\in\NN$, converge ad un valore $L\in\RR$ se
+		$$\forall \varepsilon>0,\exists \overline{n}\in\NN:\forall n\ge \overline{n},\,\,d(a_n,L)<\varepsilon$$
+	\end{definition}
+	Spaventoso come il concetto di limite sia così agilmente generalizzabile su uno spazio metrico generico.
+	\begin{definition}[Successione di Cauchy]
+		Diciamo che la successione $\left(a_n\right)_{n\in\NN}$ è di Cauchy se "i termini diventano arbitrariamente vicini all'infinito":
+		$$\forall\varepsilon>0,\exists \overline{n}\in\NN:\forall m,n\ge \overline{n},\,d(a_m,a_n)<\varepsilon$$
+	\end{definition}
+	\begin{theorem}[Cauchy equivale a convergenza]\label{Cauchy}
+		Sia $a_n$ una successione di numeri reali. Allora $a_n$ converge se e solo se è di Cauchy.
+	\end{theorem}
+	\begin{proof}[Proof sketch, da completare a casa]
+		$cauchy\implies converge$ si fa prima dicendo che se una successione è di Cauchy, è anche limitata, allora ha un sup per l'assioma di completezza, dunque una sua sottosequenza converge. Ma a questo punto è facile dimostrare che anche la sequenza principale converge (usando il fatto che è di Cauchy).
+	\end{proof}
+	\begin{proof}
+		Dobbiamo dimostrare due cose, facciamolo in ordine
+		\begin{description}
+			\item[converge $\implies$ cauchy:] Supponiamo che una successione $\left\{a_i\right\}$ converga ad un limite $L$. Allora per la definizione di limite sappiamo che $\forall \varepsilon>0$ esiste un $n_0$ tale che per ogni $n_0\le n\in\NN$ la distanza $d(a_n,L)<\varepsilon$. A questo punto allora comunque si scelgano due valori $m,n\ge n_0$ varranno
+			$$d(a_m,L)<\varepsilon$$
+			$$d(a_n,L)<\varepsilon$$
+			dunque varrà anche la somma membro a membro
+			$$d(a_n,L)+d(a_m,L)<2\varepsilon$$
+			ora applicando la disuguaglianza triangolare
+			$$d(a_n,a_m)\le d(a_n,L)+d(a_m,L) < 2\varepsilon$$
+			che è esattamente la definizione di successione di Cauchy.
+			\item[cauchy $\implies$ converge:] Prendiamo $\left\{a_n\right\}$ una successione di Cauchy. Dimostriamo prima di tutto che è limitata. Per definizione di Cauchy abbiamo
+			$$\forall \varepsilon>0 ,\exists n_0\in\NN \text{ t.c. } \forall m,n\ge n_0,\,\,d(a_n,a_m)<\varepsilon$$
+			dunque per ogni $n>n_0$ varrà
+			$$a_n\in(a_{n_0}-\varepsilon,a_{n_0}+\varepsilon)$$ 
+			dunque un maggiorante della successione sarà sicuramente
+			$$\max\left\{a_{n_0}+\varepsilon,a_0,a_1,a_2\dots,a_{n_0-1}\right\}$$
+			Questo implica che la successione è limitata. Per l'assioma di completezza questo implica che la successione abbia un sup, chiamiamolo 
+			$$\sup\left\{a_n\right\}=L.$$
+			Dunque utilizzando la definizione operativa del sup possiamo trovare una sottosuccessione che converge. Cominciamo con lo scegliere un $\varepsilon_0>0$, allora per la definizione di sup esisterà almeno un elemento $b_0\in\left\{a_n\right\}$ della successione che soddisfa
+			$$L-\varepsilon_0<b_0$$
+			ora definiamo un $\varepsilon_1<L-b_0$. Anche in questo caso per la definizione di sup deve esistere un $b_1\in\left\{a_n\right\}$ tale che 
+			$$L-\varepsilon_1<b_1$$
+			inoltre notiamo che 
+			$$\varepsilon_1<L-b_0 \iff b_0<L-\varepsilon_1<b_1$$
+			quindi in particolare $b_0<b_1$. Proseguendo questo procedimento definendo gli epsilon come $\varepsilon_n<L-b_{n-1}$ e quindi trovando in ogni caso dei $b_n$ tali che $L-\varepsilon_n<b_n$; in particolare notiamo che 
+			$$b_0<b_1<b_2\dots<b_n<\dots$$
+			Abbiamo trovato una sottosuccessione che converge infatti notiamo che $b_n$ converge a $L$, infatti comunque scelto un $\varepsilon$ possiamo trovare un $n_0$ tale che
+			$$d(L,b_{n_0})<\varepsilon$$
+			per la definizione di sup, ma dato che $\left\{b_n\right\}$ è monotona e crescente, varrà anche per ogni $n\ge n_0$ che 
+			$$d(L,b_n)<\varepsilon$$
+			ovvero la successione converge a $L$. \\
+			Dimostriamo infine che anche $\left\{a_n\right\}$ converge. Sappiamo che per ogni $\varepsilon>0$ esiste un $n_0$ tale che per ogni $n\ge n_0$:
+			$$d(b_n,L)<\varepsilon,$$
+			Ma sappiamo anche, per definizione di successione di Cauchy, che esiste un $n_1\ge n_0$ tale che per ogni $n\ge n_1$
+			$$d(a_n,b_n)<\varepsilon$$
+			a questo punto quindi sommando membro a membro e applicando la disuguaglianza triangolare
+			$$d(a_n,L)<d(a_n,b_n)+d(b_n,L)<2\varepsilon$$
+			che è la definizione di limite, e dunque abbiamo finito.
+		\end{description}
+		Abbiamo così dimostrato che l'assioma di completezza implica che tutte e sole le successioni di Cauchy convergono.
+	\end{proof}
+	\begin{definition}[Spazio metrico completo]
+		Uno spazio metrico si dice \textit{completo} se convergono tutte e sole le successioni di Cauchy.
+	\end{definition}
+	Immediatamente da questa definizione capiamo che $\RR$ è uno spazio metrico completo. Completezza non è una parola buttata a caso, in effetti la completezza di cui si parla qui rispetto agli spazi metrici è la stessa che si invocava poco fa nel capitolo sui reali rispetto ai campi ordinati.
+	Infatti abbiamo
+	\begin{theorem}[Completezza in senso metrico]
+		Sono equivalenti le seguenti due affermazioni:
+		\begin{description}
+			\item[A] $\RR$ soddisfa l'assioma di completezza.
+			\item[B] Tutte e sole le successioni di Cauchy in $\RR$ convergono.
+		\end{description}
+	\end{theorem}
+	\begin{proof}
+		Un verso è stato appena dimostrato. Dimostriamo che se tutte e sole le successioni di Cauchy convergono, allora ogni insieme limitato ha un sup. Prendiamo quindi un insieme $S$ limitato superiormente e $M$ un suo maggiorante. Definiamo due successioni $\left\{M_n\right\}$ e $\left\{I_n\right\}$ come segue:
+		$$M_{n+1}=
+		\begin{cases}
+			\frac{M_n+I_n}{2} & \text{se $\frac{M_n+I_n}{2}$ è un maggiorante di  $I$}\\
+			M_n & \text{altrimenti.} 
+		\end{cases}
+		$$
+		$$I_{n+1}=
+		\begin{cases}
+			\frac{M_n+I_n}{2} & \text{se $\frac{M_n+I_n}{2}$ non è un maggiorante di  $I$}\\
+			I_n & \text{altrimenti.}
+		\end{cases}
+		$$
+		Inoltre sia $M_0=M$ e $I_0\in S$ un generico elemento di $S$. Osserviamo innanzitutto che $M_n>I_n$ per ogni $n$. Infatti $I_n$ per definizione non è mai un maggiorante di $S$, ovvero esiste almeno un elemento $x\in S$ tale che $I_n<x$. Analogamente $M_n$ è sempre un maggiorante di $S$, ovvero per tutti gli elementi di $S$ (in particolare per $x$) vale 
+		$$M_n>x>I_n.$$
+		Dimostriamo ora un importante claim.
+		\begin{claim}
+			$M_n-I_n=\frac{k}{2^n}$ con $k=M_0-I_0$.
+		\end{claim}
+		\begin{subproof}
+			Procediamo per induzione. Il passo base è chiaro, supponiamo per induzione che ciò valga fino a $n_0$. Abbiamo due casi, o $\frac{M_{n_0}+I_{n_0}}{2}$ è un maggiorante o non lo è, nel primo caso abbiamo
+			$$M_{n_0+1}-I_{n_0+1}=\frac{M_{n_0}+I_{n_0}}{2}-I_{n_0}=\frac{M_{n_0}-I_{n_0}}{2}=\frac{k}{2^{n_0+1}}$$
+			che era esattamente la tesi. Il secondo caso è analogo. 
+		\end{subproof}	
+		Dimostriamo che $M_n$ e $I_n$ sono di Cauchy. Dimostriamo la cosa solo per $I_n$ tenendo conto che per $M_n$ è analogo. Prendiamo un $\varepsilon>0$, dimostriamo che per ogni $n>m> \log_2\left(\frac{k}{\varepsilon}\right)$ abbiamo $d(I_m,I_n)<\varepsilon$. Abbiamo infatti
+		$$I_n-I_m<M_m-I_m=\frac{k}{2^{m}}<\frac{k}{2^{\log_2\left(\frac{k}{\varepsilon}\right)}}<\varepsilon.$$
+		Dunque sia $I_n$ che $M_n$ sono di Cauchy, e per ipotesi quindi convergono. Supponiamo per assurdo che convergano a due limiti diversi $l_1,l_2$. Allora per il claim esiste un valore di $n$ tale per cui $M_n-I_n$ è minore di $l_1-l_2$. Ma questo vuol dire o che $M_n<l_2$ per qualche $n$, o che $I_n>l_1$ per qualche $n$. Ma questo è assurdo in quanto le successioni sono rispettivamente monotonamente decrescenti e crescenti. Dunque le due successioni convergono allo stesso limite $s$. \\
+		Infine, $s$ è proprio il sup, infatti se supponiamo per assurdo che esista un maggiorante $m$ minore di $s$ avremmo che esiste almeno un termine $I_n$ tra $m$ ed $s$, ovvero esiste almeno un elemento di $x\in S$ tra $m$ ed $s$, il che contraddice l'ipotesi che $m$ sia un maggiorante. \\
+		Inoltre $s$ è maggiore di tutti gli elementi di $S$, infatti se supponiamo per assurdo che esista un elemento $x\in S$ tale che $s<x$, avremo che esiste almeno un maggiorante di $S$ nell'intervallo $(s,x)$, il che è assurdo.
+	\end{proof}
+	Insomma il concetto di completezza è un concetto \textbf{metrico}.
+	\subsection{Topologia di $\RR$, completezza e lemma di Ba{\"i}re}
+	\begin{example}\label{problema con baire}
+		Sia $f:[0,\infty)\to \RR$ una funzione continua che verifichi questa proprietà: per ogni $x\in[0,1]$ vale il seguente limite
+		$$\lim_{n\to\infty}f(nx)=0$$
+		Allora si dimostri che
+		$$\lim_{x\to\infty}f(x)=0$$
+ 	\end{example}
+ 	Questo è un esercizio difficile, e la continuità è una proprietà determinante. In effetti ci sono molti modi di vedere le funzioni continue:
+ 	\begin{lemma}[Caratterizzazione delle funzioni continue]
+ 		Il fatto che $f:\RR\to\RR$ sia continua è equivalente al fatto che l'antimmagine di $(-\infty,t)$ è un insieme aperto per ogni $t\in\RR$.
+ 	\end{lemma}
+ 	Parliamo ora della topologia che ci permetterà di sviluppare gli strumenti necessari a dimostrare il teorema sopra:
+ 	\begin{definition}[Insieme aperto]
+ 		Un insieme $A\subset \RR$ si dice insieme aperto se per ogni $x\in A$ esiste un $\varepsilon>0$ reale tale che $(x-\varepsilon,x+\varepsilon)\subseteq A$.
+ 	\end{definition}
+ 	\begin{definition}[Insieme chiuso]
+ 		Un insieme $B\subseteq \RR$ si dice chiuso se il suo complementare è aperto.
+ 	\end{definition}
+ 	\begin{definition}[Insieme compatto]
+ 		Un insieme si dice compatto se è chiuso e limitato.
+ 	\end{definition}
+ 	Questa non è la vera definizione di compattezza, ma negli spazi metrici è equivalente, quindi la prendiamo per buona. Abbiamo un terzo modo equivalente di intendere la completezza.
+ 	\begin{theorem}[Lemma dei compatti]
+ 		Sia $(K_n)_{n\in\NN}$ una successione di insiemi compatti $K_n\subseteq\RR$ tale che
+ 		\begin{itemize}
+ 			\item[i)] $K_n\ne \eset$ per ogni $n\in\NN$.
+ 			\item[ii)] $K_{n+1}\subset K_n$ per ogni $n\in\NN$.
+ 			\item[iii)] $$\lim_{n\to\infty}\sup\left\{\abs{x-y}|x,y\in K_n\right\}=0$$
+ 		\end{itemize}
+ 		allora esiste un $x_0\in\RR$ tale che 
+ 		$$\bigcap_{n=1}^\infty K_n=\left\{x_0\right\}\ne\eset$$
+ 	\end{theorem}
+ 	\begin{proof}
+ 		Siano $x_n\in K_n$ per ogni $n\in\NN$ (possiamo farlo dato che tutti gli insiemi sono non vuoti). Dimostriamo che $\left\{x_n\right\}_{n\in\NN}$ è di Cauchy. Fissato un $\varepsilon>0$ per $(ii)$ esiste un numero $n_0$ tale che tutti i diametri dei $K_n$ con $n>n_0$ sono inferiori di $\varepsilon$. Ma allora se prendiamo due interi $m,n\ge n_0$ abbiamo che $x_{m+n}\in K_{m+n}\subseteq K_n$ (per la proprietà 2). Quindi in particolare abbiamo
+ 		$$\abs{x_{m+n}-x_n}<\text{diametro}(K_n)<\varepsilon$$
+ 		ovvero che la distanza tra $x_{m+n}$ e $x_n$ è minore di $\varepsilon$ per ogni $m,n\ge n_0$, la definizione di successione di Cauchy. \\
+ 		A questo punto abbiamo per il teorema \ref{Cauchy} che la sequenza $x_n$ converge, chiamiamo $x_0$ questo limite. \\
+ 		Dimostriamo che in effetti
+ 		$$x_0\in\bigcap_{n=1}^\infty K_n$$ 
+ 		notiamo prima di tutto che $\left\{x_n\right\}$ appartiene definitivamente a ognuno dei $K_n$. Dunque dato che ognuno dei $K_n$ è compatto, sarà anche chiuso, ma visto che un insieme chiuso contiene tutti i suoi punti di accumulazione, e $x_0$ è il punto di accumulazione di un sottoinsieme di $K_n$ (la parte di $\left\{x_n\right\}$ che appartiene definitivamente a $K_n$), quindi è un punto di accumulazione di $K_n$, $x_0$ apparterrà a $K_n$ per ogni $n$. \\
+ 		Infine, se per assurdo 
+ 		$$\abs{\bigcap_{n=1}^\infty K_n}\ge 2$$
+ 		avremmo due elementi con distanza finita tra loro che appartengono ad intervalli con diametro tendente a $0$, assurdo.
+ 	\end{proof}
+ 	\begin{theorem}[Lemma dei compatti equivale a completezza]
+ 		Assumendo il lemma dei compatti su uno spazio metrico generico si può dimostrare l'assioma di completezza.
+ 	\end{theorem}
+ 	\begin{proof}
+ 		Fai la binary search come per quando hai dimostrato che Cauchy convergente implica completezza, ma con gli insiemi compatti $[I_n,M_n]$. 
+ 	\end{proof}
+ 	\begin{definition}[Interno e Chiusura]
+ 		Sia $E\subseteq\RR$ un insieme. Definiamo l'interno e la chiusura di $E$ come:
+ 		\begin{itemize}
+ 			\item L'interno è 
+ 			$$\text{int}(E)=\left\{x\in E:\exists r>0,\text{s.t.} (x-r,x+r)\subset E\right\}.$$ 
+ 			Equivalentemente è il più grande aperto contenuto in $E$.
+ 			\item La chiusura di $E$ è l'insieme
+ 			$$\overline{E}=\left\{x\in\RR:\forall r>0,(x-r,x+r)\cap E\ne \eset\right\}$$
+ 			Equivalentemente la chiusura è il più piccolo chiuso che contiene $E$. Si può dimostrare che un insieme è chiuso se e solo se la sua chiusura coincide con se stesso, e analogamente è aperto se e solo se il suo interno coincide con se stesso.
+ 		\end{itemize}
+ 	\end{definition}
+ 	\begin{lemma}[Caratterizzazione sequenziale della chiusura]
+ 		Sia $E\subseteq\RR$ allora $x\in\overline{E}$ se e solo se esiste una successione $\left\{x_n\right\}$ di elementi di $E$ tale che il suo limite è $x$.
+ 	\end{lemma}
+ 	\begin{theorem}[Lemma di Ba{\"i}re]
+ 		Siano $(A_n)_{n\in\NN}$ una successione di aperti sulla retta reale. e $(C_n)_{n\in\NN}$ una successione di chiusi. Allora
+ 		\begin{enumerate}
+ 			\item[1)] Se $\overline{A_n}=\RR$ per ogni $n\in\NN$ allora
+ 			$$\overline{\bigcap_{n=1}^\infty A_n}=\RR$$
+ 			(l'intersezione di aperti densi è ancora densa).
+ 			\item[2)] Se $\text{int}(C_n)=\eset$ per ogni $n\in\NN$ allora
+ 			$$\text{int}\left(\bigcup_{n=1}^\infty C_n\right)=\eset$$
+ 			(l'unione di chiusi magri è ancora magra).
+ 		\end{enumerate}
+ 	\end{theorem}
+ 	\begin{proof}
+ 		Per prima cosa controlliamo che 1)$\iff$2). Ciò segue da questa osservazione:
+ 		\begin{claim}
+ 			Sia $E\subseteq\RR$ tale che $\text{int}(E)=\eset$. Allora $\RR\setminus E$ è denso.
+ 		\end{claim}
+ 		\begin{subproof}
+ 			Se l'interno di $E$ è vuoto, vuol dire che per ogni $x\in\RR$ ogni suo intorno sferico interseca il complementare di $E$ in almeno un punto. Quindi per ogni $x\in\RR$ abbiamo che $x\in\overline{\RR\setminus E}$, ovvero $\RR\setminus E$ è denso.
+ 		\end{subproof}
+ 		Dunque la 1) si ottiene dalla 2) facendo i complementari a destra e a sinistra (e viceversa). Dimostriamo la 1) allora. \\
+ 		Il punto di un insieme denso è proprio che, comunque preso un elemento $x\in\RR$, possiamo stimare arbitrariamente bene $x$ con elementi dell'insieme denso. In altre parole per tutti i raggi $0<r\in\RR$ possiamo trovare un elemento dell'intersezione di tutti gli $A_i$ appartenente all'intorno $(x-r,x+r)$, ovvero equivalentemente vogliamo dimostrare che l'intersezione 
+ 		$$(x-r,x+r)\cap\bigcap_{i=1}^\infty A_n$$ 
+ 		è non vuota.\\
+ 		Fissiamo quindi $x\in\RR$ ed $r>0$. Vogliamo trovare un elemento dell'intersezione di tutti gli $A_i$ che appartenga anche a $(x-r,x+r)$.
+ 		L'idea è quella di costruire una successione di compatti che appartenga sia ad $(x-r,x+r)$ che all'intersezione di tutti i primi $n$ insiemi $A_i$; una volta fatto questo per il lemma dei compatti otterremmo immediatamente un elemento appartenente sia all'intersezione degli infiniti insieme $A_i$ che all'intervallo $(x-r,x+r)$. \\
+ 		Una volta capita questa idea il resto sono conti; \\
+ 		il primo caso in particolare è particolarmente esemplificativo dell'argomento che vogliamo costruire. Iniziamo definendo una successione $(x_n)_{n\in\NN}$ che sarà la successione dei centri dei nostri compatti $(K_n)_{n\in\NN}$. \\
+ 		Scegliamo $x_1\in A_1$ tale che $d(x_1,x)<r/2$, questo è sempre possibile perché appunto $A_1$ è denso. Ora  vogliamo "dilatare" (ovvero scegliere un intorno $U$) $x_1$ in modo da avere un compatto $K_1$ con raggio $r_1$ tutto compreso in $(x-r,x+r)$ e allo stesso tempo compreso in $A_1$. Sicuramente, dato che $A_1$ è aperto, esiste un raggio $r_1$ sufficientemente piccolo tale per cui il nostro compatto $K_1$ appartiene all'insieme, inoltre proprio perché abbiamo scelto un $x_1$ più vicino ad $x$ di $r/2$, ci basterà scegliere un $r_1<r/2$ per avere il nostro compatto compreso in $(x-r,x+r)$. \\
+ 		A questo punto iteriamo semplicemente il processo, essendo $r_1$ il raggio del compatto e $x_1$ il centro del nostro compatto $K_1$. Grazie al fatto che anche $A_2$ è aperto e denso possiamo trovare un nuovo punto $x_2$, centro di un compatto di raggio $r_2$ completamente contenuto in $K_1$. Dunque andando avanti all'infinito per il lemma dei compatti abbiamo che
+ 		$$(x-r,x+r)\cap\bigcap_{i=1}^\infty K_i\subseteq (x-r,x+r) \cap \bigcap_{i=1}^\infty A_i \ne\eset$$
+ 		che era quanto volevamo mostrare, e per quanto detto prima abbiamo finito.
+ 	\end{proof}
+ 	\subsection{completamento di uno spazio metrico}
+ 	Fissiamo un insieme arbitrario $X$ con una distanza $d$ tale che questo è uno spazio metrico. Sappiamo già cosa vuol dire che $X$ è completo. A noi piacerebbe sempre lavorare su spazi metrici completi, perché abbiamo molti risultati utilizzabili solo in quei casi.
+ 	\begin{definition}[Isometria]
+ 		Siano $(X,d_X)$ e $(Y,d_Y)$ spazi metrici. Diciamo che una funzione $f:X\to Y$ è un'\textit{isometria} se preserva le distanze, ovvero
+ 		$$d_Y(f(x),f(x'))=d_X(x,x')$$
+ 		per ogni $x,x'\in X$. Le isometrie sono iniettive per la prima proprietà della distanza in uno spazio metrico.
+ 	\end{definition}
+ 	\begin{definition}[Spazi isometrici]
+ 		Due spazi metrici si dicono isometrici se esiste una isometria $f:X\to Y$ suriettiva.
+ 	\end{definition}
+ 	\begin{definition}[Chiusura]
+ 		Se $E\subseteq X$ allora definiamo la chiusura di $E$, e scriviamo
+ 		$$\overline{E^X}=\left\{x\in X:\text{esiste una sequenza }\left\{x_n\right\}\subseteq E: \lim d_X(x_n,x) = 0\right\}$$
+ 	\end{definition}
+ 	\begin{definition}[Completamento di uno spazio metrico]
+ 		Diciamo che $Y$ è un completamento di $X$ se esiste $f:X\to Y$ tale che
+ 		\begin{itemize}
+ 			\item $f$ è una isometria da $X$ in $Y$.
+ 			\item La chiusura dell'immagine di $f$ rispetto alla distanza di $Y$ è $Y$ stesso.
+ 			\item $Y$ è uno spazio metrico completo
+ 		\end{itemize}
+ 	\end{definition}
+ 	\begin{remark}
+ 		In effetti $\RR$ è il completamento di $\QQ$. Infatti se prendiamo $f:\QQ\to\RR$
+ 		$$f(x)=x$$
+ 		abbiamo un'isometria, e in effetti la sua immagine è proprio $\QQ$, che è denso e quindi la sua chiusura è $\RR$, uno spazio metrico completo.
+  	\end{remark}
+  	
+  	\begin{example}
+  		$X=\RR$ con la distanza $d:\RR\times\RR \to [0,\infty)$:
+  		$$d(x,y)=\abs{\arctan x - \arctan y}$$
+  		è uno spazio metrico. Tuttavia non è completo, infatti $a_n=n$ è una successione di Cauchy, ma non converge. Infatti è chiaro che sia di Cauchy, supponiamo per assurdo che converga allora
+  		$$\lim_{n\to\infty}\abs{\arctan a_n - \arctan L}=0$$
+  		ma sappiamo calcolare questo limite, e non fa $0$. \\
+  		Allora costruiamo il completamento di $(\RR,d)$ come
+  		$$Y=\RR\cup \left\{\pm\infty\right\}$$
+  		estendo quindi $d$ con la convenzione che $\arctan(\pm\infty)=\pm\frac{\pi}{2}$. Questo è ancora uno spazio metrico, e "mettendo isometricamente" $\RR$ dentro $Y$ ottengo un insieme tale che la sua chiusura rispetto a $Y$ è proprio $Y$. \\
+  		$Y$ è completo? Sì, infatti ogni $a_n$ di cauchy soddisfa
+  		$$d_Y(a_n,a_m)=\abs{\arctan a_n - \arctan a_m}<\varepsilon$$
+  		definitivamente, ma allora possiamo definire una sequenza $b_n=\arctan a_n$ a valori in $[-\pi/2,\pi/2]$, e questa converge in $[-\pi/2,\pi/2]$ secondo la nozione normale di distanza.
+  	\end{example}
+  	\begin{theorem}[Completamento di uno spazio metrico]
+  		Sia $(X,d_X)$ uno spazio metrico. Allora esiste un altro spazio metrico $(Y,d_Y)$ completamento di $X$, unico a meno di isometrie.
+  	\end{theorem}
+  	\begin{proof}
+  		Dobbiamo fare ben $6$ cose:
+  		\begin{itemize}
+  			\item[1] Costruire $Y$ come insieme.
+  			\item[2] Definire $d_Y$.
+  			\item[3] Costruire una isometria $f:X\to Y$.
+  			\item[4] Dimostrare che la chiusura $f\overline{(x)^Y}=Y$
+  			\item[5] Dimostrare che $(Y,d_Y)$ è completo.
+  			\item[6] Dimostrare che è unico.
+  		\end{itemize}
+  		Procediamo un passo alla volta
+  		\begin{subproof}[Passo 1]
+  			Prendiamo 
+  			$$\mathcal{A}=\left\{(x_n)_{n\in\NN}:x_n\in X,n\in \NN, \text{ è una successione di cauchy}\right\}$$
+  			Definisco inoltre una relazione di equivalenza tale che
+  			$$(x_n)\sim(y_n) \iff \lim_{n\to \infty}d(x_n,y_n)=0$$
+  			si verifica facilmente che questa è effettivamente una relazione di equivalenza (utilizzando le tre proprietà della distanza per dimostrare le tre proprietà dell'equivalenza). Abbiamo una relazione di equivalenza, dunque quozientiamo e otteniamo l'insieme $\faktor{\mathcal{A}}{\sim}$. In particolare quindi denotiamo con $\bar{x}$ un elemento di $\faktor{\mathcal{A}}{\sim}=Y$.
+  		\end{subproof}
+  		\begin{subproof}[Passo 2]
+  			Prendiamo quindi due elementi di $Y$, $\bar{x}$ e $\bar{x}'$, e due loro rappresentanti $(x_n)\in \bar{x}$ e $(x'_n)\in\bar{x}'$. Allora definiamo la distanza che cerchiamo come:
+  			$$d_Y(\bar{x},\bar{x}')=\lim_{n\to\infty}d_X(x_n,x'_n)$$
+  			Questa è una distanza che funziona, e si può verificare che soddisfa le tre proprietà di distanza, se non dipende dalla scelta dei rappresentanti. L'unico problema è che non è garantito che il limite esista, allora
+  			\begin{claim}
+  				Il limite esiste
+  			\end{claim}
+  			\begin{subproof}
+  				Dimostriamo che la successione dei $a_n:=d(x_n,x'_n)$ è di Cauchy. Prendiamo un $\varepsilon>0$ allora dobbiamo dimostrare che esiste un $n_0$ tale che per ogni $m,n>n_0$
+  				$$\abs{d(x_n,x'_n)-d(x_m,x'_m)}\le \abs{d(x_n,x'_n)-d(x_m,x'_n)+d(x_m,x'_n)-d(x_m,x'_m)} $$
+  				$$\le \abs{d(x_n,x'_n)-d(x_m,x'_n)}+\abs{d(x_m,x'_n)-d(x_m,x'_m)}$$
+  				Lavoriamo solo su uno dei due addendi, tenendo conto che la situazione è perfettamente analoga per l'altro. Essenzialmente la cosa si riduce a dimostrare
+  				$$\abs{d(x_n,x'_n)-d(x_m,x'_n)}\le d(x_n,x_m)$$
+  				ma questo è ovvio per la disuguaglianza triangolare, e allora abbiamo chiuso dato che $x_n$ è di cauchy.
+  			\end{subproof}
+  			Dimostriamo quindi che non dipende dalla scelta dei rappresentanti: \\
+  			Se abbiamo $a_n,b_n\in \bar{x}$ e $\alpha_n,\beta_n \in \bar{x}'$ dobbiamo dimostrare che 
+  			$$\lim_{n\to \infty}d_X(a_n,b_n)=\lim_{n\to\infty}d_X(\alpha_n,\beta_n)$$
+  			Ovvero dobbiamo dimostrare che $s_n=d_X(a_n,b_n)$ e $t_n=d_X(\alpha_n,\beta_n)$ hanno lo stesso limite. Dimostriamo qualcosa di più forte, ovvero che 
+  			$$\lim_{n\to\infty}d_X(a_n,b_n)-d_X(\alpha_n,\beta_n)=0$$
+  			dobbiamo dimostrare che per ogni $\varepsilon>0$ esiste un $m$ tale che per ogni $n\ge m$
+  			$$\abs{d_X(a_n,b_n)-d_X(\alpha_n,\beta_n)}<\varepsilon$$
+  			applicando la disuguaglianza triangolare
+  			$$\dots \le \abs{d_X(a_n,b_n)-d_X(a_n,\alpha_n)}+\abs{d_X(a_n,\alpha_n)-d_X(\alpha_n,\beta_n)}$$
+  		\end{subproof}
+  		\begin{subproof}[Passo 3]
+  			L'isometria consiste semplicemente nell'associare a ogni elemento di $x\in X$ una successione costante $x_n=x$, e quindi associare a questa la sua classe di equivalenza in $Y$.
+  			\begin{align}\notag
+  				f:X & \to Y \\ \notag
+  				x &\mapsto [(x_n=x)_{n\in\NN}]
+  			\end{align}
+  			Questa è un'isometria d'ufficio praticamente.
+  		\end{subproof}
+  		\begin{subproof}[Passo 4]
+  			Vogliamo dimostrare che la chiusura dell'insieme delle successioni costanti a valori in $X$ è esattamente $Y$. OVVERO esiste una successione di elementi di $f(X)$ che approssima arbitrariamente bene ogni elemento $\bar{y}\in Y$, ovvero per ogni $\varepsilon>0$ vogliamo che esista un $x\in X$ tale che 
+  			$$d_Y(f(x),\bar{y})=\lim_{n\to\infty}d_X(y_n,x)<\varepsilon$$
+  			Per definizione di $Y$ abbiamo che $y_n$ è di Cauchy. Ovvero sappiamo che 
+  			$$d_X(y_m,y_n)<\varepsilon$$
+  			definitivamente; dunque se scegliamo come $x$ il valore $y_m$ abbiamo chiuso per la definizione di successione di Cauchy (ovviamente il valore di $x$ cambierà al cambiare di $\varepsilon$, ma è tutto definitivamente vero e non ci dovrebbero essere problemi). 
+  		\end{subproof}
+  		\begin{subproof}[Passo 5]
+  			Dimostriamo che tutte le successioni di Cauchy in $Y$ convergono. Sia $(\bar{y}^k)_{k\in\NN}$ di Cauchy (usiamo il pedice in alto questa volta per essere chiari). Allora per ogni $\varepsilon>0$ è definitivamente vero che
+  			$$d_Y(\bar{y}^k,\bar{y}^h)=\lim_{n\to\infty}d(y_n^k,y_n^l)<\varepsilon$$
+  			per densità sappiamo che possiamo approssimare arbitrariamente bene $\bar{y}^k$ con elementi di $X$ sia $(y^k)_{n\in\NN}$ questa successione. In particolare possiamo imporre che sia definitivamente vero che 
+  			$$d_Y(\bar{y}^k,y^k)<\frac{1}{k}$$
+  			ovvero abbiamo che è definitivamente vero che
+  			$$d_X(y^k_n,y^k)<\frac{1}{k}.$$
+  			A questo punto vogliamo dimostrare che $y^k$ è di cauchy, vogliamo cioè boundare con un infinitesimo
+  			$$d_X(y^k,y^h)$$
+  			ma questo si può fare applicando due volte la disuguaglianza triangolare per ottenere
+  			$$d_X(y^k,y^h)\le d_X(y^k,y^k_n)+d_X(y^k_n,y^k_m)+d_X(y^k_m,y^h)<\frac{2}{k}+\varepsilon$$
+  			che è infinitesimo, e quindi ci dimostra che $y^k$ è di cauchy. A questo punto quindi prendiamo la classe di equivalenza $z\in Y$ della successione $y^k$. Questo è effettivamente il limite della successione, infatti 
+  			$$\lim_{k\to \infty}d_Y(\bar{y}^k,z)=0$$
+  			Questo si dimostra bho in un modo che non ho capito.
+  		\end{subproof}
+  		L'ultimo punto è un po' troppo arzigogolato e non lo vedremo.
+  	\end{proof}
+  	\subsection{Soluzione al problema \ref{problema con baire}}
+  	
+  	Sia $0<\varepsilon\in\RR^+$. Vogliamo dimostrare che esiste un $t\in \RR^+$ tale che valga $$f_*((t,\infty))\subseteq (-\varepsilon,\varepsilon).$$
+  	Cominciamo con il definire
+  	%	\begin{definition}
+  		%		Definiamo con $A_n(x)$ la successione $f(nx)$ al variare di $n\in \NN$ per, ipotesi $A_n(x)\to 0$ per tutti gli $x\in [0,1]$.
+  		%	\end{definition}
+  	%	Analizziamo quindi $I:=f^*((-\varepsilon,\varepsilon))$.
+  	%	\begin{claim}
+  		%		$I$ è non vuoto e illimitato.
+  		%	\end{claim}
+  	%	\begin{proof}
+  		%		Possiamo sempre trovare almeno un elemento in $I$, infatti se prendiamo un $x\in[0,1]$ per definizione di convergenza esisterà sempre un $n_0$ tale che $\abs{A_n(x)}<\varepsilon$ per tutti gli $n\ge n_0$, dunque tutti i valori di $f(nx)$ con $n>n_0$ apparterranno a $(-\varepsilon,\varepsilon)$ e quindi $nx$ apparterrà ad $I$ per tutti gli $n\ge n_0$. Questo implica che $I$ sia non vuoto, ma anche che sia illimitato, infatti se per assurdo esistesse un maggiorante $M$ di $I$ per il principio di Archimede potremmo trovare $n_0\le n\in\NN$ tale che
+  		%		$$nx>M$$
+  		%		assurdo. 
+  		%	\end{proof}
+  	\begin{definition}
+  		Definiamo la funzione continua
+  		$$g_k(x):=kx.$$
+  	\end{definition}
+  	\begin{definition}
+  		Sia $0<\varepsilon'<\varepsilon$, definiamo una funzione 
+  		$$N:[0,1]\to \NN$$
+  		tale che al numero $x\in[0,1]$ è associato il numero $n_0$ tale che 
+  		$$f(nx)\in [-\varepsilon',\varepsilon']\subset (-\varepsilon,\varepsilon)$$
+  		per ogni $n\ge n_0$ (e dunque tutte le successioni $nx$ appartengono a $I$ per $n\ge n_0$). Un tale $n_0$ esiste sempre per l'assunzione che tutte le $A_n(x)$ convergono a $0$. Questa funzione ci permette di definire una successione di insiemi $K_n$ tali che
+  		$$K_n:=N^*(\left\{n\right\}).$$
+  	\end{definition}
+  	La prima proprietà di questa successione è che chiaramente 
+  	$$\bigcup_{n=0}^\infty K_n=\bigcup_{n=0}^\infty N^*(\left\{n\right\})=N^*\left(\bigcup_{n=0}^\infty \left\{n\right\}\right)=N^*(\NN)=[0,1]$$
+  	La seconda importante proprietà consiste nel seguente claim:
+  	\begin{claim}
+  		$K_n$ è chiuso per ogni $n\in\NN$.
+  	\end{claim}
+  	\begin{proof}
+  		\'E noto che il fatto che un insieme sia chiuso è equivalente al fatto che contenga tutti i suoi punti di accumulazione. Prendiamo quindi un generico punto di accumulazione $l$ di $K_n$ e dimostriamo che appartiene a $K_n$, da questo discenderà la tesi. Dato che $l$ è un punto di accumulazione esisterà una successione a $\left\{a_m\right\}$ a valori in $K_n$ tale che 
+  		$$\lim_{n\to\infty}a_m=l$$
+  		ma allora per la continuità di $g_k(x)$ abbiamo per ogni 
+  		$$g_k(l)=g_k\left(\lim_{m\to\infty}a_m\right)=\lim_{m\to\infty}g_k(a_m)$$
+  		in particolare questo varrà per ogni $k\ge n$. Ora per la continuità di $f$ possiamo scrivere analogamente
+  		$$f(g_k(l))=\lim_{m\to\infty}f(g_k(a_m))$$
+  		ma notiamo che per ogni $k\ge n$ per definizione di $K_n$ abbiamo $f(g_k(a_m))\in [-\varepsilon,\varepsilon]$. Dunque $f(g_k(a_m))$ al variare di $m$ è una successione a valori in $[-\varepsilon,\varepsilon]$, che è un insieme chiuso, e dunque anche il limite della successione dovrà appartenere all'insieme. In particolare avremo
+  		$$f(g_k(l))=f(kl)\in [-\varepsilon,\varepsilon]$$
+  		per ogni $k\ge n$. Ma questa era proprio la definizione di elemento di $K_n$, dunque $l\in K_n$ e abbiamo finito.
+  	\end{proof}
+  	Se per assurdo tutti gli insiemi chiusi $K_n$ avessero interno vuoto allora per il lemma di Baire avremmo che anche la loro unione avrebbe interno vuoto. Tuttavia abbiamo visto prima come 
+  	$$\bigcup_{n=0}^\infty K_n=[0,1]$$
+  	che non ha interno vuoto, e dunque è assurdo. Questo ci dice che esiste almeno un $K_{n_0}$ tale che abbia interno non vuoto, ovvero che contenga un intervallo che denoteremo con $(a,b)$. Questo intervallo ha la proprietà (per come abbiamo definito $K_n$) che per ogni $k\ge n_0$ vale
+  	$$f(g_k((a,b)))\in (-\varepsilon,\varepsilon).$$
+  	Ci manca poco a chiudere, se dimostrassimo che esiste un $t\in\RR$ tale che per qualche $d\in \NN$ 
+  	$$(t,\infty)=\bigcup_{i=d}^\infty g_i((a,b))$$	
+  	avremmo finito, perchè avremmo
+  	$$f((t,\infty))=f\left(\bigcup_{i=d}^\infty g_i((a,b))\right)=\bigcup_{i=d}^\infty f(g_i((a,b)))\subseteq (-\varepsilon,\varepsilon)$$
+  	che era esattamente la tesi. Allora dimostriamo che
+  	\begin{claim}
+  		Esistono un $d\in\NN$ e un $t\in\RR$ tali che 
+  		$$(t,\infty)=\bigcup_{k=d}^\infty g_k((a,b))$$
+  	\end{claim}
+  	\begin{proof}
+  		Chiaramente avremo che
+  		$$g_k((a,b))=(ka,kb).$$
+  		Per il principio di Archimede, dato che $b>a$, sicuramente esisterà un $d\in\NN$ tale che
+  		$$d(b-a)>b>a.$$
+  		dimostriamo allora per induzione che 
+  		$$(da,zb)=\bigcup_{k=d}^z g_k((a,b))$$ 
+  		questo per $z\to\infty$ ci darà la tesi (con $t=da$). Il caso base è semplicemente
+  		$$(da,(d+1)b)=(da,db)\cup((d+1)a,(d+1)b)$$
+  		che è evidentemente vero perchè 
+  		$$d(b-a)>a \iff b>a(d+1)$$
+  		per definizione di $d$. Supponiamo ora per induzione che
+  		$$(da,(z-1)b)=\bigcup_{k=d}^{z-1}g_k((a,b))$$
+  		allora dobbiamo dimostrare che 
+  		$$(da,zb)=\bigcup_{k=d}^{z}g_k((a,b))=(za,zb)\cup\bigcup_{k=d}^{z-1}g_k((a,b))=(za,zb)\cup (da,(z-1)b)$$
+  		quindi dobbiamo dimostrare che vale
+  		$$(z-1)b>za \iff z(b-a)>b$$
+  		ma questo è ovvio se si considera che $z>d$ e che per definizione di $d$ abbiamo:
+  		$$z>d>\frac{b}{b-a} \iff z(b-a)>b$$
+  		e dunque abbiamo finito.
+  	\end{proof}
+  	
+  	\newpage
+  	
+  	\section{AM-GM: quattro dimostrazioni}
+  	Siano $0\le x_1,x_2,\dots x_n\in\RR$ (a volte l'insieme di tutti gli $x_i$ sarà semplicemente denotato con $x$). La disuguaglianza AM-GM tratta delle due quantità
+  	$$A_n(x)=\frac{x_1+x_2+x_3+\dots+x_n}{n}$$
+  	$$G_n(x)=\sqrt[n]{x_1x_2x_3\dots x_n}$$
+  	e dice che in particolare vale sempre
+  	$$A_n(x)\ge G_n(x)$$
+  	in particolare la disuguaglianza è un'uguaglianza se e solo se $x_1=x_2=\dots=x_n$.
+  	\subsection{Dimostrazione storica di Cauchy}
+  	La dimostrazione di Cauchy procede iniziando a dimostrare che 
+  	\begin{claim}
+  		$G_{2^k}(x)\le A_{2^k}(x)$
+  	\end{claim}
+  	\begin{proof}
+  		Procediamo per induzione. Il caso base $k=1$ è molto noto ed è la chiara disuguaglianza
+  		$$(x-y)^2\ge 0$$
+  		supponiamo quindi ora che la disuguaglianza sia vera per $k$, dimostriamo che vale anche per $k+1$. Prendiamo $x_1,x_2,\dots,x_{2^{k+1}}\ge 0$ numeri reali. Denotiamo con $x'=(x_1,\dots,x_{2^k})$ e $x''=(x_{2^k+1},\dots,x_{2^{k+1}})$, usiamo l'ipotesi induttiva per boundare la media geometrica di $x$, ovvero
+  		$$G_{2^{k+1}}(x)^{2^{k+1}}=G_{2^k}(x')^{2^k}G_{2^k}(x'')^{2^k}\le \left(A_{2^k}(x')A_{2^k}(x'')\right)^{2^k}$$
+  		e ok. Il passo decisivo adesso è notare che vogliamo stimare dall'alto un prodotto tra reali, e quindi abbiamo (per quanto dimostrato al passo base):
+  		$$\left(A_{2^k}(x')A_{2^k}(x'')\right)^{2^k}\le \left(\frac{A_{2^k}(x')+A_{2^k}(x'')}{2}\right)^{2^k}=A_{2^{k+1}}(x)$$
+  		che ci dà direttamente la tesi.
+  	\end{proof}
+  	A questo punto dobbiamo estenderci a tutto ciò che non è una potenza di $2$. Sia $2<n\in\NN$, cerchiamo un $k\in\NN$ tale che
+  	$$2^k<n<2^{k+1}$$
+  	L'idea a questo punto è aggiungere numeri a $x$ in modo da ottenere una lista esattamente lunga $2^{k+1}$, in modo da poter applicare il claim. Se scegliamo il numero giusto la tesi ci balzerà fuori dal nulla, quindi prendiamo la lista
+  	$$x_1,x_2,x_3\dots x_n, A,A,A$$ 
+  	lunga $2^{k+1}$, dove $A$ è la media aritmetica dei numeri precedenti. Siano $x$ il vettore degli $x_i$, $x'$ il vettore costante contenente i valori $A$ e $\bar{x}=(x,x')$. Allora per il claim abbiamo
+  	$$G_{2^{k+1}}(\bar{x})^{2^{k+1}}\le A_{2^{k+1}}(\bar{x})^{2^{k+1}}$$
+  	quindi separiamo i due vettori
+  	$$G_n(x)^nA^{2^{k+1}-n}\le \left(\frac{x_1+x_2+\dots+x_n+\left(2^{k+1}-n\right)A}{2^{k+1}}\right)^{2^{k+1}}$$
+  	ma d'altro canto abbiamo che $x_1+x_2+\dots+x_n=nA$ e dunque abbiamo
+  	$$\left(\frac{x_1+x_2+\dots+x_n+\left(2^{k+1}-n\right)A}{2^{k+1}}\right)=A$$
+  	e quindi semplicemente
+  	$$G_n(x)^n A^{2^{k+1}-n}\le A^{2^{k+1}}\iff G_n(x)^n\le A$$
+  	Che è esattamente AM-GM.
+  	
+  	\subsection{Per induzione}
+  	Questa è probabilmente la dimostrazione più breve possibile. Tutto si basa sul fatto che il seguente fatto implica AM-GM: dati $x_1,\dots,x_n\in\RR$ non necessariamente positivi:
+  	$$\frac{1}{n}\sum_{i=1}^{n}x_i=1 \implies x_1x_2x_3\dots x_n\le 1$$
+  	notiamo come l'uguaglianza in effetti sia stretta esattamente nel caso che vogliamo. Questo implica AM-GM per omogeneità, ovvero AM-GM è invariante per omotetia, e quindi possiamo tranquillamente imporre che la somma degli $x_i$ sia $1$. \\
+  	Dimostriamo la proposizione per induzione. Il passo base è $n=1$ che è chiaro. Facciamo il passo induttivo, supponiamo che valga per $n$, allora siano $0\le x_1,\dots,x_n,x_{n+1}\in\RR$ numeri che soddisfano l'ipotesi. Supponiamo che $x_{n+1}>1$ ovvero $x_{n+1}=1+\varepsilon$ analogamente supponiamo che $x_n=1-\delta$ con $0<\delta<1$.
+  	Allora abbiamo
+  	$$n+1=\sum_{i=1}^n x_i=1+\varepsilon+1-\delta+\sum_{i=1}^{n-1}x_i$$
+  	ovvero
+  	$$n=1+\varepsilon-\delta+\sum_{i=1}^{n-1}$$
+  	cioè l'insieme dei primi $n-1$ valori del vettore e quello strano termine $1+\varepsilon-\delta$ soddisfa l'ipotesi induttiva, dunque varrà
+  	$$(1+\varepsilon-\delta)x_1x_2\dots x_{n-1}\le 1$$
+  	ma questo implica direttamente la nostra tesi! Infatti notiamo che 
+  	$$(1+\varepsilon)(1-\delta)<1+\varepsilon-\delta \iff -\varepsilon\delta<0$$
+  	e dunque è vera anche la seguente catena di disuguaglianze
+  	$$x_1x_2x_3\dots x_n x_{n+1}=(1+\varepsilon)(1-\delta)x_1x_2\dots x_{n-1}<(1+\varepsilon-\delta)x_1x_2\dots x_{n-1}\le 1$$
+  	che appunto era esattamente quanto stavamo cercando di dimostrare.
+  	
+  	\subsection{Per convessità}
+  	Partiamo dal concetto di convessità per la funzione esponenziale $f(x)=e^x$. \'E noto che $f(x)=f'(x)$. Dunque la sua derivata seconda $f''(x)$ è sempre positiva, ovvero è una funzione \textit{convessa}. In particolare sia quella che il suo logaritmo sono funzioni \textit{strettamente} convesse, ovvero in cui l'unica 
+  	\begin{definition}[Convessità]
+  		Una funzione $f$ si dice convessa se per ogni $x_1,x_0\in\RR$ e per ogni $t\in[0,1]$ si ha 
+  		$$f\left(tx_1+(1-t)x_0\right)\le tf(x_1)+(1-t)f(x_0)$$
+  	\end{definition}
+  	In altre parole la funzione soddisfa la disuguaglianza di Jensen (che segue per induzione dalla definizione). In particolare se i pesi sono tutti uguali la disuguaglianza che otterremo sarà
+  	$$f\left(\frac{x_1+x_2+\dots+x_n}{n}\right)\le \frac{1}{n}\sum_{i=1}^n f(x_i)$$
+  	Si vede facilmente ora che sostituendo ad $f$ generica la specifica $\log x$ abbiamo esattamente quanto stiamo cercando, infatti
+  	$$\log\left(\frac{x_1+x_2+\dots+x_n}{n}\right)\le \frac{1}{n}\log(x_1x_2\dots x_n)$$
+  	che dà immediatamente AM-GM esponenziando entrambi i lati.
+  	\subsection{Per compattezza}
+  	Prendiamo il sottoinsieme $K$ di $\RR^n$ tale che
+  	$$K=\left\{(x_1,x_2,\dots,x_n)\in\RR^n:x_1,x_2\dots,x_n\ge 0 \land x_1+\dots+x_n=1\right\}$$
+  	Questo insieme essenzialmente per tutti gli $n$ è limitato (se qualcosa andasse a $\infty$ avremmo un problema), inoltre è anche chiuso. Dunque è un insieme compatto per come abbiamo definito la compattezza. A questo punto ci serve il seguente teorema
+  	\begin{theorem}[Weierstrass]
+  		Se $K$ è un insieme compatto e $f:K\to\RR$ è una funzione continua allora ammette un massimo e un minimo.
+  	\end{theorem}
+  	A questo punto dunque definiamo una funzione $f:K\to\RR$ tale che
+  	$$f(x)=x_1x_2x_3\dots x_n$$
+  	questa funzione è un polinomio, dunque è sicuramente continua. Per weierstrass questa funzione avrà un massimo e un minimo. Il minimo è triviale ($0$ quando una coordinata si annulla), il massimo è già più interessante, vorremmo dimostrare che 
+  	$$\max_{x\in K}f(x)=1$$
+  	ma notiamo che è tutto simmetrico, dunque ci viene da guessare che le $x$ che danno il massimo siano proprio quelle in cui $x_1=\dots=x_n$. Supponiamo che il massimo sia ottenuto da $\bar{x}$. Se per assurdo avessimo $\bar{x}_1\ne \bar{x}_2$ allora potremmo costruire
+  	$$\bar{\bar{x}}=\left(\frac{\bar{x}_1+\bar{x}_2}{2},\frac{\bar{x}_1+\bar{x}_2}{2},x_3,\dots,x_n\right)$$
+  	ma ora avremmo per AM-GM nel caso in due variabili (che possiamo dimostrare facilmente in due passaggi algebrici):
+  	$$f(\bar{\bar{x}})=\left(\frac{\bar{x}_1+\bar{x}_2}{2}\right)^2x_3x_4\dots x_n>x_1x_2\dots x_n=f(\bar{x})$$
+  	Il che è assurdo perchè avevamo supposto che $f(\bar{x})$ fosse il massimo, allora abbiamo tutti gli $x_i$ uguali, e questo chiude come nella dim per induzione.
+  	
+  	\newpage
+  	
+  	\section{Successioni}
+  	
+  	L'argomento principale di questa sezione è il teorema di Cesàro, una specie di teorema di de l'hopital, ripassiamo un attimo alcune nozioni del liceo
+  	\begin{theorem}[De L'Hopital]
+  		Siano $f,g:\RR\to\RR$ derivabili, se esiste il seguente limite
+  		$$\lim_{x\to\infty}\frac{f'(x)}{g'(x)}=L$$
+  		(non necessariamente reale) e ho una forma indeterminata, ovvero 
+  		$$\lim_{x\to\infty}f(x)=\lim_{x\to\infty}g(x)=\infty$$
+  		allora esiste anche il limite del quoziente
+  		$$\lim_{x\to\infty}\frac{f(x)}{g(x)}=L$$
+  	\end{theorem}
+  	
+  	Il teorema di Cesàro è una versione \textit{discreta} di questo teorema. 
+  \begin{theorem}[Cesàro]
+  	Siano $\left\{a_n\right\},\left\{b_n\right\}$ due successioni a valori reali. Supponiamo che: 
+  	\begin{enumerate}
+  		\item[1)] La successione $b_n$ è definitivamente monotona e $b_n\to\infty$.
+  		\item[2)] Esiste (finito o infinito) il seguente limite: 
+  		$$\lim_{n\to\infty}\frac{a_{n+1}-a_n}{b_{n+1}-b_n}=L\in\overline{\RR}.$$ 
+  	\end{enumerate}
+  	Allora esiste anche il seguente limite ed è uguale a 
+  	$$\lim_{n\to\infty}\frac{a_n}{b_n}=L$$
+  \end{theorem}
+  Per dimostrare questo teorema di è utile introdurre le nozioni di massimo e minimo limite, ovvero se $a_n$ è una successione a numeri reali, prendiamo il sup di una certa sottosuccessione contigua di $a_n$ ovvero
+  $$\sup_{m\ge n}a_m$$
+  è chiaro che se aumentiamo il valore di $n$ il sup dell'insieme al più rimane uguale, ma molto probabilmente decrescerà. Dunque la successione in $n$ dei valori del sup degli insiemi descritti sopra, decresce monotonamente. dunque ha un limite, e dunque è ben definito ed esiste sempre
+  $$\lim_{n\to\infty}\sup_{m\ge n} a_m$$
+  questo ci porta direttamente alla seguente definizione:
+  \begin{definition}[Limite superiore e limite inferiore]
+  	Sia $a_n$ una successione di reali, allora definiamo
+  	$$\limsup_{n\to\infty}a_n:=\lim_{n\to\infty}\sup_{m\ge n} a_m=\inf_n\sup_{m\ge n}a_m$$
+  	analogamente possiamo fare il liminf
+  	$$\liminf_{n\to\infty}a_n:=\lim_{n\to\infty}\inf_{m\ge n} a_m=\sup_n\inf_{m\ge n}a_m$$
+  \end{definition}
+  \begin{exercise}
+  	Si dimostri che le seguenti due affermazioni sono equivalenti (se $L\in\RR$):
+  	\begin{itemize}
+  		\item Vale, secondo la definizione di limsup data prima, che
+  		$$\limsup_{n\to\infty}a_m=L$$
+  		\item Valgono:
+  		\begin{itemize}
+  			\item Per ogni $\varepsilon>0$ definitivamente vale che $a_n<L+\varepsilon$
+  			\item Per ogni $\varepsilon>0$ definitivamente vale che $a_n>L-\varepsilon$
+  		\end{itemize}
+  	\end{itemize}
+  \end{exercise}
+  Un altro modo ancora di vedere questa cosa è che il limite superiore è il più grande limite a cui può convergere una sottosuccessione di $a_m$, analogamente vale per il liminf.
+  \begin{lemma}[Proprietà dei limiti superiori e inferiori]
+  	Valgono le seguenti:
+  	\begin{itemize}
+  		\item Se $a_n$ è una successione vale sempre
+  		$$\liminf a_n \le \limsup a_n$$
+  		inoltre si ha caso di uguaglianza se e solo se $a_n$ converge, e in quel caso i tre limiti sono tutti uguali.
+  		\item Vale la seguente identità
+  		$$-\liminf_{n\to\infty} a_n =\limsup_{n\to\infty} (-a_n)$$
+  	\end{itemize}
+  \end{lemma}
+  Dimostriamo a questo punto dunque il teorema di Cesàro:
+  \begin{proof}[Dimostrazione del teorema di Cesàro]
+  	Sia $l<L$, per il l'ipotesi 2) sappiamo che definitivamente varrà
+  	$$\frac{a_{n+1}-a_n}{b_{n+1}-b_n}>l$$
+  	ora usando il fatto che $b_n$ è monotona possiamo riscrivere ciò come
+  	$$a_{n+1}-a_n>l(b_{n+1}-b_n)$$
+  	ora, noi vorremmo avere due indici liberi di variare invece di $n$ ed $n+1$, questo lo facciamo ricorrendo ad un tipico barbatrucco
+  	$$a_{n+k}-a_n=\sum_{i=0}^{k-1}a_{n+i+1}-a_{n+i}$$
+  	ora applicando la disuguaglianza sopra tante volte abbiamo
+  	$$\dots > l\sum_{i=0}^{k-1}b_{n+i+1}-b_{n+i}=l(b_{n+k}-b_n)$$
+  	abbiamo fatto un \textit{upgrade} della proposizione. A questo punto definitivamente $b_{n+k}$ sarà positivo, quindi possiamo riscrivere la proposizione come
+  	$$\frac{a_{n+k}}{b_{n+k}}-\frac{a_n}{b_{n+k}}>l\left(1-\frac{b_n}{b_{n+k}}\right)\iff \frac{a_{n+k}}{b_{n+k}}>l\left(1-\frac{b_n}{b_{n+k}}\right)+\frac{a_n}{b_{n+k}}$$
+  	a questo punto facciamo andare $k$ all'infinito. Il lato destro converge a $l$, dunque definitivamente abbiamo un bound per la sequenza (dal basso) di $l$, questo significa che il limite inferiore (che esiste sempre) è
+  	$$\liminf_{n\to\infty}\frac{a_n}{b_n}\ge l$$
+  	ma questo vale per tutti gli $l$ arbitrariamente vicini ad $L$, dunque
+  	$$\liminf_{n\to\infty}\frac{a_n}{b_n}\ge L$$
+  	ora se avessimo un bound dall'alto di $L$ del limsup avremmo finito, ma d'altro canto possiamo riscrivere la condizione del limite della differenza
+  	$$\lim_{n\to\infty}\frac{a_{n+1}-a_n}{b_{n+1}-b_n}=L$$
+  	utilizzando il fatto che $f(x)=-x$ è continua
+  	$$-\lim_{n\to\infty}\frac{a_{n+1}-a_{n}}{b_{n+1}-b_{n}}=-L \iff \lim_{n\to\infty}\frac{a_{n}-a_{n+1}}{b_{n+1}-b_{n}}=-L$$
+  	da cui otteniamo esattamente tutte le stesse proposizioni di prima, ma con un segno $-$ davanti. Dunque alla fine del nostro ragionamento otteniamo
+  	$$-\frac{a_{n+k}}{b_{n+k}}>-l\left(1-\frac{b_n}{b_{n+k}}\right)-\frac{a_n}{b_{n+k}}$$ 
+  	da cui otteniamo come prima un bound dal basso della sequenza, ovvero un bound del liminf.
+  	$$\liminf_{n\to\infty}\left(-\frac{a_{n}}{b_{n}}\right)\ge -L$$
+  	ma ora portando fuori il $-$ con le proprietà del liminf e limsup abbiamo
+  	$$\limsup_{n\to\infty}\frac{a_n}{b_n}\le L$$
+  	ma questo significa che limsup e liminf coincidono, ovvero 
+  	$$\lim_{n\to\infty}\frac{a_n}{b_n}=L$$
+  	come richiesto.
+  \end{proof}
+  Una classica applicazione di Cesàro è:
+  \begin{example}
+  	Se $a_n\to L$ allora anche
+  	$$\frac{1}{n}\sum_{k=1}^n a_k\to L$$
+  	infatti abbiamo
+  	$$\frac{\sum_{k=1}^{n+1}a_k-\sum_{k=1}^n a_k}{n+1-n}=a_{n+1}\to L$$
+  	e quindi per Cesàro abbiamo immediatamente chiuso.
+  \end{example}
+  
+  \newpage
+  
+  \section{Insiemistica e assioma della scelta}
+  
+  Tutto il discorso che svilupperemo in questo paragrafo gira attorno all'assioma della scelta. Diamo alcune definizioni prima
+  \begin{definition}[Insieme delle parti]
+  	L'insieme delle parti è definito come
+  	$$\parti(X)=\left\{A:A\subseteq X\right\}$$
+  \end{definition}
+  \begin{proposition}[Assioma della scelta]
+  	Per ogni insieme $X$ non vuoto esiste una funzione $S:\parti(X)\setminus\left\{\eset\right\}\to X$ tale che
+  	$$S(A)\in A$$ 
+  	per ogni $A$ non vuoto nell'insieme delle parti di $X$.
+  \end{proposition}
+  Questo è utile se $X$ è un insieme abbastanza strano, per insiemi semplici ci sono modi che non lo richiedono. Ad esempio se $X$ è l'insieme deii numeri naturali allora possiamo costruire $S$ come
+  $$S(A)=\min A$$
+  che esiste sempre in sottoinsiemi di $\NN$. Analogamente se $X$ è $\QQ$ possiamo scegliere in modo esplicito elementi dell'insieme. Se $X$ è l'insieme dei numeri reali ci troviamo già più in difficoltà. \\
+  In effetti l'assioma della scelta è fondamentale per molte cose:
+  \begin{itemize}
+  	\item Per dimostrare il teorema di Hahn-Banach.
+  	\item Per dimostrare l'esistenza di insiemi non Lebesgue-misurabili in $\RR$.
+  	\item Per dimostrare il Teorema di Tychonoff: il prodotto (anche infinito) di compatti, è compatto.
+  	\item Ragionamenti di massimalità.
+  \end{itemize}
+  \subsection{Lemma di Zorn}
+  
+  Vediamo il primo di alcuni enunciati equivalenti all'assioma della scelta. Prima di tutto abbiamo bisogno di un po' di fondamenta:
+  \begin{definition}[Ordine Parziale e Totale]
+  	Sia $X$ un insieme su cui è definita una relazione $\le$. Diciamo che $(X,\le)$ è un \textit{ordine parziale} se
+  	\begin{itemize}
+  		\item[i)] $x\le x$ per ogni $x\in X$.
+  		\item[ii)] Se $x\le y$ e $y\le x$ allora $x=y$.
+  		\item[iii)] Se $x\le y$ e $y\le z$ allora $x\le z$.
+  	\end{itemize}
+  	Se poi vale anche 
+  	\begin{itemize}
+  		\item[iv)] Per ogni $x,y\in X$ vale $x\le y$ o $y\le x$. 
+  	\end{itemize}
+  	questa struttura si dice \textit{ordine totale}.
+  \end{definition}
+  \begin{definition}[catene, minimi, maggioranti ed elementi massimali]
+  	Sia $(X,\le)$ un ordine parziale e $A\subset X$ un suo sottinsieme, allora:
+  	\begin{enumerate}
+  		\item L'insieme $A$ è una \textit{catena} se $(A,\le)$ è totalmente ordinato.
+  		\item Un elemento $x\in A$ si dice il \textit{minimo} di $A$ se per ogni $y\in A$ vale $x\le y$.
+  		\item Un elemento $x$ è un \textit{maggiorante} di $A$ se per ogni $y$ in $A$ vale $y\le x$.
+  		\item Un elemento $x$ si dice \textit{estremo superiore} se è il minimo dell'insieme dei maggioranti di $A$, si denota con $\sup A$.
+  		\item $A$ si dice \textit{superiormente limitato} se ha almeno un maggiorante.
+  		\item Un elemento $x\in X$ è un \textit{elemento massimale} se non esiste un $y\in X$ tale che $x\le y$.
+  	\end{enumerate}
+  \end{definition}
+  \begin{definition}[Ordinamento induttivo]
+  	Diciamo che $(X,\le )$ un ordinamento parziale diciamo che $X$ è \textit{induttivo} se ogni catena $A\subset X$ ha un estremo superiore.
+  \end{definition}
+  
+  \begin{example}
+  	Sia $X$ un insieme, consideriamo $\parti(X)$, evidentemente la relazione tra elementi di $\parti(X)$:
+  	$$X\le Y \iff X\subseteq Y$$
+  	è un ordinamento parziale. Constatiamo le seguenti cose:
+  	\begin{itemize}
+  		\item Se $\mathcal{A}\subseteq \parti(X)$ è una catena allora
+  		$$A=\bigcup_{K\in \mathcal{A}}K$$
+  		è un maggiorante della catena, inoltre è anche il più piccolo dei maggioranti. Quindi tutte le catene hanno un estremo superiore.
+  		\item C'è almeno un elemento massimale, ovvero $X$.
+  	\end{itemize}
+  \end{example}
+  Non è un caso che queste due proprietà siano entrambe verificate, con squilli di tromba e rulli di tamburi possiamo introdurre:
+  \begin{lemma}[Zorn]
+  	Ogni insieme induttivo ha un elemento massimale.
+  \end{lemma}
+  Inoltre con ulteriore fanfara vale il seguente risultato
+  \begin{theorem}
+  	L'assioma della scelta è equivalente al lemma di Zorn.
+  \end{theorem}
+  \begin{definition}[Buon ordinamento]
+  	Un insieme $X$ parzialmente ordinato si dice \textit{bene ordinato} se e solo se ogni sottoinsieme $A$ non vuoto di $X$ ha un elemento minimo. \'E facile vedere come ciò implica ordinamento totale.
+  \end{definition}
+  Questa è la proprietà dei numeri naturali, ogni sottoinsieme dei numeri naturali ha un minimo. Per gli interi 
+  
+  \begin{theorem}[buon ordinamento equivale a scelta]
+  	Il fatto che ogni insieme ammetta sempre un buon ordinamento è equivalente all'assioma della scelta.
+  \end{theorem}
+  \subsection{Dimostrazione del lemma di Zorn}
+  Supponiamo di avere un insieme $(X,\le)$ parzialmente ordinato tale che ogni catena abbia un estremo superiore. \\
+  \textbf{Supponiamo per assurdo che non ci sia un elemento massimale}. Per l'assunzione per ogni $x\in X$ esiste un $y\ge x$ con $x\ne y$. \\
+  Sia $C\subset X$ una catena, allora esisterà un $x=\sup C$. Sia quindi 
+  $$M(C)=\left\{y\in X: \text{t.c. $y$ è un maggiorante stretto di $C$} \right\}$$
+  Introduciamo per notazione
+  $$\mathcal{C}:=\left\{C:C\text{ catena di }X\right\}$$
+  Per \textbf{l'assioma della scelta} possiamo costruire una funzione
+  $$f:\mathcal{C}\to X$$
+  tale che $f(C)\in M(C)$. Questa funzione associa quindi ad ogni catena un suo maggiorante, e tutti i ragionamenti d'ora in poi si baseranno su di questa. Siano $C\in\mathcal{C}$ e $x\in C$. Introduciamo per notazione:
+  $$C_x:=\left\{y\in C:y<x\right\}$$
+  notiamo che $C_x$ potrebbe essere vuoto, se per esempio $x$ è il minimo della catena. 
+  \begin{definition}[$f$-insieme]
+  	Diciamo che $C\in\mathcal{C}$ è un \textit{$f$-insieme} se 
+  	\begin{itemize}
+  		\item $C$ è bene ordinato.
+  		\item Per ogni $x\in C$ ho: $f(C_x)=x$
+  	\end{itemize}
+  	ovvero è quell'insieme per cui la funzione $f$ sceglie proprio il sup per ogni "catena tagliata ad $x$" $C_x$. Chiaramente $\eset$ è un $f$-insieme. 
+  \end{definition}
+  \begin{claim}
+  	L'insieme $C=\left\{f(\eset)\right\}$ è un $f$-insieme.
+  \end{claim}
+  \begin{proof}
+  	Chiaramente è bene ordinato. Sia $f(\eset)=y$, daton che per tagliare abbiamo bisogno di scegliere un elemento in $C$, l'unico elemento che possiamo scegliere è $y$, quindi $x=y$ allora chiaramente
+  	$$C_x=\eset$$
+  	ma in effetti calcolando il valore di $C_x$ rispetto a $f$ otteniamo
+  	$$f(C_x)=f(\eset)=y=x.$$
+  	che skill.
+  \end{proof}
+  quindi ci verrebbe da costruire una catena per induzione per cercare un assurdo... ma il punto è che potrebbe non essere sufficiente (potremmo dover costruire una catena non numerabile).
+  \begin{lemma}[Gli $f$-insiemi si comportano come semirette con la stessa origine]
+  	Siano $C,D\subset X$ due $f$-insiemi, allora $C\subset D$ o $D\subset C$. Inoltre $\min C=\min D$.
+  \end{lemma}
+  \begin{proof}
+  	Supponiamo che $C\not\subset D$ allora dimostriamo che $D\subset C$. La supposizione ci dice che $C\setminus D\ne \eset$. Sia $x=\min C\setminus D$ (che esiste perchè sono $C$ è ben ordinato). 
+  	Affermo che
+  	$$C_x\subset D$$
+  	Supponiamo per assurdo che esista un $y\in C_x$ ma non in $D$. Dunque sappiamo
+  	$$y<x$$
+  	$$y\in C$$
+  	$$y\not\in D$$
+  	ma questo è assurdo, perchè $x$ era il minimo di $C\setminus D$ e $y$ appartiene sicuramente a $C\setminus D$. Dunque $C_x\subset D$. Abbiamo due casi
+  	\begin{itemize}
+  		\item $C_x=D$: \\
+  		Dunque abbiamo $D=C_x\subset C$ , e abbiamo finito.
+  		\item $C_x$ è un sottoinsieme stretto di $D$: \\
+  		 Allora $D\setminus C_x$ non è vuoto. Definiamo allora
+  		$$y=\min D\setminus C_x$$
+  		dunque come prima giungiamo alla conclusione che $D_y\subset C_x$. abbiamo quindi altri due casi:
+  		\begin{itemize}
+  			\item $D_y=C_x$:\\
+  			Per definizione di $f$ insieme abbiamo
+  			$$y=f(D_y)=f(C_x)=x$$
+  			Dunque $x=y$. Ma noi sappiamo che $x\in C\setminus D$, mentre $y$ è in $D$, assurdo.
+  			\item $D_y$ è un sottoinsieme stretto di $C_x$: \\
+  			Deve esistere un elemento $z$ che appartiene a $C_x$ ma non a $D_y$. Dato che $z$ è in $C_x$ deve essere anche in $D$, ma dato che non è in $D_y$ per l'ordine totale deve essere
+  			$$y\le z$$
+  			prendiamo quindi l'insieme di tutti gli $z$ che soddisfano queste proprietà. Questo è un sottoinsieme di $C_x$ quindi avrà un minimo, in particolare quindi sia $z_0$ il minimo di tale insieme. \\
+  			Affermo che 
+  			$$D_y \subset C_{z_0}$$
+  			Sia $w\in D_y$ in particolare quindi abbiamo $w\in C_x$. Supponiamo per assurdo che $w\not\in C_z$ allora per l'ordinamento totale abbiamo
+  			$$w\ge z_0$$
+  			ma d'altra parte $z_0\ge y$ quindi $w\ge y$. D'altra parte dato che $w\in D_y$ avevamo $w<y$, da cui l'assurdo. \\
+  			Dunque abbiamo che $D_y \subset C_{z_0}$. Dividiamo ulteriormente in due casi 
+  			\begin{itemize}
+  				\item $D_y=C_{z_0}$: \\
+  				Allora come prima $y=z_0$. Ma questo è assurdo, perchè $y$ era definito come il minimo di $D\setminus C_x$, e $z_0$ appartiene a $C_x$.
+  				\item $D_y$ è un sottoinsieme stretto di $C_{z_0}$:\\
+  				Allora supponiamo che ci sia un $w\in C_{z_0}$ ma non in $D_y$. Quindi $w<z_0$ e $w\ge y$ per ordine totale. Ma abbiamo detto prima che $z_0$ era il minimo dei maggioranti, e dunque abbiamo trovato un $y\le w < z$ ovvero un maggiorante di $D_y$ più piccolo di $z_0$, assurdo. 
+  			\end{itemize}
+  		\end{itemize}
+  	\end{itemize}
+  	Dunque l'unico caso possibile era il primo, e quindi abbiamo finito la prima parte. Dimostriamo che hanno lo stesso minimo. Supponiamo che $C\subset D$. Allora è chiaro che
+  	$$\min C \le \min D$$
+  	se $C=D$ abbiamo chiaramente finito. Supponiamo dunque che $C\setminus D$ sia non vuoto, allora esattamente come fatto prima concludiamo che
+  	$$C_x\subset D$$
+  	d'altra parte per definizione di $C_x$ abbiamo 
+  	$$\min C = \min C_x$$
+  	mentre per la relazione insiemistica sopra avevamo 
+  	$$\min C_x \ge \min D $$
+  	mettendo insieme le ultime due equazioni abbiamo la tesi.
+  \end{proof}
+  Questo lemma in un certo senso ci dice che ogni $f$-insieme assomiglia ad un "segmento" della retta reale: tutti gli $f$-insiemi hanno lo stesso minimo e uno dei due è sempre il "prolungamento" dell'altro. \\
+  \begin{definition}[Famiglia degli $f$ insiemi]
+  	Consideriamo l'insieme
+  	$$\mathcal{F}=\left\{C\subset X:C \text{ è un $f$-insieme}\right\}$$
+  	l'insieme di tutti gli $f$ insiemi.
+  \end{definition}
+  Il punto chiave di tutto ciò è che possiamo definire il problematico
+  $$F=\bigcup_{C\in \mathcal{F}}C$$
+  questo è chiaramente totalmente ordinato per il lemma, inoltre, sempre per il lemma, è ben ordinato (entrambe queste cose si dimostrano semplicemente scegliendo un $f$-insieme sufficientemente grande da contenere tutto). \\
+  Per giunta, $F$ è un $f$-insieme. OH NO, allora abbiamo $F\in \mathcal{F}$. Sicuramente questo ci darà problemi poi. \\
+  Esisterà sicuramente un $x=f(F)$ maggiorante stretto di $F$, dunque in particolare 
+  $$x\not\in F.$$
+  Ma allora anche l'insieme 
+  $$\bar{F}=F\cup\left\{x\right\}$$
+  è un $f$-insieme, dunque $\bar{F}\subset F$ ma allora $x\in F$ \textbf{ASSURDO ZIOPERA}. 
+  
+  \subsection{Zorn implica Scelta}
+  
+  Assumiamo Zorn, vogliamo dimostrare che se $X$ è un insieme esiste una funzione $f$ da $\parti(X)\setminus\left\{\eset\right\}$ a $X$ tale che $f(A)\in A$. Consideriamo quindi
+  $$\mathcal{X}=\left\{(\mathcal{A},f):\mathcal{A}\subset \parti(X)\setminus\left\{\eset\right\}:\text{ esiste una funzione di scelta da $\mathcal{A}$ ad $X$}\right\}$$
+  sicuramente $\mathcal{X}$ è non vuoto, perchè i singoletti hanno sempre una funzione di scelta. Vogliamo usare Zorn definiamo quindi una relazione di ordine parziale:
+  $$(\mathcal{A},f)\le (\mathcal{B},f) \iff \mathcal{A} \subset \mathcal{B}$$
+  non è assolutamente difficile vedere come questo sia un ordine parziale, però è anche induttivo (per ogni catena ci basta unire tutti gli elementi e aggiungerne uno per trovare il massimo). Ordunque \textbf{per il lemma di Zorn} esiste un elemento massimale $(\mathcal{A}_{max},f_{max})$. Se $\mathcal{A}_{max}$ fosse proprio $\parti(X)\setminus \left\{\eset\right\}$ avremmo finito, ma notiamo che se per assurdo esistesse un $A$ che appartiene all'insieme delle parti ma non al massimale, e in particolare questo $A$ contiene almeno un elemento $x$, possiamo estendere il massimale con l'elemento
+  $$(\mathcal{A}_{max}\cup A,f')$$
+  dove $f'$ sugli elementi di $\mathcal{A}_{max}$ è definita esattamente come $f_{max}$, mentre su $A$ è definita $f(A)=x$. Dunque l'elemento non era massimale, assurdo, e abbiamo finito.
+  
+  \subsection{Un po' di applicazioni}
+  Richiamiamo un po' di concetti di teoria della cardinalità.
+  \begin{definition}[Ordine sulle cardinalità]
+  	Se $A$ e $B$ sono due insiemi diremo che 
+  	$$\abs{A}\le \abs{B}$$
+  	se e solo se esiste una funzione iniettiva da $A$ a $B$. A maggior ragione definiamo 
+  	$$\abs{A}<\abs{B}$$
+  	se e solo esiste una $f$ da $A$ a $B$ iniettiva, ma non esiste nessuna $f'$ da $A$ a $B$ suriettiva. Infine definiamo 
+  	$$\abs{A}=\abs{B}$$
+  	se e solo se esiste una biezione da $A$ a $B$.
+  \end{definition}
+  \begin{theorem}[Tricotomia dei cardinali/Teorema di Hartogs]
+  	Se $A$ e $B$ sono due insiemi qualsiasi, allora vale sempre una e una sola delle seguenti tre affermazioni
+  	$$\abs{A}<\abs{B}$$
+  	$$\abs{A}=\abs{B}$$
+  	$$\abs{A}>\abs{B}$$
+  \end{theorem}
+  \begin{proof}
+  	Si può dimostrare con Zorn non troppo difficilmente.
+  \end{proof}
+  Un altro modo di vedere questa cosa è
+  \begin{theorem}[Buon Ordinamento/Teorema di Zermelo]
+  	Per ogni insieme $X$ esiste una relazione di ordine parziale tale che $(X,\le)$ è un buon ordinamento.
+  \end{theorem}
+  Ok, allora abbiamo
+  $$\text{AS}\iff \text{Zorn} \implies \text{Tricotomia} \implies \text{BuonOrdinamento} \implies \text{AS}$$
+  dimostrare la terza implicazione è molto difficile, ma possibile, mentre dimostrare la seconda non è difficile. L'ultima implicazione è banale. Dunque \textbf{sono tutti equivalenti}. \\
+  Un'ultima cosa
+  \begin{theorem}[Cantor-Bernstein]
+  	Siano $A$ e $B$ due insiemi. Allora se esistono due funzioni iniettive 
+  	$$f:A\to B$$
+  	$$g:B\to A$$
+  	esiste anche una funzione biettiva $h$ da $A$ a $B$ (ovvero, se $\abs{A}\le \abs{B}$ e $\abs{A}\ge \abs{B}$ allora $\abs{A}=\abs{B}$).
+  \end{theorem}
+  \begin{proof}
+  	Voglio trovare un insieme $A_\infty\subset A$ tale che che se definiamo 
+  	$$B_\infty:=f(A_\infty)$$
+  	allora si abbia
+  	$$g:B\setminus B_\infty \to A\setminus A_\infty$$ 
+  	è biettiva. Chiaramente d'ufficio abbiamo anche
+  	$$f:A_\infty \to B_\infty$$
+  	biettiva. Cerchiamo allora questo $A_\infty$. Per fare ciò costruiamo la funzione
+  	$$T:\parti(A)\to \parti(A)$$
+  	tale che
+  	$$T\left(X\right)=A\setminus g(B\setminus f(X))$$
+  	definiamo dunque la successione di insiemi
+  	$$A_0,A_1,\dots$$
+  	nel seguente modo
+  	$$A_n=
+  	\begin{cases}
+  		A_1=A \\
+  		A_{n+1}=T(A_n)
+  	\end{cases}
+  	$$
+  	dunque abbiamo $A_n=T_n(A)$. In effetti si può dimostrare abbastanza agilmente che $A_{n+1}\subset A_n$. Il passo chiave è fare di tutti questi insiemi l'intersezione, ovvero definiamo
+  	$$A_\infty:=\bigcap_{n=1}^\infty A_n \subset A$$
+  	\begin{claim}
+  		Abbiamo che
+  		$$\bigcap_{n=1}^\infty f(A_n)=f\left(\bigcap_{n=1}^\infty A_n\right)$$
+  	\end{claim}
+  	\begin{subproof}[Sottodimostrazione]
+  		Dimostriamo prima un'inclusione. Preso un $x$ nel RHS abbiamo
+  		$$x\in A_n\forall n$$
+  		ma allora $f(x)\in f(A_n)$ per ogni $n$. Dunque 
+  		$$f(x)\in \bigcap_{n=1}^\infty f(A_n)$$
+  		e una delle due inclusioni è dimostrata. Prendiamo ora un elemento $y$ del LHS, per ogni $n$ allora dovrà esistere un $x_n\in A_n$ tale che
+  		$$f(x_n)=y$$
+  		ma questo per l'iniettività di $f$ implica che tutti gli $x_n$ sono uguali. Ma allora 
+  		$$x\in \bigcap_{n=1}^\infty A_n$$
+  		e questo chiude.
+  	\end{subproof}
+  	la prima proprietà importante di $A_\infty$ è proprio che
+  	$$T(A_\infty)=A\setminus g\left(B\setminus f\left(\bigcap_{n=1}^\infty A_n\right)\right)=A\setminus g\left(B\setminus \bigcap_{n=1}^\infty f(A_n)\right)$$
+  	a questo punto dobbiamo togliere il $\setminus$, molto fastidioso. Per fare ciò lo esprimiamo come \textit{l'intersezione con il complementare} ovvero
+  	$$\dots = A\setminus g\left(\bigcup_{n=1}^\infty\left(B\setminus f(A_n)\right)\right)$$
+  	ora non è difficile verificare che l'unione delle immagini e l'immagine delle unioni. Allora abbiamo
+  	$$\dots=A\setminus \bigcup_{n=1}^\infty g\left(B\setminus f(A_n)\right)$$
+  	ovvero di nuovo applicando de morgan
+  	$$\dots = \bigcap_{n=1}^\infty A\setminus g\left(B\setminus f(A_n)\right)=\bigcap T(A_n)=\bigcap A_{n+1}=A_\infty$$
+  	Dunque abbiamo dimostrato che 
+  	$$A_\infty=T(A_\infty)$$
+  	un po' strano, vediamo cosa significa davvero\dots
+  	$$A_\infty=A\setminus g(B\setminus f(A_\infty))$$
+  	ma per come abbiamo definito prima $B_\infty$ abbiamo
+  	$$A\setminus A_\infty=g(B\setminus B_\infty)$$
+  	PROPRIO QUELLO CHE VOLEVAMO DIMOSTRARE. $g$ è suriettiva e abbiamo finito.
+  \end{proof}
+  
+  \newpage
+  
+  \section{Formula di Stirling}
+  
+  Ricordiamo la notazione dell'asintotico:
+  \begin{definition}[Asintotici]
+  	Diciamo che due sequenze sono asintotiche e scriviamo $a_n\sim b_n$ sse 
+  	$$\lim_{n\to \infty}\frac{a_n}{b_n}=1$$ 
+  \end{definition}
+  questa sezione si propone di dimostrare
+  \begin{theorem}[Formula di Stirling]
+  	Sia $n\in\NN$, vale la seguente relazione
+  	$$n!\sim \left(\frac{n}{e}\right)^n\sqrt{2\pi n}$$
+  \end{theorem}
+  questo fatto è molto oscuro, i mean, cosa c'entrano pi greco e il numero di nepero con il fattoriale? Vediamolo:
+  \begin{definition}[Funzione Gamma di Eulero]
+  	Definiamo la funzione Gamma di Eulero $\Gamma:\RR^+\to\RR^+$ come
+  	$$\Gamma(s)=\int_0^\infty e^{-x}x^{s-1}\text{d}x$$
+  	questo integrale certamente converge per $s>0$.
+  \end{definition}
+  A cosa ci serve questa funzione? In realtà si può dimostrare che 
+  $$\int_0^\infty e^{-x}x^{n}\text{d}x=\Gamma(n+1)=n!$$
+  \begin{proof}
+	  Infatti semplicemente applicando la formula di integrazione per parti abbiamo
+	  $$\int_0^\infty e^{-x}x^{n}\text{d}x=n\int_0^\infty e^{-x}x^{n-1}\text{d}x$$
+	  ovvero 
+	  $$\Gamma(n+1)=n\Gamma(n)$$
+	  da cui non è difficile vedere come la tesi sia vera per induzione.
+  \end{proof}ù
+  ora vogliamo avvicinarci alla formula di stirling, per fare ciò semplicemente sostituiamo nell'integrale $x=nt$:
+  $$n!=\int_0^\infty e^{-x}x^{n}\text{d}x=\int_0^\infty e^{-nt}(nt)^{n}n\text{d}t=n^{n+1}\int_0^\infty (e^{-t}t)^n\text{d}t$$
+  vogliamo stimare la funzione integranda dunque. In effetti la funzione $e^{-t}t$ ha come punto di massimo in $t=1$ il valore $\frac{1}{e}$ (si può verificare facilmente derivando) e quindi, dato che è $<1$ per $n$ che va all'infinito andrà geometricamente a $0$. L'idea è che per stimare l'integrale ci basta vedere cosa fa la funzione
+  $$f(t)=e^{-t}t$$
+  vicino al suo punto di massimo. Sia dunque $0<\delta <1$ vogliamo calcolare
+  $$\int_0^\infty f(t)^n\text{d}t=\int_{\RR^+\cap\left\{\abs{t-1}<\delta\right\}}f(t)^n\text{d}t+\int_{\RR^+\cap\left\{\abs{t-1}\ge\delta\right\}}f(t)^n\text{d}t$$
+  sia quindi $A_n$ il primo integrale e $B_n$ il secondo integrale. Dobbiamo dimostrare due cose
+  \begin{claim}
+  	$A_n\sim e^{-n}\sqrt{\frac{2\pi}{n}}$
+  \end{claim}
+  \begin{claim}
+  	$B_n$ non conta davvero, ovvero
+  	$$\lim_{n\to \infty}\frac{B_n}{A_n}=0$$
+  	da cui avremo
+  	$$A_n+B_n=A_n\left(1+\frac{B_n}{A_n}\right)\sim A_n$$
+  \end{claim}
+  \begin{proof}[Dimostrazione del Claim 6.4]
+  	Scriviamo in modo umano $A_n$:
+  	$$A_n=\int_{1-\delta}^{1+\delta}e^{n\log f(x)}\text{d}x$$
+  	in realtà vediamo che facendo un po' di conti il log di $f$ viene bello, definiamo quindi con un po' di notazione
+  	$$h(x):=\log(f(x))=\log x - x$$
+  	questa funzione è interessante, perchè a $0$ va a $-\infty$, e anche a $\infty$ va a $-\infty$. Dunque avrà un punto di massimo, in particolare derivando troviamo che il massimo vale $-1$ e si ottiene per $x=1$. Non solo, ma la derivata seconda è strettamente minore di $0$. Riscriviamo l'integrale allora
+  	$$\int_{1-\delta}^{1+\delta}e^{nh(x)}\text{d}x.$$
+  	Ora vorremmo stimare $h(x)$ e questo ci viene molto comodo usando Taylor.
+  	\begin{theorem}[Taylor al secondo ordine]
+  		Stimiamo una funzione $h(x)$ con 
+  		$$h(x)=h(x_0)+h'(x_0)(x-x_0)+\half h''(\xi)(x-x_0)^2$$
+  		ovvero per ogni $x\in\RR^+$ esiste un $\xi \in[x,x_0]$ tale che l'uguaglianza sopra sia vera. 
+  	\end{theorem}
+  	Per noi quindi vale $x_0=1$, $h(1)=-1$ e infine $h'(1)=0$. Dunque abbiamo 
+  	$$h(x)=-1+\half h''(\xi)(x-1)^2$$
+  	con $\xi \in [1,x]$. Ora rimbocchiamoci le maniche perchè bisognerà fare un po' di conti. Riscriviamo sostituendo l'espressione della derivata seconda
+  	$$h(x)=-1-\frac{(x-1)^2}{2\xi^2}$$
+  	sia $\varepsilon>0$, allora esiste un $\delta>0$ tale che se $\abs{x-1}<\delta$ allora 
+  	$$1-\varepsilon<\frac{1}{\xi^2}<1+\varepsilon$$
+  	questo è dovuto al fatto che $\xi$ tenderà ad $1$ al tendere a $1$ di $x$ dato che $\xi \in [1,x]$. Sostituiamo allora nell'integrale
+  	$$A_n=\int_{1-\delta}^{1+\delta}e^{n\left(-1-\frac{(x-1)^2}{2\xi^2}\right)}\text{d}x$$
+  	facciamo una stima da sopra e una da sotto. La stima da sopra è (qui scegliamo $\delta$ ed $\varepsilon$):
+  	$$\int_{1-\delta}^{1+\delta}e^{n\left(-1-\frac{(x-1)^2}{2\xi^2}\right)}\text{d}x\le e^{-n}\int_{1-\delta}^{1+\delta}e^{-n\frac{(1-\varepsilon)(x-1)^2}{2}}\text{d}x$$
+  	facciamo un cambio di variabile (un po' impropriamente) chiamando
+  	$$t^2:=-n\frac{(1-\varepsilon)(x-1)^2}{2}$$
+  	a questo punto sostituendo (con tanta sofferenza) abbiamo
+  	$$\dots = e^{-n}\int_{-\delta \sqrt{\frac{n(1-\varepsilon)}{2}}}^{+\delta \sqrt{\frac{n(1-\varepsilon)}{2}}}e^{-t^2}\frac{\text{d}t}{\sqrt{\frac{n(1-\varepsilon)}{2}}}$$ 
+  	A questo punto dunque facendo tendere $n$ all'infinito possiamo fattorizzare fuori tutto quello che dipende da $n$, e inoltre i due estremi di integrazione tendono a $\pm\infty$. Quindi ci salta fuori proprio l'integrale gaussiano, che era quello che volevamo. Dunque quando la polvere si deposita abbiamo
+  	$$\frac{A_n}{\frac{e^{-n}}{\sqrt{n}}}\le \sqrt{\frac{2\pi}{1-\varepsilon}}$$
+  	che tende esattamente a quello che volevamo. La stima dal basso è essenzialmente identica, ma usando $1-\varepsilon$ al posto di $1+\varepsilon$. Dunque per $\varepsilon\to 0$ abbiamo esattamente il claim (per il teorema del confronto).
+  \end{proof}
+  \begin{proof}[Dimostrazione del Claim 6.5]
+  	Partiamo dicendo che esisterà sicuramente un $M\ge 2$ tale che 
+  	$$x\le e^{x/2}$$
+  	per ogni $x>M$. Spezziamo l'integrale in tre
+  	$$B_n=\int_{0}^{1-\delta}f(x)^n\text{d}x+\int_{1+\delta}^{M}f(x)^n\text{d}x+\int_{M}^{\infty}f(x)^n\text{d}x$$
+  	si tratta ora di fare una serie di stime (rozze) usando brutalmente il massimo di $f$ (e le definizione di $M$, per l'ultimo passaggio):
+  	$$\dots\le f(1-\delta)^n(1-\delta)+f(1+\delta)^n(M-1-\delta)+\int_{M}^{\infty}e^{-\frac{nx}{2}}\text{d}x$$
+  	ma l'ultimo integrale lo sappiamo calcolare in effetti, e sostituendo il valore di $f$:
+  	$$\dots=e^{-n}\left\{\left[(1-\delta)e^\delta\right]^n(1-\delta)+\left[(1+\delta)e^{-\delta}\right]^n(M-1-\delta)+\frac{2}{n}\right\}$$
+  	MA in realtà quello che c'è dentro le parentesi quadre è tutto minore di $1$, dunque per $n\to\infty$ l'unico termine nelle graffe a rimanere sarà $\frac{2}{n}$ che ha chiaramente un ordine di infinito minore di quello di $A_n$, e dunque anche qui per il confronto abbiamo finito. 
+  \end{proof}
+  \subsection{Formula di Wallis}
+  In effetti reiterando tutto il processo appena fatto si può trovare una stima anche per funzioni integrali più esotiche, tipo
+  $$\int_0^{\pi/2}\sin(x)^n\text{d}x\sim \sqrt{\frac{\pi}{2n}}$$
+  
+  \newpage
+  
+  \section{Serie}
+  
+  \subsection{La formula di Eulero}
+  La formula di Eulero è la seguente
+  \begin{theorem}[Eulero]
+  	Vale la seguente identità:
+  	$$\sum_{n=1}^\infty\frac{1}{n^2}=\frac{\pi^2}{6}$$
+  \end{theorem}
+  Per prima cosa non è difficile convincersi che la serie converge, infatti possiamo stimarla dall'alto con
+  $$\sum_{n=1}^\infty\frac{1}{n^2}=1+\sum_{n=2}^\infty \frac{1}{n^2}< 1+\sum_{n=2}^\infty\frac{1}{n(n-1)}$$
+  che è abbastanza chiaramente telescopica e converge a $2$, dunque
+  $$\sum_{n=1}^\infty\frac{1}{n^2}< 2$$
+  ma allora dato che al variare dell'upper bound la serie è monotona, convergerà.
+  \subsubsection{La dimostrazione di Eulero}
+  Eulero parti dalla rappresentazione in serie di taylor del seno, ovvero
+  $$\sin (x)=\sum_{n=1}^\infty \frac{(-1)^n}{(2n+1)!}x^{2n+1}$$
+  chiamiamo $S$ dunque il valore della serie calcolata in un certo $x$. Allora possiamo scrivere
+  $$1-\frac{1}{S}\sum_{n=1}^\infty \frac{(-1)^n}{(2n+1)!}x^{2n+1}=0$$
+  ora il fatto chiave è chiamare questa funzione $P(x)$ e trattarla a tutti gli effetti come un'equazione polinomiale in $x$:
+  $$P(x)=0$$
+  tuttavia noi sappiamo quali sono le soluzioni del seno, sappiamo infatti che sono numerabili e dipdenderanno dal parametro $S$, denotiamole con $a_1,a_2,\dots \in \RR$. Ma allora possiamo scrivere il polinomio sopra (scritto come una somma) con un prodotto. Ovvero
+  $$P(x)=\left(1-\frac{x}{a_1}\right)\left(1-\frac{x}{a_2}\right)\dots=\prod_{k=1}^\infty \left(1-\frac{x}{a_k}\right)$$
+  ora scegliamo $S$, se $S<1$ abbiamo sempre due radici $a_1$ e $a_2$ che sommano a $\pi$, in particolare se $S=1$ le due radici sono uguali, quindi tutte le radici sono da considerarsi doppie. In particolare sono esattamente uguali a
+  $$\frac{\pi}{2}+2k<\pi=\frac{\pi}{2}(1+4k)$$ 
+  per ogni $k\in\ZZ$ per indicizzarle in una successione dobbiamo far alternare il segno, ottenendo
+  $$a_k=\frac{\pi}{2}(1+4k(-1)^k)$$
+  questa è una successione di tutti i numeri dispari a segno alterno, moltiplicati per $\pi/2$. Ora abbiamo quindi:
+  $$\sum_{n=1}^\infty \frac{(-1)^n}{(2n+1)!}x^{2n+1}=\prod_{k=1}^\infty \left(1-\frac{x}{a_k}\right)$$
+  ma queste due rappresentazioni alla fine sono dei polinomi infiniti, e se sono uguali lo devono anche essere coefficiente per coefficiente. Proviamo a calcolare il coefficiente di grado $1$, a destra abbiamo la somma dei reciproci degli $a_k$, ovvero
+  $$-\sum_{k=1}^\infty\frac{1}{a_k}=-2\sum_{m=1}^\infty \frac{(-1)^m}{\frac{\pi}{2}(2m+1)}=-\frac{4}{\pi}\sum_{m=1}\frac{(-1)^m}{2m+1}$$
+  quest'ultima è una serie a segno alterno, ed era già stata studiata da leibniz nel '600. Utilizzando il criterio di Leibniz dunque si dimostra che questa serie converge. D'altro canto il coefficiente di $x$ a sinistra era $-1$ e dunque:
+  $$\sum_{m=1}\frac{(-1)^m}{2m+1}=\frac{\pi}{4}$$
+  questa formula era già stata trovata da Leibniz, e dunque Eulero penso bene di giustificare tutto il metodo usato finora scrivendo saccentemente in latino "omnino non liceat dubitari" ovvero "ho trovato qualcosa di giusto, quindi attaccati, il metodo finora era chiaramente tutto giusto".\\
+  In effetti, se facciamo un balzo di fede, possiamo dimostrare l'identità sopra considerando la seguente quantità a caso
+  $$\frac{\pi}{4}=\arctan(1)=\int_0^1\frac{1}{1+x^2}=\int_0^1\sum_{n=0}^\infty(-x^2)^n$$ 
+  (abbiamo usato la formula della serie geometrica con ragione negativa) quindi scambiando i simboli di serie e di integrale (ora arrivano i carabinieri)
+  $$\frac{\pi}{4}=\dots=\sum_{n=0}^\infty\int_0^1(-1)^nx^{2n}=\sum_{m=1}\frac{(-1)^m}{2m+1}$$
+  totalmente illegale vabbè. \\
+  Torniamo al ragionamento di Eulero, vediamo cosa succede confrontando i coefficienti di $x^2$, a sinistra sarà abbastanza chiaramente $0$, mentre a destra:
+  $$0=\sum_{1\le k<h}\frac{1}{a_ka_h}$$
+  ora, come facciamo a calcolare quei prodotti\dots beh, se prendiamo l'identità di prima
+  $$1=\sum_{k=1}^\infty\frac{1}{a_k}$$
+  abbiamo, elevando al quadrato e svolgendo come se fosse un polinomio (lol wtf?):
+  $$1^2=\sum_{k=1}^\infty\frac{1}{a_k^2}+2\sum_{1\le k < h}^\infty \frac{1}{a_ka_h}$$
+  ma allora usando il fatto di prima abbiamo 
+  $$1=\sum_{k=1}^\infty\frac{1}{a_k^2}$$
+  riscriviamo quindi tutta la serie di prima
+  $$1=2\sum_{m=1}^\infty\frac{1}{\left(\frac{\pi}{2}(2m+1)\right)^2}$$
+  (il segno alterno è stato tolto dal quadrato) e dunque abbiamo, riarrangiando un po'
+  $$\frac{\pi^2}{8}=\sum_{m=1}^\infty\frac{1}{(2m+1)^2}$$
+  una formula nuova! siamo molto vicini a quello che vogliamo dimostrare, da qui ci basta notare che la somma dei quadrati dei dispari (quella che abbiamo appena trovato) si può esprimere coma la somma che vogliamo (!) meno la somma dei quadrati dei pari, che tuttavia si può esprimere come
+  $$\sum_{m=1}^\infty\frac{1}{(2m+1)^2}=\sum_{m=1}^\infty \frac{1}{m^2}-\sum_{m=1}^\infty \frac{1}{(2m)^2}=\sum_{m=1}^\infty \frac{1}{m^2}-\frac{1}{4}\sum_{m=1}^\infty \frac{1}{m^2}=\frac{3}{4}\sum_{m=1}^\infty \frac{1}{m^2}$$
+  da cui abbiamo immediatamente
+  $$\sum_{m=1}^\infty \frac{1}{m^2}=\frac{4}{3}\sum_{m=1}^\infty\frac{1}{(2m+1)^2}=\frac{\pi^2}{6}.$$
+  Ok allora, questo ragionamento chiaramente non è del tutto formale, almeno per come è posto\dots ma sarebbe davvero bello se lo fosse. Questo è forse il più grande merito di Eulero per questo verso, ovvero aver delineato per primo la prassi del mainpolare le serie formali come se fossero polinomi.
+  \subsubsection{Una dimostrazione moderna}
+  Consideriamo il seguente integrale doppio
+  $$I=\int_0^1\int_0^1\frac{1}{1-xy}\text{d}x\text{d}y$$
+  facciamo un \textit{double counting su questo integrale}, il confronto dei due metodi diversi ci darà la formula di Eulero. Utilizziamo la formula della serie geometrica (in modo perfettamente legale stavolta) e lo scambio dei simboli di serie e integrale:
+  $$I=\sum_{n=0}^{\infty}\int_0^1\int_0^1 x^ny^n\text{d}x\text{d}y$$
+  ma ora notiamo che possiamo tirare fuori dal primo integrale $y^n\text{d}y$ ottenendo:
+  $$I=\sum_{n=0}^{\infty}\left(\int_0^1x^n\text{d}x\int_0^1y^n\text{d}y\right)=\dots=\sum_{n=0}^{\infty}\left(\frac{1}{n+1}\right)^2$$
+  che è esattamente la serie di Eulero. Ora calcoliamo l'integrale doppio in un altro modo, consideriamolo come il volume sotteso alla curva in due variabili delineata da quella serie. Il dominio su cui stiamo considerando la funzione è il quadrato:
+  $$Q=[0,1]\times[0,1]$$
+  ora operiamo un cambiamento di variabile "ruotando il piano $xy$ di 45 gradi" dunque 
+  $$u=\frac{x+y}{\sqrt{2}}$$
+  $$v=\frac{y-x}{\sqrt{2}}$$
+  e dunque le formule della trasformazione inversa sono
+  $$\begin{cases}
+  	x=\frac{u-v}{\sqrt{2}} \\
+  	y=\frac{u+v}{\sqrt{2}}
+  \end{cases}$$
+  quindi in effetti se $P$ è il quadrato ruotato di 45 gradi abbiamo:
+  $$\iint_Q\frac{1}{1-xy}\text{d}x\text{d}y=\iint_P \frac{1}{1-\frac{u^2-v^2}{2}}\text{d}x\text{d}y$$
+  sembra che le cose si siano solo complicate\dots vediamo:
+  $$\int_{0}^{\sqrt{2}}\int_{\abs{v}\le\min\left\{u,\sqrt{2}-u\right\}}\frac{1}{1-\frac{u^2-v^2}{2}}\text{d}v\text{d}u$$
+  quell'insieme di integrazione folle è semplicemente una rappresentazione del primo del quadrato ruotato di 45 gradi tramite funzioni poco ortodosse. Ora notiamo che la funzione (in 3d) è simmetrica rispetto all'asse $x$ e quindi:
+  \begin{align*}
+  	I=\dots = 2\int_0^{\sqrt{2}/2}\int_0^u\frac{1}{1-\frac{u^2-v^2}{2}}\text{d}v\text{d}u+ 2\int_0^{\sqrt{2}/2}\int_0^{\sqrt{2}-u}\frac{1}{1-\frac{u^2-v^2}{2}}\text{d}v\text{d}u= \\ 4\int_0^{\sqrt{2}/2}\int_0^u\frac{1}{2-u^2+v^2}\text{d}v\text{d}u+4\int_0^{\sqrt{2}/2}\int_0^{\sqrt{2}-u}\frac{1}{2-u^2+v^2}\text{d}v\text{d}u
+  \end{align*}
+  ora raccogliamo un fattore e portiamolo fuori dal primo integrale per sfruttare la primitiva dell'arctan, ovvero
+  \begin{align*}
+  	=4\int_0^{\sqrt{2}/2}\frac{1}{2-u^2}\int_0^u\frac{1}{1+\left(\frac{v}{\sqrt{2-u^2}}\right)^2}\text{d}v\text{d}u+4\int \dots =\\
+  	4\int_0^{\sqrt{2}/2}\frac{1}{2-u^2}\sqrt{2-u^2}\arctan\left(\frac{v}{\sqrt{2-u^2}}\right)\text{d}u+4\int\dots
+  \end{align*}
+  e ora quasi per magia notiamo che 
+  $$\frac{\text{d}}{\text{d}u}\arctan\left(\frac{v}{\sqrt{2-u^2}}\right)=\frac{1}{\sqrt{2-u^2}}$$
+  e miracolosamente riusciamo a calcolare questo integrale. A questo punto con un po' di (scontati ma tediosi) passaggi algebrici si finisce e si raggiunge la tesi.
+  
+  \subsubsection{Dimostrazione con le serie di Fourier}
+  
+  Sia $n\in\ZZ$. Consideriamo le funzioni $e_n:[0,2\pi]\to \CC$ definite come
+  $$e_n:=\frac{1}{\sqrt{2\pi}}e^{inx}$$
+  non sappiamo (ancora) cos'è davvero un esponenziale complesso. Adottiamo allora come definizione la formula di eulero, scrivendo
+  $$e_n=\frac{1}{\sqrt{2\pi}}\left(\cos(nx)+i\sin(nx)\right)$$
+  perchè abbiamo introdotto questa cosa? Per capirlo \textbf{pensiamo all'astronomia antica}. Il sistema tolemaico era estremamente accurato nelle predizioni che faceva in effetti e questo perchè tolomeo aggiungeva dei termini di correzione per spiegare gli epicicli, ovvero il movimento retrogrado dei pianeti. Ebbene, quello che stava facendo in effetti era sommare esponenziali complessi! Insomma, tolomeo stava implicitamente adoperando le serie di fourier. \\
+  Vogliamo capire quindi quali funzioni sono esprimibili come somma di $e_n$, facciamo un conto, definiamo il prodotto scalare tra due $e_n,e_m$ come
+  $$e_n\cdot e_m:=\int_0^{2\pi}e_n(x)\overline{e_m(x)}\dif x=\frac{1}{2\pi}\int_0^{2\pi}e^{ix(n-m)}\dif x=
+  \begin{cases}
+  	1 & \text{se $n=m$} \\
+  	0 & \text{se $n\ne m$}
+  \end{cases}
+  $$
+  dunque in un certo senso tutte le $e_n$ sono ortogonali tra loro. In effetti se ci pensiamo la definizione che abbiamo dato di prodotto scalare ha senso, perchè è come se gli $e_n$ fossero dei vettori a un numero di coordinate infinito non numerabile (!). \\
+  \begin{definition}[Coefficienti di Fourier]
+  	Se $f:[0,2\pi]\to \CC$ è una funzione continua, diciamo che i suoi \textit{coefficienti di fourier} (ovvero, le sue "coordinate cartesiane nella base $e_n$" usando l'analogia di prima) sono:
+  	$$C_n:=f(x)\cdot e_n=\int_0^{2\pi}f(x)\overline{e_n(x)}\dif x$$
+  \end{definition}
+  Il teorema fondamentale di tutto ciò è dunque:
+  \begin{theorem}[Fourier]
+  	Se $f\in C^1([0,2\pi])$ allora per ogni $x\in[0,2\pi]$ vale la seguente identità
+  	$$f(x)=\sum_{n\in\ZZ} C_ne_n(x)$$
+  	se $f$ è solo continua, allora questa serie potrebbe divergere.
+  \end{theorem}
+  Vediamo subito un'applicazione di questo nuovo lanciafiamme che ci è stato gentilmente donato dai cieli. Consideriamo $f(x)=x$, sicuramente $C^\infty$ calcoliamo
+  $$\int_0^{2\pi}\abs{f(x)}^2\dif x=\int_{0}^{2\pi}f(x)\overline{f(x)}\dif x$$
+  ora usiamo la rappresentazione in serie di Fourier di $f(x)$:
+  $$\int_{0}^{2\pi}\left(\sum_{n\in\ZZ}C_ne_n(x)\right)\left(\sum_{n\in\ZZ}\overline{C_n}\overline{e_n(x)}\right)\dif x$$
+  ora scambiando i simboli di sommatoria e integrale abbiamo una somma di termini su tutto il piano
+  $$\dots=\sum_{n,m\in\ZZ}C_n\overline{C_n}\int_{0}^{2\pi}e_n(x)\overline{e_m(x)} $$
+  ma quindi questo, dato che tutti gli $e_n,e_m$ sono ortogonali abbiamo:
+  $$\dots=\sum_{n\in\ZZ}\abs{C_n}^2$$
+  d'altra parte i coefficienti di Fourier non sono per niente difficili da calcolare, infatti abbiamo
+  $$C_n=\int_{0}^{2\pi}xe^{inx}\dif x$$
+  che per $n=0$ si fa agilmente ed è esattamente
+  $$C_0=\frac{1}{\sqrt{2\pi}}2\pi^2$$
+  mentre per $n>0$ si fa paer parti e dà
+  $$C_n= \frac{1}{\sqrt{2\pi}}\left(2\pi\frac{1}{-in}\right).$$
+  ora, l'integralino da cui siamo partiti era molto facile da calcolare, e con un conto troviamo subito che 
+  $$\sum_{n\in\ZZ}\abs{C_n}^2=\int_0^{2\pi}\abs{f(x)}^2\dif x=\frac{8\pi^3}{3}$$
+  quindi sostituendo i valori di $C_n$ che abbiamo trovato:
+  $$\left[\frac{1}{\sqrt{2\pi}}2\pi^2\right]^2+\sum_{n\in\ZZ^*}\left[\frac{1}{\sqrt{2\pi}}\left(2\pi\frac{1}{-in}\right)\right]^2=\frac{8\pi^3}{3}$$
+  che semplificando tutti i $\pi$ e le costanti ci dà
+  $$\sum_{n\in\ZZ_{\ge 0}}\frac{1}{n^2}=\frac{\pi^2}{6}.$$
+  esattamente la serie di Eulero. Spaventosamente questo ragionamento si può reiterare per molte funzioni.
+  
+  \subsection{Commutatività fra addendi nelle serie}
+  Abbiamo ampiamente abusato il concetto formale di serie nella sezione precedente, vediamo di dimostrare almeno alcuni dei risultati che abbiamo dato per scontati finora. Diamo una definizione un po' più formale di "serie":
+  \begin{definition}[Serie]
+  	Sia $a_n\in\RR$ una successione. Definiamo la sua \textit{serie} il limite
+  	$$\lim_{n\to\infty}\sum_{k=0}^{n}a_k$$
+  	e introduciamo la notazione:
+  	$$\sum_{n=0}^\infty a_n:=\lim_{n\to\infty}\sum_{k=1}^{n}a_k.$$
+  \end{definition}
+  In questa sezione tratteremo le serie non assolutamente convergenti, ovvero:
+  \begin{definition}[Assoluta convergenza]
+  	Sia $a_n$ una successione. Diciamo che la sua serie è \textit{assolutamente convergente} se
+  	$$\sum_{n=0}^{\infty}\abs{a_n}$$
+  	converge ad un valore finito (notiamo che il limite esisterà sempre in quanto monotona crescente), il punto è capire se il valore è limitato.
+  \end{definition}
+  Abbiamo immediatamente che:
+  \begin{lemma}[Convergenza assoluta è più forte di convergenza]
+  	Sia 
+  	$$\sum_{n=0}^\infty a_n$$
+  	una serie che converge assolutamente. Allora converge anche normalmente.
+  \end{lemma}
+  \begin{proof}
+  	Consideriamo le somme parziali 
+  	$$\lim_{N\to\infty}\sum_{n=0}^{N}a_n=\lim_{N\to\infty}\left(\sum_{a_n\ge 0}^{N}a_n+\sum_{a_n<0}^{N}a_n\right)$$
+  	ma notiamo che al variare di $N$ le due successioni che abbiamo scritto all'interno sono monotone, quindi avranno entrambe limite. D'altro canto sappiamo che la seguente serie converge, ed è maggiore o uguale di 
+  	$$\sum_{n=0}^{\infty}\abs{a_n} \ge \sum_{a_n\ge 0}^{\infty}\abs{a_n}=\sum_{a_n\ge 0}^{\infty}a_n$$
+  	$$\sum_{n=0}^{\infty}\abs{a_n} \ge \sum_{a_n <  0}^{\infty}\abs{a_n}=-\sum_{a_n<0}^{\infty}a_n \iff -\sum_{n=0}^{\infty}\abs{a_n}\le \sum_{a_n<0}^{\infty}a_n$$
+  	quindi le successioni sono anche limitate (rispettivamente dall'alto e dal basso), e quindi convergeranno. Dato che entrambe le successioni convergono anche la loro somma convergerà, e quindi abbiamo la tesi.
+  \end{proof}
+  Tuttavia il contrario non è necessariamente vero, infatti:
+  \begin{example}
+  	Un esempio di serie che converge, ma non converge assolutamente è
+  	$$a_n=\frac{(-1)^n}{n}$$
+  	infatti 
+  	$$\sum_{n=1}^{\infty}\frac{(-1)^n}{n}$$
+  	converge, mentre la sua versione assoluta è molto famosamente
+  	$$\sum_{n=1}^{\infty}\frac{1}{n}$$
+  	che diverge.
+  \end{example}
+  \begin{lemma}[Una serie convergente è una successione infinitesima]\label{serie:Una serie convergente è una successione infinitesima}
+  	Se $a_n$ è associata ad una serie che converge, allora
+  	$$\lim_{n\to\infty}a_n=0$$
+  \end{lemma}
+  \begin{proof}
+  	Sia $k$ il limite della serie degli $a_n$. Per definizione di limite abbiamo che per ogni $\varepsilon>0$ esiste un $n_0$ tale che per ogni $n\ge n_0$:
+  	$$-\varepsilon<k-\sum_{i=0}^{n}a_i<\varepsilon$$
+  	quindi in particolare varrà anche
+  	$$-\varepsilon<k-\sum_{i=0}^{n+1}a_i<\varepsilon \iff \varepsilon>\sum_{i=0}^{n+1}a_i-k>-\varepsilon$$
+  	che combinata con la condizione di prima ci dà che per ogni $n\ge n_0$ vale
+  	$$-2\varepsilon < a_{n+1}<2\varepsilon$$
+  	che era la tesi.
+  \end{proof}
+  \begin{theorem}[Commutatività nelle serie assolutamente convergenti]
+  	Prendiamo una serie che converge assolutamente
+  	$$\sum_{n=0}^{\infty}a_n.$$
+  	Sia poi $\sigma:\NN\to\NN$ un \textit{riordinamento} dei numeri naturali, ovvero una bigezione dai naturali ai naturali. Allora anche
+  	$$\sum_{n=0}^\infty a_{\sigma(n)}$$
+  	converge assolutamente, e inoltre
+  	$$\sum_{n=0}^\infty a_{\sigma(n)}=\sum_{n=0}^{\infty}a_n.$$
+  \end{theorem}
+  \begin{proof}
+  	Abbiamo per ipotesi che esiste un $k\in \RR$ tale che 
+  	$$k=\sum_{n=0}^{\infty}\abs{a_{n}}$$
+  	ovvero, dato che la serie dei valori assoluti è per forza monotona, per ogni $\varepsilon>0$ avremo che esiste un $N_0$ tale che per ogni $N\ge N_0$ si ha:
+  	$$k-\varepsilon<\sum_{n=0}^{N}\abs{a_n}<k$$
+  	ora, dato che $\sigma$ è bigettiva, esisterà un $M\ge N$ tale che tra i termini $a_{\sigma(1)},\dots,a_{\sigma(M)}$ siano presenti tutti i termini dell'insieme $a_1,\dots,a_N$. Ma allora avremo
+  	$$\sum_{n=0}^{N}\abs{a_n}\le \sum_{n=0}^{M}\abs{a_{\sigma(n)}}$$
+  	ma d'altro canto esisterà anche un $N'\ge M$ tale che
+  	$$\sum_{n=0}^{M}\abs{a_{\sigma(n)}} \le \sum_{n=0}^{N'}\abs{a_n}$$
+  	e quindi abbiamo che 
+  	$$k-\varepsilon<\sum_{n=0}^{N}\abs{a_n}\le \sum_{n=0}^{M}\abs{a_{\sigma(n)}}\le \sum_{n=0}^{N'}\abs{a_n} < k$$
+  	e quindi la serie riordinata converge assolutamente proprio a $k$, come richiesto.
+  \end{proof}
+  \begin{theorem}[Riemann]
+  	Sia ora una serie che converge, ma \textbf{non} assolutamente:
+  	$$\sum_{n=1}^{\infty}a_n$$
+  	Allora per ogni $L\in\overline{\RR}$ esiste un riordinamento dei naturali $\sigma$ tale che 
+  	$$\sum_{n=1}^{\infty}a_{\sigma(n)}=L.$$
+  \end{theorem}
+  \begin{proof}
+  	Facciamo solo il caso in cui $L\in\RR$. Assumiamo WLOG che $a_n\ne 0$ per ogni $n$. A questo punto dividiamo $a_n$ in due sottosuccessioni:
+  	$$b_1,b_2,b_3,\dots$$
+  	costituita da tutti i termini positivi di $a_n$, e 
+  	$$c_1,c_2,c_3,\dots$$
+  	costituita da tutti i termini negativi di $a_n$, cambiati di segno. La prima cosa che si vede è che 
+  	$$\sum_{n=1}^\infty b_n = \infty$$
+  	e allo stesso tempo 
+  	$$\sum_{n=1}^\infty c_n = \infty$$
+  	infatti se entrambe convergessero, convergerebbe anche la somma, ovvero la serie convergerebbe assolutamente. Se una delle due convergesse e l'altra non convergesse, avremmo che la serie originale non converge, allo stesso modo assurdo. Prendiamo allora un $L\in\RR$, costruiamo $\sigma$:
+  	$$a_{\sigma(1)}:=
+  	\begin{cases}
+  		b_1 & \text{se $L\ge 0$} \\
+  		-c_1 & \text{se $L<0$}
+  	\end{cases}$$
+  	procediamo allora per induzione, supponiamo di aver già definito tutti i $\sigma(k)$ per ogni $0<k< n$ usando i termini in $b$ fino ad $\bar{k}$ e i termini in $c$ fino a $\bar{h}$. Definiamo allora
+  	$$a_{\sigma(n)}:=
+  	\begin{cases}
+  		b_{\bar{k}+1} & \text{se } \sum_{j=1}^{n-1}a_{\sigma(j)}\le L \\
+  		-c_{\bar{h}+1} & \text{se } \sum_{j=1}^{n-1}a_{\sigma(i)}>L
+  	\end{cases}$$
+  	ma questo riordinamento è chiaramente iniettivo (perchè ogni immagine viene chiamata sempre solo una volta), ed è suriettivo, perchè se per assurdo non coprissimo un certo $a_{\sigma(k)}$ avremmo scelto solo un numero finito di $a_n$ positivi (o negativi) e un numero infinito di $a_n$ negativi (o positivi), e dunque la serie che stiamo costruendo diverge a $-\infty$ (o a $+\infty$) per quanto dimostrato prima sulle serie associate a $c_n$ e $b_n$. \\
+  	Ora fissiamo un $\varepsilon>0$:
+  	\begin{itemize}
+  		\item per quanto detto nel lemma \ref{serie:Una serie convergente è una successione infinitesima} avremo che esiste un $\bar{n}$ tale che per ogni $n\ge \bar{n}$ vale
+  		$$\abs{a_{\sigma(n)}}<\varepsilon$$
+  		infatti, noi sappiamo che per ogni $m\in\NN$ esiste un $k\in\NN$ tale che per ogni $n\ge k$ vale 
+  		$$\sigma(n)>m$$
+  		quindi definitivamente $\sigma(n)$ è maggiore del valore oltre il quale la successione $a_n$ appartiene definitivamente ad $(-\varepsilon,\varepsilon)$. 
+  		\item Esiste un $\bar{n}\in \NN$ tale che 
+  		$$\sum_{k=0}^{\bar{n}}a_{\sigma(k)}\ge L$$
+  		infatti se per assurdo fossimo sempre sotto $L$ staremmo sommando all'infinito termini di $b_i$, e quindi staremmo divergendo all'infinito.
+  	\end{itemize} 
+  	Dunque concludiamo dimostrando che
+  	$$L-\varepsilon<\sum_{k=1}^na_{\sigma(k)}<L+\varepsilon$$
+  	che è equivalente alla tesi. Infatti per quanto abbiamo appena visto la serie a un certo punto dovrà salire sopra $L$, e (analogamente) dovrà scendere sotto a $L$. Se il passaggio da sopra $L$ a sotto $L$ accade con $n\ge \bar{n}$ allora sicuramente il valore della serie troncata ad $n$ dovrà appartenere a $(L-\varepsilon,L+\varepsilon)$, dato che $\abs{a_{\sigma(n)}}$ è minore di $\varepsilon$. Dunque abbiamo finito.
+  \end{proof}
+  
+  \subsection{Convergenza uniforme e teorema di Abel}
+  
+  Supponiamo di avere due funzioni $f,g:[0,1]\to\RR$. Vogliamo trovare un modo per determinare la "distanza" tra queste due funzioni, un modo che ci viene in mete è calcolarne in un certo senso il "diametro", ovvero definiamo
+	$$d(x,y):=\sup_{x\in[0,1]}\abs{f(x)-g(x)}$$
+	in particolare se $f,g$ sono continue per il teorema di Weierstrass sappiamo che assumono sempre il massimo, quindi abbiamo
+	$$d(x,y)=\max_{x\in [0,1]}\abs{f(x)-g(x)}.$$
+	Utilizzando le nostre poderose conoscenze sugli spazi metrici ora possiamo dire che 
+	 \begin{theorem}[Prerequisito per le serie di funzioni]
+	 	Sia $X$ l'insieme di tutte le funzioni $f\in C([0,1])$ con la distanza $d$ è uno spazio metrico completo. In particolare se $f_n$ è una successione a valori in $X$ allora
+	 	$$d(f_n,f)\underset{n\to \infty}{\longrightarrow} 0$$
+	 	implica che $f\in C([0,1])$. La distanza così definita si dice \textit{distanza della convergenza uniforme}. Una serie di funzioni che converge in questo spazio si dicono \textit{uniformemente convergenti}.
+	 \end{theorem}
+	 con questa struttura alle spalle possiamo studiare molti tipi di serie, un esempio sono delle pseudo serie di Fourier del tipo
+	 $$\sum_{n=1}^\infty a_n\sin (nx)$$
+	 con $a_i\in \RR$. Oppure qualcosa di più simile alle serie di Taylor, come:
+	 \begin{definition}[Serie di potenze]
+	 	Sia $a_n$ una successione a coefficienti in $\RR$, definiamo la sua \textit{serie di potenze} come
+	 	$$\sum_{n=1}^{\infty}a_nx^n$$
+	 \end{definition}
+	 In effetti se ci pensiamo la nozione di convergenza uniforme è più forte di quella di semplice convergenza. Se studiassimo le serie di funzioni senza questa distanza potremmo avere che le serie (numeriche) che otteniamo sostituendo alle $x$ valori $x_0\in\RR$ convergono comunque scelto $x_0$, ma non convergono uniformemente. Potremmo infatti avere delle funzioni con delle "punte" arbitrariamente grandi che definitivamente non stanno sopra ad alcuna $x_0\in\RR$, ma che non sono "uniformemente uguali" alla funzione limite. Prima di vedere il risultato principale di questa sezione abbiamo bisogno di alcuni fatti sulle differenze finite:
+	 \begin{definition}[Differenza Finita]
+	 	Sia $a_n$ una successione. Definiamo la sua \textit{differenza finita} la successione
+	 	$$\Delta a_n := a_{n}-a_{n+1}.$$
+	 \end{definition}
+	 Questa è essenzialmente una nozione analoga al concetto di derivata, infatti 
+	 \begin{lemma}[Differenza finita del prodotto]
+	 	Prese due successioni $a_n$ e $b_n$ vale la seguente identità in analogia alla formula per la derivata del prodotto
+	 	$$\Delta \left(a_nb_n\right) = a_{n+1}\Delta b_n + b_n \Delta a_n.$$
+	 \end{lemma}
+	 \begin{proof}
+	 	La dimostrazione consiste nell'espandere tutto e verificare che il LHS è uguale al RHS, non la riportiamo in quanto ovvia.
+	 \end{proof}
+	 In modo del tutto analogo alle derivate vale anche una \textit{formula di sommatoria per parti} simile a quella per gli integrali:
+	 \begin{lemma}[Sommatoria per parti]
+	 	Per ogni $M,N\in \NN$ e per ogni due successioni $a_n,b_n$ vale la seguente identità:
+	 	$$\sum_{n=M}^{N}a_{n+1}\Delta b_n=a_{M}b_{M}-a_{N+1}b_{N+1}-\sum_{n=M}^{N}b_n\Delta a_n$$
+	 \end{lemma}
+	 \begin{proof}
+	 	Sappiamo grazie alla formula della differenza finita del prodotto che per ogni $M\le n\le N$ vale
+	 	$$\Delta\left(a_Mb_M\right)=b_M\Delta a_M +a_{M+1} \Delta b_M$$
+	 	$$\Delta\left(a_{M+1}b_{M+1}\right)=b_{M+1}\Delta a_{M+1} +a_{M+2} \Delta b_{M+1}$$
+	 	$$\Delta\left(a_{M+2}b_{M+2}\right)=b_{M+2}\Delta a_{M+2} +a_{M+3} \Delta b_{M+2}$$
+	 	$$\vdots$$
+	 	$$\Delta\left(a_{N}b_{N}\right)=b_{N}\Delta a_{N} +a_{N+1} \Delta b_{N}$$
+	 	che sommando tutto termine a termine risulta in 
+	 	$$\sum_{n=M}^{N}\Delta\left(a_nb_n\right)=\sum_{n=N}^{M}b_n\Delta a_n + \sum_{n=M}^{N} a_{n+1} \Delta b_n$$
+	 	ma il lato sinistro è semplicemente una serie telescopica che sappiamo calcolare, quindi
+	 	$$a_Mb_M-a_{N+1}b_{N+1}=\sum_{n=N}^{M}b_n\Delta a_n + \sum_{n=M}^{N} a_{n+1} \Delta b_n$$
+	 	che spostando un po' i termini diventa esattamente la tesi.
+	 \end{proof}
+	 Il risultato principale di questa sezione consiste dunque nel seguente fatto:
+	 \begin{theorem}[Abel]
+	 	Definiamo la seguente serie di potenze 
+	 	$$f(x)=\sum_{n=0}^{\infty}a_nx^n.$$
+	 	Supponiamo che la serie converga al numero $k$ nel punto $x=x_0\in \RR$. Allora la serie converge uniformemente in tutto l'intervallo $[0,x_0]$.
+	 \end{theorem}
+	 \begin{proof}
+	 	prendiamo un $x_0>0$, parametrizziamo tutti i numeri dell'intervallo $[0,x_0]$ come 
+	 	$$x=x_0t$$
+	 	con $t\in[0,1]$ e $x\in [0,x_0]$. Quindi la nostra serie diventa:
+	 	$$\sum_{n=0}^{\infty}a_nx_0^n t^n$$
+	 	questa ora è una serie di potenze nella funzione $f_n(t)=t^n$ che ha successione associata $b_n:=a_nx_0^n$:
+	 	$$\sum_{n=0}^{\infty}a_nx_0^n t^n=\sum_{n=0}^{\infty}b_nt^n$$
+	 	ora definiamo la primitiva discreta di $b_n$ come
+	 	$$B_N:=\sum_{n=N}^{\infty}b_n \iff \Delta B_N = b_n$$
+	 	Osserviamo immediatamente che per ipotesi, dato che la serie (numerica) a destra, converge per ogni $N$, allora per $N$ che va a infinito $B_N\to 0$. 
+	 	Ora applichiamo la formula di sommatoria per parti alle somme parziali della serie di potenze della tesi
+	 	$$S_N(t):=\sum_{n=0}^{N}b_nt^n=B_0t^0-B_{N+1}t^{N+1}-\sum_{n=0}^{N}B_n\Delta t^n$$
+	 	ora per ipotesi $B_0=k$, quindi possiamo riscrivere
+	 	$$S_N(t):=k-B_{N+1}t^{N+1}-\sum_{n=0}^{N}B_n\left(t^n-t^{n+1}\right).$$
+	 	Ora la tesi era che la successione di funzioni $S_N(t)$ converge nello spazio metrico della convergenza uniforme, dunque per fare ciò utilizziamo il fatto che lo spazio è completo e quindi dimostriamo che $S_N(t)$ è di Cauchy. Fissiamo $\varepsilon>0$, prendiamo due $M\ge N$ sufficientemente grandi. Vogliamo dimostrare che vale
+	 	$$\sup_{t\in[0,1]}\abs{S_M(t)-S_N(t)}<\varepsilon$$
+	 	calcoliamo usando la disuguaglianza triangolare:
+	 	$$\abs{S_M(t)-S_N(t)}\le \abs{B_{N+1}t^{N+1}}+\abs{B_{M+1}t^{M+1}}+\sum_{n=N+1}^M\abs{B_n}t^{n}\abs{t-1}$$
+	 	a questo punto banalmente usando il fatto che $B_N$ e $B_M$ tendono a $0$, per $N$ e $M$ abbastanza grandi varrà:
+	 	$$\dots\le 2\varepsilon+\varepsilon(1-t)\sum_{n=N+1}^Mt^n\le 2\varepsilon +\varepsilon(1-t)\sum_{n=1}^{\infty}t^n=2\varepsilon+\varepsilon(1-t)\frac{1}{1-t}=3\varepsilon$$
+	 	dove nell'ultimo passaggio abbiamo semplicemente usato la formula della serie geometrica infinita. Dunque abbiamo trovato che un maggiorante dell'oggetto che volevamo è un infinitesimo, il suo sup dovrà essere minore o uguale, e quindi abbiamo immediatamente la tesi per completezza.
+	 \end{proof}
+	 Vediamo subito un paio di applicazioni:
+	 \begin{example}[Formula di Taylor per il log]
+	 	Da analisi $1$ sappiamo che la formula di taylor per il log è
+	 	$$\log(x+1)=\sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{n}x^n$$
+	 	e sappiamo che questa identità è vera per $x\in (-1,1)$. Tuttavia noi sappiamo anche che la serie
+	 	$$\sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{n}$$
+	 	converge, e quindi in particolare applicando il teorema di Abel troviamo che la serie converge uniformemente in tutto l'intervallo $[0,1]$, e quindi la funzione a destra è continua in tutto $[0,1]$, ma anche il log è continuo, quindi l'identità sopra vale anche per $x=1$, ovvero abbiamo
+	 	$$\sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{n}=\log 2$$
+	 	un modo abbastanza complicato per calcolare la somma di questa serie.
+	 \end{example}
+	 Un'applicazione un po' più corposa consiste nella seguente sezione:
+	 \subsubsection{La funzione esponenziale}
+	 sia $\phi:\CC\to\CC$, allora possiamo definire una funzione
+	 $$\exp(z):=\sum_{n=0}^{\infty}\frac{z^n}{n!}$$
+	 straordinariamente questa funzione su $\RR$ è uguale alla funzione esponenziale! Per $z=1$ in particolare questa serie ci dice che
+	 $$e=\sum_{n=0}^{\infty}\frac{1}{n!}$$
+	 Introduciamo la funzione \textit{resto} di questa serie con 
+	 $$R_n(z):=\sum_{k=n+1}^{\infty}\frac{z^n}{n!}$$
+	 vogliamo stimare il valore assoluto di questo resto, dunque prendiamo il modulo da entrambi i lati e applichiamo la disuguaglianza triangolare:
+	 $$\abs{R_n(z)}\le\sum_{k=n+1}^{\infty}\frac{\abs{z}^k}{k!}=\sum_{h=0}^{\infty}\frac{z^{h+n+1}}{(h+n+1)!}$$
+	 con $h=k-n-1$. Abbiamo generato delle costanti, portiamole fuori:
+	 $$\dots = \frac{\abs{z}^{n+1}}{(n+1)!}\sum_{h=0}^{\infty}\frac{\abs{z}^h}{(h+n+1)!}$$
+	 ora notiamo che possiamo stimare il denominatore dei termini di quella serie in modo da ricondurci ad una serie geometrica. Questo vuol dire
+	 $$\dots\le\frac{\abs{z}^{n+1}}{(n+1)!}\sum_{h=0}^{\infty}\frac{\abs{z}^h}{(n+2)^h}=\frac{\abs{z}^{n+1}}{(n+1)!}\frac{1}{1-\frac{\abs{z}}{n+2}} $$
+	 Ma questo per $n\to\infty$ va sempre a $0$. Dunque ora se fissiamo un $R>0$ e prendiamo un $z\in\CC$ tale che $\abs{z}\le R$. Il resto tenderà a $0$, e dunque per Abel la serie converge uniformemente in tutto il disco, quindi scegliendo dischi arbitrariamente grandi abbiamo che la serie converge uniformemente a $0$ su tutto il piano. \\
+	 \begin{theorem}[Caratterizzazione del liceo della funzione esponenziale]
+	 	Per ogni $z\in\CC$ il seguente limite è uguale alla funzione esponenziale:
+	 	$$\lim_{n\to\infty}\left(1+\frac{z}{n}\right)^n=e^z=\sum_{k=0}^{\infty}\frac{z^k}{k!}$$
+	 \end{theorem}
+	 \begin{proof}
+	 	Partendo dal binomio di newton abbiamo
+	 	$$\left(1+\frac{z}{n}\right)^n=\sum_{k=0}^{n}\binom{n}{k}\left(\frac{z}{n}\right)^k$$
+	 	a questo punto possiamo già vedere delle somiglianze con la serie dell'esponenziale, infatti
+	 	$$\dots=\sum_{k=0}^n\frac{\overset{\text{$k$ fattori}}{\overbrace{n(n-1)\dots (n-k+1)}}}{n^k}\frac{z^k}{k!}=\sum_{k=0}^{n}\left(1-\frac{1}{n}\right)\cdot\dots\cdot\left(1-\frac{k-1}{n}\right)\frac{z^k}{k!}$$
+	 	ora vorremmo che facendo tendere all'infinito $n$ quel prodottone cattivone si semplificasse. Purtroppo questa è una forma indeterminata e dobbiamo ricorrere ad un altro artificio; recuperando la definizione del resto data prima possiamo scrivere:
+	 	$$e^z-\left(1+\frac{z}{n}\right)^n=\sum_{k=0}^{n}\frac{z^k}{k!}+R_n(z)-\sum_{k=0}^{n}\left(1-\frac{1}{n}\right)\cdot\dots\cdot\left(1-\frac{k-1}{n}\right)\frac{z^k}{k!}=$$
+	 	$$\dots= R_n(z)+\sum_{k=0}^{n}\frac{z^k}{k!}\left[1-\left(1-\frac{1}{n}\right)\cdot\dots\cdot\left(1-\frac{k-1}{n}\right)\right]$$
+	 	ma allora prendendo il modulo di tutto ciò e applicando la disuguaglianza triangolare abbiamo
+	 	$$\dots \le \sum_{k=0}^{\bar{n}}\frac{\abs{z}^k}{k!}\left[1-\dots\right]+\sum_{k=\bar{n}+1}^{n}\frac{\abs{z}^k}{k!}\left[1-\dots\right]+\abs{R_n(z)}$$
+	 	dove $\bar{n}$ è quel numero oltre il quale il resto $R_n(z)$ è minore di un certo $\varepsilon>0$. In questo modo notiamo che la seconda somma sarà minore o uguale a 
+	 	$$\sum_{k=\bar{n}+1}^{n}\frac{\abs{z}^k}{k!}\left[1-\dots\right]\le R_{\bar{n}}(\abs{z})$$
+	 	ma quindi sarà minore di $\varepsilon$! E ora facendo tendere $n$ all'infinito il primo termine sarà una somma (finita!, in particolare di esattamente $\bar{n}$ addendi) i quali tutti convergono a $0$, quindi sarà stimata anche lei da $\varepsilon$. L'ultimo pezzo è il resto, ma quello sappiamo già che tende a $0$ e quindi abbiamo finito. 
+	 \end{proof}
+	 \begin{theorem}[Proprietà fondamentale dell'esponenziale]
+	 	Per ogni $z,\zeta\in\CC$ si ha
+	 	$$\exp(x+\zeta)=\exp(z)\exp(\zeta)$$
+	 \end{theorem}
+	 \begin{proof}
+	 	Facendo brutalmente tutto il prodotto otteniamo
+	 	$$\exp(z)\exp(\zeta)=\left(1+\frac{\zeta}{1!}+\frac{\zeta^2}{2!}+\dots\right)\left(1+\frac{z}{1!}+\frac{z^2}{2!}+\dots\right)=$$
+	 	$$\dots=1+\frac{\zeta}{1!}+\frac{z}{1!}+\frac{\zeta^2}{2!}+\frac{z^2}{2!}+\frac{z\zeta}{1!1!}+\dots$$
+	 	ma ora usando il fatto che questa serie converge assolutamente (lo abbiamo dimostrato quando abbiamo fatto la stima del resto) possiamo essenzialmente muovere i termini come vogliamo con la proprietà commutativa.\footnote{In realtà avremmo bisogno di un teorema un po' più forte, perchè stiamo facendo il prodotto di due serie ed espandendo tutto come se fossero numeri.} Dunque
+	 	$$\dots=\sum_{k=0}^{\infty}\sum_{h=0}^k \frac{\zeta^h z^{k-h}}{h!(k-h)!}$$
+	 	e questo con l'aiuto del binomio di newton e della moltiplicazione sopra e sotto per $k!$ diventa
+	 	$$\dots=\sum_{k=0}^{\infty}\frac{1}{k!}\sum_{h=0}^k \frac{k!}{h!(k-h)!}\zeta^h z^{k-h}=\sum_{k=0}^{\infty}\frac{1}{k!}\sum_{h=0}^k \binom{k}{h}\zeta^h z^{k-h}=\sum_{k=0}^\infty \frac{(\zeta+z)^k}{k!}=\exp(z+\zeta)$$
+	 	esattamente quello che volevamo mostrare. 
+	 \end{proof}
+	 \begin{example}[Formula di Eulero]
+	 	Usando la definizione di esponenziale che abbiamo appena dato e le formule di taylor per seno e coseno possiamo facilmente trovare la formula di Eulero per la funzione esponenziale:
+	 	$$e^{ix}=\sum_{k=0}^\infty \frac{i^k x^k}{k!}=\sum_{n=0}^{\infty}\frac{(-1)^n}{(2n)!}x^{2n}+i\sum_{n=0}^{\infty}\frac{(-1)^{2n+1}}{(2n+1)!}x^{2n+1}=\sin(x)+i\cos(x)$$
+	 \end{example}
+	 \subsubsection{Irrazionalità di $e$}
+	 Indaghiamo l'irrazionalità di $e$ e alcune sue potenze.
+	 \begin{proposition}[Irrazionalità di $e$]
+	 	Si ha che $e\in \RR\setminus\QQ$.
+	 \end{proposition}
+	 \begin{proof}
+	 	Supponiamo per assurdo che esistano $a,b\in\NN$ tali che
+	 	$$e=\frac{a}{b}$$
+	 	in particolare quindi abbiamo che per tutti gli $n\in\NN$
+	 	$$n!ea=n!b$$
+	 	ora usiamo la definizione di $e$ come $\exp(1)$:
+	 	$$e=\sum_{k=0}^{n}\frac{1}{k!}+\sum_{k=n+1}^\infty \frac{1}{k!}=:I_n+R_n$$
+	 	allora sostituendo nella formula che abbiamo trovato prima
+	 	$$(n!I_n+n!R_n)a=n!b$$
+	 	ora notiamo che il primo addendo a sinistra è intero, perchè tutti i fattoriali in quella somma sono minori di $n!$, dunque ci piacerebbe molto trovare un assurdo su $n!R_n$, stimiamolo con
+	 	$$n!R_n=n!\left(\frac{1}{(n+1)!}+\dots\right)>n!\frac{1}{(n+1)!}=\frac{1}{n+1}$$
+	 	e dal basso ci siamo. Dall'alto dobbiamo procedere come prima stimando con una serie geometrica:
+	 	
+	 	$$n!R_n=n!\left(\dots\right)=\frac{1}{n+1}+\frac{1}{(n+1)(n+2)}+\frac{1}{(n+1)(n+2)(n+3)}+\dots\le \dots$$
+	 	$$\dots \le \frac{1}{n+1}+\frac{1}{(n+1)(n+1)}+\frac{1}{(n+1)(n+1)(n+1)}+\dots=\frac{1}{1-\frac{1}{n+1}}=\frac{1}{n}$$
+	 	ma da qui vediamo abbastanza palesemente da dove salti fuori l'assurdo:
+	 	$$n!b-n!aI_n=n!aR_n$$
+	 	il LHS è differenza di interi, e quindi è intero, il RHS d'altro canto è
+	 	$$\frac{a}{n+1}<n!aR_n<\frac{a}{n}$$
+	 	per tutti gli $n\in\NN$. Ma per $n$ sufficientemente grande notiamo che questo è strettamente compreso tra $0$ e $1$, e dunque non può essere intero, assurdo. 
+	 \end{proof}
+	 questo era il caso base, vediamo il caso generale:
+	 \begin{theorem}[Irrazionalità delle potenze razionali di $e$]
+	 	Per ogni $0\ne r\in\QQ$ si ha che $e^r\in\RR\setminus\QQ$.
+	 \end{theorem}
+	 \begin{proof}
+	 	Definiamo per $n\in\NN$ e $x\in [0,1]$ la funzione:
+	 	$$f_n(x)=\frac{1}{n!}x^n(1-x)^n$$
+	 	prendiamo le derivate di ordine $k$ e guardiamole in $0$. Abbiamo due proprietà
+	 	\begin{itemize}
+	 		\item  La derivata $f^{(k)}_n(0)\in\NN$.
+	 		\item  La funzione è sempre boundata da $f_n(x)\in [0,1/n!)$.
+	 	\end{itemize}
+	 	Preso un $\alpha\in\RR$ definiamo allora la funzione:
+	 	$$F_n(x)=\alpha^{2n}f(x)-\alpha^{2n-1}f'(x)+\alpha^{2n-2}f''(x)-\dots+f^{(2n)}(x)$$
+	 	Con un contazzo si deduce che 
+	 	$$\alpha F(x)+F'(x)=\alpha^{2n+1}f(x)$$
+	 	Ora noi vorremmo trovare un altro modo per calcolare $F(x)$, questa è un'equazione differenziale del primo ordine nella funzione $F$, quindi nel modo standard raccogliamo la derivata (usando un esponenziale, che è esattamente quello che stiamo cercando) e integriamo:
+	 	$$\left(e^{\alpha x}F(x)\right)'=\alpha e^{\alpha x}F(x)+e^{\alpha x}F'(x)=e^{\alpha x}(\alpha F(x)+F'(x))=e^{\alpha x}\alpha^{2n+1}f(x)$$
+	 	quindi si ha, integrando da $0$ a $1$:
+	 	$$e^\alpha F(1)-e^0F(0)=\alpha^{2n+1}\int_{0}^1e^{\alpha x}f(x)\dif x$$
+	 	ma d'altro canto se supponiamo per assurdo che $e^\alpha=\frac{b}{a}$ abbiamo
+	 	$$bF(1)-aF(0)=a\alpha^{2n+1}\int_{0}^{1}e^{\alpha x}f(x)\dif x$$
+	 	ora sappiamo che la funzione $F$, se $\alpha$ è intero, valutata in $0$ e $1$ è senza dubbio intera. Quindi il LHS è intero. Ora vogliamo dire, come prima, che il RHS è boundato tra $0$ e $1$ per $n$ sufficientemente grande, ma è chiaro come ciò discenda direttamente dalla stima seguente dell'integrale:
+	 	$$\int_{0}^{1}e^{\alpha x}f(x)\dif x\le e^\alpha \frac{1}{n!}$$
+	 	e quindi
+	 	$$\text{RHS}\le \frac{\alpha^{2n+1}e^\alpha a}{n!}\underset{n\to\infty}{\longrightarrow}0$$
+	 	e dunque abbiamo come prima un assurdo. Questo in realtà dimostra solo che $e^\alpha$ è irrazionale per $\alpha\in\NN$, ma non è difficile vedere come si generalizza questo argomento al caso $\alpha\in\QQ$.
+	 \end{proof}
+	 
+	 \newpage
+	 
+	 \section{Differenziabilità}
+	 
+	 \subsection{Funzioni continue non derivabili in alcun punto}
+	 Storicamente Riemann aveva proposto la funzione:
+	 $$f(x):=\sum_{n=1}^{\infty}\frac{\sin(n^2 x)}{n^2}$$
+	 e aveva affermato che fosse ben definita continua e non derivabile in alcun punto. Sulla convergenza e continuità Riemann aveva ragione, mentre sulla non derivabilità non si riusciva ad uscirne. Weierstrass provò a dimostrarlo ma non ci riuscì, quindi propose la seguente costruzione: sia $\phi:[0,1]\to \RR$ la funzione
+	 $$\phi(x)=\min\left\{x,1-x\right\}$$
+	 prolunghiamo quindi questa cosa in modo $1$-periodico (cioè ricopiamola uguale in modo che abbia periodo $1$). L'idea qui è che la funzione $\phi$ introduce un punto di non derivabilità, e quindi se la sommiamo in modo opportuno potremo "coprire tutti i punti in modo che non siano derivabili". Dunque la funzione che costruì weierstrass era
+	 $$f(x)=\sum_{n=0}^{\infty}\frac{\phi(2^n x)}{2^n}$$
+	 ora questa si dimostra essere continua con il seguente criterio
+	 \begin{lemma}[Weierstrass M-Test]
+	 	Una serie di funzioni
+	 	$$f(x)=\sum_{n=0}^\infty f_n(x)$$
+	 	è continua se $f_n$ è continua per tutti gli $n$, ed esiste una serie convergente 
+	 	$$\sum_{n=0}^\infty c_n \in \RR$$
+	 	tale che
+	 	$$\abs{f_n(x)}\le c_n$$
+	 	per ogni $c_n$. 
+	 \end{lemma}
+	 \begin{proof}
+	 	Vogliamo dimostrare che per ogni punto $x_0$, preso un $\varepsilon>0$ possiamo sempre trovare un $\delta>0$ tale che se 
+	 	$$\abs{x-x_0}<\delta$$
+	 	allora 
+	 	$$\abs{\sum_{n=0}^{\infty}f_n(x)-\sum_{n=0}^\infty f_n(x_0)}<\varepsilon$$
+	 	prima di tutto segue facilmente dalla ipotesi che la serie converga puntualmente dappertutto, quindi abbiamo
+	 	$$\abs{\sum_{n=0}^{\infty}f_n(x)-\sum_{n=0}^\infty f_n(x_0)}=\abs{\sum_{n=0}^{\infty}f_n(x)-f_n(x_0)}$$
+	 	quindi per la disuguaglianza triangolare
+	 	$$\dots\le \sum_{n=0}^{\infty}\abs{f_n(x)-f_n(x_0)}$$
+	 	ora l'idea fondamentale è che possiamo spezzare la somma e stimare la coda con la serie dei $c_n$, e la testa utilizzando il fatto che abbiamo una somma finita di funzioni continue, e quindi questa sarà a sua volta finita. Consideriamo allora la successione 
+	 	$$R(k)=\sum_{n=k+1}^\infty c_n$$
+	 	dato che $c_n$ è una serie convergente abbiamo che $R(k)\to 0$, quindi esisterà un $k$ tale che $R(k)<\varepsilon/4$. Continuiamo a stimare allora la nostra serie di funzioni
+	 	$$\sum_{n=0}^{\infty}\abs{f_n(x)-f_n(x_0)}=\sum_{n=0}^{k}\abs{f_n(x)-f_n(x_0)}+\sum_{n=k+1}^{\infty}\abs{f_n(x)-f_n(x_0)}$$ 
+	 	quindi usando il fatto che $\abs{f_n(x)}\le c_n$ stimiamo
+	 	$$\dots = \sum_{n=0}^{k}\abs{f_n(x)-f_n(x_0)}+\sum_{n=k+1}^{\infty}\abs{f_n(x)-f_n(x_0)}\le \sum_{n=0}^{k}\abs{f_n(x)-f_n(x_0)}+2R(k)$$ 
+	 	ovvero, per la stima fatta prima su $R(k)$:
+	 	$$\dots \le \sum_{n=0}^{k}\abs{f_n(x)-f_n(x_0)} +\varepsilon/2$$
+	 	ma d'altra parte il primo addendo è semplicemente una funzione continua, in quanto somma finita di funzioni continue. Quindi abbiamo la tesi.
+	 \end{proof}
+	 Dimostrare la non derivabilità invece è più difficile, cominciamo con il dividere l'intervallo $[0,1]$ in intervalli tali che se $n\in\NN$ e $i=0,1,\dots,2^n-1$ abbiamo
+	 $$I_n^i=\bigg[\frac{i}{2^n},\frac{i+1}{2^n}\bigg)$$
+	 questi si dicono \textit{intervalli diadici} e sappiamo in particolare che 
+	 $$I^i_n\cap I^i_m\ne\eset \implies I^i_m\subset I_n^i$$
+	 se $m\ge n$.
+	 ora prendiamo un punto $x_0\in\RR$, vogliamo dimostrare che $f$ non è derivabile in $x_0$, allora per ogni $n$ esisterà un $i$ tale che $I_n^i$ è l'unico intervallo contenente $x_0$. In particolare siano
+	 $$I_n^i=[\alpha_n,\beta_n)$$
+	 definiamo allora
+	 $$r_n=\frac{f(\beta_n)-f(\alpha_n)}{\beta_n-\alpha_n}$$
+	 sostituendo dentro l'espressione per $f$ troviamo
+	 $$r_n=\frac{1}{\beta_n-\alpha_n}\sum_{k=0}^{\infty}\frac{\phi(2^k\beta_n)-\phi(2^k\alpha_n)}{2^k}$$
+	 prima di tutto notiamo che $\alpha_n$ e $\beta_n$ sono della forma $k/2^n$, quindi quando il pedice della somma ($k$) diventa più grande di $n$ $\phi(2^k\beta_n)$ sarà valutata in un numero intero, e dunque sarà esattamente $0$. Quindi la serie in realtà oltre un certo termine sarà formata da una somma di elementi nulli, dunque abbiamo:
+	 $$\dots=\frac{1}{\beta_n-\alpha_n}\sum_{k=0}^{n-1}\frac{\phi(2^k\beta_n)-\phi(2^k\alpha_n)}{2^k}=\sum_{k=0}^{n-1}\frac{\phi(2^k\beta_n)-\phi(2^k\alpha_n)}{2^k\beta_n-2^k\alpha_n}$$
+	 ma ora notiamo che tutti i termini di questa somma o sono $+1$ o sono $-1$ quindi la successione $r_n$ sarà qualcosa del tipo:
+	 $$r_n=r_{n-1}\pm 1$$
+	 che chiaramente non converge. Ora noi vogliamo dimostrare che la derivata non esiste, quindi riconduciamoci da $r_n$ al rapporto incrementale:
+	 $$r_n=\frac{f(\beta_n)-f(\alpha_n)}{\beta_n-\alpha_n}=\frac{\beta_n-x_0}{\beta_n-\alpha_n}\frac{f(\beta_n)-f(x_0)}{\beta_n-x_0}+\frac{x_0-\alpha_n}{\beta_n-\alpha_n}\frac{f(x_0)-f(\alpha_n)}{x_0-\alpha_n}$$
+	 eseenzialmente abbiamo scritto la cosa come combinazione convessa di due termini con coefficienti $t_n=\frac{\beta_n-x_0}{\beta_n-\alpha_n}$ e $1-t_n=\frac{x_0-\alpha_n}{\beta_n-\alpha_n}$. Se per assurdo $f$ fosse derivabile avremmo
+	 $$r_n-f'(x_0)=t_n\left(\frac{f(\beta_n)-f(x_0)}{\beta_n-x_0}-f'(x_0)\right)+(1-t_n)\left(\frac{f(x_0)-f(\alpha_n)}{x_0-\alpha_n}-f'(x_0)\right)$$
+	 ma facendo tendere $n$ a infinito a destra abbiamo una successione che converge, infatti i rapporti incrementali con solo $\beta_n$ o solo $\alpha_n$ sono le derivate destra e sinistra, e dato che $f$ è supposta derivabile in $x_0$ devono tendere a $f'(x_0)$ per $n$ che va a infinito. Ma allora abbiamo, dato che $t_n<1$ per ogni $n$:
+	 $$r_n-f'(x_0)=0 \iff r_n=f'(x_0)$$
+	 che è assurdo, come cercato.
+	 \subsection{Funzioni monotone derivabili in quasi ogni punto}
+	 
+	 Prendiamo una funzione debolmente crescente, ovvero tale che $x\le y \implies f(x)\le f(y)$. Ovviamente non necessariamente questa funzione sarà continua, però il numero dei punti di discontinuità non può essere troppo grande.
+	 \begin{lemma}[Salti di una funzione monotona]
+	 	Il numero dei punti di discontinuità di una funzione $f$ monotona crescente è numerabile.
+	 \end{lemma}
+	 \begin{proof}
+	 	Definiamo l'insieme dei punti di discontinuità della funzione come
+	 	$$S=\left\{x\in [0,1]:L^+(x)>L^-(x)\right\}$$
+	 	dove gli $L^\pm$ sono i limiti destri e sinistri (che per monotonia esistono sempre). Allora possiamo dividere $S$ nella seguente successione di insiemi finiti:
+	 	$$S_n=\left\{x\in [0,1]:L^+(x)-L^-(x)>\frac{1}{n}\right\}$$
+	 	$$\bigcup_{n=1}^\infty S_n=S$$
+	 	che sono finiti perchè altrimenti la funzione in  $1$ sarebbe infinita. Allora abbiamo che $S$ è unione numerabile di insiemi finiti, come volevasi dimostrare.
+	 \end{proof}
+	 Quello che ci dice questo teorema è che l'insieme dei punti di discontinuità di una funzione monotona non può essere troppo grande, tuttavia
+	 \begin{definition}[Misura esterna di Lebesgue]
+	 	Se $E\subset[0,1]$ definiamo la sua \textit{misura esterna} nel modo seguente:
+	 	$$\abs{E}=\inf\left\{\sum_{n=1}^{\infty}(\beta_n-\alpha_n):E\subset \bigcup_{n=1}^\infty(\alpha_n,\beta_n)\right\}.$$
+	 \end{definition}
+	 Notiamo che un insieme numerabile ha misura nulla, ma non è necessariamente vero il contrario (si pensi all'insieme di Cantor ad esempio).
+	 Siamo quindi pronti per enunciare il teorema principale di questa sezione:
+	 \begin{theorem}[Lebesgue]
+	 	Se $f:[0,1]\to\RR$ è una funzione monotona crescente allora esiste un insieme $N$ di misura nulla tale che $f$ è derivabile in tutti e soli i punti di $[0,1]\setminus N$.
+	 \end{theorem}
+	 Prima di dimostrarlo però abbiamo bisogno di un po' di lemmi preliminari.
+	 \begin{exercise}
+	 	Dimostrare che se $E_k\subset [0,1]$ è una successione di sottoinsiemi di $[0,1]$ allora 
+	 	$$\abs{\bigcup_{k=1}^\infty E_k}\le \sum_{k=1}^{\infty}\abs{E_k}$$
+	 \end{exercise}
+	 \begin{lemma}[Un insieme la cui misura scala linearmente con la restrizione ha misura nulla]
+	 	Sia $\rho\in [0,1]$ e sia $E\subset [0,1]$ un particolare insieme tale che comunque scelti due $0\le\alpha,\beta\le 1$ vale:
+	 	$$\abs{E\cap [\alpha,\beta]}\le \rho(\beta-\alpha)$$
+	 	allora $E$ ha misura nulla.
+	 \end{lemma}
+	 \begin{proof}
+	 	Per la definizione di inf (e di misura) abbiamo che comunque perso un $\varepsilon>0$ esisterà una successione di intervalli $I_n=(\alpha_n,\beta_n)$ tali che 
+	 	$$E\subset \bigcup_{n=1}^\infty (\alpha_n,\beta_n)$$
+	 	ma al contempo
+	 	$$\sum_{n=1}^\infty \beta_n-\alpha_n<\abs{E}+\varepsilon$$
+	 	dunque se applichiamo la proprietà caratterizzante di $E$ a questo specifico ricoprimento $I_n$ troviamo
+	 	$$\abs{E}=\abs{E\cap \bigcup_{n=1}^\infty (\alpha_n,\beta_n)}$$
+	 	quindi distribuendo l'intersezione sull'unione e applicando l'esercizio appena fatto:
+	 	$$\dots=\abs{\bigcup_{n=1}^\infty E\cap (\alpha_n,\beta_n)}\le \sum_{n=1}^\infty \abs{E\cap (\alpha_n,\beta_n)}\le \rho \sum_{n=1}^{\infty}\beta_n-\alpha_n$$
+	 	e quindi alla fine mettendo tutto insieme
+	 	$$\abs{E}\le \rho\abs{E}+\varepsilon\iff \abs{E}\le \frac{\varepsilon}{1-\rho}$$
+	 	e dunque per $\varepsilon\to 0$ abbiamo $\abs{E}\to 0$. 
+	 \end{proof}
+	 \begin{lemma}[Lemma dei punti invisibili]
+	 	Sia $g:[0,1]\to\RR$ continua e sia 
+	 	$$I=\left\{x\in(0,1):\text{esiste un $\xi\in(x,1]$ tale che $g(x)<g(\xi)$}\right\}$$
+	 	allora $I$ è aperto ed è inoltre unione disgiunta di intervalli aperti $I_k=(\alpha_k,\beta_k)$ e inoltre 
+	 	$$g(\alpha_k)\le g(\beta_k)$$
+	 \end{lemma}
+	 \begin{proof}
+	 	Per la continuità di $g$ è chiaro che $I$ sia aperto, infatti se $x\in I$ esisterà anche un $\xi$ tale che
+	 	$$g(x)<g(\xi)$$
+	 	ma allora "avvicinandoci un po' a $\xi$ (per continuità si può fare, va formalizzato con gli $\varepsilon$) abbiamo un intorno in cui espanderci. Dato che $I$ è aperto allora esistono per ogni $x$ due raggi tali massimali tali che 
+	 	$$I_x:=(x-r^-_x,x+r^+_x)\subseteq I$$
+	 	costruiamo allora una relazione di equivalenza 
+	 	$$x\sim y \iff I_x\cap I_y\ne \eset$$
+	 	e quozientiamo. Quante classi di equivalenza ci sono? beh se $x\not\sim y$ abbiamo
+	 	$$I_x\cap I_y=\eset$$
+	 	ovvero se scegliamo un rappresentante $x$ per ogni classe di equivalenza (assioma della scelta lol) la somma di $I_x$ dovrà avere una misura minore o uguale alla misura di $[0,1]$ dunque per come fatto prima per contare i salti di una funzione continua possiamo enumerare tutti i $I_x$ scegliendo quelli con misura $\ge \frac{1}{n}$  e notando che per ogni $n$ sono finiti. Ma per come sono definiti gli $I_x$ abbiamo
+	 	$$I_x\cap I_y\ne \eset \implies I_x=I_y$$
+	 	dunque ogni classe di equivalenza è un intervallo, e ogni elemento appartiene ad una classe di equivalenza, questo ci dà direttamente un ricoprimento di $I$ come voluto. \\
+	 	Per assurdo supponiamo che $g(\alpha_k)>g(\beta_k)$. Siccome $g$ è continua esiste un $x_0>\alpha_k$ tale che $g(x_0)>g(\beta_k)$. Prendiamo
+	 	$$\bar{x}=\sup\left\{x\in (\alpha_k,\beta_k):g(x)=g(x_0)\right\}$$
+	 	ma per continuità questo sup è anche un max, quindi stiamo effettivamente prendendo il punto più a destra con ordinata $g(x_0)$. Ora abbiamo sicuramente che 
+	 	$$\bar{x}\in I_k$$
+	 	perchè quel sup in realtà era un max, e quindi c'è un punto che assume il valore che vogliamo. Quindi in particolare 
+	 	$$\bar{x}\in I_k\subseteq I$$
+	 	quindi $\bar{x}$ è invisibile. E allora esiste $\bar{x}<\xi$ che lo oscura (ovvero tale che $g(\bar{x})<g(\xi)$). Quindi abbiamo due casi:
+	 	\begin{itemize}
+	 		\item $\xi\ge \beta_k$ per come abbiamo definito $\bar{x}$ abbiamo
+	 		$$g(\xi)>g(\bar{x})=g(x_0)>g(\beta_k)$$
+	 		quindi vuol dire che $\xi$ sta anche oscurando $\beta_k$ ma questo è assurdo perchè essendo $\beta_k$ l'estremo di un intervallo invisibile, dovrebbe essere visibile.
+	 		\item $\xi < \beta_k$ in questo caso abbiamo
+	 		$$\bar{x}<\xi<\beta_k$$
+	 		ma allora abbiamo come prima 
+	 		$$g(\xi)>g(\bar{x})=g(x_0)>g(\beta_k)$$
+	 		ma questo per il teorema dei valori intermedi applicato all'intervallo $(g(\beta_k),g(\xi))$ implica che ci sia un valore $z$ appartenente a $(\xi,\beta_k)$ (quindi strettamente maggiore di $\bar{x}$) tale che $g(z)=g(\bar{x})$. Questo contraddice il fatto che $\bar{x}$ sia il max, e dunque abbiamo finito.
+	 	\end{itemize}
+	 	Abbiamo trovato un assurdo in tutti i casi e quindi dobbiamo per forza avere $g(\alpha_k)\le g(\beta_k)$.
+	 \end{proof}
+	 Dimostriamo allora il fatto principale
+	 \begin{theorem}[Lebesgue]
+	 	Se $f:[0,1]\to\RR$ è una funzione monotona crescente allora esiste un insieme $N$ di misura nulla tale che $f$ è derivabile in tutti e soli i punti di $[0,1]\setminus N$.\footnote{in realtà lo dimostreremo solo sulle funzione continue, ma non è difficile vedere come il fatto generale segua da questo.}
+	 \end{theorem}
+	 \begin{proof}
+	 	Definiamo
+	 	$$\Delta=\left\{(x,y)\in (0,1)\times (0,1): x=y\right\}$$
+	 	quindi definiamo il rapporto incrementale come $R:(0,1)^2\setminus \Delta \to \RR$:
+	 	$$R(x,y)=\frac{f(x)-f(y)}{x-y}$$
+	 	Questo è per ipotesi $\ge 0$.
+	 	Definiamo inoltre le quattro funzioni
+	 	$$\lambda^\pm(x)=\liminf_{y\to x^\pm}R(x,y)$$
+	 	$$\Lambda^\pm(x)=\limsup_{y\to x^\pm}R(x,y)$$
+	 	il nostro obbiettivo sarà verificare che per un tutti i punti tranne che per un insieme di misura nulla queste quattro funzioni sono uguali. Definiamo quindi
+	 	$$A=\left\{x\in(0,1):\Lambda^+(x)=+\infty\right\}$$
+	 	$$B=\left\{x\in(0,1):\lambda^-(x)<\Lambda^+(x)\right\}$$
+	 	\begin{claim}
+	 		$A$ ha misura nulla.
+	 	\end{claim}
+	 	\begin{subproof}
+	 		per definire $A$ prendiamo una successione
+	 		$$A_k=\left\{x:\Lambda^+(x)>k\right\}$$
+	 		questa soddisfa chiaramente
+	 		$$A=\bigcap_{k\in\NN}A_k$$
+	 		il fatto che $x\in A_k$ corrisponde al fatto che 
+	 		$$x\in A_k \iff \limsup_{y\to x^+}\frac{f(x)-f(y)}{x-y}>k$$
+	 		ovvero esiste un $y\in (x,1]$ tale che 
+	 		$$\frac{f(y)-f(x)}{y-x}>k$$
+	 		ma dato che $y>x$ ci riduciamo a 
+	 		$$g(y)-ky>f(x)-kx$$
+	 		e ora se definiamo una funzione $g(x)=f(x)-kx$ abbiamo che il punto $y$ oscura il punto $x$ (stiamo supponendo che $f$ sia continua, non è difficile vedere come questo caso implichi quello generale). Dunque abbiamo appena dimostrato che $A_k$ è un insieme invisibile. Ma allora per il lemma dei punti invisibili abbiamo
+	 		$$A_k=\bigcup_{j=1}^\infty (\alpha_j,\beta_j)$$
+	 		con $g(\alpha_j)\le g(\beta_j)$ per tutti i $j$. Usando la definizione di $g$ abbiamo quindi
+	 		$$k(\beta_j-\alpha_j)\le f(\beta_j)-f(\alpha_j)$$
+	 		ma questo ci è molto utile per stimare la misura di $A_k$, usando la subadditività della misura infatti
+	 		$$\abs{A_k}\le \sum_{j=1}^{\infty}(\beta_j-\alpha_j)\le \frac{1}{k}\sum_{j=1}^\infty \left(f(\beta_j)-f(\alpha_j)\right)$$
+	 		ma per la monotonia di $f$ quella somma di incrementi deve essere boundata, quindi abbiamo
+	 		$$\abs{A_k}\le \dots \le \frac{f(1)-f(0)}{k}$$
+	 		ma dato che $A$ è intersezione degli $A_k$, tutti gli $A_k$ devono soddisfare
+	 		$$\abs{A}\le \abs{A_k}\le \frac{f(1)-f(0)}{k}$$
+	 		e per $k\to\infty$ questo va a $0$, dunque $A$ ha misura nulla.
+	 	\end{subproof}
+	 	\begin{claim}
+	 		$B$ ha misura nulla.
+	 	\end{claim}
+	 	\begin{subproof}
+	 		Fissiamo $0<p<q<\infty$ con $p,q\in\QQ$. Come prima osserviamo che se definiamo
+	 		$$B_{p,q}=\left\{x\in(0,1):\lambda^-(x)<p<q<\Lambda^+(x)\right\}$$
+	 		e in questo caso osserviamo invece che
+	 		$$B=\bigcup_{p<q\in\QQ}B_{p,q}$$
+	 		vorremmo tanto dimostrare che tutti i $B_{p,q}$ hanno misura nulla, infatti se così fosse per subadditvità avremmo immediatamente $\abs{B}=0$. Guardiamo prima di tutto 
+	 		$$B_p=\left\{\lambda^-(x)<p\right\}$$
+	 		guardiamo $B_p$ nella finestra $(\alpha,\beta)$, vogliamo applicare il lemma per trovare che la misura di $B_p$ è proporzionale alla lunghezza della finestra. Come prima la definizione di $\lambda$ ci dice che se $x\in B_p\cap (\alpha,\beta)$ 
+	 		$$\liminf_{x\to x^-}\frac{f(x)-f(y)}{x-y}<p$$
+	 		ovvero esiste un $y\in [0,x)$ tale che
+	 		$$f(x)-px<f(y)-py$$
+	 		definendo $g(x)=f(x)-px$ come prima, abbiamo che $y$ sta oscurando $x$, \textit{da sinistra}. Questo ci dà un risultato analogo a quello di punti invisibili, ma da sinistra:
+	 		$$B_p\cap (\alpha,\beta)=\bigcup_{j=1}^\infty (\alpha_j,\beta_j)$$
+	 		e per tutti gli estremi abbiamo
+	 		$$g(\beta_j)\le g(\alpha_j)$$
+	 		e quindi analogamente a prima abbiamo
+	 		$$f(\beta_j)-f(\alpha_j)\le p(\beta_j-\alpha_j).$$
+	 		Ora prendiamo $x\in(\alpha_i,\beta_j)\cap B_{p,q}$, sappiamo che $B_{p,q}\subseteq B_p$ quindi abbiamo la disuguaglianza appena dimostrata. Come prima traducendo la condizione su $\Lambda^+$ con il limsup troviamo che esiste un $y\in (x,1]$ tale che
+	 		$$f(y)-qy>f(x)-qx$$
+	 		e quindi definiamo $g(x)=f(x)-qx$ e il punto $x$ è invisibile da destra. Infine abbiamo che $B_{p,q}$ per il lemma è unione numerabile di intervalli, e quindi
+	 		$$(\alpha_j,\beta_j)\cap B_{p,q}=\bigcup_{i=1}^\infty (\alpha_j^i,\beta_j^i)$$
+	 		con $g(\alpha_j^i)\le g(\beta_j^i)$ e quindi abbiamo la disuguaglianza
+	 		$$q\left(\beta_j^i-\alpha_j^i\right)\le f\left(\beta_j^i\right)-f\left(\alpha_j^i\right) \iff\beta_j^i-\alpha_j^i
+	 		 \le \frac{f\left(\beta_j^i\right)-f\left(\alpha_j^i\right)}{q}$$
+	 		ma allora mettendo tutto insieme possiamo scrivere
+	 		$$\abs{(\alpha,\beta)\cap B_{p,q}}\le \abs{\bigcup_{j=1}^\infty \bigcup_{j=1}^\infty \left(\alpha_j^i,\beta_j^i\right)}\le \sum_{j=1}^{\infty}\sum_{i=1}^{\infty}\left(\beta_j^i-\alpha_j^i\right)$$
+	 		cominciamo ad usare quindi tutte le stime che abbiamo accumulato:
+	 		$$\dots\le \sum_{j=1}^{\infty}\sum_{i=1}^{\infty}\frac{1}{q}\left(f\left(\alpha_j^i\right)-f\left(\beta_j^i\right)\right)$$
+	 		ma ora usando la monotonia della funzione sulla sommatoria più interna sappiamo che possiamo stimare tutta quella somma di incrementi come la differenza della funzione sui due valori più esterni, quindi abbiamo
+	 		$$\dots\le \frac{1}{q}\sum_{j=1}^{\infty}\left(f\left(\beta_j\right)-f\left(\alpha_j\right)\right)$$
+	 		e come prima usando la stessa stima ma sulla sommatoria più esterna abbiamo
+	 		$$\dots\le \frac{p}{q}\sum_{j=1}^{\infty}\le \frac{p}{q}(\beta-\alpha)$$
+	 		che era proprio quello che volevamo dimostrare per il lemma della misura che scala linearmente con la restrizione.
+	 	\end{subproof}
+	 	definiamo ora $f_*:[0,1]\to\RR$ la funzione tale che 
+	 	$$f_*(x)=-f(1-x)$$
+	 	avremo sempre che $f_*$ è monotonamente crescente. Ora come prima definiamo $$\Lambda_*^+(x)=\limsup_{y\to x^+}\frac{f(1-x)-f(1-y)}{x-y}$$
+	 	e definendo $x_*=1-x$ abbiamo
+	 	$$\Lambda_*^+(x)=\dots=\limsup_{y\to x^-}\frac{f(x_*)-f(y_*)}{x_*-y_*}=\Lambda^-(x_*)$$
+	 	ma allora abbiamo effettivamente cambiato i $+$ in $-$, e quindi anche 
+	 	$$B^*=\left\{\lambda_*^-(x)< \Lambda_*^+(x)\right\}$$
+	 	ha misura nulla, ma questo significa che anche 
+	 	$$C=\left\{\lambda^+<\Lambda^-\right\}$$ 
+	 	ha misura nulla. \\
+	 	Concludiamo. Da quanto appena visto abbiamo
+	 	$$\abs{A\cup B\cup C}=0$$
+	 	prendiamo un punto del complementare. Abbiamo sicuramente che $\Lambda^+$ è maggiore di $0$, in quanto la funzione è monotona e abbiamo detto che i rapporti incrementali sono sempre positivi, quindi mettendo insieme tutte le informazioni che abbiamo:
+	 	$$0\le \Lambda^+(x)\le \lambda^-(x)$$
+	 	ma per la disuguaglianza tra liminf e limsup
+	 	$$0\le \Lambda^+(x)\le \lambda^-(x)\le \Lambda^-(x)$$
+	 	quindi usando l'informazione di $C$ e di $B$ insieme di nuovo alla disuguaglianza limsup-liminf, abbiamo:
+	 	$$0\le \Lambda^+(x)\le \lambda^-(x)\le \Lambda^-(x) \le \lambda^+(x)\le \Lambda^+(x)<\infty$$
+	 	che ci dice che tutti i limiti sono uguali e sono finiti, e dunque abbiamo la tesi.
+	 \end{proof}
+	 
+	 \newpage
+	 
+	 \section{Integrali}
+	 Richiamiamo la definizione di integrale di Riemann. 
+	 \begin{definition}[Integrale di Riemann]
+	 	Sia $f:[0,1]\to\RR$ una funzione arbitraria limitata. Scegliamo un insieme arbitrario di punti in $[0,1]$:
+	 	$$\sigma=\left\{0=x_0<x_1<x_2<\dots<x_n<x_{n+1}=1\right\}$$
+	 	a questa scelta di punti sono associati gli intervalli 
+	 	$$I_0=[x_0,x_1]$$
+	 	$$I_1=[x_1,x_2]$$
+	 	$$\vdots$$
+	 	$$I_{n+1}=[x_n,x_{n+1}]$$
+	 	e in questo caso abbiamo che la misura di ogni intervallo $I_i$ è esattamente $x_{i+1}-x_i$. Chiamiamo 
+	 	$\mathcal{F}[0,1]=\left\{\sigma \text{ suddivisione di $[0,1]$}\right\}$
+	 	Definiamo allora
+	 	$$s(f,\sigma)=\sum_{i=0}^{n+1}(\inf_{I_i} f)\abs{I_i}$$
+	 	$$S(f,\sigma)=\sum_{i=0}^{n+1}(\sup_{I_i} f)\abs{I_i}$$
+	 	diciamo quindi che $f$ è \textit{Riemann integrabile} se abbiamo
+	 	$$\sup_{\sigma\in \mathcal{F}[0,1]}s(f,\sigma)=\inf_{\sigma\in \mathcal{F}[0,1]}S(\sigma,f)$$
+	 	e chiamiamo questa quantità \textit{integrale} di $f$ sull'intervallo $[0,1]$, scrivendo
+	 	$$\dots=\int_0^1 f(x)\dif x.$$
+	 \end{definition}
+	 Ricordiamo anche la definizione:
+	 \begin{definition}[Palla]
+	 	Per ogni $x\in \RR$ e $\delta>0$ definiamo la \textit{palla} centrata in $x$ di raggio $\delta$ l'insieme:
+	 	$$I(x,\delta)=\left\{y\in\RR:\abs{x-y}<\delta\right\}$$
+	 \end{definition}
+	 \begin{definition}[Oscillazione]
+	 	Sia $f:[0,1]\to\RR$ e $I\subseteq [0,1]$ definiamo allora la sua \textit{oscillazione} come
+	 	$$\omega(f,I)=\sup_{x,y\in I}\left\{f(x)-f(y)\right\}$$
+	 	In particolare se $x\in [0,1]$ chiamiamo la sua \textit{oscillazione locale} il limite
+	 	$$\lim_{\delta\to 0^+}\omega(f,I(x,\delta)\cap[0,1])$$
+	 	che per monotonia del sup esiste sempre. Notiamo che una funzione è continua in $x$ se e solo se l'oscillazione di $f$ in $x$ è $0$.
+	 \end{definition}
+	 \begin{exercise}
+	 	Provare che per ogni $t>0$ si ha che gli insiemi 
+	 	$$E_t=\left\{x\in [0,1]:\omega(f,x)<t\right\}$$
+	 	sono aperti in $[0,1]$.
+	 \end{exercise}
+	 \begin{proof}
+	 	Prendiamo un $x\in E_t$. Allora abbiamo che 
+	 	$$\omega(f,x)<t$$
+	 	quindi usando la definizione di oscillazione locale
+	 	$$\lim_{\delta\to 0^+}\sup_{x,y\in I(x,\delta)\cap [0,1]}\abs{f(x)-f(y)}<t$$
+	 	ma questo vuol dire che preso un $\varepsilon>0$ esisterà un $\delta>0$ tale che 
+	 	$$\sup_{x,y\in I(x,\delta)\cap [0,1]}\abs{f(x)-f(y)}<t-\varepsilon$$
+	 	ma allora abbiamo che comunque preso un $y\in I(x,\delta)\cap [0,1]$ vale 
+	 	$$\omega(f,y)\le \omega(f,I(x,\delta)\cap [0,1])< \sup_{x,y\in I(x,\delta)\cap [0,1]}\abs{f(x)-f(y)}<t-\varepsilon<t$$
+	 	cioè 
+	 	$$\omega(f,y)\le \dots < t$$
+	 	quindi tutti gli $y\in I(x,\delta)$ apparterranno a $E_t$, il che è esattamente la definizione di insieme aperto. 
+	 \end{proof}
+	 \begin{definition}[Definizione topologica di compattezza]
+	 	Un sottoinsieme $K\subseteq \RR$ si dice \textit{compatto} se e solo se ogni ricoprimento aperto di $K$ ha un sottoricoprimento finito. Ovvero scritto in simboli per ogni famiglia $A_\alpha$ (con famiglia di etichette $\mathcal{A}$) di aperti in $\RR$ abbiamo:
+	 	$$K\subset \bigcup_{\alpha\in \mathcal{A}}A_\alpha \quad\implies\quad \exists \mathcal{B}\subset\mathcal{A}:\abs{\mathcal{B}}<\infty\text{  e inoltre }K\subseteq \bigcup_{\alpha\in\mathcal{B}}A_\alpha $$
+	 \end{definition}
+	 Per quello che ci servirà dimostrare poi abbiamo bisogno del seguente lemma:
+	 \begin{lemma}[Oscillazioni che vanno localmente a $0$]
+	 	Siano $f:[0,1]\to \RR$ e $\varepsilon>0$. Supponiamo che $\omega(f,x)<\varepsilon$ per ogni $x\in[0,1]$, allora esiste un numero $\delta>0$ tale che comunque preso un intervallo $I\subseteq[0,1]$ vale 
+	 	$$\abs{I}<\delta \implies \omega(f,I)<\varepsilon$$  
+	 \end{lemma}
+	 \begin{proof}
+	 	Per ogni $x\in [0,1]$ sappiamo che 
+	 	$$\lim_{\delta\to 0^+}\omega(f,I(x,\delta))<\varepsilon$$
+	 	allora esisterà un intorno di $x$ per cui l'oscillazione è minore di $\varepsilon$, ovvero esiste un $\delta_x$ tale che
+	 	$$\omega(f,I(x,\delta_x))<\varepsilon$$
+	 	a questo punto quindi dato che questa cosa vale per tutti gli $x$, possiamo esprimere $[0,1]$ come unione di intorni di raggio minore o uguale di $\delta_x$, scegliamo $\delta_x/2$ allora abbiamo
+	 	$$[0,1]\subseteq \bigcup_{x\in[0,1]}I\left(x,\delta_x/2\right)$$
+	 	ma noi sappiamo che $[0,1]$ è compatto, e quindi da questo enorme ricoprimento possiamo estrarne uno finito, ovvero esistono $x_1,x_2,\dots x_n\in [0,1]$ punti tali che
+	 	$$[0,1]\subseteq \bigcup_{i=1}^n I\left(x_i,\delta_{x_i}/2\right)$$ 
+	 	siamo pronti a scegliere il nostro $\delta$. Grazie al fatto che abbiamo un numero finito di $\delta_x$ possiamo scegliere
+	 	$$\delta=\min\left\{\frac{\delta_{x_1}}{2},\frac{\delta_{x_2}}{2},\dots,\frac{\delta_{x_n}}{2}\right\}$$
+	 	e questo $\delta$ dato che tutti i $\delta_{x_i}$ sono maggiori di $0$ sarà a sua volta maggiore di $0$. A questo punto notiamo che in effetti $\delta$ soddisfa la condizione, infatti preso un $I$ di misura $\delta$ abbiamo che 
+	 	$$I\cap I(x_i,\frac{\delta_{x_i}}{2})\ne \eset$$
+	 	dato che quella lista di intorni è un ricoprimento di $[0,1]$. Ma allora se raddoppiamo il raggio dell'intorno di $\delta_{x_i}$ tutto l'intervallo di $I$ dovrà appartenere all'intorno, ovvero:
+	 	$$I\subseteq I(x_i,\delta_{x_i})$$
+	 	e quindi per come abbiamo definito i $\delta_x$, abbiamo immediatamente la tesi.
+	 \end{proof}
+	 \subsection{Funzioni Riemann Integrabili continue in quasi ogni punto}
+	 Sia $D(f)$ l'insieme dei punti di discontinuità di $f$ sull'intervallo $[0,1]$. Allora abbiamo
+	 \begin{theorem}[Caratterizzazione delle funzioni Riemann Integrabili]
+	 	Sia $f:[0,1]\to\RR$ una funzione limitata. Sono equivalenti le seguenti due affermazioni:
+	 	\begin{itemize}
+	 		\item $f$ è Riemann integrabile su $[0,1]$.
+	 		\item L'insieme dei punti di discontinuità di $f$ ha misura nulla, ovvero $\abs{D(f)}=0$.
+	 	\end{itemize}
+	 \end{theorem}
+	 \begin{proof}
+	 	Dobbiamo dimostrare due versi:
+	 	\begin{description}
+	 		\item[Riemann integrabile implica Misura nulla] Assumiamo per assurdo che l'insieme delle discontinuità non abbia misura nulla. Allora possiamo scrivere una successione di insiemi nel modo seguente
+	 		$$D_k=\left\{x\in[0,1]:\omega(f,x)\ge \frac{1}{k}\right\}$$
+	 		tale che 
+	 		$$D(f)=\bigcup_{k=1}^\infty D_k$$
+	 		ma allora per la subadditività della misura, se $D(f)$ non ha misura nulla anche almeno uno dei $D_k$ dovrà avere misura positiva, sia $D_k$. Prendiamo una partizione $\sigma$ di $[0,1]$, vogliamo verificare che la differenza tra le due somme, superiore e inferiore, non tende a $0$:
+	 		$$S(f,\sigma)-s(f,\sigma)=\sum_{I\in \sigma}\abs{I}\sup f-\sum_{I\in \sigma}\abs{I}\inf f$$
+	 		ma per la definizione di oscillazione notiamo che questo è proprio uguale a 
+	 		$$\dots=\sum_{I\in \sigma}\omega(f,I)\abs{I}\ge \sum_{I\in \sigma:\text{int}(I)\cap D_k\ne \eset} \omega(f,I)\abs{I}$$
+	 		ma allora stimando $\omega(f,I)$ con $1/k$ grazie alla definizione di $D_k$, e di nuovo per subadditività e per il fatto che $\sigma$ è una partizione abbiamo chiuso, perche:
+	 		$$\dots\ge \sum_{I\in \sigma:\text{int}(I)\cap D_k\ne \eset}\frac{1}{k}\abs{I}=\frac{1}{k}\sum_{I\in \sigma:\text{int}(I)\cap D_k\ne \eset}\abs{I}=\frac{\abs{D_k}}{k}$$
+	 		che è certamente maggiore di $0$ è costante, e quindi abbiamo finito.
+	 		\item[Misura nulla implica Riemann integrabile] Dato un $\varepsilon>0$ arbitrario, dimostriamo che esiste una partizione $\sigma$ tale che 
+	 		$$S(f,\sigma)-s(f,\sigma)<\varepsilon$$
+	 		l'ipotesi che $D(f)$ abbia misura nulla ci dice che anche tutti i $D_k$ hanno misura nulla. Sia $k\in\NN$, per definizione di misura nulla abbiamo
+	 		$$D_k\subseteq \bigcup_{j=1}^\infty$$
+	 		$$\sum_{j=1}^\infty \abs{I_j}<\varepsilon$$
+	 		ma per come abbiamo definito $D_k$ questo è sicuramente compatto, dato che 
+	 		$$[0,1]\setminus\left\{x\in[0,1]:\omega(f,x)< \frac{1}{k}\right\}=D_k$$
+	 		e quello che c'è al LHS è sicuramente aperto. Dunque possiamo estrarre un sottoricoprimento finito, $I_i\in \mathcal{F}_1$ con $\mathcal{F}_1$ un insieme finito. Allora esprimendo $D_k$ come il suo sottoricoprimento, avremo:
+	 		$$[0,1]\setminus \bigcup_{I\in\mathcal{F}_1}I$$
+	 		ma questo è un intervallo meno un'unione finita di intervalli, allora sarà a sua volta un'unione finita di intervalli:
+	 		$$[0,1]\setminus \bigcup_{I\in\mathcal{F}_1}I=\bigcup_{I\in\mathcal{F}_2}I$$
+	 		ma allora sappiamo che questo insieme è un sottoinsieme del complementare di $D_k$, quindi per ogni $x$ al suo interno varrà
+	 		$$\omega(f,x)<\frac{1}{k}$$
+	 		ma questo per il lemma vuol dire che esiste una nuova decomposizione dell'insieme in intervalli minori o uguali di un certo $\delta$, tale che le oscillazioni siano tutte minori o uguali di $\frac{1}{k}$, chiamiamola $\mathcal{F}_3$. \\
+	 		A questo punto allora diciamo che la decomposizione che stiamo cercando è proprio
+	 		$$\sigma=\mathcal{F}_1\cup \mathcal{F}_3$$
+	 		in realtà $\mathcal{F}_1$ non è esattamente una partizione, ma si può ridurre facilmente ad essa. Dunque calcoliamo
+	 		$$S(f,\sigma)-s(f,\sigma)=\sum_{I\in \sigma}\omega(f,I)\abs{I}=\sum_{I\in \mathcal{F}_1}\omega(f,I)\abs{I}+\sum_{I\in \mathcal{F}_3}\omega(f,I)\abs{I}$$
+	 		ma a questo punto dato che $f$ è limitata avremo un massimo e un minimo, sia $M$ il numero in valore assoluto più grande, allora possiamo stimare:
+	 		$$\dots \le \sum_{I\in\mathcal{F}_1}2M\abs{I}+\sum_{I\in \mathcal{F}_3}\frac{1}{k}\abs{I}$$
+	 		d'altro canto $D_k$ avevamo detto avesse misura boundata da $\varepsilon$, dunque abbiamo il bound
+	 		$$\dots \le 2M\varepsilon+\frac{1}{k}$$
+	 		che scegliendo un $k$ tale che $\frac{1}{k}<\varepsilon$ ci dà
+	 		$$\dots< (2M+1)\varepsilon$$
+	 		che tende a $0$ per $\varepsilon$ che tende a $0$, e dunque abbiamo finito.
+	 	\end{description}
+	 	dunque abbiamo finito.
+	 \end{proof}
+	 
+	 \newpage
+	 \section{Introduzione geometrica alla relatività generale}
+	 
+	 Fissiamo un sistema di coordinate su $\RR^2$:
+	 $$x:=\begin{pmatrix}
+	 	x^1 \\
+	 	x^2
+	 \end{pmatrix}$$
+	 inoltre fissiamo la matrice 
+	 $$g:=\begin{pmatrix}
+	 	g_{11} & g_{12} \\
+	 	g_{21} & g_{22}
+	 \end{pmatrix}$$
+	 che chiameremo il \textit{tensore metrico}, tale che $g_{12}=g_{21}$.
+	 a questo punto consideriamo il vettore velocità definito dalle coordinate
+	 $$v:=\begin{pmatrix}
+	 	v^1 \\
+	 	v^2
+	 \end{pmatrix}$$
+	 A questo punto definiamo la lunghezza di $v$ rispetto al tensore metrico $g$ come
+	 $$\langle gv,v\rangle$$
+	 ovvero per definizione di prodotto scalare
+	 $$\langle gv,v\rangle^{1/2} = \left(\sum_{i,j=1}^{2}g_{ij}v^i v^j\right)^{1/s}$$
+	 La \textit{convenzione di Einstein} prevede che tutte le somme su pedici iterati vengano omesse, e quindi abbiamo
+	 $$\langle gv,v \rangle^{1/2}=\left(g_{ij}v^i v^j\right)^{1/2}$$
+	 notiamo che per poter prendere la radice abbiamo bisogno che quel prodotto scalare sia positivo, e questa è proprio la definizione di \textit{matrice positiva}. Ora per il Teorema Spettrale possiamo scrivere ogni matrice simmetrica ($g$ in particolare), come una matrice diagonale coniugata per una matrice di rotazione, ovvero
+	 $$g=U^{-1}\begin{pmatrix}
+	 	\lambda_1 & 0 \\
+	 	0 & \lambda_2
+	 \end{pmatrix}U$$
+	 possiamo visualizzare geometricamente che una matrice è positiva se e solo se i suoi autovalori sono entrambi positivi, quindi la condizione di positività si traduce in $\lambda_1,\lambda_2>0$. \\ 
+	 D'ora in poi diremo che $g$ è grande se i suoi autovalori sono molto maggiori di $1$, piccola se sono molto minori. \\
+	 Definiamo una funzione $g:\RR^2\to \RR_{2\times 2}$ tale che a ogni $x$ associa la matrice $g(x)$. Visto che stiamo facendo fisica... imponiamo che le quattro funzioni che abbiamo appena definito 
+	 $$x_1\mapsto g_{11}(x^1,x^2)$$ 
+	 $$x_1\mapsto g_{12}(x^1,x^2)$$
+	 $$x_1\mapsto g_{21}(x^1,x^2)$$
+	 $$x_1\mapsto g_{22}(x^1,x^2)$$
+	 siano tutte derivabili. Analogamente facciamo per $x^2$. Definiamo quindi una curva $\gamma:[0,1]\to \RR^2$ che appunto è una funzione con output della forma
+	 $$\begin{pmatrix}
+	 	\gamma^1 \\
+	 	\gamma^2
+	 \end{pmatrix}$$
+	 dove entrambe le funzioni $\gamma^1$ e $\gamma^2$ sono derivabili rispetto al parametro della curva con continuità (che possiamo pensare come se fosse il "tempo").
+	 \begin{definition}[Lunghezza di una curva rispetto al tensore metrico]
+	 	Dato il tensore metrico $g$ definiamo la lunghezza della curva $\gamma$ come
+	 	$$L(\gamma):=\int_0^1\langle g(\gamma(t))\dot{\gamma}(t),\dot{\gamma}(t)\rangle^{1/2}\dif t$$
+	 \end{definition}
+	 Il punto centrale di tutto ciò è che vogliamo definire una struttura di spazio metrico a partire dal concetto di lunghezza che abbiamo appena visto. Allora facciamo
+	 \begin{definition}[Distanza secondo il tensore metrico]
+	 	Definiamo la funzione distanza $d:\RR^2\times \RR^2\to [0,\infty)$ tale che presi due punti $x,y$, se $P$ è l'insieme di tutte le curve con estremi questi due punti la funzione $d$ è definita come
+	 	$$d(x,y):=\inf_{\gamma \in P}\left\{L(\gamma)\right\}$$
+	 	ovviamente questa distanza dipende dal tensore metrico.
+	 \end{definition}
+	 \begin{theorem}[Einstein sapeva quello che faceva]
+	 	Lo spazio $(\RR^2,d)$ è uno spazio metrico.
+	 \end{theorem}
+	 \begin{proof}
+	 	non dovrebbe essere troppo difficile, quindi per casa.
+	 \end{proof}
+	 In effetti questa costruzione che abbiamo appena fatto è un esempio di \textbf{varietà Riemanniana}. Un famoso e difficilissimo teorema di Nash afferma che tutte le varietà riemanniane sono di questa forma. 
+	 \begin{theorem}[Boundare gli autovalori completa lo spazio]
+	 	Se entrambi le funzioni autovalore del tensore metrico sono boundate dal basso e dall'alto da due numeri diversi sia da $0$ che da infinito, ovvero
+	 	$$0<m\le \lambda_1(x),\lambda_2(x)\le M < +\infty$$
+	 	allora lo spazio metrico $\left(\RR^2,d\right)$ è completo.
+	 \end{theorem}
+	 Il punto ora è che abbiamo definito lo spazio con un inf. Se questo fosse un min avremo che il nostro spazio non solo è completo, ma possiede delle geodetiche, ovvero curve di cammino minimo. Per fare ciò ci serve dimostrare un equivalente del teorema di Weierstrass per un insieme di curve, ovvero il teorema di Ascoli-Arzelà. Si farà ad analisi $2$, ma per il momento ci interessa solo capire che le geodetiche esistono.
+	 \subsection{Calcolare le equazioni per le geodetiche}
+	 Ora che abbiamo delle geodetiche, vogliamo capire che forma hanno queste. Prendiamo allora due punti $x$ e $y$ e una geodetica $\gamma$ che li collega. Prendiamo poi una curva chiusa $\varphi$ (ovvero una curva tale che $\phi(0)=\phi(1)=0$) Definiamo quindi la curva in funzione del parametro $\varepsilon$ come $f:\RR\to [0,\infty)$ tale che:
+	 $$f(\varepsilon)=L(\gamma + \varepsilon \varphi)$$
+	 ma allora abbiamo per ogni $\varepsilon\in \RR$:
+	 $$f(\varepsilon)\ge L(\gamma)=f(0)$$
+	 perchè $\gamma$ è una geodetica. Allora per il teorema di Fermat
+	 $$f'(0)=0.$$
+	 Prepariamoci a fare un sacco di conti. Assumiamo WLOG che $L(\gamma)=1$. Ricordandoci l'interpretazione fisica della definizione di traiettoria, possiamo riparametrizzare la curva $\gamma$ in modo che la velocità sia costante in modulo lungo tutta la traiettoria, ma la traiettoria rimanga appunto invariata. Ma allora di nuovo WLOG abbiamo
+	 $$\langle g(\gamma)\dot{\gamma},\dot{\gamma}\rangle^{1/2}\equiv 1$$
+	 Riscriviamo l'equazione che ci era stata data da Fermat come:
+	 $$0=\frac{\dif}{\dif \varepsilon}f(\varepsilon)=\frac{\dif}{\dif \varepsilon}\int_{0}^1\langle g(\gamma+\varepsilon\varphi)(\dot{\gamma}+\varepsilon\dot{ \varphi}),(\dot{\gamma}+\varepsilon\dot{ \varphi})\rangle \dif t$$
+	 facendo un sacco di conti, essenzialmente il core del calcolo delle variazioni, otteniamo l'equazione per le geodetiche
+	 $$\ddot{\gamma}^l+\Gamma^l_{ij}(\gamma)\dot{\gamma}^i\dot{\gamma}^j=0$$
+	 dove quella gamma è un simbolo di Christoffel. Queste in un certo senso sono le equazioni di Eulero-Lagrange per il funzionale definito dal tensore metrico. 
+\end{document}
+       

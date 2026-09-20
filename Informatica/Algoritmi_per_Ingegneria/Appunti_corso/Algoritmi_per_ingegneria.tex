@@ -1,0 +1,1475 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[sexy]{evan} %BLBLBLBLBLBLBLBLBLBLBLB EVANCHEN
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{asymptote}
+\usepackage{amsthm}
+\usepackage{gensymb}
+\usepackage{amsfonts}
+\usepackage[english,italian]{babel}
+\usepackage{quoting}
+\quotingsetup{font=big}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{lmodern}
+\usepackage{faktor}
+\usepackage{hyperref}
+\usepackage{algpseudocode}
+\newcommand{\dif}{\text{d}}
+\newcommand{\bigo}[1]{\mathcal{O}\!\left(#1\right)}
+\newcommand{\bigomega}[1]{\Omega\!\left(#1\right)}
+\newcommand{\bigtheta}[1]{\Theta\!\left(#1\right)}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{overleafwiki}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=overleafwiki}
+
+\begin{document}
+	\title{Appunti di Algoritmi per l'ingegneria}
+	\subtitle{Geppino Pucci - UNIPD}
+	\date{Febbraio - Giugno 2026}
+	
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\newpage
+	
+	\section{Introduzione e definizioni di base}
+	Esempio di codice su \LaTeX:
+	\begin{lstlisting}[language=C++]
+		#include <bits/stdc++.h>
+		
+		using namespace std;
+		
+		int main(){
+			
+			//codice di esempio
+			
+			return 0;
+		}
+	\end{lstlisting}
+	
+	\subsection{Definizione di algoritmo}
+	
+	\begin{definition}[Algoritmo]
+		Un \textit{algoritmo} è una sequenza di passi finita e deterministica\footnote{Non vedremo algoritmi randomizzati in questo corso.}. I passi elementari dell'algoritmo si dicono \textit{istruzioni}, e l'insieme di tutte le possibili istruzioni che si possono dare ad un algoritmo costituisce un \textit{modello computazionale}. Un algoritmo ha un \textit{input} e un \textit{output}, ed è quindi sempre anche una funzione
+		$$A:I\to O$$
+		dove $I$ è detto insieme di input, e $O$ insieme di output.
+	\end{definition}
+	\begin{definition}[Problema Computazionale]
+		Un problema computazionale $\Pi$ è un sottoinsieme dell'insieme 
+		$$\Pi\subseteq \mathcal{I}\times \mathcal{S}$$
+		Tale che per ogni elemento $i\in\mathcal{I}$, $\Pi$ contenga almeno un elemento $(i,s)$ per qualche $s\in\mathcal{S}$. L'insieme $\mathcal{I}$ si dice insieme delle \textit{istanze} del problema, e $\mathcal{S}$ si dice insieme delle soluzioni. 
+	\end{definition}
+	\begin{definition}[Algoritmo che risolve un problema]
+		Si dice che un algoritmo $A_\pi:I\to O$ risolve un problema computazionale $\Pi$ se 
+		$\mathcal{I}=I$ e $\mathcal{S}=O$, e inoltre abbiamo che per ogni $i\in\mathcal{I}$:
+		$$A_\pi(i)=s \implies i\,\Pi\, s$$
+	\end{definition}
+	
+	\begin{example}[Raggiungibilità in grafi diretti]
+		Definiamo il seguente problema computazionale:
+		\begin{description}
+			\item[Input:] Un grafo diretto $G=(V,E)$ e due nodi $v_1$ e $v_2$.
+			\item[Output:] Un cammino su $G$ che parte da $v_1$ e arriva a $v_2$, oppure un output $\epsilon$, che indica che un tale cammino non esiste (ovvero il cammino vuoto).
+		\end{description}
+	\end{example}
+	Introduciamo inoltre un po' di notazione
+	\begin{definition}[Stella di Kleene]
+		Dato un insieme (di solito numerabile) $A$, chiamiamo $A^*$ la sua \textit{stella di Kleene}, ovvero l'insieme
+		$$A^\star:=A^{\NN}\cup \bigcup_{n=0}^\infty A^n$$
+		di tutte le sequenze, possibilmente finite o vuote ($A^0$ contiene la sola sequenza vuota) a valori in $A$. Denotiamo una sequenza con le parentesi angolate:
+		$$s=\langle a_1,a_2,\dots,a_k\rangle \in A^*$$
+		con $a_i\in A$.
+	\end{definition}
+	
+	\subsection{Correttezza e complessità}
+	
+	\begin{definition}[Correttezza di un algoritmo]
+		Dimostrare che un algoritmo $A_\Pi$ è corretto per un problema computazionale $\Pi$ vuol dire dimostrare che il predicato
+		$$\left(A_\Pi(i)=s\right)\implies \left(i \, \Pi\, s\right)$$
+		è valido per ogni $i\in\mathcal{I}$.
+	\end{definition}
+	e questo era facile, meno chiaro è il concetto di complessità:
+	\begin{definition}[Tempo di esecuzione di un algoritmo]
+		Dato un algoritmo $A_\pi$ e un'istanza $i$, il suo \textit{tempo di esecuzione} è la somma dei tempi di esecuzione di ciascuna istruzione eseguita dall'algoritmo:
+		$$t_{A_\pi,i}=\sum_{\text{istruzioni $istr$ eseguite da $A_\pi(i)$}}c_{istr}$$
+		per qualche scelta dei costi $c_{istr}\in \RR^+\cup\left\{0\right\}$.
+	\end{definition}
+	questo di base è la definizione più generale di modello di costo, ma da usare nella pratica sarebbe completamente impraticabile. Per fare un'\textit{analisi asintotica} di solito associamo un costo $1$ ad alcune operazioni, ed un costo $0$ ad altre (in particolare, associamo un costo $1$ alle operazioni che \textit{dominano la complessità}). 
+	\begin{definition}[Taglia]
+		Data un'istanza $i\in\mathcal{I}$ per qualche algoritmo $A_\pi$ definiamo la sua \textit{taglia} $\abs{i}\in\NN$ un numero intero non negativo che rappresenta \textit{ragionevolmente} la grandezza della codifica dell'istanza $i$. 
+	\end{definition}
+	Forti di questa definizione allora possiamo definire
+	\begin{definition}[Funzione di complessità]
+		Dato un algoritmo $A_\pi$ di insieme di istanze $\mathcal{I}$, possiamo quozientare $\mathcal{I}$ rispetto alla relazione $\sim$ di "avere la stessa taglia", e dunque otteniamo la \textit{funzione di complessità} (in tempo) per l'algoritmo $A_\pi$:
+		\begin{align*}
+			T_{A_\pi}:\faktor{\mathcal{I}}{\sim}\subseteq \NN\to & \,\RR\cup \left\{0\right\}\\
+			[i]\mapsto &\, t_{A_\pi,i}
+		\end{align*}
+		che è ben definita se la taglia è ben definita. Alcuni casi specifici sono la \textit{worst-case complexity}
+		$$T_{A_\pi}(n):=\underset{\abs{i}=n}{\sup_{i\in\mathcal{I}}}\left\{t_{A_\pi,i}\right\}$$
+		la \textit{best-case complexity}
+		$$T_{A_\pi}(n):=\underset{\abs{i}=n}{\inf_{i\in\mathcal{I}}}\left\{t_{A_\pi,i}\right\}$$
+		e la \textit{average-case complexity}, in cui il tempo in funzione dell'istanza è visto come una variabile aleatoria, e quindi si definisce 
+		$$T_{A_\pi}(n):=\mathbb{E}[t_{A_\pi,i}]$$
+	\end{definition}
+	
+	In particolare di solito la taglia di un'istanza è \textit{il numero di bit} necessari a rappresentarlo in memoria. Per esempio un algoritmo che ha una complessità che dipende dal valore massimo di un certo intero ha complessità esponenziale, infatti un intero di valore $u$ ha bisogno di 
+	$$\abs{u}=\floor{\log_2(u)}+1$$
+	bit per essere rappresentato, quindi in funzione della taglia un tale algoritmo avrebbe complessità
+	$$T$$
+	$$T(\abs{u})=2^{\abs{u}}=u$$
+	che è esponenziale! In generale algoritmi di questo tipo, che sembrano polinomiali per taglie "scelte male" si dicono \textit{pseudopolinomiali}.
+	
+	\newpage
+	
+	\section{Divide and Conquer}
+	
+	Un algoritmo divide and conquer (D\&C) si basa su due fasi: 
+	\begin{description}
+		\item[Divide:] Ovvero, una fase in cui il problema che vogliamo risolvere è diviso in problemi analoghi su istanze di taglia più piccola.
+		\item[Conquer:] La fase in cui le soluzioni ai problemi di taglia più piccola vengono combinate per ottenere una soluzione al problema originale.
+	\end{description}
+	La proprietà importante che ci permette di applicare un algoritmo divide and conquer è
+	\begin{definition}[Proprietà di sottostruttura]
+		Un problema $\Pi$ si dice avere una certa \textit{proprietà di sottostruttura} se esiste una taglia minima $n_0$ tale che per tutte le istanze di taglia $\le n_0$ il problema sia "immediatamente risolvibile" (queste vengono dette \textit{istanze di base}), e due funzioni $D$ e $C$ tali che
+		\begin{align*}
+			D:\mathcal{I}\longrightarrow & \, \mathcal{I}^* \\
+			i \longmapsto & \, \langle  i_1,i_2,\dots,i_k\rangle \\
+			C:\mathcal{S}^*\longrightarrow & \, \mathcal{S} \\
+			\langle s_1,s_2,\dots,s_k \rangle  \longmapsto & \, s
+		\end{align*}
+		tali che $\abs{i_k}<\abs{i}$ per ogni $i_k\in D(i)$, e inoltre se abbiamo 
+		$$i_1\,\Pi\,s_1,i_2\,\Pi\,s_2,\dots,i_k\Pi\,s_k$$
+		abbiamo
+		$$i\,\Pi\,C(\langle s_1,s_2,\dots,s_k\rangle)$$
+		cioè possiamo fare sempre la fase di divide e la fase di conquer.
+	\end{definition} 
+	
+	Insomma un algoritmo divide and conquer è costituito da quattro routine:
+	\begin{description}
+		\item[{[B]}] Il caso base, in cui le soluzioni di taglia $\le n_0$ vengono risolte direttamente, di solito tramite bruteforce.
+		\item[{[D]}] Viene applicata la routine $A_D(i)$ che applica il divide. Questa è la fase "top-down".
+		\item[{[R]}] Il programma ricorre su se stesso, ottenendo "gratuitamente" le soluzioni ai sottoproblemi più piccoli.
+		\item[{[C]}] Viene applica la routine $A_C(\langle s_1,s_2,\dots,s_k\rangle)$ che applica la fase di conquer sulle soluzioni ottenute al passo precedente. Questa è la fase "bottom-up".
+	\end{description}
+	In generale la correttezza di un algoritmo divide and conquer si dimostra per induzione.
+	\subsection{Albero delle chiamate}
+	
+	La fase di divide di un algoritmo divide and conquer definisce un albero, il cosiddetto \textbf{albero delle chiamate}. In particolare il nodo $i$ avrà come figli esattamente i nodi $D(i)$, e saranno foglie solo i nodi di taglia minore o uguale di $n_0$. \\
+	Questo è soltanto concettuale, in effetti in macchina lo stack delle chiamate ricorsive è un DFS-order di questo albero, che non viene mai esplicitamente costruito. In effetti non abbiamo mai neanche tutto l'albero in memoria, al più avremo un numero di chiamate asintotico all'altezza dell'albero, perchè l'algoritmo ricorre finchè non raggiunge una foglia. \\
+	Il grosso problema del paradigma divide and conquer è che funziona in modo efficiente solo quando tutti i nodi sono assunti distinti, infatti ogni volta che la procedura di conquer viene attuata sulle soluzioni $\langle s_1,s_2,\dots, s_k\rangle$ tutte le soluzioni alle sottoistanze $s_1,\dots,s_k$ vengono perse, e quindi se dovessero essere di nuovo necessarie per risolvere un'altra sottoistanza andranno calcolate di nuovo. Questo problema, risolto dalla DP, si chiama \textbf{memorylessness}.
+	
+	\subsection{Trova il massimo}
+	
+	Un primo esempio molto stupido di algoritmo divide and conquer è quello che risolve:
+	
+	\begin{prob}[Trova il massimo]
+		Definiamo il seguente problema computazionale:
+		\begin{description}
+			\item[Input:] Un elemento $v$ di $\RR^*$.
+			\item[Output:] Il massimo elemento di $v$.
+		\end{description}
+	\end{prob}
+	
+	Questo è risolvibile con un algoritmo molto semplice divide and conquer:
+	\begin{lstlisting}[language=C++]
+		int trova_il_massimo(vector<int> &v,int l, int r){
+			if(v.size()==1) return v[0]; 					
+			//caso base
+			int a1 = trova_il_massimo(v,((l+r)/2)+1,r);		
+			//ricorsione (e divide)
+			int a2 = trova_il_massimo(v,l,(l+r)/2);			
+			//ricorsione (e divide)
+			return max(a1,a2);								
+			//conquer
+		}
+	\end{lstlisting}
+	
+	La cui correttezza si dimostra molto facilmente per induzione.
+	
+	\newpage
+	
+	\subsection{Ricorrenze}
+	
+	Il problema degli algoritmi divide and conquer di solito è che sono \textbf{ricorsivi}, cioè di solito la loro funzione di complessità soddisfa una ricorrenza. Per fare un'analisi della complessità dell'algoritmo per trovare il max consideriamo la taglia di un'istanza la lunghezza del vettore (insomma il valore $n:=r-l$), la complessità $T(n)$ soddisfa allora
+	$$T(n)=
+	\begin{cases}
+		0 & \text{se $n=1$} \\
+		T\left(\ceiling{\frac{n}{2}}\right)+T\left(\floor{\frac{n}{2}}\right)+1 & \text{altrimenti.}
+	\end{cases}
+	$$
+	(qui associamo un running time $1$ ai confronti tra elementi del vettore\footnote{NON AI CONFRONTI TRA INDICI!} e un running time di $0$ a tutto il resto). In generale per un algoritmo generico bisogna considerare tre costi, $T_{A_D}$ il costo del divide, $T_{A_R}$ il costo del recurse e $T_{A_C}$ il costo del conquer. Generalmente $T_{A_R}$ sarà in funzione di $T(n)$ e gli altri due saranno in funzione solo di $n$. Generalmente quindi abbiamo
+	$$T(n)=
+	\begin{cases}
+		f(n) & \text{se $n<n_0$} \\
+		T_{A_D}+T_{A_R}+T_{A_C} & \text{altrimenti.}
+	\end{cases}
+	$$
+	nel caso del max abbiamo in effetti:
+	$$T_{A_D}=0$$
+	$$T_{A_R}=T\left(\ceiling{\frac{n}{2}}\right)+T\left(\floor{\frac{n}{2}}\right)$$
+	$$T_{A_C}=1.$$
+	Abbiamo quindi delle informazioni sulla funzione di complessità, dobbiamo trovare il modo per ricavarne fuori qualcosa sull'andamento asintotico di $T$ (possibilmente una formula chiusa, ma questo non è sempre possibile).
+	\begin{definition}[Big-O, Big-Omega, Big-Theta]
+		Diciamo che 
+		$$T(n)=\bigo{f(n)}$$
+		se e solo se esiste una costante $c$ e un $n_0$ tali che per ogni $n\ge n_0$ abbiamo
+		$$cf(n)\le T(n)$$
+		viceversa diciamo che 
+		$$T(n)=\bigomega{f(n)}$$
+		se e solo se esiste una costante $c$ e un $n_0$ tali che per ogni $n\ge n_0$ abbiamo
+		$$cf(n)\ge T(n)$$
+		infine diciamo che 
+		$$T(n)=\bigtheta{f(n)}$$
+		se e solo se abbiamo contemporaneamente
+		$$T(n)=\bigo{f(n)}$$
+		$$T(n)=\bigomega{f(n)}.$$
+	\end{definition}
+	\subsubsection{Unfolding e induzione parametrica}
+	Una prima strategia per trovare un andamento asintotico è cercare di "unfoldare" uno step alla volta la ricorrenza. In questo modo spesso possiamo trovare un \textbf{guess} sull'andamento asintotico (o possiamo dimostrare una formula chiusa per un sottoinsieme di $\NN$ particolare, per esempio nel caso del max per le potenze di $2$). Una volta ottenuto il guess, se non possiamo trovare direttamente una formula chiusa (dimostrandola per induzione), possiamo accontentarci di dimostrare le disuguaglianze
+	$$T(n)\ge c_1f(n)$$
+	$$T(n)\le c_2f(n)$$
+	in modo da dimostrare che $T(n)=\bigtheta{f(n)}$. A questo fine torna utile la tecnica dell'\textbf{induzione parametrica}, cioè cercare di dimostrare disuguaglianze per induzione lasciando parametri liberi di variare nelle funzioni con cui stiamo boundando il tempo. Per esempio per il max dimostriamo per induzione le disuguaglianze
+	$$T(n)\le an+b$$
+	$$T(n)\ge cn+d$$
+	che ci permette di dire che $T(n)=\bigtheta{n}$.
+	
+	\subsubsection{Albero delle ricorrenze}
+	
+	Un'altra possibilità consiste nello "svolgere completamente la ricorrenza" prendendo un'istanza worst-case e costruendo il suo albero delle chiamate. A questo punto a ogni nodo associamo una quantità che chiamiamo \textit{work}, ovvero il tempo $T_D+T_C$ per i nodi interni e $T_B$ per le foglie. In questo modo sommando il work su tutti i nodi otteniamo esattamente $T(n)$. Questo di solito per algoritmi di divide and conquer con tempi di divide e di conquer più o meno costanti è la strategia più efficace, anche perchè permette di visualizzare completamente quello che stiamo facendo. Per esempio nel caso del max abbiamo che i nodi interni contribuiscono esattamente con work uguale a
+	$$T_D+T_C=0+1$$
+	mentre i nodi foglia hanno costo $0$. Allora dato che, se abbiamo un array di $n$ elementi, l'albero della ricorrenza ha esattamente $n-1$ nodi interni e $n$ nodi foglia, abbiamo che $T(n)$ è esattamente
+	$$T(n)=(n-1)1+n0=n-1$$
+	per un'istanza worst case. Un'albero 
+	
+	\begin{definition}[funzioni $s,f,w$]
+		Dato un albero delle chiamate definiamo la funzione $s:\NN\to\NN$ il numero di sottoistanze  $s(n)$ generate da un'istanza di taglia $n$. D'altra parte definiamo la funzione $f:\NN\to\NN $ la funzione che associa alla taglia $n$ di un'istanza la taglia delle sottoistanze generate $f(n)$. Infine definiamo la funzione \textit{work} $w:\NN \to \RR_{\ge 0}$ come la somma dei tempi $T_D+T_C$ per i nodi interni e $T_B$ per i nodi foglia. In altre parole se le funzioni $s,f,w$ sono ben definite (non è detto lo siano, succede solo per specifiche ricorrenze) la ricorrenza assume la forma:
+		$$
+		T(n)=
+		\begin{cases}
+			T_0 & \text{se $n\le n_0$} \\
+			s(n)T(f(n))+w(n) & \text{altrimenti.}
+		\end{cases}
+		$$
+		notiamo che per come abbiamo definito il divide and conquer $f$ è una contrazione, cioè $f(n)<n$ per ogni $n$. 
+	\end{definition}
+	Poter definire queste funzioni restringe la generalità del nostro ragionamento, ma in ogni caso ci permette di trovare la soluzione a una grande quantità di equazioni di ricorrenza.
+	
+	\begin{definition}[Composizione]
+		Denotiamo con $f^k(n)$ la funzione $f$ composta con se stessa $k$ volte.
+	\end{definition}
+	\begin{example}
+		La funzione 
+		$$f(n)=\ceiling{\frac{n}{2}}$$
+		composta con se stessa $k$ volte ha formula chiusa:
+		$$f^k(n)=\ceiling{\frac{\ceiling{\frac{\ceiling{\dots}}{2}}}{2}}=\ceiling{\frac{n}{2^k}}$$
+	\end{example}
+	\begin{definition}[Funzione ausiliaria]
+		Definiamo la \textit{funzione ausiliaria} per un albero delle ricorrenze come la funzione
+		$$f^*(n,n_0)=\max\left\{k\in\NN:f^k(n)>n_0\right\}$$
+		cioè è la profondità dell'albero oltre la quale tutte le istanze hanno taglia $\le n_0$. Se $n<n_0$ definiamo $f^*(n,n_0)=-1$.
+	\end{definition}
+	Notiamo che calcolare questa funzione di solito è molto facile:
+	\begin{example}
+		Se $f(n)=\ceiling{\frac{n}{2}}$ abbiamo che il $k$ che stiamo cercando per calcolare la funzione ausiliaria è
+		$$f^k(n)>n_0 \iff \frac{n}{2^k}>\ceiling{\frac{n}{2^k}}>n_0$$
+		quindi $k$ soddisfa
+		$$k<\log_2 n-\log_2 n_0$$
+	\end{example}
+	con questi ingredienti possiamo derivare una formula chiusa:
+	\begin{theorem}[Formula esplicita di una ricorrenza su un albero]
+		Una ricorrenza $T:\NN\to\RR_{\ge 0}$ della forma
+		$$
+		T(n)=
+		\begin{cases}
+			T_0 & \text{se $n< n_0$} \\
+			s(n)T(f(n))+w(n) & \text{altrimenti.}
+		\end{cases}
+		$$
+		con le funzioni $s,f,w$ definite prima, ha formula esplicita
+		$$
+		T(n)=\sum_{l=0}^{f^*(n,n_0)}\left(\left[\prod_{j=0}^{l-1}s\left(f^j(n)\right)\right]w\left(f^l(n)\right)\right)+T_0\prod_{j=0}^{f^*(n,n_0)}s\left(f^j(n)\right).
+		$$
+	\end{theorem}
+	\begin{proof}
+		\textbf{L'idea è sommare livello per livello sull'albero delle ricorrenze}. Per le assunzioni che abbiamo fatto per poter scrivere le funzione $s,f,w$ ci basta sommare il work del livello (che è uguale per tutti i nodi) tante volte quanti sono i nodi, cioè se $l$ è il livello (la radice è al livello $0$ e le foglie al livello $m$) abbiamo che 
+		$$\#\text{nodi al livello $l$}=s(f^0(n))s(f^1(n))s(f^2(n))\dots s(f^{l-1}(n))=\prod_{j=0}^{l-1}s\left(f^j(n)\right)$$
+		d'altra parte il lavoro al livello $l$ è semplicemente $w(f^l(n))$ e quindi abbiamo che 
+		$$\sum_{l=0}^{f^*(n,n_0)}\left(\left[\prod_{j=0}^{l-1}s\left(f^j(n)\right)\right]w\left(f^l(n)\right)\right)$$
+		a questo dobbiamo aggiungere il work delle foglie, che è semplicemente il numero di nodi del livello $f^*(n,n_0)$ (le foglie) per il costo di una foglia $T_0$.
+		$$T_0\prod_{j=0}^{f^*(n,n_0)}s\left(f^j(n)\right)$$
+		e sommando queste due quantità otteniamo la formula della tesi. 
+	\end{proof}
+	
+	\subsubsection{Il Master's theorem}
+	
+	Il teorema definitivo che ci permette di calcolare direttamente l'andamento asintotico a partire dalla ricorrenza è il cosiddetto Master's Theorem. La prima versione, più debole, si occupa delle ricorrenze della forma
+	$$T(n)=
+	\begin{cases}
+		T_0 & \text{se $n=1$} \\
+		a T\left(\frac{n}{b}\right)+w(n) & \text{altrimenti.}
+	\end{cases}
+	$$
+	con $a \ge 1$ e $b\ge 2$ interi. In effetti qui stiamo assumendo che $n$ sia una potenza di $b$, ma in ogni caso l'andamento asintotico vedremo che non cambierà.
+	
+	\begin{definition}[Funzione di soglia]
+		Data una ricorrenza $T(n)$ della forma sopra, la sua \textit{funzione di soglia} è definita come $n^{\log_b a}$.
+	\end{definition}
+	\begin{theorem}[Master's theorem]
+		Data una ricorrenza $T(n)$ della forma
+		$$T(n)=
+		\begin{cases}
+			T_0 & \text{se $n=1$} \\
+			a T\left(\frac{n}{b}\right)+w(n) & \text{altrimenti.}
+		\end{cases}
+		$$
+		abbiamo tre casi, in base a come si comporta asintoticamente la funzione di soglia con la funzione di lavoro:
+		\begin{description}
+			\item[Il lavoro è tutto sulle foglie] Se esiste un $\varepsilon>0$ per cui la funzione di lavoro
+			$$w(n)=\bigo{n^{\log_b a -\varepsilon}}$$
+			allora abbiamo $T(n)=\bigo{n^{\log_b a}}$, in particolare se $T_0>0$ abbiamo anche:
+			$$\boxed{T(n)=\bigtheta{n^{\log_b a}}}.$$
+			\item[Il lavoro è bilanciato] Se la funzione di lavoro soddisfa:
+			$$w(n)=\bigtheta{n^{\log_b a}}$$
+			allora abbiamo
+			$$\boxed{T(n)=\bigtheta{n^{\log_b a}\log n}}$$
+			\item[Il lavoro è tutto sui nodi interni] Infine se abbiamo che esiste un $\varepsilon>0$ tale che 
+			$$w(n)=\bigomega{n^{\log_b a +\varepsilon}}$$
+			e inoltre la funzione di lavoro è \textit{regolare}, cioè esiste una costante $c\in (0,1)$ tale che per ogni $n$ è soddisfatta la seguente disuguaglianza
+			$$a w\left(\frac{n}{b}\right)\le c w(n)$$
+			allora si ha
+			$$\boxed{T(n)=\bigtheta{w(n)}}.$$
+		\end{description}
+	\end{theorem}
+	\begin{proof}
+		Applichiamo la formula esplicita di una ricorrenza su un albero imponendo $s(n)=a$ e $f(n)=n/b$:
+		$$T(n)=\sum_{l=0}^{\log_b n -1}a^l w\left(\frac{n}{b^l}\right) + T_0 a^{\log_b n}$$
+		che d'altra parte diventa
+		$$T(n)=\sum_{l=0}^{\log_b n -1}a^l w\left(\frac{n}{b^l}\right) + T_0 n^{\log_b a}$$
+		da cui vediamo da dove spunta il termine della funzione soglia. Questa equazione ci dice già da subito che
+		$$T(n)=\bigomega{n^{\log_b a}}$$
+		Ora vediamo i tre casi:
+		\begin{description}
+			\item[Il lavoro è tutto sulle foglie] Se il work è asintoticamente minore della funzione soglia significa che esiste una costante $c$ tale che 
+			$$w(n)\le c n^{\log_b a -\varepsilon}$$
+			per ogni $n$. Sostituendo:
+			$$\sum_{l=0}^{\log_b n -1}a^l w\left(\frac{n}{b^l}\right) + T_0 n^{\log_b a} \le \sum_{l=0}^{\log_b n -1}a^l c\left(\frac{n}{b^l}\right)^{\log_b a -\varepsilon} + T_0 n^{\log_b a}$$
+			che portando fuori tutto dalla sommatoria:
+			$$\dots = c n^{\log_b a -\varepsilon}\sum_{l=0}^{\log_b n -1}\left(\frac{a}{b^{\log_b a -\varepsilon}}\right)^l+T_0 n^{\log_b a}=c n^{\log_b a -\varepsilon}\sum_{l=0}^{\log_b n -1}(b^\varepsilon)^l +  T_0 n^{\log_b a}$$
+			che è una serie geometrica, e quindi 
+			$$\dots= cn^{\log_b a -\varepsilon}\frac{b^{\varepsilon\log_b n }-1}{b^\varepsilon-1}+T_0 n^{\log_b a}$$
+			da cui
+			$$\dots = cn^{\log_b a -\varepsilon}\frac{n^\varepsilon-1}{b^\varepsilon-1}+T_0 n^{\log_b a}\le cn^{\log_b a -\varepsilon}n^\varepsilon\frac{1}{b^\varepsilon-1}+T_0 n^{\log_b a}=\frac{c}{1-b^\varepsilon}n^{\log_b a}+T_0 n^{\log_b a}$$
+			che implica proprio che $T(n)=\bigo{n^{\log_b a}}$, che implica la tesi.
+			\item[Il lavoro è bilanciato] Come prima stimiamo il work sia dall'alto che dal basso con $c_1 n^{\log_b a}$ e $c_2 n^{\log_b a}$ per $c_1,c_2$ opportunamente scelte:
+			$$c_1n^{\log_b a}\frac{1}{a^l}=c_1\left(\frac{n}{b^l}\right)^{\log_b a}\le w\left(\frac{n}{b^l}\right)\le c_2\left(\frac{n}{b^l}\right)^{\log_b a}=c_2n^{\log_b a}\frac{1}{a^l}$$
+			che sostituendo nella sommatoria ci danno una stima dall'alto e dal basso del tempo
+			$$c_1 n^{\log_b a}\sum_{l=0}^{\log_b n-1}\frac{a^l}{a^l}+T_0n^{\log_b a}\le T(n)\le c_2 n^{\log_b a}\sum_{l=0}^{\log_b n-1}\frac{a^l}{a^l}+T_0n^{\log_b a}$$
+			cioè semplificando le sommatorie
+			$$c_1 n^{\log_b a}\log_b n+T_0n^{\log_b a} \le T(n) \le c_1 n^{\log_b a}\log_b n+T_0n^{\log_b a}$$
+			che ci dà proprio $T(n)=\bigtheta{n^{\log_b a}\log n}$ come volevamo.
+			\item[Il lavoro è tutto sui nodi interni] Si dimostra facilmente per induzione dalla condizione di regolarità che 
+			$$ a^l w\left(\frac{n}{b^l}\right)\le c^l w(n)$$
+			d'altra parte abbiamo per l'asintotico che esiste una costante $c_1$ tale che
+			$$w(n)\ge c_1 n^{\log_b a + \varepsilon}\ge c_1 n^{\log_b a }$$
+			ora, per il bound dal basso ci basta notare che possiamo stimare la sommatoria con il termine per $l=0$.
+			$$T(n)=\sum_{l=0}^{\log_b n -1}a^l w\left(n/b^l\right)+T_0 n^{\log_b a}\ge w(n)+T_0 n^{\log_b a}\ge w(n)$$
+			cioè 
+			$$T(n)=\bigomega{w(n)}.$$
+			D'altra parte per il bound dall'alto possiamo usare le due disugugaglianze enunciate prima
+			$$T(n)\le \sum_{l=0}^{\log_b n -1}c^l w(n)+T_0c_1 w(n)=T_0c_1w(n)+w(n)\sum_{l=0}^{\infty}c^l$$
+			e dato che $0<c<1$ quella serie geometrica converge, e quindi abbiamo proprio
+			$$T(n)\le \dots \le T_0c_1w(n)+w(n)\frac{1}{1-c}=\bigo{w(n)}$$
+			che termina la dimostrazione.
+		\end{description}
+		Dunque abbiamo esaurito i casi, e il teorema è dimostrato.
+	\end{proof}
+	Notiamo prima di andare avanti alcune cose: la prima è che il terzo caso del teorema è sovraspecificato, infatti abbiamo che
+	\begin{lemma}[Regolarità implica boundato dal basso]
+		Sia $w(n)$ una generica funzione di work regolare, cioè tale che esistono costanti $a,b,c$ tali che
+		$$aw\left(n/b\right)\le cw(n)$$
+		allora per qualche $\varepsilon>0$ vale:
+		$$w(n)=\bigomega{n^{\log_b a+\varepsilon}}$$
+	\end{lemma}
+	\begin{proof}
+		Abbiamo già detto che si può dimostrare agilmente per induzione che
+		$$a^lw(n/b^l)\le c^l w(n)$$
+		per ogni $l$ intero. In particolare se imponiamo $l=\floor{\log_b n}$ abbiamo 
+		$$a^ka^{\log_b n}w\left(1/b^k\right)\le c^{\log_b n} w(n)$$
+		dove $k=\log_b n -\floor{\log_b n}$ e quindi abbiamo proprio
+		$$a^k n^{\log_b a}w\left(1/b^k\right)\le n^{\log_b c} w(n)$$
+		che portando tutto da un lato e notando che essendo $c\in (0,1)$ abbiamo $\log_b c<0$ otteniamo la tesi
+		$$a^k w\left(1/b^k\right)n^{\log_b a -\log_b c}\le w(n) \iff \bigomega{n^{\log_b a-\log_b c}}=w(n)$$
+		come richiesto.
+	\end{proof}
+	e la seconda cosa è che in effetti tutti i polinomi sono regolari
+	\begin{lemma}[I polinomi sono regolari]
+		Se $w(n)$ è un polinomio allora per ogni $a,b\in \NN$ esiste una costante $c\in (0,1)$ tale che
+		$$aw(n/b)\le c w(n)$$
+	\end{lemma}
+	\begin{proof}
+		Chiaramente la funzione 
+		$$w(n)=n^k$$
+		è regolare, infatti basta scegliere $c=\frac{a}{b^k}$ per ottenere
+		$$a\frac{n^k}{b^k}=aw\left(\frac{n}{b}\right)\le \frac{a}{b^k}w(n)=\frac{a}{b^k}n^k$$
+		che è ovviamente verificata. D'altra parte notiamo che se $x(n)$ e $y(n)$ sono regolari, anche le loro combinazioni lineari lo saranno, infatti se abbiamo che
+		$$a x(n/b)\le c_1 x(n)$$
+		$$a y(n/b)\le c_2 y(n)$$
+		abbiamo che la funzione $a_1x(n)+a_2y(n)$ sommando termine a termine le due disuguaglianze precedenti, è boundata da:
+		$$a_1ax(n/b)+a_2ay(n/b)\le a_1c_1x(n)+a_2c_2y(n)$$
+		che scegliendo $c_3=\max(c_1,c_2)$ è 
+		$$a_1ax(n/b)+a_2ay(n/b)\le a_1c_1x(n)+a_2c_2y(n)\le c_3\left(a_1x(n)+a_2y(n)\right)$$
+		cioè è di nuovo regolare. Dunque abbiamo mostrato che le funzioni potenza sono regolari, e che combinazione lineare di funzioni regolari è regolare, e quindi abbiamo che tutti i polinomi sono regolari.
+	\end{proof}
+	
+	\newpage
+	
+	\subsection{Operazioni tra matrici}
+	\begin{definition}[Taglia di un algoritmo sulle matrici]
+		Dato un algoritmo che opera su matrici, definiamo la taglia di una matrice come il suo numero di righe. Qundi la taglia di un'istanza costituita da una sola matrice è $n^2$.
+	\end{definition}
+	\begin{definition}[Complessità di un algoritmo su matrici]
+		Il modello di costo che adottiamo per gli algoritmi su matrici attribuisce costo unitario alle operazioni tra scalari, e costo nullo a tutte le altre operazioni.
+	\end{definition}
+	Per sommare matrici tra loro possiamo usare l'algoritmo na\:ive, e questo è ottimale dato che ha una complessità uguale alla complessità richiesta a memorizzare le matrici di ingresso. Per moltiplicare le matrici la faccenda si fa più interessante, l'algoritmo na\:ive è:
+	\begin{lstlisting}[language=C++]
+		#include <bits/stdc++.h>
+		
+		using namespace std;
+		
+		vector<vector<int>> matmul_naive(int N, vector<vector<int>> A, vector<vector<int>> B){
+			
+			vector<vector<int>> C(N,vector<int>(N,0));
+			
+			for(int i = 0 ; i < N ; i++){
+				for(int j = 0 ; j < N ; j++){
+					// facciamo il prodotto scalare (come se fosse in notazione di Einstein)
+					for(int k = 0 ; k < N ; k++){
+						C[i][j] += A[i][k] * B[k][j];
+					}
+				}
+			}
+			
+			return C;
+		}
+	\end{lstlisting}
+	facendo un'analisi (trasformando ogni for in una sommatoria essenzialmente), otteniamo
+	$$T(n)=2n^3-n^2=\bigtheta{n^3}$$
+	ci chiediamo allora se si possa fare di meglio.
+	
+	\subsubsection{Strassen}
+	
+	Vogliamo applicare un algoritmo divide and conquer, la prima cosa che ci è utile è paddare la matrice, aggiungendo una cornice di $0$ alle matrici $A$, $B$ che vogliamo moltiplicare finchè non hanno le dimensioni di una potenza di $2$:
+	$$
+	\left(
+	\begin{array}{c|c}
+		A & 0 \\
+		\hline 
+		0 & 0
+	\end{array}
+	\right)
+	\left(
+	\begin{array}{c|c}
+		B & 0 \\
+		\hline
+		0 & 0
+	\end{array}
+	\right)=
+	\left(
+	\begin{array}{c|c}
+		AB & 0 \\
+		\hline
+		0 & 0
+	\end{array}
+	\right)
+	$$
+	questo non intacca più di tanto la nostra complessità, in quanto aumenta il tempo solo in modo costante. L'idea dell'algoritmo è utilizzare la \textit{proprietà frattale} del prodotto tra matrici, ovvero
+	$$
+	\left[
+	\begin{array}{c|c}
+		A_{11} & A_{12} \\
+		\hline
+		A_{21} & A_{22}
+	\end{array}
+	\right]
+	\left[
+	\begin{array}{c|c}
+		B_{11} & B_{12} \\
+		\hline
+		B_{21} & B_{22}
+	\end{array}
+	\right]=
+	\left[
+	\begin{array}{c|c}
+		C_{11} & C_{12} \\
+		\hline
+		C_{21} & C_{22}
+	\end{array}
+	\right]
+	$$
+	dove i $C_i$ sono
+	$$C_{ij}=A_{i1}B_{1j}+A_{i2}B_{2j}$$
+	per ogni $i,j$. Questo si può dimostrare facendo tanti conti con sommatorie, in modo brutto. 
+	
+	\begin{lstlisting}[language=C++]
+		#include <bits/stdc++.h>
+		
+		using namespace std;
+		template <typename T>
+		
+		class matrix{
+			int dim;
+			vector<vector<T>> data;
+			vector<T> & operator[](int i)
+			{
+				return data[i];
+			}
+			matrix<T> operator+(const matrix other) const
+			{
+			
+			}
+			
+		public:
+			matrix(int n) : dim(n), data(n, vector<T>(n, T())){ }
+			matrix(const vector<vector<T>> &V) : dim(V.size()), data(V){ }
+		}
+		
+		matrix<int> matumlR (matrix<int> A, matrix<int> B){
+			return 
+		}
+	\end{lstlisting}
+	l'idea di Strassen è simile a quella di Karatsuba, ed è di calcolare le somme
+	\begin{align*}
+		& A_1=A_{12}-A_{22} & B_1=B_{21}+B_{22} & \\
+		& A_2=A_{11}+A_{22} & B_2=B_{11}+B_{22}	& \\
+		& A_3=A_{11}-A_{12} & B_3=B_{11}+B_{12} & \\
+		& A_4=A_{11}+A_{21} & B_4=B_{22} 		& \\
+		& A_5=A_{11} 		& B_5=B_{12}-B_{22} & \\
+		& A_6=A_{22} 		& B_6=B_{21}-B_{11} & \\
+		& A_7=A_{21}+A_{22} & B_7=B_{11}		&
+	\end{align*}
+	da cui abbiamo che calcolando i prodotti
+	$$P_i=A_iB_i$$
+	per ogni $i$, i quadranti della matrice $C$ sono 
+	\begin{align*}
+		& C_1 = P_1 + P_2 - P_4 + P_6 \\
+		& C_2 = P_4 + P_5 \\
+		& C_3 = P_6 + P_7 \\
+		& C_4 = P_2 - P_3 + P_5 - P_7
+	\end{align*}
+	abbastanza crazy. La ricorsione associata a questo algoritmo dunque è 
+	$$T(n)=7T(n/2)+\frac{9}{2}n^2$$
+	che per il MT ha complessità $\bigtheta{n^{\log_2 7}}\approx \bigtheta{n^{2.81}}$. Esplicitamente risolta con la formula chiusa in realtà otteniamo che
+	$$T(n)=7n^{\log_2 7}-6n^2$$
+	che ha una costante importante davanti. In effetti l'algoritmo di Strassen è davvero più efficiente solo per matrici parecchio grandi, cioè per matrici di dimensione paddata superiore di $n$, dove $n$ è la più piccola potenza di $2$ tale che
+	$$7n^{\log_2 7}-6n^2<2n^3-n^2$$
+	che è qualcosa come $1024$, cioè si parla di matrici con più di un milione di elementi. Poi questo non tiene conto di fattori sperimentali, e quindi di solito Strassen è usato solo quando si lavora con oggetti molto molto grandi.
+	
+	\newpage
+	
+	\subsubsection{Matrici Supercircolanti}
+	Quando lavoriamo con classi di matrici specifiche possiamo sviluppare algoritmi più efficienti del semplice Strassen.
+	\begin{definition}[Matrice Supercircolante]
+		Una matrice $A$ quadrata $n\times n$ si dice \textit{supercircolante di ordine $n$} se:
+		\begin{itemize}
+			\item $n=1$, cioè è semplicemente uno scalare.
+			\item Possiamo scrivere la matrice come
+			$$A=\left(
+			\begin{array}{c|c}
+				A_1 & A_2 \\
+				\hline
+				A_2 & A_1
+			\end{array}
+			\right)$$
+			dove $A_1,A_2$ sono a loro volta matrici supercircolanti di ordine $n/2$.
+		\end{itemize}
+		Chiaramente una matrice supercircolante ha sempre dimensioni una potenza di $2$.
+	\end{definition}
+	\begin{example}
+		Le due matrici 
+		$$
+		\left(
+		\begin{array}{c|c}
+			1 & 2 \\
+			\hline
+			2 & 1
+		\end{array}
+		\right),
+		\left(
+		\begin{array}{c|c}
+			3 & 4 \\
+			\hline
+			4 & 3
+		\end{array}		
+		\right)
+		$$
+		sono supercircolanti. Allo stesso modo la matrice
+		$$
+		\left(
+		\begin{array}{c|c}
+			\begin{array}{c|c}
+				1 & 2 \\
+				\hline
+				2 & 1
+			\end{array} & 
+			\begin{array}{c|c}
+			3 & 4 \\
+			\hline
+			4 & 3
+			\end{array}	\\
+			\hline
+			\begin{array}{c|c}
+				1 & 2 \\
+				\hline
+				2 & 1
+			\end{array} &
+			\begin{array}{c|c}
+				3 & 4 \\
+				\hline
+				4 & 3
+			\end{array}
+		\end{array}
+		\right)
+		$$
+		è supercircolante. 
+	\end{example}
+	\begin{lemma}[Condizione necessaria per essere supercircolante]
+		Per una matrice supercircolante, ogni riga è una permutazione delle altre.
+	\end{lemma}
+	\begin{lemma}[Chiusura]
+		Siano $A$ e $B$ due matrici supercircolanti. Allora le matrici
+		$$
+		AB
+		$$
+		$$
+		\lambda_1A+\lambda_2B
+		$$
+		sono matrici supercircolanti.
+	\end{lemma}
+	\begin{proof}
+		Procediamo per induzione estesa. Il caso base è chiaro, supponiamo ora che tutte le matrici supercircolanti di ordine minore di $n$ siano chiuse, allora se $A$ e $B$ sono supercircolanti di ordine $n$ si ha
+		$$A=\left(
+		\begin{array}{c|c}
+			A_1 & A_2 \\
+			\hline
+			A_2 & A_1
+		\end{array}
+		\right)$$
+		$$B=
+		\left(
+		\begin{array}{c|c}
+			B_1 & B_2 \\
+			B_2 & B_1
+		\end{array}
+		\right)
+		$$ 
+		e la somma e il prodotto sono
+		$$AB=
+		\left(
+		\begin{array}{c|c}
+			A_1 & A_2 \\
+			\hline
+			A_2 & A_1
+		\end{array}
+		\right)
+		\left(
+		\begin{array}{c|c}
+			B_1 & B_2 \\
+			\hline
+			B_2 & B_1
+		\end{array}
+		\right)
+		=
+		\left(
+		\begin{array}{c|c}
+			A_1B_1+A_2B_2 & A_1B_2+A_2B_1 \\
+			\hline
+			A_2B_1+A_1B_2 & A_2B_2+A_1B_1
+		\end{array}
+		\right)
+		$$
+		$$
+		\lambda_1A+\lambda_2B=
+		\left(
+		\begin{array}{c|c}
+			\lambda_1 A_1+\lambda_2 B_1 & \lambda_1A_2+\lambda_2B_2 \\
+			\hline
+			\lambda_1 A_2+\lambda_2 B_2 & \lambda_1A_1+\lambda_2B_1
+		\end{array}
+		\right)
+		$$
+		che per l'ipotesi induttiva sono di nuovo supercircolanti.
+	\end{proof}
+	\begin{lemma}[Il prodotto di supercircolanti è commutativo]
+		Comunque date due matrici supercircolanti abbiamo
+		$$AB=BA$$
+	\end{lemma}
+	Il fatto che le matrici supercircolanti siano intrinsecamente ricorsive ci permette immediatamente di scrivere un algoritmo divide and conquer per la somma. In effetti un tale algoritmo ci permette di fare $\bigo{n^2}$ assegnazioni e $\bigo{n}$ somme, che non è sempre un vantaggio (anzi, spesso non lo è), ma still, è qualcosa. Dove la situazione si fa già più interessante è per il prodotto:
+	$$
+	\begin{pmatrix}
+		A_1 & A_2 \\
+		A_2 & A_1
+	\end{pmatrix}
+	\begin{pmatrix}
+		B_1 & B_2 \\
+		B_2 & B_1
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		A_1B_1+A_2B_2 & A_1B_2+A_2B_1 \\
+		A_2B_1+A_1B_2 & A_2B_2+A_1B_1
+	\end{pmatrix}
+	$$
+	questi sono solo $4$ prodotti distinti, e infatti brutalmente implementando questa cosa otteniamo un algoritmo che va come
+	$$T(n)=4T(n/2)+n$$
+	(di nuovo senza contare le assegnazioni) che è subito $\bigtheta{n^2}$ per il MT. Ma possiamo fare di meglio! Usando un trucchetto alla strassen abbiamo:
+	$$U:=(A_1+A_2)(B_1+B_2)$$
+	$$V:=(A_1-A_2)(B_2-B_2)$$
+	che sviluppando e sommando ci danno
+	$$\frac{U+V}{2}=A_1B_1+A_2B_2$$
+	$$\frac{U-V}{2}=A_2B_1+A_1B_2$$
+	che ci permettono quindi di ricorrere con una ricorsione che è
+	$$T(n)=2T(n/2)+4n$$
+	che per il MT viene $\bigtheta{n\log n}$ (senza contare le assegnazioni)! Il codice è
+	\begin{lstlisting}[language=C++]
+		#include <bits/stdc++.h>
+	\end{lstlisting}
+	
+	\newpage
+	
+	\subsection{Polinomi e FFT}
+	\begin{definition}[Rappresentazione]
+		Dato un oggetto matematico generico $p$, una sua \textit{rappresentazione} è un oggetto dal quale possiamo ricostruire in tutti i dettagli l'oggetto $p$ (e viceversa). Se $\mathbf{a}$ è una rappresentazione di $p$ scriveremo
+		$$\mathbf{a}\equiv p.$$
+	\end{definition}
+	Sappiamo benissimo cos'è un polinomio a coefficienti complessi $p\in \CC[x]$. A livello computazionale ci sono $2$ modi importanti per rappresentare un polinomio:
+	\begin{definition}[Rappresentazione su $n$ coefficienti]
+		Il primo modo, importante, è coefficiente per coefficiente come numeri. In questo modo il polinomio diventa banalmente una lista di $n$ coefficienti in $\CC^\star$. Un polinomio rappresentato come lista di $n$ numeri si dice \textit{rapprsentato su $n$ elementi}. Notiamo che questo implica che il grado del polinomio sia $\le n-1$.
+	\end{definition}
+	Importante sarà pensare i polinomi come elementi di uno spazio vettoriale di dimensione il grado massimo con cui stiamo lavorando. Il \textit{padding} di una rappresentazione consiste nell'aggiungere elementi neutri alla rappresentazione per uniformarne la dimensione a un certo standard (per esempio, se stiamo lavorando con polinomi di grado $n$ torna comodo paddare tutti i polinomi di grado minore aggiungendo termini $0x^k$). Per il principio di identità dei polinomi abbiamo il seguente chiaro teorema:
+	\begin{theorem}[Di interpolazione]
+		Dati $n$ elementi $(x_1,y_1)$ di $\CC\times\CC$ tali che $x_i\ne x_j$ per ogni coppia di indici $i,j$ allora esiste uno e un solo polinomio di grado limitato da $n$ che passa per tutti.
+	\end{theorem}
+	Questo teorema crea immediatamente un'altra rappresentazione di un polinomio 
+	\begin{definition}[Rappresentazione per punti]
+		Dato un vettore $\mathbf{x}\in\CC^n$, un polinomio di grado $p$ di grado limitato da $n$ si dice \textit{rappresentato per ($n$) punti in base $\mathbf{x}$} se lo scriviamo come
+		$$p\equiv (\mathbf{x},\mathbf{y})$$
+		dove $\mathbf{y}$ è un elemento di $\CC^n$ tale che $p(x_i)=y_i$ per ogni $0\le i< n$.
+	\end{definition}
+	La rappresentazione per punti è \textit{estendibile}, cioè possiamo passare da una rappresentazione ad un'altra facendo un padding. Purtroppo qui gli elementi che lasciano invariata la rappresentazione, se estendiamo il vettore $\mathbf{x}$ con un vettore $\mathbf{x}^E$ dovremo estendere il vettore $\mathbf{y}$ valutando $\mathbf{x}$ in $p$ coordinata per coordinata. \\
+	Il punto di partenza allora per arrivare a FFT sarà quello di sviluppare \textbf{algoritmi di conversione efficienti} per le due rappresentazioni. 
+	
+	\subsubsection{Operazioni nelle rappresentazioni}
+	
+	Implementare operazioni di somma o differenza in rappresentazione per coefficienti è molto facile. La situazione già si complica per il prodotto, infatti abbiamo che, dati 
+	$$p(x)=\sum_{j=0}^{n-1}a_jx^j$$
+	$$q(x)=\sum_{j=0}^{n-1}b_jx^j$$
+	il loro prodotto è
+	$$p(x)q(x)=\left(\sum_{j=0}^{n-1}a_jx^j\right)\left(\sum_{j=0}^{n-1}b_jx^j\right)$$
+	che espandendo viene
+	$$\dots=\sum_{j=0}^{2n-2}c_jx^j$$
+	ma notiamo che per ottenere un termine di grado $j$ dobbiamo moltiplicare termini di grado $k$ e grado $h$ tali che $k+h=j$. Cioè abbiamo che
+	$$c_j=\sum_{k=0}^{j}a_kb_{j-k}$$
+	Questa formula è valida per tutti i $j$ da $0$ a $2n-2$ se consideriamo di aver paddato inizialmente entrambi i vettori fino a $2n-2$ in realtà il modo più intelligente è risparmiarsi le operazioni, riscrivendo la formula come
+	$$c_j=\sum_{j=\min\left\{0,j-n+1\right\}}^{\min\left\{j,n-1\right\}}a_kb_{j-k}$$
+	che è più brutto ma più effiiente:
+	Stiamo arrivando da qualche parte:
+	\begin{definition}[Convoluzione]
+		Dati due vettori $\vec{a},\vec{b}$ definiamo l'operatore \textit{convoluzione lineare} $\star:\CC^n\times\CC^n\to\CC^{2n+1}$ tale che 
+		$$\left(\vec{a}\star \vec{b}\right)_j=\sum_{k=0}^{j}a_{k}b_{j-k}.$$
+	\end{definition}
+	notiamo che scritta così la convoluzione è parecchio costosa, $\bigtheta{n^2}$ in particolare. \\
+	Sommare polinomi in rappresentazione per punti è di nuovo banale. Sul prodotto invece moltiplicare le cose è estremamente più efficiente, se abbiamo due polinomi $p,q$ di grado limitato da $n$ rappresentati in base $\mathbf{x}$ con la lista $\mathbf{y}$ il prodotto potrà essere rappresentato come
+	$$p(x_i)q(x_i)=z_i=(p\cdot q)(x_i)$$
+	notiamo che tuttavia, perchè questa sia effettivamente una rappresentazione, abbiamo bisogno di allungare le liste in modo che la lista degli $z_i$ sia lunga effetivamente $2n-1$, e questo lo possiamo fare in $\bigtheta{n}$, tempo lineare! Questa è la chiave della FFT, \textbf{moltiplicare polinomi per punti è molto facile}.
+	\subsubsection{Conversione Naive}
+	
+	Vediamo ora come convertire da coefficienti a punti. Il modo naive dato $z$ componente di $\mathbf{x}$ di moltiplicare ogni volta $z^j$ per $z$, moltiplicarlo al coefficiente giusto e sommare tutto. Questo ci dà $2n-1$ prodotti e $n-1$ somme. Dato che a livello macchina in generale i prodotti sono meno efficienti delle somme per ridurre il numero di prodotti possiamo ricorrere alla cosiddetta regola di Horner:
+	$$\sum_{j=0}^{n-1}a_jx^j=a_0+x\left(a_1+x\left(a_1+x\left(\dots\right)\right)\right)$$  
+	che ci permette di svolgere solo $n-1$ prodotti ed $n-1$ somme. \\ 
+	La conversione inversa si fa considerando che gli $n$ punti ci danno un sistema lineare, nelle incognite i coefficienti del polinomio, tale che
+	$$\sum_{j=o}^{n-1}a_jx_i^j=p(x_i)=y_i$$
+	scritto in forma matriciale questo sistema è della forma
+	$$X\vec{a}=\vec{y}$$
+	dove $X$ è la matrice dei coefficienti, che in questo caso è della forma
+	$$X=
+	\begin{pmatrix}
+		x_0^0 & x_0^1 & x_0^2 & \dots & x_0^{n-1} \\
+		x_1^0 & x_1^1 & x_1^2 & \dots & x_1^{n-1} \\ 
+		x_2^0 & x_2^1 & x_2^2 & \dots & x_2^{n-1} \\
+		\vdots & \vdots & \vdots & \ddots & \vdots \\
+		x_{n-1}^0 & x_{n-1}^1 & x_{n-1}^2 & \dots & x_{n-1}^{n-1}
+	\end{pmatrix}
+	$$
+	che è una cosiddetta matrice di Vandermonde:
+	\begin{definition}[Matrice di Vandermonde]
+		Dato un vettore $\vec{z}\in\CC^n$ la sua \textit{matrice di Vandermonde} è la matrice $n\times n$ tale che l'entrata $a_{ij}$ è uguale a  $z_i^{j-1}$.
+	\end{definition}
+	
+	\begin{lemma}[Vandermonde]
+		Il determinante della matrice di Vandermonde $V$ di un vettore $\mathbf{z}\in\CC^n$ è sempre uguale a 
+		$$\det V=\prod_{i< j}\left(z_i-z_j\right)$$ 
+		in particolare quindi una matrice di Vandermonde è invertibile se e solo se tutte le componenti del vettore $\mathbf{z}$ sono distinte.
+	\end{lemma}
+	\begin{proof}
+		Per induzione, vedi gli appunti di Geometria $1$.
+	\end{proof}
+	Dunque quello che vorremmo fare è risolvere quel sistemone lineare, e farlo con Gauss purtroppo ci costa $\bigtheta{n^3}$. In realtà un modo più efficiente per fare ciò è con l'interpolazione di Lagrange:
+	\begin{lemma}[Interpolazione di Lagrange]
+		Data una rappresentazione per punti $\left(\vec{x},\vec{y}\right)$ del polinomio $p$, abbiamo che, per ogni $x\in\CC$ vale:
+		$$p(x)=\sum_{k=0}^{n-1}y_k\frac{\prod_{j\ne k}^{n-1}\left(x-x_j\right)}{\prod_{j\ne k}^{n-1} \left(x_k-x_j\right)}$$
+		o analogamente, definito il polinomio
+		$$Q(x):=\prod_{j=0}^{n-1}\left(x-x_j\right)$$
+		possiamo esprimere la formula come:
+		$$Q_k(x):=\frac{1}{x-x_k}Q(x)$$
+		e dunque abbiamo che 
+		$$p(x)=\sum_{k=0}^{n-1}y_k\frac{Q_k(x)}{Q(x_k)}.$$
+	\end{lemma}
+	\begin{proof}
+		Chiara.
+	\end{proof}
+	La cosa interessante di questa formula è che ci permette di passare dalla rappresentazione per punti a quella per coefficienti in $\bigtheta{n^2}$, infatti ci basta calcolare in tempo quadratico il polinomio $Q(x)$ (espandendo e applicando la proprietà distributiva), e poi calcolare ogni polinomio $Q_k$ \textbf{utilizzando la divisione di Ruffini tra polinomi}, che ha tempo lineare. Infine sommando tutto otteniamo la rappresentazione per coefficienti. \\
+	Queste conversioni non ci permettono di moltiplicare più velocemente i polinomi purtroppo, perché sono entrambe in $\bigtheta{n^2}$.
+	
+	\subsubsection{Discrete Fourier Transform}
+	
+	\begin{definition}[Base di Fourier]
+		Dato un naturale $n$ definiamo la sua \textit{base di Fourier} come l'insieme
+		$$\mathbf{\Omega}_n:=\left\{\omega^0_n,\omega^1_n,\omega^2_n,\dots,\omega^{n-1}_n\right\}$$
+		dove $\omega$ è l'$n$-esima radice primitiva dell'unità, ovvero
+		$$\omega_n:=e^{i\frac{2\pi }{n}}.$$
+	\end{definition}
+	\begin{definition}[Trasformata discreta di Fourier]
+		Dato un vettore $\vec{a}$, la sua \textit{trasformata di Fourier} è il vettore $\vec{y}=DFT_n(\vec{a})$ avente componente
+		$$y_i=\sum_{j=0}^{n-1}a_j\left(\omega^i_n\right)^j=\sum_{j=0}^{n-1}a_j\omega^{ij}_n.$$
+	\end{definition}
+	Ora il punto del nostro discorso è che fare la DFT del vettore dei coefficienti di un polinomio restituisce la rappresentazione per punti nella base di Fourier! Quindi se riuscissimo a calcolare efficientemente la DFT e la DFT inversa potremmo calcolare efficientemente anche la convoluzione di polinomi. La prima cosa che possiamo fare è
+	\begin{lemma}[La trasformata di Fourier è lineare]
+		Comunque dati due vettori $\vec{a},\vec{b}$ e scalari complessi $\lambda_1,\lambda_2$ abbiamo
+		$$DFT_n(\lambda_1\vec{a}+\lambda_2\vec{b})=\lambda_1DFT_n(\vec{a})+\lambda_2DFT_n(\vec{b}).$$
+	\end{lemma}
+	\begin{proof}
+		Segue dal fatto che tutte le operazioni che stiamo facendo durante la trasformata di Fourier sono lineari.
+	\end{proof}
+	Dato che la DFT è un operatore lineare possiamo scrivere la sua matrice nella base canonica di $\CC^n$, e quindi abbiamo:
+	\begin{definition}[Matrice di Fourier]
+		La matrice nella base canonica dell'operatore $DFT_n$ viene detta \textit{matrice di Fourier}, ed è la matrice di Vandermonde della base di Fourier:
+		$$F_n:=
+		\begin{pmatrix}
+			\omega_n^{0\cdot 0} & \omega_n^{0\cdot 1} & \omega_n^{0\cdot 2} & \dots & \omega_n^{0\cdot (n-1)} \\
+			\omega_n^{1\cdot 0} & \omega_n^{1\cdot 1} & \omega_n^{1\cdot 2} & \dots & \omega_n^{1\cdot (n-1)} \\ 
+			\omega_n^{2\cdot 0} & \omega_n^{2\cdot 1} & \omega_n^{2\cdot 2} & \dots & \omega_n^{2\cdot (n-1)} \\
+			\vdots & \vdots & \vdots & \ddots & \vdots \\
+			\omega_{n}^{(n-1)\cdot 0} & \omega_{n}^{(n-1)\cdot 1} & \omega_{n}^{(n-2)\cdot 2} & \dots & \omega_{n}^{(n-1)\cdot(n-1)}
+		\end{pmatrix}
+		$$
+		dato che $\omega_n$ è una radice primitiva abbiamo che tutte le sue potenze sono distinte, cioè la base di Fourier è formata da vettori tutti distinti, il che implica che la DFT è sempre invertibile in quanto la matrice di Fourier ha sempre determinante diverso da $0$. Notiamo che la matrice di Fourier è sempre \textbf{simmetrica}, in quanto gli esponenti commutano.
+	\end{definition}
+	
+	La prima cosa, importantissima, che notiamo è la seguente:
+	\begin{lemma}[La trasformata di Fourier è conforme]
+		L'inversa della matrice di Fourier è
+		$$F_n^{-1}=\frac{1}{n}
+		\begin{pmatrix}
+			\omega_n^{-0\cdot 0} & \omega_n^{-0\cdot 1} & \omega_n^{-0\cdot 2} & \dots & \omega_n^{-0\cdot (n-1)} \\
+			\omega_n^{-1\cdot 0} & \omega_n^{-1\cdot 1} & \omega_n^{-1\cdot 2} & \dots & \omega_n^{-1\cdot (n-1)} \\ 
+			\omega_n^{-2\cdot 0} & \omega_n^{-2\cdot 1} & \omega_n^{-2\cdot 2} & \dots & \omega_n^{-2\cdot (n-1)} \\
+			\vdots & \vdots & \vdots & \ddots & \vdots \\
+			\omega_{n}^{-(n-1)\cdot 0} & \omega_{n}^{-(n-1)\cdot 1} & \omega_{n}^{-(n-1)\cdot 2} & \dots & \omega_{n}^{-(n-1)\cdot(n-1)}
+		\end{pmatrix}
+		$$
+		ovvero abbiamo che, denotando con $F_n^*$ l'aggiunta di $F_n$:
+		$$F_n^*F_n=nI_n$$
+		cioè la trasformata di Fourier è conforme con indice di conformità $\sqrt{n}$.
+	\end{lemma}
+	\begin{proof}
+		Una banale moltiplicazione, in notazione di Einstein abbiamo che 
+		$$(F_n^*F_n)_{ij}=\omega_n^{-ik}\omega_n^{kj}=\sum_{k=0}^{n-1}\omega_n^{k(i-j)}=n\delta_{ij}$$
+		che è esattamente la matrice $nI_n$, come richiesto.
+	\end{proof}
+	
+	Questo si uniforma alle nostre conoscenze di Analisi complessa, che ci dicono che la Trasformata di Fourier normalizzata è un'isometria.
+	
+	\subsubsection{Proprietà di Sottostruttura e FFT}
+	
+	Abbiamo quindi capito che fare la trasformata di Fourier o invertirla sono essenzialmente la stessa cosa. Come facciamo quindi a calcolare efficientemente la trasformata di Fourier di un vettore arbitrario? Prendiamo un vettore $\vec{a}$ e il suo polinomio associato $p(x)$ \textbf{restringiamoci al caso di $n$ (il grado del polinomio) potenza di $2$}, tenendo a mente il fatto che questo non ci fa troppo perdere di generalità grazie al padding. Ricorriamo alla proprietà di Sottostruttura generata dall'identità polinomiale
+	$$p^{[0]}(x^2)+xp^{[1]}(x^2)=p(x)$$
+	dove introduciamo la notazione $p^{[0]}$ e $p^{[1]}$ per denotare i vettori aventi rispettivamente i coefficienti
+	$$a_0,a_2,a_4,a_6,\dots$$
+	$$a_1,a_3,a_5,a_7,\dots$$
+	dove $a_1,a_2,a_3,\dots,a_n$ sono i coefficienti del polinomio $p(x)$. L'identità polinomiale per come è stata enunciata è ovvia, ma immediatamente valutando entrambi i lati dell'identità in $\omega_n^i$ otteniamo qualcosa di poco ovvio
+	$$p(\omega_n^j)=p^{[0]}\left(\omega_n^{2j}\right)+\omega_n^j p^{[1]}\left(\omega_n^{2j}\right)$$
+	a sinistra abbiamo chiaramente l'$j$-esima componente della trasformata di Fourier del vettore $\vec{a}$, a destra invece abbiamo qualcosa di poco chiaro al momento, usando l'identità
+	$$\omega_n^{2j}=e^{i\frac{2\pi}{n}2j}=e^{i\frac{2\pi j}{n/2}}=\omega^j_{n/2}$$
+	(il cosiddetto lemma di dimezzamento), possiamo scrivere
+	$$p\left(\omega^j_n\right)=p^{[0]}\left(\omega_{n/2}^{j}\right)+\omega_n^jp^{[1]}\left(\omega_{n/2}^j\right)$$	
+	e adesso a destra riconosciamo chiaramente le trasformate di Fourier dei vettori $\vec{a}^{[0]}$ e $\vec{a}^{[1]}$. Dunque abbiamo
+	$$
+	DFT_n(\vec{a})=
+	\left(
+	\begin{array}{c}
+		DFT_{n/2}\left(\vec{a}^{[0]}\right) \\
+		\hline
+		DFT_{n/2}\left(\vec{a}^{[0]}\right)
+	\end{array}
+	\right)
+	+
+	\begin{pmatrix}
+		\omega_n^0 & 0 & 0 & \dots & 0 \\
+		0 & \omega_n^1 & 0 & \dots & 0 \\
+		0 & 0 & \omega_n^2 & \dots & 0 \\
+		\vdots & \vdots & \vdots & \ddots & \vdots \\
+		0 & 0 & 0 & \dots & \omega_n^{n-1}
+	\end{pmatrix}
+	\left(
+	\begin{array}{c}
+		DFT_{n/2}\left(\vec{a}^{[1]}\right) \\
+		\hline
+		DFT_{n/2}\left(\vec{a}^{[1]}\right)
+	\end{array}
+	\right)
+	$$
+	che d'altra parte possiamo riscrivere utilizzando il fatto che 
+	$$\omega^{j+\frac{n}{2}}_n=e^{2\pi i\frac{ j +\frac{n}{2}}{n}}=e^{\frac{2\pi ij}{n}+\pi i}=e^{\pi i}e^{\frac{2\pi ij}{n}}=-\omega^{j}_n$$
+	e dunque introducendo la matrice 
+	$$
+	D=
+	\begin{pmatrix}
+		\omega_n^{0} & 0 & \dots & 0 \\
+		0 & \omega_n^{1} & \dots & 0 \\
+		\vdots & \vdots  & \ddots& \vdots \\
+		0 & 0 & \dots & \omega_n^{\frac{n}{2}-1}
+	\end{pmatrix}
+	$$
+	abbiamo finalmente che la proprietà di sottostruttura è
+	$$
+	DFT_n(\vec{a})=
+	\left(
+	\begin{array}{c}
+		DFT_{n/2}\left(\vec{a}^{[0]}\right) \\
+		\hline
+		DFT_{n/2}\left(\vec{a}^{[0]}\right)
+	\end{array}
+	\right)
+	+
+	\left(
+	\begin{array}{c|c}
+		D & 0 \\
+		\hline
+		0 & -D
+	\end{array}
+	\right)
+	\left(
+	\begin{array}{c}
+		DFT_{n/2}\left(\vec{a}^{[1]}\right) \\
+		\hline
+		DFT_{n/2}\left(\vec{a}^{[1]}\right)
+	\end{array}
+	\right).
+	$$
+	Dunque per calcolare ricorsivamente la trasformata abbiamo immediatamente il seguente algoritmo:
+	\begin{algorithm}[Fast Fourier Transform]
+		Definiamo il seguente algoritmo con input $\vec{a}$ un arbitrario vettore in $\CC^{2^k}$:
+		\begin{algorithmic}[1]
+			\Function{FFT}{$\vec{a}$}
+				\State $n\gets \vec{a}.len$
+				\If{$n=1$}
+					\State \Return $\vec{a}$
+				\EndIf
+				\State Initialize empty vector $\vec{y}$ of lenght $n$.
+				\State $\vec{a}^{[0]}\gets (a_0,a_2,\dots,a_{n-2})$
+				\State $\vec{a}^{[1]}\gets (a_1,a_3,\dots,a_{n-1})$
+				\State $\vec{y}^{[0]}\gets$\Call{FFT}{$\vec{a}^{[0]}$}
+				\State $\vec{y}^{[1]}\gets$\Call{FFT}{$\vec{a}^{[1]}$}
+				\State $\omega\gets e^{i\frac{2\pi}{n}}$
+				\State $D\gets 1$
+				\For{$i\gets 0$ \textbf{to} $\frac{n}{2}-1$} 
+					\State $t \gets D\cdot y_i^{[1]}$ 
+					\State $y_i \,\quad  \gets y_i^{[0]}+t$
+					\State $y_{i+\frac{n}{2}} \gets y_i^{[0]}-t$
+					\State $D\gets D\cdot\omega$
+				\EndFor
+				\State \Return $\vec{y}$
+			\EndFunction
+		\end{algorithmic} 
+	\end{algorithm}
+	Analizzando la complessità di questo algoritmo troviamo che la ricorrenza è
+	$$T(n)=2T(n/2)+\frac{n}{2}4$$
+	che per il master theorem rende immediatamente una complessità di $\bigtheta{n\log n}$. L'algoritmo di trasformata inversa veloce (INV\_FFT) è completamente analogo per la proprietà di conformità della DFT, e si calcola in $\bigtheta{n\log n + n}=\bigtheta{n\log n}$ (dato che tutte le proprietà usate finora valgono anche per $\bar{\omega}_n$). \\
+	Utilizzando questa primitiva quindi possiamo finalmente calcolare le convoluzioni lineari in tempo efficiente, in particolare in $\bigtheta{n\log n}$:
+	\begin{algorithm}[Convoluzione lineare]
+		Dati due vettori $\vec{a},\vec{b}$ di stessa lunghezza in un generico spazio $\CC^n$ definiamo il seguente algoritmo:
+		\begin{algorithmic}[1]
+			\Function{LinConv}{$\vec{a}$,$\vec{b}$}
+				\State $n\gets \vec{a}.len$
+				\State Initialize empty vectors $X,Y$ of length $2^{\ceiling{\log_2 n}}$
+				\State Initialize empty vector $Z$ of length $2^{\ceiling{\log_2 n}+1}$
+				\State $\vec{X}\gets $\Call{FFT}{$\vec{a}\mid 0$}
+				\State $\vec{Y}\gets $\Call{FFT}{$\vec{b}\mid 0$}
+				\For{$i\gets 0$ \textbf{to} $2n-1$}
+					\State $Z_i\gets X_i\cdot Y_i$
+				\EndFor
+				\State \Return \Call{INV\_FFT}{$\vec{Z}$}
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+	
+	\subsubsection{Esempi notevoli}
+	
+	Le considerazioni fatte finora si semplificano nel caso di trasformate notevoli.
+	\begin{example}[Vettore costante]
+		Calcolare efficientemente la DFT del vettore costante $$\vec{a}=\left(k,k,\dots,k\right).$$
+	\end{example}
+	\begin{proof}[Soluzione]
+		Applicando brutalmente la formula
+		$$DFT_n(\vec{a})_j=\sum_{m=0}^{n-1}k\omega_n^{jm}$$
+		che per $j\ne 0$ è 
+		$$\dots=k\sum_{m=0}^{n-1}\left(\omega_n^j\right)^m=k\frac{\left(\omega_n^j\right)^n-1}{\omega_n^j-1}=0$$
+		mentre per $j=0$ abbiamo chiaramente $nk$, quindi
+		$$DFT_n(\vec{a})=\begin{pmatrix}
+			nk \\
+			0 \\
+			0 \\
+			\vdots \\
+			0
+		\end{pmatrix}.$$
+		Che si calcola in $\bigtheta{1}$.
+	\end{proof}
+	\begin{example}[Vettore singolare]
+		Calcolare efficientemente la DFT del vettore
+		$$\vec{b}=\begin{pmatrix}
+			b \\
+			0 \\
+			\vdots \\
+			0
+		\end{pmatrix}.$$
+	\end{example}
+	\begin{proof}[Soluzione]
+		Banalmente scrivendo la trasformata come la matrice di Fourier abbiamo
+		$$F_n\vec{b}=bF_n\begin{pmatrix}
+			1 \\
+			0 \\
+			\vdots \\
+			0
+		\end{pmatrix}$$
+		che è chiaramente la prima colonna della matrice di Fourier moltiplicata per $b$, e quindi abbiamo
+		$$F_n\vec{b}=\begin{pmatrix}
+			b \\ 
+			b \\
+			\vdots \\
+			b
+		\end{pmatrix}.$$
+		Che di nuovo si calcola in $\bigtheta{1}$.
+	\end{proof}
+	
+	Questi esempi ci fanno chiedere come si comportino in generale le applicazioni ripetute di DFT. Abbiamo quindi il seguente lemma:
+	\begin{lemma}[Applicazioni ripetute della DFT]
+		Per ogni vettore $\vec{x}\in\CC^n$ abbiamo che 
+		$$DFT_n^2(\vec{x})=n\vec{x}^R$$
+		dove $\vec{x}^R$ denota il \textit{reverse} del vettore $\vec{x}$, cioè il vettore
+		$$\vec{x}^R=
+		\begin{pmatrix}
+			x_{n-1} \\
+			x_{n-2} \\
+			\vdots \\
+			x_0
+		\end{pmatrix}
+		$$
+		analogamente abbiamo
+		$$DFT^3_n(\vec{x})=n\left[DFT_n(\vec{x})\right]^R$$
+		$$DFT^4_n(\vec{x})=n^2\vec{x}.$$
+	\end{lemma}
+	\begin{proof}
+		Tutte le formule discendono dalla prima, che è brutalmente un conto. Infatti notiamo che essendo $F_n$ simmetrica, elevarla al quadrato ci dà nell'entrata $i,j$ il prodotto scalare tra la colonna $i$ e la colonna $j$:
+		$$\left[F_n^2\right]_{ij}=\sum_{k=0}^{n-1}\omega_n^{ik}\omega_n^{kj}=\sum_{k=0}^{n-1}\left(\omega_n^{i+j}\right)^k=\frac{\left(\omega_n^{i+j}\right)^n-1}{\omega^{i+j}-1}$$
+		che per $i+j\not\equiv 0 \pmod n$ è $0$, e per $i+j=n$ è esattamente $n$. Dunque la matrice che otteniamo è
+		$$F_n^2=
+		\begin{pmatrix}
+			0 & \dots & 0 & n \\
+			0 & \dots & n & 0 \\
+			\vdots & \reflectbox{$\ddots$} & \vdots & \vdots \\
+			n & \dots & 0 & 0
+		\end{pmatrix}
+		=
+		nR_n
+		$$ 
+		dove $R_n$ è la matrice che manda $\vec{x}$ nel suo reverse. Dunque abbiamo la tesi.
+	\end{proof}
+	Da questo deduciamo anche che
+	$$\frac{DFT_n^3(\vec{x})}{n^2}=DFT^{-1}_n(\vec{x})$$
+	\begin{example}[Vettori $n,k$-sparsi]
+		Siano $n,k$ due potenze di $2$. Calcolare la DFT di un vettore $\vec{x}$ tale che sia $n,k$-sparso. Un vettore $n,k$-sparso è un vettore in $\CC^n$ tale che 
+		$$i\not\equiv 0 \pmod k \implies x_i=0$$
+		cioè un vettore che è $0$ in tutte le componenti di indice non multiplo di $k$.
+	\end{example}
+	\begin{proof}[Soluzione]
+		L'osservazione chiave consiste nel provare a decomporre $\vec{x}$ in componenti di indice pari e componenti di indice dispari, trovando che $\vec{x}^{[0]}$ è un vettore $\left(\frac{n}{2},\frac{k}{2}\right)$-sparso, e $\vec{x}^{[1]}$ è il vettore identicamente nullo (di cui evidentemente la trasformata è di nuovo il vettore identicamente nullo)! Dunque calcolare la FFT di $\vec{x}$ è molto facile, e ci basta applicare
+		$$DFT_n(\vec{x})=
+		\begin{pmatrix}
+			DFT_{n/2}(\vec{x}^{[0]}) \\
+			DFT_{n/2}(\vec{x}^{[0]})
+		\end{pmatrix}
+		$$
+		che genera immediatamente un algoritmo divide and conquer con complessità $T(n,k)$ tale che, se $k\ne n$
+		$$T(n,k)=
+		\begin{cases}
+			\bigtheta{n\log n} & \text{se $k=1$ (il vettore non è sparso)} \\
+			T\left(\frac{n}{2},\frac{k}{2}\right) & \text{altrimenti.}
+		\end{cases}
+		$$	
+		che risolvendola unfoldando per induzione diventa semplicemente
+		$$T(n,k)=T\left(\frac{n}{k},1\right)=\bigtheta{\frac{n}{k}\log\frac{n}{k}}$$
+		se d'altra parte $n=k$ abbiamo che il vettore è singolare, e quindi possiamo calcolarne la trasformata in tempo costante.
+	\end{proof}
+	
+	\newpage
+	
+	\section{Dynamic Programming}
+	Abbiamo già detto che il grosso problema del divide and conquer era la memorylessness. Questo è particolarmente lampante nel problema dei numeri di fibonacci:
+	\begin{example}[Numeri di Fibonacci]
+		Dato $n$ in input, calcolare l'$n$-esimo numero di Fibonacci, definito come
+		$$
+		F_n=
+		\begin{cases}
+			1 & \text{se $0\le n\le 1$} \\
+			F_{n-1}+F_{n-2} & \text{altrimenti.}
+		\end{cases}
+		$$
+	\end{example}
+	Questo problema risolto in mood Na{\"i}ve con un divide and conquer va in tempo $\bigtheta{2^n}$, decisamente non ottimale. L'algoritmo DP prevede di adoperare la cosiddetta \textit{memoizzazione}, ovvero creiamo una "lookup table" in cui ci segnamo gli output delle sottoistanze che risolviamo durante le chiamate ricorsive in modo da non doverle ricalcolare se la sottoistanza si dovesse ripresentare. \\
+	In un certo senso quello che nel divide and conquer era l'\textbf{albero delle sottoistanze qui diventa un DAG}, in cui il modo più naturale per arrivare alla cima è iterare a partire dai livelli più bassi, fino ad arrivare alla cima. Questo è il cosiddetto approccio bottom-up. Per risolvere i problemi utilizzando un approccio top-down, come per il D\&C, abbiamo bisogno della memoizzazione.
+	
+	\subsection{Memoizzazione}
+	
+	La memoizzazione è un processo attraverso la quale possiamo implementare un algoritmo dp senza perdere la comodità implementazionale della ricorsione. Essenzialmente si basa sul salvare una certa struttura dati dinamica \verb*|X| tale che all'inizio viene inizializzata con una procedura chiamata \verb*|INIT_X()| e durante la ricorsione viene chiamata sulle istanze con una procedura chiamata \verb*|REC_X(I)|, dove \verb*|I| è un'istanza.
+	Essenzialmente \verb*|INIT_X()| fa due cose:
+	\begin{enumerate}
+		\item Risolve ogni istanza di base, scrivendo in \verb*|X| la soluzione. 
+		\item Per ogni istanza non di base inserisce in \verb*|X| un valore di default, che renda immediatamente riconoscibile il fatto che l'istanza non è ancora stata risolta.
+	\end{enumerate}
+	Poi l'algoritmo \verb*|REC_X(I)| molto semplicemente fa due cose
+	\begin{enumerate}
+		\item Controlla se l'istanza \verb*|I| è stata risolta, ovvero se \verb*|X(I)| \textbf{non} è un valore di default, in caso affermativo restituisce \verb*|X(I)|.
+		\item In caso negativo applica l'"algoritmo divide and conquer" ovvero applica la fase di divide, di ricorsione (su \verb*|REC_X|) e di conquer.
+	\end{enumerate}
+	Notiamo che questo sposta la nostra attenzione quasi totalmente sulla struttura dati \verb*|X|: se costruiamo una struttura dati che implementi naturalmente la proprietà di sottostruttura del problema, allora la complessità dell'algoritmo dipenderà semplicemente da quanto velocemente riusciamo a riempire \verb*|X|, e la correttezza seguirà immediatamente. Un esempio tipico è fibonacci, per cui la struttura dati che ci serve è semplicemente un array $1$-dimensionale che chiamiamo \verb*|fib[]|, la proprietà di sottostruttura segue direttamente dalla definizione:
+	$$\verb*|fib[n]|=\verb*|fib[n-1]|+\verb*|fib[n-2]|$$
+	e grazie al fatto che con questa proprietà possiamo riempire in tempo lineare l'array (semplicemente iterando a indici crescenti) l'algoritmo avrà complessità lineare $\bigtheta{n}$. Notiamo che ovviamente, dato un codice memoizzato non possiamo immediatamente scrivere una ricorsione come per gli algoritmi divide and conquer, perchè non sappiamo a priori quando un'istanza è stata già risolta. \\
+	Il succo del discorso in realtà qui è che \textbf{scrivere algoritmi memoizzati ha senso soltanto quando non sappiamo a priori come è fatto il DAG della sottostruttura}, cioè quando non sappiamo a priori (o possiamo saperlo, ma ci richiederebbe tanto lavoro, e quindi non abbiamo voglia di farlo/non è efficiente farlo) quali sottoistanze sono richieste per risolvere una data istanza. In una situazione del genere con un approccio bottom-up rischieremmo di risolvere più sottoistanze di quante siano effettivamente necessarie, e quindi \textbf{con un approccio top-down memoizzato risparmieremmo tempo, risolvendo solo strettamente quanto è necessario}.
+	
+	\subsection{Paradigma generale DP}
+	
+	L'approccio DP quindi in generale per risolvere un problema computazionale è costituito dai seguenti passi:
+	\begin{description}
+		\item[Sottostruttura] Identificazione della proprietà di sottostruttura ottima, che ci dà una funzione $S$ che a istanze $s_1^*,s_2^*,\dots,s_k^*$ associa l'istanza
+		$$s^*=S\left(s_1^*,s_2^*,\dots,s_k^*\right).$$
+		\item[Costo delle istanze ottime] Identificazione della ricorrenza dei costi, che ci permette di ottenere una funzione $f$ che ci dà una ricorsione (numerica) sui costi computazionali delle sottoistanze
+		$$c(s^*)=f(c(s^*_1),c(s^*_2),\dots,c(s^*_k))$$
+		in questo passo si cerca di identificare quali sono le \textbf{informazioni strutturali}, che ci interessano salvare nella struttura dati \verb*|X| per poter eseguire questa ricorrenza (chiaramente non vogliamo dover salvare l'intera istanza, perchè questo può risultare in costi di memoria mostruosi).
+		\item[Implementazione dell'algoritmo] Top-Down o Bottom-Up, in base a cosa conviene.
+	\end{description}
+	
+	\newpage
+	
+	\subsection{Problemi su stringhe e LCS}
+	
+	Cominciamo dando un po' di definizioni:
+	\begin{definition}[Stringa]
+		Dato un alfabeto $\Sigma$ una \textit{stringa} di caratteri in $\Sigma$ è un elemento della sua stella di Kleene (dunque può anche essere la stringa vuota). 
+	\end{definition}
+	\begin{definition}[Prefissi e suffissi]
+		Data una stringa $X\in\Sigma^\star$ scritta esplicitamente come
+		$$X=\langle x_1,x_2,\dots,x_m\rangle$$
+		definiamo i suoi \textit{prefissi} e i suoi \textit{suffissi} come:
+		$$X_i:=\langle x_1,x_2,\dots,x_i\rangle$$
+		$$X^i:=\langle x_i,x_{i+1}\dots,x_m\rangle$$
+		per ogni $0\le i\le m+1$. Per $i=0$ abbiamo il \textit{prefisso degenere}, che è semplicemente vuoto, e per $i=m+1$ abbiamo il \textit{suffisso degenere}, che è di nuovo vuoto. Denotiamo la stringa vuota con $\varepsilon$.
+	\end{definition}
+	\begin{definition}[Sottostringhe e sottosequenze]
+		Data una stringa $X\in \Sigma^\star$ scritta esplicitamente come
+		$$X=\langle x_1,x_2,\dots,x_m\rangle$$
+		definiamo una sua \textit{sottostringa} come
+		$$X_{i,j}:=\langle x_i,x_{i+1},\dots,x_{j-1},x_{j}\rangle$$
+		Per ogni $0\le i,j\le m+1$. Come per le sommatorie, se i due indici sono $j<i$ assumiamo che la sottostringa $X_{i,j}$ sia vuota. Al contrario definiamo una \textit{sottosequenza} di una stringa $X\in\Sigma^\star$ come una stringa $Z\in \Sigma^\star$ tale che esiste una successione di indici $a_i$ crescente tale che
+		$$x_{a_i}=z_i$$
+		per ogni $z_i\in Z$. Cioè è un sottoinsieme di $X$ che mantiene l'ordine di $X$.
+	\end{definition}
+	\begin{example}[Sottostringhe contro sottosequenze]
+		Notiamo che le sottostringhe di una certa stringa sono semplicemente determinate dalla scelta degli estremi, che quindi ci dà
+		$$\#\text{sottostringhe di una stringa di lunghezza $m$}=\frac{m(m-1)}{2}$$
+		mentre l'insieme delle sottosequenze è semplicemente l'insieme delle parti di $X$, cioè
+		$$\#\text{sottosequenze di una stringa di lunghezza $m$}=2^m.$$
+	\end{example}
+	
+	Il problema quindi su cui ci concentriamo d'ora in poi è il seguente:
+	\begin{problem}[LCS]
+		Date in input due stringhe $X,Y\in\Sigma^\star$ dare in output una stringa $Z\in\Sigma^\star$ di lunghezza massima tale che sia una sottosequenza sia di $X$ che di $Y$. 
+	\end{problem}
+	In un certo senso calcolare la LCS tra due stringhe ci dà una nozione di "metrica" tra stringhe (insomma definisce una distanza). \'E chiaro che l'approccio Na{\"i}ve non funzioni per questo problema, dato che le sottosequenze sono troppe.
+	
+	\subsubsection{Sottostruttura}
+	
+	Facciamo alcune considerazioni informali che ci porteranno alla proprietà di sottostruttura:
+	\begin{itemize}
+		\item Chiaramente se una delle due stringhe è vuota, la LCS sarà vuota.
+		\item Se abbiamo $\verb*|LCS|(X,Y)=M$ abbiamo anche che allungando entrambe le stringhe di uno stesso carattere, abbiamo
+		$$\verb*|LCS|(\langle X,A\rangle,\langle Y,A\rangle)=\langle M,A\rangle$$
+		cioè la LCS aumenta di conseguenza. Ma questo vale anche al contrario! Cioè se abbiamo
+		$$\verb*|LCS|(\langle X,A\rangle,\langle Y,A\rangle)=M'$$
+		esisterà un $M$ tale che 
+		$$\verb*|LCS|(X,Y)=M$$
+		$$\verb*|LCS|(\langle X,A\rangle,\langle Y,A\rangle)=\langle M,A\rangle$$
+		e la dimostrazione è per assurdo nel modo chiaro.
+		\item Cosa succede se abbiamo due stringhe $X,Y$ tali che
+		$$X=\langle X',a \rangle$$
+		$$Y=\langle Y',b \rangle$$
+		con due terminazioni diverse? Beh chiaramente la loro \verb*|LCS| non terminerà \textbf{con entrambe}, cioè ci sarà una delle due lettere che è inutile al conseguimento della \verb*|LCS|, cioè
+		$$\verb*|LCS|(X,Y)=\langle Z,a \rangle$$
+		oppure, esclusivamente
+		$$\verb*|LCS|(X,Y)=\langle Z,b \rangle.$$
+		Questo vuol dire che sicuramente la $\verb*|LCS|$ soddisfa una delle due seguenti
+		$$\verb*|LCS|(X,Y)=\verb*|LCS|(X_{n-1},Y)$$
+		$$\verb*|LCS|(X,Y)=\verb*|LCS|(X,Y_{n-1}).$$
+	\end{itemize}
+	Abbiamo capito dove stiamo andando. Sembra tanto che in questo caso la DP si debba svolgere su \textbf{una matrice} di dimensioni $\bigtheta{nm}$ con cui iteriamo sugli indici delle due stringhe. Enunciamo quindi
+	\begin{theorem}[Sottostruttura per la LCS]
+		Siano $X_i,Y_j$ prefissi delle stringhe $X;Y$ di lunghezze $n$ ed $m$. Allora se 
+		$$Z=\verb*|LCS|(X_i,Y_j)=\langle z_1,z_2,\dots,z_k\rangle$$
+		abbiamo che:
+		\begin{enumerate}
+			\item Se uno dei due prefissi è vuoto, abbiamo la stringa nulla, ovvero se $i=0$ oppure $j=0$ abbiamo $Z=\varepsilon$.
+			\item Se sia $i>0$ che $j>0$ abbiamo che 
+			\begin{enumerate}
+				\item Se $x_i=y_j$ allora $z_k=x_i=x_j$ e quindi abbiamo
+				$$\verb*|LCS|(X_{i-1},Y_{j-1})=Z_{k-1}.$$
+				\item Se $x_i\ne y_j$ allora $Z$ è la stringa di lunghezza maggiore tra 
+				$$\verb*|LCS|(X_{i-1},Y_j)$$
+				$$\verb*|LCS|(X_{i},Y_{j-1}).$$
+			\end{enumerate}
+		\end{enumerate}
+	\end{theorem}
+	\begin{proof}
+		Il primo caso è ovvio. Il caso interessante è il secondo:
+		\begin{enumerate}
+			\item[2a)] Se per assurdo $z_k\ne x_i$ avremmo che la stringa 
+			$$\langle Z,x_i\rangle$$
+			è una sottosequenza comune di $X,Y$. Infatti dato che $Z$ è una sottosequenza esisteranno successioni $a_i$ e $b_i$ crescenti tali che
+			$$x_i=z_{a_i}$$
+			$$y_i=z_{b_i}$$
+			ma d'altra parte $a_k\ne n$ e $b_k\ne m$ (dato che $y_i\ne z_k\ne x_i$) e quindi la sottosequenza formata allungando le due successioni con i termini
+			$$a_{k+1}=n$$
+			$$b_{k+1}=m$$
+			è effettivamente una sottosequenza comune di entrambe le stringhe, ed è più grande di $Z$, il che è assurdo.
+			\item[2b)] Analogo.
+ 		\end{enumerate}
+ 		E quindi abbiamo dimostrato la tesi.
+	\end{proof}
+	
+	Dalla proprietà di sottostruttura scaturisce subito la ricorrenza sui costi. Se $l(i,j)$ è la lunghezza della $\verb*|LCS|$ per i prefissi $i$ e $j$ abbiamo
+	$$
+	l(i,j)=
+	\begin{cases}
+		0 & \text{se una delle due stringhe è vuota, cioè $i=0\lor j=0$} \\
+		1+l(i-1,j-1) & \text{se entrambe le stringhe non sono vuote e $x_i=y_j$} \\
+		\max\left\{l(i-1,j),l(i,j-1)\right\} & \text{se entrambe le stringhe sono non vuote e $x_i\ne y_j$.}
+	\end{cases}
+	$$
+	e da questa scaturisce immediatamente l'implementazione, considerando il fatto che la struttura dati che ci memoizza è naturalmente una matrice rettangolare. L'\textbf{informazione addizionale} che dobbiamo memorizzare in ogni casella della matrice è semplicemente la lunghezza della $\verb*|LCS|$ associata a quell'istanza, e, per ricostruire la \verb*|LCS| alla fine il cosiddetto \textbf{grafo delle dipendenze} della DP, ovvero il sottografo (è un albero!) del DAG delle sottoistanze che ci permette di passare da soluzione ottima a soluzione ottima sulla base di quale caso della proprietà di sottostruttura è cerificata. \\
+	\textbf{IN REALT\'A} non ci serve tutta questa informazione, ci basta qualcosa di lineare $\bigtheta{n+m}$ che ci salvi tutto il percorso a partire da $\verb*|dp[n][m]|$ fino a $0$.
+	\begin{algorithm}[LCS]
+		Il codice della LCS segue immediatamente dalla discussione sopra:
+	\end{algorithm}
+	\begin{algorithm}[LCS - Memoizzato]
+		contenuto...
+	\end{algorithm}
+	
+	\subsection{Matrix Chain Multiplication}
+	
+	Concentriamoci su un nuovo problema:
+	\begin{problem}[Matrix Chain Multiplication]
+		Dato un array di $n$ matrici \textit{compatibili tra loro}, ovvero  che possono essere moltiplicate tra di loro nell'ordine dell'array, determinare la parentesizzazione del prodotto che minimizza il costo computazionale. Ci interessiamo di matrici a dimensioni fissate ma entrate variabili, quindi in input supponiamo di avere semplicemente un vettore $\vec{P}$ lungo $n+1$ delle dimensioni  
+	\end{problem}
+	Facciamo alcuni commenti non banali sui costi:
+	\begin{itemize}
+		\item Il costo computazionale usando l'algoritmo Na\"ive del prodotto di due matrici $p\times q $ e $q\times r$ è 
+		$$T(p,q,r)=pqr.$$
+		\item Il costo computazionale \textbf{dipende} dalla parentesizzazione, pensiamo ad esempio a matrici $A_1\in \CC_{10\times 100}, A_2\in \CC_{100\times 5}, A_3\in \CC_{5\times 50}$, i loro prodotti hanno un costo computazionale di:
+		$$\left(A_1A_2\right)A_3=\left(10\cdot 100\cdot 5\right)+\left(10\cdot 5 \cdot 50\right)=7500$$
+		$$A_1\left(A_2A_3\right)=\left(100\cdot 5 \cdot 50\right)+\left(10\cdot 100\cdot 50\right)=75000.$$
+		\item Come prima iterare su tutte le parentesizzazioni non è fattibile in quanto sono troppe. \'E noto che il numero di parentesizzazioni di un'espressione di $n$ caratteri è esattamente uguale all'$n$-esimo numero di Catalan $C_n=\frac{1}{n+1}\binom{2n}{n}$, che cresce esponenzialmente.
+		\item Lo spazio delle sottoistanze 
+	\end{itemize}
+	Notiamo che riconducendoci a trattare soltanto l'array delle dimensioni ci siamo ricondotti a un problema puramente numerico, in cui le matrici non c'entrano più nulla. La proprietà di sottostruttura a questo punto oe possiamo intuire è la seguente:
+	\begin{theorem}[Proprietà di sottostruttura per la MCM]
+		Supponiamo di avere una parentesizzazione ottima $T^\star_{i,j}$ di una sottoistanza $T_{i,j}$ della nostra stringa di matrici. Esiste un $k$ tale che la la soluzione ottima si ottiene come concatenazione di 
+		$$T^\star_{i,j}=T^\star_{i,k}+T^\star_{k+1,j}$$
+		e le due $T^\star$ sono le soluzioni ottime alle sottoistanze $T_{i,k}$ e $T_{k+1,j}$. 
+	\end{theorem}
+	\begin{proof}
+		\'E un banale cut and paste. Chiaramente possiamo decomporre ogni soluzione in due sottosoluzioni nel modo richiesto dalla tesi, per la natura delle parentesizzazioni. Inoltre se per assurdo una delle due non fosse ottimale, dato che il costo di $T^\star_{i,j}$ è
+		$$c\left(T^\star_{i,j}\right)=c\left(T^\star_{i,k}\right)+c\left(T^\star_{k+1,j}\right)+p_{i-1}q_kr_j$$
+		se per assurdo una delle due soluzioni alle sottoistanze non fosse ottimale potremmo sostituirla ad una soluzione ottimale della stessa, minorando il costo ottimale di $T^\star_{i,j}$ e ottenendo un assurdo. 
+	\end{proof}
+	L'intuizione per questa proprietà deriva, come per i numeri di Catalan, dal considerare ogni parentesizzazione come identificante un albero binario completo a $n$ foglie. \\
+	Una volta ottenuta la proprietà di sottostruttura l'algoritmo dp scaturisce immediatamente dal considerare la struttura dati naturale in cui vivono le sottoistanze del problema. In questo caso abbiamo bisogno solo di due numeri per specificare una sottoistanza (gli estremi della sottostringa), e quindi le sottoistanze vivono su una matrice $n\times n$, in particolare sulla parte della tabella con $i<j$. \\
+	Per generare una sottoistanza dalle precedenti dobbiamo iterare su tutte le sottoistanze $$T_{i,j}=T_{i,k}+T_{k,j}$$
+	al variare di $k$ tra $i$ e $j$. Facendo il grafo delle dipendenze notiamo che una scansione funzionante è per esempio quella che itera sulla lunghezza della sottoistanza, ovvero sulla quantità $l:=j-i+1$, questo vuol dire iterare sulle diagonali della matrice, a partire da quella principale. Il codice dunque segue:
+	\begin{algorithm}[MCM - Iterativo]
+		Il codice iterativo del MCM segue:
+		\begin{algorithmic}[1]
+			\Function{MCM}{$\vec{P}$}
+				\State $n\gets\text{length}(P)-1$ 
+				\State $m[i,j]$ empty $n\times n$ matrix
+				\State $s[i,j]$ empty $n\times n$ matrix
+				\For{$i\gets 1$ \textbf{to} $n$} \Comment{Casi Base}
+					\State $m[i,i]\gets 0$
+				\EndFor
+				\For{$l\gets 2$ \textbf{to} $n$} \Comment{Scansione per diagonali}
+					\For{$j\gets l$ \textbf{to} $n$ }
+						\State $i\gets j-l+1$
+						\State $m[i,j]\gets \infty$ 
+						\For{$k\gets i$ \textbf{to} $j-1$}
+							\State $q\gets m[i,k]+m[k+1,j]+p[i-1]p[j]p[k]$
+							\If{$q<m[i,j]$}
+								\State $m[i,j]\gets q$ 
+								\State $s[i,j]\gets k$
+							\EndIf
+						\EndFor
+					\EndFor
+				\EndFor
+				\State \Return $m[1,n]$
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+	
+	\newpage
+	
+	\section{Greedy}
+	Il paradigma greedy nasce dalla realizzazione che tutte le DP sono solo un insieme di "scelte": ogni istanza viene risolta "scegliendo" solo alcune delle sottoistanze del DAG e combinandone le soluzioni per arrivare ad una soluzione dell'istanza originale. \\
+	Un approccio greedy riduce di molto il costo computazionale di un algoritmo, perché itera dall'alto verso il basso sull'albero delle sottoistanze, risolvendo \textbf{un'unica} sottoistanza per livello. La procedura è quindi:
+	\begin{description}
+		\item[Scelta incauta:] per l'istanza corrente viene identificata una sottoistanza che permetta di risolvere "da sola" l'istanza originale. Questa scelta avviene attraverso "proprietà locali".
+		\item[Sottoistanza residua:] Si "ripulisce" l'istanza originale dagli elementi non compatibili con la scelta effettuata, ottenendo un'unica sottoistanza. Si \textbf{ricorre} sull'algoritmo, cercando di risolvere la sottoistanza residua in una cosiddetta "tail-recursion" (cioè l'ultima cosa che facciamo è chiamare la ricorsione, e poi fare un conquer a costo $0$).
+	\end{description}
+	Notiamo che il motivo per cui riusciamo a risparmiare così tanta complessità computazionale è che stiamo assumendo qualcosa di più forte sulla struttura delle sottoistanze del problema, ovvero stiamo assumendo che 
+	\begin{description}
+		\item[Propprietà di sottostruttura:] Ci sia, come è successo finora, una proprietà di sottostruttura di "dipendenza tra sottoistanze" (ovvero, ogni sottoistanza può essere risolta avendo sufficienti sue sottoistanze).
+		\item[Proprietà di scelta greedy:] Ci sia una cosiddetta \textbf{proprietà di scelta greedy}, che permette di isolare un'unica sottoistanza per ogni istanza nel DAG delle sottoistanze.
+	\end{description}
+	Dunque la correttezza di un algoritmo greedy seguirà dalla verifica della correttezza di queste due proprietà.
+	\subsection{Task Scheduling}
+	Un problema classico risolvibile con un approccio greedy è il seguente
+	\begin{problem}[Task Scheduling]
+		Definiamo il seguente problema computazionale:
+		\begin{description}
+			\item[Input:] Un insieme  $I$ di $n$ \textit{attività} $a_1,a_2,\dots,a_n$, ovvero intervalli della forma $[s_i,f_i)$ (chiaramente si ha $s_i\le f_i$ per ogni $i$).
+			\item[Output:] Un sottoinsieme massimale $O$ di $I$ tale che tutti gli elementi di $O$ siano disgiunti a due a due.
+		\end{description}
+		Informalmente abbiamo $n$ attività $a_i$, ciascuna con tempo di inizio $s_i$ e di fine $f_i$ e vogliamo trovare il modo di farne il massimo numero possibile senza che si accavallino.
+	\end{problem}
+	Il primo candidato per la scelta greedy è prendere sempre l'attività che "finisce prima", perché ci dà più spazio per mettere altre attività dopo. Con questa scelta greedy anche la fase di cleanup sembra chiara. Gia solo così abbiamo un algoritmo candidato:
+	\begin{algorithm}[Greedy1 ricorsivo - Task Scheduling]
+		Definiamo il seguente algoritmo assumendo che il vettore delle coppie $(s_i,f_i)$ sia ordinato in modo che $f_i$ sia monotonamente crescente.
+		\begin{algorithmic}[1]
+			\Function{REC\_GREEDY\_SEL}{$\vec{s}$,$\vec{f}$,$i$}
+				\State $n\gets \vec{s}.len$ 
+				\If{$i>n$} 
+				\State \Return $\varnothing$
+				\EndIf
+				\State $G\gets\left\{i\right\}$ \Comment{Scelta greedy}
+				\State $j\gets i+1$ 
+				\While{$s_j<f_i$ \textbf{and} $j\le n$} \Comment{Clean up}
+					\State $j\gets j+1$
+				\EndWhile
+				\State \Return $G\,\cup\,$\Call{REC\_GREEDY\_SEL}{$\vec{s}$,$\vec{f}$,j}
+			\EndFunction
+		\end{algorithmic}
+		
+	\end{algorithm}
+	Che è ricorsivo, ma è chiaramente implementabile naturalmente in modo iterativo:
+	\begin{algorithm}[Greedy1 iterativo - Task Scheduling]
+		Definiamo il seguente algoritmo assumendo che il vettore delle coppie $(s_i,f_i)$ sia ordinato in modo che $f_i$ sia monotonamente crescente. 
+		\begin{algorithmic}[1]
+			\Function{IT\_GREEDY\_SEL}{$\vec{s}$,$\vec{f}$}
+				\State $n\gets \vec{s}.len$ 
+				\State $A\gets\left\{1\right\}$
+				\State $g\gets 1$
+				\For{$i=2$ \textbf{to} $n$}
+					\If{$s_i\ge f_g$}
+						\State $A\gets A\cup \left\{i\right\}$ 
+						\State $g\gets i$
+					\EndIf
+				\EndFor
+			\EndFunction
+		\end{algorithmic}
+		Un cosiddetto approccio "sliding window".
+	\end{algorithm}
+	Dimostrare la correttezza qui è la parte difficile, dato che la complessità è molto chiaramente quella del for, cioè $\bigtheta{n}$. Per dimostrare la correttezza abbiamo bisogno di dimostrare due cose:
+	\begin{description}
+		\item[La proprietà di scelta greedy:] dobbiamo dimostrare che esiste una soluzione ottimale che include la scelta greedy: in questo caso dobbiamo dimostrare che, assumendo le attività siano ordinate per tempo di fine crescente, esiste una soluzione ottimale contenente $a_1$ la prima attività.
+		\item[La proprietà di sottostruttura:] Dobbiamo dimostrare che la soluzione alla sottoistanza residua dopo una scelta greedy e il relativo cleanup porti effettivamente a risolvere l'istanza originale.
+	\end{description}
+	\begin{lemma}[Proprietà di scelta greedy]
+		Per ogni istanza $I=\left\{a_1,\dots,a_n\right\}$ con gli $a_i$ ordinati per  
+	\end{lemma}
+	\begin{lemma}[Proprietà di sottostruttura]
+		contenuto...
+	\end{lemma}
+	\subsection{Compressione dati}
+	Un algoritmo di compressione dati in generale è una procedura che prende in input un file di testo $F\in C^\star$, dove $C$ è l'alfabeto dei caratteri ASCII, e restituisce in output una \textit{rappresentazione binaria compatta} di $F$ detta \textit{codifica}. Dunque l'output è in $\left\{0,1\right\}^\star$. Questa deve avere alcune proprietà:
+	\begin{description}
+		\item[Invertibilità:] La codifica deve essere invertibile, ovvero la funzione deve essere iniettiva: file binari distinti devono essere mandati in codifiche distinte
+		\item[Efficienza:] La codifica deve essere gestita da un algoritmo efficiente sia in tempo che in memoria.
+	\end{description}
+	Una metrica per quantificare la bontà di una codifica è il rapporto tra la lunghezza del file in chiaro con quello codificato, per esempio la codifica ASCII ha un rapporto costante a $8$ bit per carattere. Quello che studieremo è un sistema di codifica che associa \textit{codeword} a caratteri, ovvero allo stesso carattere nel file $F$ è associata la stessa codifica: se $e:C^\star\to \left\{0,1\right\}^\star$ è la codifica abbiamo
+	$$e(F)=e(\langle c_1,c_2,\dots,c_{\abs{F}}\rangle)=\langle e(c_1),e(c_2),\dots,e(c_{\abs{F}})\rangle$$
+	un modo di fare ciò può essere analizzare la frequenza dei vari caratteri nel file, ottenendo una lista $f_i$ di frequenze tali che
+	$$\sum_{i=1}^{256}f_i=1$$
+	e associare a caratteri a maggior frequenza codeword più corte. Questo però in modo na\"ive non è facile da fare, per esempio se associamo
+		\begin{figure}[h]
+			\begin{center}
+				\begin{tabular}{ccccccc}
+					Carattere & a & b & c & d & e & f \\
+					\hline 
+					Frequenza & $0.45$ & $0.13$ & $0.12$ & $0.16$ & $0.9$ & $0.5$\\
+					\hline
+					Codeword & 0 & 10 & 11 & 1 & 100 & 101 
+				\end{tabular}
+			\end{center}
+		\end{figure}
+	
+	
+	
+\end{document}

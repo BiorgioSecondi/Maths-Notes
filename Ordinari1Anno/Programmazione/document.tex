@@ -1,0 +1,203 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[sexy]{evan} %BLBLBLBLBLBLBLBLBLBLBLB EVANCHEN
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{asymptote}
+\usepackage{amsthm}
+\usepackage{gensymb}
+\usepackage{amsfonts}
+\usepackage[english,italian]{babel}
+\usepackage{quoting}
+\quotingsetup{font=big}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{lmodern}
+\usepackage{algpseudocode}
+\newcommand{\dif}{\text{d}}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+%PROGRAMMAZIONE
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{overleafwiki}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=overleafwiki}
+
+\begin{document}
+	\title{Appunti di Programmazione}
+	\subtitle{UNIPD - Fabio Aiolli}
+	\date{Ottobre - Novembre 2025}
+	
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\newpage
+	
+	
+	
+	\section{Programmazione orientata agli oggetti}
+	Python è un linguaggio orientato agli oggetti. Cos'è un oggetto? Prima di tutto è un contenitore di informazioni, ovvero un modo per immagazinare dati di varia natura in vari modi. In python tutto il linguaggio si basa sulla relazione tra diversi oggetti. \\
+	Un oggetto in python ha tre diverse caratteristiche:
+	\begin{description}
+		\item[Identità:] è un codice che identifica ciascun oggetto, non c'entra nulla con il suo indirizzo di memoria. Per visualizzare l'identità di un oggetto in python possiamo usare la funzione
+		\begin{lstlisting}[language=Python]
+			id(Obj)
+		\end{lstlisting}
+		Due oggetti hanno al stessa identità sse sono lo stesso oggetto. Anche per capire ciò esiste un comando python
+		\begin{lstlisting}[language=Python]
+			Obj1 is Obj2
+		\end{lstlisting}
+		Questo ritorna un bool.
+		\item[Tipo:] Riguarda tutte le operazioni che si possono fare con quel particolare oggetto. In python i tipi presenti sono fondamentalmente numerici, e stringa. Ci sono anche altri tipi più avanzati. Per vedere il tipo di un oggetto bisogna scrivere:
+		\begin{lstlisting}[language=Python]
+			type(Obj)
+		\end{lstlisting}
+		Il tipo caratterizza il genere di operazioni che si possono effettivamente fare con quell'oggeto.
+		\item[Valore:] Sono i dati effettivamente immagazzinati nell'oggetto. Per verificare se due oggetti hanno effettivamente lo stesso valore usiamo
+		\begin{lstlisting}[language=Python]
+			Obj1==Obj2
+		\end{lstlisting}
+		anche questo ritorna un bool. 
+	\end{description}
+	Gli oggetti possono essere combinati tramite degli operatori. Python sulla base del tipo assegna comportamenti diversi ad operatori uguali. Per esempio
+	\begin{lstlisting}[language=Python]
+		"pinco"+"pallino"
+	\end{lstlisting}
+	restituisce la stringa \verb*|"pincopallino"|, questo si chiama \textbf{overloading} degli operatori. Anche \verb*|*| è un operatore che funziona con overloading su stringhe. \\
+	Gli oggetti opossono anche essere usati come input/output di funzioni
+	\begin{lstlisting}[language=Python]
+		len("abecedario")
+	\end{lstlisting}
+	resituisce la "lunghezza" dell'oggetto. Cosa ciò voglia dire dipende dall'overload. Un particolare tipo di funzione è il metodo, ovvero una funzione che è associata ad una particolare classe.
+	\begin{lstlisting}[language=Python]
+		"abecedario".count("ec")
+	\end{lstlisting}
+	conta il numero di volte che la stringa \verb*|"ec"| occorre nella stringa. 
+	\subsection{riferimenti}
+	I riferimenti sono essenzialmente degli alias per gli oggetti (praticamente sono delle variabili):
+	\begin{lstlisting}[language=Python]
+		x = "barabba"
+	\end{lstlisting}
+	In questo modo non stiamo creando un nuovo oggetto, ma stiamo solo indicando un modo abbreviato per chiamarlo. Infatti l'identità di un oggetto è la stessa di tutti i suoi riferimenti.
+	\begin{lstlisting}[language=Python]
+		x = "blu"
+		y = "verde"
+		z = x
+	\end{lstlisting}
+	\verb*|z| è un nuovo riferimento, ma non si riferisce a \verb*|x|. Infatti in python riferimenti non possono mai riferirsi ad altri riferimenti. \verb*|z| si riferisce direttamente al valore a cui si riferisce \verb*|x|, ovvero \verb*|"blu"|.\\
+	Non tutte le stringhe possono essere usate come nomi per riferimenti:
+	\begin{enumerate}
+		\item[0.] In generale un riferimento dovrebbe rispecchiare l'oggetto a cui si riferisce.
+		\item Il primo carattere deve essere una lettera maiuscola o minuscola, o un \verb*|_|. 
+		\item Si possono usare solo caratteri alfanumerici o underscore (niente caratteri di interpunzione).
+		\item Niente parole chiave del linguaggio.
+	\end{enumerate}
+	Python supporta l'assegnamento in parallelo:
+	\begin{lstlisting}[language=Python]
+		x,y=1,2
+	\end{lstlisting}
+	e (come in C) supporta operazioni del tipo
+	\begin{lstlisting}[language=Python]
+		x=23
+		x+=3 #equivalente a x=x+3
+	\end{lstlisting}
+	Anche qui non è l'oggetto a cui si riferiva \verb*|x| a cambiare, ma è \verb*|x| che smette di riferirsi a \verb*|23| per riferirsi a \verb*|26|.
+	\subsection{Input e Output}
+	Per prendere input e output abbiamo diverse comode funzioni in Python. La funzione \verb*|print| stampa su schermo il valore dell'oggetto che gli si dà in input, e returna come valore \verb*|NaN|. Python in realtà stampa di default il valore di return dell'ultima espressione del programma, oltre ai valori che gli sono richiesti di printare tramite \verb*|print|. \\
+	La funzione \verb*|input(Obj)| invece stampa a schermo il valore di \verb*|Obj|, e poi si mette in attesa di un input dall'utente. Infine returna quanto scritto dall'utente. Per esempio
+	\begin{lstlisting}[language=Python]
+		nome = input("come ti chiami")
+		print("ciao",nome)
+	\end{lstlisting}
+	stamperà \verb|ciao <nome>|. 
+	\subsection{tipi}
+	esistono un sacco di tipi, le categorie principali sono
+	\begin{itemize}
+		\item Numerici (\verb|int|, \verb*|float|, \verb*|complex|, \verb*|bool|)
+		\item Stringhe (\verb*|string|)
+		\item Tuple, contenitori di oggetti eterogenei (\verb*|tuple|).
+		\item Liste, vettori C-style (\verb*|list|).
+		\item Dizionari, liste di pair eterogenee (\verb*|dict|).
+		\item Insiemi (\verb*|set|).
+	\end{itemize}
+	
+	\section{Tipi}
+	
+	\subsection{Dizionari}
+	
+	I dizionari sono strutture dati che ci permettono di memorizzare "informazioni associative", ovvero di associare a ogni dato un altro dato, di tipo possibilmente arbitrario. Non ci possono essere due chiavi uguali in un dizionario.\\
+	Per inizializzare un dizionario possiamo usare sia la notazione con le graffe che il costruttore
+	
+	\begin{lstlisting}[language=Python]
+		primo_vuoto = {}
+		secondo_vuoto = dict()
+		# entrambe queste notazioni restituiscono un dizionario vuoto
+		
+		students = {'2199095':('Filippo Gargiulo','19/11/2006')}
+		# questo crea un dizionario con gli oggetti specificati sopra
+	\end{lstlisting}
+	possiamo anche utilizzare la notazione con le quadre per inserire elementi nel dizionario
+	\begin{lstlisting}[language=Python]
+		students['2199095']=('Filippo Gargiulo','19/11/2006')
+	\end{lstlisting}
+	o per accedervi, infatti
+	\begin{lstlisting}[language=Python]
+		print(students['2199095'])
+	\end{lstlisting}
+	stampa \verb|('Filippo Gargiulo','19/11/2006')|. Con la stessa notazione è anche possibile modificare il valore associato ad una certa chiave. Tutti i tipi immutabili sono utilizzabili come chiave (non le liste, purtroppo), inoltre se un container è usato come chiave anche tutti gli oggetti che contiene devono essere immutabili. Questo è legato al fatto che i dizionari lavorano con gli hash, e dunque ha bisogno di tipi immutabili per non far mutare gli hash. \\
+	In effetti il fatto che i dict funzionino con gli hash permette di avere check estremamente efficienti del fatto che una chiave appartenga o non appartenga ad un certo dict. \\
+	alcuni metodi utili
+	\begin{lstlisting}[language=Python]
+		d = {'K1':1,'K2':2}
+		d.keys()
+		d.values()
+		d.items()
+	\end{lstlisting}
+	che restituiscono delle liste (in realtà ciascuno di essi è un tipo particolare, ma è tutto convertibile a lista senza problemi) con gli oggetti delle chiavi, dei valori o le coppia chiave-valore.
+	\subsection{Insiemi}
+	I set sono fondamentalmente diversi perchè non possono avere duplicati dello stesso oggetto. La maggior parte delle cose che si possono fare algebricamente con gli insiemi matematici si possono fare con gli insiemi di python.
+	\begin{lstlisting}[language=Python]
+		pari = set(2*k in range(1,20))
+		disp = set(1+2*k in range(1,20))
+		
+		unione = disp | pari 		
+		intersezione = disp & pari 	
+		differenza = pari - dispari
+		differenza_simmetrica = disp ^ pari
+		
+		#aggiungere e rimuovere elementi si fa facilmente con
+		
+		pari.add(434)
+		dispari.remove(3)
+	\end{lstlisting}
+	
+\end{document}

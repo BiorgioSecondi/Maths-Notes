@@ -1,0 +1,80 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[sexy]{evan} %BLBLBLBLBLBLBLBLBLBLBLB EVANCHEN
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{asymptote}
+\usepackage{amsthm}
+\usepackage{gensymb}
+\usepackage{amsfonts}
+\usepackage[english,italian]{babel}
+\usepackage{quoting}
+\quotingsetup{font=big}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{lmodern}
+\newcommand{\dif}{\text{d}}
+
+
+\begin{document}
+	\title{Appunti di Geometria Differenziale e Riemanniana}
+	\subtitle{Davide Barilari - SGSS}
+	\date{Marzo - Giugno 2026}
+	
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\newpage
+	
+	\section{Introduzione}
+	
+	Qual è la differenza tra la geometria differenziale e la geometria riemanniana? La geometria differenziale è lo studio delle cosiddette varietà differenziabili, che sono una generalizzazione delle superfici $C^\infty$. Dunque la geometria differenziale si occupa del "calcolo differenziale" su oggetti diversi da $\RR^n$. \\
+	La Geometria Riemanniana d'altra parte si occupa di studiare varietà differenziabili con una nozione di \textit{metrica}, cioè una varietà differenziabile più una funzione che ad ogni punto associa un vettore tangente. Così facendo possiamo definire una nozione di distanza grazie alla formula
+	$$l(\gamma)=\int_0^T\abs{\abs{\dot{\gamma}}}\dif t$$
+	cioè possiamo calcolare la lunghezza delle curve, e questo ci dà una struttura metrica. L'idea di questo corso è di parlare di superfici in $\RR^3$ come spazi metrici, cioè studiare le coppie $(S,d_S)$ di superfici $S$ con una loro \textit{distanza intrinseca}. La definizione naturale di $d_S$ è
+	$$d(x,y)=\inf \left\{l(\gamma)\mid \gamma\in \Omega_{x,y}\right\}$$
+	dove $\Omega_{x,y}$ è l'insieme delle curve che uniscono $x$ ad $y$. Questo inf sicuramente esiste sempre, ma ci viene da chiederci quando questo sia un min, ovvero \textbf{quando esiste una curva tale che la distanza è minima?} Questa proprietà di solito si collega alla parola \textit{geodetica}. Non sono proprio la stessa cosa, ma c'entra. Il punto è che le geodetiche sono le curve che soddisfano la condizione necessaria per la minimalità, come quando stiamo cercando
+	$$\min_{I\subseteq \RR}f(x) $$
+	abbiamo bisogno di $f'(x)=0$, analogamente ci sarà un'\textit{equazione differenziale} che impone la condizione necessaria alla minimalità di una curva. Gli elementi che soddisfano questa equazione sono le cosiddette \textit{geodetiche}, e quindi tra queste dovrà essere cercata, se esiste, la curva minimizzante. 
+	\begin{example}[Geodetiche che non minimizzano]
+		Presa la sfera $S^2$, risolvere l'equazione delle geodetiche da un polo ad un altro punto arbitrario ci dà le geodetiche, che sono cerchi massimi. Tuttavia è chiaro che non tutti i cerchi massimi vanno bene, e dobbiamo scegliere la parte di cerchio massimo minima tra le due.
+	\end{example}
+	
+	\newpage
+	
+	\section{Superfici}
+	
+	\begin{definition}[Superficie regolare]
+		Una \textit{superficie} $S$ in $\RR^3$ è una \textit{superficie regolare} se per ogni $p\in S$ possiamo \textit{parametrizzare la superficie intorno a quel punto}, ovvero esiste un $V\subseteq\RR^3$ intorno di $p$ ed un aperto $U\subseteq \RR^2$ tali che esiste una mappa 
+		$$\psi:U\subseteq\RR^2\to V\cap S$$
+		di classe $C^\infty$ tale che $\psi$ è un omeomorfismo (ovvero è continua con inversa continua), e il differenziale $\dif\psi$ in ogni punto $q$ di $U$ è iniettivo. Il \textit{differenziale} qui è definito come la funzione
+		$$\dif\psi:=\begin{pmatrix}
+			\frac{\partial x}{\partial u} &  \frac{\partial x}{\partial v}\\
+			\frac{\partial y}{\partial u} &  \frac{\partial y}{\partial v}\\
+			\frac{\partial z}{\partial u} &  \frac{\partial z}{\partial v}
+		\end{pmatrix}.$$ 
+	\end{definition}
+	Spesso in realtà denoteremo il differenziale come
+	$$\dif\psi =\frac{\partial x}{\partial u}=\frac{\partial x_i}{\partial u_j}$$
+	al variare di $i,j$ in modo che $x=(x_1,x_2,x_3)$ e analogamente $u=(u_1,u_2)$. Cioè la condizione che il differenziale sia iniettivo possiamo vederla come un verificare che il rango di $\dif\psi$ sia massimo, cioè se consideriamo i due vettori tangenti alla superficie nelle direzioni $u$ e $v$, questi sono dappertutto linearmente indipendenti.
+	\begin{definition}[Carte e parametrizzazioni]
+		Una funzione $\psi$ come definita sopra si dice una \textit{parametrizzazione}, la sua inversa $\psi^{-1}$ di solito si chiama \textit{carta} (come le carte geografiche).
+	\end{definition}
+	\begin{proposition}[Superfici regolari da valori regolari]
+		Sia $F:\Omega\subseteq\RR^3 \to \RR$ una funzione $C^\infty$. E sia $a\in F(\Omega)$ un \textit{valore regolare} (cioè un punto in cui per ogni $p\in F^{-1}(a)$ il differenziale $\dif F|_p$ è suriettivo), allora $F^{-1}(a)$ è una superficie regolare. 
+	\end{proposition}
+	\begin{example}[Sfera]
+		Presa la superficie 
+		$$S^2=\left\{\left(x,y,z\right)\in\RR^3\mid x^2+y^2+z^2=1\right\}$$
+		questa è la controimmagine in $0$ della funzione $F:\RR^3\to\RR$
+		$$F(x,y,z)=x^2+y^2+z^2-1$$
+		e dunque è una superficie regolare.
+	\end{example}
+	Una parametrizzazione esplicita della superficie di una sfera è
+	$$\psi(u,v)=\left(u,v,\sqrt{1-u^2-v^2}\right)$$
+	
+\end{document}

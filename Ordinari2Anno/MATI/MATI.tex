@@ -1,0 +1,2541 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[sexy]{evan} %BLBLBLBLBLBLBLBLBLBLBLB EVANCHEN
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{asymptote}
+\usepackage{amsthm}
+\usepackage{gensymb}
+\usepackage{amsfonts}
+\usepackage[english,italian]{babel}
+\usepackage{quoting}
+\quotingsetup{font=big}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{lmodern}
+\usepackage{faktor}
+\newcommand{\dif}{\text{d}}
+\newcommand{\eset}{\varnothing}
+\newcommand{\parti}[1]{\mathcal{P}\!\left(#1\right)}
+
+
+\begin{document}
+	\title{Appunti di MATI}
+	\subtitle{
+		Metodo Assiomatico e Teoria degli Insiemi \\
+		UNIPD - Francesco Ciraulo
+	}
+	\date{Febbraio - Giugno 2026}
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\newpage
+	
+	\section{Introduzione}
+	
+	Molte teorie si sono arrogate il titolo di "teoria assiomatica" in passato. I primi sono stati i postulati della geometria di Euclide (molto bucati). Il primo tentativo notevole è stata l'assiomatizzazione dell'aritmetica da parte di Peano:
+	\begin{description}
+		\item[Assioma 1:] $0\in\NN$
+		\item[Assioma 2:] $n\in\NN \to n+1\in\NN$
+		\item[Assioma 3:] $\lnot\exists n (n+1=0)$
+		\item[Assioma 4:] $n+1=m+1 \to n=m$
+		\item[Assioma 5:] $\left(P(0)\land \forall n \left(P(n)\to P(n+1)\right)\right)\to \forall n P(n)$
+	\end{description}
+	L'ultimo assioma in particolare si riferisce ad una certa proprietà, e quindi è in realtà uno \textbf{schema di assiomi}. 
+	\begin{definition}[Logica del primo ordine]
+		Un sistema assiomatico che prevede assiomi con quantificatori \textbf{solo per elementi}, cioè non si invocano mai cose del tipo "per ogni proprietà..." o "per ogni sottoinsieme..." si dice \textit{logica del primo ordine}. Una logica che usa quantificatori su insiemi di elementi si dice del \textit{secondo ordine}, una logica che usa quantificatori su insiemi di insiemi (famiglie di insiemi) si dice del \textit{terzo ordine}\dots \,e così via.
+	\end{definition}
+	
+	\begin{example}
+		L'assioma di Dedekind è un assioma del secondo ordine.
+	\end{example}
+	
+	\newpage
+	
+	\section{Logica Proposizionale}
+	A partire da Aristotele lo strumento fondamentale della logica è sempre stato il sillogismo:
+	\begin{definition}[Sillogismo]
+		Un sillogismo è un \textbf{ragionamento corretto}\footnote{Cosa vuol dire? Bho} che coinvolge $3$ proposizioni:
+		\begin{description}
+			\item[A-\textbf{A}dfirmo:] Universali affermative
+			$$\forall x ( P(x) \to Q(x))$$
+			\item[E-N\textbf{e}go:] Universali negative
+			$$\forall x ( P(x) \to \lnot Q(x))$$
+			\item[I-Adf\textbf{i}rmo:] Particolari affermative
+			$$\exists x ( P(x)\land Q(x))$$
+			\item[O-Neg\textbf{o}] Particolari negative
+			$$\exists x ( P(x)\land \lnot Q(x))$$
+		\end{description}
+	\end{definition}
+	Questo era il punto di vista della logica filosofica. La logica matematica si basa sul presupposto che la \textit{correttezza di un ragionamento} dipenda solo dalla forma, e non dal contenuto.
+	
+	\subsection{Linguaggio e Metalinguaggio}
+	
+	Per assiomatizzare correttamente una teoria abbiamo prima bisogno di avere una "lista della spesa" di proprietà che la nostra teoria ci piacerebbe avere. Alcune tautologie sono
+	\begin{gather}
+		(A\to B) \land (B\to A) = A\leftrightarrow B \\
+		A\to A \\
+		\left(A\to C\right)\to \left(A\land B \to C\right) \\
+		\left(C\to A\right) \to (C \to A\lor B) \\
+		\left(A\to B\right) = \left(\lnot B \to \lnot A\right) \\
+		\left(A \to B\right)\land \left(B\to C\right) \to \left(A\to C\right) \\
+		\left(C\to A\right)\land \left(C\to B\right) \to \left(C\to A\land B\right) \\
+		\left(A\to C\right)\land \left(B\to C\right)\to \left(A\lor B \to C\right) \\
+		A \to \left(B\to C\right) = A\land B \to C \\
+		A\to B = \lnot A \lor B =\lnot A \lor \left(A\land B\right)=\lnot A \dot{\lor} \left(A\land B\right)
+	\end{gather}
+	L'ultima proprietà in particolare ci porta a dire quale sia l'analogo insiemistico dell'implicazione, ovvero
+	$$A\to B = (A\setminus B)^c$$
+	che appunto, corrisponde a tutto l'insieme universo (ovvero, è sempre vero) quando $$A\subseteq B.$$
+	Questo ci porta alla realizzazione che ci siano due livelli in logica: Le proposizioni (che sono gli oggetti del nostro studio), e \textit{i giudizi} su di esse. 
+	\begin{definition}[Metalinguaggio]
+		Il metalinguaggio è l'insieme dei "giudizi" che esprimiamo sulle proposizioni. Per esempio il fatto che diciamo che una certa proposizione è \textit{una tautologia}, è metalinguaggio. Le implicazioni nel nostro linguaggio verranno denotate con $\to$, mentre quelle nel metalinguaggio verranno occasionalmente denotate con $\implies$, anche se di solito verranno scritte a parole.
+	\end{definition}
+	\subsection{Connettivi Primitivi}
+	La scelta che stiamo per fare è arbitraria, e può benissimo essere rimpiazzata da altre. Scegliamo 
+	\begin{definition}[Connettivi Primitivi]
+		Definiamo come primitivi i connettivi $\land,\lnot$. Gli altri connettivi sono tutti definibili a partire da questi tre:
+		\begin{gather*}
+			A\lor B := \lnot \left(\lnot A \land \lnot B\right) \\
+			A \to B := \lnot A \lor B \\
+			A \iff B := \left(A \to B\right) \land \left(B \to A\right) \\
+			A \dot{\lor} B := (A\lor B) \land \lnot\left(A\land B\right)
+		\end{gather*}
+		In effetti questi non sono un insieme minimale. Utilizzando il solo connettivo NAND ($\uparrow$) possiamo scrivere
+		$$\lnot A:= A\uparrow A$$
+		$$A\land B:=\lnot (A\uparrow B)$$
+		da cui possiamo ricavare tutto il resto. \\
+		\textbf{IN QUESTO CORSO PER\'O} consideriamo come primitivi i connettivi $\lnot, \to$, da cui otteniamo
+		\begin{gather}
+			A \land B := \lnot \left(A\to \lnot B\right) \\
+			A \lor B  := \lnot A \to B
+		\end{gather}
+		questo è l'approccio proposto da Hilbert.
+	\end{definition}
+	
+	\subsection{Gli assiomi proposizionali di Hilbert}
+	
+	La logica che si occupa solo delle proposizioni collegate da connettivi, senza quantificatori, si dice \textit{logica proposizionale}.
+	\begin{definition}[Assiomi proposizionali di Hilbert]
+		Valgono le seguenti tautologie:
+		\begin{description}
+			\item[H1)] $A\to ( B \to A)$ 
+			\item[H2)] $\left(A\to \left(B\to C\right) \right) \to \left(\left(A\to B\right) \to \left(A \to C\right)\right)$
+			\item[H3)] $\left(\lnot B \to \lnot A\right) \to \left(A \to B\right)$
+		\end{description}
+		questi sono in realtà tutti \textit{schemi} di assiomi, cioè ognuno di questi può essere \textit{istanziato}, sostituendo alle lettere proposizioni generiche arbitrariamente complicate. 
+	\end{definition}
+	Da qui possiamo dimostrare il nostro primo teorema:
+	\begin{theorem}[Principio d'identità]
+		$$A\to A$$
+	\end{theorem}
+	\begin{proof}
+		Procediamo meccanicamente:
+		\begin{enumerate}
+			\item $A\to \left(\left(A\to A\right)\to A\right)$ \textbf{H1}
+			\item $\left(A\to \left(\left(A\to A\right)\to A\right)\right)\to \left(\left(\left(A\to \left(A\to A\right)\right)\right)\to \left(A\to A\right)\right)$ \textbf{H2}
+			\item $\left(A\to \left(A\to A\right)\right)\to \left(A\to A\right)$ \textbf{Modus Ponens} (MP) da \textbf{1} e \textbf{2}.
+			\item $A\to \left(A\to A\right)$ \textbf{H1}.
+			\item  $A\to A$ \textbf{Modus Ponens} (MP) da \textbf{3} e \textbf{4}.
+		\end{enumerate}
+		Dunque abbiamo raggiunto la tesi, e abbiamo finito.
+	\end{proof}
+	Quello che abbiamo usato in realtà è la regola di metalinguaggio del \textbf{modus ponens}:
+	\begin{definition}[Modus Ponens]
+		Aggiungiamo al nostro metalinguaggio la regola del Modus Ponens: ovvero se $A$ è vera e $A\to B$ è vera allora $B$ è una tautologia. Cioè se nell'insieme dei nostri "fatti veri" sono presenti sia $A$ che $A\to B$ allora possiamo aggiungere $B$.
+	\end{definition}
+	\begin{definition}[Calcolo Proposizionale alla Hilbert]
+		Il calcolo proposizionale alla Hilbert è costituito dai tre assiomi H1,H2,H3 e dalla regola del modus ponens.
+	\end{definition}
+	Notiamo che però a questo livello non abbiamo ancora definito il concetto di dimostrazione. Questo si configurerà per forza come un concetto del \textit{metalinguaggio}.
+	\begin{definition}[Dimostrazione]
+		Una \textit{dimostrazione} di $A$ nel calcolo alla Hilbert è una lista finita $B_1,\dots,B_n$ di proposizioni tale che $B_n=A$ e ogni $B_i$ è o un'istanza degli assiomi, oppure è ottenibile tramite una regola da due proposizioni con indici più piccoli, ovvero esistono $i>j,k$ tali che
+		$$B_k=\left(B_j\to B_i\right).$$
+	\end{definition}
+	
+	Queste sono le dimostrazioni "secche", di tautologie. A noi piacerebbe poter dimostrare anche fatti facendo assunzioni.
+	
+	\begin{definition}[Dimostrazione con Assunzioni]
+		Una dimostrazione di $A$ a partire dalle ipotesi $C_1,\dots,C_m$ è una lista finita $B_1,\dots,B_n$ tale che 
+		$$B_n=A$$
+		e ogni $B_i$ o è ottenibile per modus ponens, dai precedenti, o è un assioma, o è uno dei $C_j$. Questo si denota con
+		$$C_1,\dots,C_n \vdash A$$
+		quando omettiamo le assunzioni, possiamo scrivere
+		$$\vdash A$$
+		cioè $A$ è dimostrabile direttamente, nel senso della definizione data prima. Di solito il segno $\vdash$ si legge "comporta".
+	\end{definition}
+	\begin{example}
+		Alcune dimostrazioni sono
+		$$(A\to B,B\to C)\vdash( A\to C)$$
+		\begin{proof}
+			Procedendo meccanicamente abbiamo:
+			\begin{enumerate}
+				\item $(B\to C) \to (A \to (B\to C))$ H1 
+				\item $B\to C$ Hyp 
+				\item $A\to (B\to C)$  MP da $1$ e $2$
+				\item $(A\to (B\to C))\to ((A\to B)\to (A \to C))$ H2 
+				\item $(A\to B)\to (A\to C)$ MP da $3$ e $4$
+				\item $A\to B$ Hyp 
+				\item $A\to C$ MP da $5$ e $6$
+			\end{enumerate}
+			dunque abbiamo raggiunto la tesi e abbiamo finito.
+		\end{proof}
+	\end{example}
+	\begin{theorem}[Ex-Falso Quodlibet]
+		$$A,\lnot A \vdash B$$
+	\end{theorem}
+	\begin{proof}
+		Procediamo meccanicamente (l'euristica in questo caso è "al contrario"):
+		\begin{enumerate}
+			\item $\lnot A \to (\lnot B \to \lnot A)$ H1
+			\item $\lnot A$ Hyp
+			\item $\lnot B \to \lnot A$ MP da $1$ e $2$
+			\item $(\lnot B \to \lnot A) \to (A\to B)$ H3 
+			\item $A\to B$ MP da $3$ e $4$.
+			\item $A$ Hyp
+			\item $B$ MP da $5$ e $6$
+		\end{enumerate}
+		dunque abbiamo raggiunto la tesi e abbiamo finito.
+	\end{proof}
+	\begin{theorem}[Doppia negazione]
+		$$\lnot \lnot A \vdash A$$
+	\end{theorem}
+	\begin{proof}
+		Procediamo meccanicamente
+		\begin{enumerate}
+			\item $\lnot\lnot A \to (\lnot \lnot \lnot \lnot A \to \lnot \lnot A)$
+			\item $\lnot \lnot A$
+			\item $\lnot \lnot \lnot \lnot A \to \lnot \lnot A$
+			\item $(\lnot \lnot \lnot \lnot A \to \lnot \lnot A) \to ( \lnot A \to \lnot \lnot \lnot A)$
+			\item $\lnot A \to \lnot \lnot \lnot A$
+			\item $ (\lnot A \to \lnot \lnot \lnot A) \to (\lnot \lnot A \to A) $
+			\item $\lnot \lnot A \to A$
+			\item $A$
+		\end{enumerate}
+		gli assiomi e le regole usate sono impliciti, il lettore provi a capire cosa è stato usato.
+	\end{proof}
+	
+	\subsection{Metateoremi}
+	
+	A questo punto pensiamo di aver più o meno capito come funziona il gioco, e quindi possiamo dimostrare il nostro primo MetaTeorema:
+	\begin{metateorema}[di Deduzione]
+		Per ogni $A,B$ proposizioni e $C_1,C_2,\dots C_m$ ipotesi, che d'ora in poi denoteremo con $\Gamma$, allora abbiamo che
+		$$\Gamma, A \vdash B \quad\text{se e solo se}\quad \Gamma \vdash A \to B$$
+	\end{metateorema}
+	\begin{proof}
+		Un verso è brutalmente il modus ponens. Alcuni denotano le implicazioni di meta linguaggio con $\implies$ e le implicazioni in linguaggio come $\to$, dunque l'altro verso del teorema diventa
+		$$(\Gamma,A\vdash B) \implies (\Gamma \vdash A \rightarrow B)$$
+		che viene detto il \textit{teorema delle tre implicazioni}. In ogni caso, torniamo alla nostra dimostrazione. Siamo nel metalinguaggio, possiamo fare virtualmente quello che vogliamo, dunque dimostriamo \textbf{per induzione estesa} sulla lunghezza della dimostrazione fornita dall'ipotesi. l'altro verso del teorema. \\
+		Il caso base è facile, la dimostrazione fornita è semplicemente
+		\begin{enumerate}
+			\item $B$
+		\end{enumerate}
+		Dunque abbiamo diversi casi, o $B$ è un assioma o $B$ è un'assunzione in $\Gamma$ o $B=A$.
+		 
+		Se $B=A$ abbiamo già visto prima che $\vdash A\to A$, quindi in particolare anche $\Gamma \vdash A \to A$, che è uguale a $A\to B$ se $A=B$. 
+		
+		Se $B\in \Gamma$ possiamo fare
+		\begin{enumerate}
+			\item $B\to (A \to B)$
+			\item $B$ 
+			\item $A\to B$ 
+		\end{enumerate}
+		che è una dimostrazione valida che soddisfa le richieste. Se $B$ è un assioma in modo del tutto analogo possiamo dimostrare $\vdash A \to B$ e quindi abbiamo finito il caso base. \\
+		Supponiamo ora per induzione estesa che il teorema valga per dimostrazioni fornite di lunghezza $<k$. In questo caso la nostra dimostrazione è una lunga lista che finisce con $B$, qui abbiamo quattro casi:
+		\begin{itemize}
+			\item  $B$ è modus ponens di due righe $i$ e $j$.
+			\item  $B$ è un assioma.
+			\item  $B$ è in $\Gamma$.
+			\item  $B$ è uguale ad $A$.
+		\end{itemize}
+		gli ultimi tre casi sono \textbf{identici} al caso base, quindi non li riscriveremo. L'unico caso nuovo è il modus ponens. Se $B$ segue per MP da $i<j$ vuol dire che uno tra $i$ e $j$ sarà $C$ e l'altro sarà $C\to B$. Leggendo la lista delle proposizioni nella dimostrazione notiamo che ci sono dunque due dimostrazioni, di lunghezza rispettivamente $i$ e $j$ tali che
+		$$\Gamma,A\vdash C$$
+		$$\Gamma,A \vdash C\to B$$
+		ma dato che $i<j<k$ per ipotesi induttiva abbiamo che esistono due dimostrazioni
+		$$\Gamma \vdash A\to C$$
+		$$\Gamma \vdash A \to(C\to B)$$
+		ma d'altra parte abbiamo visto per esercizio che 
+		$$A\to C , A \to (C \to B)\vdash A \to B$$
+		in particolare la dimostrazione è
+		\begin{enumerate}
+			\item $A\to (C\to B)$
+			\item $(A\to (C\to B)) \to ((A\to C)\to (A\to B))$
+			\item $(A\to C)\to (A \to B)  $
+			\item $A\to C$ 
+			\item $A\to B$
+		\end{enumerate}
+		e dunque abbiamo proprio che possiamo costruire
+		$$\Gamma\vdash A\to B$$
+		come richiesto.
+	\end{proof}
+	\begin{remark}
+		Questo teorema ci chiarisce bene quale sia il legame tra la deduzione e l'implicazione, infatti un caso particolare è quando $\Gamma = \varnothing$
+		$$A\vdash B \quad \text{se e solo se } \quad \vdash A\to B$$
+	\end{remark}
+	In effetti avremmo potuto rendere questo un teorema se avessimo dato alla macchina quantificatori e assiomi di Peano (e deformato un po' il concetto di $\vdash$) e le avessimo fornito la dimostrazione scritta con gli assiomi di Peano. Questo ci dà un assaggio del fatto che per dimostrare fatti su una teoria abbiamo sempre bisogno di assiomi più potenti della teoria (in questo caso, per dimostrare fatti sul calcolo alla hilbert abbiamo dovuto introdurre gli assiomi di Peano). \\
+	Il teorema di deduzione ci semplifica molto le dimostrazioni nel calcolo alla hilbert, possiamo per esempio dimostrare che
+	$$\vdash \lnot\lnot A \to A$$
+	D'altra parte possiamo dimostrare anche 
+	$$\vdash\lnot\lnot(\lnot A)\to (\lnot A)$$
+	che combinato con $H3$ ci dà direttamente 
+	$$A \vdash \lnot\lnot A$$
+	questo motiva la seguente definizione
+	\begin{definition}[Proposizioni equivalenti]
+		Diciamo che due proposizioni $A$ e $B$ sono \textit{equivalenti} se e solo se 
+		$$A\vdash B \quad \text{ se e solo se } \quad B\vdash A$$
+		in alcune occasioni se $A$ e $B$ sono equivalenti si scrive $A\equiv B$.
+	\end{definition}
+	\begin{metateorema}[Modus Tollens]
+		Per ogni proposizione $A$ e $B$ abbiamo che $A\to B$ è equivalente a $\lnot B \to \lnot A$.
+	\end{metateorema}
+	\begin{proof}
+		Un caso è banale e segue dal modus ponens e da $H3$
+		$$(\lnot B \to \lnot A) \vdash (A \to B)$$
+		d'altra parte anche l'altro caso segue considerando che 
+		$$(\lnot \lnot A \to \lnot \lnot B) \vdash (\lnot B \to \lnot A)$$
+		e quindi abbiamo finito.
+	\end{proof}
+	Il prossimo teorema è chiaro ma formalizzarlo è un po' pedante, quindi ne omettiamo la dimostrazione
+	\begin{metateorema}[Sostituzione]
+		Se $A$ e $B$ sono equivalenti possiamo sostituire al simbolo $A$ il simbolo $B$ in ogni espressione, e viceversa.
+	\end{metateorema}
+	
+	\begin{definition}[Vero e Falso]
+		Definiamo i simboli di vero e falso come
+		$$\top:= A\to A$$
+		$$\bot := \lnot \top$$
+		in realtà avremmo potuto definire $\top$ come una qualsiasi tautologia.
+	\end{definition}
+	\begin{metateorema}[Dimostrare il falso]
+		Per ogni proposizione $A$ abbiamo che
+		$\lnot A $ equivale ad $A\to \bot$.
+	\end{metateorema}
+	\begin{proof}
+		Abbiamo dimostrato prima che $\vdash A\to A$, allora 
+		$$ \top\to A \vdash A$$
+		infatti abbiamo
+		\begin{itemize}
+			\item $(A\to A)\to A$ hyp
+			\item $A\to A$ tautologia
+			\item $A$ MP
+		\end{itemize}
+		d'altra parte abbiamo anche 
+		$$A\vdash \top\to A$$
+		per il teorema di deduzione. Quindi abbiamo che $A$ e $\top \to A$ sono equivalenti. Prendendo quindi $\lnot A$ e applicando il modus tollens abbiamo la tesi.
+	\end{proof}
+	Questo ci porta all'importante conclusione che
+	\begin{metateorema}[Dimostrazione per assurdo]
+		Comunque dato un insieme di premesse $\Gamma$ e una proposizione $A$ la dimostrazione
+		$$\Gamma \vdash A$$
+		esiste se e solo se
+		$$\Gamma,\lnot A \vdash \bot.$$
+	\end{metateorema}
+	\begin{proof}
+		Supponiamo di sapere che $\Gamma \vdash A$, allora per il lemma precedente
+		$$\Gamma\vdash \lnot A\to \bot$$
+		che per il teorema di deduzione è equivalente a 
+		$$\Gamma, \lnot A \vdash \bot.$$
+		E l'altro verso è completamente analogo. 
+	\end{proof}
+	
+	\subsection{Alcuni esercizi}
+	
+	\begin{theorem}[Proprietà di and e or]
+		Nel nostro sistema possiamo dimostrare
+		$$A\land B \vdash A$$
+		$$A\land B \vdash B$$
+		$$\lnot(A\lor B)\vdash \lnot A \land \lnot B$$
+		$$\lnot (A \land B) \vdash \lnot A \lor \lnot B.$$
+		Inoltre per ogni $A,B$ abbiamo le seguenti comode regole di deduzione:
+		$$\Gamma,A,B \vdash C \quad\text{ se e solo se }\quad \Gamma,A \land B \vdash C$$
+		$$\Gamma,A\vdash C \quad \text{ e } \quad  \Gamma, B \vdash C \quad \text{sse} \quad \Gamma,A\lor B \vdash C$$
+		$$
+		\Gamma \vdash A \quad \text{e} \quad \Gamma\vdash B \quad \text{sse} \quad \Gamma \vdash A\land B
+		$$
+	\end{theorem}
+	\begin{metateorema}[Modus Ponens sulle ipotesi]
+		Comunque dati $A,B,\Gamma$ abbiamo che 
+		$$\Gamma,A,B \vdash C \quad\text{sse}\quad \Gamma,A,(A\to B) \vdash C $$ 
+	\end{metateorema}
+	\newpage
+	
+	\section{Logica Predicativa}
+	Introduciamo il concetto di quantificatore, in particolare il nostro quantificatore per eccellenza sarà $\forall$.
+	Il tipico esempio di sistema che richiede la logica predicativa è il gruppo, in un gruppo vale
+	$$\forall x (x\cdot 1 = x)$$
+	a noi piacerebbe poter istanziare questo assioma a tutti i simboli sensati (cioè vogliamo poter sostituire alla $x$ i simboli $y\cdot x$, $z\cdot 1$, $z\cdot z$ \dots). Il punto è che per definire bene cosa possiamo sostituire e cosa no dobbiamo dare una definizione \textbf{ricorsiva}.
+	\begin{definition}[Linguaggio]
+		Un linguaggio è un insieme di simboli divisi in
+		\begin{itemize}
+			\item Costanti.
+			\item Variabili.
+			\item Funzioni.
+			\item Relazioni.
+		\end{itemize}
+		Alle variabili possiamo sempre sostituire termini.
+	\end{definition}
+	\begin{definition}[Termine]
+		Dato un linguaggio $\mathcal{L}$, un \textit{termine} è un oggetto che possiamo sostituire al posto di una variabile dentro un'espressione. L'insieme dei termini $\text{Trm}_\mathcal{L}$ soddisfa:
+		\begin{itemize}
+			\item Per ogni costante $c$ nel linguaggio $\mathcal{L}$ abbiamo che $$c\in \text{Trm}_\mathcal{L}.$$
+			\item Per ogni variabile $x$ nel linguaggio abbiamo che $$x\in \text{Trm}_\mathcal{L}.$$
+			\item Se $f$ è una funzione $n$-aria e $t_1,t_1,\dots,t_n\in \text{Trm}_{\mathcal{L}}$ allora
+			$$f(t_1,t_2,\dots,t_n)\in\text{Trm}_{\mathcal{L}}.$$ 
+		\end{itemize}
+		I termini si dividono in \textit{chiusi} e \textit{aperti}, ovvero termini che contengono solo costanti e termini che contengono sia variabili che costanti.
+	\end{definition}
+	\begin{definition}[Formula]
+		Una \textit{formula} è una "frase" del nostro linguaggio che può essere vera o falsa. Più formalmente una \textit{formula} è un elemento dell'insieme $\text{Frm}_{\mathcal{L}}$ tale che
+		\begin{itemize}
+			\item Se $t_1,t_2,t_3,\dots,t_n\in \text{Trm}_{\mathcal{L}}$ e $R$ è una relazione $n$-aria allora 
+			$$R(t_1,t_2,t_3,\dots,t_n)\in\text{Frm}_{\mathcal{L}}$$
+			queste di solito si chiamano \textit{formule atomiche}.
+			\item Se $\varphi\in \text{Frm}_{\mathcal{L}}$ allora 
+			$$\lnot \varphi \in \text{Frm}_{\mathcal{L}}$$
+			\item Se $\varphi,\psi\in \text{Frm}_{\mathcal{L}}$ allora
+			$$\varphi\to\psi\in \text{Frm}_{\mathcal{L}}$$
+			\item Se $x$ è una variabile e $\varphi\in \text{Frm}_\mathcal{L}$ allora
+			$$\forall x \varphi \in\text{Frm}_\mathcal{L}$$
+			le formule spesso vengono dette anche predicati, e quindi la logica del secondo ordine di solito si dice logica \textit{predicativa}.
+		\end{itemize}
+	\end{definition}
+	\subsection{Gli assiomi predicativi di Hilbert}
+	\begin{definition}[Quantificatori]
+		Definiamo il quantificatore primitivo $\forall x$, il quantificatore $\exists$ può essere espresso come
+		$$\exists x\varphi :\equiv \lnot \forall x\lnot \varphi.$$
+	\end{definition}
+	Questo ci porta finalmente a
+	\begin{definition}[Quarto assioma di Hilbert]
+		L'assioma $H4$ di Hilbert è
+		$$\forall x \, \varphi(x)\to \varphi(t)$$
+		per tutti i termini $x,t$ e formula $\varphi$. In realtà le parentesi così sono un po' imprecise, di solito si scrive
+		$$\forall x \, \varphi\to \varphi\left[\faktor{t}{x}\right]$$
+		oppure 
+		$$\forall x \, \varphi\to \varphi\left[\faktor{x}{t}\right]$$
+		oppure ancora
+		$$\forall x \, \varphi\to \varphi_{\mid x=t}$$
+		cioè vogliamo dire che a ogni variabile $x$ nella formula $\varphi$ sostituiamo il termine $t$.
+	\end{definition}
+	
+	Questo assioma introduce per la prima volta il quantificatore, e vediamo che questo porta tanti problemi. Un quantificatore permette di \textit{chiudere} una formula che dipende da $x$, cioè di solito il valore di verità di un predicato \textit{aperto} dipende dalle variabili che appaiono al suo interno, ma quando queste sono \textit{quantificate}, la formula diventa chiusa:
+	\begin{definition}[Variabile legata]
+		Una variabile $x$ si dice \textit{legata} nella formula $\varphi$ quando compare nello \textit{scopo} di un quantificatore del tipo $\forall x$.
+	\end{definition}
+	\begin{definition}[Variabile libera]
+		Una variabile si dice \textit{libera} se non è legata.
+	\end{definition}
+	
+	\begin{example}[Variabile legate e variabile libera]
+		Nella formula 
+		$$\forall x (x=1) \to y=z\cdot 1$$
+		la variabile $x$ è legata, mentre le variabili $y$ e $z$ sono libere.
+	\end{example}
+	\begin{example}[Casi problematici di variabili legate]
+		Nella formula
+		$$\forall x (x=1) \to y=x\cdot 1$$
+		abbiamo un problema, la variabile $x$ sembra sia libera che legata. In questi casi ci riserviamo il diritto di cambiare le variabili legate, cioè assumiamo che la formula sopra sia uguale alla formula
+		$$\forall z (z=1) \to y=x\cdot 1$$
+		da cui notiamo che $z$ è legata e $x$ è libera.
+	\end{example}
+	\begin{example}[Casi problematici di H4]
+		Prendiamo la formula
+		$$\forall x \exists y (\lnot(x=y))$$
+		applicando cecamente H4 possiamo trovare
+		$$\forall x \exists y (\lnot(x=y))\to \exists y (\lnot(y=y))$$
+		che è \textbf{falsa}. Quindi dobbiamo "emendare" il quarto assioma dicendo che non possiamo sostituire al posto della $x$ variabili legate, se proprio vogliamo dobbiamo prima cambiare nome alla variabile legata.
+	\end{example}
+	Passiamo ora agli altri assiomi
+	\begin{definition}[Quinto assioma di Hilbert]
+		Il quinto assioma di Hilbert H5 asserisce che per ogni variabile $x$ e formule $\varphi,\psi$ abbiamo
+		$$\forall x (\varphi\to \psi)\to (\forall x \, \varphi \to \forall x \, \psi)$$
+		il viceversa ovviamente non vale, si pensi all'esempio 
+		$$\varphi(x):=\text{$x$ è pari}$$
+		$$\psi(x):=\text{$x$ è primo}$$
+		in cui la formula dopo l'implicazione è vera, mentre quella prima è falsa.
+	\end{definition}
+	Qui le tavole di verità \textbf{non ci possono aiutare}. Perchè la verità dei predicati dipende dalla scelta delle variabili.
+	\begin{definition}[Sesto assioma di Hilbert]
+		Per ogni predicato $\varphi$ e variabile $x$ che non appare nella scrittura di $\varphi$ è vero il predicato
+		$$\varphi \leftrightarrow \forall x \, \varphi.$$
+	\end{definition} 
+	Quello che manca a questo punto sono degli assiomi che ci regolino un simbolo speciale, quello di uguaglianza $=$. Questo è un simbolo fondamentale che sarà presente in tutti i linguaggi:
+	\begin{definition}[Settimo assioma di Hilbert]
+		Per la relazione binaria $=$ e per ogni variabile $x$ abbiamo che il seguente predicato è vero
+		$$x=x.$$
+	\end{definition}
+	Le proprietà simmetrica e transitiva non saranno nostri assiomi, in quanto troveremo che saranno dimostrabili. Tuttavia abbiamo ancora bisogno di un'importante proprietà dell'uguaglianza, la compatibilità:
+	\begin{definition}[Ottavo assioma di Hilbert]
+		Per tutte le variabili $x,y,z$ e formule $\varphi$ abbiamo che il seguente predicato è vero
+		$$x=y\to \left(\varphi\left[\faktor{z}{x}\right]\to \varphi\left[\faktor{z}{y}\right]\right)$$
+		questa è la \textbf{proprietà caratterizzante dell'uguaglianza}, che la caratterizza completamente.
+	\end{definition}
+	
+	\subsection{Regola di generalizzazione}
+	
+	Dobbiamo introdurre nuove regole di deduzione per poter costruire predicati che si discostino dagli assiomi. La prima cosa che dobbiamo modellizzare il fatto che quando vogliamo dimostrare che una certa proprietà vale per ogni $x$, prendiamo un $x$ generico e cerchiamo di dimostrare che vale la proprietà.
+	\begin{definition}[Regola di Generalizzazione]
+		Se $\Gamma$ è un insieme di premesse in cui la variabile $x$ non compare libera, allora se abbiamo
+		$$\Gamma \vdash \varphi$$
+		allora abbiamo anche
+		$$\Gamma \vdash \forall x \varphi.$$
+	\end{definition}
+	\subsection{Il calcolo alla Hilbert}
+	Riassumendo quindi tutto ciò che abbiamo imposto finora sul calcolo alla Hilbert abbiamo
+	\begin{definition}[Assiomi di Hilbert]
+		Per tutte le formule $\varphi,\psi,\gamma$ e variabili $x,y,t$ sono vere le seguenti formule:
+		\begin{description}
+			\item[H1)] $\varphi \to (\psi \to \varphi)$
+			\item[H2)] $(\varphi \to (\psi \to \gamma))\to ((\varphi\to \psi)\to (\varphi \to \gamma))$
+			\item[H3)] $(\lnot \psi \to \lnot \varphi)	\to (\varphi \to \psi)$
+			\item[H4)] $ \forall x \varphi(x) \to \varphi(t)$
+			\item[H5)] $ \forall x (\varphi \to \psi) \to \left(\forall x \varphi \to \forall x \psi\right)$
+			\item[H6)] Se $x$ non è in $\varphi$ allora $\varphi \to \forall x\varphi$
+			\item[H7)] $x=x$
+			\item[H8)] $x=y\to \left(\varphi(x)\to \varphi(y)\right)$
+		\end{description}
+	\end{definition}
+	\begin{definition}[Regole di deduzione Hilbertiane]
+		Valgono le seguenti regole di deduzione:
+		\begin{description}
+			\item[Modus Ponens)] $(\Gamma \vdash A\to B), (\Gamma\vdash A) \implies \Gamma \vdash B$
+			\item[Generalizzazione)] Se $x$ non compare libera in $\Gamma$ allora $\Gamma\vdash \varphi \implies \Gamma \vdash \forall x\varphi$
+		\end{description}
+	\end{definition}
+	Possiamo dimostrare
+	\begin{lemma}[Proprietà dell'uguaglianza]
+		$$\forall x\forall y (x=y \to y=x)$$
+		$$x=y,y=z \vdash x=z$$
+	\end{lemma}
+	Per fare questa dimostrazione ci torna utile il teorema di deduzione applicato a predicati non quantificati (che è come quello per il caso proposizionale). Ci chiediamo tuttavia se questo valga anche per predicati arbitrari, e quindi abbiamo
+	\begin{metateorema}[di deduzione]
+		Per tutti i predicati $\varphi,\psi$ abbiamo
+		$$\Gamma,\varphi\vdash \psi \iff \Gamma \vdash \varphi\to \psi$$
+	\end{metateorema}
+	\begin{proof}
+		Un verso è chiaramente il modus ponens. L'altro verso è per induzione estesa sulla lunghezza della dimostrazione. I casi qui sono $5$, e i primi quattro sono esattamente analoghi al caso proposizionale. Il caso nuovo è quando vogliamo dimostrare che 
+		$$\Gamma,\varphi \vdash \psi \implies \Gamma \vdash \varphi \to \psi$$
+		e abbiamo che nella dimostrazione $\psi$, questo seguiva per generalizzazione da qualcosa di precedente. Avremo allora che esisterà un predicato $\gamma$ tale che 
+		$$\forall x\gamma = \psi$$ 
+		La prima cosa che dobbiamo tenere a mente è che se potevamo generalizzare $\gamma$, allora la variabile $x$ non compariva libera nella dimostrazione di $\gamma$, quindi possiamo generalizzare tutte le espressioni che coinvolgono gamma (e a cui siamo arrivati senza aggiungere la variabile $x$ libera). Dividiamo la dimostrazione in due casi:
+		\begin{description}
+			\item[$\varphi$ è stata usata per dimostrare $\gamma$] In questo caso la dimostrazione di gamma è
+			$$\Gamma',\varphi\vdash \gamma$$
+			che d'altra parte p più corta della dimostrazione originale, quindi per ipotesi induttiva possiamo applicare il teorema di deduzione
+			$$\Gamma'\vdash \varphi \to \gamma$$
+			e per generalizzazione
+			$$\Gamma' \vdash \forall x ( \varphi \to \gamma)$$
+			applicando quindi H5 e MP abbiamo
+			$$\Gamma' \vdash \forall x  \varphi \to \forall x\gamma$$
+			E quindi per H6 e per il fatto (dimostrato in precedenza) che $A\to B, B\to C \vdash A \to C$ abbiamo
+			$$\Gamma \vdash \varphi \to \psi$$
+			che era la tesi.
+			\item[$\varphi$ non è stata usata per dimostrare $\gamma$] Abbiamo che esiste un $\Gamma'\subseteq \Gamma\setminus \left\{\varphi\right\}$ dunque per generalizzazione
+			$$\Gamma'\vdash \gamma \implies \Gamma' \vdash \forall x\gamma = \varphi$$
+			da cui per H1 troviamo la tesi.
+		\end{description}
+		Dunque abbiamo coperto tutti i casi nuovi, e quindi abbiamo finito.
+	\end{proof}
+	
+	\subsection{Altri esercizi}
+	
+	\begin{problem}
+		Dimostrare che 
+		$$\forall x (\varphi \land \psi) \vdash \forall x \varphi \land \forall x \psi $$
+		$$\forall x \varphi \land \forall x \psi  \vdash \forall x (\varphi \land \psi).$$
+	\end{problem}
+	\begin{problem}
+		Dimostrare che 
+		$$\forall x \varphi \lor \forall x \psi \vdash \forall x \left(\varphi \lor \psi\right).$$
+	\end{problem}
+	\begin{problem}
+		Dimostrare che 
+		$$\forall x \left(\varphi \lor \psi (x)\right)\vdash \varphi \lor \forall x \psi(x)$$
+		dove $\varphi$ è una formula in cui $x$ non compare libera.
+	\end{problem}
+	\begin{problem}
+		Dimostrare che
+		$$\exists x \left(\varphi \land \psi\right)\vdash \exists x \varphi \land \exists x \psi$$
+		$$\exists c \left(\varphi \lor \psi\right)\quad \equiv \quad \exists x \varphi \lor \exists x \psi$$
+		dove il simbolo $\equiv$ vuol dire che sono equivalenti. 
+	\end{problem}
+	
+	\begin{problem}
+		Dimostrare che 
+		$$\varphi \to \forall x \left(\psi (x)\right) \quad \equiv \quad \forall x \left(\varphi \to \psi (x)\right)$$
+		dove le formule dove la dipendenza dalla $x$ non è esplicitata non dipendono dalla $x$.
+	\end{problem}
+	\begin{problem}
+		Dimostrare che 
+		$$\forall x \left(\varphi(x)\to \psi \right)\quad \equiv \quad \exists x \varphi(x)\to \psi$$
+		dove le formule dove la dipendenza dalla $x$ non è esplicitata non dipendono dalla $x$.
+	\end{problem}
+	\begin{problem}
+		Dimostrare che
+		$$\exists x \left(\varphi \to \psi (x)\right) \quad \equiv \quad \varphi \to \exists x \psi (x)$$
+		dove le formule dove la dipendenza dalla $x$ non è esplicitata non dipendono dalla $x$.
+	\end{problem}
+	\begin{problem}
+		Dimostrare che
+		$$\exists x \left(\varphi(x)\to \psi\right) \quad \equiv \quad \forall x \varphi(x) \to \psi$$
+		dove le formule dove la dipendenza dalla $x$ non è esplicitata non dipendono dalla $x$.
+	\end{problem}
+	\begin{problem}
+		Dimostrare che
+		$$\forall x \varphi(x)\vdash \exists x \varphi (x).$$
+	\end{problem}
+	\begin{remark}
+		Quest'ultima proposizione assume implicitamente che il dominio di cui si stia parlando non sia vuoto. In effetti se prendiamo H4 applicandolo all'insieme vuoto abbiamo
+		$$\forall x \in \varnothing \, \varphi(x) \to \varphi(t)$$
+		che è parecchio strana, perchè scritta così la prima proposizione è sempre vera, e questo ci permetterebbe di dimostrare 
+		$$\varphi(t)$$
+		per $\varphi$ e $t$ arbitrari (quindi in particolare possiamo dimostrare $\varphi(t)$ e $\lnot \varphi(t)$, ottenendo una contraddizione). 
+	\end{remark}
+	
+	\subsection{Interpretazioni e Modelli}
+	Il nostro sistema ci permette di dimostrare tante cose, ci chiediamo allora cosa \textbf{non} si possa dimostrare.
+	\begin{example}[Controesempio]
+		Vogliamo dimostrare che 
+		$$\exists x \left(\varphi(x)\to \psi(x)\right)\not \vdash \exists x \varphi(x)\to \exists x \psi(x)$$
+		cioè che non possiamo dimostrare questa cosa (cioè che è falsa). A questo fine da buoni matematici ci verrebbe da trovare un controesempio, dobbiamo quindi trovare una $\varphi$ e una $\psi$ tali che il lato destro è falso e il lato sinistro è vero. Se definiamo
+		$$\varphi (x): \text{ $x$ è pari.}$$
+		$$\psi(x): \text{ $x$ è negativo.}$$
+		e stabiliamo che il nostro \textit{dominio} è $\NN$, allora notiamo che il lato destro è falso, in quanto esistono numeri pari ma non esistono numeri negativi, e il lato sinistro è vero, perchè prendendo un numero $a$ dispari abbiamo sicuramente che il fatto che $a$ sia pari implica il fatto che $a$ sia negativo (in quanto non è pari).
+	\end{example}
+	\begin{definition}[Interpretazione]
+		Un'\textit{interpretazione} in un certo senso è un \textit{caso specifico} dei nostri assiomi, ed è una coppia $\mathcal{I}$ che consiste in:
+		\begin{itemize}
+			\item Un \textit{dominio} $D$, che è un insieme non vuoto.
+			\item Una funzione $I:\mathcal{L}\to D^\star$ che soddisfa le seguenti proprietà:
+			\begin{itemize}
+				\item Per ogni simbolo di costante $c\in \mathcal{L}$ l'elemento $I(c)$ appartiene a $D$.
+				\item Per ogni simbolo di funzione $n$-aria $f\in\mathcal{L}$ l'elemento $I(f)$ è una funzione $I(f):D^n\to D$.
+				\item Per ogni simbolo di relazione $n$-aria $\sim$ l'elemento $I(\sim)$ è una relazione $n$-aria su $D$, ovvero $I(\sim)\subseteq D^n$. 
+			\end{itemize}  
+			
+		\end{itemize}
+		Qui il simbolo $D^\star$ è la \textit{stella di Kleene} dell'insieme $D$, ed è l'insieme definito come
+		$$D^\star:=\bigcup_{n\in\NN}D^n$$
+		ovvero è l'insieme che contiene tutte le possibili funzioni relazioni e costanti che riguardano $D$. Questa costruzione si dice anche $\mathcal{L}$-struttura.
+	\end{definition}
+	Le interpretazioni ci permettono di formalizzare in che senso alcune proposizioni non sono nè vere nè false: in generale non ha senso chiedersi se una cosa è vera \textbf{in assoluto}, ma possono esistere \textit{modelli} in cui vale e \textit{contromodelli} in cui non vale:
+	\begin{definition}[Modelli e contromodelli informai]
+		Se $\varphi$ è una proposizione chiusa, diciamo che un'interpretazione $\mathcal{I}$ è un \textit{modello} di $\varphi$ se $\varphi$ è vera nel dominio $D$ e con le funzioni e relazioni di $\mathcal{I}$. Diciamo \textit{contromodello} di $\varphi$ un'interpretazione $\mathcal{I}$ in cui $\varphi$ risulta falsa. 
+	\end{definition}
+	\begin{definition}[Conseguenza per modelli]
+		Siano $\varphi$ una formula e $\Gamma$ un insieme di assunzioni. Se, per ogni interpretazione $\mathcal{I}$, questa è un modello di $\Gamma$ solo se è un modello di $\varphi$ diremo che $\Gamma$ modella (o è un modello) di $\varphi$ e scriveremo
+		$$\Gamma\models \varphi.$$
+	\end{definition}
+	Questo non è sufficiente nel caso di generiche proposizioni aperte:
+	\begin{example}[Predicati aperti]
+		Interpretiamo gli assiomi Hilbert con gli interi $\ZZ$ muniti della somma $+$. Prendiamo il predicato
+		$$P:x\ne 1 \to \forall y \left(y\cdot y=y\right)$$
+		notiamo che il fatto che l'interpretazione sia o no  un modello di $P$ dipende da come scegliamo il valore di $x$, infatti per $x=0$ abbiamo un modello, e per $x\ne 1$ abbiamo un contromodello.
+	\end{example}
+	Dunque dobbiamo introdurre il concetto di valutazione:
+	\begin{definition}[Valutazione]
+		Una funzione $\nu:\text{Var}_\mathcal{L}\to D$ che \textit{valuta} ogni variabile con un elemento del dominio. Questa funzione si estende naturalmente a $\text{Trm}_\mathcal{L}$ nel modo seguente:
+		$$\nu(c)=I(c)$$
+		per ogni costante $c$.
+		$$\nu\left(f\left(t_1,t_2,\dots,t_n\right)\right)=I(f)\left(\nu(t_1),\nu(t_2),\dots,\nu(t_n)\right)$$ 
+		per ogni funzione $n$-aria $f$ e termini $t_i$.
+	\end{definition}
+	Da cui possiamo finalmente definire il concetto formale di modello.
+	\begin{definition}[Modelli e contromodelli formali]
+		Data un'interpretazione $\mathcal{I}$ e una valutazione $\nu$ diciamo che $I,\nu$ è un \textit{modello} del predicato $\varphi$ e scriviamo
+		$$\mathcal{I},\nu \models \varphi$$
+		se, ricorsivamente, abbiamo:
+		\begin{itemize}
+			\item Per le formule atomiche del tipo $\varphi=R(t_1,t_2,\dots,t_n)$ abbiamo che $\mathcal{I},\nu$ è un modello se e solo se
+			$$\left(\nu(t_1),\nu(t_2),\dots,\nu(t_n)\right)\in I(R).$$
+			In caso contrario $\mathcal{I},\nu$ si dice un \textit{contromodello} di $\varphi$ e si scrive
+			$$I,\nu\not\models \varphi$$
+			\item Per le formule del tipo $\varphi=\lnot\psi$ abbiamo che $\mathcal{I},\nu$ è un modello se e solo se $\mathcal{I},\nu$ è un \textit{contromodello} di $\psi$, cioè
+			$$I,\nu \models \lnot\psi \iff I,\nu \not\models \psi.$$
+			\item Per le formule del tipo $\varphi\to \psi$ si usa la tavola di verità nota, ovvero
+			$$\mathcal{I},\nu \models \varphi\to\psi \iff \mathcal{I},\nu \not\models \varphi \quad\text{oppure}\quad \mathcal{I},\nu\models \psi.$$
+			\item Per le formule del tipo $\forall x \varphi$ abbiamo che $\mathcal{I},\nu$ è un modello se per ogni valutazione $\nu'$ che differisce da $\nu$ al più sul valore di $\nu(x)$ abbiamo 
+			$$I,\nu'\models \varphi.$$
+		\end{itemize}
+	\end{definition}
+	E infine dunque ritorniamo a quanto abbiamo fatto finora, ovvero dimostrare le cosiddette \textit{tautologie}, che possiamo finalmente definire formalmente:
+	\begin{definition}[Tautologia/Validità logica]
+		Una formula $\varphi$ si dice logicamente valida se "discende solo dagli assiomi di Hilbert" ovver se per ogni $\mathcal{I},\nu$ interpretazione e valutazione abbiamo
+		$$\mathcal{I},\nu\models \varphi.$$
+	\end{definition}
+	Un importante risultato che riguarda i modelli è il cosiddetto teorema di validità, che asserisce che per ogni $\Gamma$ insieme di assunzioni e predicato $\Gamma$ vale
+	$$\Gamma\vdash \varphi \iff \Gamma \models \varphi$$
+	questo sta \textbf{connettendo} in un certo senso \textbf{la} \textbf{semantica alla grammatica}, infatti il simbolo $\vdash$ rappresentava una conseguenza puramente "meccanica" dei nostri assiomi e regole di deduzione (che formavano appunto la nostra \textit{grammatica}), mentre il simbolo $\models$ rappresenta un'implicazione semantica, cioè ci dice che non importa quale sia il significato (leggi: l'\textit{interpretazione}) delle nostre formule $\Gamma$, queste implicheranno sempre il significato della formula $\varphi$. Purtroppo solo con quanto definito finora non possiamo dimostrare il teorema completo, e ci dovremo accontentare solo di un verso:
+	\begin{metateorema}[Teorema di validità]
+		Per ogni insieme di formule $\Gamma$ e per ogni predicato $\varphi$ abbiamo
+		$$\Gamma\vdash \varphi \implies \Gamma \models \varphi.$$
+	\end{metateorema}
+	\begin{proof}[Dimostrazione informale]
+		Osserviamo che questo si chiama "teorema di validità" perchè ci permette di dimostrare che tutte le cose evidentemente valide (leggi, tutte le formule che discendono solo dagli assiomi di Hilbert) sono effettivamente valide, dato che gli assiomi di Hilbert sono validi e le regole di deduzione preservano la validità per come abbiamo definito il concetto di modello. Per esempio per il MP abbiamo che 
+		$$\Gamma\vdash \varphi \quad\text{e}\quad \Gamma \vdash \varphi\to \psi \implies \Gamma \vdash \psi$$
+		ma d'altra parte per la definizione di modello abbiamo che 
+		$$\Gamma \models \varphi \quad\text{e}\quad \Gamma\models \varphi\to\psi \implies \Gamma \models \psi$$
+		in quanto il fatto che $\Gamma\models \varphi\to\psi$ è equivalente a dire che $\Gamma \not\models \varphi$ oppure $\Gamma\models \psi$, ma dato che la prima cosa è falsa, la seconda deve essere vera. Per dimostrare bene quest'ultimo fatto, ovvero che $\Gamma\models \varphi$ e che $\Gamma\not\models\varphi$ sono incompatibili abbiamo bisogno di formalizzare meglio il metalinguaggio. Questo è un esercizio pedante, e che in ogni caso in questo corso ci stiamo ripromettendo di non fare mai, quindi questo conclude la nostra dimostrazione.
+ 	\end{proof}
+ 	
+ 	\subsection{Formule per la cardinalità}
+ 	
+ 	Non abbiamo ancora parlato davvero di numeri o cardinalità. Il concetto di "uno" discende dal concetto di "esiste unico", che possiamo definire come segue:
+ 	\begin{definition}[Esiste unico]
+ 		Introduciamo il quantificatore $\exists ! $ definito come
+ 		$$\exists !x \varphi(x):\quad \exists x\forall y\left(\varphi(y)\leftrightarrow y=x\right) $$
+ 	\end{definition}
+ 	Molte altre nozioni di cardinalità possono essere espresse in modo più o meno semplice. Per esempio per dire che "esiste almeno un elemento che soddisfa $\varphi$" possiamo scrivere:
+ 	$$\forall x \forall y \left(\varphi(x)\land \varphi(y)\leftrightarrow x=y\right)$$
+ 	per scrivere che ci sono almeno $2$ elementi possiamo scrivere
+ 	$$\exists x\varphi(x) \land \lnot \exists ! x\varphi(x)$$
+ 	ovvero
+ 	$$\forall x \exists y \left(\varphi(y)\land x\ne y\right)$$
+ 	e analogamente possiamo fare per tutte le altre cardinalità. Il problema delle cardinalità diventa importante quando abbiamo a che fare con oggetti infiniti. In effetti utilizzare soltanto assiomi del primo ordine non ci permette di definire teorie che ammettono modelli infiniti, cioè domini con un numero infinito di elementi. Tutti i problemi che stiamo avendo in ogni caso sembrano richiedere una più attenta formalizzazione della teoria degli insiemi, e quindi da adesso in poi ci concentriamo su di essa.
+	
+	\newpage
+
+	\section{Gli assiomi di ZFC}
+	La teoria di ZFC si basa sul linguaggio che consiste di tutti i simboli della logica, a cui aggiungiamo il simbolo primitivo di relazione binaria $\in$ (e per notazione introduciamo anche il simbolo $\not\in$). Gli assiomi di ZFC servono a regolamentare il modo in cui questo simbolo si comporta.
+	Il primo assioma importante è quello che lega l'uguaglianza all'appartenenza:
+	\begin{definition}[Assioma di estensionalità]
+		Il seguente predicato è vero
+		$$\forall z \left(z\in x \leftrightarrow z\in y\right)\to x=y$$
+		osserviamo che la freccia è solo in un verso perché l'altra è valida per H8.
+	\end{definition}
+	Poi abbiamo una lunga lista di assiomi di esistenza:
+	\begin{definition}[Assiomi di esistenza]
+		I seguenti predicati sono veri:
+		\begin{description}
+			\item[Assioma del vuoto:] $$\exists S \forall x\left(\lnot \left(x\in S\right)\right)$$
+			in questo caso introduciamo il simbolo $\varnothing$ per un $x$ che soddisfa il predicato dentro l'esiste.
+			\item[Assioma della coppia:] $$\forall x \forall y \exists u \forall z \left(z\in u \leftrightarrow \left(z=x \lor z=y\right)\right)$$
+			l'insieme $u$ è proprio la coppia $\left\{x,y\right\}$.
+			\item[Assioma dell'unione:] Questo assioma ci permette di unire gli elementi \textit{dentro} agli insiemi, ovvero:
+			$$\forall S\exists U\forall x \forall z\left(x\in S\to \left(z\in x \to z\in U\right)\right).$$
+		\end{description}
+	\end{definition}
+	L'assioma della coppia e l'assioma dell'unione ci permettono di costruire una grande quantità di insiemi. Una prima proprietà notevole è
+	\begin{proposition}[Unicità dell'insieme vuoto]
+		La seguente proposizione è vera
+		$$\exists ! x \forall z\left(z\not\in x\right).$$
+	\end{proposition}
+	\begin{proof}
+		Sicuramente abbiamo che esiste almeno un $x_1$ che soddisfa. Prendiamo un altro $x_2$ tale che
+		$$\lnot \exists y\left(y\in x_1\right)$$
+		$$\lnot \exists y\left(y\in x_2\right)$$
+		allora per proprietà note del $\land$ possiamo dimostrare
+		$$\forall z\left(z\not \in x_1 \land z \not \in x_2\right)$$
+		da cui, con il MP applicato all'assioma di estensionalità otteniamo direttamente $x_1=x_2$, il che ci permette di ottenere la tesi.
+	\end{proof}
+	\begin{definition}[Costante dell'insieme vuoto]
+		Introduciamo il simbolo di costante $\eset$, tale che $x\not\in \eset$ è una proposizione vera.
+	\end{definition}
+	Quello che ancora non possiamo davvero ottenere purtroppo sono i sottoinsiemi, a questo proposito diamo la definizione:
+	\begin{definition}[Sottoinsieme]
+		Definiamo il simbolo $\subseteq$ di relazione binaria come
+		$$x\subseteq y : \quad \forall z \left(z\in x \to z\in y\right).$$
+	\end{definition}
+	Questo ha molte proprietà chiare, che fanno quello che ci aspettiamo facciano. Per esempio $x\subseteq y \land y\subseteq z\to x\subseteq z$ o $x\subseteq x$. Grazie a questo possiamo introdurre gli altri due assiomi di esistenza che ci mancavano, ovvero
+	\begin{definition}[Assiomi di esistenza - sottoinsiemi]
+		I seguenti predicati sono veri:
+		\begin{description}
+			\item[Assioma della potenza:] Abbiamo che per ogni insieme $S$ esiste il suo insieme delle parti $P=\parti{S}$, ovvero l'insieme avente come elementi i sottoinsiemi di $S$:
+			$$\forall S\exists P\forall x \left(x\subseteq S \leftrightarrow x\in P\right).$$
+			\item[Assioma di Separazione:] Abbiamo che per ogni insieme $S$ e ogni formula $\varphi$ in cui $Q$ non compaia libera esiste un insieme $Q$ sottoinsieme di $S$ che contiene tutti e soli gli elementi che rendono vera la formula $\varphi$, ovvero
+			$$\forall S \exists Q \forall x\left(x\in Q \leftrightarrow x\in S \land \varphi(x)\right).$$ 
+			Introducendo una notazione molto utile, quando invocheremo l'assioma di separazione con la formula $\varphi$ sull'insieme $S$ denoteremo l'insieme $Q$ come
+			$$Q=\left\{x\in S : \varphi(x)\right\}.$$
+		\end{description}
+	\end{definition}
+	\begin{remark}[L'assioma di comprensione]
+		Notiamo che non se avessimo dato il cosiddetto \textit{assioma di comprensione}, cioè l'assioma che dice che per ogni formula esiste l'insieme degli elementi che la rende vera:
+		$$\exists S\forall x\left(x\in S \leftrightarrow \varphi(x)\right)$$
+		perchè saremmo facilmente incorsi nel paradosso di Russell:
+		$$\exists S \forall x\left(x\in S \leftrightarrow x\not\in x\right)$$ 
+		in cui abbiamo che $x\in S$ e $x\not\in S$, e quindi avremmo una teoria inconsistente.
+	\end{remark}
+	Una conseguenza immediata di quanto visto finora è che l'\textit{insieme universo} non può esistere, infatti
+	\begin{lemma}[L'universo non esiste]
+		Abbiamo che
+		$$\exists S\forall x\left(x\in S\right)\vdash \bot$$
+		e quindi 
+		$$\vdash \lnot \exists S \forall x\left(x\in S\right).$$
+	\end{lemma}
+	\begin{proof}
+		Dobbiamo prima di tutto introdurre la costante $U$ che sta per l'unico insieme universo. Per fare ciò dobbiamo dimostrare che $U$ è unico, e questo si fa in modo del tutto analogo a $\eset$. Una volta fatto ciò possiamo applicare $H5$ all'assioma di separazione per definire l'insieme di Russell, da cui troviamo un assurdo.
+	\end{proof}
+	\subsection{Relazioni e funzioni}
+	Vorremmo introdurre le relazioni e le funzioni come i soliti sottoinsiemi dei prodotti cartesiani. L'idea è che ci vorremmo basare sul concetto di coppia ordinata a partire da quello di coppia non ordinata (data con l'assioma della coppia) le proprietà carine che vorremmo avere dalla coppia (che denotiamo con le parenesi tonde), sono
+	$$\left(x,y\right)=\left(z,t\right) \leftrightarrow \left(x=z\right)\land\left(y=t\right)$$
+	che in particolare implica
+	$$\left(x,y\right)\ne \left(y,x\right)\leftrightarrow y=x$$
+	un topos ricorrente in teoria degli insiemi è che le inclusioni $\subseteq$ sono relazioni di ordine, e quindi per codificare il fatto che in una coppia ordinata $x\le y$, "integriamo" l'insieme $\left\{x,y\right\}$ (cioè iteriamo sugli elementi, e a ogni passo sostituiamo l'elemento $n$-esimo con l'unione tra il nuovo elemento $n-1$-esimo e il vecchio elemento $n$-esimo), questo ci dà:
+	\begin{definition}[Coppia ordinata]
+		Per ogni coppia di insiemi $x,y$ introduciamo la notazione della coppia ordinata come
+		$$\left(x,y\right):=\left\{\left\{x\right\},\left\{x,y\right\}\right\}$$
+	\end{definition}
+	\begin{proposition}[Proprietà fondamentale della coppia ordinata]
+		$$\left(x,y\right)=\left(z,t\right)\leftrightarrow \left(x=z\right)\land \left(y=t\right)$$
+	\end{proposition}
+	\begin{proof}
+		La freccia da destra a sinistra segue per logica. La freccia da sinistra parte assumendo
+		$$\left\{\left\{x\right\},\left\{x,y\right\}\right\}=\left\{\left\{z\right\},\left\{z,t\right\}\right\}$$
+		ora facendo l'unione e l'intersezione da entrambi i lati otteniamo
+		$$\left\{x,y\right\}=\left\{z,t\right\}$$
+		$$\left\{x\right\}=\left\{z\right\}$$
+		a questo punto facendo l'unione della seconda abbiamo $x=z$, e quindi la prima diventa
+		$$\left\{x,y\right\}=\left\{x,t \right\}$$
+		a questo punto quindi abbiamo due casi, o $y=x$ o $y=t$. Nel secondo caso abbiamo finito (teorema di deduzione), nel primo caso abbiamo che 
+		$$t\in \left\{x,y\right\}=\left\{x\right\}$$
+		cioè $t=x=y$, come richiesto.
+	\end{proof}
+	Questa dimostrazione ci dà un primo assaggio di cosa significhi prendere le proiezioni di una coppia:
+	\begin{definition}[Proiezioni]
+		Data una coppia $z=\left(x,y\right)$ definiamo le proiezioni come
+		$$\text{prima componente}:=\bigcup\bigcap z$$
+		$$\text{seconda componente}:=
+		\begin{cases}
+			\bigcup \left(\bigcup z \setminus \bigcap z\right) & \text{se $\bigcap z \ne \bigcup z$} \\
+			\bigcup\bigcap z & \text{se $\bigcap z = \bigcup z$.}
+		\end{cases}
+		$$
+	\end{definition}
+	dunque possiamo finalmente definire il prodotto cartesiano. Vorremmo definirlo come 
+	$$a\times b :=\left\{\text{insieme delle coppie $z$ tale che la prima componente è in $a$ e la seconda in $b$}\right\}$$
+	che si potrebbe fare, però non stiamo davvero applicando separazione, perché non stiamo dicendo dove vive $z$. Se prendiamo una coppia ordinata abbiamo che 
+	$$\left\{\left\{x\right\},\left\{x,y\right\}\right\}$$
+	notiamo che il primo elemento sta in parti dell'unione, il secondo anche, e quindi abbiamo che
+	\begin{definition}[Prodotto cartesiano]
+		Dati due insiemi, definiamo il loro \textit{prodotto cartesiano} come
+		$$a\times b:=\left\{z\in \parti{\parti{a\cup b}}\mid \exists x\exists y\left(x\in a \land y \in b \to z=\left(x,y\right)\right)\right\}.$$
+	\end{definition}
+	E quindi finalmente
+	\begin{definition}[Relazione]
+		Una \textit{relazione tra $a$ e $b$} è un sottoinsieme $r\subseteq a\times b$. Una \textit{generica relazione} $r$ è un insieme che soddisfa
+		$$\forall z\left(z\in r \to \exists x \exists y \left(x\in a \land y \in b \to z=(x,y)\right)\right)$$
+	\end{definition}
+	\begin{definition}[Quantificatori su insiemi]
+		Introduciamo un piccolo abuso di notazione, quando scriviamo un quantificatore in modo
+		$$\forall x\in a,\varphi(x)$$
+		stiamo sottintendendo 
+		$$\forall x \left(x\in a \to \varphi(x)\right).$$
+	\end{definition}
+	\begin{definition}[Funzione]
+		Una \textit{funzione} $f:a\to b$ è una particolare relazione tra $a$ e $b$ tale che 
+		$$\forall x\in a, \exists!y\in b,\left((x,y)\in f\right).$$
+		Una \textit{funzione parziale} è una funzione da $a$ a $b$ definita solo su un sottoinsieme di $a$, e questo vuol dire che è una relazione $f$ tale che
+		$$\forall x\in a, \forall y\in b, \forall z\in b,\left((\left(x,y\right)\in f)\land (\left(x,z\right)\in f) \to y=z\right)$$
+	\end{definition}
+	\begin{definition}[Dominio di una relazione]
+		Data una relazione $r$ da $a$ a $b$ definiamo \textit{dominio} e \textit{immagine} come
+		$$\text{Dom}\left(r\right):=\left\{x\in a\mid \exists y \in b, \left(x,y\right)\in r\right\}$$
+		$$\text{Im}\left(r\right):=\left\{y\in b\mid \exists x \in a, \left(x,y\right)\in r\right\}$$
+		e il suo \textit{campo} e l'unione di dominio e immagine.
+	\end{definition}
+	\subsubsection{Relazioni di equivalenza}
+	\begin{definition}[Relazione di equivalenza]
+		Una relazione di equivalenza $\rho$ è una relazione tale che
+		$$\forall a\forall b((a,b)\in r \leftrightarrow (b,a)\in r)$$
+		e che soddisfa transitività e riflessività, si scrivono in modo analogo.
+	\end{definition}
+	\begin{definition}[Insieme quoziente]
+		Data una relazione di equivalenza $\rho$ su un insieme $a$, il suo \textit{insieme quoziente} è definito come
+		$$\faktor{a}{\rho}:=\left\{z\in \parti{a}\mid \exists x\in z,\forall y\in a ,\left(y\in z \leftrightarrow (y,x)\in \rho\right)\right\}$$
+	\end{definition}
+	\subsection{L'assioma di rimpiazzamento}
+	In ZFC c'è una importante distinzione informale tra \textit{classi} e \textit{insiemi}. In un certo senso le classi sono gli insiemi troppo grossi, il motivo per cui abbiamo introdotto l'assioma di buona fondazione. Quello che l'assioma di rimpiazzamento ci dice è che fare funzioni non ci porta mai a insiemi "troppo grossi", cioè che comunque data una funzione $f:V\to V$ dove $V$ pu essere anche una classe, allora l'immagine di un insieme rispetto a $f$ sarà ancora un insieme. Prima di tutto allora dobbiamo generalizzare il concetto di funzione:
+	\begin{definition}[Corrispondenza funzionale]
+		Una formula $\varphi(x,y)$ aperta nelle variabili $x$ e $y$ tale che la proposizione
+		$$\forall x\exists ! y \varphi(x,y) $$
+		sia sempre vera si dice \textit{corrispondenza funzionale}.
+	\end{definition}
+	Dunque l'assioma di rimpiazzamento diventa
+	\begin{definition}[Assioma di rimpiazzamento]
+		Per ogni formula $\varphi$ libera in $x$ e in $y$ abbiamo che
+		$$\forall A \left(\forall x\in A\,\,\,\exists ! y\varphi(x,y)\to \exists B \forall y \left(y\in B \leftrightarrow \exists x\in A \varphi(x,y)\right)\right).$$
+		Equivalentemente questo assioma ci dice che comunque data una corrispondenza funzionale $F$, $F[A]$ è un insieme per ogni insieme $A$. Ricordiamo che in ZFC tutti gli elementi sono insiemi, quindi dire che $A$ tale che $\varphi(A)$ è un insieme vuol dire dimostrare che "$\exists A\varphi(A)$", cioè proprio quello che ci dice l'assioma.
+	\end{definition}
+	Notiamo che dall'assioma di rimpiazzamento possiamo far discendere quello di separazione, infatti se vogliamo esprimere l'insieme
+	$$B=\left\{x\in A : \varphi(x)\right\}$$
+	considerando la corrispondenza funzionale definita informalmente come
+	\begin{align*}
+		F:A\to &G \\
+		a\mapsto &\begin{cases}
+			\left\{a\right\} & \text{se $\varphi(a)$ è vera.} \\
+			\varnothing & \text{se $\lnot \varphi(a)$ è vera.}
+		\end{cases}
+	\end{align*}
+	e formalmente come
+	$$F(x,y): \quad \left(\varphi(x)\to y=\left\{x\right\}\right) \land \left(\lnot \varphi(x)\to y=\varnothing\right)$$
+	e dunque l'insieme $B$ si ottiene come
+	$$B=\bigcup G.$$
+	
+	\subsection{Numeri Naturali}
+	
+	Abbiamo già parlato degli assiomi di Peano e del principio di induzione, li ricordiamo qui:
+	\begin{definition}[Assiomi di Peano]
+		$\,$
+		\begin{description}
+			\item[Assioma 1:] $0\in\NN$
+			\item[Assioma 2:] $n\in\NN \to n+1\in\NN$
+			\item[Assioma 3:] $\lnot\exists n (n+1=0)$
+			\item[Assioma 4:] $n+1=m+1 \to n=m$
+			\item[Assioma 5:] $\left(P(0)\land \forall n \left(P(n)\to P(n+1)\right)\right)\to \forall n P(n)$
+		\end{description}
+	\end{definition} Ora che abbiamo un po' di teoria degli insiemi alle spalle vorremmo costruire un modello degli assiomi di Peano. Partiamo dal definire la funzione successore e lo $0$:
+	\begin{definition}[Numero $0$]
+		Definiamo il numero $0$ come
+		$$0:=\eset.$$
+		
+	\end{definition}
+	\begin{definition}[Funzione successore]
+		Dato un insieme $x$ definiamo il suo successore come
+		$$sx:=x+1:=x\cup \left\{x\right\}.$$
+		In particolare dunque abbiamo
+		$$1:=0+1:=\eset\cup \left\{\eset\right\}=\left\{\eset\right\}$$
+		$$2:=1+1:=\left\{\eset\right\}\cup \left\{\left\{\eset\right\}\right\}=\left\{\eset,\left\{\eset\right\}\right\}$$
+		$$3:=2+1:=\left\{\eset,\left\{\eset\right\}\right\}\cup \left\{\left\{\eset,\left\{\eset\right\}\right\}\right\}=\left\{\eset,\left\{\eset\right\},\left\{\eset,\left\{\eset\right\}\right\}\right\}$$
+		$$\vdots$$
+		dunque abbiamo infiniti simboli, che corrispondono ai nostri numeri naturali.
+	\end{definition}
+	Tuttavia nel definire esattamente il dominio del nostro modello troviamo un problema. Usando solo gli assiomi definiti finora non riusciamo, data una collezione generica di insiemi di questo tipo, a creare un insieme che li contenga tutti (che sarebbe $\NN$, il dominio che tanto vorremmo). Il problema che incontriamo, ad esempio usando il rimpiazzamento, è che avremmo bisogno di definire un insieme universo che contenga discese infinite di sottoinsiemi (il che è evidentemente assurdo per l'assioma di fondazione). Per questo dobbiamo introdurre prima di tutto la proprietà caratterizzante che vorremmo avesse $\NN$:
+	\begin{definition}[Insieme induttivo]
+		Un insieme $A$ si dice induttivo se il seguente predicato è vero
+		$$\text{Ind}(A): \quad \forall x\left(x\in A \to \left(x\cup \left\{x\right\}\right)\in A\right).$$
+		In effetti notiamo che $\eset$ è induttivo, ma non è l'insieme che stiamo cercando.
+	\end{definition}
+	\begin{definition}[Assioma dell'infinito]
+		L'assioma dell'infinito postula che esista un insieme induttivo non banale, ovvero:
+		$$\exists I\left(\eset \in I \land \text{Ind}(I)\right)$$
+		notiamo che questo per l'assioma di fondazione implica che esiste un insieme induttivo che non sia vuoto (l'assioma dell'infinito dichiara che questo insieme \textit{contiene} il vuoto, mentre quello di fondazione ci permette di dedurre che sono diversi).
+	\end{definition}
+	A questo punto quindi possiamo definire l'insieme $\omega$ (che vedremo sarà il dominio del modello dei naturali che stiamo cercando di costruire) come
+	\begin{definition}[Insieme omega]
+		Per l'assioma di separazione dato $I_0$ un insieme induttivo non vuoto possiamo definire l'insieme
+		$$\left\{x\in \parti{I_0}:\eset\in x\land \text{Ind}(x)\right\}$$
+		e sempre per la separazione possiamo definire
+		$$\omega:=\bigcap \left\{x\in \parti{I_0}:\eset\in x\land \text{Ind}(x)\right\}.$$
+		In un certo senso, per come lo abbiamo definito $\omega$ è il più piccolo sottoinsieme induttivo che contiene il vuoto di un generico insieme induttivo datoci dall'assioma di infinito.
+	\end{definition}
+	Dimostriamo le prime proprietà dell'insieme $\omega$:
+	\begin{proposition}[Caratterizzazione di $\omega$]
+		L'insieme $\omega$ soddisfa le seguenti proprietà:
+		\begin{itemize}
+			\item $\omega$ è induttivo.
+			\item L'insieme vuoto è un elemento di $\omega$.
+			\item 
+			L'insieme $\omega$ è il più piccolo insieme induttivo che contiene l'insieme vuoto, ovvero per ogni insieme induttivo $I$ che contiene l'insieme vuoto abbiamo $\omega\subseteq I$.
+		\end{itemize}
+	\end{proposition}
+	\begin{proof}
+		Abbiamo prima di tutto chiaramente che $\omega$ è induttivo in quanto intersezione di insiemi induttivi. Inoltre vi appartiene l'insieme vuoto in quanto intersezione di insiemi a cui appartiene l'insieme vuoto. La proprietà interessante da dimostrare è la terza, consideriamo $I$ un insieme induttivo a cui appartiene l'insieme vuoto, allora se definiamo 
+		$$X_0=I\cap \omega$$
+		abbiamo sicuramente che $X_0$ è induttivo e contiene l'insieme vuoto, d'altra parte abbiamo che 
+		$$X_0\subseteq \omega$$
+		e quindi sicuramente $X_0\in \parti{I_0}$, e quindi abbiamo proprio che $\omega\subseteq X_0$ da cui otteniamo 
+		$$\omega \subseteq I_0$$
+		che per generalizzazione ci fa chiudere.
+ 	\end{proof}
+ 	La definizione che abbiamo dato di $\omega$ dipende da $I_0$, sistemiamo questa cosa:
+ 	\begin{proposition}[Buona definizione di $\omega$]
+ 		Per ogni $I$ e $I'$ insiemi induttivi non vuoti abbiamo che
+ 		$$\omega'=\bigcap\left\{x\in \parti{I'}:\eset\in x\land \text{Ind}(x)\right\}=\bigcap\left\{x\in \parti{I}:\eset\in x \land \text{Ind}(x)\right\}=\omega$$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Consideriamo gli insiemi
+ 		$$J:=\omega' \cap I$$
+ 		$$J':=\omega \cap I'$$
+ 		questi sono entrambi induttivi e contengono entrambi lo $0$, d'altra parte 
+ 		$$J\subseteq \omega' \subseteq I$$
+ 		$$J'\subseteq \omega\subseteq I'$$
+ 		ma allora dato che $\omega$ e $\omega'$ sono i più piccoli insiemi induttivi dentro $I$ e $I'$ abbiamo
+ 		$$\omega \subseteq J$$
+ 		$$\omega' \subseteq J'$$
+ 		che dunque per definizione di $J$ e $J'$:
+ 		$$\omega \subseteq J \subseteq \omega'$$
+ 		$$\omega' \subseteq J'\subseteq \omega$$
+ 		che chiude.
+ 	\end{proof}
+ 	Il motivo per cui abbiamo definito così $\omega$ è proprio perchè soddisfi
+ 	\begin{definition}[Induzione e Induzione estesa]
+ 		Il \textit{principio d'induzione} è l'implicazione
+ 		$$\varphi(0)\land \forall x\in \omega\left(\varphi(x)\to \varphi(sx)\right)\to \forall x\in \omega ,\varphi(x).$$
+ 		Il \textit{principio d'induzione estesa, o induzione forte} è l'implicazione
+ 		$$\forall x\in \omega\left(\forall y<x\,\,\varphi(y)\to\varphi(x)\right)\to\forall x\in \omega,\varphi(x)$$
+ 		per una certa relazione d'ordine in $\omega$.
+ 	\end{definition}
+ 	In effetti abbiamo
+ 	\begin{proposition}[$\omega$ soddisfa il principio di induzione]
+ 		Abbiamo che la seguente proposizione è vera per ogni formula $\varphi(x)$:
+ 		$$\left[\varphi(0)\land\forall x\in \omega\left(\varphi(x)\to\varphi(x+1)\right)\right]\to\forall x\in\omega,\varphi(x)$$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Prendiamo per separazione il sottoinsieme di $\omega$:
+ 		$$\omega \supseteq A=\left\{n\in \omega:\varphi(n)\right\}$$
+ 		per ipotesi abbiamo che $A$ è induttivo, infatti $a\in A$ è equivalente a $\varphi(a)$, che d'altra parte implica $\varphi(a+1)$ che è equivalente ad $a+1\in A$; inoltre $A$ è non vuoto dato che $0\in A$ quindi dato che $\omega$ è il più piccolo insieme induttivo abbiamo
+ 		$$\omega\subseteq A \subseteq \omega$$
+ 		da cui $A=\omega$ che era la tesi.
+ 	\end{proof}
+ 	\begin{proposition}[$\omega$ soddisfa il principio di induzione forte]
+ 		Abbiamo che la seguente proposizione è vera per ogni formula $\varphi(x)$:
+ 		$$\forall x\in \omega\left((\forall y<x,\varphi(y))\to \varphi(x)\right)\to \forall x\in \omega,\varphi(x).$$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Supponiamo che le premesse siano vere. 
+ 		Definiamo il predicato
+ 		$$\psi(x):\forall y< x,\varphi(y)$$
+ 		vogliamo applicare il principio di induzione a $\psi$, il che chiuderebbe. Verifichiamo un'ipotesi alla volta:
+ 		\begin{description}
+ 			\item[Passo base:] Abbiamo chiaramente che $\psi(0)\iff \varphi(0)$ che è vero dato che istanziando i quantificatori dentro la premessa
+ 			$$(\forall y<0,\varphi(y))\to \varphi(0)$$
+ 			e visto che gli elementi tali che $y\in 0$ per definizione di $0$ sono esattamente $0$ abbiamo che quella proposizone è equivalente a 
+ 			$$\bot \to \varphi(0)$$
+ 			cioè $\varphi(0)$ è vera. 
+ 			\item[Passo induttivo:] Se $\psi(a)$ è vera allora possiamo riscrivere la premessa come
+ 			$$\forall x\in \omega\left(\psi(x)\to \varphi(x)\right)$$
+ 			ovvero istanziandola per $a$ 
+ 			$$\psi(a)\to \varphi(a)$$
+ 			che implica direttamente
+ 			$$\psi(a)\land \varphi(a)\vdash \forall x<a+1,\varphi(x)=\psi(a+1)$$
+ 			che era quanto volevamo dimostrare.
+ 		\end{description}
+ 		Per induzione allora abbiamo che $\forall a\in \omega,\psi(a)$, e quindi abbiamo finito se istanziamo con $x+1$:
+ 		$$\psi(x+1)\vdash \varphi(x)$$
+ 		che chiude per generalizzazione. 
+ 	\end{proof}
+ 	\subsubsection{Insiemi transitivi e ordine}
+ 	
+ 	Abbiamo visto che $\omega$ soddisfa il principio di induzione forte, ci è stato detto che gli insiemi in cui questo è possibile sono tutti e soli quelli muniti di un \textit{buon ordine}, dunque siamo motivati a introdurre un ordine su $\omega$ come segue:
+ 	\begin{definition}[Ordine su $\omega$]
+ 		Definiamo su $\omega$ la relazione
+ 		$$x<y:x\in y$$
+ 		e la relazione
+ 		$$x\le y:\left(x\in y\right)\lor(x=y).$$
+ 	\end{definition} 
+ 	Vogliamo dimostrare che con questa relazione $\omega$ ha tutte le proprietà di un buon ordine, per fare ciò parleremo molto della sua proprietà transitiva. In particolare (vedremo poi che questo è abbastanza importante) la seguente nozione sarà cruciale:
+ 	\begin{definition}[Insieme transitivo]
+ 		Un insieme $z$ si dice \textit{transitivo} se 
+ 		$$\forall x,y\left(x\in y \in z\to x\in z\right).$$
+ 	\end{definition}
+ 	Si dimostra abbastanza facilmente per induzione che $\omega$ è transitivo, così come tutti i suoi elementi. Il fatto che $\omega$ sia transitivo \textit{come insieme} vuol dire che la relazione $\in$ (leggi $<$) è transitiva \textit{come relazione}, quindi abbiamo la prima proprietà che ci serve per mostrare che $\omega$ è effettivamente un buon ordine. Andiamo avanti:
+ 	\begin{proposition}[Tricotomia dei naturali]
+ 		Abbiamo la seguente proposizione
+ 		$$\forall x,y\in\omega\quad \left(x< y\right)\lor (x=y)\lor \left(y< x\right).$$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Procediamo per induzione su $x$. Chiaramente se $x=0$ abbiamo che $y\in x$ è sempre falsa, se $y=0$ abbiamo $y=x$ e se $y\ne 0$ segue facilmente per induzione che $y>0$. \\
+ 		Supponiamo ora che per $x$ valga la tricotomia per ogni $y$. Consideriamo $x+1$ allora abbiamo tre casi:
+ 		\begin{itemize}
+ 			\item Se $x=y$ abbiamo $y\in \left\{x\right\}\cup \left\{x\right\}=x+1$ e abbiamo finito.
+ 			\item Se $x>y$ abbiamo $y\in x$ ovvero $y\in x\cup \left\{x\right\}=x+1$ e abbiamo finito. 
+ 			\item Se $x<y$ vogliamo dimostrare che $x+1\le y+1$ che è equivalente a $y+1<x$ oppure $y+1=x$. \\
+ 			Dimostriamo quindi che $x<y\to sx<sy$ per induzione su $y$: il passo base è $y=0$ per cui si ha
+ 			$$x<0\to x+1<y+1$$
+ 			che è chiaramente vera in quanto $x<0$ è sempre falsa. Supponiamo ora per induzione che 
+ 			$x<y\to sx<sy$
+ 			vogliamo dimostrare che 
+ 			$$x<sy\to sx<ssy$$
+ 			supponiamo allora che $x\in y\cup \left\{y\right\}$, abbiamo due casi:
+ 			\begin{itemize}
+ 				\item $x\in y$ da cui segue per ipotesi induttiva che $sx\in sy$ e quindi per transitività 
+ 				$$sx\in sy\in ssy\implies sx\in ssy.$$
+ 				\item $x=y$ da cui segue immediatamente che $ssy=ssx$ e quindi abbiamo
+ 				$$sx<ssx=ssy.$$
+ 			\end{itemize}
+ 			Dunque abbiamo finito anche questo caso.
+ 		\end{itemize} 
+ 		In ogni caso arriviamo ad una delle possibilità della tesi, e quindi abbiamo finito.
+ 	\end{proof}
+ 	\begin{proposition}[Principio del minimo]
+ 		Per ogni sottoinsieme $\eset\ne A\subseteq \omega$ esiste un elemento $m\in A$ tale che
+ 		$$\forall x\in A,m\le x.$$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Consideriamo la formula $\varphi(x):=x\not\in A$ il principio di induzione estesa per questa formula è
+ 		$$\forall m\in \omega\left((\forall x<m,x\not\in A)\to m\not\in A\right)\to \forall x\in \omega,x\not\in A$$
+ 		prendendone la contronominale allora abbiamo
+ 		$$\exists x\in \omega,x\in A\to \exists m\in \omega\left(\left(\forall x<m,x\not\in A\right)\land m\in A\right)$$
+ 		che leggendola informalmente è "se $A$ è non vuoto, allora esiste un $m\in\omega$ tale che sia in $A$ e che se un elemento $x$ è più piccolo di lui allora $x\not\in b$" da questo segue facilmente con un po' di logica che $m$ è il \textit{minimale} di $A$ (ovvero non esistono elementi di $A$ tali che $x<m$), e quindi per la tricotomia dei naturali questo vuol dire che per ogni elemento di $A$ si ha
+ 		$$m\le x$$
+ 		come volevamo dimostrare. 
+ 	\end{proof}
+ 	La dimostrazione sopra fa vedere in modo fulminante come il principio del minimo (del minimale in realtà) e l'induzione estesa siano \textbf{la stessa cosa} (l'altro verso verrà dimostrato più avanti). 
+ 	\begin{proposition}[L'ordine su $\omega$ è antiriflessivo]
+ 		Abbiamo la seguente proposizione
+ 		$$\forall x\in \omega\,\,x< x.$$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Procediamo per induzione. Chiaramente $0\not\in 0$ (dall'assioma del vuoto). Supponiamo ora per induzione che 
+ 		$$n\not\in n$$
+ 		allora dobbiamo dimostrare che 
+ 		$$sn\not\in sn.$$
+ 		In realtà non è difficile, se abbiamo per assurdo che 
+ 		$$sn\in \left\{n\cup \left\{n\right\}\right\}$$
+ 		abbiamo o che $sn=n$, o che $sn\in n$ il che vuol dire nel primo caso che 
+ 		$$\left\{n\cup \left\{n\right\}\right\}=n$$
+ 		cioè $n\in n$, assurdo per ipotesi induttiva, e nel secondo caso abbiamo che 
+ 		$$n\in sn\in n$$
+ 		che per transitività è di nuovo assurdo.
+ 	 \end{proof}
+ 	 Notiamo che gli insiemi transitivi forniscono una proprietà parecchio forte, e cioè
+ 	 \begin{lemma}[Caratterizzazione degli insiemi transitivi]
+ 	 	Un insieme si dice transitivo se e solo se 
+ 	 	$$z\in \parti{\parti{z}}.$$
+ 	 \end{lemma}
+ 	 \begin{proof}
+ 	 	La definizione di transitivo è
+ 	 	$$\forall y \forall x\left(x\in y \land y\in z \to x\in z\right)$$
+ 	 	che è equivalente a dire che 
+ 	 	$$\forall y\in z.\forall x\left(x\in y \to x\in z\right)$$
+ 	 	cioè abbiamo che per ogni $y\in z$, $y$ è anche un sottoinsieme di $z$, cioè è un elemento dell'insieme delle parti. Ma questo vuol dire che 
+ 	 	$$\forall y\left(y\in z \to y\in \parti{z}\right)$$ 
+ 	 	cioè abbiamo che
+ 	 	$$z\subseteq \parti{z}$$
+ 	 	cioè 
+ 	 	$$z\in \parti{\parti{z}}$$
+ 	 	come voluto.
+ 	 \end{proof}
+ 	
+ 	Abbiamo visto che $\omega$ ordinato com'è con il $<$ è un buon ordinamento. abbiamo definito l'ordinamento come appartenenza, in realtà sugli insiemi transitivi possiamo dire qualcosa di un po' più forte:
+ 	\begin{proposition}[Caratterizzazioni degli ordini larghi]
+ 		Per ogni coppia di insiemi transitivi bene ordinati rispetto all'appartenenza abbiamo che
+ 		$$x\le y \iff x< sy \iff x\subseteq y.$$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Il fatto che $x\le y$ sia equivalente a $x<sy$ segue chiaramente dal fatto che
+ 		$$x\le y \iff x\in y\lor x=y \iff x\in y\lor x\in\left\{y\right\} $$
+ 		ovvero dobbiamo avere necessariamente che $x$ appartiene all'insieme 
+ 		$$x\in y\cup\left\{y\right\}$$
+ 		che è la definizione di successore. D'altra parte se $x=y$ abbiamo chiaramente $x\subseteq y$, mentre se $x\in y$ per ogni $z\in x$ abbiamo per transitività
+ 		$$z\in x \in y \implies z\in y$$
+ 		da cui un verso della seconda equivalenza. Per dimostrare l'altro verso dobbiamo dimostrare che se 
+ 		$$z\in x \to z\in y$$
+ 		allora abbiamo 
+ 		$$x\in y \lor x=y$$
+ 		d'altra parte per la tricotomia dei naturali se per assurdo avessimo $x\not\in y$ avremmo o $x=y$ o $y\in x$, e quest'ultima è assurda perchè per ipotesi ci darebbe
+ 		$$y\in x \to y\in y$$
+ 		che abbiamo dimostrato essere assurdo (e comunque viola l'assioma di fondazione, anche se stiamo cercando di non usarlo).
+ 	\end{proof}
+ 	L'ultimo assioma che ci manca da verificare è l'iniettività del successore. Per dimostrarlo abbiamo bisogno prima di un lemma
+ 	\begin{lemma}[Unione del successore]
+ 		Vale la seguente proposizione
+ 		$$\forall n\in \omega, \bigcup sn=n$$
+ 	\end{lemma}
+ 	\begin{proof}
+ 		Procediamo per induzione. Per $0$ è chiaramente
+ 		$$\bigcup 1 = \bigcup\left\{\eset\right\}=\eset.$$
+ 		Supponiamo allora per induzione che 
+ 		$$\bigcup sn = n$$
+ 		vogliamo dimostrare che
+ 		$$\bigcup ssn =sn$$
+ 		d'altra parte abbiamo
+ 		$$\bigcup ssn=\left(\bigcup sn\right)\cup sn$$
+ 		e quindi per ipotesi induttiva
+ 		$$\dots=n\cup sn=n\cup n\cup \left\{n\right\} =n\cup \left\{n\right\}=sn$$
+ 		come volevamo mostrare.
+ 	\end{proof}
+ 	E infine quindi 
+ 	\begin{proposition}[Iniettività del successore]
+ 		$$sx = sy \implies x=y$$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Semplicemente prendendo  le unioni da entrambi i lati
+ 		$$x=\bigcup sx = \bigcup sy=y$$
+ 		e quindi abbiamo finito.
+ 	\end{proof}
+ 	Il modo in cui abbiamo usato l'unione ci fa capire cosa significhi definire la funzione \textit{precedente}:
+ 	\begin{definition}[Funzione precedente]
+ 		Dato un $n$ definiamo il suo \textit{precedente} come
+ 		$$pn:=n-1:=\bigcup n$$
+ 		che, per quanto detto prima, è tale che
+ 		$$\bigcup n:=\begin{cases}
+ 			0 & \text{se $n=0$} \\
+ 			n-1 & \text{altrimenti.}
+ 		\end{cases}$$ 
+ 	\end{definition}
+ 	\subsubsection{Ricorsione: definire somma e prodotto}
+ 	Per avere la struttura dei naturali ci mancano la somma e il prodotto. Come li definiamo? La tentazione sarebbe di fare la cosa ricorsivamente, dunque:
+ 	\begin{definition}[Somma e prodotto tra naturali]
+ 		Dati due elementi di $\omega$ definiamo la loro \textit{somma} come l'immagine della funzione $+:\omega\times \omega\to \omega$ tale che
+ 		$$m+0:=m$$
+ 		$$m+sn:=s\left(m+n\right)$$
+ 		che è una definizione ricorsiva. Analogamente definiamo il prodotto come
+ 		$$m\cdot 0 := 0$$
+ 		$$m\cdot s(n)=m\cdot n + n.$$
+ 	\end{definition}
+ 	Questa definizione non è quella che abbiamo dato di funzione, e quindi abbiamo bisogno del seguente teorema
+ 	\begin{theorem}[Primo teorema di ricorsione]
+ 		Dato un $a\in \omega$ un insieme e una funzione 
+ 		$$g:\omega\to b$$
+ 		esiste ed è unica una funzione $f:\omega\to b$ tale che
+ 		$$f(0)=a$$
+ 		$$f(sn)=g(f(n)).$$
+ 	\end{theorem}
+ 	\begin{proof}
+ 		La parte di unicità è semplice (si fa per induzione nel modo chiaro), il punto difficile è l'esistenza. La strategia che daremo sarà costruire un insieme di "funzioni" parziali, ovvero di funzioni definite su insiemi finiti che verificano le condizioni che abbiamo. Definiamo quindi 
+ 		$$f:=\bigcup\left\{h:n\to b:h\,\,\text{verifica le condizioni per qualche $n\in\omega$}\right\}.$$
+ 		Dove $n$ è l'insieme dei primi $n$ numeri naturali (cioè è proprio il numero $n$, per definizione). L'insieme dentro in effetti esiste, perchè per separazione è un sottoinsieme di $\parti{\omega\times b}$. Dobbiamo dimostrare che $f$ è effettivamente una funzione su tutto $\omega$. \\
+ 		Per induzione dimostriamo che il dominio di $f$ è $\omega$. Sicuramente $\eset\in \text{dom}f$ perchè una delle funzioni parziali era proprio $\left\{(0,a)\right\}$. D'altra parte supponiamo che $n\in \text{dom}f$, cioè vuol dire che esiste un $m$ tale che $n\in m$ e si abbia
+ 		$$\exists h:m\to b \,\,\text{tale che soddisfa le condizioni}$$
+ 		(in modo brutalmente informale). Vogliamo dimostrare che $sn\in \text{dom}f$. D'altra parte abbiamo che
+ 		$$h_{|sn}\cup \left\{(sn),g(y)\right\}$$
+ 		è un elemento dell'insiemone di cui avevamo fatto l'unione, e quindi abbiamo la nostra tesi. \\
+ 		La seconda parte consiste nel dimostrare che 
+ 		$$\forall x\in \omega\forall y_1,y_2\in b \quad (x, y_1)\land(x,y_2)\to y_1=y_2$$
+ 		d'altra parte questo vuol dire che ci sono due funzioni 
+ 		$$h_1:n_1\to b,\, y_1=h_1(x) $$
+ 		$$h_2:n_2\to b,\, y_2=h_2(x) $$
+ 		da cui abbiamo che prendendo il minimo tra $n_1$ ed $n_2$ le due funzioni sono definite sullo stesso insieme e soddisfano la ricorsione dell'ipotesi, quindi per la parte di unicità sono uguali. D'altra parte se avevamo che $x$ era in una coppia sia di $h_1$ che di $h_2$ e quindi abbiamo che $x<n_1$ e $x<n_2$ da cui la tesi per l'unicità appena ottenuta.
+ 	\end{proof}
+ 	Questa dimostrazione si può tranquillamente estendere al caso di corrispondenze funzionali generiche. Allo stesso modo si può estendere il teorema a ricorsioni più complicate, in funzione di tutti i valori prima.
+ 	\begin{proposition}[Teorema di ricorsione per le classi]
+ 		Data una corrispondenza funzionale $G:V\to V$ esiste ed è unica una corrispondenza funzionale tale che
+ 		$$
+ 		\begin{cases}
+ 			F(0)=a \\
+ 			F(n+1)=G(F(n))
+ 		\end{cases}.
+ 		$$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Essenzialmente analoga a prima, questa volta però invece di usare l'assioma dell'unione per costruire $f$ usiamo 
+ 		$$F(x,y):= \exists h \left(h \text{ è una funzione}\land \exists n\in \omega.\, h \text{ è una corrispondenza funzionale su $n$ numero naturale}\right)$$
+ 		e sviluppando i passi come prima.
+ 	\end{proof}
+ 	\begin{example}[Chiusura transitiva di un insieme]
+ 		Come esempio di corrispondenza funzionale ricorsiva, scriviamo la sua chiusura transitiva. Preso un insieme $x$ definiamo la successione (ricorsivamente) come
+ 		$$x_n:\omega\to V$$
+ 		tale che
+ 		$$x_n:=
+ 		\begin{cases}
+ 			x_0=x \\
+ 			x_{n+1}=\bigcup x_n
+ 		\end{cases}
+ 		$$
+ 		allora per l'assioma di rimpiazzamento abbiamo che $\left\{x_n :n\in \omega\right\}$ è un insieme, quindi possiamo definire l'insieme \textit{chiusura transitiva} come
+ 		$$TC(x):=\bigcup_{n\in \omega} x_n.$$
+ 	\end{example}
+ 	Provando a giocare un po' con la chiusura transitiva (e notando che il suo nome sembra suggerici le seguenti proprietà) osserviamo che
+ 	\begin{proposition}[Proprietà della chiusura transitiva]
+ 		Per ogni insieme $x$ abbiamo:
+ 		\begin{itemize}
+ 			\item L'insieme $TC(x)$ è transitivo.
+ 			\item Per ogni $y\supseteq x$ tale che $y$ sia transitivo allora $TC(x)\subseteq y$.
+ 		\end{itemize}
+ 	\end{proposition}
+ 	\begin{proof}
+ 		La prima tesi consiste nel dimostrare che se 
+ 		$$y\in z\in TC(x)$$
+ 		allora $y\in TC(x)$.
+ 		Abbiamo sicuramente che esiste un $n$ tale che
+ 		$$z\in x_n$$
+ 		d'altra parte allora avremo che, dato che $y\in z$:
+ 		$$y\in \bigcup x_n$$
+ 		e infine quindi, per definizione della successione $x_n$
+ 		$$y\in x_{n+1}$$
+ 		che implica $y\in TC(x)$. \\
+ 		La seconda proprietà segue dicendo che se $x\subseteq y$ con $y$ transitivo abbiamo che $x_n\subseteq y$. Questo segue per induzione, dato che il passo base è semplicemente una delle ipotesi, e il passo induttivo segue immediatamente dalla definizione di transitivo:
+ 		$$x_\subseteq y \implies x_{n+1}\subseteq y$$
+ 	\end{proof}
+ 	
+ 	\newpage
+ 	
+ 	\section{Cardinalità}
+ 	\begin{definition}[Insieme infinito]
+ 		UN insieme $a$ si dice \textit{infinito} se esiste una funzione biettiva tra $a$ e un suo sottoinsieme proprio. Equivalentemente possiamo dire che esiste una funzione $f:a\to a$ iniettiva ma non suriettiva.
+ 	\end{definition}
+ 	Cosa vuol dire a questo punto che un insieme è finito? Ci sono due nozioni che scaturiscono naturalmente:
+ 	\begin{itemize}
+ 		\item Un insieme finito non è infinito.
+ 		\item Un insieme è finito se è in biezione con un naturale.
+ 	\end{itemize}
+ 	queste sono equivalenti, ma per dimostrarlo abbiamo bisogno del celebre:
+ 	\begin{definition}[Assioma della scelta]
+ 		L'\textit{assioma della scelta} asserisce che: \\
+ 		Per ogni $a\ne \eset$ esiste una funzione $c:\parti{a}\setminus \left\{\eset\right\}\to a$ tale che per ogni sottoinsieme $b$ di $a$ abbiamo $c(b)\in b$, ovvero:
+ 		$$\forall a(a\ne \eset \to \exists c:\parti{a}\setminus \left\{\eset\right\}\to a .\, \forall b\in \parti{a}\setminus\left\{\eset\right\}.\,c(b)\in b).$$
+ 	\end{definition}
+ 	Notiamo che per insiemi finiti questo assioma non è davvero necessario: riusciamo a costruire esplicitamente una funzione come la richiediamo in un numero finito di passaggi. \\
+ 	\'E stato dimostrato che l'assioma di scelta è indipendente dagli altri assiomi, cioè abbiamo
+ 	$$ZF\not\vdash AC$$
+ 	$$ZF\not\vdash 	\lnot AC$$
+ 	la seconda cosa (ovvero che l'assioma di scelta non contraddice gli altri) è stata dimostrata da G{\"o}del nel 1940, la prima nel 1963 da Cohen. Dunque siamo pronti a dimostrare:
+ 	\begin{proposition}[Definizione di insieme finito]
+ 		Per un insieme $a$ le seguenti due proposizioni sono equivalenti:
+ 		\begin{enumerate}
+ 			\item $\exists n\in \omega.\,\exists f:n\to a.\,f\text{ biezione}$.
+ 			\item $\forall f:a\to a(f\text{ iniettiva}\to f\text{ suriettiva})$.
+ 		\end{enumerate}
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Il passo facile è $1\vdash 2$. Supponiamo allora che $f:n\to a$ sia biettiva per qualche $n$. Se per assurdo $2$ fosse falsa avremmo una $g:a\to a$ iniettiva ma non suriettiva. Allora la funzione
+ 		$$n\overset{f}{\to}a\overset{g}{\to}a\overset{f^{-1}}{\to}n$$
+ 		sarebbe iniettiva ma non suriettiva. Ci siamo dunque ricondotti a dimostrare che per un insieme di numeri naturali $n$ non possiamo avere una funzione iniettiva non suriettiva.
+ 		\begin{subproof}[Lemma]
+ 			Procediamo per induzione. Se $n=0$ tutte le funzioni dall'insieme vuoto all'insieme vuoto soddisfano tutte le proprietà (in quanto sono insiemi vuoti), e quindi abbiamo finito. Supponiamo ora che la tesi sia vera per $n$. Prendiamo una funzione 
+ 			$$h:n+1\to n+1$$
+ 			che sia iniettiva. Abbiamo tre casi allora:
+ 			\begin{enumerate}
+ 				\item Se $h(n)=n$ abbiamo finito, perchè applichiamo direttamente l'ipotesi induttiva a $h_{\mid n}$.
+ 				\item Se $h(n)=k <n$ e inoltre esiste un $m$ tale che $h(m)=n$: in questo caso vogliamo comporre la funzione con una permutazione $\sigma$ tale che
+ 				$$\sigma(x)=x$$
+ 				per tutti gli $x$ diversi da $k$ e da $n$, e manda $k\mapsto n$ e $n\mapsto m$. Questa ci permette di applicare di nuovo il caso precedente.
+ 				\item Se infine $h(n)=k<n $ ma $n\not\in \text{Im}h$. Possiamo considerare la restrizione $h_{\mid n}$. Questa sarà iniettiva, ma non suriettiva (perchè $k$ è l'immagine di $n$, e la funzione è iniettiva) questo contraddice l'ipotesi induttiva. 
+ 			\end{enumerate} 
+ 			abbiamo esaurito le possibilità e quindi il lemma è dimostrato.
+ 		\end{subproof}
+ 		Da questo lemma segue chiaramente che $1\vdash 2$. \\
+ 		Dimostriamo ora che $2\vdash 1$. Supponiamo che $1$ sia falso, ovvero $a$ non è in biezione con alcun naturale.
+ 		\begin{claim}
+ 			La $2$ è falsa perchè esiste una copia di $\omega$ iniettivamente in $a$.
+ 		\end{claim}
+ 		\begin{subproof}[Dimostrazione]
+ 			Chiaramente abbiamo che $a\ne \eset$ (altrimenti la tesi $1$ sarebbe vera per $n=0$). Allora per l'assioma della scelta esiste una funzione di scelta $c$ di $a$. Costruiamo l'iniezione di $\omega$ in $a$ ricorsivamente come segue:
+ 			$$
+ 			\begin{cases}
+ 				g(0):= c(a) \\
+ 				g(n+1):=c\left(a\setminus \left\{g(0),\dots,g(n)\right\}\right)=c\left(a\setminus g[n+1]\right)
+ 			\end{cases}
+ 			$$
+ 			in realtà perchè questa definizione sia valida dobbiamo controllare che $$a\setminus \left\{g(0),g(1),\dots,g(n)\right\}\ne \eset$$
+ 			e questo segue in effetti se consideriamo che, se i $g(i)$ sono tutti distinti, allora $a$ sarebbe in biezione con $n$. Dimostriamo allora che i $g(i)$ sono tutti distinti per induzione (ovvero che $g(n)$ è iniettiva):
+ 			per $n=0$ abbiamo la tesi chiara supponiamo per induzione che i primi $n$ elementi siano distinti, allora 
+ 			$$g(n+1)=c(a\setminus g[n])\in a\setminus \left\{g(0),g(1),\dots,g(n)\right\}$$
+ 			(e l'assioma di scelta funziona perchè altrimenti avremmo una biezione con $n$) allora abbiamo chiaramente la tesi, perchè $g(n+1)$ deve essere in un insieme che non contiene $g(0),\dots,g(n-1)$.
+ 		\end{subproof}
+ 		Abbiamo costruito allora una funzione iniettiva $g:\omega\to a$. Costruiamo allora una funzione iniettiva ma non suriettiva $f:a\to a$ nel modo seguente:
+ 		$$
+ 		f(x)=
+ 		\begin{cases}
+ 			g(n+1) & \text{se esiste un $n$ tale che $g(n)=x$} \\
+ 			x & \text{altrimenti.}
+ 		\end{cases}
+ 		$$
+ 		che è iniettiva in tutte le sue parti, ma sicuramente non è iniettiva, perchè non ha $0$ nell'immagine. Dunque abbiamo finito.
+ 	\end{proof}
+ 	
+ 	\subsection{Cardinalità assoluta}
+ 	Finora abbiamo parlato di cardinalità solo in senso \textit{relativo}, ovvero possiamo dire che due insiemi hanno la stessa cardinalità, ma non possiamo davvero dire (ancora) che un insieme $a$ ha la cardinalità $b$. Per gli insiemi finiti in realtà possiamo parlare di:
+ 	\begin{definition}[Cardinalità assoluta finita]
+ 		Se un insieme $a$ è finito e in biezione con il naturale $n$, si definisce la sua \textit{cardinalità assoluta} il naturale $n$, e si denota con 
+ 		$$\text{card}(a)=n.$$
+ 	\end{definition}
+ 	Un'altro \textit{cardinale} che possiamo introdurre, è:
+ 	\begin{definition}[Cardinalità del numerabile]
+ 		Se un insieme $a$ è in biezione con $\omega$ definiamo la sua \textit{cardinalità assoluta} con il simbolo $\aleph_0$, e diciamo che $a$ ha la cardinalità del \textit{numerabile}, in simboli
+ 		$$\text{card}(a)=\aleph_0.$$
+ 	\end{definition}
+ 	per continuare a definire i numeri cardinali, un approccio che ci piacerebbe prendere è quello del quozientare, ovvero prendendo la classe di tutti gli insiemi e quozientando per la relazione di biezione. Purtroppo con tale classe non possiamo lavorare, e quidi dobbiamo scartare questa strada. Rivisitiamo prima di tutto quanto visto ad Algebra 1:
+ 	\begin{proposition}[Inversa destra]
+ 		Sia $g:b\to a$ una funzione suriettiva, allora esiste sempre una funzione iniettiva $f:a\to b$ tale che
+ 		$$g	\circ f=\text{id}_a. $$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Per l'assioma della scelta esiste una funzione $c:\parti{b}\setminus\left\{\eset\right\}\to b$, dunque possiamo definire $f$ come
+ 		$$f(x):=c\left(g^{-1}(x)\right)\in g^{-1}(x)$$
+ 		e possiamo usare l'assioma della scelta perchè $g^{-1}(x)\ne \eset$ dato che $g$ è suriettivo. \'E facile dimostrate che $f$ definita così soddisfa la tesi.
+ 	\end{proof}
+ 	\begin{proposition}[Inversa sinistra]
+ 		Sia $f:a\to b$ una funzione iniettiva, con $a\ne \eset$, allora esiste sempre una funzione suriettiva $g:b\to a$ tale che
+ 		$$g	\circ f=\text{id}_b.$$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Possiamo costruire esplicitamente $g$ restringendo $f$ alla sua immagine:
+ 		$$f':a\to f[0]$$
+ 		chiaramente abbiamo che $f'$ è biettiva, e quindi la sappiamo invertire. Dunque definiamo:
+ 		$$g(y):=\begin{cases}
+ 			(f')^{-1}(y)&  \text{se $y\in f[a]$} \\
+ 			z & \text{se $y\not\in f[a]$.}
+ 		\end{cases}$$
+ 		per un certo $z\in a$ fissato che esiste sempre dato che $a$ è non vuoto.
+ 	\end{proof}
+ 	
+ 	\subsection{L'ultimo assioma: la buona fondazione}
+ 	Prendiamo un detour per introdurre l'ultimo assioma che ci manca per finire la nostra teoria è quello di fondazione:
+ 	\begin{definition}[Assioma di buona fondazione]
+ 		L'assioma di fondazione asserisce che
+ 		$$a\ne \eset \to \exists b\in a.\, a\cap b=\eset$$
+ 		per ogni coppia di termini $a,b$.
+ 	\end{definition}
+ 	Questo assioma ci dice che essenzialmente, se disegnamo il reticolo dei sottoinsiemi di un certo insieme, \textbf{non esistono catene infinite discendenti}. L'assioma di fondazione è indipendente dal resto della teoria, e di solito la teoria con tutti gli assiomi di ZF, senza scelta e senza fondazione con $\text{ZF}^-$.
+ 	\begin{remark}
+ 		In un certo senso l'assioma di buona fondazione è un \textit{principio del minimo}, cioè per ogni insieme esiste un suo "elemento minimale" che intersecato con l'insieme stesso dà l'insieme vuoto. 
+ 	\end{remark}
+ 	\begin{corollary}[Alcuni corollari della fondazione]
+ 		Le seguenti proposizioni sono dimostrabili con fondazione
+ 		$$\lnot \exists x\left(x\in x\right)$$
+ 		$$\forall x\left(x\not\in x\right)$$
+ 	\end{corollary}
+ 	\begin{proof}
+ 		Per dimostrare la prima cosa ci basta considerare il singoletto
+ 		$$a:=\left\{x\right\}$$
+ 		che chiaramente contraddirebbe l'assioma di fondazione. La seconda è equivalente alla prima per definizione di $\exists$.
+ 	\end{proof}
+ 	Analogamente abbiamo che non è possibile avere insiemi $x,y$ tali che
+ 	$$x\in y\in x$$
+ 	perchè l'assioma di buona fondazione applicato all'insieme 
+ 	$$a=\left\{x,y\right\}$$
+ 	darebbe un assurdo. Questo ragionamento si generalizza molto facilmente:
+ 	\begin{corollary}[Assenza di cicli]
+ 		Per l'assioma di buona fondazione non esistono cicli di appartenenza tra insiemi, ovvero per ogni $n$ non esistono $x_1,\dots,x_n$ insiemi tali che
+ 		$$x_1\in x_2\in \dots \in x_n\in x_1.$$
+ 	\end{corollary}
+ 	\begin{proof}
+ 		Il problema in questo caso è l'insieme finito:
+ 		$$a=\left\{x_1,x_2,\dots,x_n\right\}$$
+ 		che chiaramente soddisfa
+ 		$$x_i\cap a=
+ 		\begin{cases}
+ 			x_{i-1}& \text{se $i\ne 1$.} \\
+ 			x_n & \text{altrimenti.}
+ 		\end{cases}
+ 		$$
+ 		che è $\ne \eset$ per ogni $i$.
+ 	\end{proof}
+ 	\begin{corollary}[Catene discendenti infinite]
+ 		Comunque presa una successione $x_n:\omega\to a$, non può essere vero che
+ 		$$x_{n+1}\in x_n$$
+ 		per tutti gli $n$.
+ 	\end{corollary}
+ 	\begin{proof}
+ 		Per separazione possiamo definire l'insieme
+ 		$$b:=\left\{x_n\in a : n\in \omega\right\}$$
+ 		e questo chiaramente viola l'assioma di fondazione perché
+ 		$$x_n\cap b=\left\{x_{n+1}\right\}\ne \eset$$
+ 		per ogni $n$.
+ 	\end{proof}
+ 	Una importante conseguenza dell'assioma di fondazione è:
+ 	\begin{proposition}[Principio di $\in$-induzione]
+ 		La seguente proposizione è vera per ogni predica $\varphi(x)$:
+ 		$$\forall\left(\forall y\in x.\, \varphi(y)\to \varphi(x)\right)\to \forall x\varphi(x).$$
+ 	\end{proposition}
+ 	\begin{remark}
+ 		Notiamo che come per l'induzione estesa, anche qui non c'è passo base, esattamente per lo stesso motivo dell'induzione forte.
+ 	\end{remark}
+ 	\begin{proof}
+ 		Usiamo l'assioma di buona fondazione come se fosse un principio del minimo. Assumiamo per assurdo che la proprietà $\varphi(x)$ non valga per tutti gli $x$, ovvero esisterà un $c$ tale che
+ 		$$\lnot \varphi(c)$$
+ 		mettiamoci quindi nell'insieme 
+ 		$$TC(\left\{c\right\})=\left\{c\right\}\cup c \cup \bigcup c \cup \bigcup \bigcup c \dots$$
+ 		e consideriamo l'insieme per separazione
+ 		$$a:=\left\{x\in TC(\left\{c\right\}):\lnot \varphi(x)\right\}.$$
+ 		Questo sicuramente non è vuoto, perche $c\in a$, quindi per fondazione esisterà un $b$ "minimo", ovvero
+ 		$$b\cap a=\eset$$
+ 		questo vuol dire che 
+ 		$$\lnot \exists x\in b.\, x\in a$$
+ 		$$\lnot \exists x\in b.\, x\in TC(\left\{c\right\})\land \lnot\varphi(x)$$
+ 		$$\forall x \in b. \,\, x\not\in TC(\left\{c\right\})\lor \varphi(x)$$
+ 		d'altra parte abbiamo che $x\in b$ e $b\in a$ per definizione, e dato che $a$ è transitivo abbiamo $x\in a$. Dunque $x\not\in TC(\left\{c\right\})$ è sempre falso, e abbiamo
+ 		$$\forall x\in b. \, \varphi(x)$$
+ 		ma applicando la premessa dell'implicazione che stavamo cercando di dimostrare abbiamo $\varphi(b)$, che è assurdo.
+ 	\end{proof}
+ 	Non lo dimostriamo, ma in effetti la $\epsilon$-induzione è equivalente all'assioma di fondazione, assumendo tutto $\text{ZF}^-$. L'assioma di fondazione ci dà molti strumenti parecchio forti per lavorare con gli insiemi, tuttavia si può fare davvero tanto lavorando semplicemente in $\text{ZF}^-$; per esempio tutta la teoria degli ordinali che stiamo per esporre, se formulata bene, non dipende dall'assioma di fondazione.
+ 	\subsection{Numeri Ordinali}
+ 	Torniamo alla cardinalità. Vediamo alcuni problemi che sono rimasti aperti sulle cardinalità e che vorremmo risolvere:
+ 	\begin{description}
+ 		\item[Cardinalità assoluta:] Vorremmo assegnare ad ogni insieme una nozione di "cardinalità assoluta" che ci descriva indipendentemente dagli altri insiemi la "struttura" dell'insieme che stiamo considerando.
+ 		\item[Tricotomia:] Vorremmo che la cardinalità sia \textit{tricotomica}, cioè che per ogni coppia di insiemi $a$ e $b$ vale uno e uno solo dei seguenti tre
+ 		$$\text{card}(a)<\text{card}(b)$$
+ 		$$\text{card}(a)=\text{card}(b)$$
+ 		$$\text{card}(a)>\text{card}(b).$$
+ 	\end{description}
+ 	Per fare questo cominciamo a lavorare su insiemi molto strutturati, ovvero gli insiemi ben ordinati. Richiamiamo la definizione:
+ 	\begin{definition}[Buon ordine]
+ 		Una coppia $(a,<)$, dove $<$ è una relazione su $a$, si dice \textit{buon ordine} se vale
+ 		$$\forall x\in a .\, x\not < x$$
+ 		$$\forall x,y\in a.\, x<y<z \to x<z$$
+ 		$$\forall b\subseteq a\left(b\ne \eset \to \exists m\in b.\, m\text{ è il minimo}\right)$$
+ 		dove per minimo definiamo un insieme tale che
+ 		$$\forall y\in b\left(m\le y\right)$$ 
+ 		e $\le $ è definito come $a\le b\leftrightarrow a<b \lor a=b$.
+ 	\end{definition}
+ 	\'E chiaro che se un insieme è ben ordinato, allora al suo interno vale la tricotomia rispetto a $<$. 
+ 	\begin{example}[Numeri naturali]
+ 		Abbiamo già dimostrato che ogni naturale $(n,\in)$ è bene ordinato. Sappiamo anche che $(\omega,\in)$ è bene ordinato. Questi insiemi sono anche transitivi, però possiamo anche trovare insiemi non transitivi bene ordinati, per esempio
+ 		$$\left(\left\{1,2\right\},<\right).$$
+ 		Tuttavia in qualche senso ci rendiamo conto che questo insieme è "isomorfo" ad un insieme transitivo bene ordinato, ovvero a $2=\left\{0,1\right\}$.
+ 	\end{example}
+ 	Ci chiediamo quindi se tutti gli insiemi bene ordinati non possano essere "rappresentati canonicamente" con insiemi transitivi. Introduciamo per questo:
+ 	\begin{definition}[Numero Ordinale]
+ 		Un \textit{ordinale} è un insieme transitivo e bene ordinato dalla relazione $\in$.
+ 	\end{definition}
+ 	\begin{remark}
+ 		La proprietà transitiva \textbf{di una relazione} rispetto a un insieme $a$ sta dicendo che ogni elemento $z\in a$ è \textbf{transitivo come insieme}.
+ 	\end{remark}
+ 	\begin{proposition}[La classe degli ordinali è induttiva]
+ 		Se $\alpha$ è un ordinale, anche $s\alpha:=\alpha\cup \left\{\alpha\right\}$ lo è. In altre parole 
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Dobbiamo dimostrare che $\alpha\cup \left\{\alpha\right\}$ è un buon ordine, e che è transitivo. Sicuramente $x\not\in x$ per ogni $x\in s\alpha$ per fondazione. \\
+ 		Per dimostrare la transitività della relazione $\in$ consideriamo $x,y,z\in s\alpha$, se $z\in \alpha$ abbiamo chiaramente finito perché $\alpha$ è transitivo rispetto a $\in$. Se d'altra parte $z\not \in \alpha$ abbiamo $z=\alpha$ e abbiamo di nuovo finito perchè l'insieme $\alpha$ \textbf{è transitivo, come insieme}. \\
+ 		Dimostrare la transitività di $s\alpha$ è totalmente analogo per l'osservazione sopra. \\
+ 		Rimane da dimostrare che $\alpha$ è bene ordinato, ovvero che per ogni $b\subseteq s\alpha$ non vuoto esiste un minimo. Come prima dividiamo in due casi:
+ 		\begin{itemize}
+ 			\item $\alpha\not\in b$, che è chiaro per l'ipotesi che $\alpha$ sia ordinale.
+ 			\item $\alpha\in b$ e $b$ non è un singoletto, in questo caso il minimo di $b$ è di nuovo quello di prima, perchè $\min\left\{x\in b:x\ne \alpha \right\}\in \alpha$, e quindi è sicuramente minore di $\alpha$.
+ 			\item $b=\left\{\alpha\right\}$, che è triviale. 
+ 		\end{itemize}
+ 		abbiamo esaurito le possibilità e dimostrato tutto quello che dovevamo dimostrare, quindi abbiamo finito.
+ 	\end{proof}
+ 	L'assioma di fondazione ci garantisce chiaramente che $x\not< x$ per gli ordinali, ma nella costruzione che faremo cercheremo di non usare questo assioma. Lo abbiamo già fatto con $\omega$, e dalla proposizione precedente abbiamo che anche 
+ 	$$\omega+1$$
+ 	$$\omega+2$$
+ 	$$\vdots$$
+ 	soddisfano questa cosa. Abbiamo introdotto un sacco di ordinali, per parlarne introduciamo
+ 	\begin{definition}[Classe degli ordinali]
+ 		Introduciamo la "classe" degli ordinali con una notazione: ogni volta che scriveremo
+ 		$$\alpha\in \text{Ord}$$
+ 		intendiamo in realtà abbreviare la frase "$\alpha$ è un ordinale".
+ 	\end{definition}
+ 	Non dobbiamo confonderci: $\text{Ord}$ \textbf{non è un insieme } (anzi, vedremo poi che dovrà per forza essere una classe propria). Tuttavia abbiamo che la $\text{Ord}$ ha un sacco di proprietà che daremmo a degli insiemi:
+ 	\begin{proposition}[Ord è transitiva]
+ 		Se $\beta\in \alpha\in \text{Ord}$ allora $\beta\in \text{Ord}$.
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Prendiamo due elementi $x,y$ tali che
+ 		$$x\in y \in \beta\in \alpha$$
+ 		allora dato che $\alpha$ è transitivo abbiamo $x,y\in \alpha$, ma d'altra parte dato che $\in$ è una relazione transitiva in $\alpha$ abbiamo proprio $x\in \beta$, quindi $\beta$ è un insieme transitivo. \\
+ 		Rimane da verificare che $\beta$ sia un buon ordine il fatto che $x\not\in x$ segue dal fatto che 
+ 		$$x\in \beta \in \alpha \implies x\in \alpha \implies x\not \in x.$$
+ 		La transitività di $\in$ in $\beta$ si verifica facilmente di nuovo dalla transitività di $\alpha$. Infine il principio del minimo segue dal considerare che per ogni $b\ne \eset$ sottoinsieme di $b$ abbiamo
+ 		$$b\subseteq \beta$$
+ 		d'altra parte di nuovo per la transitività di $\alpha$ abbiamo 
+ 		$$\beta\subseteq\alpha$$
+ 		e quindi 
+ 		$$b\subseteq \alpha$$
+ 		e quindi abbiamo finito.
+ 	\end{proof}
+ 	Quello che ci sta dicendo questa proposizione in un certo senso è che ogni ordinale è \textbf{l'insieme di tutti e soli gli ordinali strettamente più piccoli di lui}. Per rappresentare questa cosa intuitivamente possiamo immaginare che ogni ordinale sia un intervallo del tipo
+ 	$$\alpha=[0,\alpha)$$
+ 	e quindi se $\beta\in \alpha$ abbiamo che
+ 	$$\beta=[0,\beta)\subseteq [0,\alpha)$$
+ 	e quindi in un certo senso possiamo scrivere
+ 	$$\alpha=[0,\beta)\cup [\beta,\alpha)$$
+ 	che è in effetti proprio quello che facciamo per costruire i reali. In ogni caso da questo intuiamo facilmente (e si può facilmente dimostrare):
+ 	\begin{proposition}[Gli ordinali sono segmenti]
+ 		Se $\beta\in \alpha$ allora
+ 		$$\min(\alpha\setminus \beta)=\beta.$$
+ 	\end{proposition}
+ 	Gli ordinali poi soddisfano in modo molto importante il principio di induzione forte
+ 	\begin{proposition}[principio di induzione forte Ordinale]
+ 		Per ogni ordinale $\alpha$ vale la seguente
+ 		$$\forall x\in\alpha\left(\forall y\in x.\varphi(y)\to \varphi(x)\right)\to \forall x\in \alpha. \varphi(x).$$
+ 	\end{proposition}
+ 	e la dimostrazione è uguale identica a quella dei naturali. Un'altra dimostrazione che è uguale identica a quella dei naturali è quella del teorema di Ricorsione:
+ 	\begin{theorem}[Teorema di Ricorsione Ordinale]
+ 		Per ogni ordinale $\alpha$ esiste un'unica funzione $f:\alpha\to b$ tale che
+ 		$$f(\beta)=g\left(\left\{f(\gamma):\gamma\in \beta\right\}\right)$$
+ 		(cioè la funzione è definita ricorsivamente su tutti i $\gamma< \beta$). Ma dato che l'insieme dei $\gamma\in \beta$ è proprio $\beta$ possiamo abbreviare questa cosa come
+ 		$$f(\beta)=g\left(f\left[\beta\right]\right)$$
+ 		cioè è l'immagine di $\beta$ rispetto a $f$.
+ 	\end{theorem}
+ 	Con questi strumenti finalmente possiamo dimostrare un teorema importante:
+ 	\begin{theorem}[Tricotomia degli Ordinali]
+ 		Comunque dati due ordinali $\alpha,\beta\in\text{Ord}$ abbiamo una e una sola tra le seguenti
+ 		\begin{gather*}
+ 			\alpha\in \beta \\
+ 			\alpha=\beta \\
+ 			\beta\in \alpha.
+ 		\end{gather*}
+ 	\end{theorem}
+ 	\begin{proof}
+ 		L'idea è enumerare gli elementi di $\alpha$ e $\beta$, e vedere quale dei due finisce prima. Per ricorsione definiamo la funzione $f:\alpha\to\beta\cup\left\{\beta\right\}$ che vorremmo "enumeri" gli elementi di $\alpha$ associandogli valori in $\beta$, e quando finisce gli elementi di $\beta$ associa a tutti gli elementi rimanenti di $\alpha$ l'elemento $\beta$. Per enumerare ci affidiamo al principio del minimo:
+ 		$$f(x):=\begin{cases}
+ 			\min (\beta\setminus f[x]) & \text{se $\beta\setminus f[x]\ne \eset$} \\
+ 			\beta & \text{altirmenti.}
+ 		\end{cases}$$
+ 		dove $f[x]$ è l'immagine dell'insieme "degli elementi più piccoli di $x$" ovvero gli elementi $\in x$, ovvero $x$.
+ 		\begin{claim}
+ 			Dimostriamo che $f(x)\ne \beta$ implica $f(x)=x$.
+ 		\end{claim}
+ 		\begin{subproof}
+ 			Per induzione forte supponiamo che la tesi valga per ogni $y\in x$. Quindi abbiamo che
+ 			$$f(y)\ne \beta \implies f(y)=y.$$
+ 			D'altra parte abbiamo se $f(x)\ne \beta$ abbiamo sicuramente che 
+ 			$$f(x)=\min(\beta\setminus f[x])=\min\left(\beta\setminus \left\{f(y):y\in x\right\}\right)=\min\left(\beta\setminus \left\{y:y\in x\right\}\right)=\min(\beta\setminus x)=x$$
+ 			che era la tesi.
+ 		\end{subproof}
+ 		A questo punto abbiamo due casi:
+ 		\begin{enumerate}
+ 			\item Se $\beta\in \text{Im}(f)$ dobbiamo capire qual è il primo elemento che è andato a finire in $\beta$, chiamiamolo quindi
+ 			$$\gamma=\min\left\{x\in \alpha:f(x)=\beta\right\}$$
+ 			a questo punto restringendo
+ 			$$f_{\mid \gamma}:\gamma\to \beta$$
+ 			notiamo che questa funzione è suriettiva (altrimenti $f(\gamma)\in \beta$, assurdo in quanto $\beta\not\in\beta$). Da questo quindi abbiamo che $\gamma=\beta$ e quindi 
+ 			$$\beta\subseteq \alpha$$
+ 			che è un caso della tesi.
+ 			\item Se $\beta\not\in \text{Im}(f)$ abbiamo banalmente che $f[\alpha]\subseteq \beta$ in quanto $\beta\not\in \beta$ e quindi dato che $f[\alpha]=\alpha$ abbiamo un caso della tesi.
+ 		\end{enumerate}
+ 		Dunque deve valere almeno una delle due proposizioni sopra, e ogni combinazione ci dà uno dei casi della tesi, come richiesto.
+ 	\end{proof}
+ 	La naturale generalizzazione di ciò è dimostrare che per gli ordinali vale il principio del minimo, ovvero
+ 	\begin{theorem}[Principio del minimo Ordinale]
+ 		Per ogni \textit{classe} di ordinali non vuota esiste un ordinale $m$ minimo rispetto a $\in$.
+ 	\end{theorem}
+ 	\begin{proof}
+ 		Il primo problema è codificare il concetto di classe. Per quanto ci riguarda un ordinale $x$ elemento di una classe è un ordinale che soddisfa una certa proposizione $\varphi(x)$, quindi con un sano abuso di notazione
+ 		$$A=\left\{x\in\text{Ord}:\varphi(x)\right\}\ne \eset.$$
+ 		La strategia qui è di prendere \textbf{un solo elemento di $\alpha$} e cercare tra quelli il minimo. Prendiamo quindi un $\alpha\in A$ (dato che $A$ è non vuota) e scegliamo $m$ come
+ 		$$m=\min\left\{x\in s\alpha:\varphi(x)\right\}.$$
+ 		Vogliamo dimostrare che $m=\min A$. Prendiamo allora un $\beta\in \alpha$, per tricotomia abbiamo che vale una delle due
+ 		$$m\le \beta$$
+ 		$$\beta\in m$$
+ 		vogliamo dimostrare che il secondo caso è assurdo, e in effetti per la transitività di $\alpha$ abbiamo
+ 		$$\beta\in m \in \alpha$$
+ 		cioè 
+ 		$$\beta\in \alpha$$
+ 		cioè, dato che $m$ è il minimo 
+ 		$$m\in \beta$$
+ 		e dunque l'assurdo, da cui si deduce la tesi.
+ 	\end{proof}
+ 	Ricapitolando per la \textit{classe} degli ordinali abbiamo dimostrato che
+ 	\begin{itemize}
+ 		\item $\beta\in \alpha\in \text{Ord} \implies \beta\in \text{Ord}$ cioè è transitiva.
+ 		\item Per ogni $\alpha,\beta,\gamma$ abbiamo per la transitività degli ordinali
+ 		$$\alpha\in\beta\in \gamma \implies \alpha \in \gamma$$
+ 		cioè la relazione $\in $ è transitiva.
+ 		\item  $\alpha\in \text{Ord} \implies \alpha\not\in\alpha$.
+ 		\item Ogni sottoclasse non vuota di $\text{Ord}$ ha minimo.
+ 	\end{itemize}
+ 	Insomme abbiamo dimostrato che $\text{Ord}$ è un ordinale! Questo vuol dire che $\text{Ord}$ \textbf{è una classe propria}, cioè \textbf{non può essere un insieme}. Infatti se fosse un insieme potremmo scrivere
+ 	$$\text{Ord}\in \text{Ord}$$
+ 	da cui possiamo dedurre un assurdo anche senza fondazione, perché
+ 	$$\text{Ord}\in s\text{Ord}\in \text{Ord}.$$
+ 	Questo è il cosiddetto \textit{paradosso di Burali Forti}, che ci presenta la seconda \textit{classe propria} che possiamo definire esplicitamente.
+ 	\subsubsection{Ordinali limite}
+ 	Cominciamo capendo come si fanno i limiti di ordinali:
+ 	\begin{proposition}[Limiti di ordinali]
+ 		L'unione di insiemi di ordinali è ancora un ordinale.
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Prendiamo $a$ un insieme di ordinali. Dobbiamo dimostrare un paio di cose:
+ 		\begin{itemize}
+ 			\item L'unione di insiemi transitivi è transitiva, che si vede chiaramente e quindi non lo dimostriamo
+ 			$$x\in y\in \bigcup a \implies x\in \bigcup a$$
+ 			\item Che $x\in \bigcup a \implies x\not\in x$ che segue in un milione di modi diversi.
+ 			\item Chiaramente inoltre la relazione è transitiva, infatti se $x,y,z\in \bigcup a$
+ 			$$x\in y \in z \implies x\in z$$
+ 			come prima introducendo 
+ 			$$z\in \alpha\in a$$
+ 			e usando le varie transitività sulla formula
+ 			$$x\in y \in z \in \alpha$$
+ 			che si può fare dato che $\alpha$ è un ordinale.
+ 			\item Infine per ogni sottoinsieme $b\subseteq \bigcup a $ non vuoto, questo ha minimo, perché $b$ è un insieme di ordinali e abbiamo dimostrato che per gli ordinali vale il principio del minimo.
+ 		\end{itemize}
+ 	\end{proof}
+ 	\begin{definition}[Ordinali limite e ordinali successori]
+ 		Gli ordinali che si possono scrivere come $\beta+1$ per qualche $\beta$ si dicono \textit{ordinali successori}, mentre gli ordinali che si possono scrivere come
+ 		$$\bigcup a=\alpha$$
+ 		per qualche $a\subseteq \alpha$ insieme di ordinali più piccoli di $\alpha$ si dicono \textit{ordinali limite}. 
+ 	\end{definition}
+ 	\begin{example}[Ordinali limite e ordinali successori]
+ 		Abbiamo:
+ 		\begin{itemize}
+ 			\item $0$ è un ordinale limite in quanto
+ 			$$0=\bigcup 0$$
+ 			\item $\omega$ è un ordinale limite in quanto
+ 			$$$$
+ 		\end{itemize}
+ 	\end{example}
+ 	Osserviamo che crucialmente la definizione che abbiamo appena dato si conforma a quella di sup:
+ 	\begin{remark}[L'unione è il sup]
+ 		Per ogni insieme di ordinali $a$ abbiamo che l'ordinale
+ 		$$\bigcup a=\alpha$$
+ 		è il suo "sup", cioè:
+ 		\begin{itemize}
+ 			\item  Per ogni $\beta \in a$ si ha $\beta\le \alpha$ (ovvero $\beta\subseteq\alpha$).
+ 			\item Per ogni $\gamma$ maggiorante di $a$, cioè tale che 
+ 			$$\forall \beta\left(\beta\in a\to \beta \le \gamma \right)$$
+ 			abbiamo che $\alpha \le \gamma$. 
+ 		\end{itemize}
+ 	\end{remark}
+ 	\begin{proof}
+ 		Una verifica diretta applicando le definizioni.
+ 	\end{proof}
+ 	Da qui in poi quindi useremo in modo intercambiabile $\bigcup$ e $\sup$.
+ 	Crucialmente abbiamo
+ 	\begin{proposition}[Ci sono solo due tipi di ordinali]
+ 		Per ogni ordinale $\alpha$ o è un ordinale successore o è un ordinale limite.
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Usiamo come criterio il "precedente" dell'ordinale, cioè per ogni $\alpha$ vediamo cosa succede a
+ 		$$\bigcup \alpha$$
+ 		se $\alpha$ è un ordinale limite ci aspettiamo che il suo precedente sia $\alpha$, altrimenti se $\alpha$ è successore ci aspettiamo che venga effettivamente $\alpha-1$. \\
+ 		Prima di tutto abbiamo che $\gamma \subseteq \alpha$ per transitività, quindi ci sono due casi
+ 		\begin{itemize}
+ 			\item Se $\gamma\in \alpha$ dobbiamo dimostrare che 
+ 			$$s(\gamma)=s\left(\bigcup \alpha\right)=\alpha$$
+ 			d'altra parte dal fatto che $\gamma\in \alpha$ abbiamo che 
+ 			$$s\gamma \subseteq \alpha$$
+ 			e quindi ci rimane da dimostrare che 
+ 			$$\alpha \subseteq s\gamma$$
+ 			d'altra parte per ogni $\delta\in \alpha$ abbiamo per transitività $\delta\subseteq \gamma$ quindi
+ 			$$\delta \subseteq \gamma \in s\gamma$$
+ 			e per transitività abbiamo
+ 			$$\delta \in s\gamma$$
+ 			che chiude.
+ 			\item Altrimenti se $\gamma=\alpha$ abbiamo per definizione che $\alpha$ è un ordinale limite.
+ 		\end{itemize}
+ 		Dunque in ogni caso raggiungiamo la tesi, e abbiamo finito.
+ 	\end{proof}
+ 	\subsubsection{Aritmetica ordinale}
+ 	Ora vogliamo dotare gli ordinali di un'operazione di somma, e per fare ciò abbiamo bisogno di 
+ 	\begin{theorem}[Di Ricorsione Transfinita]
+ 		Esiste ed è un'unica una corrispondenza funzionale $F:\text{Ord}\to V$ sulla classe degli ordinali tale che per una certa $G:V\to V$ soddisfi
+ 		$$F(\alpha)=G(F[\alpha]).$$
+ 	\end{theorem}
+ 	\begin{proof}
+ 		Di nuovo la dimostrazione è analoga agli altri teoremi di ricorsione che abbiamo dimostrato e procede approssimando con funzioni parziali.
+ 	\end{proof}
+ 	\begin{definition}[Somma Ordinale]
+ 		Definiamo ricorsivamente sulla classe $\text{Ord}$ la somma come segue
+ 		$$
+ 		\alpha + \beta:=
+ 		\begin{cases}
+ 			\alpha & \text{se $\beta=\eset$.} \\
+ 			s(\alpha + \bigcup\beta)  & \text{se $\beta\ne \eset$ è un ordinale successore.}\\
+ 			\sup\left\{\alpha + \gamma: \gamma\in \beta\right\} & \text{se $\beta\ne \eset$ è un ordinale limite.}
+ 		\end{cases}
+ 		$$
+ 	\end{definition}
+ 	Osserviamo che tra naturali la somma ordinale funziona esattamente come quella tra naturali. La grossa differenza arriva quando proviamo a lavorare con insiemi infiniti, per esempio 
+ 	$$\omega+\omega=\omega+\sup \omega=\sup\left\{\omega+n:n\in \omega\right\}.$$
+ 	La somma tra ordinali \textbf{non è commutativa}:
+ 	\begin{example}[Somma non commutativa]
+ 		Abbiamo per definizione
+ 		$$\omega+1:=s\left\{\omega+0\right\}=\omega\cup \left\{\omega\right\}$$
+ 		$$1+\omega:=\sup\left\{1+n:n\in \omega\right\}=\omega$$
+ 		e quindi la somma tra ordinali \textbf{non è commutativa}.
+ 	\end{example}
+ 	\begin{remark}
+ 		 Intuitivamente la possiamo pensare come una "giustapposizione" di ordinamenti: la somma
+ 		 $$1+\omega:=\sup\left\{1+n:n\in \omega\right\}=\omega$$
+ 		 esprime l'ordinamento ottenuto affiancando un singolo elemento con un'infinità numerabile, mentre 
+ 		 $$\omega+1:=s\left\{\omega+0\right\}=\omega\cup \left\{\omega\right\}$$
+ 		 rappresenta un'infinità di elementi ordinata come i naturali, e \textbf{alla fine} un singolo elemento. Questa interpretazione di può dare più o meno per tutti gli ordinali ottenibili tramite operazioni.
+ 	\end{remark}
+ 	allo stesso modo definiamo
+ 	\begin{definition}[Prodotto ordinale]
+ 		Definiamo ricorsivamente sulla classe $\text{Ord}$ il prodotto come segue
+ 		$$
+ 		\alpha \times \beta:=
+ 		\begin{cases}
+ 			\alpha\times \beta + \alpha & \text{se $\beta\ne \eset$ è un ordinale successore.}\\
+ 			\sup\left\{\alpha \times \gamma: \gamma\in \beta\right\} & \text{se $\beta\ne \eset$ è un ordinale limite.}
+ 		\end{cases}
+ 		$$
+ 	\end{definition}
+ 	e anche per questo
+ 	\begin{example}[Prodotto non commutativo]
+ 		Come prima abbiamo per definizione
+ 		$$\omega\times 2:=\omega+\omega$$
+ 		$$2\times \omega:=\sup\left\{2n:n\in \omega\right\}=\omega$$
+ 		e quindi dato che $\omega+\omega\ne \omega$ abbiamo di nuovo che non sono commutativi.
+ 	\end{example}
+ 	Andare oltre non è difficile, e possiamo definire 
+ 	\begin{definition}[Esponenziazione ordinale]
+ 		Definiamo ricorsivamente sulla classe $\text{Ord}$ l'esponenziazione come segue
+ 		$$
+ 		\alpha^\beta:=
+ 		\begin{cases}
+ 			1 & \text{se $\alpha\ne \eset$ e $\beta=\eset$} \\
+ 			\alpha^\beta \times \alpha & \text{se $\beta\ne \eset$ è un ordinale successore.}\\
+ 			\sup\left\{\alpha^\gamma: \gamma\in \beta\right\} & \text{se $\beta\ne \eset$ è un ordinale limite.}
+ 		\end{cases}
+ 		$$
+ 		e di solito $0^0$ rimane indefinito.
+ 	\end{definition}
+ 	Che ha di nuovo le proprietà che ci aspettiamo.
+ 	
+ 	\newpage
+ 	
+ 	\subsection{Numeri Cardinali}
+ 	
+ 	Siamo ora pronti a dare la definizione di cardinalità assoluta:
+ 	\begin{definition}[Cardinalità assoluta]
+ 		Definiamo la \textit{cardinalità} di un insieme $a$ come il minimo ordinale in biezione con $a$:
+ 		$$\abs{a}=\min\left\{\alpha\in \text{Ord}:\exists f:\alpha \to a \text{ biettiva}\right\}.$$
+ 	\end{definition}
+ 	
+ 	\begin{example}[Cardinalità di alcuni ordinali]
+ 		Abbiamo che
+ 		$$\abs{\omega}=\omega$$
+ 		$$\abs{\omega+n}=\omega$$
+ 		$$\abs{\omega+\omega}=\omega$$
+ 	\end{example}
+ 	Introduciamo allora un po' di notazione
+ 	\begin{definition}[Cardinalità numerabile]
+ 		Se l'ordinale che soddisfa la definizione di cardinalità dell'insieme $a$ è $\omega$ allora scriveremo
+ 		$$\abs{a}=\aleph_0$$
+ 		e diremo che $a$ ha cardinalità \textit{numerabile}.
+ 	\end{definition}
+ 	Il minimo di una classe di ordinali lo sappiamo fare, tuttavia abbiamo il problema che quella classe potrebbe essere vuota. Dunque abbiamo bisogno del seguente celebre teorema, equivalente all'assioma della scelta:
+ 	\begin{theorem}[Zermelo/Principio del buon ordinamento]
+ 		Ogni insieme è in biezione con un ordinale.
+ 	\end{theorem}
+ 	\begin{remark}
+ 		Da questo teorema segue subito che ogni insieme può essere dotato di un ordine in modo tale che diventi un buon ordine. Infatti se $f:\alpha \to a$ è biettiva possiamo definire un ordine in $a$ come
+ 		$$x<y \iff f^{-1}(x)\in f^{-1}(y)$$
+ 		che è un buon ordine per le proprietà degli ordinali.
+ 	\end{remark}
+ 	\begin{proof}
+ 		Il punto del teorema è usare la potenza del buon ordinamento della classe degli ordinali procedendo per \textbf{ricorsione transfinita}. Se $a=0=\eset$ abbiamo che $a$ è già un ordinale e quindi abbiamo finito. Se $a\ne \eset$ per l'assioma della scelta abbiamo la funzione di scelta 
+ 		$$c:\parti{a}\setminus\left\{\eset\right\}\to a$$
+ 		a questo punto usiamo la ricorsione transfinita per definire $F:\text{Ord}\to a\cup \left\{b\right\}$ (dove $b$ è un elemento che non sta in $a$ che esiste sempre in quanto non esiste l'insieme universo) tale che
+ 		$$F(\alpha):=\begin{cases}
+ 			c\left(a\setminus F[\alpha]\right) & \text{se $a\setminus F[\alpha]\ne \eset$} \\
+ 			b & \text{altrimenti.}
+ 		\end{cases}$$
+ 		ora notiamo che prima o poi dovremo arrivare a $b$, perchè altrimenti se 
+ 		$$F(x)\ne a$$
+ 		avremmo che $F$ è iniettiva, quindi restringendola opportunamente avremmo una corrispondenza biettiva da $\text{Ord}$ a un certo sottoinsieme di $a$, che è di nuovo un insieme, e quindi prendendo l'inversa violeremmo l'assioma di rimpiazzamento. Dunque deve esistere un $\beta$ minimo (di nuovo perchè sappiamo sempre prendere il minimo di classi di ordinali) per cui
+ 		$$F(\beta)=b$$
+ 		ma allora abbiamo finito, perchè $F_{\mid \beta}:\beta \to a$ è iniettiva per quanto detto prima, ed è suriettiva perchè abbiamo $F[\beta]=a$. Dunque è biettiva e abbiamo la tesi.
+ 	\end{proof}
+ 	Con questo quindi siamo pronti a definire
+ 	\begin{definition}[Numero Cardinale]
+ 		Un ordinale $k$ viene detto un \textit{numero cardinale}, se vale una delle seguenti (tutte equivalenti tra loro):
+ 		\begin{itemize}
+ 			\item Esiste un insieme $a$ tale che
+ 			$$\abs{a}=k$$
+ 			\item La cardinalità di se stesso è se stesso
+ 			$$k=\abs{k}$$
+ 			cioè non esiste un ordinale più piccolo di lui che sia in biezione con lui. In alcuni libri questa proprietà si esprime dicendo che $k$ è \textit{iniziale}.
+ 		\end{itemize}
+ 	\end{definition}
+ 	\begin{remark}[Disugugaglianza con il modulo]
+ 		In generale vale che
+ 		$$\abs{\alpha}\le \alpha.$$
+ 	\end{remark}
+ 	\begin{remark}[I cardinali sono tutti limite]
+ 		Se $k$ è un cardinale infinito ($k\ge \aleph_0$) allora è un ordinale limite. Infatti
+ 		$$\abs{s(\alpha)}=\abs{\alpha}\le \alpha < s\alpha.$$
+ 	\end{remark}
+ 	Una conseguenza evidente della definizione che abbiamo dato è che si adegua alla definizione relativa di cardinalità che abbiamo dato, ovvero se $A$ e $B$ sono in biezione abbiamo
+ 	$$\abs{A}=\abs{B}$$
+ 	e anche viceversa. Qui si inseriscono anche i due teoremi di Cantor e Cantor-Schr\"oeder-Bernstein:
+ 	\begin{theorem}[Cantor]
+ 		Per ogni insieme $a$ non esiste una funzione suriettiva 
+ 		$$f:a\to \parti{a}$$
+ 		inoltre esiste sempre una funzione iniettiva $g:a\to\parti{a}$.
+ 	\end{theorem}
+ 	\begin{proof}
+ 		La funzione iniettiva è banalmente la $g$ che associa ad ogni $a$ il singoletto $\left\{a\right\}$.
+ 		Supponiamo ora per assurdo che esista una funzione $f:a\to \parti{a}$ suriettiva. Consideriamo l'insieme 
+ 		$$A=\left\{x\in a:x\not\in f(x)\right\}$$
+ 		allora dato che $f$ è suriettiva esisterà un $a_0$ tale che $f(a_0)=A$ ma d'altra parte se $a_0\in A$ abbiamo che $a_0\not\in f(a_0)=A$, il che è assurdo, e viceversa se $a_0\not\in A$ abbiamo che $a_0\in f(a_0)=A$, di nuovo assurdo. 
+ 	\end{proof} 
+ 	\begin{theorem}[Cantor-Schr\"oeder-Bernstein]
+ 		Dati due insiemi $a,b$ se esistono due funzioni 
+ 		$$f:a\hookrightarrow b$$
+ 		$$g:b\hookrightarrow a$$
+ 		iniettive, allora esiste anche una funzione $h:a\to b$ biettiva.
+ 	\end{theorem}
+ 	\begin{proof}
+ 		\'E un mezzo casino.
+ 	\end{proof}
+ 	\subsubsection{Notazione Aleph}
+ 	Il motivo per cui introduciamo il concetto di cardinale è soprattutto per differenziare tra le operazioni di somma differenza prodotto esponenziazione e successore tra cardinali e ordinali. In particolare abbiamo
+ 	\begin{definition}[Cardinale Successore]
+ 		Se $K$ è un cardinale, $K^+$ è il suo \textit{cardinale successore}, ovvero
+ 		$$K^+=\min\left\{\lambda\in \text{Card}:K<\lambda\right\}$$
+ 		cioè
+ 		$$K^+=\min\left\{\lambda\in \text{Ord}:K<\abs{\lambda}\right\}.$$
+ 		Di solito se $\aleph_0=\abs{\NN}$ introduciamo la notazione
+ 		$$\aleph_1:=\aleph_0^+$$
+ 		$$\aleph_2:=\aleph_1^+$$
+ 		$$\vdots$$
+ 		$$\aleph_{n+1}:=\aleph_n^+.$$
+ 	\end{definition}
+ 	Chi ci garantisce che possiamo prendere il minimo di quell'insieme? Abbiamo bisogno che sia non vuoto. In effetti per il teorema di Cantor e per il buon ordinamento abbiamo
+ 	$$K<\abs{\parti{K}}$$
+ 	e quindi abbiamo trovato che quell'insieme è non vuoto. In realtà abbiamo usato l'assioma della scelta, ma potremmo giustificare questa definizione anche senza invocare il buon ordinamento o la scelta. In questo contesto si inserisce la cosiddetta \textit{ipotesi del continuo}, ovvero abbiamo sicuramente che 
+ 	$$\aleph_1\le 2^{\aleph_0}$$
+ 	l'ipotesi del continuo (CH) asserisce che
+ 	$$\aleph_1=2^{\aleph_0}$$
+ 	ovvero in termini di sottoinsiemi di $\RR$, per ogni $I\subseteq\RR$ abbiamo che accade una e una sola delle seguenti:
+ 	\begin{itemize}
+ 		\item $I$ è vuoto.
+ 		\item $I$ è finito.
+ 		\item $I$ è numerabile.
+ 		\item $I$ è in biezione con $\RR$.
+ 	\end{itemize}
+ 	Questo era uno dei problemi di Hilbert (il primo in effetti), ed è stato dimostrato prima da G\"odel che
+ 	$$ZFC\not\vdash \lnot CH$$
+ 	e poi da Cohen che
+ 	$$ZFC\not\vdash CH.$$
+ 	Una definzione alternativa di cardinale successore che non usa l'assioma della scelta è la seguente:
+ 	\begin{definition}[Cardinale Successore - senza scelta]
+ 		Per ogni cardinale $K$ definiamo il suo successore $K^+$ come
+ 		$$K^+:=\sup\left\{\lambda\in\text{Ord}:\abs{\lambda}\le K\right\}$$
+ 		ovvero, informalmente, è l'insieme di tutti i modi in cui possiamo ordinare un insieme con cardinalità minore o uguale di $K$.
+ 	\end{definition}
+ 	Per usare questa definizione abbiamo bisogno di dimostrare che il sottoinsieme degli ordinali tali che $\abs{\lambda}\le K$ è un insieme. Per fare ciò usiamo il seguente teorema che non richiede l'assioma della scelta
+ 	\begin{theorem}[Rappresentanti canonici del buon ordine]
+ 		Ogni insieme bene ordinato è isomorfo ad un ordinale.
+ 	\end{theorem} 
+ 	\begin{proof}
+ 		La dimostrazione è uguale al teorema di Zermelo, ma grazie al fatto che l'insieme su cui stiamo lavorando è un buon ordine abbiamo gratis la funzione di scelta.
+ 	\end{proof}
+ 	Dunque per questo teorema abbiamo che l'insieme degli ordinali tali che $\abs{\lambda}\le K$ è un insieme perché possiamo bene ordinarlo in modo canonico.
+ 	In modo analogo definiamo
+ 	\begin{definition}[Cardinali limite]
+ 		Un cardinale $K$ si dice \textit{limite} se si può scrivere come
+ 		$$K=\bigcup C$$
+ 		dove $C$ è un insieme di cardinali strettamente minori di $K$.
+ 	\end{definition}
+ 	Per giustificare questa definizione quindi dobbiamo
+ 	\begin{proposition}[L'unione di cardinali è un cardinale]
+ 		Per ogni insieme $C$ di cardinali abbiamo che 
+ 		$$\bigcup C$$
+ 		è un cardinale.
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Dando degli indici abbiamo $C=\left\{i\in I:K_i\right\}$ e quindi
+ 		$$K:=\bigcup_i K_i$$
+ 		dobbiamo dimostrare che, denotato con
+ 		$$\abs{K}=\abs{\bigcup_i K_i}=\lambda$$
+ 		si ha 
+ 		$$\lambda=K.$$
+ 		Un verso viene gratis, infatti si ha
+ 		$$\lambda\le K$$
+ 		dobbiamo dimostrare che 
+ 		$$K\le \lambda$$
+ 		ma dato che $K$ e $\lambda$ sono particolari ordinali vale la loro tricotomia, e quindi dobbiamo semplicemente escludere 
+ 		$$\lambda\in K$$
+ 		dunque se per assurdo questo fosse vero avremmo
+ 		$$\lambda\in \bigcup_i K_i$$
+ 		ovvero esiste un $K_i$ tale che
+ 		$$\lambda\in K_i\subseteq \bigcup_i K_i$$
+ 		ovvero dato che
+ 		$$\abs{K_i}\le \abs{\bigcup_i K_i}=\lambda$$
+ 		abbiamo
+ 		$$\lambda\in K_i \subseteq \lambda$$
+ 		che ci dà $\lambda\in \lambda$ assurdo.
+ 	\end{proof}
+ 	Analogamente si dimostra
+ 	\begin{proposition}[Solo due tipi di cardinali]
+ 		Ogni cardinale o è limite o è successore.
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Prendiamo un cardinale $K$, come per gli ordinali consideriamo l'unione 
+ 		$$\lambda:=\sup\left\{k\in \text{Card}:k<K\right\}$$
+ 		Per la tricotomia dei cardinali abbiamo solo tre possibilità confrontando $\lambda$ con $K$, in particolare sicuramente non possiamo avere che $\lambda > K$, infatti in questo caso avremmo che 
+ 		$$K\in \lambda$$
+ 		ovvero esiste un $k'<K$ tale che $K\in k' \iff K<k'$ assurdo. Dunque abbiamo solo due casi:
+ 		\begin{itemize}
+ 			\item Se $K=\lambda$ abbiamo che $K$ è esprimibile come unione di cardinali più piccoli di se, cioè è un cardinale limite.
+ 			\item Se $\lambda<K$ abbiamo che $$\lambda^+\le K$$
+ 			infatti se per assurdo $\lambda^+>K$ avremmo che $K\in \lambda^+$ ovvero esiste un ordinale $k'<\lambda$ tale che 
+ 			$$K\in k'<\lambda$$
+ 			da cui $K<\lambda$ che va contro l'ipotesi. Dunque abbiamo
+ 			$$\lambda^+\le K$$
+ 			d'altra parte abbiamo anche 
+ 			$$K\subseteq \lambda^+ \iff K\le \lambda^+$$
+ 			infatti preso un $a\in K$ abbiamo sicuramente che 
+ 			$$\abs{a}<K$$
+ 			dato che $K$ è iniziale, ma allora per definizione di $\lambda$
+ 			$$\abs{a}\subseteq \lambda$$
+ 			cioè
+ 			$$\abs{a}\le \lambda$$
+ 			ma quindi dato che $a$ ha cardinalità minore o uguale di $\lambda$ abbiamo
+ 			$$a\in \lambda^+$$
+ 			per definizione di successore. In conclusione abbiamo dimostrato che $K=\lambda^+$, ovvero $K$ è un cardinale successore. 
+ 		\end{itemize}
+ 		Dunque in tutti i casi raggiungiamo la tesi, e abbiamo finito.
+  	\end{proof}
+ 	Questo teorema dunque giustifica la notazione $\aleph$:
+ 	\begin{definition}[Notazione $\aleph$]
+ 		Definiamo una successione $\aleph_n:\text{Ord}\to \text{Card infiniti}$ tale che
+ 		$$
+ 		\begin{cases}
+ 			\aleph_0:=\NN & \text{caso base} \\
+ 			\aleph_{\alpha+1}:=s\aleph_\alpha & \text{se $\alpha+1$ è un ordinale successore} \\
+ 			\aleph_\alpha:=\sup_{\beta\in \alpha}\aleph_\beta & \text{se $\alpha$ è un ordinale limite.}
+ 		\end{cases}.
+ 		$$
+ 	\end{definition}
+ 	Si può dimostrare abbastanza agilmente per induzione sui cardinali (che sono un sottoinsieme degli ordinali, e quindi sono ancora bene ordinati, ovvero vale il principio di induzione estesa) che questa funzione è suriettiva, ovvero tutti i cardinali si possono scrivere come $\aleph_\alpha$ per un certo $\alpha\in \text{Ord}$.
+ 	\subsubsection{Aritmetica cardinale}
+ 	Le operazioni tra cardinali sono un po' più facili da formalizzare:
+ 	\begin{definition}[Somma tra cardinali]
+ 		Dati cardinali $K,\lambda$ la loro \textit{somma} è definita come
+ 		$$K+\lambda:=\abs{\left(K\times \left\{0\right\}\right)\sqcup \left(\lambda\times \left\{1\right\}\right)}$$
+ 		dove $\sqcup$ denota l'unione disgiunta. Analogamente possiamo definire la somma generalizzata come
+ 		$$\sum_{i\in I} K_i :=\abs{\bigsqcup_{i\in I}\left(K_i\times \left\{i\right\}\right)}$$
+ 	\end{definition}
+ 	In effetti avremmo potuto dimostrare che questa cosa non dipende da come scegliamo i cardinali, cioè ci bastava trovare due insiemi disgiunti $a,b$ con le cardinalità giuste e farne l'unione.
+ 	\begin{definition}[Prodotto tra cardinali]
+ 		Il prodotto tra cardinali $K$ e $\lambda$ è semplicemente
+ 		$$K\cdot\lambda:=\abs{K\times \lambda}$$
+ 		dove $\times$ è il prodotto cartesiano. In realtà va bene anche il prodotto ordinale. Avremmo anche potuto definire
+ 		$$K\cdot \lambda:=\sum_{i\in \lambda}K_i$$
+ 		con $K_i:=K$ per ogni $i$. Analogamente possiamo definire il prodotto arbitrario come
+ 		$$\prod_{i\in I}K_i:=\bigtimes_{i\in I}K_i$$
+ 		dove il prodotto cartesiano generalizzato è definito come
+ 		$$\bigtimes_{i\in I}a_i:=\left\{f:I\to \bigcup a_i:\forall i .f(i)\in a_i\right\}$$
+ 		cioè sono le sequenze di cardinalità $I$.
+ 	\end{definition}
+ 	Infine abbiamo
+ 	\begin{definition}[Esponenziazione tra cardinali]
+ 		Dati cardinali $K$ e $\lambda$ abbiamo 
+ 		$$K^\lambda:=\abs{\left\{f:\lambda\to K\right\}}$$
+ 		e come prima possiamo definire 
+ 		$$K^\lambda:=\prod_{i\in \lambda}K_i$$
+ 		con $K_i:=K$ se $\lambda\ne \eset$, per cui definiamo $K^\eset=1$ (come si vede applicando l'altra definizione).
+ 	\end{definition}
+ 	L'\textbf{ipotesi generalizzata del continuo} dice che per ogni cardinale $K$ infinito vale 
+ 	$$K^+=2^K$$
+ 	ovvero
+ 	$$\aleph_{\alpha+1}=2^{\aleph_\alpha}$$ 
+ 	e anche questa è indipendente da ZFC. Il vantaggio dell'assumere l'ipotesi generalizzata del continuo è che l'esponenziazione si semplifica:
+ 	\begin{proposition}[Semplificare gli esponenti]
+ 		Se $K\ge \aleph_0$ e vale l'ipotesi generalizzata del continuo allora
+ 		$$K^K=2^K=K^+.$$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Abbiamo sicuramente per Cantor
+ 		$$2<K<2^K$$
+ 		e inoltre per l'ipotesi generalizzata del continuo
+ 		$$2^K\le K^K\le 2^K$$
+ 		e quindi $K^K=2^K$.
+ 	\end{proof}
+ 	Infine siamo riusciti a dimostrare
+ 	\begin{theorem}[Tricotomia dei cardinali]
+ 		Comunque dati due cardinali $K,\lambda$ abbiamo una e una sola tra
+ 		\begin{gather*}
+ 			K\in \lambda \\
+ 			\lambda\in K \\
+ 			K=\lambda.
+ 		\end{gather*}
+ 	\end{theorem}
+ 	\begin{proof}
+ 		Dalla tricotomia degli ordinali.
+ 	\end{proof}
+ 	Che come corollario (usando l'assioma della scelta) ci dà
+ 	\begin{corollary}[Hartogs - Tricotomia delle cardinalità]
+ 		Comunque dati due insiemi $a,b$ esiste sempre almeno una funzione iniettiva da $a$ a $b$ o da $b$ ad $a$.
+ 	\end{corollary}
+ 	
+ 	Per semplificare gli esponenti avevamo bisogno dell'ipotesi generalizzata del continuo. In effetti possiamo semplificare anche tutte le altre operazioni gratis senza assumere cose di questo tipo:
+ 	\begin{proposition}[Idempotenza cardinale]
+ 		Se $K$ è un cardinale $K\ge \aleph_0$ allora
+ 		$$K+K=K\cdot K=K$$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Procediamo per induzione. Il caso baso è $\aleph_0$ e segue molto famosamente per diagonale di Cantor. Supponiamo ora la tesi valga per tutti i cardinali $\aleph_0\le\lambda\le K$. Dobbiamo dimostrare che 
+ 		$$K\cdot K=K$$
+ 		d'altra parte abbiamo chiaramente
+ 		$$K\times K \ge K$$
+ 		usando la proiezione canonica o qualcosa di affine. Dobbiamo quindi cercare di immergere $K\times K$ in $K$. Per fare ciò facciamo qualcosa di simile al caso $\NN\times \NN$: dividiamo la tabella $K\times K$ in "cornici" e cerchiamo di bene ordinare queste cornici:
+ 			\begin{figure}[h]
+ 				\begin{center}
+ 					\begin{tabular}{|c|c|c|c}
+ 						\hline
+ 						$\left(k_0,k_0\right)$ & $\left(k_0,k_1\right)$ & $\left(k_0,k_2\right)$ & $\dots$ \\
+ 						\hline
+ 						$\left(k_1,k_0\right)$ & $\left(k_1,k_1\right)$ & $\left(k_1,k_2\right)$ & $\dots$ \\
+ 						\hline
+ 						$\left(k_2,k_0\right)$ & $\left(k_2,k_1\right)$ & $\left(k_2,k_2\right)$ & $\dots$ \\
+ 						\hline 
+ 						$\vdots$ & $\vdots$ & $\vdots$ & $\ddots$
+ 					\end{tabular}
+ 				\end{center}
+ 				\label{fig1}
+ 				\caption{Nel caso $\NN\times \NN$ dividiamo la tabella $\NN\times \NN$ in cornici, e ognuna viene ordinata in modo lessicografico. Per esempio la prima cornice è $\left\{(k_0,k_0)\right\}$ e la seconda cornice ordinata lessicograficamente è $\left\{(k_0,k_1),(k_1,k_0),(k_1,k_1)\right\}$.}
+ 			\end{figure}
+ 		
+ 		Definiamo dunque un ordine su $K\times K$ tale che 
+ 		$$\left(\alpha_1,\alpha_2\right)<\left(\beta_1,\beta_2\right)\iff
+ 		\begin{cases}
+ 			\alpha_2\in \beta_2 & \text{se $\bar{\alpha}=\bar{\beta}$ e $\alpha_1= \beta_1$} \\
+ 			\alpha_1\in \beta_1 & \text{se $\bar{\alpha}=\bar{\beta}$} \\
+ 			\max\left\{\alpha_1,\alpha_2\right\}=\bar{\alpha}\in \bar{\beta}=\max\left\{\beta_1,\beta_2\right\} & \text{altrimenti.}
+ 		\end{cases}$$
+ 		cioè la cosa a sinistra è vera se vale almeno una delle cose a destra. Questo è un buon ordine di $K\times K$, infatti per trovare l'elemento minimo ci basta prendere prima l'elemento nella cornice più piccola, e poi tra questi l'elemento lessicograficamente più piccolo (tutte operazioni che possiamo fare in quanto lavoriamo sugli ordinali). Ma allora $(K\times K,<)$ è un buon ordine, e quindi è isomorfo ad un ordinale $\gamma$ con un isomorfismo
+ 		$$f:\gamma \to K\times K$$
+ 		che rispetta l'ordine. A questo punto abbiamo due casi per la tricotomia degli ordinali:
+ 		\begin{itemize}
+ 			\item $\gamma\subseteq K$ da cui abbiamo finito, perchè vuol dire che esiste una biezione tra $K\times K$ e un sottoinsieme di $K$.
+ 			\item $K\in \gamma$, in questo caso chiamiamo $(\alpha_1,\alpha_2)=f(K)$, abbiamo allora che, se denotiamo $\bar{\alpha}=\max\left\{\alpha_1,\alpha_2\right\}$ abbiamo
+ 			$$(\alpha_1,\alpha_2)\le \left(\bar{\alpha},\bar{\alpha}\right)$$
+ 			però abbiamo che $f$ preserva l'ordine: questo ci creerà problemi. Se consideriamo $f_{|K}:K\to \dots$ cosa mettiamo al posto dei puntini? Dato che $f$ preserva l'ordine e $(\bar{\alpha},\bar{\alpha})$ è un maggiorante largo di $f(K)$ abbiamo che per renderlo stretto dobbiamo aggiungere $1$:
+ 			$$f_{|K}:K\to \left(\bar{\alpha}+1\right)\times\left(\bar{\alpha}+1\right)$$
+ 			ma questo vuol dire che
+ 			$$K\le \abs{s\left(\bar{\alpha}\right)\times s\left(\bar{\alpha}\right)}=\abs{s\left(\bar{\alpha}\right)}\abs{s\left(\bar{\alpha}\right)}=\abs{\bar{\alpha}}\abs{\bar{\alpha}}$$
+ 			e quindi per ipotesi induttiva
+ 			ma d'altra parte abbiamo che $\bar{\alpha}\in K$, cioè come cardinalità
+ 			$$\abs{\bar{\alpha}}<K$$
+ 			quindi per ipotesi induttiva possiamo scrivere
+ 			$$K\le \dots =\abs{\bar{\alpha}}\abs{\bar{\alpha}}=\abs{\bar{\alpha}}<K$$
+ 			che è assurdo, e quindi abbiamo finito.
+ 		\end{itemize}
+ 		In ogni caso abbiamo 
+ 	\end{proof}
+ 	\begin{corollary}[Semplificare l'aritmetica cardinale]
+ 		Per ogni coppia di cardinali $K\ge \lambda\ge \aleph_0$ abbiamo:
+ 		\begin{itemize}
+ 			\item $\lambda+K=K$.
+ 			\item $\lambda\cdot K=K$.
+ 		\end{itemize}
+ 	\end{corollary}
+ 	\begin{proof}
+ 		Chiaramente per definizione di somma abbiamo
+ 		$$\lambda+K\ge K$$
+ 		ovvero esiste un'iniezione da uno all'altro. D'altra parte dato che $\lambda\le K$ abbiamo
+ 		$$K=K+K\ge \lambda+K\ge K$$
+ 		e quindi abbiamo finito per Cantor-Bernstein. L'altra tesi procede in modo del tutto analogo.
+ 	\end{proof}
+ 	Che si uniforma a quanto sapevamo fare con i reali o con i naturali in modo ad-hoc e senza assioma della scelta.
+ 	\begin{example}[Contare Sottoinsiemi]
+ 		Prendiamo un insieme $a$ tale che
+ 		$$\abs{a}=K\ge \aleph_0$$
+ 		vogliamo calcolare la cardinalità di tutti i suoi sottoinsiemi finiti. Chiamiamo allora
+ 		$$\parti{a}_n:=\left\{b\subseteq a:\abs{b}=n\right\}$$
+ 		vogliamo calcolare la cardinalità di 
+ 		$$\bigcup_{n\in \omega}\parti{a}_n$$
+ 		d'altra parte abbiamo
+ 		$$\abs{\bigcup_{n\in \omega}\parti{a}_n}=\sum_{n\in\omega}\abs{\parti{a}_n}\le 1+K+K^2+\dots\le \aleph_0\cdot K=K$$
+ 		e l'altra maggiorazione è banale. Da qui troviamo anche facilmente che i sottoinsiemi infiniti sono $2^K$, infatti
+ 		$$2^K=\abs{\parti{a}}=\abs{\left\{finiti\right\}\sqcup \left\{infiniti\right\}}=K+\abs{\left\{infiniti\right\}}$$
+ 		da cui segue la tesi.
+ 	\end{example}
+ 	\begin{example}[Contare sottoinsiemi numerabili]
+ 		Prendiamo un insieme $\abs{a}=K\ge \aleph_0$. Calcolare
+ 		$$\lambda:=\abs{\left\{b\subseteq a:\abs{b}=\aleph_0\right\}}.$$
+ 	\end{example}
+ 	\begin{proof}[Soluzione]
+ 		Sicuramente abbiamo che
+ 		$$\abs{\parti{a}_{\aleph_0}}\le K^{\aleph_0}$$
+ 		cioè l'insieme dei sottoinsiemi numerabili di $a$ si può sempre inserire iniettivamente nell'insieme delle successioni a valori in $K$. D'altra parte il viceversa non è immediatamente vero, perchè potremmo avere successioni con elementi ripetuti, o successioni con gli stessi elementi riordinati. Per ottenere l'altro verso consideriamo che ogni successione a valori in $a$ soddisfa
+ 		$$\left\{a_n\right\}\in \omega\times a$$
+ 		ma d'altra parte $\omega\times a$ ha proprio cardinalità $a$ e quindi abbiamo che 
+ 		$$K^{\aleph_0}\le \abs{\parti{\omega \times a}_{\aleph_0}}=\abs{\parti{a}_{\aleph_0}}$$
+ 		che ci dà la tesi.
+ 	\end{proof}
+ 	\begin{example}[Funzioni]
+ 		Dimostrare che se $K\ge \aleph_0$
+ 		$$K^K=2^K$$
+ 		e se $2\le \lambda\le K$ abbiamo
+ 		$$\lambda^K=2^K.$$
+ 	\end{example}
+ 	\begin{proof}
+ 		contenuto...
+ 	\end{proof}
+ 	Un risultato spesso citato è
+ 	\begin{corollary}[Unione numerabile di insiemi numerabili]
+ 		Per ogni insieme $I$ numerabile e $a_n$ insiemi numerabili abbiamo
+ 		$$\abs{\bigcup_{i\in I}a_i}=\aleph_0.$$
+ 	\end{corollary}
+ 	\begin{proof}
+ 		Deriva facilmente dal fatto che 
+ 		$$\abs{\bigcup_{i\in I}a_i}\le \sum_{i\in I}\abs{a_i}\le \aleph_0+\aleph_0+\dots+\aleph_0+\dots\le \aleph_0 \cdot \aleph_0=\aleph_0$$
+ 		e abbiamo finito.
+ 	\end{proof}
+ 	\newpage
+ 	\subsubsection{Lemma di Zorn}
+ 	Per concludere il nostro viaggio nella teoria degli insiemi vediamo il celeberrimo:
+ 	\begin{lemma}[Zorn]
+ 		Se $(a,\le)$ è un ordine parziale, cioè $\le $ è riflessivo antisimmetrico e transitivo, e ogni \textit{catena} di $a$ ammette maggiorante, dove per catena intendiamo sottoinsiemi totalmente ordinati di $a$, allora $a$ ammette un elemento massimale, cioè un $m$ tale che
+ 		$$\lnot \exists x\in a.\,\,m<x.$$
+ 	\end{lemma}
+ 	\begin{proof}
+ 		Dato che l'insieme vuoto è una catena, esisterà un suo maggiorante, cioè l'insieme non è vuoto. Dunque per l'assioma della scelta abbiamo una funzione $c:\parti{a}\setminus\left\{\eset\right\}\to a$. Come al solito per ricorsione transfinita definiamo una corrispondenza funzionale $F:\text{Ord}\to a \cup\left\{a\right\}$ tale che
+ 		$$
+ 		F(\alpha):=
+ 		\begin{cases}
+ 			c\left(\left\{x\in a:x>F(\beta) \,\,\,\forall\beta\in \alpha\right\}\right) & \text{se quell'insieme è non vuoto}\\
+ 			a &\text{altrimenti.}
+ 		\end{cases}
+ 		$$ 
+ 		e come al solito per rimpiazzamento abbiamo un ordinale $\alpha$ tale che 
+ 		$$F(\alpha)=a$$
+ 		sia quindi $\gamma$ il minimo $\alpha$ tale che $F(\alpha)=a$, per estrarre l'elemento massimale che stiamo cercando dobbiamo considerare la restrizione $F_{\mid \gamma}$ che è un isomorfismo tra un ordinale $\gamma$ e un sottoinsieme di $a$, dunque
+ 		$$F_\gamma\left[\gamma\right]\subseteq a$$
+ 		è un sottoinsieme bene ordinato di $a$, cioè è una catena. Prendiamo allora per ipotesi un suo maggiorante $m$. Vogliamo dimostrare che questo è il massimale che stavamo cercando. Se per assurdo non lo fosse avremmo qualcosa sopra di lui, ovvero ci sarebbe un $x\in a$ tale che 
+ 		$$m<x$$
+ 		ma questo contraddice il fatto che $F(\gamma)=a$, infatti avremmo che
+ 		$$x\in \left\{x\in a:x>F(\beta) \,\,\,\forall\beta\in \gamma\right\}$$ 
+ 		non è vuoto, e quindi
+ 		$$F(\gamma)=c\left(\left\{x\in a:x>F(\beta) \,\,\,\forall\beta\in \gamma\right\}\right)\ne a$$
+ 		e quindi abbiamo finito.
+ 	\end{proof}
+ 	
+ 	\newpage
+ 	
+ 	\section{Ritorno alla logica}
+ 	
+ 	Ora che abbiamo potenti strumenti di teoria degli insiemi alle spalle possiamo concludere quanto avevamo iniziato sulla logica matematica.
+ 	\subsection{Insiemi massimali consistenti}
+ 	
+ 	Il primo problema che risolviamo è concludere il discorso che avevamo fatto sulle interpretazioni. Avevamo già dimostrato il teorema di validità, dobbiamo ancora dimostrare
+ 	\begin{metateorema}[Completezza]
+ 		Per ogni insieme di formule $\Gamma$ e formula $\varphi$ abbiamo
+ 		$$\Gamma \models \varphi \implies \Gamma \vdash \varphi.$$
+ 	\end{metateorema}
+ 	Prima di dimostrarlo lo scriviamo in un'altra forma:
+ 	usiamo due volte la dimostrazione per assurdo, prima nel linguaggio, scrivendo
+ 	$$\Gamma \models \varphi \iff \Gamma,\lnot\varphi \models \bot$$
+ 	$$\Gamma \vdash \varphi \iff \Gamma,\lnot\varphi \vdash \bot$$
+ 	Accorpiamo quindi tutte le formule dentro $\Gamma\leftrightarrow \Gamma,\varphi$.
+ 	In metalinguaggio quindi vogliamo dimostrare che
+ 	$$\Gamma \not\vdash \bot \implies \Gamma \not\models \bot$$
+ 	definiamo allora:
+ 	\begin{definition}[Consistenza]
+ 		Una teoria (o un insieme di formule) si dice \textit{consistente}, se non può dimostrare $\bot$.
+ 	\end{definition}
+ 	\begin{definition}[Soddisfacibilità]
+ 		Una teoria (o un insieme di formule) si dice \textit{soddisfacibile}, se 
+ 		$$\Gamma\not\models \bot$$
+ 		ovvero se esiste un modello di $\Gamma$ che valida $\Gamma$ e falsifica il falso (il che è sempre vero), quindi è equivalente a dire che esiste un modello di $\Gamma$.
+ 	\end{definition}
+ 	La forma a cui ci siamo ridotti allora è
+ 	\begin{metateorema}[Completezza $2^a$ forma]
+ 		Se $\Gamma$ è consistente allora è soddisfacibile.
+ 	\end{metateorema}
+ 	Per dimostrarlo avremo bisogno del Lemma di Zorn, e quindi definiamo
+ 	\begin{definition}[Insieme consistente massimale]
+ 		Un certo sottoinsieme $\Delta\subseteq \text{Frm}_{\mathcal{L}}$ è \textit{consistenze massimale} se è consistente e ogni suo supset dimostra il falso.
+ 	\end{definition}
+ 	\begin{lemma}[Caratterizzazione della non appartenenza]
+ 		Se $\Delta$ è consistente massimale e $\varphi\not\in \Delta$ abbiamo che 
+ 		$$\Delta \vdash \lnot \varphi.$$ 
+ 	\end{lemma}
+ 	\begin{proof}
+ 		Segue per contraddizione dal fatto che 
+ 		$$\Delta,\varphi\vdash \bot$$
+ 		per massimalità.
+ 	\end{proof}
+ 	\begin{lemma}[Caratterizzazione dell'appartenenza]
+ 		Sia $\Delta$ consistente massimale allora $\varphi\in \Delta$ se e solo se $\Delta\vdash \varphi$.
+ 	\end{lemma}
+ 	\begin{proof}
+ 		Un verso è ovvio (se $\varphi\in \Delta$ chiaramente lo possiamo dimostrare da $\Delta$). L'altro verso segue dal fatto che se per assurdo $\varphi\not\in \Delta$ potremmo dimostrare $\lnot\varphi$, e quindi avremmo che $\Delta\vdash\bot$ assurdo.
+ 	\end{proof}
+ 	\begin{example}[Massimali per interpretazione]
+ 		Consideriamo l'interpretazione $\ZZ$ degli assiomi di un gruppo. Definiamo
+ 		$$\Delta:=\left\{\varphi\in \text{Frm}_\varphi:\text{$\varphi$ è vera nell'interpretazione di $\ZZ$}\right\}.$$
+ 		Per esempio abbiamo che
+ 		$$\forall x \forall y \left(x\cdot y = y \cdot x\right)$$
+ 		è in $\Delta$, nonostante non sia nè vera nè falsa negli assiomi di gruppo. D'altra parte se qualcosa è vera in $\ZZ$ per il teorema di validità non potremo usarlo per dimostrare il falso, e quindi $\Delta$ è coerente. D'altra parte è anche massimale, perchè se lo potessimo allargare con un $\varphi$ ci sarebbe anche $\lnot\varphi\in \Delta$, e quindi avremo $\Delta$ inconsistente, assurdo.
+ 	\end{example}
+ 	L'intuizione allora è che gli insiemi consistenti massimali siano quelli formati da tutte le proposizioni vere in una certa interpretazione.
+ 	\begin{lemma}[Caratterizzazione dell'appartenenza di implicazioni]
+ 		Per ogni $\Delta$ consistente massimale abbiamo che $\varphi\to \psi\in \Delta$ è equivalente a $\varphi\not\in \Delta$ oppure $\psi\in \Delta$.
+ 	\end{lemma}
+ 	\begin{proof}
+ 		Un verso è semplicemente 
+ 		$$\psi\in \Delta \implies \Delta\vdash \psi \vdash \varphi\to \psi \implies \varphi \to \psi \in \Delta$$
+ 		$$\varphi\not \in \Delta \implies \lnot\varphi \in \Delta \implies \Delta \vdash \lnot\varphi \vdash \varphi\to \psi \implies \varphi\to \psi \in \Delta$$
+ 		praticamente pura logica nel linguaggio. D'altra parte l'altro verso segue per il teorema di Deduzione, infatti se 
+ 		$$\varphi\not\in \Delta$$
+ 		abbiamo finito, e se $\varphi\in \Delta$ abbiamo la tesi per il teorema di deduzione.
+ 	\end{proof}
+ 	Analogamente si dimostrano
+ 	\begin{lemma}[Comportamento rispetto ai quantificatori]
+ 		Se 
+ 		$$\forall x\varepsilon\in \Delta$$
+ 		allora per ogni termine $t$ abbiamo $\varphi(t)\in \Delta$.
+ 		D'altra parte se $\varphi(t)\in \Delta$ per qualche termine $t$ allora 
+ 		$$\exists x\varphi \in \Delta.$$ 
+ 	\end{lemma}
+ 	\begin{proof}
+ 		Banalmente un'applicazione di $H4$.
+ 	\end{proof}
+ 	Il contrario del lemma precedente \textbf{non è necessariamente vero}. Infatti
+ 	\begin{example}[Mandare tutto a $0$]
+ 		Mettiamoci nell'interpretazione $\ZZ$ dei gruppi e nella valutazione $\nu$ che manda tutto in $0\in \ZZ$. Qui abbiamo che
+ 		$$\exists $$
+ 	\end{example}
+ 	Il problema è che il nostro linguaggio potrebbe essere troppo povero e avere troppe poche costanti. Per questo vogliamo la seguente:
+ 	\begin{proposition}[Espandere insiemi consistenti]
+ 		Se $\Gamma$ è un insieme consistente allora esiste un $\Delta$ massimale consistente tale che $\Gamma\subseteq \Delta$.
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Consideriamo l'ordine parziale $(X,\subseteq)$ dove $X$ è l'insieme
+ 		$$X:=\left\{\Phi \subseteq \text{Frm}_\mathcal{L}:\Phi\not\vdash \bot \text{ e } \Gamma \subseteq \Phi\right\}$$
+ 		dobbiamo trovare un elemento massimale di $X$. Per chiudere con il lemma di Zorn dobbiamo dimostrare che ogni catena $C\subseteq X$ ha un maggiorante. Se $C$ è vuota semplicemente prendiamo $\Gamma$ come maggiorante, mentre se non è vuota il candidato naturale è
+ 		$$M:=\bigcup C=\bigcup_{i\in I}\Phi_i$$
+ 		ci rimane da dimostrare che $M\in X$, ovvero che è consistente. Se per assurdo potessimo dimostrare il falso avremmo
+ 		$$\bigcup_{i\in I}\Phi_i\vdash \bot$$
+ 		allora la dimostrazione, per definizione, dovrebbe essere una lista \textbf{finita} di passaggi, e quindi avremmo usato un numero \textbf{finito} di ipotesi, siano allora $\Phi_{i_1},\Phi_{i_2},\dots,\Phi_{i_k}$ il numero \textbf{finito} di elementi di $k$ contenenti le ipotesi effettivamente usate nella dimostrazione, allora visto che $C$ è una catena esiste il loro massimo $\Phi$ che contiene tutte le ipotesi per dimostrare il falso, e quindi abbiamo
+ 		$$\Phi\vdash \bot$$
+ 		che è assurdo in quanto $\Phi\in X$, e quindi $\Phi$ deve essere consistente. Dall'assurdo si deduce che $M\in X$ e quindi per Zorn abbiamo finito.
+ 	\end{proof}
+ 	Dunque abbiamo
+ 	\begin{definition}[Estensione di Henkin]
+ 		Per un linguaggio $\mathcal{L}$ consistente massimale $\Delta$ definiamo una successione:
+ 		$$\mathcal{L}_0:=\mathcal{L}$$
+ 		$$\mathcal{L}_{n+1}:=\mathcal{L}_{n}\cup\left\{\text{costanti $c_{\varphi,x}$, una per ogni $\varphi\in \text{Frm}_\mathcal{L}$ e $x$ variabile}\right\}$$
+ 		definiamo allora l'\textit{estensione di Henkin} di $\mathcal{L}$ rispetto a $\Delta$ come
+ 		$$\overline{\mathcal{L}}:=\bigcup_{n\in\omega}\mathcal{L}_n.$$
+ 		E la muniamo dello schema di assiomi aggiuntivo
+ 		$$H:=\left\{\exists x\varphi \to \varphi\left(\faktor{c_{\varphi,x}}{x}\right):\varphi\in \text{Frm}_\mathcal{L}\right\}.$$
+ 	\end{definition}
+ 	Se $\mathcal{L}$ ha cardinalità $k\ge \aleph_0$, che cardinalità avrà $\overline{\mathcal{L}}$? E che cardinalità ha $H$? Cominciamo a chiederci che cardinalità hanno
+ 	$$\abs{\text{Trm}_\mathcal{L}}$$
+ 	$$\abs{\text{Frm}_\mathcal{L}}$$
+ 	in generale supponiamo di avere $\aleph_0$ variabili, quindi abbiamo
+ 	$$\aleph_0\le \abs{\text{Trm}_\mathcal{L}}$$
+ 	d'altra parte tramite la funzione dai termini alle formule che associa $t\mapsto t=t$ abbiamo
+ 	$$\aleph_0\le \abs{\text{Trm}_\mathcal{L}}\le \abs{\text{Frm}_\mathcal{L}}\le \abs{\mathcal{L}}$$
+ 	dato che per ogni simbolo possiamo creare una formula. Dunque abbiamo che 
+ 	$$\abs{\mathcal{L}}_1=\abs{\mathcal{L}\cup \left\{c_{\varphi,x}:\varphi\in \text{Frm}_{\mathcal{L}},x\in \text{Var}_\mathcal{L}\right\}}\le k+k\aleph_0=k$$
+ 	e quindi sommando tutto otteniamo cardinalità
+ 	$$\overline{\mathcal{L}}=k.$$
+ 	\begin{lemma}[Consistenza di Henkin]
+ 		Se $\Gamma\subseteq \text{Frm}_\mathcal{L}$ è un insieme consistente anche 
+ 		$$\Gamma\cup H\subseteq \text{Frm}_{\overline{\mathcal{L}}}$$
+ 		rimane consistente.
+ 	\end{lemma}
+ 	\begin{proof}
+ 		Se per assurdo potessimo dimostrare il falso allora esisterebbero \textbf{finiti} elementi di $H$ e di $\Gamma$ coinvolti nella dimostrazione, e quindi avremmo
+ 		$$\Gamma,h_0,h_1,\dots,h_n\vdash \bot.$$
+ 		Dimostriamo che questo è assurdo per induzione su $n$. Il caso base è
+ 		$$\Gamma,h\vdash\bot$$
+ 		allora $h$ è della forma
+ 		$$\exists x\varphi \to \varphi(c)$$
+ 		con $c\not\in \mathcal{L}$. Abbiamo quindi
+ 		$$\Gamma,\exists x\varphi \to \varphi(x)\vdash \bot$$
+ 		spostando a destra abbiamo
+ 		$$\Gamma \vdash \exists x\varphi \land \lnot \varphi(c)$$
+ 		questo è equivalente a dire che contemporaneamente
+ 		$$\Gamma \vdash \exists x\varphi$$
+ 		$$\Gamma \vdash \lnot\varphi(c).$$
+ 		Ma concentriamoci sulla seconda, la costante $c$ non compare in $\Gamma$ (in quanto $\Gamma$ è formato solo da simboli di $\mathcal{L}$). Dunque se prendiamo una variabile $z$ che non compare libera nella dimostrazione da $\Gamma$ a $\lnot \varphi(c)$ se brutalmente in tutta la dimostrazione sostituiamo a $c$ la variabile $z$, abbiamo di nuovo una dimostrazione valida per $\lnot \varphi(z)$, che questa volta è una variabile e quindi possiamo applicare generalizzazione. Abbiamo quindi dimostrato
+ 		$$\Gamma\vdash \forall z \lnot \varphi(z)=\lnot \exists z\varphi(z)$$
+ 		che combinata alla prima equazione che avevamo trovato ci dà $\Gamma\vdash \bot $ assurdo. Il passo induttivo non lo facciamo, ma lo spirito è questo.
+ 	\end{proof}
+ 	
+ 	\subsubsection{Dimostrazione del teorema di Completezza}
+ 	
+ 	Dimostriamo che se $\Gamma$ è consistente allora è soddisfacibile. Grazie al lemma dimostrato prima, se prendiamo $\Gamma\subseteq\text{Frm}_\mathcal{L}$ lo possiamo espandere 
+ 	$$\Gamma\mapsto \Gamma \cup H$$
+ 	nell'espansione di henkin in modo consistente, inoltre lo possiamo inserire per il lemma di Zorn in un $\Delta$ consistente massimale
+ 	$$\Gamma\subseteq \Gamma \cup H\subseteq \Delta \subseteq \text{Frm}_{\overline{\mathcal{L}}}.$$
+ 	A questo punto siamo pronti a costruire esplicitamente il dominio del nostro modello di $\Gamma$:
+ 	$$D:=\faktor{\text{Trm}_{\overline{\mathcal{L}}}}{\sim}$$
+ 	dove la relazione per cui quozientiamo è purtroppo necessaria, ed è definita come
+ 	$$t_1\sim t_2 \iff \Delta \vdash t_1=t_2 \iff (t_1=t_2)\in \Delta.$$
+ 	Costruiamo l'interpretazione:
+ 	\begin{itemize}
+ 		\item Ad ogni costante $c\in \overline{\mathcal{L}}$ associamo la sua classe di equivalenza, che per semplicità denotiamo di nuovo con $c$.
+ 		\item Ad ogni variabile $a\in \overline{\mathcal{L}}$ associamo la sua classe di equivalenza, che per semplicità denotiamo di nuovo con $c$.  
+ 		\item Ad ogni simbolo di funzione $f\in \overline{\mathcal{L}}$ associamo una vera funzione $f':D^n\to D$ tale che
+ 		$$([t_1],\dots,[t_n])\mapsto \left[f(t_1,\dots,t_n)\right]$$ 
+ 		notiamo che sia il LHS che il RHS sono solo simboli nel linguaggio (quozientati rispetto a $\sim$).
+ 		\item Ad ogni simbolo di relazione $n$-aria $R$ associamo una vera relazione $n$-aria su $D^n$, ovvero un sottoinsieme di $D^n$, tale che
+ 		$$R\mapsto \left\{(t_1,\dots,t_n):R(t_1,\dots,t_n)\in \Delta\right\}$$
+ 		ovvero associamo l'insieme delle liste di simboli che corrispondono a relazioni dimostrabili in $\Delta$.
+ 	\end{itemize}
+ 	A questo punto rimane da dimostrare che effettivamente questo è un modello di $\Delta$, ovvero 
+ 	$$D,\nu \models \varphi \iff \varphi\in \Delta$$
+ 	Il caso atomico è per definizione di $\Delta$. D'altra parte per ricorsione abbiamo tre casi:
+ 	\begin{description}
+ 		\item[Negazione:] Supponiamo che 
+ 		$$\varphi \text{ vale in } D \iff \varphi\in \Delta$$
+ 		allora dimostriamo che è vero anche per $\lnot\varphi$. Per definizione di modello e per il teorema di validità abbiamo
+ 		$$D\models \lnot\varphi \iff D\not\models \varphi \iff \varphi \not \in \Delta$$
+ 		che d'altra parte sappiamo essere equivalente a $\lnot\varphi\in \Delta$, per buon comportamento degli insiemi massimali consistenti rispetto alla negazione.
+ 		\item[Implicazione:] In modo analogo.
+ 		\item[Quantificatori:] Supponiamo che la proprietà valga per $\varphi$, allora dimostriamo che vale anche per $\forall x\varphi$. Abbiamo
+ 		$$\forall x\varphi \in \Delta\iff \lnot \exists x\lnot\varphi \in \Delta \iff \exists x\lnot\varphi \not\in \Delta$$
+ 		d'altra parte dato che siamo nell'estensione di Henkin abbiamo che non esiste $t$ con $\lnot\varphi(t)\in \Delta$ per ipotesi induttiva allora abbiamo che non esiste un $t$ tale che $D\models \lnot\varphi(t)$, cioè
+ 		$$D\models \lnot \exists t\lnot \varphi(t)$$
+ 		che era la tesi.
+ 	\end{description}
+ 	Dunque abbiamo un modello di $\Delta$, e in particolare questo è un modello di $\Gamma$, e quindi abbiamo finito.
+ 	\subsection{L\"owenheim-Skolem}
+ 	Quanto vale la cardinalità del dominio che abbiamo trovato? Ovvero, quanto è grande $D$? Abbiamo visto che 
+ 	$$\abs{D}=\abs{\faktor{\text{Trm}_\mathcal{L}}{\sim}}\le k=\abs{\mathcal{L}}$$
+ 	questo è un risultato importante, che ha un nome molto altisonante:
+ 	\begin{corollary}[L\"owenheim-Skolem "in giù"]
+ 		Se $\Gamma$ ha un modello allora ne ha anche uno di cardinalità minore o uguale di $\mathcal{L}$ (in particolare questo è il cosiddetto modello sintattico).
+ 	\end{corollary}
+ 	Per vedere la potenza di questo facciamo un esempio:
+ 	\begin{example}[Non si possono caratterizzare i reali al primo ordine]
+ 		Se $\mathcal{L}$ è il linguaggio dei campi ordinati, con infinite variabili e i simboli $(0,1,+,\cdot,\le)$. Abbiamo allora che 
+ 		$$\abs{\mathcal{L}}=\aleph_0$$
+ 		questo vuol dire che per ogni insieme $\Gamma$ di assunzioni, per esempio per
+ 		$$\Gamma:=\left\{\varphi\in \text{Frm}_\mathcal{L}:\varphi\text{ è vera in $\RR$}\right\}$$
+ 		avrà un'interpretazione numerabile! Cioè non possiamo caratterizzare univocamente $\RR$ usando soltanto assunzioni del primo ordine, perchè avremo sempre oggetti non isomorfi a $\RR$ (con cardinalità minore di $\RR$, infatti) che soddisfano gli stessi assiomi che stiamo dando.
+ 	\end{example}
+ 	\begin{definition}[Teoria]
+ 		Una \textit{teoria} su un linguaggio $\mathcal{L}$ è un insieme di formule $T\subseteq \text{Frm}_\mathcal{L}$ chiuse per deduzione, cioè $T\models \varphi$ se e solo se $\varphi\in T$. Per esempio la teoria definita da certi assiomi $A$ è l'insieme delle cose dimostrabili da $A$.
+ 	\end{definition}
+ 	\begin{definition}[Isomorfismo tra interpretazioni]
+ 		Date due interpretazioni $M,N$ di $\mathcal{L}$ una funzione biettiva $F:M\to N$ si dice \textit{isomorfismo} se manda:
+ 		\begin{itemize}
+ 			\item Costanti in costanti.
+ 			\item Per ogni funzione $n$-aria manda
+ 			$$F\left(f_M(t_1^M,\dots,t_n^M)\right)=f_N\left(F(t_1^M),\dots,F(t_n^M)\right).$$
+ 			\item Per ogni relazione $n$-aria abbiamo che 
+ 			$$\left(t_1^M,\dots,t_n^M\right)\in R_M \iff \left(F(t_1^M),\dots,F(t_n^M)\right)\in R_M.$$
+ 		\end{itemize}
+ 	\end{definition}
+ 	\begin{definition}[Categoricità]
+ 		Una teoria si dice \textit{categorica} se ha un solo modello, a meno di isomorfismi.
+ 	\end{definition}
+ 	\subsection{Il Teorema di Compattezza}
+ 	Il fatto che le dimostrazioni debbano essere insiemi finiti di formule alle volte è chiamato "teorema di compattezza sintattico", il seguente teorema non c'entra niente con questo, ma lo specifichiamo :
+ 	\begin{theorem}[Teorema di compattezza sintattico]
+ 		Se $\Gamma\vdash B$, allora esiste un sottoinsieme finito $\Gamma'\subseteq\Gamma$ di formule tale che
+ 		$$\Gamma'\vdash B.$$
+ 		Analogamente vale il contrario, cioè se per ogni sottoinsieme finito $\Gamma'$ di $\Gamma$ abbiamo
+ 		$$\Gamma'\not\vdash B$$
+ 		allora $\Gamma\not\vdash B$.
+ 	\end{theorem}
+ 	\begin{proof}
+ 		Discende essenzialmente dalla definizione di dimostrazione che abbiamo dato come lista finita di formule che partono dalle ipotesi e arrivano alla tesi.
+ 	\end{proof}
+ 	\begin{theorem}[Teorema di compattezza semantico]
+ 		Se ogni sottoinsieme finito di $\Gamma$ ha un modello allora anche $\Gamma$ ha un modello.
+ 	\end{theorem}
+ 	\begin{proof}
+ 		Se $\Gamma$ per assurdo non avesse un modello allora per il teorema di completezza avremmo
+ 		$$\Gamma\vdash \bot$$
+ 		ma questo per il teorema di compattezza sintattico vuol dire che esiste un sottoinsieme $K$ \textbf{finito} di $\Gamma$ formato dalle ipotesi necessarie a derivare il falso da $\Gamma$. Ma allora $K$ per il teorema di completezza non avrebbe un modello, e questo va contro le assunzioni.
+ 	\end{proof}
+ 	Abbiamo visto che al primo ordine possiamo parlare di cardinalità finite. Per esempio se vogliamo dire che un certo dominio ha cardinalità $3$ ci basta dire che è un modello di
+ 	$$\exists x,y,z\left(x\ne y\land y\ne z \land x\ne z \land \forall w \left(w= x \lor w=y \lor w=z\right)\right)$$
+ 	allo stesso modo possiamo dire che un certo dominio ha cardinalità maggiore o uguale di $3$ con
+ 	$$\exists x,y,z\left(x \ne y \land y\ne z \land x\ne z\right)$$
+ 	quindi esprimere che un dominio è infinito è facile con uno schema di assiomi del primo ordine (semplicemente includiamo tutte le formule che dicono che $\abs{D}\ge n$ per tutti gli $n$). \\
+ 	\begin{proposition}[Finito al primo ordine]
+ 		Non possiamo costruire una teoria al primo ordine che abbia come modelli tutti e soli gli insiemi finiti.
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Supponiamo per assurdo di avere $\Phi$ formule che abbiano come modello esattamente tutti e soli gli insiemi finiti. Se consideriamo l'insieme $\Gamma$ di tutte le proposizioni della forma "$\abs{D}\ge n$" allora dovremmo avere che 
+ 		$$\Gamma\cup \Phi$$
+ 		non ha un modello (perchè dovrebbe avere un modello sia finito che infinito). Tuttavia tutti i sottoinsiemi finiti $K\subseteq \Gamma\cup \Phi$ hanno un modello, perché conterranno solo un numero finito di formule di $\Gamma$, e quindi esisterà un insieme finito che soddisfa quel sottoinsieme di $\Gamma$. Questo per il teorema di compattezza ci dice che esiste anche un modello che soddisfa \textbf{tutto} $\Gamma\cup \Phi$, ovvero esiste un modello infinito di $\Phi$, assurdo.
+ 	\end{proof}
+ 	\begin{example}[Peano non è categorico]
+ 		Consideriamo l'aritmetica di Peano nel linguaggio $\left\{0,s,+,\cdot\right\}$, definendo 
+ 		$$x<y:\exists z\left(z\ne 0 \land x+z=y\right)$$
+ 		costruiamone un modello non standard (ovvero diverso da $\omega$).
+ 	\end{example}
+ 	\begin{proof}[Soluzione]
+ 		Aggiungiamo al nostro linguaggio la costante
+ 		$$\mathcal{L}'=\mathcal{L}\cup \left\{c\right\}$$
+ 		con l'assioma
+ 		$$\Gamma:=PA\cup \left\{c>n:n\in \NN\right\}$$
+ 		vogliamo trovare un modello di questa cosa (che chiaramente sarà un modello di Peano, ma non sarà $\omega$). D'altra parte per il teorema di compattezza ogni sottoinsieme finito di $\Gamma$ ha un modello ($\omega$ in particolare) e quindi abbiamo finito. Questo modello \textbf{non è detto che sia $\NN$} (chiaramente non lo è), e \textbf{non è $\omega+1$} (perchè deve esistere anche il successore di $c$).
+ 	\end{proof}
+ 	Questo risultato si presta molto bene a essere generalizzato nel seguente potente teorema:
+ 	\begin{theorem}[L\"owenheim-Skolem in su]
+ 		Se $\Gamma$ ha un modello infinito allora ne ha anche uno di cardinalità $k$ per ogni $k\ge \abs{\mathcal{L}}$.
+ 	\end{theorem}
+ 	\begin{proof}
+ 		Cominciamo aggiungendo tante costanti quanta la cardinalità che vogliamo raggiungere:
+ 		$$\mathcal{L}':=\mathcal{L}\cup \left\{c_i:i\in k\right\}$$
+ 		dobbiamo anche aggiungere tanti assiomi quanti le costanti per dire che queste sono tutte distinte
+ 		$$\Gamma':=\Gamma \cup \left\{\lnot\left(c_i=c_j\right):i\ne j\in k \right\}$$
+ 		vogliamo allora trovare un modello di $\Gamma'$, e questo per L\"owenheim-Skolem in giù ci darà la tesi. \\
+ 		Per dimostrare che $\Gamma'$ è soddisfacibile usiamo il teorema di compattezza: prendendo ogni sottoinsieme finito $K\subseteq \Gamma'$ vogliamo dimostrare che questo ha un modello. Sicuramente $K$ conterrà un numero finito di formule di $\Gamma$, inoltre per ogni assioma del tipo $\lnot(c_i=c_j)$ deve avere almeno un elemento. Dato che $\Gamma$ ha un modello infinito, questo è un modello per $K$, quindi per compattezza abbiamo che $\Gamma'$ è soddisfacibile, e per la sua definizione tutti i suoi modelli $M$ devono avere cardinalità
+ 		$$\abs{M}\ge \abs{\mathcal{L}'}=k$$
+ 		d'altra parte per L\"owenheim-Skolem in già esisterà un modello con cardinalità $\le k$, e quindi abbiamo un moddello con cardinalità esattamente $k$.
+ 	\end{proof}
+ 	Le conseguenze di questo teorema sono molto più forti di quanto non si pensi:
+ 	\begin{corollary}[Infinito implica non categorico]
+ 		Una teoria del primo ordine con un modello infinito non può essere categorica.
+ 	\end{corollary}
+ 	\begin{proof}
+ 		Segue osservando che modelli di cardinalità diverse non possono essere isomorfi, e per L\"owenheim-Skolem ne esistono sempre.
+ 	\end{proof}
+ 	Per esempio questo dimostra che non può esistere una teorica categorica al primo ordine di Peano. Un'applicazione in algebra è
+ 	\begin{corollary}[Gruppi ciclici]
+ 		Non è possibile scrivere una teoria dei gruppi ciclici al primo ordine.
+ 	\end{corollary}
+ 	\begin{proof}
+ 		Una teoria dei gruppi ciclici dovrebbe avere come modelli sia tutti i gruppi ciclici finiti, sia l'unico gruppi ciclico finito. Ma per L-S se questa teoria ha un modello infinito (in particolare $\ZZ$) allora deve averne di cardinalità arbitraria, il che è assurdo perché sappiamo che l'unico gruppo ciclico a meno di isomorfismi è $\ZZ$, e quindi avremo che $\ZZ$ è isomorfo a gruppi di cardinalità arbitraria.
+ 	\end{proof}
+ 	Cosa succede se applichiamo tutto ciò a ZFC? Un bel casino.
+ 	\subsection{Completezza rivisitata}
+ 	\begin{definition}[Teoria completa]
+ 		Una teoria si dice \textit{completa} se tutti i suoi modelli verificano le stesse formule chiuse del linguaggio.
+ 	\end{definition}
+ 	Questa nozione è chiaramente più debole della categoricità (categorico implica completo). 
+ 	\begin{proposition}[Caratterizzazione per dimostrabilità della completezza]
+ 		Una teoria $\Gamma$ è completa se e solo se per ogni formula chiusa
+ 		$$\Gamma \vdash \varphi \quad \text{ XOR }\quad  \Gamma\vdash \lnot \varphi.$$
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Per il teorema di completezza se $\Gamma$ dimostra $\varphi$ allora quella sarà vera in tutti i modelli. D'altra parte è vero anche il viceversa e quindi abbiamo finito.
+ 	\end{proof}
+ 	Un insieme consistente massimale per esempio è sempre completo.
+ 	\begin{definition}[Teoria da un modello]
+ 		Dato un modello $M$ di $T$ possiamo costruire una teoria completa
+ 		$$T(M):=\left\{\varphi\,\text{enunciato}:\varphi \text{ è vera in } M\right\}$$
+ 		e questo è un insieme massimale consistente (lo abbiamo già dimostrato) ed è completo.
+ 	\end{definition}
+ 	\begin{definition}[Elementarmente equivalenti]
+ 		Due modelli $M,N$ di $T$ si dicono (\textit{elementarmente}) \textit{equivalenti} se verificano gli stessi enunciati, ovvero
+ 		$$T(M)=T(N).$$
+ 	\end{definition}
+ 	Da qui discende immediatamente
+ 	\begin{proposition}[Caratterizzazione per modelli della completezza]
+ 		Una teoria è completa se e solo se tutti i suoi modelli sono equivalenti.
+ 	\end{proposition}
+ 	Vediamo una versione rivisitata di L-S:
+ 	\begin{proposition}[L\"owenheim-Skolem rivisitato]
+ 		Se $M$ è un modello infinito di $\Gamma$ per ogni $k\ge \abs{\mathcal{L}}$ esiste un modello $N$ di $\Gamma$ di cardinalità $k$ ed equivalente a $M$.
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Il trucco è considerare $T(M)$, che ha chiaramente un modello ($M$), e quindi per L-S esisterà un suo modello $N$ di cardinalità $k$. Abbiamo quindi sicuramente che
+ 		$$T(M)\subseteq T(N)$$
+ 		ma d'altra parte se $N$ fosse un modello di $\varphi$ non in $T(M)$ per la completezza di $T(M)$ avremmo che $T(M)\vdash \lnot\varphi$ e quindi $T(N)$ sarebe incoerente, assurdo per il teorema di completezza.
+ 	\end{proof}
+ 	Prendiamo ora una definizione un po' pià debole della categoricità:
+ 	\begin{definition}[Teoria $k$-categorica]
+ 		Una teoria si dice $k$-categorica se tutti i suoi modelli di cardinalità $k$ sono isomorfi.
+ 	\end{definition}
+ 	\begin{proposition}[Test di Vaught]
+ 		Se per una teoria $T$ sappiamo che:
+ 		\begin{itemize}
+ 			\item  $T$ è consistente
+ 			\item  $T$ non ha modelli finiti
+ 			\item  $T$ è $k$-categorica per qualche $k\ge \abs{\mathcal{L}}$
+ 		\end{itemize}
+ 		Allora $T$ è completa.
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Chiaramente se $\Gamma$ è consistente deve esistere un suo modello, in particolare deve essere infinito, dunque per L-S esisterà un modello $M$ di cardinalità $k$. Sia allora $N$ un altro modello (infinito), vogliamo mostrare che è equivalente a $M$. D'altra parte per la versione forte di L-S abbiamo che esiste un modello $N'$ di cardinalità $k$ isomorfo a $N$. Dunque abbiamo
+ 		$$N\cong N'\cong M$$
+ 		dato che $T$ è $k$ categorica, e quindi abbiamo finito.
+ 	\end{proof}
+ 	Un'altra cosa che torna spesso utile è la seguente:
+ 	\begin{proposition}[Test di incompletezza facile]
+ 		Se una teoria ha sia un modello finito che uno infinito allora non è completa.
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Basta prendere la proposizione
+ 		$$\abs{D}> n$$
+ 		dove $D$ è il dominio e $n$ è la cardinalità del modello finito della teoria, per notare che questa è vera nel modello infinito ma falsa in quello infinito.
+ 	\end{proof}
+ 	\begin{example}[Cantor]
+ 		Mettiamoci in un linguaggio $\mathcal{L}=\left\{<\right\}$ con gli assiomi dell'ordine:
+ 		\begin{itemize}
+ 			\item Antiriflessività.
+ 			\item Transitività.
+ 			\item Totalità.
+ 			\item Densità, ovvero per ogni coppia di elementi ne esiste sempre uno tra di loro. 
+ 			\item Non esistono elementi maggiori o uguali di tutti gli altri.
+ 			\item Non esistono elementi minori o uguali di tutti gli altri.
+ 		\end{itemize}
+ 		Questa teoria ha chiaramente almeno un modello ($\RR$ o $\QQ$) e non può averne di finiti (per densità o massimo/minimo). Cantor ha dimostrato che questa teoria è anche $\aleph_0$-categorica: prendiamo due modelli $A$ e $B$ numerabili, allora costruiamo un isomorfismo come segue:
+ 		\begin{itemize}
+ 			\item Prendiamo un $a_0\in A$ e assegnamogli un $b_0$ in $B$.
+ 			\item Andiamo in $B$, consideriamo un $b_1$ al suo interno, e assegnamogli un $a_1$ in $A$ minore di $a_0$ (che esiste sempre dato che $A$ non ha minimo).
+ 			\item Torniamo in $B$, prendiamo un elemento non ancora scelto e mandiamolo in un elemento non ancora scelto in $B$ in modo che l'isomorfismo preservi l'ordine (e un tale elemento di $B$ esiste sempre per densità o per assenza di minimo o massimo).
+ 		\end{itemize}
+ 		Andrebbe scritto bene, ma in ogni caso questa è l'idea. Questo dimostra per il test di Vaught che la teoria degli ordini totali densi e senza estremi è \textbf{completa}, in particolare abbiamo che $(\QQ,<)$ e $(\RR,<)$ sono equivalenti.
+ 	\end{example}
+ 	\begin{theorem}[Morley]
+ 		Dato un linguaggio $\abs{\mathcal{L}}=\aleph_0$ se una teoria su di esso è $k$-categorica per qualche $k>\abs{\mathcal{L}}$ allora è categorica per tutti i $k$ con cardinalità $k>\abs{\mathcal{L}}$.
+ 	\end{theorem}
+ 	
+\end{document}

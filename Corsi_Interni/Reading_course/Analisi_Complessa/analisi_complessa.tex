@@ -1,0 +1,156 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[sexy]{evan} %BLBLBLBLBLBLBLBLBLBLBLB EVANCHEN
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{asymptote}
+\usepackage{amsthm}
+\usepackage{gensymb}
+\usepackage{amsfonts}
+\usepackage[english,italian]{babel}
+\usepackage{quoting}
+\quotingsetup{font=big}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{lmodern}
+\newcommand{\dif}{\text{d}}
+
+
+\begin{document}
+	\title{Reading Course - Analisi Complessa}
+	\subtitle{SGSS - Studenti misti}
+	\date{Novembre 2025}
+	
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\newpage
+	
+	\section{Introduzione}
+	I NUMERI COMPLESSI. Sono uno spazio metrico con la distanza 
+	$$d(w,z)=\abs{z-w}$$
+	A livello topologico gli aperti sono unione di "palle" ovvero di insiemi del tipo
+	$$B_r(z)=\left\{w\in \CC:d(z,w)<r\right\}$$
+	\begin{definition}[Topologia di $\CC$]
+		La topologia di $\CC$ è l'insieme di (unione e intersezione di) palle.
+	\end{definition}
+	Utilizzando questa definizone di aperti possiamo brutalmente traslare tutto quello che sappiamo di $\RR^2$ su $\CC$ e quindi la definizione di limite è che:
+	\begin{definition}[Limite di successione in $\CC$]
+		Una successione $a_n$ a valori complessi converge a un limite $L$ sse per ogni $r$ la successione $a_n$ appartiene definitivamente alla palla di raggio $r$.
+	\end{definition}
+	In generale quello che possiamo fare in $\RR^2$ a livello formale lo possiamo fare anche in $\CC$. Dunque, perchè usare $\CC$ invece di $\RR^2$?
+	\begin{definition}[Funzione Olomorfa]
+		Una $f:\Omega\subseteq \CC \to \CC$ definita su un aperto si dice \textit{olomorfa} in $z_0$ sse esiste il seguente limite
+		$$f'(z_0):=\lim_{h\to 0}\frac{f(z_0+h)-f(z_0)}{h}$$
+		dove $h$ è un numero complesso. Una funzione olomorfa su tutti i complessi si dice \textit{intera}.
+	\end{definition}
+	questa condizione è estremamente più forte qui che in $\RR^2$, perchè una definizione del genere contiene già dentro di se la differenziabilità di $f$, ovvero il fatto che possiamo trovare una funzione lineare a coefficienti complessi $J$ tale che
+	$$f(z_0+h)=f(z_0)+J_f(z_0)h+o(h)$$
+	cioè, la vera forza sono le funzioni lineari complesse. Infatti 
+	\begin{definition}[Funzioni lineari in $\CC$]
+		Sia $w\in\CC$. Una funzione lineare in $f:\CC\to \CC$ è tale che
+		$$f(x)=wx$$
+		se scriviamo $w=\alpha+i\beta$ in effetti questa cosa è perfettamente isomorfa ad una applicazione lineare da $\RR^2$ ad $\RR^2$, infatti se $x=a+ib$ possiamo scrivere la matrice associata come 
+		$$\begin{pmatrix}
+			\alpha & -\beta \\
+			\beta & \alpha
+		\end{pmatrix}\begin{pmatrix}
+		a \\
+		b
+		\end{pmatrix}$$
+	\end{definition}
+	ora la differenziabilità ci implica la presenza di derivate parziali in realtà, quindi esisteranno i seguenti limiti
+	$$\frac{\partial F(x,y)}{\partial x}=\partial_x f(z_0)=\lim_{h_1\to 0}\frac{f(x_0+h,y_0)-f(x_0,y_0)}{h}$$
+	$$\frac{\partial F(x,y)}{\partial_y}=\frac{1}{i}\partial_y f(z_0)=\lim_{h_1\to 0}\frac{f(x_0,y_0+h)-f(x_0,y_0)}{h}$$
+	e quindi perchè una funzione sia davvero olomorfa dovremo avere che questi due differenziali sono \textbf{lo stesso numero complesso}, quindi sono uguali. Ma questo espandendo ci dà
+	\begin{theorem}[Cauchy-Riemann]
+		$$\begin{pmatrix}
+			\partial_x u & \partial_x v \\
+			\partial_y u & \partial_y v  
+		\end{pmatrix}=
+		\begin{pmatrix}
+			\alpha & -\beta \\
+			\beta & \alpha
+		\end{pmatrix}$$
+	\end{theorem}
+	\section{Serie di potenze}
+	Una serie di potenze in $\CC$ è definita più o meno come in $\RR$ e 
+	\begin{theorem}[Cauchy-Hadamard]
+		Per ogni serie di potenze $f(z)$ esiste un $R\in [0,+\infty]$ tale che la serie converge assolutamente (ovvero, la somma dei valori assoluti dei siungoli monomi converge) se $\abs{z}<R$. Se $\abs{z}>R$ la serie diverge. Questo si chiama \textit{raggio di convergenza} e in particolare se i coefficienti della serie sono
+		$$f(z)=\sum_{n=1}^\infty a_n z^n$$
+		vale 
+		$$\frac{1}{R}=\limsup \abs{a_n}^{\frac{1}{n}}$$
+	\end{theorem}
+	questo perchè ci interessa? perchè nel \textit{disco di convergenza}, ovvero nella palla di raggio $R$ centrata nell'origine.
+	\begin{lemma}[Derivata di una serie complessa]
+		Vale 
+		$$f'(z)=\sum_{n=1}^\infty na_nz^{n-1}$$
+		e  il raggio di convergenza è lo stesso.
+	\end{lemma}
+	\begin{proof}
+		Semplicemente prendendo la formula di Hadamard
+		$$\frac{1}{R'}=\limsup\abs{na_n}^{\frac{1}{n}}$$
+		ma il limite di $n^{1/n}$ esiste sempre, e vale $1$, e quindi passando al limite (non al limsup) e usando un po' di algebra dei limiti ci riconduciamo al limite del raggio di convergnza per $f$. \\ 
+		Dimostriamo ora la formula della derivata. Vorremmo dimostrare che, chiamata $g(z)$ la formula che abbiamo appena droppato per la derivata, 
+		$$\lim_{h\to 0}\frac{f(z_0+h)-f(z_0)}{h}-g(z_0)=0$$
+		per fare questo definiamo una somma parziale
+		$$S_N(z)=\sum_{n=1}^N a_nz^n$$
+		$$E_N(z)=\sum_{n=N+1}^\infty a_nz^n$$
+		e spacchettiamo il nostro limite in tre pezzi
+		\begin{align*}
+			\frac{S_N(z_0+h)-S_N(z_0)}{h}-S'_N(z)+ \\
+			S'_N(z)-g(z_0)+\\
+			\frac{E_N(z_0+h)-E_N(z_0)}{h}
+		\end{align*}
+		vogliamo fare il tipico giochino che facciamo con i limiti, ovvero che per $h$ abbastanza piccolo tutti i termini sono boundati da un infinitesimo. Iniziamo dal terzo termine, applicando la disuguaglianza triangolare
+		$$\abs{\frac{E_N(z_0+h)-E_N(z_0)}{h}}=\sum_{n=N+1}^\infty \abs{a_n}\abs{\frac{(z_0+h)^n-z_0^n}{h}}$$
+		a questo punto applicando la nota identità
+		$$a^n-b^n=(a-b)(a^{n-1}+a^{n-2}b+\dots +b^{n-1})$$
+		e ricordando che per un $r<R$ tutti i monomi del tipo $a^ia^j$ sono minori o uguali di $r^{i+j}$ quindi 
+		$$\dots \le \sum_{n=N+1}^\infty \abs{a_n}nr^{n-1}$$
+		che è crazy, perchè questa è proprio $g(r)$ MENO una sua somma parziale. Ma abbiamo appena visto che $g(z)$ converge, quindi $g(r)$ meno quella roba tenderà a $0$, che era quello che volevamo dimostrare. \\
+		Il secondo termine è molto ez perchè 
+		$$\lim_{n\to\infty}S_N'(z)=g(z)$$
+		praticamente per definizione, quindi abbiamo un infinitesimo gratis. Ma d'altro canto anche il primo termine era boundato da un infinitesimo praticamente gratis, perchè è letteralmente la definizione di derivata del polinomio $S_N(z)$, che non hanno nulla di particolarmente strano (a parte bho essere una funzione da $\CC$ a $\CC$, ma ormai queste cose non ci spaventano), meno LETTERALMENTE $S_N'(z)$. Dunque anche questo tende a $0$, e abbiamo finito.
+	\end{proof}
+	Quello che ci possiamo portare a casa di grosso da ciò è il fatto che una serie di potenze può essere derivata \textbf{infinite volte}, e rimane con lo stesso raggio di convergenza. A cosa ci serve tutto ciò? Perchè
+	\begin{definition}[Funzione analitica]
+		Una funzione $f:\Omega\to\CC$ si dice \textit{analitica} in $z_0$ se può essere espressa come una serie polinomia opportuna valutata in $z_0$. Si dice \textit{analitica} e basta se è analitica in ogni punto.
+	\end{definition}
+	è chiaro per Hadamer-Cauchy che una funzione analitica è anche olomorfa.
+	\subsection{Curve}
+	Una curva in $\CC$ è molto banalmente una funzione 
+	$$\gamma:[a,b]\to \CC$$
+	tale che $\gamma\in C^1$ (a tratti, possono esserci punti di non derivabilità random) e in particolare tale che al variare del parametro la curva vari sempre, quindi $v'\ne 0$. Si dimostrerà ad analisi $2$ che in realtà l'unica cosa davvero importante di una curva è l'immagine e il verso della parametrizzazione, quindi tutto quello che dimostreremo sulle curve sarà vero "modulo la parametrizzazione". 
+	\begin{definition}[Integrale lungo una curva]
+		Data una curva $\gamma$ con le proprietà appena dette, definiamo l'integrale \textit{lungo la curva} $\gamma$ come
+		$$\int_\gamma f(z)\text{d}z:=\int_a^bf(\gamma(t))\dot{\gamma}(t)\text{d}t$$
+		che come detto prima non dipende dalla parametrizzazione.
+	\end{definition} 
+	Ora per comodità definiamo la somma di due curve come "attaccare la fine di una curva all'inizio dell'altra". 
+	\begin{lemma}[Proprietà dell'integrale]
+		Gli integrali sono lineari come su $\RR$. Inoltre in analogia a quello che facciamo su $\RR$ possiamo:
+		$$\int_{\gamma+\psi}f(z)\text{d}z=\int_\gamma f(z)\text{d}z+\int_\psi f(z)\text{d}z$$
+	\end{lemma}
+	\begin{theorem}[Fondamentale del calcolo integrale]
+		COme per $\RR$ vale il teorema fondamentale del calcolo integrale, ovvero se ho una funzione $F'(x)=f(x)$ allora 
+		$$\int_\gamma f(z)\text{d}z=\int_{a}^{b}f(\gamma(t))\dot{\gamma}(t)\text{d}t=F(\gamma(b))-F(\gamma(a))$$
+	\end{theorem}
+	Dove succedono effettivamente cose diverse è quando parliamo di curve chiuse. Infatti un integrale su una curva chiusa secondo quanto appena detto dovrebbe essere sempre $0$\dots o no? In realtà trovare una primitiva è solo un modo per calcolare l'integrale, e infatti per funzioni \textit{di cui esiste la primitiva}, questa cosa è vera, ma esistono funzioni che integrate su curve chiuse non danno integrale $0$, e dunque non hanno una primitiva. \\
+	Un esempio è $f(z)=\frac{1}{z}$ integrata rispetto alla circonferenza unitaria $\gamma$. Facendo un breve conto in effetti si trova che
+	$$\int_\gamma \frac{1}{z}\text{d}z=2\pi i$$
+	crazy, quindi $f$ non ha una primitiva.
+	\begin{theorem}[Goursat]
+		Dio porco.
+	\end{theorem} 
+	\begin{exercise}
+		Dimostrare che non si può partizionare $\ZZ^+$ in finite progressioni aritmetiche non banali (ovvero di passo distinto).
+	\end{exercise}
+	\begin{proof}
+		COSA CAZZO C'ENTRA. 
+	\end{proof}
+\end{document}
