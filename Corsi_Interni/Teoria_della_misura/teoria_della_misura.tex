@@ -1,0 +1,156 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[sexy]{evan} %BLBLBLBLBLBLBLBLBLBLBLB EVANCHEN
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{asymptote}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{gensymb}
+\usepackage{amsfonts}
+\usepackage[english,italian]{babel}
+\usepackage{quoting}
+\quotingsetup{font=big}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{lmodern}
+\usepackage{faktor}
+\usepackage{bbm} %oer fare gli insiemi indicatori
+\usepackage{leftindex} %per gli ideali e gli indici a sinistra
+\usepackage{hyperref}
+\usepackage{epigraph} 
+\usepackage{pgfplots}
+\usepackage[export]{adjustbox}
+
+%Pacchetti per i codici
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{algpseudocode}
+
+%Analisi e probabilità
+%----------------------------------
+\newcommand{\dif}{\text{d}}
+%%% the pure symbol, see https://tex.stackexchange.com/a/718194/4427
+\newcommand{\cind}{\perp\mspace{-9mu}\perp}
+%%% define \indep
+\NewDocumentCommand{\indep}{e{_}}{%
+	\mathrel{%
+		\IfNoValueTF{#1}{% no subscript
+			\cind
+		}{% subscript
+			\mathchoice{\mathop{\cind}\limits_{#1}}{\cind_{#1}}{\cind_{#1}}{\cind_{#1}}%
+		}%
+	}%
+}
+%-----------------------------------
+
+%Algebra lineare e geometria
+%----------------------------------
+\newcommand{\tr}[1]{\text{tr}\!\left(#1\right)}
+\renewcommand{\rank}[1]{\text{rank}\!\left(#1\right)}
+\newcommand{\Immagine}[1]{\text{Im}\left(#1\right)}
+\renewcommand{\ker}[1]{\text{Ker}\left(#1\right)}
+\renewcommand{\AA}{\mathbb{A}}
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\SO}{\text{SO}}
+%----------------------------------
+
+%Fisica
+%----------------------------------
+\newcommand{\UDiMisura}[1]{\,\text{#1}}
+\newcommand{\ihat}{\hat{\imath}}
+\newcommand{\jhat}{\hat{\jmath}}
+\newcommand{\khat}{\hat{k}}
+\newcommand{\posit}{\vec{r}}
+\newcommand{\veloc}{\dot{\vec{r}}}
+\newcommand{\accel}{\ddot{\vec{r}}}
+%----------------------------------
+
+%Informatica
+%----------------------------------
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{overleafwiki}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=overleafwiki}
+\newcommand{\bigo}[1]{\mathcal{O}\!\left(#1\right)}
+\newcommand{\bigomega}[1]{\Omega\!\left(#1\right)}
+\newcommand{\bigtheta}[1]{\Theta\!\left(#1\right)}
+%----------------------------------
+
+%Insiemistica e Algebra
+%----------------------------------
+\newcommand{\eset}{\varnothing}
+\newcommand{\parti}[1]{\mathcal{P}\!\left(#1\right)}
+\newcommand{\inj}{\hookrightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\bij}{\hookrightarrow\mathrel{\mspace{-15mu}}\rightarrow}
+\newcommand{\ordine}[2]{\text{ord}_{#1}\left(#2\right)}
+\newcommand{\normal}{\mathrel{\unlhd}}
+\newcommand{\MCD}{\text{MCD}}
+\renewcommand{\mcm}{\text{mcm}}
+%----------------------------------
+
+
+\begin{document}
+	\title{Appunti di Teoria della misura}
+	\subtitle{Elio Marconi - SGSS}
+	\date{Settembre - Dicembre 2026}
+	
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\newpage
+	
+	\section{Preambolo: misure in $\RR^n$}
+	
+	Questa sezione è stata scritta leggendo "Real Analisys" di E.M. Stein e R. Shakarchi. L'idea è, prima di attaccare la teoria della misura nella sua piena astrazione, di ottenere un po' di intuizione nello spazio euclideo $\RR^n$ che siamo in grado di visualizzare. 
+	
+	\subsection{La misura esterna}
+	
+	In $\RR^n$ la prima cosa originale che possiamo definire è 
+	\begin{definition}[Cubi e Rettangoli]
+		In $\RR^n$ dati gli intervalli
+		$$I_n=\left[a_n,b_n\right]$$
+		definiamo il \textit{rettangolo chiuso} definito da questi intervalli come
+		$$R:= I_1\times I_2 \times \dots \times I_n$$
+		analogamente possiamo definire il \textit{rettangolo aperto} sostituendo agli intervalli chiusi degli intervalli aperti. Il \textit{volume} di $R$ è definito come
+		$$\abs{R}:= \prod_{i=1}^{n}(b_n-a_n)$$
+		un rettangolo tale che $b_i-a_i=b_j-a_j$ per ogni coppia di indici $i,j$ si dice un \textit{cubo}.
+	\end{definition}  
+	Con questo possiamo definire una nozione di misura esterna, che non esiste in spazi arbitrari:
+	\begin{definition}[Misura esterna]
+		Dato un qualunque $E\subseteq\RR^n$ definiamo la sua \textit{misura esterna} $m_*:\parti{\RR^n}\to [0,\infty]$ come:
+		$$m_*(E)=\inf\sum_{i=1}^{\infty}\abs{Q_i}$$
+		dove l'inf è preso su tutti i possibili ricoprimenti $Q_i$ di $E$ con $Q_i$ cubi chiusi, ovvero abbiamo che 
+		$$E\subseteq \bigcup_{i=1}^\infty Q_i$$
+		con ciascuno dei $Q_i$ un cubo chiuso.
+	\end{definition}
+	
+	
+\end{document}
