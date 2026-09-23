@@ -129,7 +129,7 @@
 	
 	\section{Preambolo: misure in $\RR^n$}
 	
-	Questa sezione è stata scritta leggendo "Real Analisys" di E.M. Stein e R. Shakarchi. L'idea è, prima di attaccare la teoria della misura nella sua piena astrazione, di ottenere un po' di intuizione nello spazio euclideo $\RR^n$ che siamo in grado di visualizzare. 
+	Questa sezione è stata scritta leggendo "Real Analysis" di E.M. Stein e R. Shakarchi. L'idea è, prima di attaccare la teoria della misura nella sua piena astrazione, di ottenere un po' di intuizione nello spazio euclideo $\RR^n$ che siamo in grado di visualizzare. 
 	
 	\subsection{La misura esterna}
 	
@@ -143,14 +143,118 @@
 		$$\abs{R}:= \prod_{i=1}^{n}(b_n-a_n)$$
 		un rettangolo tale che $b_i-a_i=b_j-a_j$ per ogni coppia di indici $i,j$ si dice un \textit{cubo}.
 	\end{definition}  
+	Per Heine-Borel tutti i rettangoli sono compatti.
+	\begin{definition}[Quasi disgiunti]
+		Due rettangoli $A, B$ si dicono \textit{quasi disgiunti} se 
+		$$A\cap B \subseteq \partial A \cup \partial B $$
+		ovvero se si intersecano solo sul bordo.
+	\end{definition}
 	Con questo possiamo definire una nozione di misura esterna, che non esiste in spazi arbitrari:
 	\begin{definition}[Misura esterna]
 		Dato un qualunque $E\subseteq\RR^n$ definiamo la sua \textit{misura esterna} $m_*:\parti{\RR^n}\to [0,\infty]$ come:
-		$$m_*(E)=\inf\sum_{i=1}^{\infty}\abs{Q_i}$$
+		$$m_*(E):=\inf\sum_{i=1}^{\infty}\abs{Q_i}$$
 		dove l'inf è preso su tutti i possibili ricoprimenti $Q_i$ di $E$ con $Q_i$ cubi chiusi, ovvero abbiamo che 
 		$$E\subseteq \bigcup_{i=1}^\infty Q_i$$
-		con ciascuno dei $Q_i$ un cubo chiuso.
+		con ciascuno dei $Q_i$ un \textbf{cubo chiuso}.
 	\end{definition}
-	
-	
+	\'E importante che questa copertura sia (possibilmente) infinita. Se ci restringessimo solo a coperture finite avremmo in generale una quantità maggiore o uguale della misura esterna.
+	Alcuni esempi di misure esterne di insiemi sono i seguenti:
+	\begin{example}[Punti]
+		La misura esterna di un punto o dell'insieme vuoto è zero, così come la misura esterna di qualunque insieme numerabile.
+	\end{example}
+	\begin{proof}
+		Per l'insieme vuoto non c'è essenzialmente nulla da dimostrare. Per un punto $P$ ci basta scegliere coperture costituite da un unico punto e arbitrariamente piccole. Dato invece un insieme numerabile 
+		$$S=\left\{x_1,x_2,\dots,x_n,\dots\right\}\subset \RR^n$$
+		per ogni $\varepsilon>0$ possiamo scegliere una copertura di $S$ formata da cubi $Q_i$ ciascuno centrato in $x_i$ e tali che
+		$$\abs{Q_i}=\frac{\varepsilon}{2^i}$$
+		in questo modo abbiamo, per definizione di inf
+		$$m_*(S)\le \sum_{i=1}^{\infty}\abs{Q_i}=\varepsilon\sum_{i=1}^{\infty}\frac{1}{2^i}=\varepsilon$$
+		ma visto che $\varepsilon>0$ era arbitrario abbiamo $m_*(S)=0$, come richiesto.
+	\end{proof}
+	In particolare abbiamo che $\QQ^k$ ha misura esterna $0$ per ogni $k$.
+	\begin{example}[Rettangoli]
+		La misura esterna di un rettangolo chiuso è uguale al suo volume.
+	\end{example}
+	\begin{proof}
+		Chiaramente abbiamo 
+		$$m_*(R)\le \abs{R}$$
+		in quanto un qualunque rettangolo si può scomporre abbastanza agilmente in infiniti cubi quasi disgiunti, ricorsivamente. Andrebbe dimostrato che un rettangolo ha sempre volume uguale alla somma dei volumi dei cubi costituenti una sua decomposizione quasi disgiunta, ma è estremamente pedante e non lo faremo. \\
+		Per l'altro verso abbiamo bisogno, dato un generico ricoprimento $Q_i$ di cubi chiusi, di dimostrare che
+		$$\abs{R}\le \sum_{i=1}^{\infty}\abs{Q_i}$$
+		da cui seguirà per definizione di inf la tesi. Per fare ciò usiamo la compattezza: dato il ricoprimento chiuso $Q_i$, per ogni $\varepsilon>0$ ne costruiamo uno aperto $S_i$ formato da cubi aperti tali che, per ogni $i$:
+		\begin{gather*}
+			Q_i \subset S_i \\
+			\abs{Q_i}(1+\varepsilon) \le \abs{S_i}
+		\end{gather*}
+		da questo dunque possiamo estrarre un sottoricoprimento finito $S_1,\dots,S_N$. A questo punto ci basta dimostrare che 
+		$$\abs{R}\le \sum_{i=1}^{N}\abs{S_i}$$
+		che è pedante ma fattibile lavorando esplicitamente con tutti i rettangoli coinvolti (dato che sono finiti). Dunque abbiamo
+		$$\abs{R}\le \sum_{i=1}^{N}\abs{S_i} \le (1+\varepsilon)\sum_{i=1}^{N}\abs{Q_i}\le (1+\varepsilon)\sum_{i=1}^{\infty}\abs{Q_i}$$
+		per ogni $\varepsilon>0$, il che conclude la dimostrazione per quanto detto sopra.
+	\end{proof}
+	\begin{example}[Cantor]
+		L'insieme di Cantor ha misura esterna nulla.
+	\end{example}
+	\begin{example}[Tutto lo spazio]
+		$\RR^n$ ha misura esterna infinita.
+	\end{example}
+	Dimostriamo alcune proprietà di estrema importanza della misura esterna:
+	\begin{lemma}[Monotonia]
+		Dati due insiemi $A\subseteq B \subseteq \RR^n$ abbiamo
+		$$m_*(A)\le m_*(B).$$
+	\end{lemma}
+	\begin{proof}
+		Comunque dato un ricoprimento $Q_i$ di $B$ abbiamo
+		$$A\subseteq B \subseteq \bigcup_{i=1}^\infty Q_i$$
+		dunque $Q_i$ è un ricoprimento anche di $A$, il che per le proprietà dell'inf implica proprio la tesi.
+	\end{proof}
+	\begin{proposition}[Subadditività numerabile]
+		Dato un $E\subseteq \RR^n$ tale che
+		$$E=\bigcup_{i=1}^\infty E_i$$
+		abbiamo che
+		$$m_*(E)\le \sum_{i=1}^{\infty}m_*(E_i).$$
+	\end{proposition}
+	\begin{proof}
+		Supponiamo WLOG che $m_*(E_i)<\infty$ per ogni $i$. L'idea è di costruire una copertura di $E$ a partire da quelle di $E_i$: grazie alla definizione operativa di inf per ogni $\varepsilon>0$ possiamo trovare una copertura $Q_{ij}$ di $E_i$ tale che
+		$$\sum_{j=1}^{\infty}\abs{Q_{ij}}\le m_*(E_i)+\frac{\varepsilon}{2^i}$$
+		da questo allora è facile trovare che
+		$$m_*(E)\le \sum_{i=1}^{\infty}\sum_{j=1}^{\infty}\abs{Q_{ij}}\le \sum_{i=1}^{\infty}m_*(E_i)+\varepsilon\sum_{i=1}^{\infty}\frac{1}{2^i}=\sum_{i=1}^{\infty}m_*(E_i)+\varepsilon$$
+		e dall'arbitrarietà di $\varepsilon$ abbiamo la tesi.
+	\end{proof}
+	\begin{proposition}[Approssimabilità con aperti]
+		Se $E\subseteq\RR^n$ abbiamo che
+		$$m_*(E)=\underset{\mathcal{O}\,\text{aperto}}{{\inf_{\mathcal{O}\supseteq E}}} m_*(\mathcal{O}).$$
+	\end{proposition}
+	\begin{proof}
+		Per monotonia abbiamo immediatamente
+		$$m_*(E)\le m_*(\mathcal{O})$$
+		per ogni aperto $\mathcal{O}$ contenente $E$. Dobbiamo quindi dimostrare che per ogni $\varepsilon>0$ esiste un aperto $\mathcal{O}\supseteq E$ tale che
+		$$m_*(\mathcal{O})\le \varepsilon + m_*(E)$$
+		prima di tutto quindi grazie alla definizione operativa di inf abbiamo che esiste un ricoprimento $Q_i$ tale che
+		$$\sum_{i=1}^{\infty}\abs{Q_i}\le \frac{\varepsilon}{2}+m_*(E)$$
+		da questo possiamo costruirne un altro costituito da insiemi aperti $Q^0_{i}$ tale che
+		\begin{gather*}
+			Q_i^0\supseteq Q_i \\
+			\abs{Q_i^0}\le \abs{Q_i} + \frac{\varepsilon}{2^{i+1}}
+		\end{gather*}
+		da cui otteniamo un insieme aperto 
+		$$\mathcal{O}:=\bigcup_{i=1}^\infty Q_i^0$$
+		tale che $\mathcal{O}\supseteq E$ e inoltre, per subadditività e monotonia
+		$$m_*(\mathcal{O})\le \sum_{i=1}^{\infty}m_*(Q_i^0)=\sum_{i=1}^{\infty}\abs{Q_i^0}\le \sum_{i=1}^{\infty}\abs{Q_i}+\varepsilon\sum_{i=1}^{\infty}\frac{1}{2^{i+1}}\le \frac{\varepsilon}{2}+m_*(E)+\frac{\varepsilon}{2}=m_*(E)+\varepsilon$$
+		che era la tesi.
+	\end{proof}
+	La nostra intuizione riguardo alla misura è che dia una certa nozione di "dimensione" agli insiemi, e quindi ci aspetteremmo che unendo due insiemi disgiunti si ottenga sempre un insieme la cui misura sia la somma dei due. Purtroppo questo non è possibile in generale, e anzi è il motivo per cui ci interesserà definire il concetto di insieme "misurabile". Esiste tuttavia una condizione sufficiente più forte:
+	\begin{proposition}[Condizione sufficiente per l'additività]
+		Siano $A$ e $B$ due sottoinsiemi di $\RR^n$ tali che
+		$$d(A,B)>0$$
+		allora abbiamo che 
+		$$m_*(A\cup B)=m_*(A)+m_*(B).$$
+	\end{proposition}
+	Si vede che questa non è necessaria dal seguente lemma:
+	\begin{lemma}[Unione quasi disgiunta di cubi]
+		Un insieme $E\subseteq\RR^n$ tale che 
+		$$E=\bigcup_{i=1}^\infty Q_i$$
+		dove $Q_i$ è una successione di cubi chiusi a due a due quasi disgiunti, soddisfa sempre
+		$$m_*(E)=\sum_{i=1}^{\infty}m_*(Q_i)=\sum_{i=1}^{\infty}\abs{Q_i}$$
+	\end{lemma}
 \end{document}
