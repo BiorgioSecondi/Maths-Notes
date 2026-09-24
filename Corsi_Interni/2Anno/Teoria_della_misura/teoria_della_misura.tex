@@ -217,7 +217,7 @@
 	\begin{proof}
 		Supponiamo WLOG che $m_*(E_i)<\infty$ per ogni $i$. L'idea è di costruire una copertura di $E$ a partire da quelle di $E_i$: grazie alla definizione operativa di inf per ogni $\varepsilon>0$ possiamo trovare una copertura $Q_{ij}$ di $E_i$ tale che
 		$$\sum_{j=1}^{\infty}\abs{Q_{ij}}\le m_*(E_i)+\frac{\varepsilon}{2^i}$$
-		da questo allora è facile trovare che
+		da questo allora è facile trovare che, unendo tutte le coperture degli $E_i$ per trovare una copertura di $E$:
 		$$m_*(E)\le \sum_{i=1}^{\infty}\sum_{j=1}^{\infty}\abs{Q_{ij}}\le \sum_{i=1}^{\infty}m_*(E_i)+\varepsilon\sum_{i=1}^{\infty}\frac{1}{2^i}=\sum_{i=1}^{\infty}m_*(E_i)+\varepsilon$$
 		e dall'arbitrarietà di $\varepsilon$ abbiamo la tesi.
 	\end{proof}
@@ -250,6 +250,27 @@
 		allora abbiamo che 
 		$$m_*(A\cup B)=m_*(A)+m_*(B).$$
 	\end{proposition}
+	\begin{proof}
+		Per subadditività abbiamo chiaramente
+		$$m_*(A\cup B)\le m_*(A)+m_*(B)$$
+		dobbiamo quindi dimostrare la disuguaglianza inversa. Per fare questo sfruttiamo la distanza scegliendo un $\delta$ tale che
+		$$d(A,B)>\delta>0$$
+		e come prima dato un certo $\varepsilon>0$ un ricoprimento $Q_i$ tale che
+		$$\sum_{i=1}^{\infty}\abs{Q_i}\le m_*(A\cup B)+\varepsilon$$
+		a questo punto possiamo dividendo ricorsivamente ciascuno $Q_i$ in $2^n$ cubi possiamo assumere senza perdita di generalità che il diametro di ciascun $Q_i$ sia minore di $\delta$. Così facendo possiamo identificare due sottoinsiemi \textbf{disginti} di $\left\{Q_i\right\}$:
+		\begin{gather*}
+			S_A=\left\{Q_i:Q_i\cap A\ne \eset\right\} \\
+			S_B=\left\{Q_i:Q_i\cap B\ne \eset\right\}
+		\end{gather*}
+		siano $J_A$ e $J_B$ gli insiemi degli indici di questi due insiemi. Allora dato che $Q_i$ era u ricoprimento di $A\cup B$ abbiamo
+		\begin{gather*}
+			m_*(A)\le \sum_{i\in J_A}\abs{Q_i} \\
+			m_*(B)\le \sum_{i\in J_B}\abs{Q_i}
+		\end{gather*}
+		da cui sommando membro a membro abbiamo
+		$$m_*(A)+m_*(B)\le \sum_{i\in J_A}\abs{Q_i}+\sum_{i\in J_B}\abs{Q_i}\le \sum_{i=1}^{\infty}\abs{Q_i}\le m_*(A\cup B)+\varepsilon$$
+		che implica la tesi per arbitrarietà di $\varepsilon$.
+	\end{proof}
 	Si vede che questa non è necessaria dal seguente lemma:
 	\begin{lemma}[Unione quasi disgiunta di cubi]
 		Un insieme $E\subseteq\RR^n$ tale che 
