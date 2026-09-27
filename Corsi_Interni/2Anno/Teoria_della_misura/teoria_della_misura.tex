@@ -221,7 +221,7 @@
 		$$m_*(E)\le \sum_{i=1}^{\infty}\sum_{j=1}^{\infty}\abs{Q_{ij}}\le \sum_{i=1}^{\infty}m_*(E_i)+\varepsilon\sum_{i=1}^{\infty}\frac{1}{2^i}=\sum_{i=1}^{\infty}m_*(E_i)+\varepsilon$$
 		e dall'arbitrarietà di $\varepsilon$ abbiamo la tesi.
 	\end{proof}
-	\begin{proposition}[Approssimabilità con aperti]
+	\begin{proposition}[Approssimabilità con aperti I]
 		Se $E\subseteq\RR^n$ abbiamo che
 		$$m_*(E)=\underset{\mathcal{O}\,\text{aperto}}{{\inf_{\mathcal{O}\supseteq E}}} m_*(\mathcal{O}).$$
 	\end{proposition}
@@ -243,8 +243,13 @@
 		$$m_*(\mathcal{O})\le \sum_{i=1}^{\infty}m_*(Q_i^0)=\sum_{i=1}^{\infty}\abs{Q_i^0}\le \sum_{i=1}^{\infty}\abs{Q_i}+\varepsilon\sum_{i=1}^{\infty}\frac{1}{2^{i+1}}\le \frac{\varepsilon}{2}+m_*(E)+\frac{\varepsilon}{2}=m_*(E)+\varepsilon$$
 		che era la tesi.
 	\end{proof}
+	Un modo più evocativo per scrivere il risultato sopra è il seguente:
+	\begin{corollary}[Approssimabilità con aperti II]\label{Rn:approssimabilità con aperti}
+		Per ogni insieme $E\subseteq\RR^n$ dato un $\varepsilon>0$ possiamo trovare un $\mathcal{O}\supseteq E$ aperto tale che
+		$$0\le m_*(\mathcal{O})-m_*(E)\le \varepsilon.$$
+	\end{corollary}
 	La nostra intuizione riguardo alla misura è che dia una certa nozione di "dimensione" agli insiemi, e quindi ci aspetteremmo che unendo due insiemi disgiunti si ottenga sempre un insieme la cui misura sia la somma dei due. Purtroppo questo non è possibile in generale, e anzi è il motivo per cui ci interesserà definire il concetto di insieme "misurabile". Esiste tuttavia una condizione sufficiente più forte:
-	\begin{proposition}[Condizione sufficiente per l'additività]
+	\begin{proposition}[Condizione sufficiente per l'additività]\label{Rn:condizione sufficiente additività}
 		Siano $A$ e $B$ due sottoinsiemi di $\RR^n$ tali che
 		$$d(A,B)>0$$
 		allora abbiamo che 
@@ -272,10 +277,86 @@
 		che implica la tesi per arbitrarietà di $\varepsilon$.
 	\end{proof}
 	Si vede che questa non è necessaria dal seguente lemma:
-	\begin{lemma}[Unione quasi disgiunta di cubi]
+	\begin{lemma}[Unione quasi disgiunta di cubi]\label{Rn:unione quasi disgiunta di cubi}
 		Un insieme $E\subseteq\RR^n$ tale che 
 		$$E=\bigcup_{i=1}^\infty Q_i$$
 		dove $Q_i$ è una successione di cubi chiusi a due a due quasi disgiunti, soddisfa sempre
 		$$m_*(E)=\sum_{i=1}^{\infty}m_*(Q_i)=\sum_{i=1}^{\infty}\abs{Q_i}$$
 	\end{lemma}
+	\begin{proof}
+		Scegliamo un $\varepsilon>0$, allora per ogni $Q_i$ possiamo costruire un cubo aperto $\mathcal{Q}_i\subset Q_i$ tale che 
+		$$\abs{Q_i}\ge \abs{\mathcal{Q}_i}+\frac{\varepsilon}{2^i}$$
+		abbiamo quindi per ogni $N\in\NN$ che
+		$$E\supseteq \bigcup_{i=1}^N \mathcal{Q}_i$$
+		cioè per monotonia, e applicando la proposizione \ref{Rn:condizione sufficiente additività}, dato che ciascuno dei cubi $\mathcal{Q}_i$ è disgiunto dagli altri e a distanza positiva $d\left(\mathcal{Q}_i,\mathcal{Q}_j\right)>0$ per ogni $i\ne j$ abbiamo: 
+		$$m_*(E)\ge m_*\left(\bigcup_{i=1}^N \mathcal{Q}_i\right)=\sum_{i=1}^{N}m_*\left(\mathcal{Q}_i\right)\ge \sum_{i=1}^{N}\left(\abs{Q_i}-\frac{\varepsilon}{2^i}\right)$$
+		prendendo il limite $N\to\infty$ quindi abbiamo proprio
+		$$m_*(E)\ge \sum_{i=1}^{\infty}\abs{Q_i}-\varepsilon$$
+		che per arbitrarietà di $\varepsilon$ implica
+		$$m_*(E)\ge \sum_{i=1}^{\infty}\abs{Q_i}$$
+		che combinato con la subadditività ci dà proprio la tesi.
+	\end{proof}
+	
+	\subsection{Insiemi misurabili e Misura di Lebesgue}
+	
+	Come abbiamo anticipato, il nostro obbiettivo è costruire una nozione di misura che sia sempre $\sigma$-additiva, su unioni disgiunte di insiemi, ovvero vogliamo identificare una certa collezione di insiemi tale che, se
+	$$E=\bigsqcup_{i=1}^\infty E_i$$
+	(dove $\sqcup$ indica l'unione disgiunta) implica
+	$$m_*(E)=\sum_{i=1}^{\infty}m_*(E_i).$$
+	In $\RR^n$ tuttavia abbiamo già una collezione di insiemi che soddisfano questa proprietà, ovvero \textbf{gli aperti}, per dimostrare ciò abbiamo bisogno del seguente risultato:
+	\begin{lemma}[Scomponibilità degli aperti]
+		Ogni aperto $\mathcal{O}\subseteq \RR^n$ può essere scomposto come unione numerabile di cubi chiusi quasi disgiunti.
+	\end{lemma}
+	\begin{proof}
+		La dimostrazione essenzialmente consiste in un algoritmo che costruisca esplicitamente la scomposizione richiesta, che procede per approssimazione dell'insieme dividendo il piano in griglie sempre più sottili. \\
+		Procediamo con il seguente algoritmo, che prende in input un aperto $\mathcal{O}$ e ne restituisce una scomposizione in cubi quasi disgiunti: 
+		\begin{algorithmic}
+			\Function{Partiziona}{$\mathcal{O}$}
+			\State $R \gets\left\{\right\}$ \Comment{L'insieme di cubi che costruiremo} 
+			\For{$i=0$ \textbf{to} $\infty$}
+				\State Dividiamo il piano in una griglia $G_i$ di cubi di lato $\frac{1}{2^i}$
+				\ForAll{$Q\in G_i$}
+					\If{$Q\subseteq Q'\in R$}
+						\State \textbf{Continue}
+					\EndIf
+					\If{$Q\subseteq \mathcal{O}$}
+						\State $R\gets R\cup \left\{Q\right\}$
+					\EndIf
+				\EndFor
+			\EndFor
+			\State \Return $R$
+			\EndFunction
+		\end{algorithmic}
+		La correttezza di questo algoritmo segue dal fatto che, per ogni $x\in \mathcal{O}$ esiste un $r>0$ tale che 
+		$$B_r(x)\subseteq \mathcal{O}$$
+		dato che $\mathcal{O}$ è aperto, e dunque definitivamente esisterà un cubo chiuso tale che 
+		$$Q\subseteq B_r(x)$$
+		che verrà scelto dall'algoritmo. Questo dimostra che ogni punto è coperto dalla scomposizione che abbiamo costruito. Ma dato che questa è formata per definizione da cubi quasi disgiunti, abbiamo finito.
+	\end{proof}
+	Dunque presa una successione di aperti disgiunti $\mathcal{O}_1,\mathcal{O}_2,\dots$ abbiamo che possiamo scomporre ciascuno di questi in un insieme numerabile di cubi chiusi quasi disgiunti $R_i$, denotato con $R_{ij}$ il cubo $j$-esimo nella scomposizione dell'aperto $i$ abbiamo quindi, per \ref{Rn:unione quasi disgiunta di cubi}:
+	$$\sum_{i=1}^{\infty}m_*(\mathcal{O}_i)=\sum_{i=1}^{\infty}\sum_{j=1}^{\infty}\abs{R_{ij}}$$
+	d'altra parte l'unione $\bigsqcup_{i=1}^\infty Q_i$ può essere scomposta utilizzando le scomposizioni disgiunte di cubi quasi disgiunti $R_i$, e quindi
+	$$m_*\left(\bigsqcup_{i=1}^\infty \mathcal{O}_i\right)=\sum_{i,j}\abs{R_{ij}}$$
+	ovvero sono proprio uguali, come volevamo trovare. Se allora vogliamo definire gli insiemi misurabili come quegli insiemi per cui la misura sia $\sigma$-additiva, non è sorprendente che in $\RR^n$ ci venga da imporre che questi insiemi siano "quasi aperti", ovvero 
+	\begin{definition}[Lebesgue Misurabile]
+		Un sottoinsieme $E\subseteq \RR^n$ si dice \textit{Lebesgue Misurabile} se per ogni $\varepsilon>0$ esiste un aperto $\mathcal{O}\subseteq E$ tale che
+		$$m_*(\mathcal{O}-E)\le \varepsilon.$$
+	\end{definition}
+	Dunque possiamo ridefinire la nozione di misura restringendoci agli insiemi che hanno questa proprietà:
+	\begin{definition}[Misura di Lebesgue]
+		Definiamo la \textit{misura di Lebesgue} come una restrizione della misura esterna agli insiemi Lebesgue misurabili, ovvero definiamo la funzione $m:\mathcal{L}(\RR^n)\to [0,\infty]$ tale che
+		$$m(E):=m_*(E)$$
+		per ogni $E$ Lebesgue misurabile. 
+	\end{definition}
+	Quello che rimane da capire adesso è quali siano precisamente gli insiemi misurabili tra tutti i sottoinsiemi di $\RR^n$. Prima di tutto abbiamo sicuramente
+	\begin{proposition}[Misura nulla]
+		Tutti gli insiemi di misura esterna nulla sono misurabili, ovvero se $m_*(E)=0$ allora $E$ è misurabile. In particolare se $F$ è un sottoinsieme di un insieme di misura nulla è sempre misurabile.
+	\end{proposition}
+	\begin{proof}
+		Grazie al \ref{Rn:approssimabilità con aperti} dato $\varepsilon>0$ possiamo sempre trovare un $\mathcal{O}\supseteq E$ aperto tale che
+		$$m_*(\mathcal{O})-m_*(E)\le \varepsilon$$
+		ma d'altra parte per monotonia e usando il fatto che $m_*(E)=0$ abbiamo
+		$$m_*(\mathcal{O}-E)\le m_*(\mathcal{O})=m_*(\mathcal{O})-m_*(E)\le \varepsilon$$
+		che quindi implica la tesi.
+	\end{proof}
 \end{document}
