@@ -56,6 +56,7 @@
 \renewcommand{\AA}{\mathbb{A}}
 \newcommand{\LL}{\mathbb{L}}
 \newcommand{\SO}{\text{SO}}
+\newcommand{\KK}{\mathbb{K}}
 %----------------------------------
 
 %Fisica
@@ -129,5 +130,137 @@
 	\tableofcontents
 	
 	\newpage
+	
+	\part{Modulo A}
+	
+	\section{Forme bilineari e quadratiche}
+	
+	Usiamo $\FF$ o $\KK$ per riferirci ad un campo generico.
+	\begin{definition}[Applicazione multilineare]
+		Dati $n\in\NN$ e spazi vettoriali $V_1,V_2,\dots,V_n,W$ su $\KK$, allora un'applicazione
+		$$F:V_1\times V_2\times \dots \times V_n\to W$$
+		è detta \textit{multilineare di grado $n$} o semplicemente \textit{$n$-lineare} se è lineare in ciascuna entrata, ovvero se, fissati $n-1$ argomenti, la funzione
+		\begin{align*}
+			F\left(v_1,v_2,\dots,v_{i-1},-,v_{i+1},\dots,v_n\right):V_i&\to  W \\
+			v & \mapsto  F\left(v_1,v_2,\dots,v_{i-1},v,v_{i+1},\dots,v_n\right)
+		\end{align*}
+		è lineare per ogni $i$.
+	\end{definition}
+	\begin{example}[Prodotto scalare]
+		Il primo esempio di tale funzione che conosciamo già è proprio il prodotto scalare standard:
+		\begin{align*}
+			\cdot:\RR^n\times \RR^n & \to \RR \\
+			(v,w)&\mapsto v\cdot w = v^\intercal w = x_1y_1+\dots+x_ny_n.
+		\end{align*}
+	\end{example}
+	
+	\begin{example}[Determinante]
+		Il determinante di una matrice $A$ può essere vista come una funzione multilineare delle colonne della matrice, che va da
+		$$\det:\underset{\text{$n$ volte}}{\underbrace{\RR^n\times \RR^n \times \dots \times \RR^n}}\to\RR.$$
+	\end{example}
+	
+	\begin{example}[Dualità canonica]
+		La dualità canonica è naturalmente una funzione bilineare 
+		$$\langle\cdot,\cdot\rangle:V^*\times V \to \KK.$$
+	\end{example}
+	
+	\begin{example}[Funzione nulla]
+		La funzione nulla su qualunque prodotto di spazi lineari è sempre multilineare.
+	\end{example}
+	
+	Quello che tuttavia ci interessa studiare adesso sono le forme \textit{bilineari}:
+	\begin{definition}[Forma bilineare]
+		Una \textit{forma bilineare} è una funzione bilineare $B:V\times V\to \KK$, dove $V$ e $W$ sono spazi $\KK$-lineari.
+	\end{definition}
+	\begin{definition}[Simmetria e antisimmetria]
+		Una forma bilineare $B(v,w)$ si dice \textit{simmetrica} se, per ogni $v,w\in V$
+		$$B(v,w)=B(w,v)$$
+		e \textit{antisimmetrica} se per ogni $v,w\in V$:
+		$$B(v,w)=-B(w,v)$$
+		infine si dice \textit{alternante} se per ogni $v\in V$ si ha
+		$$B(v,v)=0$$
+		com'è noto dal caso del determinante.
+	\end{definition}
+	La forma bilineare nasce come generalizzazione naturale della nozione di prodotto scalare, e quindi è chiaro che il prodotto scalare standard sia una forma bilineare simmetrica. Un esempio più elaborato di forma bilineare è
+	\begin{example}[Prodotto in metriche non euclidee]
+		Sia $A\in M_n(\KK)$ una matrice fissata con coefficienti $a_{ij}$, allora la funzione
+		\begin{align*}
+			g_A:\KK^n\times \KK^n & \to \KK \\
+			(u,v) & \mapsto u \cdot Av = u^\intercal A v=\sum_{1\le i,j \le n}a_{ij}x_iy_j
+		\end{align*}
+		è sempre una forma bilineare, che soddisfa 
+		$$a_{ij}=g_{A}\left(e_i,e_j\right).$$
+	\end{example}
+	\begin{example}[Prodotto in un campo]
+		Il prodotto in qualunque campo $\KK$ è una forma bilineare simmetrica e non alternante. Se inoltre il campo ha caratteristica $2$, questa forma è anche antisimmetrica, in quanto $1=-1$.
+	\end{example}
+	\begin{example}[Determinante]
+		La funzione
+		\begin{align*}
+			B:\KK^2\times \KK^2 & \to \KK \\
+			\begin{pmatrix}
+				x_1 \\
+				y_2 
+			\end{pmatrix},
+			\begin{pmatrix}
+				x_2 \\
+				y_2
+			\end{pmatrix} & \mapsto \det
+			\begin{pmatrix}
+				x_1 & x_2 \\
+				y_1 & y_2
+			\end{pmatrix}
+		\end{align*}
+		è bilineare alterna, ma cosa succede se identifichiamo $\KK$ con $\RR$ e $\KK^2$ con $\CC$?
+	\end{example}
+	Il primo risultato che dimostriamo è
+	\begin{proposition}[Relazione tra simmetria, antisimmetria e alternanza]
+		Abbiamo le seguenti proposizioni:
+		\begin{itemize}
+			\item Su ogni campo $\KK$, ogni forma alternante è antisimmetrica.
+			\item Sui campi a caratteristica diversa da $2$, una forma bilineare è alternante se e solo se è antisimmetrica.
+			\item Sui campi a caratteristica $2$, una forma bilineare è simmetrica se e solo se è antisimmetrica.
+		\end{itemize}
+	\end{proposition}
+	\begin{proof}
+		Dimostriamo una cosa alla volta:
+		\begin{itemize}
+			\item Per alternanza abbiamo
+			$$B(v+w,v+w)=0$$
+			d'altra parte espandendo per bilinearità e cancellando $B(v,v)$ e $B(w,w)$ per alternanza:
+			$$B(v,w)+B(w,v)=0$$
+			da cui la tesi.
+			\item Per antisimmetria abbiamo
+			$$B(v,v)=-B(v,v)$$
+			cioè
+			$$2B(v,v)=0$$
+			da cui, dato che la caratteristica è diversa da $2$, abbiamo la tesi.
+			\item Semplicemente segue dal fatto che $1=-1$.
+		\end{itemize}
+		Abbiamo dimostrato tutti i punti, quindi abbiamo finito.
+	\end{proof}
+	
+	\begin{theorem}[di decomposizione]
+		Se $\text{car}(\KK)\ne 2$ allora ogni forma bilineare $B$ definita su $\KK$ si scrive in modo unico come somma di una forma simmetrica e di una alternante.
+	\end{theorem}
+	\begin{proof}
+		Per l'esistenza, possiamo pensare euristicamente di star cercando due forme $B_S$ e $B_A$ tali che
+		$$
+		\begin{cases}
+			B(v,w)=B_S(v,w)+B_A(v,w) \\
+			B(w,v)=B_S(v,w)-B_A(v,w)
+		\end{cases}
+		$$
+		da cui possiamo ricavare direttamente delle formule per le due forme cercate
+		\begin{gather*}
+			B_S(v,w)=\frac{B(v,w)+B(w,v)}{2} \\
+			B_A(v,w)=\frac{B(v,w)-B(w,v)}{2}
+		\end{gather*}
+		e visto che abbiamo trovato una formula esplicita, questo ci dice anche che la decomposizione è unica.
+	\end{proof}
+	
+	\newpage
+	
+	\part{Modulo B}
 	
 \end{document}
