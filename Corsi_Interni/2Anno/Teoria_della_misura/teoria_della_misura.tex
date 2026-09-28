@@ -359,4 +359,171 @@
 		$$m_*(\mathcal{O}-E)\le m_*(\mathcal{O})=m_*(\mathcal{O})-m_*(E)\le \varepsilon$$
 		che quindi implica la tesi.
 	\end{proof}
+	Studiamo adesso come si comportano gli insiemi misurabili rispetto alle operazioni insiemistiche, abbiamo:
+	\begin{proposition}[Unioni numerabili di insiemi misurabili]
+		Dati $E_1,E_2,\dots \in \mathcal{L}\left(\RR^n\right)$ abbiamo che
+		$$\bigcup_{i=1}^\infty E_i=E \in \mathcal{L}(\RR^n).$$
+	\end{proposition}  
+	\begin{proof}
+		Scelto un $\varepsilon>0$, per ogni $E_i$ possiamo trovare un $\mathcal{O}_i\supseteq E_i$ aperto tale che
+		$$m_*\left(\mathcal{O}_i-E_i\right)\le \frac{\varepsilon}{2^i}.$$
+		Il nostro candidato insieme aperto approssimante allora è
+		$$\bigcup_{i=1}^\infty \mathcal{O}_i=:\mathcal{O}$$
+		che dimostriamo per monotonia e subadditività facilmente essere quello giusto
+		$$m_*\left(\mathcal{O}-E\right)\le m_*\left(\bigcup_{i=1}^\infty\left(\mathcal{O}_i-E_i\right)\right)\le \sum_{i=1}^{\infty}m_*\left(\mathcal{O}_i-E_i\right)\le \sum_{i=1}^{\infty}\frac{\varepsilon}{2^i}=\varepsilon$$
+		da cui la misurabilità di $E$.
+	\end{proof}
+	Passiamo ora ai complementari. Per dimostrare il prossimo risultato abbiamo bisogno dei due seguenti lemmi:
+	\begin{lemma}[Distanza compatto-chiuso]
+		Dati un insieme compatto $K$ e un chiuso $F$ disgiunti, si ha sempre
+		$$d(F,K)>0.$$
+	\end{lemma}
+	\begin{proof}
+		Dato che $K$ ed $F$ sono disgiunti abbiamo che $K \subseteq F^\complement$, ovvero $K$ è contenuto in un aperto, questo vuol dire che per ogni $x\in K$ esisterà un $\delta_x>0$ tale che
+		$$d(x,F)>3\delta_x.$$
+		Per usare la compattezza di $K$ a questo punto consideriamo il ricoprimento
+		$$K\subseteq \bigcup_{x\in K}B_{2\delta_x}(x)\subseteq F^\complement$$ 
+		da cui possiamo estrarre un sottoricoprimento finito
+		$$K\subseteq \bigcup_{i=1}^N B_{2\delta_{x_i}}(x_i)\subseteq \bigcup_{x\in K}B_{2\delta_x}(x)\subseteq F^\complement$$
+		grazie a questa possiamo considerare il nostro $\delta$ candidato per boundare la distanza dal basso, ovvero vogliamo dimostrare che 
+		$$d(F,K)>\delta:=\min_{1\le i\le N}\delta_{x_i}>0$$
+		cioè vogliamo dire che per ogni $x\in K$ e $y\in F$ si ha $\abs{x-y}\ge \delta$, d'altra parte per definizione di ricoprimento di $K$ dovrà esistere un $x_i$ tale che
+		$$\abs{x-x_i}\le 2\delta_{x_i}$$
+		e quindi per la disuguaglianza triangolare abbiamo
+		$$\abs{x-y}\ge \abs{y-x_i}-\abs{x_i-x}\ge 3\delta_{x_i}-2\delta_{x_i}=\delta_{x_i}\ge \delta$$
+		che conclude.
+	\end{proof}
+	
+	\begin{lemma}[Tutti i chiusi sono misurabili]
+		Tutti i sottoinsiemi di $\RR^n$ chiusi sono misurabili.
+	\end{lemma}
+	\begin{proof}
+		Se $B_k$ è la palla chiusa di raggio $k$ centrata in $0$ abbiamo
+	\end{proof}
+	
+	\newpage
+	
+	\section{Motivazioni e introduzione alle misure}
+	
+	Il problema principale che ha fatto nascere la teoria della misura è l'integrale di Riemann, che aveva alcuni problemi. Lo studio delle funzioni $f:\RR\to\RR$ è quello che ha fatto scaturire ciò, e quindi di solito questa branca della matematica si chiama \textbf{Analisi reale}. \\
+	Lebesgue nel suo \textit{Lecons sur l'integration} scriveva che una buona definizione di integrale deve soddisfare la propietà che, se $f_n:[a,b]\to\RR$ è una successione di funzioni definite su un compatto tale che esista un $M>0$ che soddisfi
+	$$\abs{f_n(x)}\le M$$
+	per ogni $n\in\NN$, e tali che
+	$$f_n(x)\le f_{n+1}(x) \qquad \forall x\in [a,b]$$
+	allora se questa funzione converge punto a punto ad una $f$ dobbiamo poter scambiare limite e integrale 
+	$$\int_a^b\lim_{n\to\infty}f_n(x)\dif x=\lim_{n\to\infty}\int_a^bf_n(x)\dif x.$$
+	Questa proprietà per l'integrale di Riemann non è necessariamente vera, perchè successioni di funzioni Riemann integrabili possono convergere puntualmente a funzioni non Riemann integrabili. Un esempio semplice è quando 
+	$$f(x)=\mathbbm{1}_\QQ$$
+	e la successione che cerchiamo è
+	$$f_n(x)=\mathbbm{1}_{\QQ_n}$$
+	tale che $\QQ_n=\left\{q_1,q_2,\dots,q_n\right\}$ è l'insieme dei primi $n$ razionali in una certa enumerazione di $\QQ$. Perché vorremmo tanto questa proprietà vera? Perché il problema è che se $f_n\to f$ allora il seguente limite esiste sempre
+	$$\lim_{n\to\infty}\int_a^b f_n(x)\dif x$$
+	tantopiù quando notiamo che si riesce a dimostrare che per ogni coppia di successioni $f^1_n\to f$ e $f^2_n\to f$ vale 
+	$$\lim_{n\to\infty}\int_a^bf^1_n(x)\dif x=\lim_{n\to\infty}\int_a^b f^2_n(x)\dif x$$
+	e quindi viene spontaneo pensare che ci sia una nozione di integrale che si può assegnare alla funzione $f$ ma che l'integrale di Riemann non riesce a catturare. Insomma vogliamo ridefinire la nozione di integrabilità in modo che l'insieme delle funzioni integrabili sia \textbf{chiuso rispetto ai limiti}, ovvero che sia completo, è in un certo senso un caso specifico di completamento di spazio metrico. \\
+	\\
+	Un altro problema dell'integrale di Riemann consiste nel teorema fondamentale del calcolo integrale, una versione del teorema fondamentale è che
+	\begin{theorem}[Fondamentale del calcolo integrale]
+		Se $f:(a,b)\to\RR$ è derivabile e $f'$ è Riemann integrabile allora 
+		$$\int_a^bf'(x)\dif x=f(b)-f(a).$$
+	\end{theorem}
+	Il problema è proprio nell'ipotesi che $f'$ sia Riemann integrabile, e Volterra riuscì a costruire una $f$ tale che sia derivabile in ogni punto, ma per cui $f'$ non sia Riemann Integrabile. Anche qui ci viene da dire che la funzione $f'$ abbia una nozione di integrale, ma la definizione di Riemann non riesce davvero a catturarla.
+	
+	\subsection{Le $\sigma$-Algebre e le misure}
+	
+	Vogliamo definire una nozione di "grandezza" di un insieme, ovvero vogliamo definire una funzione $\mu:\parti{\RR^n}\to [0,\infty]$ che abbia le seguenti proprietà:
+	\begin{itemize}
+		\item Se non prendiamo niente, l'insieme ha misura nulla, ovvero $\mu(\eset)=0$.
+		\item Se due insiemi sono \textit{congruenti} $A\cong B$, cioè si può ruotare e traslare uno dei due nell'altro, allora $\mu(A)=\mu(B)$.
+		\item La misura di un intervallo unitario sia sempre unitaria: $\mu(\left[0,1\right]^n)=1$.
+		\item Se $A_k\subseteq \RR^n$ è una successione di insiemi a due a due disgiunti allora
+		$$\mu\left(\bigsqcup_{k=1}^\infty A_k\right)=\sum_{k=1}^{\infty}\mu(A_k)$$
+		cioè la misura è "$\sigma$-additiva".
+	\end{itemize}
+	La cattiva notizia purtroppo è che queste proprietà sono incompatibili tra loro. In un famoso lavoro, Vitali dimostrò che esiste un insieme che non si presta ad essere misurato, ovvero:
+	\begin{example}[Vitali]
+		Consideriamo l'intervallo $[0,1]$ equipaggiato con la seguente relazione di equivalenza
+		$$x\sim y \iff x-y\in\QQ.$$
+		\textbf{L'insieme di Vitali} $V$ è un insieme che contiene uno e un solo elemento per ogni classe di equivalenza di $[0,1]$ (per fare ciò abbiamo bisogno dell'assioma della scelta), insomma è una scelta di rappresentanti di $\faktor{[0,1]}{\sim}$. \\
+		Consideriamo ora gli insiemi traslati ciclicamente di un razionale $q\in \QQ\cap [0,1)$, ovvero
+		$$V_q:=\left\{q+v:v\in V\right\}$$
+		a questo punto notiamo che, per come abbiamo definito l'insieme di Vitali, abbiamo che se $q_1\ne q_2$ allora $V_{q_1}\cap V_{q_2}=\eset$, perchè se si intersecassero avremmo scelto due elementi nella stessa classe di equivalenza. Inoltre abbiamo che
+		$$\bigcup_{q\in \QQ\cap [0,1)}V_q=[0,1)$$
+		in quanto ogni elemento di $[0,1)$ può essere scelto come somma tra un rappresentante della classe e un razionale. L'assurdo a questo punto scaturirà dal dimostrare che
+		\begin{claim}
+			$$\mu(V_q)=\mu(V)$$
+		\end{claim}
+		\begin{subproof}
+			d'altra parte possiamo spezzare $V$ in 
+			$$\mu(V)=\mu\left(\left\{v\in V:v+q<1\right\}\right)+\mu\left(\left\{v\in V:v+q\ge 1\right\}\right)$$
+			per additività. D'altra parte visto che $\mu$ è invariante per traslazioni dobbiamo avere
+			$$\dots= \mu\left(\left\{v+q\in V:v+q<1\right\}\right)+\mu\left(\left\{v+q-1\in V:v+q\ge 1\right\}\right)$$
+			ma questa, di nuovo per additività, è proprio la misura di $V_q$, quindi abbiamo dimostrato il nostro claim.
+		\end{subproof}
+		Allora abbiamo la seguente catena di uguaglianze
+		$$1=\mu\left([0,1)\right)=\mu\left(\bigcup_{q\in \QQ\cap [0,1)}V_q\right)=\sum_{q\in \QQ\cap [0,1)}\mu(V_q)=\sum_{q\in \QQ\cap [0,1)}\mu(V)$$
+		e questo è assurdo perché se $\mu(V)$ è positivo quella somma risulta infinita, e se è nullo la somma risulta nulla, in entrambi i casi diverso da $1$.
+	\end{example}
+	Abbiamo due strade allora, o indeboliamo un po' le proprietà che vogliamo dalla nostra misura (per esempio assumendo che l'additività valga solo per unioni finite, ma in questo caso finiamo nel paradosso di Banach-Tarski), oppure ci possiamo restringere ad una certa sottofamiglia di insiemi di $\RR^n$, che chiameremo \textit{misurabili}. \\
+	Per fare ciò definiamo allora
+	\begin{definition}[$\sigma$-algebra]
+		Sia $X\ne \eset$ un insieme, diciamo che $\mathcal{A}\subseteq \parti{X}$ è una \textit{$\sigma$-algebra} se soddisfa le seguenti proprietà:
+		\begin{enumerate}
+			\item $\eset,X\in \mathcal{A}$.
+			\item Per ogni successione $A_i$ di elementi di $A$, si ha che
+			$$\bigcup_{n\in\NN}A_n\in \mathcal{A}.$$
+			\item Per ogni $A\in \mathcal{A}$ si ha che $A^\complement\in \mathcal{A}$.
+		\end{enumerate}
+		In questo caso $(X,\mathcal{A})$ si dice \textit{spazio misurabile}, e gli elementi della $\sigma$-algebra si dicono \textit{misurabili}.
+	\end{definition}
+	Osserviamo che da queste proprietà segue immediatamente
+	\begin{proposition}[Intersezioni numerabili]
+		Se $\mathcal{A}$ è una $\sigma$-algebra allora per ogni $A_i$ a valori in $\mathcal{A}$ si ha
+		$$\bigcap_{n\in\NN}A_n\in \mathcal{A}.$$
+	\end{proposition}
+	\begin{proof}
+		Segue facilmente notando che
+		$$\left[\bigcup_{n\in\NN}A_n^\complement\right]^\complement=\bigcap_{n\in\NN}A_n$$
+		e il LHS sta nella $\sigma$-algebra per definizione.
+	\end{proof}
+	La stessa struttura equipaggiata con unioni \textbf{finite} si dice \textit{algebra}. Vediamo alcuni esempi di $\sigma$-algebre
+	\begin{example}[$\sigma$-algebra banale]
+		$\left\{\eset,X\right\}$ è una $\sigma$-algebra per ogni insieme $X$, così come $\parti{X}$ è una $\sigma$-algebra per ogni $X$.
+	\end{example}
+	\begin{example}[Numerabili]
+		Usando la cardinalità possiamo definire
+		$$\mathcal{A}_{\text{num}}:=\left\{A:\abs{A}\le \aleph_0\right\}\cup \left\{A:\abs{A^\complement}\le \aleph_0\right\}$$
+		che è facilmente una $\sigma$-algebra perché $\aleph_0\times \aleph_0=\aleph_0$.
+	\end{example}
+	Il primo risultato che dimostriamo è
+	\begin{lemma}[Intersezioni di $\sigma$-algebre]
+		Data $\left\{\mathcal{A}_i\right\}_{i\in I}$ una successione di $\sigma$-algebre su $X$, con $I$ non necessariamente numerabile, si ha che
+		$$\bigcap_{i\in I}\mathcal{A}_i$$
+		è a sua volta una $\sigma$-algebra di $X$.
+	\end{lemma}
+	\begin{proof}
+		\'E una banale verifica degli assiomi di $\sigma$-algebra.
+	\end{proof}
+	E ora un ingrediente importante che usa questo risultato è il seguente:
+	\begin{definition}[$\sigma$-algebra generata da un insieme]
+		Data una famiglia $\mathcal{E}\subseteq\parti{X}$ possiamo definire la $\sigma$-algebra \textit{generata da $\mathcal{E}$} come
+		$$\sigma\left(\mathcal{E}\right):=\bigcap_{i\in I}\mathcal{A}_i$$
+		dove gli $A_i$ sono tutte le possibili $\sigma$-algebre di $X$ contenenti $\mathcal{E}$.
+	\end{definition}
+	\begin{example}[Boreliani]
+		Se $\mathcal{E}\subseteq\RR^n$ è l'insieme di tutti gli aperti di $\RR^n$ la $\sigma$-algebra $\sigma(\mathcal{E})$ è detta $\sigma$-algebra dei \textit{Boreliani}. 
+	\end{example}
+	
+	\newpage
+	
+	\section{Integrale di Lebesgue}
+	
+	\newpage
+	
+	\section{Compattezza e convergenza debole}
+	
+	\newpage
+	
+	\section{Introduzione al Trasporto Ottimo}
+	
 \end{document}
