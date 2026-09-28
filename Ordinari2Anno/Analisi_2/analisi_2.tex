@@ -123,11 +123,214 @@
 	}
 	\date{Settembre 2026 - Giugno 2027}
 	
-	
 	\maketitle
 	
 	\tableofcontents
 	
 	\newpage
+	
+	\part{Modulo A}
+	
+	\section{Spazi metrici}
+	
+	\begin{definition}[Spazio Metrico]
+		Uno spazio metrico è un insieme $X$ equipaggiato con una funzione $d:X\times X\to \RR$ tale che, per ogni $x,y,z\in X$ si abbia
+		\begin{itemize}
+			\item La distanza è sempre positiva, a meno che i punti coincidano, ovvero
+			$$d(x,y)\ge 0$$
+			con uguaglianza se e solo se $x=y$.
+			\item La distanza è simmetrica, cioè
+			$$d(x,y)=d(y,x).$$
+			\item La disuguaglianza triangolare
+			$$d(x,y)\le d(x,z)+d(z,y).$$
+		\end{itemize}
+		La funzione $d$ si chiama appunto \textit{distanza} dello spazio.
+	\end{definition}
+	Alcuni esempi sono
+	\begin{example}[$\RR$ con varie distanze]
+		L'insieme $\RR$ equipaggiato con 
+		$$d(x,y):=\abs{x-y}$$
+		è uno spazio metrico. Così come
+		$$d(x,y):=\sqrt{\abs{x-y}}$$
+		e in generale qualunque distanza della forma
+		$$d(x,y):=\abs{x-y}^\alpha$$
+		con $\alpha\in (0,1]$.
+	\end{example}
+	\begin{example}[$\CC$]
+		L'insieme $\CC$ con la funzione
+		$$d\left(z,w\right):=\abs{z-w}$$
+		è uno spazio metrico.
+	\end{example}
+	Un esempio più strano è per esempio:
+	\begin{example}[Distanza discreta]
+		Qualunque insieme $X$ equipaggiato con la distanza
+		$$d(x,y)=1-\delta_{xy}$$
+		è uno spazio metrico.
+	\end{example}
+	Mentre uno ancora più classico è
+	\begin{example}
+		Lo spazio $\RR^n$ è uno spazio metrico con la distanza
+		
+	\end{example}
+	
+	\subsection{Spazi Normati e metrici}
+	
+	\begin{definition}[Spazio normato]
+		Uno \textit{spazio normato} è uno spazio vettoriale su $\RR$ equipaggiato con una funzione \textit{norma} $\abs{\abs{\cdot}}:V\to [0,\infty)$ tale che, per ogni $x,y\in V$ e $\lambda\in \RR$ abbiamo
+		\begin{itemize}
+			\item La norma è sempre positiva, cioè
+			$$\abs{\abs{x}}\ge 0$$
+			con uguaglianza se e solo se $x$ è nullo.
+			\item La norma è omogenea, ovvero
+			$$\abs{\abs{\lambda x}}=\abs{\lambda}\abs{\abs{x}}.$$
+			\item La norma è subadditiva, ovvero
+			$$\abs{\abs{x+y}}\le \abs{\abs{x}}+\abs{\abs{y}}.$$ 
+		\end{itemize}
+		L'ultima proprietà in particolare può essere vista come un caso particolare della disuguaglianza triangolare.
+	\end{definition}
+	
+	\begin{proposition}[Ogni spazio normato è metrico]
+		Se $V$ con la norma $\abs{\abs{\cdot}}$ è uno spazio normato, allora lo spazio $V$ equipaggiato con la distanza
+		$$d(x,y):=\abs{\abs{x-y}}$$
+		è uno spazi metrico.
+	\end{proposition}
+	\begin{proof}
+		Il fatto che la distanza sia semidefinita positiva segue immediatamente dal fatto che la norma sia semidefinita positiva. La simmetria segue dalla omogeneità per scalari negativi. La parte interessante è la disuguaglianza triangolare, per cui abbiamo
+		$$d(x,y)=\abs{\abs{x-y}}=\abs{\abs{\left(x-z\right)+\left(z-y\right)}}\le \abs{\abs{x-z}}+\abs{\abs{z-y}}$$
+		usando la subadditività, da cui abbiamo la tesi.
+	\end{proof}
+	
+	\begin{example}[$\ell^1$]
+		Possiamo equipaggiare $\RR^2$ con la norma
+		$$\abs{\abs{(x_1,x_2)}}_1=\abs{x_1}+\abs{x_2}$$
+		per renderlo uno spazio normato.
+	\end{example}
+	\begin{example}[$\ell^\infty$]
+		Possiamo equipaggiare $\RR^2$ con la norma
+		$$\abs{\abs{(x_1,x_2)}}_\infty=\max\left\{x_1,x_2\right\}$$
+		per renderlo uno spazio normato.
+	\end{example}
+	Abbiamo visto a geometria che tutti gli spazi con prodotto interno sono anche normati, e di conseguenza sono anche metrici. A questo proposito ricordiamo la disuguaglianza di Cacuchy-Schwarz:
+	\begin{theorem}[Cauchy-Schwarz]
+		In tutti gli spazi con prodotto $V$ abbiamo, per ogni $x,y$:
+		$$\abs{\langle x,y\rangle}\le \abs{\abs{x}}\abs{\abs{y}}$$
+		con uguaglianza se e solo se $x,y$ sono linearmente dipendenti.
+	\end{theorem}
+	\begin{proof}
+		Una dimostrazione alternativa consiste nel considerare il polinomio:
+		$$P(t):=\abs{\abs{x+ty}}^2=\abs{\abs{x}}^2+2t\langle x,y\rangle +t^2\abs{\abs{y}}$$
+		ma essendo che questo polinomio è sempre maggiore o uguale di $0$ abbiamo che il suo determinante deve essere non positivo, ovvero
+		$$0\ge \Delta = 4\langle x,y\rangle^2-4\abs{\abs{x}}^2\abs{\abs{y}}^2$$
+		che era la tesi.
+	\end{proof}
+	Da questa è immediata dimostrare che $\RR^n$ è uno spazio normato.
+	\begin{corollary}[$\RR^n$ è metrico]
+		Lo spazio $\RR^n$ equipaggiato con la distanza indotta dalla norma indotta dal prodotto scalare standard è metrico.
+	\end{corollary}
+	\begin{proof}
+		Basta mostrare che è normato, le prime due proprietà seguono dalle proprietà del prodotto scalare, la subadditività invece segue da Cauchy-Schwarz:
+		$$\abs{\abs{x+y}}^2=\abs{\abs{x}}^2+2\langle x,y\rangle +\abs{\abs{y}}^2\le \abs{\abs{x}}^2+2\abs{\abs{x}}\abs{\abs{y}}+\abs{\abs{y}}^2=\left(\abs{\abs{x}}+\abs{\abs{y}}\right)^2$$
+		da cui la subadditività, e quindi la tesi.
+	\end{proof}
+	In uno spazio metrico ha senso definire:
+	\begin{definition}[Palla aperta]
+		In uno spazio metrico $(X,d)$ per ogni $x\in X$ e $r\in\RR$ non negativo definiamo la palla aperta di raggio $r$ come
+		$$B(x,r):=B_r(x):=\left\{y\in X:d(x,y)<r\right\}.$$
+	\end{definition}
+	\begin{example}[Ferrovie francesi]
+		Possiamo equipaggiare $\RR^2$ con la seguente distanza per renderlo uno spazio metrico:
+		$$d(x,y)=
+		\begin{cases}
+			\abs{\abs{x-y}} & \text{se $x$, $y$ sono linearmente dipendenti} \\
+			\abs{\abs{x}}+\abs{\abs{y}} & \text{altrimenti.}
+		\end{cases}
+		$$
+		Che forma hanno le palle in questo spazio metrico? Beh se $r<\abs{\abs{x}}$ abbiamo che $B_r(x)$ è semplicemente un segmento centrato in $x$ di ampiezza $2r$ e allineato con $0$. D'altra parte se $r\ge \abs{\abs{x}}$ si aggiunge una palla centrata nell'origine di raggio $r-\abs{\abs{x}}$.
+	\end{example}
+	Possiamo definire un concetto di \textit{sottostruttura} in uno spazio metrico, ovvero
+	\begin{definition}[Spazio metrico restrizione]
+		Uno spazio metrico $(X,d)$ può essere \textit{ristretto} ad uno spazio $Y\subseteq X$ restringendo la funzione $d_{\mid Y\times Y}$. Le palle in questo caso soddisfano
+		$$B_Y(x,r)=B_X(x,r)\cap Y.$$
+	\end{definition}
+	
+	\subsubsection{Limiti}
+	
+	Uno spazio metrico ci dà tutti gli strumenti per parlare degli oggetti che abbiamo incontrato finora in analisi, in particolare 
+	\begin{definition}[Successione]
+		Una successione in uno spazio metrici $(X,d)$ è una funzione $x_n:\NN\to X$, denotata con $\left(x_n\right)_{n\in\NN}$. 
+	\end{definition}
+	\begin{definition}[Limite]
+		Una successione $a_n$ a valori in $X$ si dice convergere a un punto $x\in X$ se vale
+		$$\lim_{n\to\infty}d(x_n,x)=0$$
+		abbiamo quindi tradotto la nozione di limite su spazi arbitrari mutuandola da $\RR$, su cui sapevamo lavorare. In questo caso allora possiamo scrivere $x_n\to x$ oppure
+		$$\lim_{n\to\infty}x_n = x.$$
+	\end{definition}
+	\begin{proposition}[Unicità del limite]
+		In qualunque spazio metrico $(X,d)$ se una successione $x_n$ ha limite $x$, questo è unico.
+	\end{proposition}
+	\begin{proof}
+		Supponiamo che la successione abbia due limiti $x$ e $y$, allora 
+		$$0\le d(x,y)\le d(x,x_n)+d(x_n,y)$$
+		per ogni $n\in\NN$. D'altra parte facendo andare $n\to\infty$ abbiamo che entrambi gli addendi al RHS vanno a $0$, dunque 
+		$$0\le d(x,y)\le 0$$
+		da cui $x=y$ per fedeltà della distanza.
+	\end{proof}
+	Siamo interessati a lavorare soprattutto in $\RR^n$, ovvero:
+	\begin{proposition}[Limiti in $\RR^m$]
+		Sia $X=\RR^m$ con la distanza euclidea, definiamo la successione
+		$$\mathbf{x}_n=\left(x_n^1,x_n^2,\dots,x_n^m\right)$$
+		allora 
+		$$\lim_{n\to\infty}x_n={\mathbf{x}}=\left({x}^1,{x}^2,\dots,{x}^n\right)$$
+		se e solo se
+		$$\lim_{n\to\infty}x_n^i=x^i$$
+		per ogni $i$.
+	\end{proposition}
+	\begin{proof}
+		Un verso è facile, abbiamo
+		$$\abs{x_n^i-x^i}\le \abs{\abs{x_n-x}}=\sqrt{\sum_{i=1}^{m}\left(x_n^i-x^i\right)^2}$$
+		da cui abbiamo che se la successione converge in $\RR^n$ ogni componente converge individualmente a quello che deve convergere. D'altra parte il contrario è molto facile da dimostrare in modo analogo, e quindi abbiamo finito.
+	\end{proof}
+	Come fatto su $\RR$ abbiamo:
+	\begin{definition}[Punto di accumulazione]
+		Sia $(X,d)$ è uno spazio metrico e $A\subseteq X$. Un punto $x_0\in X$ si dice \textit{punto di accumulazione} di $A$ se $\forall r>0$ si ha
+		$$\left[A\cap B(x_0,r)\right]\setminus\left\{x_0\right\}\ne \eset.$$
+	\end{definition}
+	\'E facile mostrare ora, forse assumendo l'assioma della scelta purtroppo
+	\begin{proposition}[Approssimabilità dei punti di accumulazione]
+		Se $x_0$ è un punto di accumulazione di $A$ allora esisterà una successione $x_n\in A$ tale che $x_n\ne x_0$ per ogni $n$ e tale che $x_n\to x_0$.
+	\end{proposition}
+	Da cui possiamo finalmente definire la nozione di limite di funzione:
+	\begin{definition}[Limite di funzione]
+		Dati due spazi metrici $(X,d_X)$ e $(Y,d_Y)$ e una funzione 
+		$$f:A\subseteq X\to Y$$
+		diremo che, dato un punto di accumulazione $x_0$ di $A$, il limite di $f$ per $x$ che tende a $x_0$ si scrive come
+		$$\lim_{x\to x_0}f(x)=y_0\in Y$$
+		se e solo se, per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che tutti i punti $\delta$-vicini a $x_0$ vengono mandati da $f$ in punti $\varepsilon$-vicini a $y_0$.
+	\end{definition}
+	E possiamo anche ritrovare il teorema-ponte dato ad Analisi 1:
+	\begin{theorem}[Caratterizzazione sequenziale del Limite]
+		Se $X,Y,f,A,x_0$ sono insiemi e funzioni come sopra allora sono equivalenti le seguenti:
+		\begin{description}
+			\item[A)] Per $x\to x_0$ la funzione $f$ tende a $y_0$, ovvero
+			$$\lim_{x\to x_0}f(x)=y_0.$$ 
+			\item[B)] Per ogni successione $x_n\to x$ in $X$ si ha che la successione $f(x_n)$ in $Y$ tende a $y_0$.
+		\end{description}
+	\end{theorem}
+	\begin{proof}
+		Dimostriamo che A implica B. Dato un $\varepsilon>0$ possiamo trovare un $\delta>0$ tale che 
+		$$d(x_n,x_0)< \delta \implies d(f(x_n),y_0)<\varepsilon$$
+		d'altra parte presa una $x_n\to x_0$ abbiamo che definitivamente si avrà $d(x_n,x_0)<\delta$, allora definitivamente si avrà
+		$$d(f(x_n),y_0)<\varepsilon$$
+		che è proprio la definizione di $f(x_n)\to y_0$. \\
+		Dimostriamo ora il contrario, procedendo per assurdo. Se per assurdo esistesse un $\overline{\varepsilon}>0$ tale che non esista alcun $\delta>0$ per cui la condizione del limite si verifica, per definizione di limite allora abbiamo che
+		$$d(x_n,x_0)<\frac{1}{n}$$
+		è definitivamente vera, d'altra parte
+		$$d(f(x_n),x_0)\ge \overline{\varepsilon}$$
+		è frequentemente vera, il che è assurdo, e dunque abbiamo finito.
+	\end{proof}
+	
+	\newpage
+	
+	\part{Modulo B}
 	
 \end{document}
