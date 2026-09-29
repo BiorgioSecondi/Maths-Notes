@@ -172,6 +172,7 @@
 	\begin{definition}[Forma bilineare]
 		Una \textit{forma bilineare} è una funzione bilineare $B:V\times V\to \KK$, dove $V$ e $W$ sono spazi $\KK$-lineari.
 	\end{definition}
+
 	\begin{definition}[Simmetria e antisimmetria]
 		Una forma bilineare $B(v,w)$ si dice \textit{simmetrica} se, per ogni $v,w\in V$
 		$$B(v,w)=B(w,v)$$
@@ -213,7 +214,11 @@
 		\end{align*}
 		è bilineare alterna, ma cosa succede se identifichiamo $\KK$ con $\RR$ e $\KK^2$ con $\CC$?
 	\end{example}
-	Il primo risultato che dimostriamo è
+	
+	\subsection{Prime proprietà e classificazione grossolana}
+	
+	Vogliamo ora capire almeno un minimo come si classifichino le forme bilineari,
+	il primo risultato che dimostriamo è
 	\begin{proposition}[Relazione tra simmetria, antisimmetria e alternanza]
 		Abbiamo le seguenti proposizioni:
 		\begin{itemize}
@@ -257,6 +262,220 @@
 			B_A(v,w)=\frac{B(v,w)-B(w,v)}{2}
 		\end{gather*}
 		e visto che abbiamo trovato una formula esplicita, questo ci dice anche che la decomposizione è unica.
+	\end{proof}
+	
+	Possiamo dunque definire i seguenti spazi di funzioni:
+	\begin{definition}[Spazi bilineari]
+		Definiamo i seguenti spazi
+		\begin{gather*}
+			\text{Bil}_\KK(V):=\left\{\text{forme bilineari su $V$}\right\} \\
+			\text{Alt}_\KK(V):=\left\{B\in \text{Bil}_\KK(V):\text{$B$ è alternante}\right\} \\
+			\text{Antisimm}_\KK(V):=\left\{B\in \text{Bil}_\KK(V):\text{$B$ è antisimmetrica}\right\} \\
+			\text{Simm}_\KK(V):=\left\{B\in \text{Bil}_\KK(V):\text{$B$ è simmetrica}\right\}
+		\end{gather*}
+		che si dimostra agilmente essere tutti spazi vettoriali.
+	\end{definition}
+	Possiamo quindi riformulare quanto visto finora in termini di sottospazi vettoriali
+	\begin{corollary}[di Decomposizione]
+		Per campi $\KK$ con caratteristica diversa da $2$ abbiamo
+		$$\text{Simm}_\KK(V)\oplus \text{Alt}_\KK(V)=\text{Bil}_\KK(V)$$
+		mentre se la caratteristica è esattamente $2$:
+		$$\text{Alt}_\KK(V)\subset \text{Antisimm}_\KK(V)=\text{Simm}_\KK(V)$$
+	\end{corollary}
+	Tiriamo in ballo le basi con il seguente risultato:
+	\begin{theorem}[Informazione sufficiente per determinare forme simmetriche]
+		Se $\KK$ è un campo a caratteristica diversa da $2$ allora una forma bilineare simmetrica $B$ su $V$ è determinata in modo univoco dal suo valore per le coppie $(v,v)$ con $v\in V$.
+	\end{theorem}
+	\begin{proof}
+		Semplicemente dall'identità, valida solo per le forme simmetriche:
+		$$B(v+w,v+w)=B(v,v)+2B(v,w)+B(w,w)$$
+		otteniamo che
+		$$B(v,w)=\frac{B(v+w,v+w)-B(v,v)-B(w,w)}{2}$$
+		per cui appunto ci basta conoscere solo termini della forma $B(u,u)$, con $u\in V$. Con questa formula possiamo calcolare qualunque valore di $B$, e quindi abbiamo finito.
+	\end{proof}
+	Purtroppo questo teorema ci richiede di conoscere \textbf{tutti} i prodotti $B(v,v)$, e non solo quelli su una base, come mostra il seguente esempio:
+	\begin{example}[Una forma non caratterizzata dalla forma quadratica sulla base]
+		La forma
+		$$B:\KK^2\times \KK^2\to \KK$$
+		tale che
+		$$B\left(
+		\begin{pmatrix}
+			x_1 \\
+			y_1
+		\end{pmatrix},
+		\begin{pmatrix}
+			x_2 \\
+			y_2
+		\end{pmatrix}
+		\right)=x_1y_2+x_2y_1$$
+		per cui abbiamo che $B(e_1,e_1)=B(e_2,e_2)=0$, che chiaramente non basta per identificare tutti i prodotti $B(v,w)$.
+	\end{example}
+	Facciamo qualche altro esempio di forma bilineare:
+	\begin{example}[Prodotto scalare negativo]
+		Definiamo il prodotto scalare
+		$$B\left(
+		\begin{pmatrix}
+			x_1 \\
+			y_1
+		\end{pmatrix},
+		\begin{pmatrix}
+			x_2 \\
+			y_2
+		\end{pmatrix}
+		\right)=x_1x_2-y_1y_2$$
+	\end{example}
+	\begin{example}[Prodotto misto]
+		Sia $u\in \KK^3$, definiamo allora
+		\begin{align*}
+			B_u:\KK^3\times \KK^3 & \to \KK^3 \\
+			(v,w) & \mapsto \det\left(
+			\begin{array}{c|c|c}
+				v & w & u
+			\end{array}
+			\right)=\left(v\times w\right)\cdot u
+		\end{align*}
+		Questo è il cosiddetto prodotto misto, ed è sia antisimmetrica che alternante.
+	\end{example}
+	In effetti possiamo dimostrare il seguente risultato più forte:
+	\begin{proposition}[Rappresentazione delle forme alternanti su $\KK^3$]
+		Tutte le forme bilineari alternati su $\KK^3$ sono della forma
+		$$B(v,w)=\left(v\times w\right)\cdot u$$
+		per qualche $u\in V$.
+	\end{proposition}
+	
+	\begin{example}[Duale]
+		Un altro esempio di forma bilineare è il seguente:
+		\begin{align*}
+			B:\left(V\oplus V^*\right)\times \left(V\oplus V^*\right) & \to \KK \\
+			\left(\left(\varphi,v\right),\left(\psi,w\right)\right) & \mapsto \psi(v)-\varphi(w)
+		\end{align*}
+		e questa è chiaramente alternante. La notazione $V\oplus V^*$ è semplicemente un modo alternativo per scrivere $V\times V^*$, solo che al posto di considerare le coppie $(v,w)$ consideriamo le "somme formali" $v+w$ tra elementi di $V$ e $W$.
+	\end{example}
+	\begin{example}[Funzionali bilineari in analisi]
+		Se consideriamo lo spazio vettoriale $V=C^0\left([0,1]\right)$ delle funzioni continue su $[0,1]$, allora possiamo definire una forma bilineare come
+		$$B(f,g)=\int_0^1 f(x)g(x)\dif x$$
+		per ogni $f,g\in V$.
+	\end{example}
+	\begin{example}[Forma Hermitiana]
+		Prendiamo lo spazio $V=\CC^n$ e definiamo la forma
+		$$H
+		\left(\begin{pmatrix}
+			z_1 \\
+			\vdots \\
+			z_n 
+		\end{pmatrix}
+		,
+		\begin{pmatrix}
+			w_1 \\
+			\vdots \\
+			w_n 
+		\end{pmatrix}\right)=\sum_{i=1}^{n}z_i\overline{w}_i
+		$$ 
+		e qui il campo su cui definiamo $V$ è importante! Su $\RR$ infatti $H$ risulta bilineare, ma su $\CC$ abbiamo che
+		$$H(v,\lambda w)=\overline{\lambda}H(v,w)$$
+		e questa è proprio la proprietà che vedremo avrà una forma hermitiana, in particolare questa è la cosiddetta forma hermitiana standard.
+	\end{example}
+	
+	\subsubsection{La traccia}
+	
+	Introduciamo ora una funzione estremamente importante
+	
+	\begin{definition}[Traccia]
+		Data una matrice $A\in M_n(\KK)$ di coefficienti $a_{ij}$ definiamo la sua \textit{traccia} come
+		$$\tr A:=\sum_{i=1}^{n}a_{ii}$$
+		cioè la somma degli elementi sulla diagonale.
+	\end{definition}
+	
+	\begin{example}[Traccia]
+		Possiamo definire una forma bilineare simmetrica usando la traccia:
+		\begin{align*}
+			B:M_n(\KK)\times M_n(\KK) & \to \KK \\
+			(A,A') & \mapsto \tr{AA'}.
+		\end{align*}
+	\end{example}
+	
+	La simmetria della forma descritta sopra deriva dal seguente risultato:
+	\begin{lemma}[Ciclicità della traccia]
+		Per ogni $A,B\in M_n(\KK)$ abbiamo che
+		$$\tr{AB}=\tr{BA}.$$
+	\end{lemma}
+	\begin{proof}
+		Calcolo diretto.
+	\end{proof}
+	
+	INSERISCI QUALCOSA SUI COMMUTATORI/QUALCOSA DALL'AXLER
+	
+	\subsection{Ortogonalità}
+	
+	Per il prodotto scalare una grande parte della teoria consisteva nella nozione di ortogonalità, riprendiamola qui dunque come:
+	\begin{definition}[Ortogonalità]
+		Se $B$ è una forma bilineare su $V$ allora diciamo che $v\in V$ è \textit{ortogonale} a $w$ se $B(v,w)=0$, e in questo caso scriviamo
+		$$v\perp_B w$$
+		oppure quando la forma di cui stiamo parlando è chiara, $v\perp w$.
+	\end{definition}
+	La prima cosa strana che notiamo è che per forme arbitrarie l'ortogonalità può non essere simmetrica, ovvero
+	\begin{example}[Una nozione di ortogonalità non simmetrica]
+		Se consideriamo la forma su $\RR^2$ definita come
+		$$B(\mathbf{x},\mathbf{y})=x_1y_1+x_2y_1+x_2y_2$$
+		abbiamo che $e_1\perp_B e_2$ e $e_2\perp_B e_1$.
+	\end{example}
+	Per caratterizzare quando la perpendicolarità sia simmetrica allora abbiamo bisogno di questo lemma:
+	\begin{lemma}[Condizione necessaria per la simmetria della perpendicolarità]
+		Se $\perp_B$ è una relazione simmetrica allora per ogni $u,v,w\in V$ si ha
+		$$B(w,u)B(u,v)=B(v,u)(u,w).$$
+	\end{lemma}
+	\begin{proof}
+		Il sottospazio generato da $v,w$ contiene il vettore 
+		$$z=B(w,u)v-B(v,u)w$$
+		e a questo punto notiamo che $B(z,u)=0$, quindi visto che abbiamo assunto che l'ortogonalità è simmetrica abbiamo
+		$$B(u,z)=0$$
+		che espansa è proprio la tesi.
+	\end{proof}
+	\begin{theorem}[Caratterizzazione della simmetria dell'ortogonalità]
+		Se $B$ è una forma bilineare su $V$ allora $\perp_B$ è una relazione simmetrica se e solo se $B$ è simmetrica o alternante.
+	\end{theorem}
+	\begin{proof}
+		Un verso è chiaro. Per dimostrare l'altro verso 
+		usiamo il lemma sopra con $u=w$, e abbiamo
+		$$B(u,u)B(u,v)=B(v,u)B(u,u)$$
+		cioè
+		$$\left[B(u,v)-B(v,u)\right]B(u,u)=0$$
+		che vuol dire che per ogni coppia di vettori $B$ si comporta o come se fosse alternante o come se fosse simmetrica.
+	\end{proof}
+	
+	E quindi possiamo definire:
+	\begin{definition}[Sottospazio ortogonale]
+		Dato un $S\subseteq V$ possiamo definire il suo \textit{sottospazio ortogonale} $S^{\perp_B}$ come lo spazio dei vettori ortogonali a ciascun elemento di $S$. Si dimostra facilmente che questo è un sottospazio, e se per un $W$ spazio vettoriale abbiamo anche che
+		$$W\oplus W^{\perp_B}=V$$
+		questo sottospazio si dice \textit{complemento ortogonale} di $W$. 
+	\end{definition}
+	\begin{definition}[Somma diretta e restrizioni]
+		Sia $B$ una forma bilineare su $V$. Allora per ogni sottospazio $W\le V$ possiamo definire una forma bilineare ristretta
+		$$B_{\mid W}:W\times W \to \KK$$
+		che definiremo \textit{forma bilineare indotta}. Allo stesso modo, dati due sottospazi di $V_1$ e $V_2$ tali che
+		$$V=V_1\oplus V_2$$
+		e due forme bilineari $B_1$ e $B_2$ definite rispettivamente su $V_1$ e $V_2$ possiamo definire una forma \textit{somma diretta} delle due, come:
+		\begin{align*}
+			B_1\oplus B_2 : V\times V & \to \KK \\
+			(v_1+v_2,v_1'+v_2') & \mapsto B_1(v_1,v_1')+B_2(v_2,v_2')
+		\end{align*}
+		Questa costruzione, lo spazio $(V_1\oplus V_2,B_1\oplus B_2)$, viene detta la \textit{somma diretta ortogonale} di $V_1$ e $V_2$ e si indica come $V_1\perp V_2:= V$.
+	\end{definition}
+	Un esempio estremamente naturale di ciò è il seguente:
+	\begin{example}[Prodotto scalare]
+		Se consideriamo $V_1=V_2=\left(\RR,\cdot\right)$ possiamo effettuare la loro somma diretta ortogonale $\RR\perp\RR$, ottenendo esattamente uno spazio $(\RR^2,B)$, dove $B$ è definita come
+		$$B(\mathbf{x},\mathbf{y})=x_1y_1+x_2y_2$$
+		che è proprio il prodotto scalare standard! 
+	\end{example}
+	\begin{proposition}[Caratterizzazione della somma diretta ortogonale]
+		Se $V=V_1\oplus V_2$ e $B_1,B_2$ sono forme bilineari rispettivamente su $V_1$ e $V_2$ allora $B_1\oplus B_2$ è l'unica forma bilineare su $V$ tale che:
+		\begin{itemize}
+			\item Le restrizioni sono le forme di partenza, ovvero $B_{\mid V_1}=B_1$ e $B_{\mid V_2}=B_2$. 
+			\item Per ogni $v_1\in V_1$ e $v_2\in V_2$ si ha $B(v_1,v_2)=0$.
+		\end{itemize}
+	\end{proposition}
+	\begin{proof}
+		contenuto...
 	\end{proof}
 	
 	\newpage

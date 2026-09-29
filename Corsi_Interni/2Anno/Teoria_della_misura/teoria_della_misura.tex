@@ -304,7 +304,7 @@
 	(dove $\sqcup$ indica l'unione disgiunta) implica
 	$$m_*(E)=\sum_{i=1}^{\infty}m_*(E_i).$$
 	In $\RR^n$ tuttavia abbiamo già una collezione di insiemi che soddisfano questa proprietà, ovvero \textbf{gli aperti}, per dimostrare ciò abbiamo bisogno del seguente risultato:
-	\begin{lemma}[Scomponibilità degli aperti]
+	\begin{lemma}[Scomponibilità degli aperti]\label{Rn:scomponibilità degli aperti}
 		Ogni aperto $\mathcal{O}\subseteq \RR^n$ può essere scomposto come unione numerabile di cubi chiusi quasi disgiunti.
 	\end{lemma}
 	\begin{proof}
@@ -398,7 +398,17 @@
 		Tutti i sottoinsiemi di $\RR^n$ chiusi sono misurabili.
 	\end{lemma}
 	\begin{proof}
-		Se $B_k$ è la palla chiusa di raggio $k$ centrata in $0$ abbiamo
+		Sia $F$ un insieme chiuso. Se $B_k$ è la palla chiusa di raggio $k$ centrata in $0$ abbiamo che 
+		$$\bigcup_{k\in\NN}\left[B_k\cap F\right]=F$$
+		e dunque ci basta dimostrare che ciascuno dei $B_k\cap F$ sono misurabili. D'altra parte ciascuno di questi è chiuso e limitato, quindi ci siamo ricondotti a dimostrare che la tesi vale sui compatti, e possiamo assumere WLOG che $F$ sia compatto. Per il lemma dell'approssimabilità con aperti possiamo scegliere un $\mathcal{O}$ tale che
+		$$m_*(\mathcal{O})-m_*(F)\le \varepsilon$$
+		ora vorremmo dimostrare che
+		$$m_*(\mathcal{O}-F)+m_*(F)\le m_*(\mathcal{O})$$
+		da cui seguirà immediatamente la tesi. Visto che stiamo andando contro la subadditività, dobbiamo tirare in ballo qualche argomento di limite. Dato che $F$ è chiuso $\mathcal{O}-F$ sarà aperto, e quindi per il \ref{Rn:scomponibilità degli aperti} possiamo scomporre $\mathcal{O}$ come
+		$$\mathcal{O}=F\sqcup \left(\mathcal{O}-F\right)=F\sqcup\bigcup_{i=1}^\infty Q_i$$
+		dove i $Q_i$ sono la scomposizione di $\mathcal{O}-F$. Allora invocando la monotonia abbiamo, per ogni $N\in \NN$
+		$$m_*(\mathcal{O})=m_*\left(F\sqcup \bigcup_{i=1}^\infty Q_i\right)\ge m_*\left(F\sqcup \bigcup_{i=1}^N Q_i\right)$$
+		d'altra parte l'unione di $N$ cubi chiusi è compatta, 
 	\end{proof}
 	
 	\newpage

@@ -253,11 +253,11 @@
 		$$B_Y(x,r)=B_X(x,r)\cap Y.$$
 	\end{definition}
 	
-	\subsubsection{Limiti}
+	\subsubsection{Limiti in spazi arbitrari}
 	
 	Uno spazio metrico ci dà tutti gli strumenti per parlare degli oggetti che abbiamo incontrato finora in analisi, in particolare 
 	\begin{definition}[Successione]
-		Una successione in uno spazio metrici $(X,d)$ è una funzione $x_n:\NN\to X$, denotata con $\left(x_n\right)_{n\in\NN}$. 
+		Una successione in uno spazio metrico $(X,d)$ è una funzione $x_n:\NN\to X$, denotata con $\left(x_n\right)_{n\in\NN}$. 
 	\end{definition}
 	\begin{definition}[Limite]
 		Una successione $a_n$ a valori in $X$ si dice convergere a un punto $x\in X$ se vale
@@ -327,6 +327,144 @@
 		è definitivamente vera, d'altra parte
 		$$d(f(x_n),x_0)\ge \overline{\varepsilon}$$
 		è frequentemente vera, il che è assurdo, e dunque abbiamo finito.
+	\end{proof}
+	
+	Come per il caso in una variabile possiamo dimostrare tutti i risultati su somme e prodotti di limiti, che quindi non ripeteremo.
+	
+	\subsubsection{Continuità su spazi arbitrari}
+	
+	\begin{definition}[Continuità]
+		Siano $X,Y$ due spazi metrici e $f:X\to Y$ una funzione tra essi. Diciamo che $f$ è \textit{continua} in $x_0\in X$ se 
+		$$\lim_{x\to x_0}f(x)=f(x_0).$$
+		Un modo alternativo di vedere questo è che per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che
+		$$f\left(B_X\left(x_0,\delta\right)\right)\subseteq B_Y\left(f(x_0),\varepsilon\right)$$
+		insomma ogni $\delta$-palla in $X$ centrata in $x_0$ viene mandata in una $\varepsilon$-palla centrata in $f(x_0)$. Come al solito inoltre diremo che una funzione $f$ è continua su un insieme $A\subseteq X$ se è continua in ogni punto di $A$.
+	\end{definition}
+	Una cosa che possiamo fare immediatamente da qui dunque è
+	\begin{proposition}[Caratterizzazione sequenziale della continuità]
+		Una funzione $f:X\to Y$ è continua in $x_0$ se e solo se per ogni successione $x_n\to x_0$ si ha che $f(x_n)\to f(x_0)$.
+	\end{proposition}
+	Euristicamente la continuità non è altro che la nozione che ci permette di scambiare i limiti con le funzioni, cioè
+	$$f\left(\lim_{x\to x_0}x\right)=\lim_{x\to x_0}f(x)$$
+	se e solo se $f$ è continua. Come sopra abbiamo che
+	\begin{proposition}[Algebra delle funzioni continue]
+		Se $f,g:X\to \RR$ sono continue in $x_0$ allora somme, prodotti, rapporti e composizioni (a meno di denominatori nulli) di $f$ e $g$ sono continue.
+	\end{proposition}
+	Vediamo qualche esercizio divertente:
+	\begin{problem}[Tutte le funzioni sono continue]
+		Sia $(X,d)$ un insieme equipaggiato con la distanza discreta, allora qualunque funzione $f:X\to \RR$ è continua.
+	\end{problem}
+	\begin{proof}[Soluzione]
+		Dato $\varepsilon>0$ vogliamo dimostrare che esiste un $\delta>0$ tale che
+		$$f(B_X\left(x_0,\delta\right))\subseteq B_\RR\left(f(x_0),\varepsilon\right)$$
+		d'altra parte scegliendo un $\delta<1$ abbiamo che la palla a sinistra è semplicemente il singoletto $\left\{x_0\right\}$, e quindi abbiamo proprio
+		$$\left\{f(x_0)\right\}\subseteq B_\RR\left(f(x_0),\varepsilon\right)$$
+		per definizione di palla, dunque abbiamo finito.
+	\end{proof}
+	Il viceversa invece è più strano:
+	\begin{problem}[Quasi nessuna funzione è continua]
+		Sia $(X,d)$ un insieme equipaggiato con la distanza discreta, allora se $f:\RR\to X$ è una funzione continua, $f$ è costante.
+	\end{problem}
+	\begin{proof}[Soluzione]
+		Per continuità sappiamo che per ogni $\varepsilon>0$ abbiamo che esiste un $\delta>0$ tale che
+		$$f\left(B_\RR(x_0,\delta)\right)\subseteq B_X\left(f(x_0),\varepsilon\right)$$
+		d'altra parte se $\varepsilon<1 $ abbiamo che la palla a destra è il singoletto 
+		$$ B_X\left(f(x_0),\varepsilon\right)=\left\{f(x_0)\right\}$$
+		cioè abbiamo dimostrato che $f$ su $(x_0-\delta,x_0+\delta)$ è costante. Insomma è \textit{localmente costante}. Definiamo allora la quantità
+		$$R:=\sup\left\{\delta>0:f(t)=f(0) \quad \forall t\in (-\delta,\delta)\right\}$$
+		sappiamo per quanto dimostrato finora che $R$ è strettamente positivo, il nostro obbiettivo è dimostrare che è infinito. \\
+		Supponiamo per assurdo $R$ finito, allora $f$ è costante in $(-R,R)$, tuttavia dato che $f$ è continua dobbiamo avere, data una successione $x_n\to R$ da sinistra
+		$$\lim_{n\to\infty}f(x_n)=f(R)$$
+		d'altra parte tutti i termini della succesione $f(x_n)$ sono uguali a $f(0)$, quindi $f(R)=f(0)$. Analogamente si fa per $f(-R)$, dunque abbiamo mostrato che $f$ è costante in $[-R,R]$. Infine invocando la locale costanza di $f$ in $R$ possiamo trovare che $f$ è costante in $[-R,R+\delta]$, contraddicendo la massimalità di $R$.
+	\end{proof}
+	\begin{proof}[Soluzione alternativa]
+		Possiamo definire la funzione $g:\RR\to\RR$ tale che
+		$$g(t):=d_X\left(f(t),f(0)\right)$$
+		a questo punto vorremmo dimostrare che questa è continua, in tal caso avremmo che per il teorema dei valori intermedi non può assumere sia valori $0$ che valori $1$ dunque deve essere costante, in particolare dato che $g(0)=0$ deve essere costante a $0$, cioè $f$ è costante. \\
+		Per dimostrare che questa è continua usiamo il fatto che composizione di funzioni continue è a sua volta continua: dobbiamo solo dimostrare che
+		$$d(-,x_0):X\to \RR$$
+		è continua.
+	\end{proof}
+	
+	\subsection{Topologia degli spazi metrici}
+	
+	\begin{definition}[Interno]
+		Dato uno spazio metrico $X$ e un $A\subseteq X$, un punto $x\in X$ si dice \textit{punto interno} ad $A$ se esiste un $r\in \RR$ positivo tale che
+		$$B(x,r)\subseteq A$$
+		in questo caso $A$ si dice un \textit{intorno} di $x$. Definiamo inoltre la \textit{parte interna}, come
+		$$\overset{\circ}{A}:=\left\{x\in X:x\text{ è interno ad $A$}\right\}$$
+		cioè l'insieme di tutti i punti interni ad $A$.
+	\end{definition}
+	\begin{definition}[Aperto]
+		Un insieme $A$ si dice \textit{aperto}, se ogni suo punto è interno, cioè $A=\overset{\circ}{A}$.
+	\end{definition}
+	Abbiamo definito le \textit{palle aperte}, ora possiamo dimostrare che queste sono effettivamente aperte:
+	\begin{proposition}[Le palle aperte sono aperte]
+		Per ogni $x_0\in X$ e $r\in\RR$ abbiamo che $B(x_0,r)$ è aperto.
+	\end{proposition}
+	\begin{proof}
+		Se $x\in B(x_0,r)$ vogliamo dimostrare che esiste una palla centrata in $x$ contenuta in $B(x_0,r)$. Il candidato migliore è proprio
+		$$B(x,r-d(x,x_0))$$
+		prendiamo allora un $y\in B(x,r-d(x,x_0))$, dobbiamo dimostrare che $d(y,x_0)<r$, ma d'altra parte questa è semplicemente un'applicazione della disuguaglianza triangolare
+		$$d(y,x_0)\le d(x,x_0)+d(y,x)< r-d(x,x_0)+d(x,x_0)=r$$
+		come volevamo. 
+	\end{proof}
+	Una volta definiti gli aperti possiamo, sempre con la metrica, i chiusi:
+	\begin{definition}[Chiusura]
+		Sia $X$ uno spazio metrico e $A\subseteq X$ un insieme. Un punto $x\in X$ si dice \textit{punto di chiusura} di $A$ se $\forall r>0$ si ha che
+		$$B(x,r)\cap A\ne \eset$$
+		e allo stesso modo definiamo la \textit{chiusura} di $A$ come
+		$$\bar{A}=\left\{x\in X:x\text{ è di chiusura per $A$}\right\}$$
+		cioè l'insieme di tutti i punti di chiusura di $A$.
+	\end{definition}
+	Osserviamo che non tutti i punti di chiusura sono punti di accumulazione (basti pensare ai punti isolati), ma il viceversa è sempre vero.
+	\begin{definition}[Chiuso]
+		Un insieme $A$ tale che la chiusura sia l'insieme stesso è detto \textit{chiuso}, ovvero $A$ è chiuso se e solo se $A=\bar{A}$.
+	\end{definition}
+	\begin{remark}[Ordine interno-insieme-chiusura]
+		Vale la pena notare che 
+		$$\overset{\circ}{A}\subseteq A\subseteq \bar{A}$$
+		per ogni $A\subseteq X$.
+	\end{remark}
+	Come corollario abbiamo
+	\begin{corollary}[Chiusura della palla aperta]
+		In $\RR^n$ la chiusura della palla aperta di raggio $r$ è la palla chiusa di raggio $r$.
+	\end{corollary}
+	Quanto sopra non vale necessariamente per ogni spazio metrico! E questo è illustrato dal seguente esempio:
+	\begin{example}
+		contenuto...
+	\end{example}
+	Vediamo ora la normale relazione topologica tra aperti e chiusi:
+	\begin{proposition}[Aperti e chiusi sono complementari]
+		Per ogni $A\subseteq X$ abbiamo che $A$ è aperto se e solo se $X\setminus A$ è chiuso.
+	\end{proposition}
+	\begin{proof}
+		Per definizione di aperto abbiamo che 
+		$$A=\left\{x\in X:\exists r>0 \right\}$$
+	\end{proof}
+	Come corollario di ciò troviamo che per qualunque spazio metrico $X$ sia lo spazio intero $X$ che il vuoto $\eset$ sono sia aperti che chiusi. Una caratterizzazione ulteriore di interno e chiusura è la seguente:
+	\begin{proposition}[Chiusura della chiusura e apertura dell'interno]
+		Per ogni $A$ l'interno di $A$ è sempre aperto e la chiusura di $A$ è sempre chiusa.
+	\end{proposition}
+	\begin{proof}
+		Per ogni $x\in \overset{\circ}{A}$ vogliamo trovare una palla tutta contenuta al suo interno. D'altra parte sappiamo che esiste una palla 
+		$$B(x,\tilde{r})\subseteq A$$
+		ci basta quindi dimostrare che per ogni $y\in B(x,\tilde{r})$ la palla 
+		$$B(y,\tilde{r}-d(x,y))$$
+		sta tutta in $A$, d'altra parte questa è un'applicazione della disuguaglianza triangolare che abbiamo visto prima, e quindi abbiamo finito. Il secondo enunciato si dimostra 
+	\end{proof}
+	\begin{proposition}[Caratterizzazione insiemistica di chiusura e interno]
+		Per ogni $A\subseteq X$ abbiamo che
+		$$\overset{\circ}{A}=\bigcup \left\{B\subseteq A:B\text{ è aperto}\right\}$$
+		e analogamente per la chiusura
+		$$\overline{A}= \bigcap \left\{B\supseteq A:B\text{ è chiuso}\right\}$$
+	\end{proposition}
+	\begin{proof}
+		Per dimostrare la prima cosa, osserviamo anzitutto che, dato che $\overset{\circ}{A}$ è aperto abbiamo chiaramente 
+		$$\overset{\circ}{A}\subseteq \bigcup \left\{B\subseteq A:B\text{ è aperto}\right\}$$
+		d'altra parte abbiamo anche l'inclusione opposta, infatti se $x\in \bigcup\left\{B\subseteq A:B\text{ è aperto}\right\}$ allora apparterrà ad almeno un aperto $\mathcal{O}\subseteq A$, ovvero esisterà un $r>0$ tale che
+		$$B(x,r)\subseteq \mathcal{O}\subseteq A$$
+		cioè $x$ è interno. L'altra tesi segue prendendo i complementari.
 	\end{proof}
 	
 	\newpage
