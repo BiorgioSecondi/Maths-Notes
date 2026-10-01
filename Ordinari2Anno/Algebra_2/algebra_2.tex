@@ -129,7 +129,7 @@
 	
 	\section{Gruppi}
 	
-	Togliamo un po' di ruggine da Algebra 1.
+	Iniziamo togliendo un po' di ruggine da Algebra 1.
 	
 	\subsection{Gruppi ciclici}
 	
@@ -222,8 +222,12 @@
 		Un gruppo $G$ tale per cui ogni suo $H\le G$ soddisfa o $H=G$ o $H=\left\{1\right\}$ è ciclico di ordine primo.
 	\end{proposition}
 	\begin{proof}
-		contenuto...
+		Prendiamo un elemento $g\in G$ diverso da $1$, allora dato che
+		$$\langle g \rangle \le G$$
+		e $\langle g \rangle \ne \left\{1\right\}$ dobbiamo avere che $\langle g \rangle=G$, cioè $G$ è ciclico ed è generato da tutti i suoi elementi. Infine se per assurdo l'ordine di $G$ non fosse primo avrebbe sottogruppi non banali (in quanto avrebbe divisori non banali), dunque $\abs{G}=p$ e abbiamo finito.
 	\end{proof}
+	
+	\subsubsection{Esponenti}
 	
 	Cominciamo ora a introdurre qualche nozione nuova:
 	
@@ -232,8 +236,8 @@
 		$$g^n=1$$
 		per ogni $g\in G$.
 	\end{definition}
-	è facile osservare che 
-	\begin{proposition}[Caratterizzazione dell'esponente]
+	\`E facile osservare che 
+	\begin{proposition}[Caratterizzazione dell'esponente per divisibilità]
 		In un gruppo $G$ finito abbiamo sempre che
 		$$\exp G= \underset{g\in G}{\mcm}(\ordine{G}{g})$$
 	\end{proposition}
@@ -248,7 +252,7 @@
 		Per ogni gruppo abeliano $G$ abbiamo che $G$ è ciclico se e solo se il suo esponente coincide con l'ordine, ovvero
 		$$\exp G = \abs{G} \iff G \text{ è ciclico}.$$
 	\end{theorem*}
-	Per dimostrarlo abbiamo bisogno del seguente lemma:
+	Per dimostrarlo abbiamo bisogno di un paio di utili lemmi:
 	\begin{lemma}[Lemma dell'ordine]
 		Sia $G$ finito, e siano $g_1,g_2\in G$ tali che:
 		\begin{itemize}
@@ -301,11 +305,11 @@
 		$$\exp G = \abs{G} \iff G \text{ è ciclico}.$$
 	\end{theorem}
 	\begin{proof}
-		UN verso è facile, infatti se 
+		Un verso è facile, infatti se 
 		$$\exp G = \abs{G}$$
 		allora per il lemma precedente esisterà un $g$ tale che 
 		$$\abs{g}=\exp G$$
-		cioè $g$ ha l'ordine del gruppo, cioè $G$ è ciclico. D'altra parte anche l'altro verso è chiaro, e quindi abbiamo finito.
+		cioè $g$ ha l'ordine del gruppo, cioè $G$ è ciclico. D'altra parte per quanto dimostrato sopra i sottogruppi dei ciclici abbiamo che anche 
 	\end{proof}
 	Un'applicazione divertente di questo è
 	\begin{theorem}[Gruppi finiti di campi]
@@ -313,10 +317,10 @@
 	\end{theorem}
 	\begin{proof}
 		Per Lagrange abbiamo immediatamente che 
-		$$e:=\exp G \le \abs{G}$$
+		$$e:=\exp G \le \abs{G}=:n$$
 		consideriamo allora il polinomio a coefficienti in $\FF$ tale che
 		$$p(x)=x^e-1$$
-		allora per il teorema di Ruffini sappiamo che il numero di radici di $p$ è minore o uguale di $e$, ma dato che, per ogni $g\in G$ abbiamo
+		allora per il teorema di Ruffini sappiamo che il numero di radici di $p$ è minore o uguale di $e$, ma dato che per ogni $g\in G$ abbiamo
 		$$p(g)=g^e-1$$
 		dobbiamo necessariamente avere $n\le e$, da cui per la caratterizzazione dei gruppi ciclici dimostrata sopra abbiamo la tesi.
 	\end{proof}
@@ -337,5 +341,6 @@
 		$$G\le \left\langle \frac{1}{b_1b_2\dots b_t} \right\rangle$$
 		da cui la tesi.
 	\end{proof}
+	E appunto come corollario di ciò otteniamo che i razionali sono infinitamente generati, in quanto è molto facile mostrare che non sono ciclici.
 	
 \end{document}
