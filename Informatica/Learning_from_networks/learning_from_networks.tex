@@ -129,8 +129,26 @@
 	
 	\newpage
 	
-	\section{Networks}
+	\section{Networks analytics}
 	
 	The reason we are interested in networks is that they are very good at modeling real world problems. The kind of problems we will be concerned about will be posed on graphs the size of the webgraph.
+	
+	\subsection{Single node level}
+	
+	The first analytic we can think of is
+	\begin{definition}[Node Degree]
+		In a graph $(V,E)$ the number of edges incident to a certain node $u$ is called its \textit{degree}, and noted with $\deg u$.
+	\end{definition}
+	With an adjacency matrix we can compute the degrees for every vertex in $\bigo{n^2}$, but we wish to do better. With and adjancecy list we do a work of
+	$$\bigtheta{n+\sum_{v\in V}\deg v}=\bigtheta{n+m}.$$
+	Beyond this we have the \textit{node centralities}, a number of scores designed to measure how \textit{central} a node is.
+	
+	\subsubsection{Closeness}
+	
+	\begin{definition}[Closeness centrality]
+		Let $G=(V,E)$ be a connected undirected graph. We define the \textit{closeness centrality} of a node $v$ as 
+		$$c(v):=\frac{n-1}{\sum_{u\in V}d(v,u)}.$$
+	\end{definition}
+	This is defined to be always $c(v)\in [0,1]$ (except for weigthed graphs, for which we need to renormalize with the sum of all the edges). It's very easy to calculate this analytic for a single node with a Dijkstra or BFS, or a Bellman-Ford for all the graph. The problem is that we actually want to be much faster than quadratic, because the graphs we will be working with are huge.
 	
 \end{document}

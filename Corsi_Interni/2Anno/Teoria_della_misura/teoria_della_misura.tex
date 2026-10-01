@@ -523,7 +523,156 @@
 	\begin{example}[Boreliani]
 		Se $\mathcal{E}\subseteq\RR^n$ è l'insieme di tutti gli aperti di $\RR^n$ la $\sigma$-algebra $\sigma(\mathcal{E})$ è detta $\sigma$-algebra dei \textit{Boreliani}. 
 	\end{example}
+	E dunque possiamo finalmente dare la definizione:
+	\begin{definition}[Misura]
+		Dato $(X,\mathcal{A})$ uno spazio misurabile, una funzione $\mu:\mathcal{A}\to [0,\infty]$ si dice \textit{misura}, se valgono le seguenti proprietà:
+		\begin{enumerate}
+			\item $\mu(\eset)=0$.
+			\item \'E $\sigma$-additiva, cioè per ogni successione $\left(A_i\right)_{i\in\NN}$ di insiemi in $A$ disgiunti si ha
+			$$\mu\left(\bigsqcup_{i=1}^\infty A_i\right)=\sum_{i=1}^{\infty}\mu\left(A_i\right).$$
+		\end{enumerate}
+	\end{definition}
+	Notiamo che quella proprietà di $\sigma$-additività è molto più forte della normale additività:
+	\begin{example}[Una funzione additiva non $\sigma$-additiva]
+		contenuto...
+	\end{example}
+	Vediamo un po' di esempi di misure:
+	\begin{definition}[Delta di Dirac]
+		Sia $\overline{x}\in X$ uno spazio misurabile allora definiamo la \textit{delta di Dirac} come la funzione
+		\begin{align*}
+			\delta_{\overline{x}}:\parti{X} & \to [0,\infty] \\
+			A & \mapsto \begin{cases}
+				1 & \text{se $\overline{x}\in A$} \\
+				0 & \text{altrimenti.}
+			\end{cases} 
+		\end{align*}
+		che misura tutti i sottoinsiemi di $A$, ed è essenzialmente un modo per costruire una funzione "tutta concentrata in un punto".
+	\end{definition}
 	
+	\begin{example}[Contare i punti]
+		Un'altra misura definita su tutto $\parti{X}$ può essere quella che conta i punti:
+		$$
+		\mu(A):=
+		\begin{cases}
+			\# A & \text{se $A$ è finito} \\
+			\infty & \text{altrimenti.}
+		\end{cases}
+		$$
+	\end{example}
+	Una generalizzazione di entrambe è:
+	\begin{example}[Misura atomica]
+		Data una $f:X\to [0,\infty]$ possiamo definire una misura $\mu$ come
+		$$\mu(A):=\sum_{x\in A}f(x)=\sup_{\underset{\text{$B$ finito}}{B\subseteq A}}\sum_{x\in B}f(x)$$
+	\end{example}
+	
+	\subsection{Le misure esterne}
+	
+	Il nostro obbiettivo però è arrivare a definire la nozione di misura di Lebesgue. Per fare questo abbiamo bisogno di:
+	\begin{definition}[Misura esterna]
+		Dato un $X\ne \eset$ una funzione $\mu^*:\parti{X}\to [0,\infty]$ si dice \textit{misura esterna} su $X$ se:
+		\begin{enumerate}
+			\item $\mu^*(\eset)=0$.
+			\item Monotonia, ovvero $A_1\subseteq A_2$ implica $\mu^*(A_1)\le \mu^*(A_2)$.
+			\item La misura esterna è $\sigma$-\textit{subadditiva}, cioè per ogni successione di insiemi $\left(A_i\right)_{i\in\NN}$ di sottoinsiemi di $X$ abbiamo
+			$$\mu^*\left(\bigcup_{i=1}^\infty A_i\right)\le \sum_{i=1}^{\infty}\mu^*(A_i).$$
+		\end{enumerate}
+	\end{definition}
+	La costruzione che abbiamo fatto su $\RR^n$ definendo esplicitamente la misura esterna per poi restringerla ottenendo la misura di Lebesgue è reiterabile attraverso il seguente teorema:
+	\begin{theorem}[Costruzione di misure esterne]
+		Sia $\mathcal{E}\subseteq \parti{X}$ con $\eset,X\in \mathcal{E}$. Se abbiamo una $\rho:\mathcal{E}\to [0,\infty]$ tale che $\rho(\eset)=0$ allora la seguente funzione
+		$$\mu^*_\rho(A):=\inf\left\{\sum_{i=1}^{\infty}\rho(A_i):A_i\in \mathcal{E},\,\,\bigcup_{i=1}^\infty A_i \supseteq A\right\}$$
+		è una misura esterna per ogni $\rho$ ed $\mathcal{E}$ tali.
+	\end{theorem}
+	\begin{proof}
+		Le proprietà $1$ e $2$ della misura esterna sono facili. La difficile è la $3$, per cui abbiamo bisogno di scegliere un $\varepsilon>0$, grazie a cui scegliamo i ricoprimenti
+		$$\left(A_i^k\right)_{k\in\NN}$$
+		di $A_i$, con $A^k_i\in \mathcal{E}$ per ogni $k$ ed $i$, tali che
+		$$\sum_{k=1}^{\infty}\rho\left(A_i^k\right)\le \mu^*_\rho(A_i)+\frac{\varepsilon}{2^i}$$
+		per definizione di $\inf$. Dunque abbiamo che
+		$$\bigcup_{i,k}A_i^k\supseteq \bigcup_{i=1}^\infty A_i$$
+		ma allora il LHS è proprio un ricoprimento di $\bigcup A_i$ con elementi di $\mathcal{E}$, cioè per definizione di $\inf$:
+		$$\mu^*_\rho\left(\bigcup_{i=1}^\infty A_i\right)\le \sum_{i=1}^{\infty}\sum_{k=1}^{\infty}\rho\left(A_i^k\right)\le \sum_{i=1}^{\infty}\left(\mu^*_\rho(A_i)+\frac{\varepsilon}{2^i}\right)$$
+		che per arbitrarietà di $\varepsilon>0$ implica la tesi.
+	\end{proof}	
+	Questo teorema quindi generalizza naturalmente quello che facevamo in $\RR^n$ con cubi chiusi ($\mathcal{E}$) e il loro volume elementare ($\rho$). Notiamo che nelle ipotesi abbiamo richiesto che $X\in \mathcal{E}$, e in questo modo tutti gli insiemi $A$ sono ricopribili da elementi di $\mathcal{E}$ (male che vada ci mettiamo tutto $X$). \\
+	Adesso esattamente come in $\RR^n$ la strategia sarà restringersi agli insiemi misurabili, ovvero:
+	\begin{definition}[$\mu^*$-Misurabile]
+		Un $A\subseteq X$ si dice $\mu^*$-Misurabile se per ogni $E\subseteq X$ abbiamo
+		$$\mu^*(E)=\mu^*(A\cap E)+\mu^*\left(A^\complement \cap E\right)$$
+		ha insomma una certa proprietà di \textit{spezzamento}. Chiamiamo $\mathcal{M}(X,\mu^*)$ la famiglia di tutti gli insiemi $\mu^*$-misurabili.
+	\end{definition}
+	Cominciamo a dimostrare un paio di cose che avevamo già visto prima:
+	\begin{proposition}[Unioni finite]
+		Per ogni $A_1,A_2\in \mathcal{M}(X,\mu^*)$ disgiunti abbiamo che $A_1\cup A_2\in \mathcal{M}(X,\mu^*)$, e inoltre 
+		$$\mu^*(A_1\cup A_2)=\mu^*(A_1)+\mu^*(A_2).$$
+	\end{proposition}
+	\begin{proof}
+		Sia $E\subseteq X$, allora per la proprietà di spezzamento di $A_1$
+		$$\mu^*(E)=\mu^*(A_1\cap E)+\mu^*(A_1^\complement \cap E)$$
+		mentre per la proprietà di spezzamento di $A_2$:
+		$$\dots=\mu^*(A_1\cap E)+\mu^*\left(A_2\cap A_1^\complement \cap E\right)+\mu^*\left(A_2^\complement\cap A_1^\complement\cap E\right)$$
+		d'altra parte per subadditività e monotonia i primi due termini possono essere stimati con $\mu^*(A_1\cup A_2\cap E)$ e otteniamo
+		$$\dots \ge \mu^*\left(\left(A_1\cup A_2\right)\cap E\right)+\mu^*\left(\left(A_1\cup A_2\right)^\complement \cap E\right).$$ 
+		Per subadditività troviamo anche la disuguaglianza opposta, quindi abbiamo proprio che l'unione è misurabile.
+	\end{proof}
+	Generalizzando quindi:
+	\begin{theorem}[Carathèodory]
+		Sia $\mu^*$ una misura esterna su $X$. Allora $\mathcal{M}(X,\mu^*)$ è una $\sigma$-algebra, e $\mu^*_{\mid \mathcal{M}}$ è una misura. Inoltre $\mu^*$ è \textit{completa}, cioè $\mu^*(A)=0$ implica $A$ misurabile.
+	\end{theorem}
+	\begin{proof}
+		Il fatto che il vuoto e l'insieme stesso stiano in $\mathcal{M}$ è chiaro. La chiusura per complementari anche è chiara, dato che la definizione di misurabilità è simmetrica prendendo i complementari, che soddisfano $\left(A^\complement\right)^\complement=A$. Rimangono da sistemare le unioni numerabili. Prendiamo allora una successione $A_i$ di elementi di $\mathcal{M}$. Abbiamo che, come fatto prima, possiamo reiterare la formula trovata sopra per induzione:
+		\begin{align*}
+			\mu^*(E)=\mu^*\left(A_1\cap E\right)+\mu^*\left(A_1^\complement \cap E\right) = & \\
+			=\mu^*(A_1\cap E)+\mu^*(A_2\cap A_1^\complement \cap E)+\mu^*(A_2^\complement \cap A_1^\complement \cap E) = & \\
+			\vdots \quad \quad \qquad \qquad \qquad\\
+			= \sum_{i=1}^{n}\mu^*\left(\left(A_1\setminus \bigcup_{k=1}^{i-1}A_k\right)\cap E\right)+\mu^*\left(\left(\bigcup_{i=1}^n A_i\right)^\complement \cap E\right) &
+		\end{align*}
+		d'altra parte per monotonia abbiamo facilmente che il secondo addendo può essere boundato dal basso dall'unione \textit{infinita} degli $A_i$, quindi prendendo anche $n\to \infty$ possiamo mantenere la disuguaglianza:
+		$$\mu(E)\ge \sum_{i=1}^{\infty}\mu^*\left(\left(A_i\setminus \bigcup_{k=1}^{i-1}A_k\right)\cap E\right)+\mu^*\left(\left(\bigcup_{i=1}^\infty A_i\right)^\complement \cap E\right)$$
+		ma usando la subadditività su quella somma possiamo scrivere il primo addendo come 
+		$$\sum_{i=1}^{\infty}\mu^*\left(\left(A_i\setminus \bigcup_{k=1}^{i-1}A_k\right)\cap E\right)\ge \mu^*\left[\bigcup_{i=1}^\infty\left(\left(A_i\setminus \bigcup_{k=1}^{i-1}A_k\right)\cap E\right)\right]$$
+		che è proprio uguale a
+		$$\bigcup_{i=1}^\infty\left(\left(A_i\setminus \bigcup_{k=1}^{i-1}A_k\right)\cap E\right)=E \cap \bigcup_{i=1}^\infty A_i $$
+		da cui abbiamo un verso della disuguaglianza che volevamo mostrare per l'unione numerabile di misurabili. L'altro verso segue per subadditività, e quindi abbiamo finito. Rimane da mostrare la completezza, d'altra parte se $\mu^*(A)=0$ abbiamo
+		$$\mu^*(E)\ge \mu^*(E\cap A^\complement)=\mu^*(E\cap A^\complement)+\mu^*(A)\ge \mu^*(E\cap A^\complement)+\mu^*(E\cap A)$$
+		usando monotonie varie, da cui troviamo ancora l'uguaglianza cercata.
+	\end{proof}
+	In generale ogni misura si può dire completa:
+	\begin{definition}[Completezza]
+		Una misura si dice \textit{completa} se per ogni $A\in \mathcal{A}$ con $\mu(A)=0$ si ha che se $E\subseteq A$ allora $E\in \mathcal{A}$, e quindi in particolare $\mu(E)=0$. 
+	\end{definition}
+	In generale non tutte le misure sono complete, ma tutte le misura si prestano ad essere completate.
+	\begin{definition}[Spazio di misura]
+		Uno spazio misurabile $(X,\mathcal{A})$ equipaggiato con una misura si dice \textit{spazio di misura}.
+	\end{definition}
+	\begin{proposition}[Completamento di misure]
+		Dato $(X,\mathcal{A},\mu)$ spazio di misura consideriamo l'insieme
+		$$\mathcal{N}:=\left\{N\subseteq X:\exists A \in \mathcal{A}, A\supseteq N, \mu(A)=0\right\}$$
+		allora possiamo estendere lo spazio misurabile a
+		$$\overline{\mathcal{A}}:=\left\{N\cup A:A\in \mathcal{A},N\in\mathcal{N}\right\}$$
+		e 
+		$$\overline{\mu}(A\cup N):=\mu(A)$$
+		in modo che $\overline{\mu}$ sia ben definita e $(X,\overline{\mathcal{A}},\overline{\mu})$ è uno spazio di misura con $\overline{\mu}$ completa.
+	\end{proposition}
+	\begin{proof}
+		Esercizio.
+	\end{proof}
+	In effetti possiamo anche dimostrare che
+	$$\overline{\mathcal{A}}=\sigma\left(\mathcal{A}\cup \mathcal{N}\right).$$
+	Abbiamo quindi costruito un macchinario per generare misure complete, e possiamo usarlo per ritornare alla misura di Lebesgue che conoscevamo:
+	\begin{example}[Misura di Lebesgue in $\RR^n$]
+		Se $\mathcal{E}$ è l'insieme dei \textit{plurirettangoli}, cioè degli insiemi della forma
+		$$I=\bigtimes_{i=1}^n[a_i,b_i)$$
+		e definiamo la funzione $\rho$ come
+		$$\rho\left(I\right)=\prod_{i=1}^n\left(b_i-a_i\right)$$
+		allora la \textit{misura di Lebesgue} è quella fornita dal teorema di Carathèodory dalla misura esterna $\mu^*$ costruita a partire da $\mathcal{E}$ e $\rho$. In genere si denota la misura di Lebesgue con $\mathscr{L}^n$.
+	\end{example}
+	In realtà il teorema di Carathèodory non ci garantisce che $\mathcal{M}$ sia un insieme non banale, quindi ci piacerebbe dimostrare che:
+	\begin{itemize}
+		\item I plurirettangoli sono misurabili (il minimo sindacale per avere una $\sigma$-algebra utile, in quanto in questo modo contiene essenzialmente tutti i boreliani).
+		\item La misura di Lebesgue di un plurirettangolo è effettivamente uguale a $\rho$.
+	\end{itemize}
+	che abbiamo più o meno già fatto prima.
 	\newpage
 	
 	\section{Integrale di Lebesgue}

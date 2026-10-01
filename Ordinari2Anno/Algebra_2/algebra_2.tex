@@ -127,4 +127,215 @@
 	
 	\newpage
 	
+	\section{Gruppi}
+	
+	Togliamo un po' di ruggine da Algebra 1.
+	
+	\subsection{Gruppi ciclici}
+	
+	Un gruppo ciclico è un gruppo che ammette un generatore, ed è probabilmente la famiglia più semplice di gruppi che possiamo considerare. Iniziamo classificandoli:
+	 
+	\begin{theorem}[Classificazione dei gruppi ciclici]
+		Ogni gruppo ciclico $G$ o è isomorfo a $\faktor{\ZZ}{n\ZZ}$ o a $\ZZ$.
+	\end{theorem}
+	\begin{proof}
+		Dato un gruppo ciclico $G=\langle g \rangle$ possiamo costruire una mappa 
+		\begin{align*}
+			r:\ZZ & \to G \\
+			z & \mapsto g^z
+		\end{align*}
+		che risulta essere un omomorfismo. La mappa è chiaramente suriettiva, quindi ci manca solo da capire quale sia il nucleo. Abbiamo alcuni casi:
+		\begin{itemize}
+			\item Se $\ker{r}=\left\{0\right\}$ abbiamo semplicemente che $G\cong \ZZ$.
+			\item Se il kernel è non banale allora sicuramente se $0\ne z\in \ker{r}$ anche $-z\in \ker{r}$ (si vede facilmente notando che se $g^z=1$ allora $g^{-z}=1$). Questo vuol dire che nel kernel ci sarà sicuramente almeno un numero positivo, ovvero esisterà il minimo intero positivo $n$ contenuto in $\ker{r}$. \\
+			Ma allora per la divisione euclidea per ogni altro $k\in\ker{r}$ possiamo fare la divisione euclidea
+			$$k=nq+r$$
+			da cui
+			$$g^k=g^{nq+r}=g^r$$
+			ma $n>r\ge 0$ quindi $r=0$, cioè $n$ divide in modulo tutti gli elementi del kernel. Ma questo vuol dire proprio che
+			$$\ker{r}\cong n\ZZ$$
+			cioè $G\cong \faktor{\ZZ}{n\ZZ}$ per il primo teorema d'omomorfismo.
+		\end{itemize}
+		In tutti i casi abbiamo raggiunto la tesi, quindi abbiamo finito.
+	\end{proof}
+	
+	Cosa possiamo dire allora degli ordini? Per il caso $G\cong \ZZ$ abbiamo chiaramente che l'ordine di tutti gli elementi è infinito, ma nel caso finito abbiamo:
+	\begin{proposition}[Ordini di potenze]
+		In un gruppo ciclico $G=\langle g \rangle$ di ordine $n$ abbiamo che
+		$$\ordine{G}{g^k}=\frac{n}{\MCD(n,k)}.$$
+	\end{proposition}
+	\begin{proof}
+		Consideriamo un $t$ tale che
+		$$g^{tk}=1$$
+		allora 
+		$$n\mid tk$$
+		il che vuol dire che, se chiamiamo $d:= \MCD(n,k)$ e 
+		\begin{gather*}
+			n=dn' \\
+			k=dk'
+		\end{gather*}
+		abbiamo quindi che 
+		$$n'\mid tk'$$
+		ma dato che $n'$ e $k'$ sono coprimi dobbiamo avere $n'\mid t$, il che dimostra proprio che $n'\mid \ordine{G}{g^k}$, da cui la tesi.
+	\end{proof}
+	Il prossimo passo è studiare i sottogruppi di $G$ ciclico:
+	\begin{theorem}[Sottogruppi di un ciclico]
+		Un gruppo ciclico isomorfo a $\ZZ$ ha i sottogruppi in biezione con i numeri naturali, mentre un gruppo ciclico di ordine $n$ ha i sottogruppi in biezione con i divisori di $n$.
+	\end{theorem}
+	\begin{proof}
+		Possiamo di nuovo scrivere una funzione, essendo $S(G)$ il reticolo dei sottogruppi di $G$:
+		\begin{align*}
+			\alpha:\NN & \to S(G)\\
+			n & \mapsto \langle g^n \rangle
+		\end{align*}
+		usando la divisione euclidea possiamo di nuovo mostrare che ogni sottogruppo $H\le G$ è ciclico, e quindi generato da un elemento della forma $g^n$. Questo ci basta per concludere che $\alpha$ è suriettiva, ma cosa possiamo dire dell'iniettività? Beh abbiamo due casi:
+		\begin{itemize}
+			\item Se $\abs{g}=\infty$ abbiamo che se
+			$$\langle g^{m_1}\rangle=\langle g^{m_2}\rangle$$
+			allora abbiamo che $m_1=m_2$ e quindi per ogni $a$ esiste un $b$ tale che
+			$$g^{m_1a}=g^{m_2b}$$ 
+			da cui, visto che l'ordine di $g$ è infinito
+			$$m_1a=m_2b$$
+			cioè $m_1\mid m_2 $ e $m_2\mid m_1$ e quindi abbiamo una biezione perfetta.
+			\item Se $\abs{g}=n$ esisterà un minimo $m\in \NN$ tale che $g^m\in \langle g^k\rangle$ allora abbiamo che, dividendo
+			$$k=mq+r$$
+			da cui $r=0$, cioè abbiamo proprio che il numero di classi di equivalenza sono il numero di divisori di $n$, cioè abbiamo una biezione tra il numero di divisori di $n$ e il numero di sottogruppi.
+		\end{itemize}
+		In tutti i casi abbiamo raggiunto la tesi, e quindi abbiamo finito.
+	\end{proof}
+	L'ultima cosa che rimane da capire è che libertà abbiamo nello scegliere i generatori dei gruppi, l'identità che abbiamo trovato sopra
+	$$\ordine{G}{g^k}=\frac{n}{(n,k)}$$
+	ci dice che i generatori sono esattamente tanti quanti i $k$ coprimi con $n$, cioè $\varphi(n)$. Questo ci permette di dimostrare un risultato interessante:
+	\begin{proposition}[Somma di Eulero]
+		Per ogni $n\in\NN$ vale la seguente identità
+		$$n=\sum_{d\mid n}\varphi(d).$$
+	\end{proposition}
+	\begin{proof}
+		Prediamo un gruppo ciclico $G$ con $n$ elementi. \'E chiaro che ogni elemento ha uno e un solo ordine, quindi l'idea consiste nel raggruppare gli elementi per sottogruppo che generano, ovvero:
+		$$n=\sum_{H\le G}\abs{\left\{g\in G:\langle g \rangle=H \right\} }$$
+		ma dato che abbiamo dimostrato che i sottogruppi di $H$ sono in biezione con i divisori di $n$, e che il numero di generatori di un gruppo ciclico è esattamente uguale a $\varphi(\abs{H})$ possiamo scrivere semplicemente
+		$$\sum_{H\le G}\abs{\left\{g\in G:\langle g \rangle=H \right\} }=\sum_{H\le G}\varphi\left(\abs{H}\right)=\sum_{d\mid n}\varphi(d)$$
+		che era la tesi.
+	\end{proof}
+	E infine un esercizietto carino è:
+	\begin{proposition}[Caratterizzazione dei ciclici con ordine primo]
+		Un gruppo $G$ tale per cui ogni suo $H\le G$ soddisfa o $H=G$ o $H=\left\{1\right\}$ è ciclico di ordine primo.
+	\end{proposition}
+	\begin{proof}
+		contenuto...
+	\end{proof}
+	
+	Cominciamo ora a introdurre qualche nozione nuova:
+	
+	\begin{definition}[Esponente di un gruppo]
+		Dato un gruppo $G$ finito, definiamo il suo \textit{esponente} $\exp G$ come il più piccolo intero $n$ tale che 
+		$$g^n=1$$
+		per ogni $g\in G$.
+	\end{definition}
+	è facile osservare che 
+	\begin{proposition}[Caratterizzazione dell'esponente]
+		In un gruppo $G$ finito abbiamo sempre che
+		$$\exp G= \underset{g\in G}{\mcm}(\ordine{G}{g})$$
+	\end{proposition}
+	\begin{proof}
+		Segue facilmente dal fatto che 
+		$$g^k=1 \iff \ordine{G}{g}\mid k$$
+		per ogni $k\in \NN$.
+	\end{proof}
+	
+	Il primo teorema importante che dimostriamo in questo corso è
+	\begin{theorem*}[Caratterizzazione dei gruppi ciclici]
+		Per ogni gruppo abeliano $G$ abbiamo che $G$ è ciclico se e solo se il suo esponente coincide con l'ordine, ovvero
+		$$\exp G = \abs{G} \iff G \text{ è ciclico}.$$
+	\end{theorem*}
+	Per dimostrarlo abbiamo bisogno del seguente lemma:
+	\begin{lemma}[Lemma dell'ordine]
+		Sia $G$ finito, e siano $g_1,g_2\in G$ tali che:
+		\begin{itemize}
+			\item Commutano, ovvero $g_1g_2=g_2g_1$.
+			\item Hanno ordine coprimo, ovvero $(\abs{g_1},\abs{g_2})=1$.
+		\end{itemize}
+		allora abbiamo che 
+		$$\abs{g_1g_2}=\abs{g_1}\abs{g_2}.$$
+	\end{lemma}
+	\begin{proof}
+		Chiamiamo questi due ordini $n_1$ ed $n_2$. Supponiamo allora di avere un $t$ tale che
+		$$\left(g_1g_2\right)^t=1$$
+		allora dato che i due elementi commutano possiamo distribuire la potenza, dunque
+		$$g_1^tg_2^t=1$$
+		ovvero
+		$$g_1^t=g_2^{-t}$$
+		ma questo vuol dire proprio che $g_1\in \langle g_2\rangle$ e allo stesso modo $g_2\in \langle g_1 \rangle$, cioè 
+		$$g_1,g_2\in \langle g_1 \rangle \cap \langle g_2 \rangle$$
+		ma dato che, per il teorema di Lagrange, l'intersezione deve avere ordine un divisore comune ai due gruppi, deve essere necessariamente banale. Dunque
+		$$g_1^t=g_2^t=1$$
+		da questo troviamo che $n_1\mid t$ cioè $n_2\mid t$ e dunque 
+		$$n_1n_2\mid t$$
+		d'altra parte è chiaro che $n_1n_2$ sia un esponente per cui $g_1g_2$ si annulla, e quindi abbiamo proprio la tesi.
+	\end{proof}
+	Un altro lemma dunque che ci servirà è:
+	\begin{lemma}[Caratterizzazione dell'esponente per massimalità]
+		Sia $G$ finito e abeliano, e consideriamo un elemento $g$ tale che ha ordine massimo. Allora abbiamo
+		$$\exp G = \abs{g}.$$
+	\end{lemma}
+	\begin{proof}
+		Scomponiamo l'ordine
+		$$\abs{G}=p_1^{n_1}\dots p_t^{n_t}$$
+		e diamo un nome anche all'ordine di $g$, scomponendolo
+		$$m:=\abs{g}=p_1^{\alpha_1}\dots p_t^{\alpha_t}.$$
+		Per dimostrare la tesi ci basta mostrare che per ogni $x\in G$ si ha $x^m=1$, ossia per ogni $x\in G$ abbiamo
+		$$\ordine{G}{x}\mid m$$
+		scomponiamo l'ordine di un generico $x$ allora
+		$$\abs{x}=p_1^{\beta_1}\dots p_t^{\beta_t}$$
+		dobbiamo provare che $\beta_i\le \alpha_i$ per ogni $i$. Supponiamo per assurdo allora che $\beta_1> \alpha_1$, allora abbiamo che
+		$$\abs{g^{p_1^{\alpha_1}}}=p_2^{\alpha_2}\dots p_t^{\alpha_t}$$
+		mentre per $x$ facciamo
+		$$\abs{x^{p_2^{\beta_2}\dots p_t^{\beta_t}}}=p_1^{\beta_1}$$
+		ma allora siamo nella condizione del lemma dell'ordine, dunque il prodotto ha ordine esattamente
+		$$\abs{g^{p_1^{\alpha_1}}x^{p_2^{\beta_2}\dots p_t^{\beta_t}}}=p_1^{\beta_1}p_2^{\alpha_2}\dots p_t^{\alpha_t}$$
+		che è assurdo, perchè avevamo supposto che $g$ fosse l'elemento con ordine massimo in tutto il gruppo! E dunque abbiamo finito.
+	\end{proof}
+	Siamo quindi finalmente pronti a dimostrare il teorema sopra, che riprendiamo:
+	\begin{theorem}[Caratterizzazione dei gruppi ciclici]
+		Per ogni gruppo abeliano $G$ abbiamo che $G$ è ciclico se e solo se il suo esponente coincide con l'ordine, ovvero
+		$$\exp G = \abs{G} \iff G \text{ è ciclico}.$$
+	\end{theorem}
+	\begin{proof}
+		UN verso è facile, infatti se 
+		$$\exp G = \abs{G}$$
+		allora per il lemma precedente esisterà un $g$ tale che 
+		$$\abs{g}=\exp G$$
+		cioè $g$ ha l'ordine del gruppo, cioè $G$ è ciclico. D'altra parte anche l'altro verso è chiaro, e quindi abbiamo finito.
+	\end{proof}
+	Un'applicazione divertente di questo è
+	\begin{theorem}[Gruppi finiti di campi]
+		Dato un campo $\FF$ consideriamo il suo gruppo delle unità $\FF^*$, se $G\le \FF^*$ è un gruppo finito, allora $G$ è ciclico.
+	\end{theorem}
+	\begin{proof}
+		Per Lagrange abbiamo immediatamente che 
+		$$e:=\exp G \le \abs{G}$$
+		consideriamo allora il polinomio a coefficienti in $\FF$ tale che
+		$$p(x)=x^e-1$$
+		allora per il teorema di Ruffini sappiamo che il numero di radici di $p$ è minore o uguale di $e$, ma dato che, per ogni $g\in G$ abbiamo
+		$$p(g)=g^e-1$$
+		dobbiamo necessariamente avere $n\le e$, da cui per la caratterizzazione dei gruppi ciclici dimostrata sopra abbiamo la tesi.
+	\end{proof}
+	Vediamo ancora un esercizio:
+	\begin{proposition}[I razionali sono infinitamente generati]
+		Prendiamo il gruppo additivo $(\QQ,+)$ e $G$ un gruppo 
+		$$G\le \left(\QQ,+\right)$$
+		tale che sia finitamente generato. Allora $G$ è ciclico.
+	\end{proposition}
+	\begin{proof}
+		Se $G$ è finitamente generato allora
+		$$G=\left\langle \frac{a_1}{b_1},\dots,\frac{a_t}{b_t} \right\rangle$$
+		ma dato che
+		$$\frac{a_1}{b_1}=\frac{1}{b_1b_2\dots b_t}a_1b_2b_3\dots b_t$$
+		e analogamente per le altre frazioni, dato che siamo in notazione additiva questo vuol dire che
+		$$\frac{a_i}{b_i}\in \left\langle \frac{1}{b_1b_2\dots b_t} \right\rangle$$
+		per ogni $i$, ovvero
+		$$G\le \left\langle \frac{1}{b_1b_2\dots b_t} \right\rangle$$
+		da cui la tesi.
+	\end{proof}
+	
 \end{document}

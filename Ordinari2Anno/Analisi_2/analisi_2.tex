@@ -383,7 +383,20 @@
 		a questo punto vorremmo dimostrare che questa è continua, in tal caso avremmo che per il teorema dei valori intermedi non può assumere sia valori $0$ che valori $1$ dunque deve essere costante, in particolare dato che $g(0)=0$ deve essere costante a $0$, cioè $f$ è costante. \\
 		Per dimostrare che questa è continua usiamo il fatto che composizione di funzioni continue è a sua volta continua: dobbiamo solo dimostrare che
 		$$d(-,x_0):X\to \RR$$
-		è continua.
+		è continua. Riassumiamo questo risultato in un lemma.
+		\begin{lemma}[La distanza è lipschitziana]
+			Sia $(X,d)$ uno spazio metrico, allora per ogni $x_0$ la funzione $f:X\to \RR$ definita come
+			$$f(x)=d(x,x_0)$$
+			è una funzione continua.
+		\end{lemma}
+		\begin{subproof}
+			Prendiamo un $\varepsilon>0$, guessiamo che $\delta=\varepsilon$, allora per disuguaglianza triangolare abbiamo
+			$$f(x)-f(y)=d(x,x_0)-d(y,x_0)\le d(x,y)$$
+			d'altra parte scambiando i valori di $x$ e $y$ abbiamo che la disuguaglianza rimane valida, quindi
+			$$\abs{f(x)-f(y)}\ge d(x,y)$$
+			il che vuol dire qualcosa di più forte della continuità, ovvero abbiamo dimostrato che $f$ è \textit{lipschitziana}.
+		\end{subproof}
+		con questo abbiamo finalmente finito.
 	\end{proof}
 	
 	\subsection{Topologia degli spazi metrici}
@@ -431,8 +444,10 @@
 		In $\RR^n$ la chiusura della palla aperta di raggio $r$ è la palla chiusa di raggio $r$.
 	\end{corollary}
 	Quanto sopra non vale necessariamente per ogni spazio metrico! E questo è illustrato dal seguente esempio:
-	\begin{example}
-		contenuto...
+	\begin{example}[Una palla aperta la cui chiusura non è la palla chiusa]
+		Prendiamo l'insieme $X=(-\infty,-1)\cup \left\{0\right\}\cup \left(1,\infty\right)$ con la distanza usuale. Consideriamo allora 
+		$$B(2,2)=(1,4)$$
+		la palla centrata in $2$ di raggio $2$. Allora la sua chiusura è $[1,4]$, ma la palla chiusa di raggio $2$ centrata in $2$ contiene anche lo $0$, e quindi abbiamo che la chiusura della palla non è la palla chiusa.
 	\end{example}
 	Vediamo ora la normale relazione topologica tra aperti e chiusi:
 	\begin{proposition}[Aperti e chiusi sono complementari]
@@ -465,6 +480,147 @@
 		d'altra parte abbiamo anche l'inclusione opposta, infatti se $x\in \bigcup\left\{B\subseteq A:B\text{ è aperto}\right\}$ allora apparterrà ad almeno un aperto $\mathcal{O}\subseteq A$, ovvero esisterà un $r>0$ tale che
 		$$B(x,r)\subseteq \mathcal{O}\subseteq A$$
 		cioè $x$ è interno. L'altra tesi segue prendendo i complementari.
+	\end{proof}
+	\begin{definition}[Frontiera]
+		Dato un insieme $A$, la sua \textit{frontiera} o \textit{bordo} è l'insieme 
+		$$\partial A =\left\{x\in X:\forall r>0, B(x,r)\cap A \ne \eset \land B(x,r)\cap A^\complement \ne \eset\right\}$$
+		cioè è l'insieme dei punti per cui ogni palla interseca sia $A$ che il suo complementare.
+	\end{definition}
+	Una caratterizzazione consiste in 
+	\begin{remark}[Caratterizzazione della frontiera]
+		Per ogni $A\subseteq X$ abbiamo 
+		$$\partial A = \partial\left(X\setminus A\right)=\overline{A}\cap \overline{X\setminus A}.$$
+	\end{remark}
+	Ulteriormente possiamo scrivere
+	\begin{remark}[Relazione frontiera-chiusura]
+		Per ogni $A\subseteq X$ abbiamo che
+		$$\overline{A}=A\cup \partial A=\overset{\circ}{A}\sqcup \partial A$$
+	\end{remark}
+	
+	\begin{definition}[Parte esterna]
+		Per ogni $A\subseteq X$ la \textit{parte esterna} di $A$ è l'insieme dei punti $x$ per cui esiste un $r>0$ tale che $B(x,r)\cap A =\eset$. Tale insieme si denota con $\text{ext}(A)$. 
+	\end{definition}
+	
+	\begin{remark}
+		Per ogni $A\subseteq X$ possimao decomporre $X$ in modo disgiunto come
+		$$X=\text{ext}A \sqcup \partial A \sqcup \overset{\circ}{A}.$$
+	\end{remark}
+	
+	\subsubsection{Caratterizzazione topologica della continuità}
+	
+	Cerchiamo di essere un po' più formali riguardo alla topologia:
+	\begin{definition}[Topologia metrica]
+		La \textit{topologia} di uno spazio metrico $(X,d)$ è la famiglia $\tau(X)$ degli insiemi aperti in $X$, ovvero
+		$$\parti{X}\supseteq \tau(X):=\left\{A\subseteq X:A\text{ è aperto}\right\}.$$
+	\end{definition}
+	Possiamo dimostrare allora
+	\begin{proposition}[Proprietà fondamentali della topologia]
+		Per ogni $(X,d)$ abbiamo che la topologia di $X$ soddisfa:
+		\begin{enumerate}
+			\item  Sia $\eset$ che $X$ sono aperti.
+			\item Se $A_1,A_2,\dots,A_n\in \tau(X)$ allora anche 
+			$$A_1\cap A_2 \cap \dots \cap A_n \in \tau(X)$$
+			ovvero la topologia è chiusa rispetto a intersezioni finite.
+			\item La topologia è chiusa rispetto ad unioni arbitrarie, cioè per ogni insieme di indici $I$, arbitrariamente grande, e data una successione $A_i\in \tau(X)$, arbitrariamente grande, di aperti, abbiamo:
+			$$\bigcup_{i\in I}A_i\in \tau(X).$$
+		\end{enumerate}
+	\end{proposition}
+	\begin{proof}
+		Il primo punto è stato già mostrato. Per il secondo, per ogni punto $x\in \bigcap A_i$ ci basta considerare le palle $B(x,r_i)$ tali che
+		$$B(x,r_i)\subseteq A_i$$
+		che esistono per ogni $i$ per definizione di aperto. Dunque abbiamo semplicemente che l'intersezione finita di queste palle è a sua volta una palla, e ha la proprietà che 
+		$$B\left(x,\min_{i\le n} r_i\right)\subseteq \bigcap_{i=1}^n A_i$$
+		ovvero l'intersezione è aperta. Infine l'ultima proprietà è ancora più facile da mostrare, in quanto se $x\in \bigcup_{i\in I} A_i$  allora esisterà un $i$ tale che $x\in A_i$, ma questo vuol dire che esiste una palla tale che
+		$$B(x,r)\subseteq A_i \subseteq \bigcup_{i\in I}A_i$$
+		da cui la tesi. 
+	\end{proof}
+	Notiamo che l'ipotesi che le intersezioni siano finite è necessaria, infatti:
+	\begin{example}[Topologia non chiusa per intersezioni arbitrarie]
+		La topologia non è chiusa per intersezioni arbitrarie, infatti gli insiemi 
+		$$A_i:=\left(-\frac{1}{n},\frac{1}{n}\right)$$
+		sono aperti per ogni $n$, ma
+		$$\bigcap_{i=1}^\infty A_i=\left\{0\right\}$$
+		che è evidentemente non aperto (in particolare è chiuso) e quindi abbiamo finito.
+	\end{example}
+	Dal teorema sopra discende immediatamente:
+	\begin{corollary}[Proprietà dei chiusi]
+		Per ogni $(X,d)$ abbiamo che l'insieme dei chiusi di $X$ soddisfa:
+		\begin{enumerate}
+			\item Sia $\eset$ che $X$ sono chiusi.
+			\item L'insieme dei chiusi è chiuso rispetto ad unioni finite.
+			\item L'insieme dei chiusi è chiuso rispetto ad intersezioni arbitrarie.
+		\end{enumerate} 
+	\end{corollary}
+	Da queste proprietà in realtà possiamo dedurre il punto di partenza della topologia generale:
+	\begin{definition}[Topologia generale]
+		Dato un insieme arbitrario $X$ (non necessariamente uno spazio metrico). Chiamiamo \textit{topologia} una famiglia $\tau(X)\subseteq \parti{X}$ che verifica le proprietà 1,2,3 dimostrate sopra. La coppia $(X,\tau)$ dunque si dice \textit{spazio topologico}.
+	\end{definition}
+	\'E importante notare che una topologia sia un concetto strettamente più debole di una metrica, infatti esistono spazi topologici i cui aperti possono non essere indotti da una metrica, e questi si dicono \textit{non metrizzabili}. \\
+	Finora tuttavia la nozione di continuità è sempre stata vista come una nozione \textit{metrica}. Questo non è vero, anzi la topologia nasce proprio come studio delle funzioni continue, che fungono da morfismi nello studio degli spazi topologici.
+	\begin{theorem}[Caratterizzazione topologica della continuità]
+		Siano $X$ e $Y$ due spazi metrici e $f:X\to Y$ una funzione tra essi. Allora sono equivalenti le seguenti cose:
+		\begin{enumerate}
+			\item La funzione $f$ è continua.
+			\item Per ogni aperto $A\subseteq Y$ abbiamo che $f^{-1}(A)$ è aperto in $X$.
+			\item Per ogni chiuso $C\subseteq Y$ abbiamo che $f^{-1}(C)$ è chiuso in $X$.
+		\end{enumerate}
+	\end{theorem}
+	\begin{proof}
+		Dimostriamo $1$ implica $2$. Prendiamo allora un aperto $A$, e consideriamo un $x_0\in f^{-1}(A)$, allora dobbiamo mostrare che $x\in \int\left(f^{-1}(A)\right)$. Ma d'altra parte per definizione di aperto questo vuol dire che esiste un $\varepsilon>0$ tale che 
+		$$B_Y(f(x_0),\varepsilon)\subseteq A$$ 
+		e per continuità questo vuol dire che esiste un $\delta>0$ tale che
+		$$f(B(x_0,\delta))\subseteq B_Y\left(f(x_0),\varepsilon\right)\subseteq A$$
+		allora
+		$$B_X(x,\delta)\subseteq f^{-1}(A)$$
+		che è esattamente quello che volevamo mostrare. \\
+		Dimostriamo ora che $2$ implica $1$. Se $f^{-1}(A)$ è aperto per ogni $A$ abbiamo che, dato un $x_0\in X$ possiamo considerare la palla aperta $B_Y(f(x_0),\varepsilon)$, questa per ipotesi ha preimmagine aperta, dunque esisterà un $\delta>0$ tale che
+		$$f\left(B(x_0,\delta)\right)\subseteq B\left(f(x_0),\varepsilon\right)$$
+		ma questa è proprio la definizione di continuità, quindi abbiamo finito.
+	\end{proof}
+	Con questa caratterizzazione alle spalle è molto facile dimostrare che
+	\begin{corollary}[Composizione di funzioni continue]
+		Date due funzioni $f:X\to Y$ e $g:Y\to Z$ continue abbiamo che $g\circ f$ è continua. 
+	\end{corollary}
+	\begin{proof}
+		Brutale applicazione della caratterizzazione sopra.
+	\end{proof}
+	Vediamo un esercizio a riguardo:
+	\begin{problem}[Sottoinsieme importantissimo!! di $\RR^3$]
+		Prendiamo il sottoinsieme di $(x,y,z)\in\RR^3$ tale che
+		$$\arctan x + e^z + \log(1+y^2)\le e^{x^2+z^2}-2026$$
+		dimostrare che questo insieme è chiuso.
+	\end{problem}
+	\begin{proof}[Soluzione]
+		Semplicemente introducendo la funzione in $3$ variabili:
+		$$f(x,y,z):=\arctan x + e^z + \log(1+y^2)-e^{x^2+z^2}$$
+		abbiamo che l'insieme considerato è la preimmagine rispetto a $f$ (che è continua) dell'insieme 
+		$$(-\infty,-2026]$$
+		che essendo chiuso, ci dà la tesi.
+	\end{proof}
+	che è generalizzabile molto facilmente a insiemi e funzioni arbitrari.
+	
+	\begin{problem}
+		Prendiamo una $f:\RR\to [-M,M]$ limitata, allora il grafico di $f$ è chiuso se e solo se $f$ è continua.
+	\end{problem}
+	\begin{proof}[Soluzione]
+		contenuto...
+	\end{proof}
+	\begin{problem}
+		Sia $(X,d_X)$ uno spazio metrico e sia $Y\subseteq X$ un suo sottospazio metrico con $d_Y:=d_{X\mid Y\times Y}$, allora $A\subseteq Y$ è un aperto in $Y$ se e solo se esiste un $B\subseteq X$ aperto in $X$ tale che
+		$$B\cap Y=A.$$ 
+	\end{problem}
+	\begin{proof}[Soluzione]
+		Un verso è facile, infatti se $B\subseteq X$ è un aperto di $X$ tale che
+		$$A:=B\cap Y$$
+		allora per ogni $x_0\in A\subseteq B$ esisterà un $r>0$ tale che $B_X(x_0,r)\subseteq B$, ma dato che
+		$$B_Y(x_0,r)=B_X(x_0,r)\cap Y \subseteq B\cap Y = A$$
+		abbiamo che $A$ è proprio aperto. Il contrario si dimostra considerando un $A$ aperto in $Y$, allora per ogni $x\in A $ esisterà un $r_x>0$ tale che $B_Y(x,r_x)\subseteq A$, da cui possiamo definire un aperto come
+		$$B:=\bigcup_{x\in A}B_X(x,r_x)$$
+		e questo fa proprio il servizio che vogliamo perchè sicuramente 
+		$$A\subseteq B\cap Y$$
+		dato che in $B$ ci sono tutti i punti di $A$, ma d'altra parte se $x\in B$ esisterà una palla $B_X(x,r_x)$ a cui appartiene, e quindi dato che
+		$$B_X(x,r_x)\cap Y = B_Y(x,r_x)\subseteq A$$
+		abbiamo che ogni punto di $B\cap Y$ appartiene ad $A$, che termina la dimostrazione. 
 	\end{proof}
 	
 	\newpage
