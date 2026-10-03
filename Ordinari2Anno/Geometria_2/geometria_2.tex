@@ -327,21 +327,24 @@
 	\begin{example}[Prodotto misto]
 		Sia $u\in \KK^3$, definiamo allora
 		\begin{align*}
-			B_u:\KK^3\times \KK^3 & \to \KK^3 \\
+			B_u:\KK^3\times \KK^3 & \to \KK \\
 			(v,w) & \mapsto \det\left(
 			\begin{array}{c|c|c}
 				v & w & u
 			\end{array}
 			\right)=\left(v\times w\right)\cdot u
 		\end{align*}
-		Questo è il cosiddetto prodotto misto, ed è sia antisimmetrica che alternante.
+		Questo è il cosiddetto prodotto misto, ed è sia antisimmetrico che alternante.
 	\end{example}
 	In effetti possiamo dimostrare il seguente risultato più forte:
 	\begin{proposition}[Rappresentazione delle forme alternanti su $\KK^3$]
 		Tutte le forme bilineari alternati su $\KK^3$ sono della forma
 		$$B(v,w)=\left(v\times w\right)\cdot u$$
-		per qualche $u\in V$.
+		per qualche $u\in V$ unico.
 	\end{proposition}
+	\begin{proof}
+		L'idea è di procedere in modo simile al teorema di Riesz. 
+	\end{proof}
 	
 	\begin{example}[Duale]
 		Un altro esempio di forma bilineare è il seguente:
@@ -376,7 +379,7 @@
 		e questa è proprio la proprietà che vedremo avrà una forma hermitiana, in particolare questa è la cosiddetta forma hermitiana standard.
 	\end{example}
 	
-	\subsubsection{La traccia}
+	\subsubsection{$\bigstar$ Bonus: La traccia}
 	
 	Introduciamo ora una funzione estremamente importante
 	
@@ -400,10 +403,22 @@
 		$$\tr{AB}=\tr{BA}.$$
 	\end{lemma}
 	\begin{proof}
-		Calcolo diretto.
+		Se denotiamo con $a_{ij}$ i coefficienti di $a$ e con $b_{ij}$ i coefficienti di $B$ abbiamo che
+		\begin{gather*}
+			\tr{AB}=\sum_{j=1}^{n}\sum_{k=1}^{n}a_{jk}b_{kj} \\
+			\tr{AB}=\sum_{j=1}^{n}\sum_{k=1}^{n}b_{jk}a_{kj}
+		\end{gather*}
+		d'altra parte queste due espressioni sono uguali a meno di una rindicizzazione delle somme, e quindi abbiamo proprio la tesi.
 	\end{proof}
 	
-	INSERISCI QUALCOSA SUI COMMUTATORI/QUALCOSA DALL'AXLER
+	In effetti possiamo dire qualcosa di più sulla traccia, per esempio il fatto che sia un funzionale completamente lineare:
+	\begin{lemma}[La traccia è completamente lineare]
+		Per ogni $A,B\in M_n(\KK)$ e $\lambda_1,\lambda_2\in \KK$ abbiamo che 
+		$$\tr{\lambda_1A+\lambda_2B}=\lambda_1\tr{A}+\lambda_2\tr{B}.$$
+	\end{lemma}
+	\begin{proof}
+		Semplicemente segue dal fatto che le somme sono lineari.
+	\end{proof}
 	
 	\subsection{Ortogonalità}
 	
@@ -420,9 +435,9 @@
 		abbiamo che $e_1\perp_B e_2$ e $e_2\perp_B e_1$.
 	\end{example}
 	Per caratterizzare quando la perpendicolarità sia simmetrica allora abbiamo bisogno di questo lemma:
-	\begin{lemma}[Condizione necessaria per la simmetria della perpendicolarità]
+	\begin{lemma}[Condizione necessaria per la simmetria della perpendicolarità]\label{Bilin&Quad:Condizione necessaria per la simmetria della perpendicolarità}
 		Se $\perp_B$ è una relazione simmetrica allora per ogni $u,v,w\in V$ si ha
-		$$B(w,u)B(u,v)=B(v,u)(u,w).$$
+		$$B(w,u)B(u,v)=B(v,u)B(u,w).$$
 	\end{lemma}
 	\begin{proof}
 		Il sottospazio generato da $v,w$ contiene il vettore 
@@ -440,7 +455,26 @@
 		$$B(u,u)B(u,v)=B(v,u)B(u,u)$$
 		cioè
 		$$\left[B(u,v)-B(v,u)\right]B(u,u)=0$$
-		che vuol dire che per ogni coppia di vettori $B$ si comporta o come se fosse alternante o come se fosse simmetrica. Rimane da dimostrare quindi che se $B$ è simmetrica su alcuni vettori, allora lo è su tutti, e se è alternante su alcuni vettori allora lo è su tutti.
+		che vuol dire che per ogni coppia di vettori $B$ si comporta o come se fosse alternante o come se fosse simmetrica. Rimane da dimostrare quindi che se $B$ è simmetrica su alcuni vettori, allora lo è su tutti, e se è alternante su alcuni vettori allora lo è su tutti. \\
+		Supponiamo allora di avere una $B$ che non è simmetrica e che soddisfa l'identità trovata sopra, vogliamo mostrare che $B$ è alternante. Dato che $B$ non è simmetrica esisteranno $v_0,w_0\in V$ tali che
+		$$B(v_0,w_0)\ne B(w_0,v_0)$$
+		che ovviamente invece soddisferanno $B(v_0,v_0)=B(u_0,u_0)=0$ per l'identità sopra. A questo punto se $B(v_0,w)\ne B(w,v_0)$ per un generico vettore $w\in V$ abbiamo necessariamente $B(w,w)=0$, da cui deduciamo che ci basta dimostrare la tesi per i vettori che "commutano" sia con $v_0$ che $u_0$, ovvero per tutti i $w$ tali che
+		\begin{gather*}
+			B(v_0,w)=B(w,v_0) \\
+			B(u_0,w)=B(w,u_0)
+		\end{gather*}
+		a questo punto applicando il lemma \ref{Bilin&Quad:Condizione necessaria per la simmetria della perpendicolarità} sostituendo $u\to u_0$, $v\to v_0$ e $w\to w$ abbiamo
+		$$B(w,u_0)B(u_0,v_0)=B(v_0,u_0)B(u_0,w)$$
+		da cui, usando il fatto che $w$ commuta con $w_0$ abbiamo
+		$$B(w,u_0)\left[B(u_0,v_0)-B(v_0,u_0)\right]=0$$
+		ma visto che $v_0,u_0$ non commutano per ipotesi abbiamo che $B(w,u_0)=0$ necessariamente. Da questo possiamo dedurre che
+		\begin{gather*}
+			B(w+v_0,u_0)=B(w,u_0)+B(v_0,u_0) = B(v_0,u_0)\\
+			B(u_0,w+v_0)=B(u_0,w)+B(u_0,v_0) = B(u_0,v_0)
+		\end{gather*}
+		cioè questi due vettori non commutano, ma questo per l'identità trovata sopra implica proprio che
+		$$B(w+v_0,w+v_0)=0$$
+		da cui espandendo per bilinearità si ha immediatamente la tesi.
 	\end{proof}
 	
 	E quindi possiamo definire:
@@ -477,7 +511,108 @@
 	\begin{proof}
 		contenuto...
 	\end{proof}
-	
+	\subsection{Matrici associate}
+	Abbiamo visto l'anno scorso che data una funzione lineare $\varphi:V\to W$ possiamo costruire la sua applicazione trasposta, che scambia tutte le frecce nel modo seguente:
+	\begin{figure}[h]
+		\begin{center}
+			\begin{tikzcd}
+				V\arrow[r,"\varphi"]\arrow[dr,"\varphi^\intercal(f):=f\circ \varphi",swap] & W\arrow[d,"f"] \\
+				& \KK
+			\end{tikzcd}
+		\end{center}
+	\end{figure}
+	e dunque l'applicazione trasposta $\varphi^\intercal:W^*\to V^*$ manda funzionali di $W$ in funzionali di $V$. Questo ci dà un omomorfismo tra $\text{Hom}_\KK(V,W)$ e $\text{Hom}_\KK(W^*,V^*)$.
+	\begin{example}[Uno spazio in cui il biduale non è isomorfo allo spazio di partenza]
+		Consideriamo lo spazio delle successioni a valori in $\KK$. Consideriamo per ogni $k\in \NN$ la successione
+		$$e_k:=\left\{\left(a_n:n\in\NN\right):a_i=\delta_{ik}\right\}$$
+		allora vogliamo considerare lo spazio 
+		$$V=\bigoplus_{n\in\NN}\KK:=\langle e_k:k\in\NN\rangle$$
+		ovvero lo spazio delle successioni definitivamente nulle (in un certo senso quindi $\KK^\star$, la stella di Kleene). A questo punto possiamo dimostrare che $V^*$ non ha una base numerabile. Da questo possiamo quindi dimostrare che
+		$$V^*\cong \bigtimes_{n\in\NN}\KK$$
+		che era lo spazio da cui eravamo partiti. Facendo nuovamente il duale la dimensione della base non può davvero scendere, e quindi abbiamo $V^{**}$ ha base non numerabile, mentre $V$ ha base numerabile, da cui abbiamo che chiaramente non sono isomorfi.
+	\end{example}
+	Ci chiediamo quindi se sia possibile adattare questa costruzione al caso della trasposizione. Ma questa è una domanda a cui non daremo una risposta.
+	\begin{definition}[Forme indotte da applicazioni tra spazi]
+		Prendiamo una $B:V\times W\to \KK$ con $V$ e $W$ di dimensione finita. Allora $B$ definisce due applicazioni lineari:
+		\begin{align*}
+			B_1:V & \to W^* \\
+			v & \mapsto B(v,-)
+		\end{align*}
+		ovvero ad ogni vettore in $V$ viene associato il funzionale $B(v,-)$, che prende in input vettori di $W$ e restituisce scalari $\KK$, e anlogamente possiamo fare definendo $B_2$. Allo stesso modo data una funzione $f:V\to W^*$ possiamo associare una forma bilineare $B:V\times W\to \KK$.
+	\end{definition}
+	Gli isomorfismi trovati sopra sono canonici. Cosa succede se prendiamo la trasposizione di una delle due funzioni che abbiamo generato a partire dalla forma bilineare? Ovvero che cos'è la funzione $B_1^\intercal$? Incredibilmente troviamo che, usando l'isomorfismo canonico $V\cong V^{**}$ 
+	$$B_2^\intercal=B_1$$
+	e
+	$$B_1^\intercal=B_2.$$
+	Tutta questa discussione ci serve essenzialmente per dire che abbiamo un isomorfismo canonico tra 
+	$$\text{Bil}_\KK(V)\cong \text{Hom}_\KK(V,V^*)$$
+	e quindi esattamente come facevamo per le applicazioni lineari da $V$ a $V^*$ possiamo associare ad ogni forma bilineare una matrice:
+	\begin{definition}[Matrice associata ad una forma bilineare]
+		Data una forma bilineare $B:V\times V \to \KK$ allora data una base $v_1,\dots,v_n$ di $V$ possiamo usarla per scrivere qualunque coppia di vettori
+		$$B(\mathbf{a},\mathbf{b})=B\left(a_1v_1+\dots+a_nv_n,b_1v_1+\dots+b_nv_n\right)=\sum_{1\le i,j\le n}a_ib_jB(v_i,v_j)$$
+		dunque possiamo introdurre la \textit{matrice associata alla forma $B$} nella base $v_i$ come 
+		$$\mathbf{B}:=
+		\begin{pmatrix}
+			B(v_1,v_1) & B(v_1,v_2) & \dots & B(v_1,v_n) \\
+			B(v_2,v_1) & B(v_2,v_2) & \dots & B(v_2,v_n) \\
+			\vdots & \vdots & \ddots & \vdots \\
+			B(v_n,v_1) & B(v_n,v_2) & \dots & B(v_n,v_n)
+		\end{pmatrix}$$
+		questa è anche nota come \textit{matrice di Gram}, e ci permette di scrivere in modo molto compatto la valutazione di una forma bilineare
+		$$B(\mathbf{x},\mathbf{y})=\mathbf{x}^\intercal \mathbf{B}\mathbf{y}.$$
+	\end{definition}
+	Per esempio abbiamo:
+	\begin{example}[Prodotto scalare]
+		La matrice di Gram del prodotto scalare in qualunque base ortonormale è semplicemente $I$.
+	\end{example}
+	\begin{example}[Forma simplettica]
+		La forma $B:\KK^2\times \KK^2\to \KK$ 
+		definita come
+		$$B\left(
+		\begin{pmatrix}
+			x_1 \\
+			y_1
+		\end{pmatrix},
+		\begin{pmatrix}
+			x_2 \\
+			y_2
+		\end{pmatrix}
+		\right)=x_1y_2-x_2y_1$$
+		ha matrice di Gram nella base canonica uguale a 
+		$\begin{pmatrix}
+			0 & 1 \\
+			-1 & 0
+		\end{pmatrix}.$
+	\end{example}
+	Questa cosa dimostra proprio che ogni forma bilineare su $\KK^n$ (su spazi finitamente generati dunque) può essere scritta come il prodotto a sinistra e a destra di una certa matrice.
+	\begin{proposition}[Matrici associate alla forma e alla funzione indotta]
+		Dato un $V$ spazio vettoriale con base finita $\mathcal{V}$ e una forma bilineare $B$ su di esso, abbiamo che
+		$$M_\mathcal{V}(B)=M_\mathcal{V}^\mathcal{V^*}(B_2)$$
+		ovvero la matrice di gram della forma bilineare è uguale alla matrice associata all'applicazione lineare $B_2:V\to V^*$.
+	\end{proposition}
+	\begin{proof}
+		Sia $A=(a_{ij})=M_\mathcal{V}(B)$ allora vogliamo mostrare che 
+		$$B_2(v_j)=a_{1j}v_1^*+\dots+a_{nj}v_n^*$$
+		d'altra parte per definizione di $B_2$ abbiamo proprio che
+		$$B_2(v_j)v_i=B(v_i,v_j)=a_{ij}$$
+		che è esattamente l'espressione che troviamo valutando il funzionale sopra in $v_i$:
+		$$\left(a_{1j}v_1^*+\dots+a_{nj}v_n^*\right)v_i=a_{ij}$$
+		dunque abbiamo proprio finito.
+	\end{proof}
+	E come corollario abbiamo
+	\begin{corollary}[Matrice delle applicazioni indotte da forme]
+		Per ogni forma bilineare $B$ su spazi con base finita $\mathcal{V}$ abbiamo che
+		$$M_\mathcal{V}^\mathcal{V^*}(B_1)=M_\mathcal{V}(B)^\intercal$$
+	\end{corollary}
+	La prima applicazione di ciò è
+	\begin{proposition}[Classificazione di Gram delle forme bilineari]
+		Per ogni forma bilineare $B$ su spazi finitamente generati abbiamo che:
+		\begin{itemize}
+			\item La forma $B$ è simmetrica se e solo se in ogni sua base la matrice di Gram $A$ è simmetrica, ovvero $A=A^\intercal$.
+			\item La forma $B$ è antisimmetrica se e solo se in ogni sua base la matrice di Gram $A$ è antisimmetrica, ovvero $A=-A^\intercal$.
+			\item La forma $B$ è alternante se e solo se in ogni sua base la matrice di Gram è antisimmetrica e $a_{ii}=0$ per ogni $i$.
+		\end{itemize}
+	\end{proposition}
 	\newpage
 	
 	\part{Modulo B}

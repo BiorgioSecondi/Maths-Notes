@@ -343,4 +343,195 @@
 	\end{proof}
 	E appunto come corollario di ciò otteniamo che i razionali sono infinitamente generati, in quanto è molto facile mostrare che non sono ciclici.
 	
+	\subsection{Classi laterali e struttura quoziente}
+	
+	Continuiamo il ripasso introducendo la seguente nozione
+	\begin{definition}[Classe laterale]
+		Sia $H\le G$ un gruppo. Se introduciamo una relazione di equivalenza tale che
+		$$x\sim y \iff y = xh \qquad h\in H$$
+		allora le classi di equivalenza sono dette \textit{classi laterali sinistre}, e analogamente possiamo definire le \textit{classi laterali destre}, questi corrispondono con gli insiemi $xH$ e $Hx$. Possiamo inoltre definire un \textit{trasversale destro o sinistro} come un insieme di rappresentanti di tutti i laterali destri o sinistri in $G$. Denotiamo con $T$ un trasversale.
+	\end{definition}
+	Possiamo riassumere quanto appena detto con
+	$$G=\bigsqcup_{t\in T}tH$$
+	e da questo segue immediatamente il teorema di Lagrange, come già visto, ovvero
+	$$\abs{G:H}=\abs{T}=\frac{\abs{G}}{\abs{H}}.$$
+	Un modo carino per dire che lavorare a destra o lavorare a sinistra è perfettamente equivalente è il seguente: giriamo la formula di decomposizione trovata sopra prendendo gli inversi di tutti gli elementi:
+	$$G=G^{-1}=\bigsqcup_{t\in T}\left(tH\right)=\bigsqcup_{t\in T}H^{-1}t^{-1}=\bigsqcup_{t\in T}Ht^{-1}$$
+	cioè possiamo passare agilmente da laterali destri a laterali sinistri invertendo.
+	\begin{proposition}[Trasversali]
+		Se $K\le H \le G$ e $T$ è un trasversale di $H$ in $G$ e $U$ è un trasversale di $K$ in $H$ allora il trasversale di $K$ in $G$ è il prodotto dei trasversali.
+	\end{proposition}
+	\begin{proof}
+		Per definizione di trasversale ogni $g\in G$ può essere scritto come
+		$$g=th$$
+		con $t\in T$ e $h\in H$. Allo stesso modo possiamo scrivere
+		$$h=uk$$
+		con $u\in U$ e $k\in K$. Dunque questo dimostra che ogni $g$ si scrive come
+		$$g=tuk$$
+		cioè
+		$$G=TUK$$
+		da questo allora ci basta dimostrare che $TU$ è effettivamente formato da elementi in classi di equivalenza distinte modulo $K$. D'altra parte se
+		$$t_1u_1K=t_2u_2K$$
+		allora 
+		$$u_2^{-1}t_2^{-1}t_1u_1\in K$$
+		ma per chiusura abbiamo
+		$$t_2^{-1}t_1\in u_2Ku_1^{-1}\subseteq H$$
+		ma questo, dato che $T$ è un trasversale di $H$ vuol dire che $t_1=t_2$, e quindi anche $u_1=u_2$ (dato che $U$ è un trasversale di $K$), da cui la tesi.
+	\end{proof}
+	Un'altra cosa che si può fare con gli indici e i trasversali ci viene suggerita dal seguente grafico 
+	\begin{figure}[h]
+		\begin{center}
+			\begin{tikzcd}
+				&&G\arrow[d]&& \\
+				&&\langle H,K \rangle\arrow[dr]\arrow[dl] &&  \\
+				&H\arrow[dr]&&K\arrow[dl]& \\
+				&&H\cap K&&
+			\end{tikzcd}
+		\end{center}
+	\end{figure}
+	Notiamo che intuitivamente la distanza tra $G$ e $K$ è maggiore di quella tra $H$ e $H\cap K$, allora la disuguaglianza che vogliamo è
+	\begin{proposition}[Disuguaglianza tra trasversali]
+		Se $H\le G$ e $K \le G$ abbiamo che 
+		$$\abs{H:H\cap K}\le \abs{G:K}$$
+	\end{proposition}
+	\begin{proof}
+		Prendendo due laterali diversi di $H\cap K$ abbiamo
+		$$h_1\left(H\cap K\right)\ne h_2\left(H\cap K\right)$$
+		cioè $h_2^{-1}h_1 \not\in H\cap K$. Cioè $h_2^{-1}h_1\not\in K$ insomma abbiamo altre due classi laterali disgiunte per $K$, il che dimostra proprio la tesi.
+	\end{proof}
+	Da cui 
+	\begin{corollary}[Disuguaglianza per l'intersezione degli indici]
+		In generale se $G\ge H,K$ abbiamo
+		$$\abs{G:H\cap K}\le \abs{G:H}\abs{G:K}.$$
+	\end{corollary}	
+	\begin{proof}
+		Per quanto appena mostrato abbiamo
+		\begin{gather*}
+			\abs{G:K}\ge \abs{H:H\cap K} \\
+			\abs{G:H}\ge \abs{K:H\cap K}
+		\end{gather*}
+		ovvero moltiplicando membro a membro e usando quanto mostrato sul prodotto dei trasversali abbiamo
+		$$\abs{G:K}\abs{G:H}\ge  \abs{H:H\cap K} \abs{K:H\cap K}=\abs{HK}$$
+	\end{proof}
+	E purtroppo in generale non possiamo fare di meglio. La buona notizia è che:
+	\begin{proposition}[Se gli indici sono coprimi si ha uguaglianza]
+		SE GLI INDICI SONO COPRIMI ALLORA HAI UGUAGLIANZA, RIPRENDILA
+	\end{proposition}
+	Quando si parla di quozienti parliamo di gruppi normali:
+	\begin{definition}[Gruppo Normale]
+		Un sottogruppo $N\le G$ si dice normale e si scrive $N\normal G$ se e solo se 
+		$$gHg^{-1}=H$$
+		per ogni $g\in G$.
+	\end{definition}
+	Inoltre ricordiamo la definizione di prodotto diretto:
+	\begin{definition}[Prodotto tra gruppi]
+		Dati due $G\ge H,K$ allora definiamo il gruppo \textit{prodotto} come
+		$$HK:=\left\{hk:h\in H, k\in K\right\}.$$
+	\end{definition}
+	Non è necessario che questo sia un gruppo! Infatti prendendo gli inversi di tutto troviamo
+	$$\left(HK\right)^{-1}=K^{-1}H^{-1}=KH$$
+	che vuol dire che se $HK$ è un sottogruppo (dunque chiuso rispetto agli inversi), dobbiamo necessariamente avere
+	$$HK=KH$$
+	ma questa condizione è anche sufficiente, infatti da questa possiamo anche dimostrare che $HK$ è chiuso rispetto al prodotto, ovvero
+	$$h_1k_1h_2k_2=h_1h^*k^*k_2=(h_1h^*)(k^*k_2).$$
+	Da questa discussione estraiamo quindi:
+	\begin{corollary}[Normale implica prodotto un gruppo]
+		Se $H\le G$ e $N\normal G$ abbiamo che $HK\le G$.
+	\end{corollary}
+	Con i prodotto possiamo fare tante cose interessanti:
+	\begin{proposition}[Ordine del prodotto]
+		Per ogni $H,K\le G$ abbiamo
+		$$\abs{HK}=\frac{\abs{K}\abs{K}}{\abs{K\cap H}}.$$
+	\end{proposition}
+	\begin{proof}
+		Consideriamo la funzione 
+		$$\sigma : H\times K \to HK$$
+		che per ogni coppia $(h,k)$ moltiplica gli elementi. Prima di tutto questa è sicuramente suriettiva, e il dominio ha proprio cardinalità $\abs{H}\abs{K}$. D'altra parte se abbiamo
+		$$h_1k_1=h_2k_2$$
+		allora
+		$$h_2^{-1}h_1=k_2k_1^{-1}\in H\cap K$$
+		cioè abbiamo che 
+		$$(h_1,h_2)^{-1}(k_1,k_2)\in (H\cap K)^2 $$
+		quindi se due elementi hanno la stessa immagine differiscono per un prodotto di $H\cap K$, d'altra parte è facile vedere come due elementi che differiscono per un prodotto per un elemento di $H\cap K$ hanno la stessa immagine, infatti se $x\in H\cap K$ abbiamo
+		$$(hx,x^{-1}k)\mapsto hk$$
+		dunque abbiamo proprio la tesi.
+	\end{proof}
+	Cosa succede allora se $N\normal G$, $H\le G$ e il prodotto è proprio $G=HN$, mentre $H\cap N=\left\{1\right\}$? Beh per la funzione costruita prima questo vuol dire che ogni elemento $g\in G$ possiamo trovare una e una sola coppia $(h,k)$ tale che
+	$$hk=g$$
+	quello che ci viene da pensare immediatamente allora è che la biezione $\sigma$ che abbiamo costruito sia un isomorfismo. E questo è \textbf{falso} in generale, infatti abbiamo che
+	$$(h,1)\mapsto h$$
+	e 
+	$$(1,k)\mapsto k$$
+	ma gli elementi a sinistra commutano (per come è fatto il prodotto diretto), mentre quelli a destra non necessariamente.
+	\subsubsection{Applicazioni dei teoremi d'omomorfismo}
+	Ricordiamo i teoremi d'omomorfismo: questi scaturiscono essenzialmente dalla proiezione canonica
+	$$G\overset{\pi}{\longrightarrow}\faktor{G}{N}$$
+	da questa equazione si ricava facilmente il primo teorema d'omomorfismo. Il secondo nasce osservando che questa funzione induce anche una mappa tra i reticoli, ovvero
+	$$\pi_{\mid H}:H\to \faktor{HN}{N}$$
+	e dato che 
+	$$\ker{\pi_{\mid H}}=\ker{\pi}\cap H=N\cap H$$
+	abbiamo proprio il secondo teorema d'omomorfismo. Più articolato è il terzo teorema: quando ci troviamo nella situazione $H,K\normal G$ possiamo costruire la mappa
+	$$\gamma:\faktor{G}{K}\to \faktor{G}{H}$$
+	tale che $gK\mapsto gH$. Da cui ricaviamo facilmente il terzo teorema d'omomorfismo. Un'applicazione interessante è:
+	\begin{theorem*}[Cauchy dispari]
+		Sia $G$ un gruppo tale che $\abs{G}=2m$, con $m$ dispari. Allora $G$ contiene un sottogruppo di ordine $m$.
+	\end{theorem*}
+	Per arrivarci tuttavia passiamo per un paio di lemmi:
+	\begin{lemma}[Ordine $2$]
+		Se $G$ è un gruppo finito di ordine pari allora contiene un elemento di ordine $2$.
+	\end{lemma}
+	\begin{proof}
+		La dimostrazione consiste essenzialmente nel considerare la funzione che associa ad ogni $g\mapsto g^{-1}$ il suo inverso. Dato che il gruppo ha ordine pari, e che $(g^{-1})^{-1}$ abbiamo necessariamente che il numero degli elementi che vanno in se stessi sotto questa funzione deve necessariamente essere pari. D'altra parte questo insieme è sicuramente non vuoto, in quanto
+		$$1\mapsto 1^{-1}=1$$
+		e dunque dato che è pari ci sarà sempre almeno un altro elemento, che avrà ordine $2$ appunto.
+	\end{proof}
+	Un'altra cosa che ci servirà per dimostrare il teorema sopra è il teorema di Cayley. Ricordiamo che il teorema di Cayley scaturiva essenzialmente dal considerare la funzione
+	\begin{align*}
+		l_g:G &\to G \\
+		x & \mapsto gx
+	\end{align*}
+	che è un omomorfismo. Non solo, è anche biettivo, dunque possiamo costruire una biezione $g\mapsto l_g$ che ci permette di identificare $G$ con $\text{Sym}(G)$, ovvero ogni gruppo finito è un gruppo di permutazioni. Finalmente quindi:
+	\begin{theorem}[Cauchy dispari]
+		Sia $G$ un gruppo tale che $\abs{G}=2m$, con $m$ dispari. Allora $G$ contiene un sottogruppo di ordine $m$.
+	\end{theorem}
+	\begin{proof}
+		Consideriamo la funzione 
+		\begin{align*}
+			l:G& \to \text{Sym}(G) \\
+			g &\mapsto l_g 
+		\end{align*}
+		la cosa cruciale è che ogni permutazione può essere scomposta in trasposizioni, ovvero esplicitamente in questo caso
+		$$l(g)=(x_1\quad gx_1)(x_2 \quad gx_2)\dots (x_n \quad gx_n)$$
+		e dato che l'ordine di $G$ è pari questo vuol dire che il numero di trasposizioni è $n-1$, dunque $l(g)$ non è nel gruppo alterno. Dato che $\text{Alt}(G)$ ha ordine $2$ deve essere normale, dunque
+		$$\text{Alt}(G)\normal \text{Alt}(G)l(G)\normal \text{Sym}(G)$$
+	\end{proof}
+	
+	\newpage
+	
+	\section{Soluzioni agli esercizi proposti}
+	Durante il corso venivano proposti diversi esercizi nei fogli di riepilogo settimanali. Qui una raccolta di testi e soluzioni divisi per settimana.
+	\subsection{Settimana 1: testi}
+	
+	\subsection{Settimana 1: soluzioni}
+	
+	\subsection{Settimana 2: testi}
+	
+	\subsection{Settimana 2: soluzioni}
+	
+	\subsection{Settimana 3: testi}
+	
+	\subsection{Settimana 3: soluzioni}
+	
+	\subsection{Settimana 4: testi}
+	
+	\subsection{Settimana 4: soluzioni}
+	
+	\subsection{Settimana 5: testi}
+	
+	\subsection{Settimana 5: soluzioni}
+	
+	\subsection{Settimana 6: testi}
+	
+	\subsection{Settimana 6: soluzioni}
+	
 \end{document}
