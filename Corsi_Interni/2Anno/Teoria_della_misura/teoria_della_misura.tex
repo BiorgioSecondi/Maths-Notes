@@ -127,7 +127,7 @@
 	
 	\newpage
 	
-	\section{Preambolo: misure in $\RR^n$}
+	\section{Prologo: misure in $\RR^n$}
 	
 	Questa sezione è stata scritta leggendo "Real Analysis" di E.M. Stein e R. Shakarchi. L'idea è, prima di attaccare la teoria della misura nella sua piena astrazione, di ottenere un po' di intuizione nello spazio euclideo $\RR^n$ che siamo in grado di visualizzare. 
 	
@@ -460,11 +460,11 @@
 		a questo punto notiamo che, per come abbiamo definito l'insieme di Vitali, abbiamo che se $q_1\ne q_2$ allora $V_{q_1}\cap V_{q_2}=\eset$, perchè se si intersecassero avremmo scelto due elementi nella stessa classe di equivalenza. Inoltre abbiamo che
 		$$\bigcup_{q\in \QQ\cap [0,1)}V_q=[0,1)$$
 		in quanto ogni elemento di $[0,1)$ può essere scelto come somma tra un rappresentante della classe e un razionale. L'assurdo a questo punto scaturirà dal dimostrare che
-		\begin{claim}
-			$$\mu(V_q)=\mu(V)$$
+		\begin{claim}[Invarianza per traslazione]
+			$\mu(V_q)=\mu(V).$
 		\end{claim}
-		\begin{subproof}
-			d'altra parte possiamo spezzare $V$ in 
+		\begin{subproof}[Dimostrazione]
+			Possiamo spezzare $V$ in 
 			$$\mu(V)=\mu\left(\left\{v\in V:v+q<1\right\}\right)+\mu\left(\left\{v\in V:v+q\ge 1\right\}\right)$$
 			per additività. D'altra parte visto che $\mu$ è invariante per traslazioni dobbiamo avere
 			$$\dots= \mu\left(\left\{v+q\in V:v+q<1\right\}\right)+\mu\left(\left\{v+q-1\in V:v+q\ge 1\right\}\right)$$
@@ -584,7 +584,7 @@
 		\begin{enumerate}
 			\item $\mu^*(\eset)=0$.
 			\item \`E monotona, ovvero $A_1\subseteq A_2$ implica $\mu^*(A_1)\le \mu^*(A_2)$.
-			\item La misura esterna è $\sigma$-\textit{subadditiva}, cioè per ogni successione di insiemi $\left(A_i\right)_{i\in\NN}$ di sottoinsiemi di $X$ abbiamo
+			\item \`E $\sigma$-\textit{subadditiva}, cioè per ogni successione di insiemi $\left(A_i\right)_{i\in\NN}$ di sottoinsiemi di $X$ abbiamo
 			$$\mu^*\left(\bigcup_{i=1}^\infty A_i\right)\le \sum_{i=1}^{\infty}\mu^*(A_i).$$
 		\end{enumerate}
 	\end{definition}
@@ -644,13 +644,19 @@
 			\vdots \quad \quad \qquad \qquad \qquad\\
 			= \sum_{i=1}^{n}\mu^*\left(\left(A_i\setminus \bigcup_{k=1}^{i-1}A_k\right)\cap E\right)+\mu^*\left(\left(\bigcup_{i=1}^n A_i\right)^\complement \cap E\right) &
 		\end{align*}
-		d'altra parte per monotonia abbiamo facilmente che il secondo addendo può essere boundato dal basso dall'unione \textit{infinita} degli $A_i$, quindi prendendo anche $n\to \infty$ possiamo mantenere la disuguaglianza:
-		$$\mu(E)\ge \sum_{i=1}^{\infty}\mu^*\left(\left(A_i\setminus \bigcup_{k=1}^{i-1}A_k\right)\cap E\right)+\mu^*\left(\left(\bigcup_{i=1}^\infty A_i\right)^\complement \cap E\right)$$
+		d'altra parte per monotonia abbiamo facilmente che il secondo addendo può essere boundato dal basso dall'unione \textit{infinita} degli $A_i$, quindi \ref prendendo anche $n\to \infty$ possiamo mantenere la disuguaglianza:
+		\begin{equation}\label{Misure:formula fondamentale Carathèodory}
+			\mu(E)\ge \sum_{i=1}^{\infty}\mu^*\left(\left(A_i\setminus \bigcup_{k=1}^{i-1}A_k\right)\cap E\right)+\mu^*\left(\left(\bigcup_{i=1}^\infty A_i\right)^\complement \cap E\right)
+		\end{equation}
 		ma usando la subadditività su quella somma possiamo riscrivere il primo addendo come 
 		$$\sum_{i=1}^{\infty}\mu^*\left(\left(A_i\setminus \bigcup_{k=1}^{i-1}A_k\right)\cap E\right)\ge \mu^*\left[\bigcup_{i=1}^\infty\left(\left(A_i\setminus \bigcup_{k=1}^{i-1}A_k\right)\cap E\right)\right]$$
 		che è proprio uguale a
 		$$\bigcup_{i=1}^\infty\left(\left(A_i\setminus \bigcup_{k=1}^{i-1}A_k\right)\cap E\right)=E \cap \bigcup_{i=1}^\infty A_i $$
-		da cui abbiamo un verso della disuguaglianza che volevamo mostrare per l'unione numerabile di misurabili. L'altro verso segue per subadditività, e quindi abbiamo finito. 
+		da cui abbiamo un verso della disuguaglianza che volevamo mostrare per l'unione numerabile di misurabili. L'altro verso segue per subadditività, e quindi abbiamo finito. \\
+		D'altra parte per mostrare la $\sigma$-additività possiamo riutilizzare la \ref{Misure:formula fondamentale Carathèodory} sostituendo a $E$ l'insieme $\bigcup_{i\in \NN} A_i$ e supponendo che tutti gli $A_i$ siano disgiunti, in questo modo la formula si semplifica a 
+		$$\mu^*\left(\bigcup_{i\in\NN}A_i\right)\ge \sum_{i=1}^{\infty}\mu^*\left(A_i\cap \bigcup_{i\in \NN}A_i\right)+\mu^*(\eset)=\sum_{i=1}^{\infty}\mu^*(A_i)$$
+		da cui abbiamo la $\sigma$-additività.
+		\\
 		Rimane da mostrare la completezza, d'altra parte se $\mu^*(A)=0$ abbiamo
 		$$\mu^*(E)\ge \mu^*(E\cap A^\complement)=\mu^*(E\cap A^\complement)+\mu^*(A)\ge \mu^*(E\cap A^\complement)+\mu^*(E\cap A)$$
 		usando monotonie varie, da cui troviamo ancora l'uguaglianza cercata.
@@ -672,10 +678,44 @@
 		$$\overline{\mathcal{A}}:=\left\{N\cup A:A\in \mathcal{A},N\in\mathcal{N}\right\}$$
 		e 
 		$$\overline{\mu}(A\cup N):=\mu(A)$$
-		in modo che $\overline{\mu}$ sia ben definita e $(X,\overline{\mathcal{A}},\overline{\mu})$ è uno spazio di misura con $\overline{\mu}$ completa.
+		in modo che $\overline{\mu}$ sia ben definita e $(X,\overline{\mathcal{A}},\overline{\mu})$ sia uno spazio di misura con $\overline{\mu}$ completa.
 	\end{proposition}
 	\begin{proof}
-		Esercizio.
+		Dimostriamo prima di tutto che $\overline{\mu}$ è ben definita: prendiamo $A_1,A_2\in \mathcal{A}$ e $N_1,N_2\in\mathcal{N}$ tali che
+		$$A_1\cup N_1=A_2\cup N_2$$
+		dobbiamo mostrare che 
+		$$\mu(A_1)=\overline{\mu}(A_1\cup N_1)=\overline{\mu}(A_2\cup N_2)=\mu(A_2)$$
+		d'altra parte per definizione di $\mathcal{N}$ sappiamo che esistono due $B_1,B_2$ tali che $B_1\supseteq N_1$, $B_2\supseteq N_2$ e inoltre $\mu(B_1)=\mu(B_2)=0$, questi soddisfano
+		\begin{gather*}
+			A_1\subseteq A_2\cup N_2 \subseteq A_2\cup B_2 \\
+			A_2\subseteq A_1\cup N_1 \subseteq A_1\cup B_1
+		\end{gather*}
+		dunque per monotonia e subadditività abbiamo che
+		\begin{gather*}
+			\mu(A_1)\le \mu\left(A_2\cup B_2\right)\le\mu(A_2)+\mu(B_2)=\mu(A_2) \\
+			\mu(A_2)\le \mu\left(A_1\cup B_1\right)\le\mu(A_1)+\mu(B_1)=\mu(A_1)
+		\end{gather*}
+		da cui segue proprio quello che volevamo mostrare. \\
+		Dimostriamo ora che $\overline{\mathcal{A}}$ è proprio una $\sigma$-algebra:
+		\begin{description}
+			\item[Unioni:] Prendiamo una successione $A_n\cup N_n$ di insiemi in $\overline{\mathcal{A}}$, allora vogliamo mostrare che la loro unione sta in $\overline{\mathcal{A}}$. D'altra parte
+			$$\bigcup_{n\in \NN}\left(A_n\cup N_n\right)=\bigcup_{n\in \NN}A_n\cup \bigcup_{n\in\NN}N_n$$
+			e l'unione numerabile degli $A_n$ è sicuramente in $\mathcal{A}$, rimane da mostrare che l'unione numerabile dei $N_n$ è sempre in $\mathcal{N}$, d'altra parte se $B_n$ sono insiemi di misura nulla tali che $B_n\supseteq N_n$ abbiamo per subadditività:
+			$$\mu\left(\bigcup_{n\in \NN}B_n\right)\le \sum_{n\in\NN}\mu(B_n)=0$$
+			cioè la loro unione è a sua volta un insieme di misura nulla, dunque dato che
+			$$\bigcup_{n\in\NN}N_n \subseteq \bigcup_{n\in\NN}B_n$$	
+			abbiamo che $\bigcup N_n\in \mathcal{N}$, cioè abbiamo dimostrato che l'unione numerabile di elementi di $\overline{\mathcal{A}}$ è di nuovo in $\overline{\mathcal{A}}$. 	
+			\item[Complementari:] Sia $A\cup N\in \overline{\mathcal{A}}$, allora dobbiamo mostrare che
+			$$A^\complement \cap N^\complement = \left(A\cup N\right)^\complement \in \overline{\mathcal{A}}$$
+			per fare ciò cerchiamo un $A'\in \mathcal{A}$ e un $N'\in \mathcal{N}$ tali che
+			$$A^\complement \cap N^\complement = A'\cup N'.$$
+			L'idea chiave per fare ciò è decomporre $N^\complement$ in una parte dentro $\mathcal{A}$ e una dentro $\mathcal{N}$. Dato un $F\supseteq N$ tale che $\mu(B)=0$ possiamo scrivere $N^\complement$ come
+			$$N^\complement = \left(F\setminus N \right)\cup F^\complement$$
+			da cui troviamo, sostituendo in $A^\complement \cap N^\complement$:
+			$$A^\complement\cap \left(\left(F\setminus N \right)\cup F^\complement\right)=\left[A^\complement\cap \left(F\setminus N\right)\right]\cup \left[A^\complement \cap F^\complement\right]$$
+			e questo conclude, infatti $F^\complement\cap A^\complement\in \mathcal{A}$ per le proprietà di $\sigma$-algebra di $\mathcal{A}$, mentre $A^\complement\cap \left(F\setminus N\right)\subseteq F$ è un sottoinsieme di un insieme di misura nulla, quindi apparterrà ad $\mathcal{N}$ per definizione.
+		\end{description}
+		Rimarrebbe solo da mostrare che $\overline{\mu}$ è completa, tuttavia questo segue molto facilmente dalla definizione, dunque abbiamo finito.
 	\end{proof}
 	In effetti possiamo anche dimostrare che
 	$$\overline{\mathcal{A}}=\sigma\left(\mathcal{A}\cup \mathcal{N}\right).$$
@@ -704,5 +744,24 @@
 	\newpage
 	
 	\section{Introduzione al Trasporto Ottimo}
+	
+	\newpage
+	
+	\section{Epilogo: Soluzioni degli esercizi}
+	
+	Qui raccolgo le soluzioni agli esercizi dei fogli di esercizi dati durante il corso (e non).
+	
+	\subsection{Foglio 1: Misure e $\sigma$-algebre}
+	
+	\begin{exercise}[$\sigma$-algebre e cardinalità]
+		Mostrare che non esistono $\sigma$-algebre con cardinalità numerabile. \\
+		\textit{Suggerimento:} mostrare preliminarmente che ogni $\sigma$-algebra infinita ammette almeno numerabili
+		insiemi disgiunti.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		contenuto...
+	\end{proof}
+	
+	\subsection{Foglio 2: Teoria dell'integrale}
 	
 \end{document}
