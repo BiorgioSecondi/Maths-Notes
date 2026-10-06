@@ -623,6 +623,253 @@
 		abbiamo che ogni punto di $B\cap Y$ appartiene ad $A$, che termina la dimostrazione. 
 	\end{proof}
 	
+	\subsection{Completezza}
+	
+	Avviciniamoci a quello che ci interessa effettivamente quando facciamo analisi, ovvero:
+	
+	\begin{definition}[Successione di Cauchy]
+		Una successione $(x_n)_{n\in\NN}$ in $(X,d)$ si dice di \textit{Cauchy} se per ogni $\varepsilon>0$ esiste un $\overline{n}$ tale che se $m,n\ge \overline{n}$ allora
+		$$d\left(x_n,x_m\right)<\varepsilon.$$
+	\end{definition}
+	E dunque
+	\begin{definition}[Completezza metrica]
+		Lo spazio $(X,d)$ si dice \textit{completo}, se ogni successione di Cauchy è convergente.
+	\end{definition}
+	Abbiamo già visto che in $\RR$ essere convergente ed essere di Cauchy sono equivalenti, dunque, da questo discende facilmente che $\RR$ è completo, e di conseguenza (ragionando componente per componente) anche $\RR^n$ è completo. \\
+	Vogliamo arrivare al teorema di completamento degli spazi metrici. Per farlo abbiamo bisogno di un paio di cose prima:
+	\begin{definition}[Isometria]
+		Dati due spazi $X,Y$ una funzione $f:X\to Y$ si dice \textit{isometria} se preserva le distanze, ovvero
+		$$d_X(x,x')=d_Y\left(f(x),f(x')\right).$$
+		Due spazi $X,Y$ si dicono \textit{isometrici} se esiste un'isometria biettiva.
+	\end{definition}
+	Una prima conseguenza di ciò è che un'isometria è sempre iniettiva. D'altra parte non è detto che questa sia suriettiva.
+	\begin{example}[Isometrie tra reali]
+		Esiste un'isometria che inserisce $\RR\to\RR^2$, ma questa \textit{non può essere iniettiva} (il perché richiede strumenti più avanzati).
+	\end{example}
+	\begin{remark}
+		Se $f:X\to Y$ è un'isometria allora $f$ è sempre iniettiva e continua.
+	\end{remark}
+	\begin{definition}[Completamento]
+		Sia $(X,d_X)$ uno spazio metrico. Allora uno spazio $(Y,d_Y)$ si dice \textit{completamento} di $X$ se:
+		\begin{enumerate}
+			\item $Y$ è completo
+			\item Contiene una copia isometrica di $X$, cioè esiste una isometria $f:X\to Y$.
+			\item L'immagine isometrica a $X$ in $Y$, ovvero $f(X)$, è densa in $Y$.
+		\end{enumerate}
+	\end{definition}
+	L'ultimo punto ci serve perchè vogliamo che il completamento sia "il più piccolo" sovraspazio completo di $X$. Se non includessimo la terza proprietà potremmo avere che $\RR^2$ è completamento di $\QQ$, e questo sarebbe un po' strano.
+	\begin{exercise}[Distanza esponenziale]
+		Consideriamo $\RR$ equipaggiato con la distanza
+		$$d(x,y):=\abs{e^x-e^y}$$
+		si dimostri che questo è uno spazio metrico, che non è completo, e calcolarne il completamento.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		La prima richiesta è lasciata come esercizio. Costruiamo ora una successione di Cauchy non convergente:
+		$$x_n:=-n$$
+		questa è chiaramente di Cauchy in quanto
+		$$d(x_n,x_m)=\abs{e^{-n}-e^{-m}}\le e^{-m}+e^{-n}$$
+		che tende chiaramente a $0$ come vogliamo. Supponiamo ora per assurdo che $x_n\to x_0$, allora
+		$$d(x_n,x_0)=\abs{e^{-n}-e^{-x_0}}\to e^{x_0}$$ 
+		ma questa distanza è strettamente positiva, quindi la successione non può tendere a $x_0$. Il completamento di questo spazio è quindi l'insieme $Y=\RR\cup \left\{-\infty\right\}$ con la distanza
+		$$d_Y(x,y):=\begin{cases}
+			\abs{e^x-e^y} & \text{se $x,y\in \RR$} \\
+			e^x & \text{se $x\in \RR$ e $y=-\infty$}
+		\end{cases}$$
+		e chiaramente $d(-\infty,-\infty)=0$. Supponiamo allora che $x_n\in Y$ sia di Cauchy, questo vuol dire che definitivamente
+		$$\abs{e^{x_n}-e^{x_m}}<\varepsilon$$
+		ma questo vuol dire che la successione $e^{x_n}$ è di Cauchy in $\RR$ equipaggiato con la distanza euclidea. Ma allora $e^{x_n}\to t\in [0,\infty)$ converge ad un certo valore $t$ nella metrica di $\RR$ euclideo. Questo vuol dire che, per continuità del logaritmo
+		$$
+		x_n \to 
+		\begin{cases}
+			\log t & \text{se $t>0$ }\\
+			-\infty & \text{altrimenti.}
+		\end{cases}
+		$$
+		nella distanza di $y$,
+	\end{proof}
+	Il teorema quindi (che non dimostreremo formalmente) è:
+	\begin{theorem}[Completamento di uno spazio metrico]
+		Ogni spazio metrico $(X,d)$ ammette uno e un solo completamento (a meno di isometrie).
+	\end{theorem}
+	\begin{proof}
+		Consideriamo l'insieme 
+		$$A:=\left\{\left(x_n\right)_{n\in\NN}:x_n \text{ è di Cauchy in $X$}\right\}$$
+		allora definiamo una relazione di equivalenza tale che
+		$$x_n\sim y_n \iff d(x_n,y_n)\to 0.$$
+		Allora il nostro candidato completamento è
+		$$Y:=\faktor{A}{\sim}=\left\{\left[\left(x_n\right)_{n\in\NN}\right]:\left(x_n\right)\in A\right\}$$
+		con la distanza
+		$$d_Y\left(\left[x_n\right],\left[y_n\right]\right):=\lim_{n\to\infty}d\left(x_n,y_n\right).$$
+		Ci manca un'isometria $f:X\to Y$, ma questa semplicemente è 
+		\begin{align*}
+			f: X & \to Y \\
+			x & \mapsto \left[x_n \equiv x\right].
+		\end{align*}
+		E ora dovremmo dimostrare che questo è un completamento. Non lo faremo.
+	\end{proof}
+	\begin{exercise}[Lemma dei compatti]
+		Si dimostri che, in uno spazio metrico completo $X$, data una successione $K_n$ di chiusi decrescente e tale che il diametro tenda a $0$ allora
+		$$\bigcap_{n\in\NN} K_n=\left\{x\right\} $$
+		con $x\in X$.
+	\end{exercise}
+	\begin{proof}
+		Vedere il lemma dei compatti sugli Appunti di Complementi di Analisi.
+	\end{proof}
+	\subsection{Compattezza}
+	\begin{definition}[Compattezza sequenziale]
+		Dato uno spazio metrico $(X,d)$, un suo sottoinsieme $K\subseteq X$ si dice \textit{sequenzialmente compatto} se per ogni successione $x_n$ a valori in $K$, questa ammette una sottosuccessione convergente in $K$.
+	\end{definition}
+	Ricordiamo ora che per un insieme $E$ essere \textit{limitato} vuol dire che esiste una palla tale che
+	$$E\subseteq B(x,r)$$
+	o analogamente $\text{diam}(E)<\infty$. 
+	\begin{proposition}[Sequenzialmente compatto implica chiuso e limitato]
+		Se un insieme $K$ è sequenzialmente compatto allora è chiuso e limitato.
+	\end{proposition}
+	\begin{proof}
+		Dobbiamo mostrare che $K=\overline{K}$, prendiamo allora un $x\in \overline{K}$, per definizione esisterà una successione convergente $x_n\to x$ a valori in $K$. D'altra parte sappiamo per compattezza sequenziale che $x_n$ ammette un punto limite in $K$, ma visto che $x_n$ converge l'unico punto limite è per forza $x$, e quindi abbiamo proprio $x\in K$. \\
+		Rimane da mostrare che $K$ è limitato. Supponiamo che sia illimitato, allora preso un $x_0\in K$ abbiamo che per ogni $n\in\NN$ si ha
+		$$K\not\subseteq B(x_0,n)$$
+		ma questo vuol dire che per ogni $n\in \NN$ esiste un $x_n\not\in B(x_0,r)$ ma $x_n\in K$. Abbiamo quindi costruito una successione a valori in $K$, che per compattezza deve avere almeno un punto limite, sia $x_{n_i}\to x$ la sottosuccessione convergente, allora per la disuguaglianza triangolare
+		$$d(x,x_0)\ge d(x_0,x_{n_i})-d(x_{n_i},x)$$
+		dunque per definizione di $x_{n_i}$ abbiamo che il RHS tende a infinito, mentre il LHS è un numero reale, assurdo, da cui la tesi.
+	\end{proof}
+	In $\RR^n$ in realtà possiamo fare di meglio, ovvero:
+	\begin{theorem}[Heine-Borel]
+		In $\RR^m$ abbiamo che sequenzialmente compatto e chiuso e limitato sono equivalenti.
+	\end{theorem}
+	\begin{proof}
+		Un vero lo abbiamo già mostrato con la proposizioni prima. Rimane da dimostrare che se $K\subseteq \RR^m$ è chiuso e limitato, allora è sequenzialmente compatto. Prendiamo una successione 
+		$$\mathbf{x}_n:=\begin{pmatrix}
+			x_n^1 \\
+			x_n^2 \\
+			\vdots \\
+			x_n^m
+		\end{pmatrix}$$ 
+		dato che $K$ è limitato avremo che ogni componente di questa successione di punti è limitata, dunque per ogni $i$ possiamo trovare un punto limite per la successione $x_n^i$. Sia allora $\left(\mathbf{x}_{n_h}\right)_h$ la successione avente come componenti le sottosuccessioni estratte per ciascuna componente, allora abbiamo
+		$$\mathbf{x}_{n_h}\to x=\left(x^1,x^2,\dots,x^n\right)$$
+		rimarrebbe da dimostrare che questo è in $K$, ma d'altra parte essendo $K$ chiuso conterrà tutti i suoi punti di accumulazione, ed essendo $\mathbf{x}$ proprio un punto di accumulazione di $K$ abbiamo la tesi.
+	\end{proof}
+	In spazi metrici arbitrari questo non è necessariamente vero, e dovremmo ricorrere a caratterizzazioni di altro tipo.
+	\begin{example}[Uno spazio chiuso e limitato che non è compatto]
+		Lo spazio $\RR$ equipaggiato con la distanza
+		$$d(x,y)=\abs{e^x-e^y}$$
+		incontrato prima è chiuso e limitato, ma chiaramente non è compatto, in quanto ogni sottosuccessione di $x_n:=-n$ non converge.
+	\end{example}
+	Quello di cui abbiamo bisogno è ancora di un po' di topologia:
+	\begin{definition}[Ricoprimenti e sottoricoprimenti]
+		Una famiglia di insiemi $\mathcal{F}$ si dice un \textit{ricoprimento} di $K$ se abbiamo
+		$$K\subseteq \bigcup_{A\in \mathcal{F}}A$$
+		un ricoprimento si dice \textit{aperto} se composto solo da insiemi aperti, e si dice \textit{finito} se composto da un numero finito di elementi. Un \textit{sottoricoprimento} è una sottofamiglia $\mathcal{F}'\subseteq \mathcal{F}$ di un ricoprimento di $A$, tale che sia ancora un ricoprimento di $A$.
+	\end{definition}
+	Dunque possiamo dare la definizione topologica di compattezza:
+	\begin{definition}[Compattezza topologica]
+		Un sottoinsieme $K\subseteq X$ di uno spazio metrico si dice \textit{compatto} se ogni suo ricoprimento aperto ammette un sottoricoprimento finito.
+	\end{definition}
+	\begin{theorem}[Caratterizzazione topologica della compattezza]
+		In uno spazio $X$ un insieme $K$ è sequenzialmente compatto se e solo se è compatto.
+	\end{theorem}
+	\subsubsection{Continuità e compattezza}
+	Ancora meglio è il seguente fatto:
+	\begin{theorem}[Le funzioni continue preservano la compattezza]
+		Sia $f:X\to Y$ una funzione continua tra gli spazi metrici $X$ e $Y$, allora se $X$ è compatto anche $f(X)$ è compatto.
+	\end{theorem}
+	\begin{proof}
+		Prendiamo un ricoprimento aperto $A_i$ di $f(X)$. Allora abbiamo che
+		$$X=f^{-1}\left(f(X)\right)\subseteq f^{-1}\left(\bigcup_{i\in I}A_i\right)=\bigcup_{i\in I}f^{-1}(A_i)$$
+		ma per la continuità di $f$ abbiamo che ciascuno degli $f^{-1}(A_i)$ è aperto, cioè abbiamo trovato un ricoprimento di $X$, ovvero $f^{-1}(A_i)$. Ma per la compattezza di $X$ abbiamo che possiamo estrarre un sottoricoprimento finito, ovvero
+		$$\bigcup_{i=1}^n f^{-1}(A_i)\supseteq X$$
+		da cui ricaviamo che 
+		$$\bigcup_{i=1}^n A_i \supseteq f(X)$$
+		cioè la tesi.
+	\end{proof}
+	Analogamente avremmo potuto fare usando la compattezza sequenziale. Un corollario importante di ciò è
+	\begin{corollary}[Weierstrass]
+		Sia $X$ uno spazio metrico compatto e $f:X\to\RR$ una funzione continua. Allora $f$ ammette massimo e minimo.
+	\end{corollary}
+	\begin{proof}
+		Per quanto appena mostrato abbiamo che $f(X)$ è compatto, ma per Heine-Borel questo vuol dire che è chiuso e limitato. Il fatto che sia limitato ci assicura che abbia sup e inf, mentre il fatto che sia chiuso ci assicura che questi siano un massimo e un minimo.
+	\end{proof}
+	Ricordiamo ora la nozione di uniforme continuità:
+	\begin{definition}[Continuità uniforme]
+		Una funzione $f:X\to Y$ si dice \textit{uniformemente continua} se per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che, per ogni $x_1,x_2\in X$ si ha 
+		$$d(x_1,x_2)<\delta \implies d(f(x_1),f(x_2))<\varepsilon.$$
+	\end{definition}
+	E recuperiamo quanto sapevamo da analisi 1:
+	\begin{theorem}[Heine-Cantor]
+		Sia $f:X\to Y$ una funzione continua tra spazi metrici. Allora se $X$ è compatto $f$ è uniformemente continua.
+	\end{theorem}
+	\begin{proof}
+		Se per assurdo $f$ non fosse uniformemente continua allora avremmo che esiste un $\overline{\varepsilon}>0$ per cui nessun $\delta>0$ soddisfa la definizione di uniforme continuità. Allora in particolare avremo che esistono due successioni $x_n$ e $y_n$ di punti in $X$ tali che
+		$$d_X(x_n,y_n)<\frac{1}{n}$$
+		ma
+		$$d_Y\left(f(x_n),f(y_n)\right)\ge \overline{\varepsilon}.$$
+		Per compattezza sequenziale a questo punto abbiamo che esisterà una sottosuccessione $x_{n_i}\to x_0$ d'altra parte questo vuol dire che anche $y_{n_i}\to x_0$ ma allora
+		dobbiamo avere che
+		$$\overline{\varepsilon}\le \lim_{i\to\infty}d\left(f(x_{n_i}),f(y_{n_i})\right)$$
+		ma d'altra parte abbiamo, per disuguaglianza triangolare
+		$$\lim_{i\to\infty}d\left(f(x_{n_i}),f(y_{n_i})\right)\le \lim_{i\to\infty}\left[d\left(f(x_{n_i}),f(x_0)\right)+d\left(f(y_{n_i}),f(x_0)\right)\right]$$
+		che per continuità della distanza tende a $0$! Cioè abbiamo la tesi, per assurdo.
+	\end{proof}
+	
+	\subsection{Connessione}
+	
+	Diamo la nozione di connessione:
+	\begin{definition}[Connessione]
+		Uno spazio $(X,d)$ si dice \textit{connesso} se, avendo 
+		$$X=A_1\sqcup A_2$$
+		dove $A_1$ e $A_2$ sono aperti, allora si ha necessariamente che $A_1=\eset$ o $A_2=\eset$. In altre parole $X$ è uno spazio connesso se e solo se gli unici insiemi sia aperti che connessi al suo interno sono $\eset$ e $X$.
+	\end{definition}
+	Analogamente possiamo dire che un sottoinsieme di $X\supseteq Y$ è connesso se e solo se è connesso come spazio metrico equipaggiato con la distanza indotta da $X$.
+	
+	\begin{proposition}[Caratterizzazione della connessione in $\RR$]
+		Un insieme $I\subseteq \RR$ è connesso se e solo se è un intervallo.
+	\end{proposition}
+	\begin{proof}
+		Supponiamo che $I$ sia connesso e supponiamo per assurdo che non sia un intervallo, allora esisteranno tre punti $x<y<z$ tali che $x\in I$ e $z\in I$ ma $y\not\in I$. Allora possiamo scrivere $I$ come
+		$$I=\left(I\cap \left(-\infty,y\right)\right)\sqcup \left(I\cap \left(y,\infty\right)\right)$$
+		E visto che gli aperti di $I$ sono per definizione l'intersezione tra gli aperti di $\RR$ e $I$ abbiamo che i due insiemi che abbiamo in quell'uguaglianza sono aperti. Tuttavia sono anche non vuoti, e quindi $I$ è sconnesso, assurdo. \\
+		Supponiamo ora per assurdo che $I$ sia un intervallo, ma esistano due aperti $B_1,B_2$ di $\RR$ non vuoti, tali che $I\cap B_1$ e $I\cap B_2$ siano ancora non vuoti, e:
+		$$I=\left(B_1\cap I\right)\sqcup\left(B_2\cap I\right).$$
+		Prendiamo allora $x\in I\cap B_1$ e $y\in I\cap B_2$, e supponiamo WLOG che $x<y$. Consideriamo allora l'insieme
+		$$\overline{x}:=\sup\left\{x\in I_[x,t)\subseteq I\cap B_1\right\}$$
+		questo insieme è sicuramente non vuoto in quanto $I\cap B_1$ è aperto, dunque abbiamo che
+		$$y>\overline{x}>x$$
+		ma visto che $I$ è un intervallo abbiamo che $\overline{x}\in I$, dunque questo deve appartenere ad uno tra $I\cap B_1$ e $I\cap B_2$. Se stesse in $I\cap B_1$ avremmo un assurdo, perchè essendo $I\cap B_1$ aperto esiste un $\delta>0$ tale che
+		$$(\overline{x},\overline{x}+\delta)\subseteq I\cap B_1$$
+		contraddicendo la definizione di $\sup$. D'altronde se $\overline{x}\in I\cap B_2 $ abbiamo di nuovo che esiste un $\delta>0$ tale che
+		$$\left(\overline{x}-\delta,\overline{x}\right)\subseteq I\cap B_2$$
+		che porta di nuovo ad un assurdo.
+	\end{proof}
+	Come per la compattezza anche la connessione è una proprietà conservata da mappe continue:
+	\begin{theorem}[Invarianza della connessione per continuità]
+		Data una $f:X\to Y$ continua tra spazi metrici abbiamo che se $X$ è connesso anche $f(X)$ è connesso.
+	\end{theorem}
+	\begin{proof}
+		Supponiamo che 
+		$$f(X)=\left[f(X)\cap B_1\right]\sqcup \left[f(X)\cap B_2\right]$$
+		con $B_1,B_2$ aperti di $Y$. Allora
+		$$X=f^{-1}(f(X))=\left( X\cap f^{-1}(B_1)\right)\sqcup \left(X\cap f^{-1}(B_2)\right)=f^{-1}(B_1)\sqcup f^{-1}(B_2)$$
+		ma per continuità questi due insiemi sono entrambi aperti, e quindi uno dei due deve essere vuoto, da cui discende la tesi.
+	\end{proof}
+	Dimostrare che le cose non sono connesse di solito si fa riconducendosi al caso di $\RR$:
+	\begin{example}[Spazio senza un piano]
+		L'insieme 
+		$$X=\left\{\mathbf{x}\in \RR^n:x_1\ne 0\right\}$$
+		non è connesso, infatti la funzione continua
+		$$f(\mathbf{x})=x_1$$
+		ha immagine $\RR\setminus\left\{0\right\}$ che non è connessa, e dunque neanche $X$ può esserlo.
+	\end{example}
+	Infine un'applicazione di ciò è:
+	\begin{corollary}[Dei valori intermedi]
+		Sia $f:X\to \RR$ una funzione continua con $X$ connesso, allora se 
+		$$\inf f<t<\sup f$$
+		allora esiste un $x\in X$ tale che $f(x)=t$. 
+	\end{corollary}
+	\begin{proof}
+		Semplicemente l'immagine deve essere un intervallo, e dunque segue la tesi.
+	\end{proof}
+	
+	
 	\newpage
 	
 	\part{Modulo B}

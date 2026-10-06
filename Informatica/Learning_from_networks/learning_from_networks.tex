@@ -149,6 +149,71 @@
 		Let $G=(V,E)$ be a connected undirected graph. We define the \textit{closeness centrality} of a node $v$ as 
 		$$c(v):=\frac{n-1}{\sum_{u\in V}d(v,u)}.$$
 	\end{definition}
-	This is defined to be always $c(v)\in [0,1]$ (except for weigthed graphs, for which we need to renormalize with the sum of all the edges). It's very easy to calculate this analytic for a single node with a Dijkstra or BFS, or a Bellman-Ford for all the graph. The problem is that we actually want to be much faster than quadratic, because the graphs we will be working with are huge.
+	This is defined to be always $c(v)\in [0,1]$ (except for weigthed graphs, for which we need to renormalize with the sum of all the edges). It's very easy to calculate this analytic for a single node with a Dijkstra or BFS, or a Bellman-Ford for all the graph. The problem is that we actually want to be much faster than quadratic, because the graphs we will be working with are huge. 
+	
+	\subsubsection{Eppstein-Wang}
+	
+	We need to approximate the closeness centrality. The main idea is that we want to compute a \textit{campionary average}, that is we need to find the average of distances from all the nodes of the graph to a specific node. So what is natural to do is to compute the distance only for \textit{some} (randomized) subset of the nodes of the graph. Let's be more formal: selecting a random subset $V'$ of vertices from $V$ (not including $v$) we want to say that
+	$$c(v)\approx\frac{n-1}{\frac{n}{\abs{V'}}\sum_{v'\in V'}d(v,v')}$$
+	considering the simmetric matrix 
+	$$D=
+	\begin{pmatrix}
+		d(1,1) & d(1,2) & \dots & d(1,n) \\
+		d(2,1) & d(2,2) & \dots & d(2,n) \\
+		\vdots & \vdots & \ddots& \vdots \\
+		d(n,1) & d(n,2) & \dots & d(n,n)
+	\end{pmatrix}
+	$$
+	we sample a set $V'$ of vertices of cardinalità $\frac{n}{\varepsilon}$, and we run dijkstra just from the vertices on theese sets. In this way for any node in the graph we have calculated $n/\varepsilon$ distances for it, and we can use them to calculate $c(v)$ as said above. Let's be a bit more formal, we define
+	$$\hat{c}(v):=\frac{n-1}{\frac{n}{\abs{V'}}\sum_{v'\in V'}d(v,v')}$$
+	the main result we want to show is:
+	\begin{proposition}[Central estimate for closeness centrality]
+		For a graph $G=(V,E)$, given a random set $V'$ of cardinality $k$ and its associated $\hat{c}$ we want to show that
+		$$\mathbb{E}\left[\frac{1}{\hat{c}(v)}\right]=\frac{1}{c(v)}$$
+		for any $v$.
+	\end{proposition}
+	\begin{proof}
+		We should first discuss the nature of the random variable $V'$. For $i=1,\dots,k$ we define a succession $X_i$ of iid r.v. (random variables) such that 
+		$$X_i:=d(v,v_i)\frac{n}{n-1}$$
+		where $v_i$ is the vertex choosen \textbf{uniformly} at random in the $i$-th iteration of the algorithm. Then by definition we have
+		$$\frac{1}{\hat{c}(v)}=\frac{1}{k}\sum_{i=1}^{k}X_i$$
+		now by linearity of expectation we have
+		$$\mathbb{E}\left[\frac{1}{\hat{c}(v)}\right]=\frac{1}{k}\sum_{i=1}^{k}\mathbb{E}\left[X_i\right]$$
+		but since the $X_i$ are identically distributed we have $\mathbb{E}[X_i]=\mathbb{E}[X_j]$ and so we just need to show that
+		$$\mathbb{E}\left[\frac{1}{\hat{c}(v)}\right]=\frac{1}{k}k\mathbb{E}[X_i]=\mathbb{E}[X_i]$$
+		but since the nodes are choosen independently and uniformly with probability $\frac{1}{n}$ we have
+		$$\mathbb{E}\left[X_i\right]=\sum_{w\in V}\frac{1}{n}\frac{n}{n-1}d(v,w)=\frac{1}{n-1}\sum_{w\in V}d(v,w)$$
+		which is exactly $1/c(v)$, as desired.
+	\end{proof}
+	But we want more guarantees, so we are going to prove that for $k$ large enough we get close enough approximations of $c(v)$. For this we'll need:
+	\begin{proposition}[Hoeffding's Inequality]
+		Given $X_i$ a succession of Independent RVs, such that $a_i\le X_i \le b_i$ for every $i$, then by denoting 
+		$$\mu := \mathbb{E}\left[\frac{\sum_{i=1}^{k}X_i}{k}\right]$$
+		we know that for each $\varepsilon>0$ we have
+		$$\mathbb{P}\left[\abs{\frac{\sum_{i=1}^{k}X_i}{k}-\mu}\ge \varepsilon\right]\le 2\exp\left(\frac{-2k^2\varepsilon^2}{\sum_{i=1}^{k}\left(b_i-a_i\right)^2}\right).$$
+	\end{proposition}
+	\begin{proof}
+		This is a consequence of Chernov inequality
+	\end{proof}
+	The way we are goingo to use this inequality is by introducing:
+	\begin{definition}[Diameter]
+		For any graph $G=(V,E)$ we call its \textit{diameter} the amount
+		$$\Delta(G)=\max_{u,v\in V}d(u,v)$$
+		which is a natural generalization for the metric concept of diameter.
+	\end{definition}
+	\begin{proposition}[Concentration estimate]
+		Let $\varepsilon>0$ and $\delta\in (0,1)$ be constants. If $k$ is \textit{big enough}, that is if 
+		$$k\ge \frac{1}{2\varepsilon^2}\left(\frac{n}{n-1}\right)^2\log\frac{2n}{\delta}$$
+		then we have that
+		$$\mathbb{P}\left[\abs{\frac{1}{\hat{c}(v)}-\frac{1}{c(v)}}\le \varepsilon\Delta(G)\right]\ge 1-\delta$$
+	\end{proposition}
+	\begin{proof}
+		We consider again the $X_i$ defined in the central estimate above. We have already proven that
+		$$\mu=\frac{1}{c(v)}$$
+		so to apply Hoeffding's we just need a bound on the $X_i$s. For this we just consider the diameter, getting
+		$$0\le X_i\le \Delta(G)\frac{n}{n-1}.$$
+		Now applying Hoeffding it gets quite messy
+		$$\sum_{i=1}^{k}\left(b_i-a_i\right)\mapsto k\Delta(G)^2\left(\frac{n}{n-1}\right)^2$$
+	\end{proof}
 	
 \end{document}

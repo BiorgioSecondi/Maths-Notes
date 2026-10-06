@@ -733,6 +733,142 @@
 		\item La misura di Lebesgue di un plurirettangolo è effettivamente uguale a $\rho$.
 	\end{itemize}
 	Ma sono tutte cose che abbiamo già fatto prima, e quindi non ci ripeteremo.
+	
+	\subsection{Proprietà delle misure e controesempi}
+	Vediamo un po' di proprietà delle misure e un po' di esempi, per prendere dimestichezza con l'argomento.
+	\begin{proposition}[Proprietà delle misure]
+		Sia $(X,\mathcal{A},\mu)$ uno spazio di misura, allora valgono le seguenti proprietà:
+		\begin{description}
+			\item[Monotonia:] Se $A_1,A_2\in \mathcal{A}$ e $A_1\subseteq A_2$ si ha $\mu(A_1)\le \mu(A_2)$.
+			\item[$\sigma$-subadditività:] Per ogni successione $A_i$ di insiemi in $\mathcal{A}$ si ha
+			$$\mu\left(\bigcup_{n\in\NN}A_n\right)\le \sum_{n\in\NN}\mu(A_n).$$
+			\item[Continuità dal basso:] Sia $A_i\in\mathcal{A}$ una successione crescente di insiemi, ovvero tale che $A_i\subseteq A_{i+1}$ allora
+			$$\mu\left(\bigcup_{n\in\NN}A_n\right)=\lim_{n\to\infty}\mu(A_n).$$
+			\item[Continuità dall'alto:] Se $\mu(A_1)<\infty$ e $A_i\in\mathcal{A}$ è una successione decrescente di insiemi si ha che 
+			$$\mu\left(\bigcap_{n\in\NN}A_n\right)=\lim_{n\to\infty}\mu(A_n).$$
+		\end{description}
+	\end{proposition}
+	\begin{proof}
+		Dimostriamo una cosa alla volta:
+		\begin{description}
+			\item[Monotonia:] Presi $A_1,A_2\in \mathcal{A}$ tali che $A_2\supseteq A_1$ abbiamo che
+			$$\mu(A_2)=\mu\left(A_1\cup \left(A_2\setminus A_1\right)\right)=\mu(A_1)+\mu(A_2\setminus A_1)\ge \mu(A_1)$$
+			da cui segue la tesi.
+			\item[$\sigma$-subadditività:] Dobbiamo partire da una successione arbitraria $A_n$ di insiemi e ricavarne una successione di disgiunti, definiamo
+			$$B_n:=A_n\setminus\bigcup_{k=1}^{n-1}A_k$$
+			da cui possiamo trovare che
+			$$\mu\left(\bigcup_{n\in\NN}A_n\right)=\mu\left(\bigcup_{n\in\NN}B_n\right)=\sum_{i=1}^{\infty}\mu(B_i)\le \sum_{i=1}^{\infty}\mu(A_i)$$
+			dove l'ultima disuguaglianza segue per monotonia.
+			\item[Continuità dal basso:] Come al punto precedente consideriamo la successione $B_n$ di insiemi disgiunti:
+			$$\mu\left(\bigcup_{n\in\NN}A_n\right)=\mu\left(\bigcup_{n\in\NN}B_n\right)=\lim_{n\to\infty}\sum_{i=1}^{n}\mu(B_i)=\lim_{n\to\infty}\mu\left(\bigcup_{i=1}^nB_i\right)=\lim_{n\to\infty}\mu(A_n).$$
+			\item[Continuità dall'alto:] Questo è essenzialmente equivalente al punto precedente, con l'accortezza che la misura di $A_1$ non sia infinita. Consideriamo la successione
+			$$B_n:=A_1\setminus A_n$$
+			in questo modo evitiamo spiacevoli forme indeterminate che potrebbero sorgere prendendo il complementare rispetto a $X$. Allora abbiamo costruito una successione $B_n$ tale che $B_i\subseteq B_{i+1}$, usando la continuità monotona dal basso quindi
+			$$\mu\left(\bigcup_{n\in\NN}B_n\right)=\lim_{n\to\infty}\mu(B_n)$$
+			d'altra parte il LHS è
+			$$\mu\left(\bigcup_{n\in\NN}B_n\right)=\mu\left(A_1\setminus\bigcap_{i=1}^\infty A_i\right)=\mu(A_1)-\mu\left(\bigcap_{i=1}^\infty A_i\right)$$
+			e cancellando il $\mu(A_1)$ da entrambi i lati abbiamo la tesi.
+		\end{description}
+		Dunque abbiamo mostrato la tesi.
+	\end{proof}
+	Appunto il punto $4$ non è necessariamente vero senza l'ipotesi $\mu(A_1)<\infty$:
+	\begin{example}[Una successione per cui non vale la continuità monotona]
+		La successione di insiemi $A_i\supseteq A_{i+1}$ tale che
+		$$A_n:=\left(n,\infty\right)$$
+		rispetto a $\mathscr{L}^1$ è tale che
+		$$\mathscr{L}(A_n)=\infty$$
+		ma la misura dell'intersezione è nulla.
+	\end{example}
+	Vediamo qualche altro esempio:
+	\begin{example}[Insieme denso di misura $0$]
+		Esistono insiemi densi di misura nulla densi, come ad esempio $\QQ$ rispetto a $\mathscr{L}^1$, che ha misura nulla in quanto numerabile unione di punti, e ogni punto ha chiaramente misura di Lebesgue nulla.
+	\end{example}
+	\begin{example}[Insiemi di misura positiva a interno vuoto]
+		L'insieme degli irrazionali $\RR\setminus\QQ$ ha misura di Lebesgue positiva ma ha interno vuoto. Cosa succede se lo vogliamo anche chiuso? Definiamo allora 
+		$$\QQ_\varepsilon:=\bigcup_{n\in\NN}\left(q_n-\frac{\varepsilon}{2^n},q_n+\frac{\varepsilon}{2^n}\right)$$
+		con $q_n$ un'opportuna numerazione dei razionali. Ci viene il dubbio che questo insieme non tocchi tutti i punti di $\RR$, in realtà questo insieme ha misura molto piccola
+		$$\mathscr{L}^1(Q_\varepsilon)\le \sum_{n=0}^{\infty}\mathscr{L}^1\left(q_n-\frac{\varepsilon}{2^n},q_n+\frac{\varepsilon}{2^n}\right)=2\sum_{n=0}^{\infty}\frac{\varepsilon}{2^n}=4\varepsilon$$
+		che quindi vuol dire che ci sono punti di $\RR$ che non abbiamo toccato, e sono tanti! L'insieme cercato a questo punto è $Q_\varepsilon^\complement$, che è chiuso e a interno vuoto (oltre che misurabile!) in quanto è il complementare di un'unione numerabile di aperti centrati in $\QQ$, che è denso su $\RR$.
+	\end{example}
+	\begin{example}[Insiemi non numerabili di misura $0$]
+		L'insieme che cerchiamo è il famoso \textit{insieme di Cantor}. Prendiamo la successione $C_k$ tale che $C_0$ è $[0,1]$ e ogni $C_k$ si ottiene reiterando il processo del rimuovere l'intervallo lungo $1/3$ centrale da $C_{k-1}$. In questo modo possiamo definire l'insieme di Cantor come
+		$$\mathcal{C}:=\bigcap_{n\in\NN}C_n$$
+		e visto che 
+		$$\mathscr{L}^1(C_k)=\left(\frac{2}{3}\right)^k$$
+		abiamo per continuità monotona che $\mathscr{L}^1(\mathcal{C})=0$. D'altra parte il Cantor è non numerabile, infatti
+		$$\mathcal{C}=\left\{x=\sum_{k=1}^{\infty}\frac{a_k}{2^k}:a_k\in \left\{0,2\right\}\right\}$$
+		insomma il Cantor è l'insieme dei numeri in $[0,1]$ tali che in base $3$ si scrivono senza usare la cifra $1$. Dato che questi hanno la stessa cardinalità delle successioni di $0$ e $2$, e queste hanno cardinalità $2^{\aleph_0}$ abbiamo proprio trovato un insieme (misurabile!) di misura nulla e non numerabile.
+	\end{example}
+	\subsubsection{Misure di Hausdorff}
+	Il nostro obbiettivo è misurare volumi $s$-dimensionali in $\RR^n$, per esempio lunghezze di curve in $\RR^3$. Sia $s\ge 0$, denotiamo allora con 
+	$$\omega_s:=\frac{\pi^{s/2}}{\Gamma\left(\frac{s}{2}+1\right)}$$
+	dove ricordiamo la definizione della funzione $\Gamma$
+	$$\Gamma(s):=\int_0^\infty e^{-x}x^{s-1}\dif x.$$
+	Il punto di questa costante è che quando $s\in \NN$ è tale che
+	$$\omega_s=\mathscr{L}^s\left(\left\{x\in \RR^s:\abs{x}\le 1\right\}\right)$$
+	Ricordiamo allora la definizione:
+	\begin{definition}[Diametro]
+		Dato un $E\subseteq \RR^n$ definiamo il suo \textit{diametro} come
+		$$\text{diam}(E):=\sup_{x,y\in E}\abs{x-y}.$$
+	\end{definition}
+	E quindi possiamo definire
+	\begin{definition}[Misura esterna di Hausdorff]
+		Per ogni $\delta>0$ definiamo la "premisura" di Hausdorff $s$-dimensionale in $\RR^n$ come
+		$$\mathcal{H}_\delta^s(E):=\inf\left\{\omega_s\sum_{i=1}^{\infty}\left(\frac{\text{diam}(A_i)}{2}\right)^s:E\subseteq \bigcup_{i=1}^\infty A_i,\,\,\text{diam}(A_i)<\delta\right\}.$$
+		Da questa possiamo scrivere la \textit{misura esterna di Hausdorff} come
+		$$\mathcal{H}^s(E):=\lim_{\delta\to 0}\mathcal{H}_\delta^s=\sup_{\delta>0}\mathcal{H}^s_\delta(E).$$
+	\end{definition}
+	Si può dimostrare che questa è una misura esterna. La misura di Hausdorff è utile almeno per due motivi, in primo luogo perchè ci permette di misurare oggetti più piccoli dello sapzio di partenza:
+	\begin{example}
+		Prendiamo una curva $\gamma:[0,1]\to \RR^n$ in $C^1$ iniettiva. Allora
+		$$\mathcal{H}^1\left(\text{supp}(\gamma)\right)=\int_0^1\abs{\gamma'(t)}\dif t$$
+	\end{example}
+	Ma in secondo luogo perché ci permette di assegnare un concetto di dimensione "più fine" agli insiemi con misura di Lebesgue nulla:
+	\begin{example}[Misura del Cantor]
+		L'insieme di Cantor ha misura di Hausdorff:
+		$$
+		\mathcal{H}^s(\mathcal{C})=
+		\begin{cases}
+			0 & \text{se $s>\frac{\log 2}{\log 3}$} \\
+			1 & \text{se $s=\frac{\log 2}{\log 3}$} \\
+			\infty & \text{se $s<\frac{\log 2}{\log 3}$.}
+		\end{cases}
+		$$
+	\end{example}
+	Ovvero ci permette una generalizzazione del concetto di dimensione:
+	\begin{definition}[Dimensione di Hausdorff]
+		Per ogni $E\subseteq \RR^n$ esiste un $\overline{s}$ tale che 
+		$$\mathcal{H}^s(E)=
+		\begin{cases}
+			0 & \text{se $s\in (\overline{s},n]$} \\
+			\infty & \text{se $s\in [0,\overline{s})$}
+		\end{cases}
+		$$
+		un tale $\overline{s}$ si dice \textit{dimensione di Hausdorff}.
+	\end{definition}
+	
+	\subsubsection{Alcuni altri esempi}
+	
+	Un altro modo ancora di definire misure è il cosiddetto \textit{push-forward} o misura immagine. 
+	\begin{definition}[Push-Forward]
+		Sia $(X,\mathcal{A},\mu)$ uno spazio di misura e prendiamo $f:X\to Y$ una qualunque funzione, allora abbiamo un modo per \textit{trasportare} la misura, da $X$ a $Y$. Ovvero se definiamo
+		$$\mathcal{A}_f=\left\{B\subseteq Y : f^{-1}(B)\in \mathcal{A}\right\}$$
+		e definiamo la \textit{misura immagine} o \textit{push-forward} su $\mathcal{A}_f$:
+		$$f_\#\mu(B):=\mu\left(f^{-1}(B)\right)$$
+		allora $(Y,\mathcal{A}_f,\mu_f)$ è uno spazio di misura.
+	\end{definition}
+	Infine definiamo la nozione di \textit{misura boreliana}:
+	\begin{definition}[Misura Boreliana]
+		Data una $\varphi:[0,1)\to \RR$ crescente poniamo la misura esterna
+		$$\mu_\varphi\left([a,b)\right)=\varphi(b)-\varphi(a)$$
+		e restringiamola per Carathèodory agli insiemi $\mu$-misurabili. Una tale misura si dice \textit{misura Boreliana} o \textit{di Borel}.
+	\end{definition}
+	In realtà una misura di Borel si può anche vedere come misura immagine della misura di Lebesgue, infatti non è altro che
+	$$\mu_\varphi([a,b))=f_\#\mathscr{L}^1_{\mid [\varphi(0),\varphi(1^-))}$$
+	dove $f$ è la \textit{pseudoinversa} di $\varphi$, ovvero
+	$$f(y):=\sup\left\{x\in[0,1]:\varphi(x)\le y\right\}$$
+	e l'insieme $[\varphi(0)\varphi(1^-))$ è l'insieme dei sottoinsiemi della forma $[\varphi(0),\varphi(t))$ con $t\to 1^-$. 
+	
 	\newpage
 	
 	\section{Integrale di Lebesgue}
@@ -759,7 +895,14 @@
 		insiemi disgiunti.
 	\end{exercise}
 	\begin{proof}[Soluzione]
-		contenuto...
+		Consideriamo una $\sigma$-algebra $\mathcal{A}$ con cardinalità infinita. Dimostriamo per induzione che possiamo trovare una famiglia $\mathcal{F}\subseteq \mathcal{A}$ di insiemi disgiunti non vuoti con cardinalità $2^k$ per ogni $k\in\NN$. \\
+		Il passo base è semplice: basta considerare $\left\{A\right\}=\mathcal{F}$ per qualche $A\in \mathcal{A}$. Supponiamo ora per induzione di avere una famiglia $\mathcal{F}$ con cardinalità $2^k$ di insiemi disgiunti non vuoti. Allora dato che $\mathcal{A}$ è infinita deve esistere almeno un $A\in \mathcal{A}$ non vuoto e distinto da ciascun elemento di $\mathcal{F}$, ovvero tale che
+		$$A\Delta F \ne \eset$$
+		per ogni $F\in \mathcal{F}$. Dunque, denominato $X:=\left\{A,A^\complement\right\}$ consideriamo la famiglia
+		$$\mathcal{F}':=\left\{x\cap F:F\in \mathcal{F},x\in X\right\}$$
+		questa è costituita da insiemi disgiunti, infatti se abbiamo $x_1,x_2\in A'$ e $F_1,F_2\in \mathcal{F}$ tali che
+		$$x_1\cap F_1=x_2\cap F_2$$
+		necessariamente dobbiamo avere $x_1=x_2$, dato che se fossero distinti avremmo che $x_1\cap F_1\cap F_2\cap x_2=\eset$ che contraddice le assunzioni fatte sugli insiemi sopra.
 	\end{proof}
 	
 	\subsection{Foglio 2: Teoria dell'integrale}

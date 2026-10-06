@@ -215,7 +215,7 @@
 		è bilineare alterna, ma cosa succede se identifichiamo $\KK$ con $\RR$ e $\KK^2$ con $\CC$?
 	\end{example}
 	
-	\subsection{Prime proprietà e classificazione grossolana}
+	\subsection{Simmetria e asimmetria}
 	
 	Vogliamo ora capire almeno un minimo come si classifichino le forme bilineari,
 	il primo risultato che dimostriamo è
@@ -560,6 +560,8 @@
 		\end{pmatrix}$$
 		questa è anche nota come \textit{matrice di Gram}, e ci permette di scrivere in modo molto compatto la valutazione di una forma bilineare
 		$$B(\mathbf{x},\mathbf{y})=\mathbf{x}^\intercal \mathbf{B}\mathbf{y}.$$
+		Analogamente se $\alpha_\mathcal{V}:V\to\KK^n$ è un isomorfimo che scrive il vettore $v\in V$ nelle coordinate della base $\mathcal{V}$ nello spazio $\KK^n$ allora possiamo vedere la matrice di Gram di $B$ come quell'unica matrice tale che
+		$$B(v,v')=\alpha_\mathcal{V}(v)^\intercal A \alpha_\mathcal{V}(v).$$
 	\end{definition}
 	Per esempio abbiamo:
 	\begin{example}[Prodotto scalare]
@@ -613,6 +615,310 @@
 			\item La forma $B$ è alternante se e solo se in ogni sua base la matrice di Gram è antisimmetrica e $a_{ii}=0$ per ogni $i$.
 		\end{itemize}
 	\end{proposition}
+	
+	\subsubsection{Cambio di base e congruenza}
+	Ricordiamo che per le matrici il diagramma commutativo che avevamo per il cambio di base di un'applicazione lineare $L:V\to W$ era 
+	\begin{figure}[h]
+		\begin{center}
+			\begin{tikzcd}
+				\KK^n\arrow[r,dashed,"M_{\mathcal{V}'}^{\mathcal{W}'}"] & \KK^m\\
+				V\arrow[r,"L"] \arrow[u,"\alpha_{\mathcal{V}'}"]\arrow[d,swap,"\alpha_{\mathcal{V}}"]& W \arrow[u,swap,"\alpha_{\mathcal{W}'}"]\arrow[d,"\alpha_{\mathcal{W}}"]\\ 
+				\KK^n \arrow[r,dashed,"M_{\mathcal{V}}^{\mathcal{W}}"]& \KK^m
+			\end{tikzcd}
+		\end{center}
+	\end{figure}
+	da cui possiamo dedurre che, visto che vogliamo che la $L$ sia sempre la stessa e 
+	\begin{gather*}
+		M_{\mathcal{V}}^{\mathcal{W}}=\alpha_\mathcal{W}\circ L \circ \alpha_\mathcal{V}^{-1} \\
+		M_{\mathcal{V}'}^{\mathcal{W}'}=\alpha_{\mathcal{W}'}\circ L \circ \alpha_{\mathcal{V}'}^{-1}
+	\end{gather*}
+	giungiamo agilmente alle formule di cambio di base. Analogamente possiamo
+	\begin{proposition}[Cambio di base di forme bilineari]
+		Sia $V$ uno spazio vettoriale di dimensione $n<\infty$ e $B$ una forma bilineare su di esso con matrice $A$ su una certa base $\mathcal{V}$, allora la matrice $\tilde{A}$ nella base $\mathcal{V}'$ è
+		$$\tilde{A}=P^\intercal A P$$
+		dove $P$ è la matrice di cambio di base da $\mathcal{V}$ a $\mathcal{V}'$.
+	\end{proposition}
+	\begin{proof}
+		Per ogni $v,v'\in V$ abbiamo, per definizione di matrice associata alla forma bilineare:
+		$$B(v,v')=\alpha_\mathcal{V}(v)^\intercal A \alpha_\mathcal{V}(v')$$
+		ovvero usando $P$ abbiamo
+		$$\dots = \left(P\alpha_{\tilde{\mathcal{V}}}\right)^\intercal A \left(P\alpha_{\tilde{\mathcal{V}}}\right)$$
+		e quindi svolgendo le trasposizioni
+		$$\dots= \alpha_{\tilde{\mathcal{V}}}^\intercal P^\intercal A P \alpha_{\tilde{\mathcal{V}}}$$
+		da cui la tesi.
+	\end{proof}
+	\begin{definition}[Equivalenza tra forme bilineari]
+		Due forme $B$ e $B'$ sugli spazi $V$ e $V'$ si dicono \textit{equivalenti} se esiste un isomorfismo $\varphi:V\to V'$ tale che 
+		$$B'\left(\varphi(v_1),\varphi(v_2)\right)=B(v_1,v_2)$$
+		per ogni $v_1,v_2\in V$.
+	\end{definition}
+	All'equivalenza di forme bilineari corrisponde la congruenza di matrici:
+	\begin{definition}[Congruenza di matrici]
+		Due matrici quadrate $A,A'\in M_n(\KK)$ si dicono \textit{congruenti} se definiscono forme bilineare equivalenti su $\KK^n$, cioè se 
+		$$A'=P^\intercal A P.$$
+	\end{definition}
+	\begin{example}[Dimostrazione di congruenza]
+		Consideriamo le due matrici
+		$$\begin{pmatrix}
+			1 & 0 \\
+			0 & -1
+		\end{pmatrix},
+		\begin{pmatrix}
+			0 & \half \\
+			\half & 0
+		\end{pmatrix}
+		$$
+		queste inducono entrambe delle forme simmetriche, e quindi sono univocamente determinate dalla forma quadratica a loro associata, ovvero
+		\begin{gather*}
+			B(v,v) = x_1^2-x_2^2 \\
+			B'(v,v)= x_1x_2
+		\end{gather*}
+		ma notiamo che con il cambio di coordinate
+		\begin{gather*}
+			y_1 = x_1 + x_ 2 \\
+			y_2 = x_1 - x_2
+		\end{gather*}
+		abbiamo che la forma quadratica associata a $B'$ diventa uguale a quella associata a $B$, quindi abbiamo proprio che queste sono equivalenti (in quanto la trasformazione che abbiamo fatto è lineare). In particolare avremo che 
+		$$
+		\begin{pmatrix}
+			y_1 \\
+			y_2
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			1 & 1 \\
+			1 & -1 
+		\end{pmatrix}
+		\begin{pmatrix}
+			x_1 \\
+			x_2 
+		\end{pmatrix}
+		$$
+		e quindi la matrice $P$ cercata per il cambio di base è proprio
+		$$
+		P=
+		\begin{pmatrix}
+			1 & 1 \\
+			1 & -1
+		\end{pmatrix}.
+		$$
+	\end{example}
+	\begin{example}[Congruenza in $\RR^2$]
+		Tutte le matrici in $\RR^2$ della forma 
+		$$\begin{pmatrix}
+			1 & 0 \\
+			0 & \alpha
+		\end{pmatrix}$$
+		con $\alpha>0$, sono congruenti.
+	\end{example}
+	\begin{proof}
+		Semplicemente notiamo che
+		$$\begin{pmatrix}
+			1 & 0 \\
+			0 & \alpha
+		\end{pmatrix}=
+		\begin{pmatrix}
+			1 & 0 \\
+			0 & \sqrt{\alpha}
+		\end{pmatrix}
+		\begin{pmatrix}
+			1 & 0 \\
+			0 & 1
+		\end{pmatrix}
+		\begin{pmatrix}
+			1 & 0 \\
+			0 & \sqrt{\alpha}
+		\end{pmatrix}
+		$$ 
+		e dunque tutte le matrici di quella forma sono congruenti a $I$, e visto che la congruenza è una relazione di equivalenza abbiamo la tesi.
+	\end{proof}
+	\begin{remark}[Conseguenze sul determinante]
+		Se $A$ e $\tilde{A}$ sono congruenti tali che
+		$$\tilde{A}=P^\intercal A P$$
+		allora
+		$$\det\tilde{A} = \left(\det P\right)^2\det  A.$$
+		E in particolare quindi hanno lo stesso rango.
+	\end{remark}
+	
+	\subsection{Segno e degenerazione}
+	
+	\begin{definition}[Segno delle forme bilineari reali]
+		In uno spazio vettoriale $V$ reale una forma bilineare $B$ su $V$ si dice:
+		\begin{itemize}
+			\item \textit{Definita positiva} se $B(v,v)>0$ per ogni $v\in V,v\ne \vec{0}$.
+			\item \textit{Semidefinita positiva} se $B(v,v)\ge 0$ per ogni $v\in V,v\ne \vec{0}$.
+			\item  \textit{Definita negativa} se $B(v,v)<0$ per ogni $v\in V, v\ne \vec{0}$.
+			\item \textit{Semidefinita negativa} se $B(v,v)\le 0$ per ogni $v\in V,v\ne \vec{0}$.
+		\end{itemize}
+		nel caso non soddisfi nessuna delle definizioni sopra si dice \textit{indefinita}.
+	\end{definition}
+	\begin{proposition}[Caratterizzazione della degenerazione]
+		Le seguenti proprietà sono equivalenti per una forma bilineare $B$ su uno spazio vettoriale $V$ fissato, dove $V$ ha dimensione finita:
+		\begin{itemize}
+			\item La matrice associata a $B$ rispetto a una qualche base $\mathcal{V}$ di $V$ è invertibile.
+			\item $B$ è \textit{non degenere a sinistra}, cioè la funzione $B_1:V\to V^*$ associata ha nucleo banale.
+			\item $B$ è \textit{non degenere a destra}, cioè la funzione $B_2:V^*\to V$ associata ha nucleo banale.
+			\item Per ogni $v\in V$ diverso da $\vec{0}$ esiste un $v'\in V$ tale che
+			$B(v,v')\ne 0$.
+			\item Per ogni $v\in V$ diverso da $\vec{0}$ esiste un $v''\in V$ tale che
+			$B(v'',v)\ne 0$.
+		\end{itemize}
+	\end{proposition}
+	\begin{proof}
+		Segue essenzialmente dalla relazione tra matrice di Gram e matrice associata a $B_1$ e $B_2$.
+	\end{proof}
+	
+	\begin{definition}[Nuclei e degenerazione]
+		Data una forma bilineare $B$ il nucleo della forma $B_1:V\to V^*$ si dice \textit{nucleo sinistro}, o \textit{radicale sinistro}. Allo stesso modo si definisce il nucleo destro o il radicale destra. Una forma con entrambi i nuclei banali si dice \textit{non degenere} (e altrimenti si dice \textit{degenere}).
+	\end{definition}
+	\begin{example}[Restrizione di forme non degeneri]
+		Il prodtto interno standard è non degenere, così come la forma associata allo spazio di minkowski
+		$$
+		\begin{pmatrix}
+			1 & 0 & 0 & 0 \\
+			0 & 1 & 0 & 0 \\
+			0 & 0 & 1 & 0 \\
+			0 & 0 & 0 & -1 
+		\end{pmatrix}
+		$$
+		che è un caso specifico di $\left(\RR^p, \langle \cdot,\cdot \rangle\right)\perp \left(\RR^q,-\langle \cdot,\cdot \rangle\right)$. Una forma analoga è quella con matrice
+		$$
+		\begin{pmatrix}
+			1 & 0 & 0 \\
+			0 & 1 & 0 \\
+			0 & 0 & -1
+		\end{pmatrix}
+		$$
+		che è non degenere, ma ristretta al sottospazio $W=\langle (1,0,1),(0,1,0) \rangle$ è degenere.
+	\end{example}
+	\begin{proposition}[Caratterizzazione della non degenerazione delle restrizioni]
+		Sia $V$ uno spazio vettoriale di dimensione finita su $\KK$ con una forma bilineare simmetrica o alternante (cioè tale che la relazione di ortogonalità sia simmetrica). Allora le seguenti condizioni sono equivalenti per un sottospazio $W\le V$:
+		\begin{enumerate}
+			\item $B_{\mid W}$ è non degenere su $W$.
+			\item $W\cap W^\perp=\left\{\vec{0}\right\}$.
+			\item $V=W\oplus W^\perp$.
+		\end{enumerate}
+	\end{proposition}
+	\begin{proof}
+		Per dimostrare che $1$ implica $2$ supponiamo che $B_{\mid W}$ è non degenere allora 
+		$$w\in W\cap W^\perp$$
+		implica che, per ogni $w'\in W$ si abbia
+		$$B_{\mid W}(w,w')=0$$
+		ma dato che questa è non degenere si ha necessariamente che $w'=\vec{0}$, come richiesto. Per dimostrare che $2$ implica $3$ supponiamo che $W\cap W^\perp = \left\{\vec{0}\right\}$, allora vogliamo mostrare che
+		$$W^\perp+W=V$$
+		consideriamo allora la composizione di $B_{1\mid W}:W\to V^*$ con l'applicazione $r:V^*\to W^*$ che restringe il funzione $\varphi\in V^*$ al funzionale $\varphi_{\mid W}\in W^*$, che chiameremo $L:W\to W^*$:
+		$$L:=r\circ B_{1\mid W}.$$
+		allora ha senso chiedersi quale sia il suo nucleo, d'altra parte questo è proprio
+		$$\ker{L}=\left\{w\in W:B(w,w')=0,\,\,\forall w'\in W\right\}=W\cap W^\perp =\left\{\vec{0}\right\}$$
+		dunque essendo che $W$ ha dimensione finita abbiamo che $L$ è un isomorfismo, dunque ha senso, preso un $v\in V$, la scrittura
+		$$w:=L^{-1}\left(B_{1\mid W}(v)\right)$$
+		osserviamo allora che questo soddisfa per ogni $w'\in W$:
+		$$B(v,w')=B(w,w') \implies B(v-w,w')=0$$
+		cioè $v-w\in W^\perp$, ma allora possiamo effettivamente scomporre
+		$$v=w+\left(v-w\right)$$
+		in una parte in $W$ ed in una in $W^\perp$, come volevamo. \\
+		Infine per dimostrare che $3$ implica $1$ abbiamo di nuovo che $L$ è invertibile, d'altra parte 
+	\end{proof}
+	\begin{proposition}[Proprietà degli ortogonali]
+		Sia $B$ una forma bilineare simmetrica o alternante e non degenere su uno spazio $V$ di dimensione finita, allora
+		\begin{enumerate}
+			\item Abbiamo che
+			$$\dim W + \dim W^\perp = \dim V$$
+			e in particolare abbiamo che $B_{\mid W}$ è non degenere se e solo se $B_{\mid W^\perp}$ è non degenere.
+			\item Per ogni coppia di sottospazi $U_1$ e $U_2$ si ha
+			\begin{gather*}
+				\left(U_1+U_2\right)^\perp=U_1^\perp \cap U^\perp \\
+				\left(U_1\cap U_2\right)^\perp=U_1^\perp + U_2^\perp.
+			\end{gather*}
+		\end{enumerate}
+	\end{proposition}
+	\begin{proof}
+		Sappiamo che la composizione
+		\begin{align*}
+			V&\to & V^* &\to & W^* \\
+			v & \mapsto & B_1(v)&  \mapsto& {B_{1}(v)}_{\mid W}
+		\end{align*}
+		è suriettiva e ha per definizione nucleo $W^\perp$. Da ciò per il primo teorema d'omomorfismo segue che
+		$$\faktor{V}{W^\perp}\cong W^*$$
+		cioè usando la dimensione finita di tutti gli spazi coinvolti abbiamo proprio
+		$$\dim W + \dim W^\perp = \dim V$$
+	\end{proof}
+	
+	\subsubsection{Isotropia}
+	
+	Vediamo alcune proprietà particolari delle forme bilineari simmetriche:
+	\begin{proposition}[Proprietà delle forme simmetriche]
+		Per ogni forma $B$ simmetrica su spazi finitamente generati $V$, vale:
+		\begin{enumerate}
+			\item Abbiamo per ogni $v\in V$ che
+			$$v^\perp:=\left\{v\right\}^\perp=\langle v\rangle^\perp.$$
+			\item Abbiamo che $V^\perp=\left\{\vec{0}\right\}$ se e solo se $B$ è non degenere.
+			\item $\langle S\rangle\subseteq \left(S^\perp\right)^\perp$ per ogni $S\subseteq V$ e se $B$ è non degenere vale l'uguaglianza.
+		\end{enumerate}
+	\end{proposition}
+	Ha senso allora definire:
+	\begin{definition}[Vettori isotropi]
+		Un vettore $v\in V$ è detto \textit{isotropo} per $B$ se $B(v,v)=0$, cioè se $v\in v^\perp$.
+	\end{definition}
+	E per i sottospazi invece
+	\begin{definition}[Sottospazi isotropi]
+		Un sottospazio $W\subseteq V$ rispetto ad una forma bilineare $B$ si dice:
+		\begin{itemize}
+			\item \textit{Anisotropo} se $B_{\mid W}$ è non degenere, cioè se $W\cap W^\perp=\left\{\vec{0}\right\}$
+			\item \textit{Isotropo} se $B_{\mid W}$ è degenere.
+			\item \textit{Totalmente anisotropo} se $W\subseteq W^\perp$ cioè se $B_{\mid W}=0$ è la forma identicamente nulla.
+		\end{itemize}
+	\end{definition}
+	\begin{definition}[Cono isotropo]
+		Se $v\in V$ è isotropo allora tutti i $tv$ con $t\in \KK$ sono isotropi, quindi 
+		$$I_B(V)=\left\{v\in V:B(v,v)=0\right\}$$
+		è un cono, chiamato \textit{cono isotropo}.
+	\end{definition}
+	Alcuni esempi di coni isotropi sono
+	\begin{example}
+		Per la forma di matrice
+		$$
+		\begin{pmatrix}
+			1 & 0 & 0 \\
+			0 & 1 & 0 \\
+			0 & 0 & -1
+		\end{pmatrix}
+		$$
+		da
+		$$x_1^2+x_2^2-x_3^2=0$$
+		che è letteralmente e geometricamente un cono.
+	\end{example}
+	\begin{remark}
+		Per $(V,B)$ allora $V^\perp\subseteq I_B(V)$ in particolare $I_B(V)=\left\{\vec{0}\right\}$ implica che $B$ è non degenere.
+	\end{remark}
+	
+	\subsection{Diagonalizzazione di forme bilineari}
+	
+	Abbiamo trovato un modo di rappresentare una forma bilineare $B$ come una matrice. Vogliamo ora provare a diagonalizzare questa matrice:
+	\begin{definition}[Base ortogonale]
+		Una base $\left\{v_1,\dots,v_n\right\}$ di $V$ si dice \textit{ortogonale rispetto a $B$} (o $B$ )se $B(v_i,v_j)=0$ se $i\ne j$.
+	\end{definition}
+	
+	\begin{theorem}
+		Se $\KK$ è un campo a caratteristica diversa da $2$ allora ogni forma bilineare simmetrica $B$ su uno spazio $V$ di dimensione finita su $\KK$ ammette una base $B$-ortogonale.
+	\end{theorem}
+	\begin{proof}
+		La tesi è chiaramente vera se $B=0$, quindi assumiamo che $B$ sia non nulla. Procediamo allora per induzione, il caso base $\dim V=1$ è chiaro. Supponiamo ora che la tesi valga per tutti gli spazi con dimensione $<n$, preso uno spazio di dimensione $n$ allora la matrice di Gram di $B$ si scrive come
+		$$
+		\left(
+		\begin{array}{c|c}
+			0 & v \\
+			\hline
+			v^\intercal & k
+		\end{array}
+		\right)
+		$$
+		con $v\in \KK^{n-1}$. D'altra parte 
+	\end{proof}
+	\begin{theorem}[Metodo di Lagrange]
+		contenuto...
+	\end{theorem}
+	
 	\newpage
 	
 	\part{Modulo B}
