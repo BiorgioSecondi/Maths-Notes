@@ -249,7 +249,7 @@
 	
 	Il primo teorema importante che dimostriamo in questo corso è
 	\begin{theorem*}[Caratterizzazione dei gruppi ciclici]
-		Per ogni gruppo abeliano $G$ abbiamo che $G$ è ciclico se e solo se il suo esponente coincide con l'ordine, ovvero
+		Per ogni gruppo abeliano finito $G$ abbiamo che $G$ è ciclico se e solo se il suo esponente coincide con l'ordine, ovvero
 		$$\exp G = \abs{G} \iff G \text{ è ciclico}.$$
 	\end{theorem*}
 	Per dimostrarlo abbiamo bisogno di un paio di utili lemmi:
@@ -297,11 +297,11 @@
 		$$\abs{x^{p_2^{\beta_2}\dots p_t^{\beta_t}}}=p_1^{\beta_1}$$
 		ma allora siamo nella condizione del lemma dell'ordine, dunque il prodotto ha ordine esattamente
 		$$\abs{g^{p_1^{\alpha_1}}x^{p_2^{\beta_2}\dots p_t^{\beta_t}}}=p_1^{\beta_1}p_2^{\alpha_2}\dots p_t^{\alpha_t}$$
-		che è assurdo, perchè avevamo supposto che $g$ fosse l'elemento con ordine massimo in tutto il gruppo! E dunque abbiamo finito.
+		che è assurdo, perché avevamo supposto che $g$ fosse l'elemento con ordine massimo in tutto il gruppo! E dunque abbiamo finito.
 	\end{proof}
 	Siamo quindi finalmente pronti a dimostrare il teorema sopra, che riprendiamo:
 	\begin{theorem}[Caratterizzazione dei gruppi ciclici]
-		Per ogni gruppo abeliano $G$ abbiamo che $G$ è ciclico se e solo se il suo esponente coincide con l'ordine, ovvero
+		Per ogni gruppo abeliano finito $G$ abbiamo che $G$ è ciclico se e solo se il suo esponente coincide con l'ordine, ovvero
 		$$\exp G = \abs{G} \iff G \text{ è ciclico}.$$
 	\end{theorem}
 	\begin{proof}
@@ -309,7 +309,7 @@
 		$$\exp G = \abs{G}$$
 		allora per il lemma precedente esisterà un $g$ tale che 
 		$$\abs{g}=\exp G$$
-		cioè $g$ ha l'ordine del gruppo, cioè $G$ è ciclico. D'altra parte per quanto dimostrato sopra i sottogruppi dei ciclici abbiamo che anche 
+		cioè $g$ ha l'ordine del gruppo, cioè $G$ è ciclico. D'altra parte è chiaro che se $G$ è ciclico avrà almeno un elemento di ordine $\abs{G}$, e dato che, per il teorema di Lagrange $g^{\abs{G}}=1$ per qualunque gruppo $G$ abbiamo proprio $\abs{G}=\exp G$.
 	\end{proof}
 	Un'applicazione divertente di questo è
 	\begin{theorem}[Gruppi finiti di campi]
@@ -359,7 +359,7 @@
 	$$G=G^{-1}=\bigsqcup_{t\in T}\left(tH\right)=\bigsqcup_{t\in T}H^{-1}t^{-1}=\bigsqcup_{t\in T}Ht^{-1}$$
 	cioè possiamo passare agilmente da laterali destri a laterali sinistri invertendo.
 	\begin{proposition}[Trasversali]
-		Se $K\le H \le G$ e $T$ è un trasversale di $H$ in $G$ e $U$ è un trasversale di $K$ in $H$ allora il trasversale di $K$ in $G$ è il prodotto dei trasversali.
+		Siano tre gruppi $K\le H \le G$. Se $T$ è un trasversale di $H$ in $G$ e $U$ è un trasversale di $K$ in $H$ allora il trasversale di $K$ in $G$ è il prodotto dei trasversali $TU$, e in particolare quindi $\abs{G:K}=\abs{G:H}\abs{H:K}$.
 	\end{proposition}
 	\begin{proof}
 		Per definizione di trasversale ogni $g\in G$ può essere scritto come
@@ -378,7 +378,7 @@
 		$$t_2^{-1}t_1\in u_2Ku_1^{-1}\subseteq H$$
 		ma questo, dato che $T$ è un trasversale di $H$ vuol dire che $t_1=t_2$, e quindi anche $u_1=u_2$ (dato che $U$ è un trasversale di $K$), da cui la tesi.
 	\end{proof}
-	Un'altra cosa che si può fare con gli indici e i trasversali ci viene suggerita dal seguente grafico 
+	Un'altra cosa che si può fare con gli indici e i trasversali ci viene suggerita dal seguente grafico. \\
 	\begin{figure}[h]
 		\begin{center}
 			\begin{tikzcd}
@@ -505,6 +505,236 @@
 		e dato che l'ordine di $G$ è pari questo vuol dire che il numero di trasposizioni è $n-1$, dunque $l(g)$ non è nel gruppo alterno. Dato che $\text{Alt}(G)$ ha ordine $2$ deve essere normale, dunque
 		$$\text{Alt}(G)\normal \text{Alt}(G)l(G)\normal \text{Sym}(G)$$
 	\end{proof}
+	Infine un risultato che non abbiamo ancora enunciato sui gruppi ciclici è:
+	\begin{proposition}[Scomposizione di gruppi ciclici]
+		Se $G$ è un gruppo ciclico finito $G=\langle g \rangle$ con ordine
+		$$n=p_1^{n_1}p_2^{n_2}\dots p_t^{n_t}$$
+		allora
+		$$G\cong G_1\times \dots \times G_t$$
+		dove $\abs{G_i}=p_i^{n_i}$.
+	\end{proposition}
+	\begin{proof}
+		Sia $q_i:=\frac{n}{p_i^{n_i}}$, e definiamo
+		$$g_i:=g^{q_i}$$
+		allora chiaramente i gruppi generati dai $g_i$ hanno gli ordini giusti. Il nostro claim è quindi che
+		$$G_i:=\langle g_i\rangle$$
+		consideriamo allora la mappa
+		\begin{align*}
+			\gamma:G_1\times \dots \times G_t & \to G \\
+			(x_1,\dots,x_t) & \mapsto x_1x_2\dots x_t
+		\end{align*}
+		grazie al fatto che tutti gli elementi che stiamo considerando stanno in $G$, che è ciclico e quindi abeliano, abbiamo allora che $\gamma$ è un omomorfismo. Visto allora che dominio e codominio hanno lo stesso ordine, ci basta mostrare che $\gamma$ è suriettivo o iniettivo per ottenere l'altra proprietà gratis. \\
+		Per dimostrare la suriettività allora usiamo Bezout: dato che i $q_i$ sono tutti coprimi abbiamo che esistono coefficienti $z_i\in \NN$ tali che
+		$$\sum_{i=1}^{n}z_iq_i=1$$
+		esponenziando da entrambi i lati $g$ abbiamo allora
+		$$g=g^{\sum_{i=1}^{n}z_iq_i}=\prod g_i^{z_i}=\gamma\left(g_1^{z_1},\dots,g_t^{z_t}\right)$$
+		dunque $g$ appartiene all'immagine di $\gamma$, che è dunque suriettiva, e quindi abbiamo finito.
+	\end{proof}
+	\subsection{Torsione}
+	Definiamo
+	\begin{definition}[Torsione]
+		Dato un gruppo $G$ definiamo la sua \textit{torsione} l'insieme $T(G)$ degli elementi di ordine finito.
+	\end{definition}
+	Non è difficile dimostrare:
+	\begin{proposition}[Proprietà della torsione]
+		Per ogni $G$ abeliano si ha che la sua torsione è un sottogruppo, ovvero $T(G)\le G$. Inoltre abbiamo che
+		$$T\left(\faktor{G}{T(G)}\right)=\left\{[0]\right\}$$
+		cioè è il gruppo identico.
+	\end{proposition}
+	\begin{proof}
+		Semplicemente abbiamo che, se $g_1,g_2\in T(G)$ allora
+		$$\abs{g_1g_2}=\abs{g_1}\abs{g_2}$$
+		e quindi il prodotto è ancora in $G$. D'altra parte se $g\in T(G)$ abbiamo che 
+		$$g^{\abs{g}-1}\in T(G)$$
+		e quindi abbiamo anche gli inversi. La seconda cosa è una semplice conseguenza della definizione di $T(G)$. 
+	\end{proof}
+	Consideriamo un'applicazione di ciò:
+	\begin{example}
+		La torsione $T\left(\faktor{\RR}{\ZZ}\right)$ è l'insieme $\faktor{\QQ}{\ZZ}$, infatti se $x+\ZZ$ ha ordine finito vuol dire che esiste un $n\in\NN$ tale che 
+		$$nx\in \ZZ$$
+		cioè $x\in\QQ$.   
+	\end{example}
+	\begin{example}[Un gruppo senza torsione]
+		Un gruppo senza torsione è
+		$$\faktor{\RR/\ZZ}{\QQ/\ZZ}\cong \faktor{\RR}{\QQ}.$$
+	\end{example}
+	Infine abbiamo
+	\begin{proposition}[Bound sull'ordine di gruppi abeliani]
+		Se $G$ è un gruppo abeliano finitamente generato 
+		$$G=\langle g_1,\dots,g_t\rangle$$
+		con $\abs{g_i}=n_i<\infty$ allora l'ordine di $G$ è boundato da
+		$$\abs{G}\le n_1n_2\dots n_t.$$
+	\end{proposition}
+	\begin{proof}
+		Segue dal fatto che le espressioni formali distinte che possiamo fare combinando i $g_i$ sono al più il prodotto degli ordini (visto che il gruppo è abeliano).
+	\end{proof}
+	\begin{corollary}
+		Il gruppo $\faktor{\QQ}{\ZZ}$ è infinitamente generato.
+	\end{corollary}
+	\begin{proof}
+		Per assurdo se non lo fosse dovrebbe essere finito, in quanto è abeliano e la torsione coincide con se stesso (tutti gli elementi hanno ordine finito).
+	\end{proof}
+	\subsection{Alcuni esempi}
+	
+	Prima di passare alle cose serie, abbiamo una carenza di esempi, e quindi vediamo di studiarne alcuni notevoli
+	\subsubsection{Isometrie}
+	
+	Un insieme molto ricco di esempi di gruppi viene dal considerare le isometrie del piano. Abbiamo dimostrato a geometria che ogni isometria del piano si può scrivere come composizione di rotazioni e riflessioni. Bisogna capire ora come si comportino queste rotazioni e riflessioni. Denotando con $\rho_\alpha$ una rotazione di angolo $\alpha$ abbiamo che
+	$$\rho_\alpha\rho_\beta=\rho_{\alpha+\beta}$$
+	mentre le simmetrie soddisfano
+	$$\iota_\beta^2=1$$
+	e infine
+	$$\rho_\alpha\iota_\beta=\iota_{\frac{\alpha}{2}+\beta}.$$
+	Un modo comodo per vedere questa cosa è rappresentando il gruppo in $\GL_n(\RR)$: nel caso $n=2$ abbiamo che
+	$$
+	\rho_\alpha=\begin{pmatrix}
+		\cos \alpha & -\sin\alpha \\
+		\sin\alpha & \cos\alpha
+	\end{pmatrix}
+	$$
+	e analogamente abbiamo
+	$$
+	\iota_\alpha=\begin{pmatrix}
+		\cos 2\alpha & \sin 2\alpha \\
+		\sin 2\alpha & -\cos 2\alpha
+	\end{pmatrix}
+	$$
+	con queste matrici si possono fare conti e dimostrare le identità sopra, ma non è troppo interessante. A noi non piace fare conti, quindi cerchiamo di ridurre al minimo le informazioni di cui abbiamo bisogno per parlare del nostro gruppo delle isometrie. Chiamiamo $R$ il sottogruppo delle rotazioni, e $I$ l'insieme delle simmetrie. Dalla formula del prodotto di $\rho_\alpha\iota_\beta=\iota_{\frac{\alpha}{2}+\beta}$ troviamo che 
+	$$R\iota=I$$
+	cioè $I$ è un laterale destro. D'altra parte abbiamo che
+	$$G=R\sqcup I$$
+	cioè $R$ ha indice $2$, cioè è normale in $G$! Ma quindi dato che
+	$$\faktor{G}{R}\cong \langle \iota_0\rangle$$
+	abbiamo proprio
+	$$G\cong R\langle \iota\rangle$$
+	cioè abbiamo decomposto $G$ come prodotto diretto di due gruppi. \\
+	Un'altra cosa che possiamo cercare di capire di $G$ è quale sia la sua torsione. Senza dubbio abbiamo prima di tutto che
+	$$T(G)\supseteq I$$
+	d'altra parte abbiamo anche che tutti i $\rho_\alpha$ con $\alpha$ razionale hanno ordine finito, e apparterranno sicuramente a $T(G)$. In questo caso la torsione non è un sottogruppo, in quanto il prodotto di una simmetria arbitraria con una rotazione di angolo razionale può dare una rotazione di angolo irrazionale (che ha ordine infinito). Insomma il gruppo è tale che due elementi con ordine finito possono dare un elemento di ordine infinito. \\
+	Un'altra cosa ancora è capire quali sono i centralizzanti di $G$. Cerchiamo per esempio il centralizzante $C_G(\rho_\alpha)$. Chiaramente tutte le rotazioni commutano tra loro, quindi $C_G(\rho_\alpha)\supseteq R$, d'altra parte essendo $R$ un sottogruppo massimale di $G$, l'unica cosa che rimane da escludere è che 
+	$$C_G(\rho_\alpha)\ne G$$
+	ma questo è chiaro una volta che si osserva
+	$$\rho_\alpha \iota = \iota \rho_{-\alpha}.$$
+	Per una simmetria la cosa è un po' più strana, ovvero
+	$$C_G(\iota_\alpha)=\left\{\iota_\alpha,\rho_0,\rho_\pi,\iota_\alpha\rho_\pi\right\}.$$
+	E quindi otteniamo che 
+	$$Z(G)=\langle \rho_\pi\rangle.$$
+	Ancora un'altra cosa che possiamo studiare sono le classi di coniugio. Ricordiamo che il coniugio è una relazione di equivalenza, e quindi scompone il gruppo in classi di equivalenza.
+	\begin{definition}[Coniugio]
+		Dato un gruppo $G$ possiamo definire su di esso una relazione di equivalenza detta \textit{coniugio} denotata con 
+		$$g_1\sim g_2 \iff g_1=xg_2x^{-1}$$
+		per un qualche $x\in G$.
+	\end{definition}
+	Come sono le classi di coniugio in questo gruppo? Abbiamo già visto prima che
+	$$\iota \rho_\alpha \iota = \rho_{-\alpha}$$
+	e che
+	$$\rho_\beta \rho_\alpha \rho_{-\beta}=\rho_\alpha$$
+	cioè le classi di coniugio per i $\rho$ sono semplicemente $\left\{\rho_\alpha,\rho_{-\alpha}\right\}$. Per le simmetrie invece abbiamo che
+	$$\rho_\beta\left(\iota_\alpha\rho_\beta^{-1}\iota_\alpha\right)\iota_\alpha=\rho_{2\beta}\iota_\alpha$$
+	cioè tutte le simmetrie sono coniugate tra loro. Cerchiamo ora i sottogruppi normali, vogliamo cercare gli $N\normal G$, se abbiamo $\iota\in N$ dobbiamo avere $N\supseteq I$, cioè $N=G$. D'altra parte se $N$ non contiene simmetrie avremo
+	$$N\le R$$
+	e tutti i tali sottogruppi sono normali, per quanto abbiamo visto prima sulle classi di coniugio dei $\rho$. Questi non sono chiaramente tutti i sottogruppi di $G$, che includono, come è noto, anche i diedrali $D_n$.
+	\begin{exercise}[Studio dei diedrali]
+		Trovare centralizzanti, centro, classi di coniugio e sottogruppi normali di $D_n$.
+	\end{exercise}
+	\begin{exercise}[Studio di un diedrale]
+		Si consideri $D_{12}$. Si descrivano tutti i possibili suoi sottogruppi.
+	\end{exercise}
+	\subsubsection{Automorfismi}
+	 
+	 Consideriamo un gruppo $G$ con il suo gruppo degli automorfismo $\text{Aut}(G)$. Abbiamo visto che l'insieme degli automorfismi interni è costituito dagli $\iota_g$ tali che
+	 \begin{align*}
+	 	\iota_g:G & \to G \\
+	 	x & \mapsto gxg^{-1}
+	 \end{align*}
+	 questa cosa induce naturalmente un omomorfismo tra $G$ e $\text{Aut}(G)$ tale che
+	 \begin{align*}
+	 	\iota:G & \to \text{Aut}(G) \\
+	 	g & \mapsto \iota_g
+	 \end{align*}
+	 l'immagine di questo omomorfismo appunto si dice insieme degli automorfismi \textit{interni} di $G$. Si capisce subito anche che il kernel di questo morfismo è proprio $Z(G)$, da cui
+	 $$\faktor{G}{Z(G)}\cong \text{Inn}(G).$$
+	\begin{exercise}[Automorfismi interni di abeliani]
+		L'applicazione 
+		\begin{align*}
+			\varphi:G & \to G \\
+			g & \mapsto g^{-1}
+		\end{align*}
+		è un automorfismo se e solo se $G$ è abeliano.
+	\end{exercise}
+	\begin{proof}
+		Se $G$ è abeliano abbiamo che 
+		$$\left(g_1g_2\right)^{-1}=g_1^{-1}g_2^{-1}$$
+		e quindi è proprio un omomorfismo.
+	\end{proof}
+	\begin{exercise}
+		Studiare gli automorfismi di $S_3$.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Dato che $S_3$ ha centro banale si ha
+		$$S_3\cong \faktor{S_3}{Z(S_3)}\cong\text{Inn}(S_3)\le \text{Aut}(S_3)$$
+		consideriamo allora l'insieme
+		$$\Omega=\left\{\left(1,2\right),\left(1,3\right),\left(2,3\right)\right\}$$
+		che genera $S_3$, allora possiamo costruire un omomorfismo:
+		\begin{align}
+			\Gamma:\text{Aut}(S_3) & \to \text{Symm}(\Omega)\cong S_3 \\
+			\alpha & \mapsto \alpha_{\mid \Omega} 
+		\end{align}
+		ma questo d'altra parte è suriettivo, e ha kernel banale, quindi abbiamo proprio $S_3\cong \text{Aut}(S_3)$.
+	\end{proof}
+	\begin{exercise}
+		Dimostrare che $\text{Aut}(G)$ è banale se e solo se $\abs{G}\le 2$.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Abbiamo che 
+		$$\faktor{G}{Z(G)}=\text{Inn}(G)\le \text{Aut}(G)=1$$
+		dunque $G\cong Z(G)$, cioè $G$ è abeliano. D'altra parte se consideriamo l'automorfismo $g\mapsto g^{-1}$ questo deve essere l'identità, cioè ogni elemento $g\in G$ soddisfa
+		$$g^2=1.$$
+		Osserviamo ora che $G$ ha naturalmente una struttura di $\FF_2$-spazio vettoriale, con la moltiplicazione per scalare in notazione additiva:
+		$$\left(a+2\ZZ\right)g=ag$$ 
+		ma questo vuol dire che possiamo trovare una base $\left\{e_1,\dots,e_n\right\}$ di $G$, ma se per assurdo $n>1$ potremmo costruire un automorfismo non banale (permutando la base), e quindi dobbiamo necessariamente avere $n\le 1$, da cui la tesi.
+	\end{proof}
+	\textbf{Il grosso takeover di questa cosa è che quando lavoriamo con gli automorfismi conviene sempre lavorare con una certa \textit{base} del gruppo che stiamo considerando, visto come modulo su un opportuno anello}. Una cosa analoga si può fare con gli automorfismi di gruppi ciclici, infatti questi saranno tutti della forma
+	\begin{align*}
+		\varphi: G & \to G \\
+		g & \mapsto g^a
+	\end{align*}	
+	da cui si capisce velocemente che 
+	$$\text{End}(G)\cong \faktor{\ZZ}{n\ZZ}$$
+	dove $n$ è la cardinalità di $n$ se è finito. Altrimenti se $G$ è infinito abbiamo
+	$$\text{End}(G)\cong \ZZ$$
+	e visto che gli automorfismi sono gli endomorfismi invertibili abbiamo $U\left(\faktor{\ZZ}{n\ZZ}\right)$ nel caso finito, e $C_2$ nel caso infinito. Nel caso finito, questo ha cardinalità sempre $\varphi(n)$.
+	
+	\subsection{Azioni di gruppo}
+	
+	Abbiamo capito che lavorare con le permutazioni in generale è facile: abbiamo una base composta da $\binom{n}{2}$ elementi e ci sappiamo fare tutti i conti che vogliamo. Un modo per ricondurci alle permutazioni lo abbiamo già visto: il teorema di Cayley. Ma un modo più fine consiste nel cercare un modo di inserire omomorficamente il gruppo $G$ nel gruppo simmetrico di un qualche insieme.
+	\begin{definition}[Azione di gruppo]
+		Dato un gruppo $G$ è un insieme $\Omega$ diciamo che $G$ \textit{agisce} su $\Omega$ se esiste una funzione
+		\begin{align*}
+			\circ:G\times \Omega  &\to \Omega \\
+			\left(g,\omega\right) &\mapsto g\circ \omega
+		\end{align*}
+		tale che soddisfa le seguenti proprietà:
+		\begin{itemize}
+			\item Per ogni $g_1,g_2\in G$ si ha 
+			$$\left(g_1g_2\right)\circ \omega=g_1\circ \left(g_2\circ \omega\right).$$
+			\item Se $1_G\in G$ è l'identità di $G$ allora $1_G\circ \omega=\omega$.
+		\end{itemize}
+		una tale funzione si dice \textit{azione di $G$ su $\Omega$}.
+	\end{definition}
+	C'è un'altro modo di visualizzare questa cosa, ovvero definire la funzione
+	\begin{align*}
+		\sigma_g:\Omega & \to \Omega \\
+		\omega & \mapsto g\circ \omega
+	\end{align*}
+	e si trova facilmente, per le proprietà dell'azione, che 
+	$$\left(\sigma_g\circ \sigma_{g^{-1}}\right)(\omega)=\omega$$
+	e così anche nell'altro verso. Dunque $\sigma$ è un automorfismo, e quindi la mappa
+	\begin{align*}
+		\sigma:G & \to \text{Symm}(\Omega) \\
+		g & \mapsto \sigma_g
+	\end{align*}
+	è un omomorfismo! Questo è esattamente quello che stavamo cercando: un omomorfismo 
 	
 	\newpage
 	

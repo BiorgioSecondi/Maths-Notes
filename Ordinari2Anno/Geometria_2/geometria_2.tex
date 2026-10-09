@@ -24,6 +24,7 @@
 \usepackage{epigraph} 
 \usepackage{pgfplots}
 \usepackage[export]{adjustbox}
+\usetikzlibrary{arrows.meta}
 
 %Pacchetti per i codici
 \usepackage{listings}
@@ -740,9 +741,9 @@
 		E in particolare quindi hanno lo stesso rango.
 	\end{remark}
 	
-	\subsection{Segno e degenerazione}
+	\subsection{Definitezza e degenerazione}
 	
-	\begin{definition}[Segno delle forme bilineari reali]
+	\begin{definition}[Definitezza delle forme bilineari reali]
 		In uno spazio vettoriale $V$ reale una forma bilineare $B$ su $V$ si dice:
 		\begin{itemize}
 			\item \textit{Definita positiva} se $B(v,v)>0$ per ogni $v\in V,v\ne \vec{0}$.
@@ -771,7 +772,7 @@
 	\begin{definition}[Nuclei e degenerazione]
 		Data una forma bilineare $B$ il nucleo della forma $B_1:V\to V^*$ si dice \textit{nucleo sinistro}, o \textit{radicale sinistro}. Allo stesso modo si definisce il nucleo destro o il radicale destra. Una forma con entrambi i nuclei banali si dice \textit{non degenere} (e altrimenti si dice \textit{degenere}).
 	\end{definition}
-	\begin{example}[Restrizione di forme non degeneri]
+	\begin{example}[Restrizione di forme non degeneri può essere degenere]
 		Il prodtto interno standard è non degenere, così come la forma associata allo spazio di minkowski
 		$$
 		\begin{pmatrix}
@@ -781,7 +782,8 @@
 			0 & 0 & 0 & -1 
 		\end{pmatrix}
 		$$
-		che è un caso specifico di $\left(\RR^p, \langle \cdot,\cdot \rangle\right)\perp \left(\RR^q,-\langle \cdot,\cdot \rangle\right)$. Una forma analoga è quella con matrice
+		che è un caso specifico di $\left(\RR^p, \langle \cdot,\cdot \rangle\right)\perp \left(\RR^q,-\langle \cdot,\cdot \rangle\right)$. Un tale spazio si denota di solito con $\RR^{p,q}$. \\
+		Una forma analoga è quella con matrice
 		$$
 		\begin{pmatrix}
 			1 & 0 & 0 \\
@@ -789,8 +791,41 @@
 			0 & 0 & -1
 		\end{pmatrix}
 		$$
-		che è non degenere, ma ristretta al sottospazio $W=\langle (1,0,1),(0,1,0) \rangle$ è degenere.
+		che è non degenere, tuttavia ristretta al sottospazio $W=\langle (1,0,1),(0,1,0) \rangle$ è degenere, infatti 
+		$$
+		\begin{pmatrix}
+			1 & 0 & 1
+		\end{pmatrix}
+		\begin{pmatrix}
+			1 & 0 & 0 \\
+			0 & 1 & 0 \\
+			0 & 0 & -1
+		\end{pmatrix}
+		\begin{pmatrix}
+			1 \\ 
+			0 \\
+			1
+		\end{pmatrix}=0
+		$$
+		e allo stesso modo
+		$$
+		\begin{pmatrix}
+			1 & 0 & 1
+		\end{pmatrix}
+		\begin{pmatrix}
+			1 & 0 & 0 \\
+			0 & 1 & 0 \\
+			0 & 0 & -1
+		\end{pmatrix}
+		\begin{pmatrix}
+			0 \\ 
+			1 \\
+			0
+		\end{pmatrix}=0
+		$$
+		cioè tutti i vettori in $W$ sono ortogonali a $(1,0,1)$ (compreso $(1,0,1)$ stesso!).
 	\end{example}
+	Questo è un comportamento decisamente controintuitivo, che vorremmo riuscire in qualche modo a caratterizzare o descrivere. Per questo abbiamo la seguente proposizione:
 	\begin{proposition}[Caratterizzazione della non degenerazione delle restrizioni]
 		Sia $V$ uno spazio vettoriale di dimensione finita su $\KK$ con una forma bilineare simmetrica o alternante (cioè tale che la relazione di ortogonalità sia simmetrica). Allora le seguenti condizioni sono equivalenti per un sottospazio $W\le V$:
 		\begin{enumerate}
@@ -800,31 +835,40 @@
 		\end{enumerate}
 	\end{proposition}
 	\begin{proof}
-		Per dimostrare che $1$ implica $2$ supponiamo che $B_{\mid W}$ è non degenere allora 
+		Per dimostrare che $1$ implica $2$ supponiamo che $B_{\mid W}$ sia non degenere allora 
 		$$w\in W\cap W^\perp$$
 		implica che, per ogni $w'\in W$ si abbia
 		$$B_{\mid W}(w,w')=0$$
 		ma dato che questa è non degenere si ha necessariamente che $w'=\vec{0}$, come richiesto. Per dimostrare che $2$ implica $3$ supponiamo che $W\cap W^\perp = \left\{\vec{0}\right\}$, allora vogliamo mostrare che
 		$$W^\perp+W=V$$
 		consideriamo allora la composizione di $B_{1\mid W}:W\to V^*$ con l'applicazione $r:V^*\to W^*$ che restringe il funzione $\varphi\in V^*$ al funzionale $\varphi_{\mid W}\in W^*$, che chiameremo $L:W\to W^*$:
+		\begin{figure}[h]
+			\begin{center}
+				\begin{tikzcd}
+					W\arrow[rr,bend right=40,dashed,"L",swap]\arrow[r,"B_{1\mid W}"] & V^*\arrow[r,"r"] & W^* \arrow[ll, bend right=40, "L^{-1}",swap,dashed]
+				\end{tikzcd}
+			\end{center}
+		\end{figure}
 		$$L:=r\circ B_{1\mid W}.$$
 		allora ha senso chiedersi quale sia il suo nucleo, d'altra parte questo è proprio
 		$$\ker{L}=\left\{w\in W:B(w,w')=0,\,\,\forall w'\in W\right\}=W\cap W^\perp =\left\{\vec{0}\right\}$$
 		dunque essendo che $W$ ha dimensione finita abbiamo che $L$ è un isomorfismo, dunque ha senso, preso un $v\in V$, la scrittura
-		$$w:=L^{-1}\left(B_{1\mid W}(v)\right)$$
+		$$w:=L^{-1}\left(B_{1\mid W}(v)\right) \iff L(w)=B_{1\mid W}(v)$$
 		osserviamo allora che questo soddisfa per ogni $w'\in W$:
 		$$B(v,w')=B(w,w') \implies B(v-w,w')=0$$
 		cioè $v-w\in W^\perp$, ma allora possiamo effettivamente scomporre
 		$$v=w+\left(v-w\right)$$
 		in una parte in $W$ ed in una in $W^\perp$, come volevamo. \\
-		Infine per dimostrare che $3$ implica $1$ abbiamo di nuovo che $L$ è invertibile, d'altra parte 
+		Infine per dimostrare che $3$ implica $1$, semplicemente abbiamo che se $w'\in W$ è tale che
+		$$B(w,w')=0$$
+		per ogni $w\in W$ allora $w'\in W\cap W^\perp=\left\{\vec{0}\right\}$ cioè $w'=\vec{0}$, da cui la tesi.
 	\end{proof}
 	\begin{proposition}[Proprietà degli ortogonali]
 		Sia $B$ una forma bilineare simmetrica o alternante e non degenere su uno spazio $V$ di dimensione finita, allora
 		\begin{enumerate}
 			\item Abbiamo che
 			$$\dim W + \dim W^\perp = \dim V$$
-			e in particolare abbiamo che $B_{\mid W}$ è non degenere se e solo se $B_{\mid W^\perp}$ è non degenere.
+			e in particolare abbiamo che $B_{\mid W}$ è non degenere se e solo se $B_{\mid W^\perp}$ è non degenere. Inoltre di ha che $\left(W^\perp\right)^\perp=W$.
 			\item Per ogni coppia di sottospazi $U_1$ e $U_2$ si ha
 			\begin{gather*}
 				\left(U_1+U_2\right)^\perp=U_1^\perp \cap U^\perp \\
@@ -833,15 +877,20 @@
 		\end{enumerate}
 	\end{proposition}
 	\begin{proof}
-		Sappiamo che la composizione
-		\begin{align*}
-			V&\to & V^* &\to & W^* \\
-			v & \mapsto & B_1(v)&  \mapsto& {B_{1}(v)}_{\mid W}
-		\end{align*}
+		Sappiamo che la composizione in figura
+		\begin{figure}
+			\begin{center}
+				\begin{tikzcd}
+					V \arrow[r]& V^*\arrow[r] & W^* \\
+					v \arrow[r,mapsto]&  B_1(v)\arrow[r,mapsto] &  {B_{1}(v)}_{\mid W}
+				\end{tikzcd}
+			\end{center}
+		\end{figure}
 		è suriettiva e ha per definizione nucleo $W^\perp$. Da ciò per il primo teorema d'omomorfismo segue che
 		$$\faktor{V}{W^\perp}\cong W^*$$
-		cioè usando la dimensione finita di tutti gli spazi coinvolti abbiamo proprio
+		cioè usando la dimensione finita di tutti gli spazi coinvolti e la formula per la dimensione del quoziente abbiamo:
 		$$\dim W + \dim W^\perp = \dim V$$
+		
 	\end{proof}
 	
 	\subsubsection{Isotropia}
@@ -872,10 +921,10 @@
 	\begin{definition}[Cono isotropo]
 		Se $v\in V$ è isotropo allora tutti i $tv$ con $t\in \KK$ sono isotropi, quindi 
 		$$I_B(V)=\left\{v\in V:B(v,v)=0\right\}$$
-		è un cono, chiamato \textit{cono isotropo}.
+		è un cono, chiamato \textit{cono isotropo}. Un \textit{cono}, è un sottoinsieme di uno spazio vettoriale $V$ con la proprietà che se $v\in V$ allora $tv\in V$ per ogni $t\in \KK$.
 	\end{definition}
 	Alcuni esempi di coni isotropi sono
-	\begin{example}
+	\begin{example}[Spazio di Minkowski]
 		Per la forma di matrice
 		$$
 		\begin{pmatrix}
@@ -886,20 +935,113 @@
 		$$
 		da
 		$$x_1^2+x_2^2-x_3^2=0$$
-		che è letteralmente e geometricamente un cono.
+		che è letteralmente e geometricamente un cono. In fisica questo è noto come \textit{cono di luce}, una rappresentazione si può vedere nella figura sotto (vibe-coded con ClaudeAI).
 	\end{example}
 	\begin{remark}
-		Per $(V,B)$ allora $V^\perp\subseteq I_B(V)$ in particolare $I_B(V)=\left\{\vec{0}\right\}$ implica che $B$ è non degenere.
+		Presa una forma $B$ definita su $V$ si ha che $V^\perp\subseteq I_B(V)$ (l'ortogonale di tutto lo spazio è sempre contenuto nel cono d'isotropia) in particolare $I_B(V)=\left\{\vec{0}\right\}$ implica che $B$ è non degenere.
 	\end{remark}
+	
+	\begin{center}
+		\begin{tikzpicture}[
+			x={(-0.45cm,-0.35cm)}, y={(1cm,0cm)}, z={(0cm,1cm)},
+			scale=1.6, >=Stealth]
+			
+			% --- assi ---
+			\draw[->] (-2.1,0,0) -- (2.1,0,0) node[below left] {$x_1$};
+			\draw[->] (0,-2.1,0) -- (0,2.1,0) node[right] {$x_2$};
+			\draw[->] (0,0,-2.1) -- (0,0,2.1) node[above] {$x_3$};
+			
+			% --- bordi del cono: cerchi a t = +-1.5 ---
+			\draw[blue!60!black, thick, fill=blue!10, fill opacity=0.35]
+			plot[domain=0:360, samples=100, smooth, variable=\a]
+			({1.5*cos(\a)}, {1.5*sin(\a)}, 1.5);
+			\draw[blue!60!black, thick, fill=blue!10, fill opacity=0.35]
+			plot[domain=0:360, samples=100, smooth, variable=\a]
+			({1.5*cos(\a)}, {1.5*sin(\a)}, -1.5);
+			
+			% --- generatrici del cono ---
+			\foreach \a in {0,20,...,340} {
+				\draw[blue!50, thin]
+				({-1.5*cos(\a)}, {-1.5*sin(\a)}, -1.5) --
+				({ 1.5*cos(\a)}, { 1.5*sin(\a)},  1.5);
+			}
+			
+			% --- sottospazio di dimensione 2: il piano y = 0 ---
+			\fill[orange!50, opacity=0.4]
+			(-1.9,0,-1.9) -- (1.9,0,-1.9) -- (1.9,0,1.9) -- (-1.9,0,1.9) -- cycle;
+			\draw[orange!70!black]
+			(-1.9,0,-1.9) -- (1.9,0,-1.9) -- (1.9,0,1.9) -- (-1.9,0,1.9) -- cycle;
+			\node[orange!60!black] at (1.9,0,-2.1) {$W=\{x_2=0\}$};
+			
+			% --- intersezione: due rette isotrope ---
+			\draw[red, very thick] (-1.5,0,-1.5) -- (1.5,0,1.5);
+			\draw[red, very thick] ( 1.5,0,-1.5) -- (-1.5,0,1.5);
+			\node[red] at (1.65,0,1.7) {$\ell_1$};
+			\node[red] at (-1.65,0,1.7) {$\ell_2$};
+			
+			% --- origine ---
+			\fill (0,0,0) circle (1pt);
+			
+			\node[blue!60!black] at (0.3,3.1,1.7) {$C=\{x_1^2+x_2^2-x_3^2=0\}$};
+		\end{tikzpicture}
+	\end{center}
+	Sullo spazio $W$ la forma $B$ è degenere, in quanto interseca il cono di isotropia in almeno un punto.
+	\begin{center}
+		\begin{tikzpicture}[
+			x={(-0.4cm,-0.8cm)}, y={(1cm,0cm)}, z={(0cm,1cm)},
+			scale=1.6, >=Stealth]
+			
+			% --- assi ---
+			\draw[->] (0,0,0) -- (2.1,0,0) node[below left] {$x_1$};
+			\draw[->] (0,0,0) -- (0,2.1,0) node[right] {$x_2$};
+			\draw[->] (0,0,0) -- (0,0,2.1) node[above] {$x_3$};
+			
+			% --- bordi del cono: cerchi a x_3 = +-1.5 ---
+			\draw[blue!60!black, thick, fill=blue!10, fill opacity=0.35]
+			plot[domain=0:360, samples=100, smooth, variable=\a]
+			({1.5*cos(\a)}, {1.5*sin(\a)}, 1.5);
+			\draw[blue!60!black, thick, fill=blue!10, fill opacity=0.35]
+			plot[domain=0:360, samples=100, smooth, variable=\a]
+			({1.5*cos(\a)}, {1.5*sin(\a)}, -1.5);
+			
+			% --- generatrici del cono ---
+			\foreach \a in {0,20,...,340} {
+				\draw[blue!50, thin]
+				({-1.5*cos(\a)}, {-1.5*sin(\a)}, -1.5) --
+				({ 1.5*cos(\a)}, { 1.5*sin(\a)},  1.5);
+			}
+			
+			% --- U: piano spaziale x_3 = 0.4 x_1, generato da (1,0,0.4) e (0,1,0) ---
+			\fill[green!50!black, opacity=0.40]
+			(-1.6,-1.6,-0.64) -- (1.6,-1.6,0.64) -- (1.6,1.6,0.64) -- (-1.6,1.6,-0.64) -- cycle;
+			\draw[green!40!black, thick]
+			(-1.6,-1.6,-0.64) -- (1.6,-1.6,0.64) -- (1.6,1.6,0.64) -- (-1.6,1.6,-0.64) -- cycle;
+			\node[green!40!black] at (1.6,-1.9,0.64) {$U=\{x_3=0.4\,x_1\}$};
+			
+			% --- ortogonale euclideo (tratteggiato): generato da (-0.4,0,1) ---
+			\draw[gray, thick, dashed] (0.68,0,-1.7) -- (-0.68,0,1.7)
+			node[above left] {$U^{\perp_E}$};
+			
+			% --- U^perp (Minkowski): generato da (0.4,0,1) ---
+			\draw[magenta!80!black, very thick] (-0.68,0,-1.7) -- (0.68,0,1.7);
+			\node[magenta!80!black, above right] at (0.68,0,1.7) {$U^{\perp}$};
+			
+			% --- origine ---
+			\fill (0,0,0) circle (1pt);
+			
+			\node[blue!60!black] at (0.3,1.9,1.7) {$C=\{x_1^2+x_2^2-x_3^2=0\}$};
+		\end{tikzpicture}
+		
+	\end{center}
 	
 	\subsection{Diagonalizzazione di forme bilineari}
 	
 	Abbiamo trovato un modo di rappresentare una forma bilineare $B$ come una matrice. Vogliamo ora provare a diagonalizzare questa matrice:
 	\begin{definition}[Base ortogonale]
-		Una base $\left\{v_1,\dots,v_n\right\}$ di $V$ si dice \textit{ortogonale rispetto a $B$} (o $B$ )se $B(v_i,v_j)=0$ se $i\ne j$.
+		Una base $\left\{v_1,\dots,v_n\right\}$ di $V$ si dice \textit{ortogonale rispetto a $B$} (o $B$-ortogonale) se $B(v_i,v_j)=0$ se $i\ne j$.
 	\end{definition}
 	
-	\begin{theorem}
+	\begin{theorem}[Di Diagonalizzazione]
 		Se $\KK$ è un campo a caratteristica diversa da $2$ allora ogni forma bilineare simmetrica $B$ su uno spazio $V$ di dimensione finita su $\KK$ ammette una base $B$-ortogonale.
 	\end{theorem}
 	\begin{proof}

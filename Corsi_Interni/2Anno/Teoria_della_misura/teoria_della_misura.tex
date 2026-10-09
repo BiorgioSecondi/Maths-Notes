@@ -867,11 +867,162 @@
 	$$\mu_\varphi([a,b))=f_\#\mathscr{L}^1_{\mid [\varphi(0),\varphi(1^-))}$$
 	dove $f$ è la \textit{pseudoinversa} di $\varphi$, ovvero
 	$$f(y):=\sup\left\{x\in[0,1]:\varphi(x)\le y\right\}$$
-	e l'insieme $[\varphi(0)\varphi(1^-))$ è l'insieme dei sottoinsiemi della forma $[\varphi(0),\varphi(t))$ con $t\to 1^-$. 
+	e l'insieme $[\varphi(0),\varphi(1^-))$ è l'insieme dei sottoinsiemi della forma $[\varphi(0),\varphi(t))$ con $t\to 1^-$. 
 	
 	\newpage
 	
 	\section{Integrale di Lebesgue}
+	
+	Le protagoniste della nostra teoria dell'integrale di Lebesgue saranno le funzioni misurabili:
+	\begin{definition}[Funzione misurabile]
+		Dati due spazi misurabili $(X,\mathcal{A})$ e $(Y,\mathcal{B})$ una funzione $f:X\to Y$ si dice \textit{misurabile} se \textit{preserva la struttura di $\sigma$-algebra}, ovvero se per ogni $B\in \mathcal{B}$ abbiamo che $f^{-1}(B)\in \mathcal{A}$.
+	\end{definition}
+	Per verificare se una funzione è misurabile di solito si usa il seguente risultato:
+	\begin{lemma}[Criterio di misurabilità]
+		Se $\mathcal{E}\subseteq \parti{Y}$ è una famiglia di sottoinsiemi tale che
+		$$\sigma\left(\mathcal{E}\right)=\mathcal{B}$$
+		allora $f:X\to Y$  è misurabile se e solo se $f^{-1}(E)\in \mathcal{A}$ per ogni $E\in \mathcal{E}$.
+	\end{lemma}
+	\begin{proof}
+		Un verso è facile. Per dimostrare il contrario osserviamo che la famiglia
+		$$M:=\left\{B:f^{-1}(B)\in \mathcal{A}\right\}$$
+		è una $\sigma$-algebra. Ma allora abbiamo che
+		$$\mathcal{E}\subseteq M$$
+		ma questo vuol dire proprio che $\mathcal{B}\subseteq M$, e quindi abbiamo la tesi.
+	\end{proof}
+	Non è molto restrittivo lavorare con immagine $\RR^n$, quindi per il momento ci restringeremo a studiare i casi in cui $Y=\RR^n$. Denoteremo inoltre con $\mathcal{B}=\beta_{\RR}$ la $\sigma$-algebra dei boreliani su $\RR$, e lavoreremo su 
+	$$\mathcal{A}=\mathcal{M}\left(\RR,\mathscr{L}^{1*}\right)$$
+	gli insiemi misurabili secondo Lebesgue. Viene da chiedersi se questi due insiemi siano uguali. In realtà questo è falso, ed è abbastanza difficile da mostrare: segue essenzialmente dal fatto che
+	$$\abs{\mathcal{M}\left(\RR,\mathscr{L}^{1*}\right)}=\abs{\parti{\RR}}$$
+	mentre
+	$$\abs{\beta_{\RR}}=\abs{\RR}$$
+	e questo si mostra per induzione transfinita, grazie al fatto che la misura di Lesbesgue sugli insiemi Lebesgue misurabili è completa, mentre sui boreliani no.
+	\begin{example}[Funzione caratteristica]
+		Dato un $A\subseteq X$ si ha che
+		\begin{align*}
+			\mathbbm{1}:X & \to \RR \\
+			x & \mapsto \begin{cases}
+				1 & \text{se $x\in A$} \\
+				0 & \text{se $x\not\in A$}
+			\end{cases}
+		\end{align*}
+		e in questo caso quindi abbiamo che $\mathbbm{1}_A$ è misurabile se e solo se $A$ è misurabile.
+	\end{example}
+	\begin{remark}
+		Dato che $\beta_{\RR}$ è generata da 
+		$$\mathcal{E}:=\left\{\left(\alpha,\infty\right):\alpha\in\RR\right\}$$
+		per mostrare che $f:X\to \RR$ è misurabile basta verificare che $$f^{-1}((\alpha,\infty))=\left\{f>\alpha\right\}$$
+		è in $\mathcal{A}$.
+	\end{remark}
+	Le funzioni misurabili hanno una struttura di Algebra:
+	\begin{proposition}[Algebra delle funzioni misurabili]
+		Se $f,g:\left(X,\mathcal{A}\right)\to\RR$ sono misurabili, allora:
+		\begin{itemize}
+			\item $f+g$ è misurabile.
+			\item $f\cdot g$ è misurabile.
+			\item $\frac{f}{g}$ è misurabile (se $g\ne 0$).
+			\item $\abs{f}$ è misurabile.
+			\item $\max\left\{f,g\right\}$ è misurabile, così come il minimo.
+		\end{itemize}
+	\end{proposition}
+	\begin{proof}
+		Dimostriamo una cosa alla volta:
+		\begin{itemize}
+			\item Ci basta mostrare che $f+g$ è misurabile sui sopralivelli, quindi
+			$$\left\{f+g>\alpha\right\}=\bigcup_{s+t>\alpha, \,\, s,t\in \QQ}\left\{f>t\right\}\cap \left\{g>s\right\}$$
+			questi due insiemi sono uguali, per densità di $\QQ$ in $\RR$ (dimostrarlo è un esercizio piccolino e carino). Dato che il lato destro è unione numerabile di misurabili, lo sarà anche il lato sinistro, da questo la tesi.
+			\item Ci basta mostrare che $f^2$ è misurabile, poi la tesi seguirà dall'identità binomiale. Scriviamo
+			$$\left\{f^2>\alpha\right\}=\left\{f>\sqrt{\alpha}\right\}\cup \left\{f<-\sqrt{\alpha}\right\}$$
+			e di nuovo, dato che entrambi questi insiemi sono misurabili, lo è anche il LHS.
+			\item Come prima ci basta mostrare che $1/g$ è misurabile (con $g\ne 0$) in questo caso possiamo scrivere
+			$$\left\{\frac{1}{g}<\alpha\right\}=\left\{g<\frac{1}{\alpha}\right\}\cap \left\{g>0\right\}$$
+			e di nuovo la tesi segue dal fatto che
+			$$\left(f+\frac{1}{g}\right)^2=f^2+\frac{1}{g^2}+2\frac{f}{g}$$
+			sono tutte misurabili, quindi anche $f/g$ deve essere misurabile.
+			\item Per il modulo possiamo scrivere la funzione come
+			$$\abs{f}=f\cdot \mathbbm{1}_{\left\{f\ge 0\right\}}-f\cdot\mathbbm{1}_{\left\{f<0\right\}}$$
+			ma dato che tutte le funzioni elencate sono misurabili, anche il $\abs{f}$ sarà misurabile.
+			\item Un trucco analogo ci permette di dimostrare che 
+			$$\max\left\{f,g\right\}=f\mathbbm{1}_{\left\{f-g\ge 0\right\}}+g\mathbbm{1}_{\left\{f-g< 0\right\}}$$
+			da cui di nuovo troviamo che il LHS è misurabile.
+		\end{itemize}
+		Abbiamo dimostrato tutte le asserzioni, e quindi abbiamo finito.
+	\end{proof}
+	La composizione è misurabile di solito, tuttavia abbiamo alcuni problemi nell'assicurarci che lo spazio su cui sono definite le funzioni che componiamo. In effetti se $f:\left(X,\mathcal{A}\right)\to \left(\RR,\beta_{\RR}\right)$ è misurabile e $g:\RR\to\RR$ è continua allora $g\circ f$ è misurabile. 
+	Per fare limiti ci torna comodo lavorare su $\overline{\RR}$, e quindi introduciamo una nuova $\sigma$-algebra su questo:
+	$$\sigma\left(\left\{(\alpha,\infty]:\alpha\in \RR\right\}\right)$$
+	e non è difficile vedere come questa sia semplicemente 
+	$$\sigma\left(\left\{(\alpha,\infty]:\alpha\in \RR\right\}\right)=\beta_{\RR}\cup \left\{\left\{\infty\right\},\left\{-\infty\right\}\right\}$$
+	la grossa novità è che le funzioni misurabili sono chiuse rispetto ai limiti:
+	\begin{proposition}[Limiti di misurabili]
+		Se $f_k:X\to \overline{\RR}$ con $k\in\NN$ è una successione di funzioni misurabili, allora anche
+		$\inf_{k\in\NN} f_k$, $\sup_{k\in\NN} f_k$, $\limsup_{k\to\infty} f_k$ e $\liminf_{k\to\infty} f_k$ sono misurabili.
+	\end{proposition}
+	\begin{proof}
+		Ci basta scomporre i sopralivelli come
+		$$\left\{\inf_{k\in\NN} f_k>\alpha\right\}=\bigcup_{k\in\NN}\left\{f_k>\alpha\right\}$$
+		e analogamente si fa con il sup. Per liminf e limsup invece
+		$$\liminf_{k\to\infty} f_k=\sup_{n\in\NN}\inf_{k\ge n}f_k$$
+		e la misurabilità quindi segue da quanto appena mostrato per sup e inf.
+	\end{proof}
+	\subsection{Integrazione di funzioni semplici}
+	Siamo pronti ad integrare le nostre prime funzioni:
+	\begin{definition}[Funzione semplice]
+		Una funzione $f:X\to\RR$ si dice \textit{semplice} se $\Immagine{f}$ ha cardinalità finita, ovvero se si può scrivere $f$ come
+		$$f(x)=\sum_{i=1}^{n}c_i\mathbbm{1}_{A_i}(x)$$
+		con $c_i\in\RR$ e $A_i\subseteq \RR$. Se i $c_i$ sono tutti distinti e non nulli e gli $A_i$ sono tutti disgiunti allora questa scrittura è unica.
+	\end{definition}
+	Notiamo subito prima di tutto che una funzione semplice è misurabile se e solo se gli $A_i$ nella sua rappresentazione unica sono tutti misurabili. \\
+	Abbiamo scoperto di poter fare limiti con le funzioni misurabili:
+	\begin{theorem}[Approssimazione di misurabili con semplici]
+		Sia $f:X\to [0,\infty]$ misurabile, allora esiste una successione $\varphi_n:X\to[0,\infty)$ di funzioni semplici e misurabili, tali che siano monotone, cioè $\varphi_n\le \varphi_{n+1}$, e
+		$$f(x)=\lim_{n\to\infty}\varphi_n(x)$$
+		inoltre se $f$ è limitata tale convergenza è anche uniforme. 
+	\end{theorem}
+	\begin{proof}[Idea di dimostrazione]
+		L'idea è costruire $\varphi_n$ prendendo l'insieme $\left\{f<n\right\}$ e bisecarlo in intervallini identici di ampiezza $2^{-n}$, approssimando la funzione $f$ per difetto in ognuno di questi. In questo modo ci assicuriamo la convergenza puntuale dappertutto perché se $f(x)=\infty$ allora 
+		$$\varphi_n(x)=n$$
+		che per $n\to\infty$ va a infinito, mentre se $f(x)\in\RR$ abbiamo
+		$$\abs{f(x)-\varphi_n(x)}<2^{-n}$$
+		e da questo segue anche la convergenza uniforme, in quanto
+		$$\sup_{x\in X}\abs{f(x)-\varphi_n(x)}\le 2^{-n}$$
+		per un certo $n>\sup f$ (se $f$ è limitata). La misurabilità è stata usata perché per ogni approssimazione abbiamo considerano intervallini $[a,b)$ di ampiezza $2^{-n}$, e ci serviva che $f^{-1}([a,b))=A_i$ fosse misurabile.
+	\end{proof}
+	Il teorema si applica anche a funzioni limitate dal basso, ovvero se $f\ge -M$ (basta applicare il teorema a $f+M\ge 0$). L'ipotesi di essere limitati dal basso è necessaria per costruire una successione monotona di $\varphi_n$. \\
+	In generale vorremmo ignorare quello che succede su insiemi di misura nulla. 
+	\begin{definition}[Convergenza quasi ovunque]
+		Data una successione $f_n:\left(X,\mathcal{A},\mu\right)\to\overline{\RR}$ e una $f:\left(X,\mathcal{A},\mu\right)\to  \overline{\RR}$ diremo che $f_n\to f$ \textit{quasi ovunque} se 
+		$$\lim_{n\to\infty}f_n(x)=f(x)$$
+		per ogni $x\in X\setminus N$, dove $\mu(N)=0$. In questi casi si dice che $f_n\to f$, abbreviando con $\mu$-q.o. l'espressione quasi ovunque. 
+	\end{definition}
+	Esattamente per questo motivo ci piace avere risultati di completezza di misure. Infatti di solito riusciamo a dire che l'insieme dove la successione non converge è contenuto in un insieme di misura nulla (ma non diciamo niente sull'insieme in sé).
+	\begin{theorem}[Severini-Egorov]
+		Sia $(X,\mathcal{A},\mu)$ uno spazio di misura con $\mu(X)<\infty$. Siano inoltre $f_n,f:X\to\RR$ funzioni misurabili tali che $f_n\to f$ $\mu$-q.o. allora per ogni $\varepsilon>0$ esiste un $X_\varepsilon\subseteq X$ tale che 
+		$$\mu\left(X\setminus X_\varepsilon\right)<\varepsilon$$
+		e 
+		$$f_{n\mid X_\varepsilon}\to f_{X_\varepsilon}$$
+		uniformemente.
+	\end{theorem}
+	\begin{proof}
+		Siano $n,k\in\NN$ e definiamo 
+		$$S_{n,k}=\bigcap_{j\ge n}\left\{x\in X:\abs{f_j(x)-f(x)}<\frac{1}{k}\right\}$$
+		insomma è l'insieme dei punti di $f_n$ tali che, dopo $n$ passi, rimangono $1/k$ vicini a $f$. Dato che $f_j$ ed $f$ sono entrambi misurabili, allora anche $S_{n,k}$ sarà misurabile. \`E chiaro inoltre che 
+		$$S_{n+1,k}\supseteq S_{n,k}$$
+		dato che $f_j\to f$ $\mu$-q.o. abbiamo che
+		$$\mu\left(X\setminus \bigcup_{n\in\NN}S_{n,k}\right)=0$$
+		e quindi dalla continuità monotona di $\mu$ dal basso, e la finitezza della misura di $X$, abbiamo
+		$$\lim_{n\to\infty}\mu\left(S_{n,k}\right)=\mu(X)$$ 
+		questo vuol dire che per ogni $k$ esiste un $n_k$ tale che 
+		$$\mu\left(X\setminus S_{n_k,k}\right)<\frac{\varepsilon}{2^k}$$
+		dunque l'insieme che stavamo cercando possiamo indovinare sia
+		$$X_\varepsilon=\bigcap_{k\in\NN}S_{n_k,k}$$
+		da cui, per subadditività
+		$$\mu\left(X\setminus X_\varepsilon\right)=\mu\left(X\setminus \bigcap_{k\in\NN}S_{n,k}\right)=\mu\left(\bigcup_{k\in\NN}\left(X\setminus S_{n_k,k}\right)\right)\le \sum_{k\in\NN}\mu\left(X\setminus S_{n_k,k}\right)<\varepsilon$$
+		e inoltre abbiamo proprio che la convergenza qui è uniforme, infatti allora per ogni $k\in \NN$ e per ogni $n>n_k$ abbiamo che 
+		$$\abs{f_n(x)-f(x)}<\frac{1}{k}$$
+		cioè la convergenza è proprio uniforme.
+	\end{proof}
+	
 	
 	\newpage
 	

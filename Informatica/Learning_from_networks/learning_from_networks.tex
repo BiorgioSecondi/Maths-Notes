@@ -205,7 +205,8 @@
 		Let $\varepsilon>0$ and $\delta\in (0,1)$ be constants. If $k$ is \textit{big enough}, that is if 
 		$$k\ge \frac{1}{2\varepsilon^2}\left(\frac{n}{n-1}\right)^2\log\frac{2n}{\delta}$$
 		then we have that
-		$$\mathbb{P}\left[\abs{\frac{1}{\hat{c}(v)}-\frac{1}{c(v)}}\le \varepsilon\Delta(G)\right]\ge 1-\delta$$
+		$$\mathbb{P}\left[\sup_{v\in V}\abs{\frac{1}{\hat{c}(v)}-\frac{1}{c(v)}}\le \varepsilon\Delta(G)\right]\ge 1-\delta$$
+		for any $v\in V$.
 	\end{proposition}
 	\begin{proof}
 		We consider again the $X_i$ defined in the central estimate above. We have already proven that
@@ -213,7 +214,32 @@
 		so to apply Hoeffding's we just need a bound on the $X_i$s. For this we just consider the diameter, getting
 		$$0\le X_i\le \Delta(G)\frac{n}{n-1}.$$
 		Now applying Hoeffding it gets quite messy
-		$$\sum_{i=1}^{k}\left(b_i-a_i\right)\mapsto k\Delta(G)^2\left(\frac{n}{n-1}\right)^2$$
+		\begin{gather*}
+			\sum_{i=1}^{k}\left(b_i-a_i\right)\mapsto k\Delta(G)^2\left(\frac{n}{n-1}\right)^2 \\
+			\varepsilon \mapsto \varepsilon \Delta(G)
+		\end{gather*}
+		and so we get
+		$$\mathbb{P}\left[\abs{\frac{1}{\hat{c}(v)}-\frac{1}{c(v)}}\ge \varepsilon\Delta(G)\right]\le 2\exp\left(\frac{-2k^2\varepsilon^2\Delta(G)^2}{k\Delta(G)^2\left(\frac{n}{n-1}\right)^2}\right)=2\exp\left(-2k\varepsilon^2\left(\frac{n-1}{n}\right)^2\right)$$
+		now we use monotonicity to apply the bound on $k$ and obtain
+		$$2\exp\left(-2k\varepsilon^2\left(\frac{n}{n-1}\right)^2\right)\le 2\exp\left(-2\frac{1}{2\varepsilon^2}\left(\frac{n}{n-1}\right)^2\log\frac{2n}{\delta}\varepsilon^2\left(\frac{n}{n-1}\right)^2\right)=\frac{\delta}{n}.$$
+		Summaring up we've just proven that
+		$$\mathbb{P}\left[\abs{\frac{1}{\hat{c}(v)}-\frac{1}{c(v)}}\ge \varepsilon\Delta(G)\right]\le\frac{\delta}{n}$$
+		for any $v\in V$. The event we wish to bound now is
+		$$\PP\left[\exists v\in V : \abs{\frac{1}{\hat{c}(v)}-\frac{1}{c(v)}}>\varepsilon\Delta(G)\right]$$
+		we can decompose it in 
+		$$\left\{\exists v\in V : \abs{\frac{1}{\hat{c}(v)}-\frac{1}{c(v)}}>\varepsilon\Delta(G)\right\}=\bigcup_{v\in V}\left\{\abs{\frac{1}{\hat{c}(v)}-\frac{1}{c(v)}}>\varepsilon\Delta(G)\right\}$$
+		and use subadditivity obtaining
+		$$\PP\left[\exists v\in V : \abs{\frac{1}{\hat{c}(v)}-\frac{1}{c(v)}}>\varepsilon\Delta(G)\right]\le \sum_{i=1}^{n}\mathbb{P}\left[\abs{\frac{1}{\hat{c}(v)}-\frac{1}{c(v)}}\ge \varepsilon\Delta(G)\right]\le \frac{\delta}{n}n=\delta$$
+		taking the complements this gets immediately to the thesis. 
 	\end{proof}
+	\begin{corollary}
+		If $k\in \bigtheta{\frac{\log n}{\varepsilon^2}}$ for a constant $\varepsilon>0$ then we have 
+		$$\mathbb{P}\left[\sup_{v\in V}\abs{\frac{1}{\hat{c}(v)}-\frac{1}{c(v)}}\le \varepsilon\Delta(G)\right]\ge 1-\frac{1}{n}$$
+		this kind of results are commonly referred to be \textit{true with high probability}.
+	\end{corollary}
+	As for the complexity, using a dijkstra we get
+	$$T(m,n,k)=\bigtheta{k\left(m+n\log n\right)}$$
+	and so using $k\in \bigtheta{\frac{\log n}{\varepsilon^2}}$ we get
+	$$T(n)=\bigtheta{\frac{m\log n}{\varepsilon^2}}.$$
 	
 \end{document}
