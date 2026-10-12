@@ -722,7 +722,7 @@
 		\end{itemize}
 		una tale funzione si dice \textit{azione di $G$ su $\Omega$}.
 	\end{definition}
-	C'è un'altro modo di visualizzare questa cosa, ovvero definire la funzione
+	In realtà c'è anche un'altro modo di visualizzare questa cosa, ovvero definire la funzione
 	\begin{align*}
 		\sigma_g:\Omega & \to \Omega \\
 		\omega & \mapsto g\circ \omega
@@ -734,7 +734,153 @@
 		\sigma:G & \to \text{Symm}(\Omega) \\
 		g & \mapsto \sigma_g
 	\end{align*}
-	è un omomorfismo! Questo è esattamente quello che stavamo cercando: un omomorfismo 
+	è un omomorfismo! Questo è esattamente quello che stavamo cercando: un omomorfismo dal gruppo $G$ ad un certo gruppo simmetrico. Questa formulazione rende chiaro anche che esiste un \textit{nucleo} di questo omomorfismo:
+	\begin{definition}[Stabilizzatore]
+		Per un gruppo $G$ agente su un insieme $\Omega$ possiamo definire lo \textit{stabilizzatore} di di $\omega\in \Omega$ come il sottogruppo:
+		$$\text{Stab}_G(\omega)=\left\{g\in G:g\circ \omega=\omega\right\}$$
+		l'intersezione di tutti gli stabilizzatori a questo punto è proprio $\ker{\sigma}$, dove $\sigma$ è l'omomorfismo definito sopra da $G$ a $\text{Symm}(\Omega)$. 
+	\end{definition}
+	L'altra cosa che posso fare in presenza di un'azione è definire una relazione di equivalenza su $\Omega$:
+	\begin{definition}[Orbite]
+		Dato un gruppo $G$ che agisce su un insieme $\Omega$ possiamo definire una relazione di equivalenza su $\Omega$ tale che
+		$$\omega_1\sim \omega_2 \iff g\circ \omega_1=\omega_2$$
+		per un qualche $g\in G$. \`E facile vedere come questa sia una relazione di equivalenza, e dunque le classi di equivalenza rispetto a questa relazione si dicono le \textit{orbite} di $\omega$ rispetto a $G$, ovvero $G\circ \omega$.
+	\end{definition}
+	E quindi il primo teorema importante che lega questi due concetti è:
+	\begin{theorem}[Orbite-Stabilizzatori]
+		Sia $G$ un gruppo che agisce su $\Omega$. Preso un $\omega\in \Omega$ consideriamo la sua orbita $G\circ \omega$ e il suo stabilizzatore $H_\omega$ in $G$. Allora abbiamo
+		$$\abs{G\circ \omega}=\abs{G:H_\omega}$$
+	\end{theorem}
+	\begin{proof}
+		Consideriamo l'insieme 
+		$$\Lambda:=\left\{gH_\omega:g\in G\right\}$$
+		allora possiamo costruire una mappa
+		\begin{align*}
+			\gamma: \Lambda & \to G\circ \omega \\
+			gH_\omega & \mapsto g\circ \omega
+		\end{align*}
+		questa è ben definita perché $H$ è lo stabilizzatore di $\omega$. Non solo! Se 
+		$$\gamma\left(g_1H_\omega\right)=\gamma\left(g_2H_\omega\right)$$
+		allora abbiamo
+		$$g_1\circ \omega=g_2\circ \omega$$
+		ovvero, moltiplicando da entrambi i lati per l'inverso abbiamo $g_2^{-1}\circ g_1\in H$, cioè $g_1H_\omega=g_2H_\omega$! Dunque questa funzione è iniettiva. D'altra parte è anche suriettiva, e dunque dato che $\abs{\Lambda}=\abs{G:H_\omega}$ abbiamo proprio la tesi.
+	\end{proof}
+	Facciamo qualche esempio e vediamo qualche applicazione di questo concetto appena introdotto:
+	\begin{example}[Cayley]
+		Facciamo agire $G$ su se stesso nel seguente modo
+		$$g\circ x=gx$$
+		ma dato che lo stabilizzatore di questa azione è banale per ogni $g$, abbiamo che il $\ker{\sigma}$ è banale, e quindi questa è proprio una biezione. Insomma abbiamo ritrovato che $\sigma$ è l'isomorfismo che avevamo usato per dimostrare Cayley.
+	\end{example}
+	\begin{example}[Coniugio]
+		Facciamo agire $G$ su se stesso nel seguente modo:
+		$$g\circ x:= gxg^{-1}$$
+		per ogni $x$ a questo punto abbiamo
+		$$\text{Stab}_G(x)=C_G(x)$$
+		e quindi $\ker{\sigma}$ è proprio il centro di $G$! Questo di nuovo ci fa ritrovare quello che avevamo trovato sopra, ovvero che gli automorfismi interni sono isomorfi a $G$ a meno del centro. \\
+		Per il teorema Orbite-stabilizzatori inoltre abbiamo che
+		$$\abs{G\circ x}=\abs{G:C_G(x)}$$
+		l'orbita di $x$ in questo caso si chiama \textit{classe di coniugio}, e questa è una formula molto esplicita che ci permette di dire che cardinalità ha una generica classe di coniugio.
+	\end{example}
+	\begin{example}[Coniugio sulle classi]
+		Consideriamo $S(G)$ il reticolo dei sottogruppi di $G$. Facciamo agire $G$ su $S(G)$ nel modo seguente:
+		$$g\circ H=gHg^{-1}$$
+		allora abbiamo che lo stabilizzatore di $H$ è l'insieme
+		$$\text{Stab}_G(H)=\left\{g\in G:gHg^{-1}=H\right\}$$
+		in teoria dei gruppi questo insieme va sotto il nome di \textit{normalizzante} di $H$ in $G$, ed è il più grande $K\le G$ tale che $H\normal K$. Di nuovo come prima abbiamo 
+		$$\abs{G\circ H}=\abs{G:N_G(H)}.$$ 
+	\end{example}
+	\begin{example}[Cuore normale]
+		Prendiamo un $H\le G$ e consideriamo l'insieme dei suoi laterali destri $\Lambda:=\left\{gH:g\in G\right\}$, facciamo agire $G$ su $\Lambda$ nel seguente modo:
+		$$g\circ xH:=gxH$$
+		per calcolare lo stabilizzatore di $xH$ a questo punto basta imporre che
+		$$gxH=xH$$
+		e cioè $x^{-1}gx\in H$, ovvero $g\in xHx^{-1}$. Questo vuol dire che
+		$$\text{Stab}_G(xH)=xHx^{-1}$$
+		in particolare allora il nucleo dell'azione è
+		$$\ker\sigma=\bigcap_{x\in G}xHx^{-1}$$
+		anche questo oggetto ha un nome e un simbolo. Va sotto il nome di $H_G$, si chiama il \textit{cuore normale} di $H$, ed è il più grande sottogruppo normale contenuto in $H$. Infatti se avessimo un $N$ tale che
+		$$H\le N\normal G$$
+		allora 
+		$$gHg^{-1}\subseteq gNg^{-1}\normal gGg^{-1}=G$$
+		dunque per ogni $g\in G$ abbiamo che $gHg^{-1}\subseteq N$, da cui la tesi.
+	\end{example}
+	Questa è una struttura così notevole che la riportiamo qui come definizione:
+	\begin{definition}[Cuore normale]
+		Dato un $H\le G$ il suo \textit{cuore normale} è 
+		$$H_G:=\bigcap_{x\in G}xHx^{-1}.$$
+	\end{definition}
+	Supponiamo di avere un sottogruppo $H\le G$ tale che $\abs{G:H}=n$ allora l'azione che abbiamo visto prima è
+	$$\sigma:G\to \text{Symm}(n)$$
+	ma d'altra parte per il primo teorema d'omomorfismo abbiamo che $\faktor{G}{H_G}\le \text{Symm}(n)$ cioè abbiamo per il teorema di Lagrange che 
+	$$\abs{\faktor{G}{H_G}}\mid n!$$
+	questo fatto ci torna utile nella seguente proposizione:
+	\begin{proposition}[Cauchy normale]
+		Prendiamo un gruppo $G$ tale che $\abs{G}=t$, e sia $p$ il più piccolo primo che divide $t$. Allora se $\abs{G:H}=p$ abbiamo $H\normal G$.
+	\end{proposition}
+	\begin{proof}
+		Cerchiamo di capire quanto vale $\abs{H:H_G}$. Possiamo scomporre l'indice grazie a un risultato provato prima come
+		$$\abs{G:H_G}=\abs{G:H}\abs{H:H_G}$$
+		abbiamo appena mostrato che
+		$$\abs{G:H_G}\mid p!$$
+		e dunque dividendo da ambo i lati per $\abs{G:H}$ abbiamo
+		$$\abs{H:H_G}\mid \left(p-1\right)!$$
+		ma d'altra parte per Lagrange dobbiamo avere che $\abs{H:H_G}\mid t$. Ma $t$ e $(p-1)!$ sono coprimi, perché $p$ è il più piccolo primo che divide $t$, e dunque abbiamo $\abs{H:H_G}=1$ da cui $H$ normale.
+	\end{proof}
+	Questo è il primo esempio di dimostrazione in cui abbiamo ottenuto un risultato non banale sui gruppi semplicemente contando. \`E un topos molto importante che tornerà spesso, quindi teniamolo a mente.
+	
+	\subsubsection{Classi di coniugio del gruppo simmetrico}
+	
+	Richiamiamo un risultato trovato in Algebra 1, ovvero presi $\sigma,\tau\in S_n$ vogliamo trovare una formula esplicita per
+	$$\tau\sigma\tau^{-1}$$
+	d'altra parte dato che $\sigma$ è un omomorfismo abbiamo che possiamo decomporre $\sigma$ in cicli 
+	$$\sigma=\sigma_1\sigma_2\dots \sigma_r$$
+	e ci basta coniugare ciascun ciclo singolarmente. D'altra parte se $\sigma_r$ è un ciclo non è difficile vedere che
+	$$\sigma_r=\begin{pmatrix}
+		i_1 & i_2 & \dots & i_t
+	\end{pmatrix}\implies \tau\sigma\tau^{-1}=\begin{pmatrix}
+	\tau(i_1) & \tau(i_2) & \dots & \tau(i_t)
+	\end{pmatrix}$$
+	ovvero abbiamo semplicemente "tradotto" $\sigma$ nel linguaggio di $\tau$. La dimostrazione essenzialmente consiste in due casi, se 
+	$$\tau^{-1}(k)\not\in \left\{i_1,i_2,\dots,i_t\right\}$$
+	allora 
+	$$\tau\sigma\tau^{-1}(k)=\tau\tau^{-1}(k)=k$$
+	mentre se $\tau(k)^{-1}$ appartiene a quell'insieme vuol dire che esiste un $i_j$ tale che
+	$$\tau(i_j)=k$$
+	cioè
+	$$\tau\sigma \tau^{-1}\tau(i_j)=\tau(i_{j+1})$$
+	da cui proprio quello che volevamo. Che conseguenze interessanti ha ciò? Che comunque date due permutazioni con la stessa struttura ciclica queste sono coniugate, ovvero \textbf{le classi di coniugio di $S_n$ sono in biezione con le partizioni di $n$}. Un esempio di ciò è la seguente tabella per $S_4$:
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			struttura ciclica & $\#$coniugati & $\abs{C_G(g)}$ & descrizione del centralizzante \\
+			\hline
+			1 & 1 & 24 & $S_4$ \\
+			\hline
+			$\begin{pmatrix}
+				1 & 2
+			\end{pmatrix}$ & $\binom{4}{2}=6$ & 4 & $\left\langle1,\left(1\quad 2\right),\left(3\quad 4\right),\left(1 \quad 2\right)\left(3 \quad 4\right)\right\rangle$ \\
+			\hline
+			$\begin{pmatrix}
+				1 & 2 & 3 
+			\end{pmatrix}$ & 8 & 3 & $\langle(1 \quad 2 \quad 3) \rangle$ \\
+			\hline
+			$\begin{pmatrix}
+				1 & 2 & 3 & 4
+			\end{pmatrix}$ & 6 & 4 & $\langle\left(1 \quad 2 \quad 3 \quad 4\right)\rangle$ \\
+			\hline
+			$\left(1\quad 2\right)\left(3\quad 4\right)$ & 3 & 8 & $D_4$ \\
+			\hline
+		\end{tabular}
+	\end{center}  
+	\begin{exercise}
+		Trovare tutti i $\tau\in S_4$ tali che $\tau(1\quad 2 \quad 3)\tau^{-1}=\left(1 \quad 3 \quad 2\right)$.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Dato un $\tau$ che funzione, se prendiamo un altro $\tau^*$ che funziona abbiamo che
+		$$\tau^*\left(1\quad 2 \quad 3\right)\left(\tau^*\right)^{-1}=\tau\left(1\quad 2 \quad 3\right)\tau^{-1}$$
+		ovvero $\tau^*\in \tau\langle\left(1\quad 2 \quad 3\right)\rangle$. Quindi ci basta trovare un solo $\tau$ che funziona, che è semplicemente $\tau=\left(2 \quad 3\right)$. 
+	\end{proof}
+	 
 	
 	\newpage
 	

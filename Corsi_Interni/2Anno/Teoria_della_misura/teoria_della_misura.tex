@@ -1023,6 +1023,150 @@
 		cioè la convergenza è proprio uniforme.
 	\end{proof}
 	
+	Il grosso del lavoro lo abbiamo già fatto, definire l'integrale di Lebesgue a questo punto è quasi un passo naturale:
+	\begin{definition}[Integrale di funzioni semplici]
+		Sia $(X,\mathcal{A},\mu)$ uno spazio di misura. Data una funzione semplice 
+		$$\varphi:=\sum_{i=1}^{n}c_k\mathbbm{1}_{A_k}$$
+		con $A_k\in \mathcal{A}$ per ogni $k$, definiamo il suo \textit{integrale di Lebesgue} come
+		$$\int_X\varphi \dif \mu := \sum_{i=1}^{n}c_k\mu\left(A_k\right)$$
+		ricordando che gli $A_k$ sono a due a due disgiunti. 
+	\end{definition}
+	Osserviamo immediatamente che, per restringere il dominio $A\subseteq X$ ci basta
+	$$\int_A \varphi \dif \mu = \int_X \varphi \mathbbm{1}_A\dif \mu=\sum_{i=1}^{n}c_k\mu\left(A\cap A_k\right)$$
+	dimostriamo il primo risultato:
+	\begin{lemma}[Proprietà degli integrali semplici]
+		Siano $f,g:X\to [0,\infty)$ semplici e misurabili. Allora abbiamo:
+		\begin{enumerate}
+			\item Per ogni $c\ge 0$ si ha che 
+			$$\int_Xcf\dif \mu = c\int_Xf\dif \mu.$$
+			\item Abbiamo che 
+			$$\int_X \left(f+g\right)\dif \mu =\int_X f\dif \mu + \int_X g\dif \mu.$$
+			\item L'integrale è monotono, ovvero se $f(x)\le g(x)$ per ogni $x$ allora
+			$$\int_X f \dif \mu \le \int_X g \dif \mu.$$
+			\item La mappa che associa ad $A\subseteq X$ l'integrale di $f$ sull'insieme $A$ è una misura, che di solito si denota con $f\mu$. 
+		\end{enumerate}
+	\end{lemma}
+	\begin{proof}
+		I primi due punti sono semplici conti, in particolare usando la formula
+		$$f+g=\sum_{k=1}^{n}\sum_{j=1}^{m}\left(c_k+c_j'\right)\mathbbm{1}_{A_k\cap A_j'}+\sum_{k=1}^{n}c_k \mathbbm{1}_{A_k\setminus \bigcup_{j=1}^n A_j'}$$
+		per dimostrare il punto $2$ (dove $c_i$ sono i coefficienti di $f$ e $c'_i$ sono i coefficienti di $g$). \\
+		Per dimostrare il punto $3$ basta scrivere
+		$$g=f+\left(g-f\right)$$
+		e quindi per linearità, dato che $g-f$ è semplice e misurabile abbiamo
+		$$\int g \dif \mu = \int f \dif \mu +\int \left(g-f\right)\dif \mu$$
+		da cui abbiamo che il LHS è $\ge$ dell'integrale di $f$, dato che le funzioni semplici sono sempre positive. \\
+		Infine per mostrare che l'integrale è una misura, chiaramente abbiamo che
+		$$\int_\eset f \dif \mu =0$$
+		qualunque sia $f$. Rimane da mostrare la $\sigma$-additività, prendiamo allora una successione $E_i$ di insiemi disgiunti nella $\sigma$-algebra tali che $\bigcup E_j =: E$, abbiamo:
+		$$\int_{E_j}f\dif \mu=\int_X f\mathbbm{1}_{E_j}\dif \mu=\sum_{k=1}^{n}c_k\mu\left(A_k\cap E_j\right)$$
+		ma con un po' di arguzia abbiamo
+		$$f\mathbbm{1}_E=\sum_{j=1}^{\infty}f\mathbbm{1}_{E_j}=\sum_{j=1}^{\infty}\sum_{k=1}^{n}c_k\mathbbm{1}_{A_k\cap E_j}$$
+		ma allora abbiamo
+		$$\int_X f \mathbbm{1}_E\dif \mu =\sum_{k=1}^{\infty}c_k \mu\left(A_k\cap E\right)=\sum_{k=1}^{\infty}\sum_{j=1}^{\infty}c_k \mu\left(A_k\cap E_j\right)=\sum_{k=1}^{\infty}\sum_{j=1}^{n}c_k \mu\left(A_k\cap E\right)=\sum_{j=1}^{\infty}\int_X f \mathbbm{1}_{E_j}\dif \mu $$
+		scambiando le sommatorie, e quindi abbiamo finito.
+	\end{proof}
+	
+	\subsection{Integrale di Lebesgue e convergenza}
+	
+	Grazie a questo teorema quindi possiamo finalmente definire:
+	\begin{definition}[Integrale di Lebesgue]
+		Per una funzione $f:X\to [0,\infty]$ misurabile definiamo il suo \textit{integrale di Lebesgue} come
+		$$\int_X f\dif \mu := \sup\left\{\int_X\varphi \dif \mu : 0\le \varphi\le f \text{ ed è semplice e misurabile}\right\}.$$
+	\end{definition}
+	Osserviamo immediatamente che se $f$ è semplice, per monotonia ritroviamo immediatamente quanto definito sopra per le funzioni semplici. Così come l'omogeneità dell'integrale, che è immediatamente ereditata dalle proprietà degli integrali di funzioni semplici. Il prossimo teorema è noto anche come teorema di Beppo-Levi:
+	\begin{theorem}[Convergenza Monotona]
+		Siano $f,f_n:X\to [0,\infty)$ funzioni misurabili tali che $f_n(x)\le f_{n+1}(x)$ per ogni $n\in \NN$, e per cui valga
+		$$f(x)=\lim_{n\to\infty}f_n(x)$$
+		puntualmente per ogni $x\in X$. Allora 
+		$$\int_Xf\dif \mu = \lim_{n\to\infty}\int_X f_n\dif \mu.$$
+	\end{theorem}
+	\begin{proof}
+		Dalla monotoni dell'integrale abbiamo che il limite scritto nella tesi esiste. Sempre dalla monotonia abbiamo che
+		$$\int_Xf\dif \mu \ge \lim_{n\to\infty}\int_X f_n\dif \mu$$
+		quindi ci basta mostrare la disuguaglianza inversa. Questo equivale a mostrare che per ogni $0\le \varphi\le f$ semplice e misurabile si ha
+		$$\int_X\varphi \dif \mu \le \lim_{n\to\infty}\int_Xf\dif \mu.$$
+		Stiamo cercando di dimostrare una disuguaglianza "upstream" e quindi avremo bisogno di tirare in ballo un $\varepsilon>0$ e poi di farlo tendere a $0$. Consideriamo allora 
+		$$E_\varepsilon^n:=\left\{x\in X:f_n(x)\ge (1-\varepsilon)\varphi(x)\right\}$$
+		che esiste come sempre per definizione operativa di sup. Allora chiaramente avremo che $E_\varepsilon^{n+1}\supseteq E_{\varepsilon}^n$ e quindi dato che la convergenza puntuale è ovunque 
+		$$X=\bigcup_{n\in\NN}E^n_\varepsilon$$
+		ma allora dato che l'integrale è una misura possiamo invocare la sua continuità monotona dal basso, cioè
+		$$\int_X \varphi \dif \mu = \lim_{n\to\in\infty}\int_{E^n_\varepsilon}\varphi \dif \mu$$ 
+		e allora naturalmente ci viene da considerare queste due successioni termine a termine, infatti per definizione di $E_\varepsilon^n$ abbiamo che 
+		$$\int_{E^n_\varepsilon}\varphi\dif \mu\le \frac{1}{1-\varepsilon}\int_{E^n_\varepsilon}f_n\dif \mu$$
+		da cui per il teorema dei carabinieri, e facendo tendere $\varepsilon\to 0$ abbiamo proprio la tesi.
+	\end{proof}
+	Questo era proprio uno dei problemi dell'integrale di Riemann, risolto per l'integrale di Lebesgue. Da questo seguono:
+	\begin{corollary}[Linearità dell'integrale di Lebesgue]
+		Se $f_1,f_2:C\to [0,\infty]$ sono misurabili allora
+		$$\int_X\left(f+g\right)\dif \mu = \int_Xf\dif \mu+\int_Xg\dif \mu.$$
+	\end{corollary}
+	\begin{proof}
+		Prendiamo due successioni approssimanti per $f_1$ e $f_2$ (la cui esistenza è garantita dal teorema di approssimazione), $\varphi^1_k$ e $\varphi_k^2$ monotone. Allora abbiamo, per definizione di $\varphi_k^1,\varphi_k^2$:
+		$$0\le \varphi_k^1+\varphi_k^2 \le \varphi_{k+1}^1+\varphi_{k+1}^2 \le f_1+f_2$$
+		e inoltre abbiamo chiaramente che 
+		$$\varphi^1_k+\varphi^2_k \to f_1+f_2$$
+		dunque sono soddisfatte le ipotesi del teorema di convergenza monotona, ovvero
+		$$\int_X\left(f_1+f_2\right)\dif \mu =\lim_{k\to\infty}\int_X\left(\varphi_k^1+\varphi_k^2\right)\dif \mu$$
+		ma usando la linearità dell'integrale di funzioni semplici, la linearità del limite, e di nuovo il teorema di convergenza monotona, abbiamo proprio la tesi.
+	\end{proof}
+	\begin{corollary}[Scambio di serie e integrale]
+		Se $f_n:X\to [0,\infty]$ è misurabile allora
+		$$\int_X \sum_{n=1}^{\infty}f_n\dif \mu=\sum_{n=1}^{\infty}\int_X f_n\dif \mu.$$
+	\end{corollary}
+	\begin{proof}
+		Segue come conseguenza di quanto appena visto, infatti
+		$$\int_X\sum_{n=1}^{\infty}f_n\dif \mu=\int_X\lim_{k\to\infty}\sum_{n=1}^{k}f_n \dif \mu$$
+		ma per il teorema di convergenza monotona possiamo portare fuori il limite, per il teorema di linearità appena mostrato possiamo portare fuori la somma, e quindi abbiamo proprio la tesi.
+	\end{proof}
+	Il fatto che la convergenza sia monotona è un'ipotesi particolarmente importante, vediamo alcuni esempi patologici, ovvero di $f_n\to f$ tali che
+	$$\int f_n \dif \mu \not\to \int f\dif \mu.$$
+	I casi sono principalmente due:
+	\begin{example}[La massa scappa all'infinito]
+		Consideriamo la successione $f_n:\RR\to [0,\infty]$ tale che
+		$$f_n:= \mathbbm{1}_{[n,n+1)}$$
+		allora
+		$$\int_\RR f_n\dif \mathscr{L}^1=1$$
+		per ogni $n$, ma d'altra parte
+		$$\int_\RR \lim_{n\to\infty}f_n\dif \mathscr{L}^1=0.$$
+	\end{example}
+	\begin{example}[La massa si concentra in un insieme di misura nulla]
+		Consideriamo come prima la successione
+		$$f_n=n\mathbbm{1}_{\left(0,\frac{1}{n}\right)}$$
+		allora come prima il limite degli integrali è $1$, mentre l'integrale del limite è $0$. 
+	\end{example}
+	Questo ci fa supporre che il limite degli integrali sia sempre maggiore dell'integrale dei limiti, questo risultato quindi va sotto il nome di:
+	\begin{lemma}[Fatou]
+		Siano $f_n:X\to [0,\infty]$ misurabili, allora
+		$$\int_X\liminf_{n\to\infty}f_n\dif \mu \le \liminf_{n\to\infty}\int_X f_n\dif \mu.$$
+	\end{lemma}
+	\begin{proof}
+		Questo risultato può essere dimostrato indipendentemente dal teorema di convergenza monotona, ma in ogni caso qui lo dimostreremo utilizzandolo. Per il teorema di convergenza monotona abbiamo
+		$$\int_X\lim_{n\to\infty}\inf_{k\ge n}f_k\dif \mu=\lim_{n\to\infty}\int_X\inf_{k\ge n} f_k\dif \mu$$
+		ma allora possiamo stimare 
+		$$\inf_{k\ge n}f_n\le f_n$$
+		e quindi vorremmo usare la monotonia, ma non abbiamo la certezza che $\int f_n$ converga, dunque estranedo una sottosuccessione che realizza il liminf, e usando la monotonia abbiamo
+		$$\lim_{n\to\infty}\int_X\inf_{k\ge n} f_k\dif \mu\le \liminf_{n\to\infty}\int_X f_n\dif \mu$$
+		che era proprio la tesi.
+	\end{proof}
+	
+	\begin{proposition}[Caratterizzazione delle funzioni con integrale nullo]
+		Sia $f:X\to [0,\infty]$ misurabile, allora
+		$$\int_Xf\dif \mu =0$$
+		se e solo se $f=0$ $\mu$-q.o.
+	\end{proposition}
+	\begin{proof}
+		Un verso è facile, se $f=0$ quasi ovunque, scegliendo una $\varphi$ semplice e misurabile approssimante dobbiamo avere, per come abbiamo costruito gli approssimanti (li abbiamo costruiti in modo che fossero sempre sotto la funzione originale!)  abbiamo che
+		$$\varphi:=\sum_{k=1}^{n}c_k \mathbbm{1}_{A_k}$$
+		e $c_k\ne 0$ se e solo se $\mu(A_k)=0$, e dunque tutti gli approssimanti di $f$ avranno integrale $0$, da cui un verso. \\
+		L'altro verso segue considerando la successione di insiemi
+		$$E_n=\left\{x\in X:f(x)\ge \frac{1}{n}\right\}$$
+		allora abbiamo
+		$$\bigcup_{n\in\NN}E_n=\left\{x\in X:f(x)>0\right\}$$
+		ma per la continuità monotona quindi, se per assurdo avessimo che $\mu\left(\bigcup E_n\right)>0$ avremmo che esiste un $\bar{n}>0$ tale che
+		$$\mu\left(E_n\right)> 0$$
+		ma questo vuol dire che esisterà un $\varphi=\frac{1}{n}\mathbbm{1}_{E_n}\le f$ con integrale positivo, e quindi abbiamo un assurdo in quanto avevamo supposto che l'integrale di $f$ fosse nullo.
+	\end{proof}
+	Questo ha come conseguenza interessante che due funzioni $f=g$ quasi ovunque hanno sempre lo stesso integrale. In particolare da questo nascono alcune varianti del teorema di convergenza monotona. In effetti nel teorema che avevamo il fatto che il limite fosse misurabile era un'ipotesi superflua (perché il limite di misurabili è misurabile). Tuttavia reintroducendo questa ipotesi e assumendo che $f_n\to f$ non ovunque, ma \textbf{quasi ovunque}, il teorema resta valido. L'ipotesi che $f$ sia misurabile in realtà si può rimpiazzare con qualcosa di un po' più tranquillo, cioè con il fatto che la misura su cui stiamo lavorando sia completa. 
 	
 	\newpage
 	
@@ -1053,7 +1197,54 @@
 		$$\mathcal{F}':=\left\{x\cap F:F\in \mathcal{F},x\in X\right\}$$
 		questa è costituita da insiemi disgiunti, infatti se abbiamo $x_1,x_2\in A'$ e $F_1,F_2\in \mathcal{F}$ tali che
 		$$x_1\cap F_1=x_2\cap F_2$$
-		necessariamente dobbiamo avere $x_1=x_2$, dato che se fossero distinti avremmo che $x_1\cap F_1\cap F_2\cap x_2=\eset$ che contraddice le assunzioni fatte sugli insiemi sopra.
+		necessariamente dobbiamo avere $x_1=x_2$, dato che se fossero distinti avremmo che $x_1\cap F_1\cap F_2\cap x_2=\eset$ che contraddice le assunzioni fatte sugli insiemi sopra. \\
+		Abbiamo quindi dimostrato che nella nostra $\sigma$-algebra esistono almeno numerabili insiemi disgiunti non vuoti, chiamiamoli $A_i$. Definendo quindi
+		$$f_A:2\to \mathcal{A}$$
+		tale che
+		$$f_A(x)=\begin{cases}
+			A & \text{se $x=0$} \\
+			\eset & \text{se $x=1$}
+		\end{cases}$$
+		possiamo definire una funzione $g:2^\NN\to \mathcal{A}$ tale che, se $a_i\in 2^\NN$ allora
+		$$g\left[\left(a_n\right)_{n\in\NN}\right]:=\bigcup_{n\in\NN}f_{A_n}(a_n).$$
+		Questa è iniettiva, infatti se 
+		$$\bigcup_{n\in\NN}f_{A_n}(a_n)=\bigcup_{n\in\NN}f_{A_n}(b_n)$$
+		allora vuol dire che se $a_n=1$ il LHS conterrà tutti gli $x\in A_n$, cioè per ognuno di questi $x$ nel RHS ci dovrà essere un $A_x$ tale che $x\in A_x$. D'altra parte dato che gli $A_n$ sono tutti disgiunti questo vuol dire proprio che nell'unione al RHS compare $A_n$, cioè $b_n$. Questo reiterato infinite volte dimostra che 
+		$$a_n=b_n$$
+		per ogni $n\in\NN$, cioè le due successioni sono proprio uguali, e quindi abbiamo la tesi. 
+	\end{proof}
+	
+	\begin{exercise}[$\sigma$-algebra dei Boreliani]
+		Ricordiamo che la $\sigma$-algebra generata dagli aperti, in un qualunque spazio metrico $X$, si dice dei \textit{Boreliani}, e si denota con $\mathscr{B}(X)$. Mostrare che 
+		\begin{align*}
+			&\mathcal{E}_1= \sigma\left\{(a,b):a,b\in \RR,\,a<b\right\} \quad  &\mathcal{E}_2= \sigma\left\{[a,b):a,b\in \RR,\,a<b\right\} \\
+			&\mathcal{E}_3= \sigma\left\{(a,b]:a,b\in \RR,\,a<b\right\}  \quad  &\mathcal{E}_4= \sigma\left\{[a,b]:a,b\in \RR,\,a<b\right\} \\
+			&\mathcal{E}_5= \sigma\left\{(a,\infty):a\in \RR\right\}  \quad  
+			&\mathcal{E}_6= \sigma\left\{[a,\infty):a\in \RR\right\} \\
+			&\mathcal{E}_7= \sigma\left\{(-\infty,b):b\in \RR\right\}  \quad 
+			&\mathcal{E}_8= \sigma\left\{(-\infty,b]:b\in \RR\right\} \\
+		\end{align*}
+		sono tutte uguali a $\mathscr{B}(\RR)$.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Vediamo una cosa alla volta:
+		\begin{enumerate}
+			\item Questo è un risultato che è stato mostrato ai corsi di Analisi: ogni aperto di $\RR$ può essere scritto (in modo unico!) come unione numerabile di intervalli (disgiunti!). Forse non è del tutto scontata la numerabilità, ma in ogni caso segue considerando che, dato un sistema $\left\{I_k\right\}$, per un certo insieme di indici $k\in K$, di intervalli aperti disgiunti non vuoti di $\RR$, possiamo costruire una funzione iniettiva 
+			$$f:\left\{I_k\right\}\to \QQ$$
+			che associa ad ogni $I_k\mapsto  q$ tale che $q\in I_k$ (usando l'assioma della scelta). Un tale $q$ esiste sempre per densità dei razionali su $\RR$, e dunque abbiamo proprio una funzione iniettiva.
+			\item Semplicemente notiamo che 
+			$$(c,b)\setminus (c,a)=[a,b)$$
+			dunque $\mathcal{E}_1\subset \sigma\left(\mathcal{E}_2\right)$, da cui abbiamo che $\sigma\left(\mathcal{E}_1\right)\subseteq \sigma\left(\mathcal{E}_2\right)$. D'altra parte abbiamo anche l'inclusione opposta, in quanto
+			$$\bigcup_{n\in\NN}\left[ a+\frac{1}{n},b \right)=(a,b)$$
+			e quindi abbiamo $\sigma(\mathcal{E}_1)=\sigma\left(\mathcal{E}_2\right)=\mathscr{B}(\RR)$.
+			\item Analogo al punto precedente.
+			\item Di nuovo al punto precedente.
+			\item Le due identità che dobbiamo usare questa volta sono
+			$$(a,\infty)=\bigcup_{n\in\NN}(a,n]$$
+			e 
+			$$(a,b]=(a,\infty)\setminus(b,\infty)$$
+			da cui si deduce che $\sigma\left(\mathcal{E}_3\right)=\sigma\left(\mathcal{E}_5\right)$.
+		\end{enumerate}
 	\end{proof}
 	
 	\subsection{Foglio 2: Teoria dell'integrale}

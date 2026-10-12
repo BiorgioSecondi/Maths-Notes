@@ -863,12 +863,12 @@
 		$$B(w,w')=0$$
 		per ogni $w\in W$ allora $w'\in W\cap W^\perp=\left\{\vec{0}\right\}$ cioè $w'=\vec{0}$, da cui la tesi.
 	\end{proof}
-	\begin{proposition}[Proprietà degli ortogonali]
+	\begin{proposition}[Proprietà degli ortogonali per forme non degeneri]
 		Sia $B$ una forma bilineare simmetrica o alternante e non degenere su uno spazio $V$ di dimensione finita, allora
 		\begin{enumerate}
 			\item Abbiamo che
 			$$\dim W + \dim W^\perp = \dim V$$
-			e in particolare abbiamo che $B_{\mid W}$ è non degenere se e solo se $B_{\mid W^\perp}$ è non degenere. Inoltre di ha che $\left(W^\perp\right)^\perp=W$.
+			e in particolare abbiamo che $B_{\mid W}$ è non degenere se e solo se $B_{\mid W^\perp}$ è non degenere. Inoltre si ha che $\left(W^\perp\right)^\perp=W$.
 			\item Per ogni coppia di sottospazi $U_1$ e $U_2$ si ha
 			\begin{gather*}
 				\left(U_1+U_2\right)^\perp=U_1^\perp \cap U^\perp \\
@@ -886,29 +886,38 @@
 				\end{tikzcd}
 			\end{center}
 		\end{figure}
-		è suriettiva e ha per definizione nucleo $W^\perp$. Da ciò per il primo teorema d'omomorfismo segue che
+		è suriettiva (per Riesz) e ha per definizione nucleo $W^\perp$. Da ciò per il primo teorema d'omomorfismo segue che
 		$$\faktor{V}{W^\perp}\cong W^*$$
-		cioè usando la dimensione finita di tutti gli spazi coinvolti e la formula per la dimensione del quoziente abbiamo:
-		$$\dim W + \dim W^\perp = \dim V$$
-		
+		cioè usando la dimensione finita di tutti gli spazi coinvolti e la formula per la dimensione del quoziente abbiamo
+		$$\dim V - \dim W^\perp = \dim W$$
+		da cui la tesi. Sostituendo $W\mapsto W^\perp$ nell'uguaglianza appena trovata abbiamo 
+		$$\dim W^\perp + \dim \left(W^\perp\right)^\perp = \dim V$$ 
+		ovvero sottraendo membro a membro con l'uguaglianza originale abbiamo $\dim W = \dim \left(W^\perp\right)^\perp$. D'altra parte dato che $B$ è non degenere e l'ortogonalità è simmetrica abbiamo che $W\subseteq \left(W^\perp\right)^\perp$ (ovvero, se $v\in W$ allora questo è sicuramente ortogonale a tutti i vettori di $\left(W^\perp\right)^\perp$) ma per l'uguaglianza delle dimensioni abbiamo la tesi. \\
+		Il secondo punto segue dal fatto che $U\le W$ implica $W^\perp \le U^\perp$, infatti per ogni $u\in U$ abbiamo che $u\in W$ e quindi dato che 
+		$$W^\perp=\left\{v\in V:v\perp u, \forall u\in W\right\}$$
+		abbiamo sicuramente che se $w\in W^\perp$ allora $w\in U^\perp$, cioè proprio $W^\perp \le U^\perp$. A questo punto semplicemente la tesi segue dalla caratterizzazione reticolare di $+$ e $\cap$ (ovvero sono rispettivamente il più piccolo e il più grande sottospazio contenenti o contenuti in $U_1$ e $U_2$).
 	\end{proof}
 	
-	\subsubsection{Isotropia}
+	\newpage
+	
+	\section{Forme simmetriche}
+	\subsection{Isotropia}
 	
 	Vediamo alcune proprietà particolari delle forme bilineari simmetriche:
 	\begin{proposition}[Proprietà delle forme simmetriche]
-		Per ogni forma $B$ simmetrica su spazi finitamente generati $V$, vale:
+		Per ogni forma $B$ simmetrica, su spazi finitamente generati $V$, vale:
 		\begin{enumerate}
 			\item Abbiamo per ogni $v\in V$ che
 			$$v^\perp:=\left\{v\right\}^\perp=\langle v\rangle^\perp.$$
 			\item Abbiamo che $V^\perp=\left\{\vec{0}\right\}$ se e solo se $B$ è non degenere.
-			\item $\langle S\rangle\subseteq \left(S^\perp\right)^\perp$ per ogni $S\subseteq V$ e se $B$ è non degenere vale l'uguaglianza.
+			\item Per ogni $S\subseteq V$ si ha $\langle S\rangle\subseteq \left(S^\perp\right)^\perp$ per ogni $S\subseteq V$ e se $B$ è non degenere vale l'uguaglianza.
 		\end{enumerate}
 	\end{proposition}
-	Ha senso allora definire:
+	Per una forma simmetrica ha senso definire il concetto:
 	\begin{definition}[Vettori isotropi]
 		Un vettore $v\in V$ è detto \textit{isotropo} per $B$ se $B(v,v)=0$, cioè se $v\in v^\perp$.
 	\end{definition}
+	Che chiaramente per una forma alternante non è molto interessante.
 	E per i sottospazi invece
 	\begin{definition}[Sottospazi isotropi]
 		Un sottospazio $W\subseteq V$ rispetto ad una forma bilineare $B$ si dice:
@@ -933,13 +942,14 @@
 			0 & 0 & -1
 		\end{pmatrix}
 		$$
-		da
+		il cono d'isotropia è
 		$$x_1^2+x_2^2-x_3^2=0$$
 		che è letteralmente e geometricamente un cono. In fisica questo è noto come \textit{cono di luce}, una rappresentazione si può vedere nella figura sotto (vibe-coded con ClaudeAI).
 	\end{example}
 	\begin{remark}
 		Presa una forma $B$ definita su $V$ si ha che $V^\perp\subseteq I_B(V)$ (l'ortogonale di tutto lo spazio è sempre contenuto nel cono d'isotropia) in particolare $I_B(V)=\left\{\vec{0}\right\}$ implica che $B$ è non degenere.
 	\end{remark}
+	Notiamo che il contrario non è necessariamente vero, ovvero esistono forme $B$ su spazi isotropi che non sono degeneri, si pensi banalmente a $\RR^{2,1}$, che ha cono d'isotropia non vuoto, ma chiaramente è non degenere.
 	
 	\begin{center}
 		\begin{tikzpicture}[
@@ -976,13 +986,12 @@
 			% --- intersezione: due rette isotrope ---
 			\draw[red, very thick] (-1.5,0,-1.5) -- (1.5,0,1.5);
 			\draw[red, very thick] ( 1.5,0,-1.5) -- (-1.5,0,1.5);
-			\node[red] at (1.65,0,1.7) {$\ell_1$};
-			\node[red] at (-1.65,0,1.7) {$\ell_2$};
+			\node[red] at (-1.65,0,1.7) {$I_B(W)$};
 			
 			% --- origine ---
 			\fill (0,0,0) circle (1pt);
 			
-			\node[blue!60!black] at (0.3,3.1,1.7) {$C=\{x_1^2+x_2^2-x_3^2=0\}$};
+			\node[blue!60!black] at (0.3,3.1,1.7) {$I_B(V)=\{x_1^2+x_2^2-x_3^2=0\}$};
 		\end{tikzpicture}
 	\end{center}
 	Sullo spazio $W$ la forma $B$ è degenere, in quanto interseca il cono di isotropia in almeno un punto.
@@ -1031,8 +1040,8 @@
 			
 			\node[blue!60!black] at (0.3,1.9,1.7) {$C=\{x_1^2+x_2^2-x_3^2=0\}$};
 		\end{tikzpicture}
-		
 	\end{center}
+	Sullo spazio $U$ invece la forma $B$ è non degenere, e il suo ortogonale $U^\perp$ non coincide con l'ortogonale nella metrica euclidea.
 	
 	\subsection{Diagonalizzazione di forme bilineari}
 	

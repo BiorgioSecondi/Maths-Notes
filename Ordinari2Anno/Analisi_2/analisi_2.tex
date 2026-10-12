@@ -935,7 +935,7 @@
 		Abbiamo scritto allora $A$ come unione disgiunta di due aperti, quindi uno di questi deve essere vuoto. Tuttavia $x_0\in A_1$, e quindi $A=A_1$, e abbiamo finito.
 	\end{proof}
 	
-	\section{Alcuni esercizi e semicontinuità}
+	\subsubsection{Semicontinuità}
 	
 	\begin{definition}[Semicontinuità]
 		Una funzione $f:X\to\RR$ si dice \textit{semicontinua inferiormente} se per ogni $x\in X$ si ha che
@@ -985,6 +985,175 @@
 		$$X\subseteq \left(X\setminus Y\right)\cup\bigcup A_i $$
 		ma visto che la prima parte è fuori da $Y$ questo vuol dire che la seconda è proprio un ricoprimento di $Y$, da cui abbiamo la tesi. 
 	\end{proof}
+	
+	\newpage
+	
+	\section{Spazi di Banach}
+	
+	\begin{definition}[Spazio di Banach]
+		Uno spazio vettoriale $V$ equipaggiato con una norma $\abs{\abs{\cdot}}$ si dice uno \textit{spazio di Banach}, se è completo rispetto alla distanza indotta dalla norma. 
+	\end{definition}
+	In realtà gli spazi di Banach sono sorprendentemente più comuni di quanto non si pensi:
+	\begin{definition}[Equivalenza tra norme]
+		Due norme $\abs{\abs{\cdot}}_1$ e $\abs{\abs{\cdot}}_2$ si dicono \textit{equivalenti} se esistono due costanti $A,B\in \FF$ tali che
+		$$A\abs{\abs{\cdot}}_1\le \abs{\abs{\cdot}}_2 \le B\abs{\abs{\cdot}}.$$
+	\end{definition}
+	\begin{proposition}[$\RR^n$ è unico come spazio di Banach]
+		Date due norme su $\RR^n$, queste sono equivalenti.
+	\end{proposition}
+	\begin{proof}
+		Ci basta mostrare che tutte le norme sono equivalenti alla norma euclidea $\abs{\cdot}$. Chiamiamo allora 
+		$$f(x):=\abs{\abs{x}}$$
+		se $f$ fosse continua avrebbe massimo e minimo in $\mathbb{S}^{n-1}$, siano questi $A,B$. Allora abbiamo, per ogni norma $\abs{\abs{\cdot}}_2$:
+		$$A\le \abs{\abs{\frac{x}{\abs{x}}}}_2=\frac{\abs{\abs{x}}_2}{\abs{x}}\le B$$
+		da cui moltiplicando per il modulo da entrambi i lati abbiamo la tesi. \\
+		Ci basta quindi mostrare che $f$ è continua. D'altra parte dati $x,h\in \RR^n$ abbiamo per subadditività
+		$$\abs{f(x+h)-f(x)}=\abs{\abs{\abs{x+h}}_2-\abs{\abs{x}}_2}\le \abs{\abs{h}}_2=\sum_{i=1}^n\abs{h_i}\abs{\abs{e_i}}_2\le nM\abs{h}$$
+		dove $M>0$ è un certo reale maggiore della norma di tutti i vettori nella base canonica. Questo mostra che $f$ è Lipschitziana, e quindi abbiamo finito.
+	\end{proof}
+	\begin{proposition}[Completezza di spazi normati]
+		Dato uno spazio vettoriale $V$ su $\RR$ equipaggiato con una norma $\abs{\abs{\cdot}}$, se questo è finito dimensionale allora è uno spazio di Banach. 
+	\end{proposition}
+	\begin{proof}
+		Dato che $V$ è finito dimensionale su $\RR$ ci sarà un isomorfismo $V\to\RR^n$. Questo vuol dire che tutte le norme su $V$ sono equivalenti, e quindi in particolare saranno equivalenti alla norma euclidea su $\RR^n$, da cui concludiamo.
+	\end{proof}
+	\subsection{Alcuni esempi}
+	Vediamo subito un po' di esempi di spazi di Banach:
+	\begin{example}[Convergenza uniforme]
+		Prendiamo $X$ uno spazio metrico. Denotiamo con $C(X)$ lo spazio vettoriale delle funzioni continue $f:X\to\RR$. Definiamo inoltre
+		$$\abs{\abs{f}}_\infty:=\sup_{x\in X}\abs{f(x)}$$
+		allora $C(X)$ equipaggiato con questa norma è quasi uno spazio di Banach, in realtà così rischiamo di avere punti con norma infinita. Per questo abbiamo bisogno di restringerci a $C_b(X)$, l'insieme delle funzioni continue e limitate $f:X\to\RR$.
+	\end{example}
+	\begin{proposition}[La convergenza uniforme è uno spazio di Banach]
+		Se $X$ è uno spazio metrico qualunque allora $\left(\mathcal{C}_b(X),\abs{\abs{\cdot}}_\infty\right)$ è uno spazio di Banach. In particolare questo è vero se $X$ è compatto.
+	\end{proposition}
+	\begin{proof}
+		Sia $\left(f_n\right)_{n\in\NN}$ una successione di Cauchy rispetto a $\abs{\abs{\cdot}}_\infty$. Allora per ogni $x\in X$ abbiamo che $\left(f_n(x)\right)_{n\in\NN}$ è di Cauchy in $\RR$ equipaggiato con la norma euclidea. Ma quindi abbiamo
+		$$f_n(x)\to y_x$$
+		per ogni $x$ (per completezza di $\RR$) e dunque definendo la funzione limite come 
+		$$f(x):=y_x$$
+		abbiamo proprio che $f_n\to f$ uniformemente, da cui segue che $f$ è continua, e quindi abbiamo mostrato che tutte le successioni di Cauchy convergono in $C(X)$. Rimane da mostrare che $f\in C_b(X)$. D'altra parte per subadditività della norma abbiamo
+		$$\abs{\abs{f}}_\infty\le \abs{\abs{f_{\bar{n}}}}+\abs{\abs{f-f_{\bar{n}}}}$$
+		e visto che il secondo termine tende a $0$ abbiamo proprio che $f$ è boundata.
+	\end{proof}
+	Insomma questa è una riformulazione molto elegante del concetto di convergenza uniforme.
+	\begin{example}[Funzioni $\mathcal{C}^1$]
+		Lo spazio $\mathcal{C}^1\left(\left[a,b\right]\right)$ equipaggiato con la norma
+		$$\abs{\abs{f}}_{\mathcal{C}^1}:=\abs{\abs{f}}_\infty+\abs{\abs{f'}}_\infty$$
+		è uno spazio di Banach.
+	\end{example}
+	\begin{proof}
+		Il fatto che quello sia uno spazio normato segue dal fatto che la norma infinita è effettivamente una norma. Per la completezza prendiamo una successione di Cauchy $f_n$. Allora questo vuol dire che sia $f_n$ che $f'_n$ convergono uniformemente a due funzioni $f$ e $g$. Vorremmo ora dimostrare che 
+		$$\abs{\abs{f'_n-f'}}_\infty\to 0.$$
+		D'altra parte 
+		$$\int_a^x f_n'(t)\dif t\to \int_0^x g(t)\dif t$$
+		per il teorema di passaggio al limite sotto al segno di integrale; il lato sinistro a questo punto è proprio $f_n(x)-f(a)$, e quindi queste convergono a $f(x)-f(a)$. Questo dimostra proprio che $g=f'$, e quindi abbiamo finito. 
+	\end{proof}
+	\begin{definition}[Norma $\ell^p$]
+		Sia $\RR^\NN$ l'insieme delle successioni a valori reali, allora su di esso definiamo, per ogni $1\le p <\infty$ la \textit{norma} $\ell^p$ come, per $x\in \RR^\NN$:
+		$$\abs{\abs{x}}_p:=\left(\sum_{i=1}^{\infty}x_i^p\right)^{1/p}.$$
+		Inoltre questo spazio è uno spazio di Banach.
+	\end{definition}
+	La parte difficile nell'esempio sopra non è dimostrare che quello è uno spazio completo, ma dimostrare che quella norma è effettivamente una norma. In particolare la subadditività è una disuguaglianza non banale, e va sotto il nome di disuguaglianza di Minkowski:
+	\begin{theorem}[Minkowski]
+		Se $x,y\in \RR^\NN$ abbiamo
+		$$\abs{\abs{x+y}}_p\le \abs{\abs{x}}_p+\abs{\abs{y}}_p.$$
+	\end{theorem}
+	
+	Per introdurre il prossimo esempio richiamiamo la definizione di Lipschitzianità:
+	\begin{definition}[Funzione Lipschitziana]
+		Dati due spazi metrici $X,Y$ una funzione $f:X\to Y$ si dice \textit{lipschitziana} su $A\subseteq X$ se esiste una costante $L>0$ tale che per ogni $x,y\in A$ abbiamo
+		$$d\left(f(x),f(y)\right)\le Ld\left(x,y\right)$$
+		inoltre l'estremo inferiore di tutte le costanti $L$ tali che soddisfano quella disuguaglianza per ogni $x,y\in A$ si dice \textit{costante di Lipschitz}, e si denota con $\text{Lip}(f)$. 
+	\end{definition}
+	Come nel caso di $\RR$, qui valgono tutti i teoremi che abbiamo visto ad analisi 1 sulle funzioni lipschitziane. 
+	\begin{proposition}[Formula per la costante di Lipschitz]
+		Per una funzione $f:I\to \RR$ derivabile (dove $I\subseteq \RR$) si ha che la costante di Lipschitz è esattamente uguale a
+		$$\text{Lip}(f)=\abs{\abs{f'}}_\infty.$$
+	\end{proposition}
+	\begin{proof}
+		Un verso è facile, semplicemente
+		$$\abs{f'(x)}=\lim_{y\to x}\abs{\frac{f(y)-f(x)}{y-x}}\le \text{Lip}(f)$$
+		da cui abbiamo che $\text{Lip}(f)\ge \abs{\abs{f'}}_\infty$. Per la disuguaglianza inversa osserviamo che, per il teorema di Lagrange esisterà uno $\xi \in I$ tale che
+		$$\abs{\frac{f(x)-f(y)}{x-y}}=\abs{f'(\xi)}\le \abs{\abs{f'}}_\infty$$
+		e dunque abbiamo $\text{Lip}(f)\le \abs{\abs{f'}}_\infty$.
+	\end{proof}
+	Lo abbiamo già visto, ma scriviamo ora meglio una proprietà molto importante della distanza:
+	\begin{proposition}[La distanza è lipschitziana]
+		Sia $A\subseteq \RR^n$, se definiamo per ogni $x\in \RR^n$ la funzione
+		$$d_A(x):=\inf_{z\in A}\abs{z-x}$$
+		è $1$-lipschitziana.
+	\end{proposition}
+	\begin{proof}
+		Abbiamo, per definizione di $d_A$:
+		$$d_A(x)\le \abs{x-z}\le \abs{x-y}+\abs{y-z}$$
+		per ogni $z\in \RR^n$. Ma allora in particolare prendendo l'inf di $y-z$ abbiamo
+		$$d_A(x)\le \abs{x-y}+d_A(y) \implies d_A(x)-d_A(y)\le \abs{x-y}$$
+		ma d'altra parte scambiando $x$ e $y$ troviamo proprio che
+		$$\abs{d_A(x)-d_A(y)}\le \abs{x-y}$$
+		che era la tesi.
+	\end{proof}
+	Siamo quindi tentati di dire che $\text{Lip}(f)$ sia una norma sullo spazio delle funzioni lipschitziane, denotato con $\text{Lip}(A)$. Purtroppo questo non è vero, perché una funzione costante $f(x)\equiv k$ ha costante di Lipschitz $0$, ma può non essere necessariamente $f(x)\equiv 0$. Una funzione che soddisfa tutte le proprietà della norma, tranne la fedeltà si dice una \textit{seminorma}. La definizione giusta è:
+	\begin{example}[Norma sulle Lipschitziane]
+		Sullo spazio delle funzioni Lipschitziane e definite su un \textbf{compatto} $A$, denotato con $\text{Lip}(A)$, la seguente norma
+		$$\abs{\abs{f}}_{\text{Lip}(A)}:=\abs{\abs{f}}_\infty+\text{Lip}(A)$$
+		induce uno spazio di Banach.
+	\end{example}
+	\begin{proof}
+		Il fatto che quella sia una norma a questo punto è chiaro. Rimane da mostrare che la metrica indotta è completa, allora prendiamo una successione di Cauchy $f_n$, e la sua funzione limite $f$ nella metrica della convergenza uniforme. Vogliamo mostrare che
+		$$\abs{\abs{f_n-f}}\to 0$$
+		d'altra parte l'unica cosa che ci serve davvero è 
+		$$\text{Lip}(f_n-f)\to 0$$
+		e a questo punto ci basta
+	\end{proof}
+	\begin{proposition}[Definizione alternativa della norma Lipschitziana]
+		Preso un $x_0\in A$, con $A$ limitato, una definizione alternativa di norma Lipschitziana è
+		$$\abs{\abs{f}}_*:=\abs{f(x_0)}+\text{Lip}(f)$$
+		e dunque questa è proprio equivalente alla norma Lipschitziana che abbiamo visto sopra. 
+	\end{proposition}
+	\begin{proof}
+		Una disuguaglianza è chiara, ovvero
+		$$\abs{\abs{f}}_*\le \abs{\abs{f}}_{\text{Lip}(A)}$$
+		mentre l'altro verso segue dal dire che, per definizione di costante di Lipschitz
+		$$\abs{f(x)}\le \abs{f(x_0)}+\text{Lip}(f)d(x,x_0)$$
+		per ogni $x\in A$. Ma allora possiamo rinforzare quella disuguaglianza con
+		$$\abs{\abs{f}}_\infty\le \abs{f(x_0)}+\text{Lip}(f)\text{diam}(A)\le (1+\text{diam}(A))\abs{\abs{f}}_*$$
+		e dunque abbiamo finito.
+	\end{proof}
+	Abbiamo visto che tutti gli spazi normati reali finito dimensionali sono di Banach. Cosa possiamo dire di quelli infinito dimensionali? Abbiamo:
+	\begin{example}[Uno spazio normato reale non di Banach]
+		Definiamo su $\mathcal{C}^0([-1,1])$ una norma tale che
+		$$\abs{\abs{f}}:=\int_{-1}^1 \abs{f(t)}\dif t$$
+		allora questo spazio non è completo.
+	\end{example}
+	\begin{proof}
+		Consideriamo la successione
+		$$
+		f_n(x):=\begin{cases}
+			1 & \text{se $x<0$} \\
+			1-nx & \text{se $x\in [0,1/n]$} \\
+			0 & \text{se $x>1/n$}
+		\end{cases}
+		$$
+		allora questa è una successione di Cauchy, infatti 
+		$$\int_{-1}^1 \abs{f_n-f_m}\dif t\le \int_0^{\frac{1}{m}}1\dif t \le \frac{1}{m}$$
+		e quindi la distanza tende a $0$ per $m$ sufficientemente grandi. Supponiamo allora per assurdo che esista una funzione limite $f$, allora
+		$$\int_{-1}^1 \abs{f_n-f}\dif t\to 0$$
+		in particolare dobbiamo avere che 
+		$$\int_{-1}^0\abs{1-f}\dif t$$
+		cioè, dato che $f$ è continua dobbiamo avere $\abs{1-f(x)}=0$ per $x\in [-1,0]$. Un ragionamento analogo porta a dire che per ogni $n$ deve valere
+		$$\int_{1/n}^1 \abs{f}\dif t=0$$
+		cioè per ogni $n$ dobbiamo avere $f(x)=0$ per $x\in [1/n,1]$, ovvero facendo tendere $n\to\infty$ abbiamo che $f$ è proprio la funzione tale che
+		$$f(x):=
+		\begin{cases}
+			1 & \text{se $x\in [-1,0]$} \\
+			0 & \text{se $x\in (0,1]$}
+		\end{cases}
+		$$
+		che non è continua, e quindi la successione non converge in $\mathcal{C}([-1,1])$.
+	\end{proof}
+	
+	
 	
 	\newpage
 	
