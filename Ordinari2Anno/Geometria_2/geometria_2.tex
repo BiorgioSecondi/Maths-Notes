@@ -173,6 +173,9 @@
 	\begin{definition}[Forma bilineare]
 		Una \textit{forma bilineare} è una funzione bilineare $B:V\times V\to \KK$, dove $V$ e $W$ sono spazi $\KK$-lineari.
 	\end{definition}
+	\begin{definition}[Forma quadratica]
+		Ad ogni forma bilineare $B:V\times V\to \KK$ è associata una certa \textit{forma quadratica} $q:V\to \KK$, ovvero la funzione $q(v):=B(v,v)$.
+	\end{definition}
 
 	\begin{definition}[Simmetria e antisimmetria]
 		Una forma bilineare $B(v,w)$ si dice \textit{simmetrica} se, per ogni $v,w\in V$
@@ -900,10 +903,10 @@
 	
 	\newpage
 	
-	\section{Forme simmetriche}
-	\subsection{Isotropia}
-	
-	Vediamo alcune proprietà particolari delle forme bilineari simmetriche:
+	\section{Forme simmetriche e alternanti}
+	Abbiamo visto che tutte le forme bilineari possono essere decomposte in una parte alternante ed una parte simmetrica. Iniziamo quindi a studiare individualmente la parte simmetrica, poi studieremo la parte alternante. 
+	\subsection{Forme simmetriche}
+	La parte simmetrica di una forma bilineare è quella che conferisce le proprietà "metriche" allo spazio, dato che queste dipendono dalla forma quadratica associata a $B$, e per una forma alternante abbiamo $q(v)\equiv 0$.
 	\begin{proposition}[Proprietà delle forme simmetriche]
 		Per ogni forma $B$ simmetrica, su spazi finitamente generati $V$, vale:
 		\begin{enumerate}
@@ -918,13 +921,13 @@
 		Un vettore $v\in V$ è detto \textit{isotropo} per $B$ se $B(v,v)=0$, cioè se $v\in v^\perp$.
 	\end{definition}
 	Che chiaramente per una forma alternante non è molto interessante.
-	E per i sottospazi invece
+	E per i sottospazi invece abbiamo:
 	\begin{definition}[Sottospazi isotropi]
 		Un sottospazio $W\subseteq V$ rispetto ad una forma bilineare $B$ si dice:
 		\begin{itemize}
 			\item \textit{Anisotropo} se $B_{\mid W}$ è non degenere, cioè se $W\cap W^\perp=\left\{\vec{0}\right\}$
 			\item \textit{Isotropo} se $B_{\mid W}$ è degenere.
-			\item \textit{Totalmente anisotropo} se $W\subseteq W^\perp$ cioè se $B_{\mid W}=0$ è la forma identicamente nulla.
+			\item \textit{Totalmente isotropo} se $W\subseteq W^\perp$ cioè se $B_{\mid W}=0$ è la forma identicamente nulla.
 		\end{itemize}
 	\end{definition}
 	\begin{definition}[Cono isotropo]
@@ -932,6 +935,7 @@
 		$$I_B(V)=\left\{v\in V:B(v,v)=0\right\}$$
 		è un cono, chiamato \textit{cono isotropo}. Un \textit{cono}, è un sottoinsieme di uno spazio vettoriale $V$ con la proprietà che se $v\in V$ allora $tv\in V$ per ogni $t\in \KK$.
 	\end{definition}
+	Il cono isotropo è l'insieme dei vettori a distanza $0$ dall'origine nella metrica della forma $B$, ed è il primo importante fattore che ci permette di capire come sia fatta la geometria dello spazio che stiamo studiando.
 	Alcuni esempi di coni isotropi sono
 	\begin{example}[Spazio di Minkowski]
 		Per la forma di matrice
@@ -949,7 +953,7 @@
 	\begin{remark}
 		Presa una forma $B$ definita su $V$ si ha che $V^\perp\subseteq I_B(V)$ (l'ortogonale di tutto lo spazio è sempre contenuto nel cono d'isotropia) in particolare $I_B(V)=\left\{\vec{0}\right\}$ implica che $B$ è non degenere.
 	\end{remark}
-	Notiamo che il contrario non è necessariamente vero, ovvero esistono forme $B$ su spazi isotropi che non sono degeneri, si pensi banalmente a $\RR^{2,1}$, che ha cono d'isotropia non vuoto, ma chiaramente è non degenere.
+	Notiamo che il contrario non è necessariamente vero, ovvero esistono forme $B$ con cono d'isotropia non vuoto che non sono degeneri, si pensi banalmente a $\RR^{2,1}$, che ha cono d'isotropia non vuoto, ma chiaramente è non degenere.
 	
 	\begin{center}
 		\begin{tikzpicture}[
@@ -1041,34 +1045,465 @@
 			\node[blue!60!black] at (0.3,1.9,1.7) {$C=\{x_1^2+x_2^2-x_3^2=0\}$};
 		\end{tikzpicture}
 	\end{center}
-	Sullo spazio $U$ invece la forma $B$ è non degenere, e il suo ortogonale $U^\perp$ non coincide con l'ortogonale nella metrica euclidea.
+	Sullo spazio $U$ invece la forma $B$ è non degenere, e il suo ortogonale $U^\perp$ non coincide con l'ortogonale nella metrica euclidea. Salterà fuori che gli spazi di questo tipo sono di fondamentale importanza nello studio delle forme simmetriche, quindi ne riportiamo la definizione (che era già stata più o meno data in esempi precedenti):
+	\begin{definition}[Spazio Pseudoeuclideo]
+		Uno spazio $V$ su un campo $\KK$ equipaggiato con una forma bilineare simmetrica e non degenere si dice \textit{spazio pseudoeuclideo}.
+	\end{definition}
+	In generale denoteremo con $\RR^{p,q}$ la somma diretta ortogonale
+	$$\left(\RR^p,\langle \cdot,\cdot \rangle\right)\perp \left(\RR^q,\langle \cdot,\cdot \rangle\right)=:\RR^{p,q}$$
+	e questo sarà il nostro spazio pseudoeuclideo canonico.
+	\subsubsection{Diagonalizzazione di forme bilineari}
 	
-	\subsection{Diagonalizzazione di forme bilineari}
-	
-	Abbiamo trovato un modo di rappresentare una forma bilineare $B$ come una matrice. Vogliamo ora provare a diagonalizzare questa matrice:
+	Abbiamo trovato un modo di rappresentare una forma bilineare $B$ come una matrice. Vogliamo ora provare a diagonalizzare questa matrice, nell'ottica del classificare le forme bilineari:
 	\begin{definition}[Base ortogonale]
 		Una base $\left\{v_1,\dots,v_n\right\}$ di $V$ si dice \textit{ortogonale rispetto a $B$} (o $B$-ortogonale) se $B(v_i,v_j)=0$ se $i\ne j$.
 	\end{definition}
-	
-	\begin{theorem}[Di Diagonalizzazione]
+	Abbiamo dimostrato a Geometria 1 che tutte le matrici simmetriche sono diagonalizzabili. Questo si generalizza con il seguente teorema:
+	\begin{theorem}[Spettrale reale]
 		Se $\KK$ è un campo a caratteristica diversa da $2$ allora ogni forma bilineare simmetrica $B$ su uno spazio $V$ di dimensione finita su $\KK$ ammette una base $B$-ortogonale.
 	\end{theorem}
 	\begin{proof}
-		La tesi è chiaramente vera se $B=0$, quindi assumiamo che $B$ sia non nulla. Procediamo allora per induzione, il caso base $\dim V=1$ è chiaro. Supponiamo ora che la tesi valga per tutti gli spazi con dimensione $<n$, preso uno spazio di dimensione $n$ allora la matrice di Gram di $B$ si scrive come
+		La tesi è chiaramente vera se $B=0$, quindi assumiamo che $B$ sia non nulla. Procediamo allora per induzione, il caso base $\dim V=1$ è chiaro. Supponiamo ora che la tesi valga per tutti gli spazi con dimensione minore di un certo $n\ge 2$. Prendiamo ora uno spazio di dimensione $n$, allora dato che $B$ non è nulla non sarà alternante. Dunque esiterà un $v$ tale che $B(v,v)\ne 0$. Visto allora che $B_{\mid \langle v \rangle}$ è non degenere e $B$ è simmetrica abbiamo
+		$$\langle v \rangle \perp \langle v \rangle^\perp = V$$
+		ma d'altra parte $\langle v \rangle^\perp$ è di dimensione $n-1$, quindi sappiamo diagonalizzare $B$ su di esso per ipotesi induttiva. Questo conclude per induzione.
+	\end{proof}
+	La realizzazione algoritmica della dimostrazione del teorema spettrale prende il nome di \textit{metodo di Lagrange}:
+	\begin{algorithm}[Metodo di Lagrange]
+		Consideriamo uno spazio $V$, su un campo $\KK$ con caratteristica diversa da $2$, e una forma $B$ non degenere su di esso. Se $\mathcal{V}$ è una base di $V$ possiamo costruire a partire da essa una base ortogonale per $B$ nel seguente modo:
+		\begin{itemize}
+			\item Prendiamo un vettore $v\in \mathcal{V}$ \textbf{non isotropo} (che esiste sempre se assumiamo che $B$ non sia alternante, ma anche se fosse $B(v_i,v_i)=0$  per ogni $i$ dobbiamo necessariamente avere $B(v_i+v_j,v_i+v_j)\ne 0$ per qualche $i,j$, e quindi ci basta scegliere $v:=v_i+v_j$).
+			\item Data la base $\mathcal{V}=\left\{v'_1,v_2,\dots,v_n\right\}$ con $v'_1$ non isotropo, calcoliamo la base $\mathcal{V}'$ come
+			$$v_i':=v_i-\pi_{\langle v_1' \rangle^\perp}^{\langle v_1' \rangle}(v_i)$$
+			questi sono $n-1$ vettori linearmente indipendenti in $\langle v \rangle^\perp$ e quindi formano una base. 
+			\item Ripetiamo tutto quanto fatto finora usando $B_{\mid \langle v \rangle^\perp}$, finché la forma che stiamo considerando non risulta avere come kernel tutto lo spazio.
+		\end{itemize}
+	\end{algorithm}
+	La correttezza di questo algoritmo appunto segue dal teorema spettrale dimostrato sopra, e dal seguente lemma:
+	\begin{lemma}[Coefficienti di Fourier]
+		Dato un $v\in V$ non isotropo rispetto a $B$ allora per ogni $w\in W$ la proiezione ortogonale di $w$ su $\langle v \rangle$ è
+		$$\pi_{\langle v \rangle}^{\langle v \rangle^\perp}(w)=\alpha_v(w)v=\frac{B(v,w)}{B(v,v)}v$$
+		mentre la proiezione ortogonale sul suo complemento ortogonale è
+		$$\pi_{\langle v \rangle^\perp}^{\langle v \rangle}(w)=w-\alpha_v(w)v=w-\frac{B(v,w)}{B(v,v)}v$$
+		in particolare il coefficiente $\alpha_v(w)$ si chiama \textit{coefficiente di Fourier}.
+	\end{lemma}
+	\begin{proof}
+		La tesi segue semplicemente osservando che 
+		$$B\left(w-\frac{B(v,w)}{B(v,v)}v,v\right)=0$$
+		e quindi per unicità del complementare abbiamo la tesi.
+	\end{proof}
+	Abbiamo usato in modo determinante che la caratteristica del campo fosse diversa da $0$. Un esempio problematico è il seguente:
+	\begin{example}[Una forma bilineare simmetrica non diagonalizzabile]
+		La forma bilineare definita su un campo $\KK$ a caratteristica $2$ tale che la sua matrice di gram sia
+		$$
+		\begin{pmatrix}
+			0 & 1 \\
+			1 & 0
+		\end{pmatrix}
+		$$
+		non ammette una base diagonalizzante.
+	\end{example}
+	Osserviamo infine che il metodo di Lagrange procede per cambi di base che hanno la forma
+	$$P_{ij}=
+	\begin{cases}
+		-\alpha_{v_i}(v_j') & \text{se $i<j$} \\
+		1 & \text{se $i=j$} \\
+		0 & \text{altrimenti.}
+	\end{cases}
+	$$
+	che sono tutte matrici triangolari superiori con solo $1$ sulla diagonale principale, dunque il determinante della matrice rimane invariato, prima e dopo il cambio di base.
+	
+	\subsubsection{Teorema di Sylvester e segnatura}
+	
+	Abbiamo visto la sezione precedente che ogni forma bilineare simmetrica è diagonalizzabile. Questo vuol dire che per ogni matrice $A$ simmetrica esiste una matrice $Q$ con determinante $1$ tale che
+	$$A=Q^\intercal
+	\left(
+	\begin{array}{ccc|c}
+		\alpha_1 & \dots & 0 & 0 \\
+		\vdots & \ddots & \vdots & \vdots \\
+		0 & \dots & \alpha_r & 0 \\
+		\hline
+		0 & \dots & 0 & 0
+	\end{array}
+	\right)
+	Q
+	$$
+	In realtà vorremmo fare un po' più di questo, ovvero vorremmo una base non solo ortogonale, ma ortonormale. Questo non sempre è possibile, ma sicuramente lo è nel caso in cui $\KK=\CC$:
+	\begin{corollary}[Sylvester complesso]
+		Per uno spazio $(V,B)$ definito su $\CC$ il rango è un \textit{invariante completo}, ovvero prese due forme $B_1$ e $B_2$ con lo stesso rango queste sono equivalenti se e solo se hanno lo stesso rango, inteso come il rango della matrice associata ad una qualsiasi base. In particolare sono entrambe equivalenti alla forma di matrice:
 		$$
 		\left(
 		\begin{array}{c|c}
-			0 & v \\
-			\hline
-			v^\intercal & k
+			I_r & 0 \\
+			\hline 
+			0 & 0
 		\end{array}
 		\right)
 		$$
-		con $v\in \KK^{n-1}$. D'altra parte 
+		dove $r$ è il rango.
+	\end{corollary}
+	\begin{proof}
+		Se due forme bilineari sono equivalenti hanno evidentemente lo stesso rango. D'altra parte se consideriamo $B_1$ e $B_2$ con lo stesso rango, grazie al metodo di Lagrange possiamo trovare due basi $\mathcal{V}$ e $\mathcal{W}$ di $V$ tali che le loro matrici in queste basi sono rispettivamente
+		$$
+		\left(
+		\begin{array}{ccc|c}
+			\alpha_1 & \dots & 0 & 0 \\
+			\vdots & \ddots & \vdots & \vdots \\
+			0 & \dots & \alpha_r & 0 \\
+			\hline
+			0 & \dots & 0 & 0
+		\end{array}
+		\right),
+		\left(
+		\begin{array}{ccc|c}
+			\beta_1 & \dots & 0 & 0 \\
+			\vdots & \ddots & \vdots & \vdots \\
+			0 & \dots & \beta_r & 0 \\
+			\hline
+			0 & \dots & 0 & 0
+		\end{array}
+		\right)
+		$$
+		con $\alpha_i,\beta_i\in \CC$. D'altra parte dato che siamo in $\CC$ per ogni $z$ esisterà un valore $\sqrt{z}\in\CC$ tale che $\sqrt{z}^2=z$ (questo valore non è unico, quindi non parliamo di funzione radice quadrata, ma si capisce cosa si intende). Dunque se consideriamo il cambio di base
+		\begin{gather*}
+			v_i'=v_i\frac{1}{\sqrt{\alpha_i}} \\
+			w_i'=w_i\frac{1}{\sqrt{\beta_i}}
+		\end{gather*}
+		le matrici in questa base saranno proprio
+		\begin{gather*}
+			\left(
+			\begin{array}{ccc|c}
+				1/\sqrt{\alpha_1} & \dots & 0 & 0 \\
+				\vdots & \ddots & \vdots & \vdots \\
+				0 & \dots & 1/\sqrt{\alpha_r} & 0 \\
+				\hline
+				0 & \dots & 0 & 0
+			\end{array}
+			\right)
+			\left(
+			\begin{array}{ccc|c}
+				\alpha_1 & \dots & 0 & 0 \\
+				\vdots & \ddots & \vdots & \vdots \\
+				0 & \dots & \alpha_r & 0 \\
+				\hline
+				0 & \dots & 0 & 0
+			\end{array}
+			\right)
+			\left(
+			\begin{array}{ccc|c}
+				1/\sqrt{\alpha_1} & \dots & 0 & 0 \\
+				\vdots & \ddots & \vdots & \vdots \\
+				0 & \dots & 1/\sqrt{\alpha_r} & 0 \\
+				\hline
+				0 & \dots & 0 & 0
+			\end{array}
+			\right)= 
+			\left(
+			\begin{array}{ccc|c}
+				1 & \dots & 0 & 0 \\
+				\vdots & \ddots & \vdots & \vdots \\
+				0 & \dots & 1 & 0 \\
+				\hline
+				0 & \dots & 0 & 0
+			\end{array}
+			\right) \\
+			\left(
+			\begin{array}{ccc|c}
+				1/\sqrt{\beta_1} & \dots & 0 & 0 \\
+				\vdots & \ddots & \vdots & \vdots \\
+				0 & \dots & 1/\sqrt{\beta_r} & 0 \\
+				\hline
+				0 & \dots & 0 & 0
+			\end{array}
+			\right)
+			\left(
+			\begin{array}{ccc|c}
+				\beta_1 & \dots & 0 & 0 \\
+				\vdots & \ddots & \vdots & \vdots \\
+				0 & \dots & \beta_r & 0 \\
+				\hline
+				0 & \dots & 0 & 0
+			\end{array}
+			\right)
+			\left(
+			\begin{array}{ccc|c}
+				1/\sqrt{\beta_1} & \dots & 0 & 0 \\
+				\vdots & \ddots & \vdots & \vdots \\
+				0 & \dots & 1/\sqrt{\beta_r} & 0 \\
+				\hline
+				0 & \dots & 0 & 0
+			\end{array}
+			\right)=
+			\left(
+			\begin{array}{ccc|c}
+				1 & \dots & 0 & 0 \\
+				\vdots & \ddots & \vdots & \vdots \\
+				0 & \dots & 1 & 0 \\
+				\hline
+				0 & \dots & 0 & 0
+			\end{array}
+			\right)
+		\end{gather*}
+		e dunque le due forme sono proprio equivalenti, in quanto sono associate alla stessa matrice.
 	\end{proof}
-	\begin{theorem}[Metodo di Lagrange]
-		contenuto...
+	L'equivalente nel linguaggio delle sole matrici di questo teorema è che due matrici complesse sono congruenti se e solo se hanno lo stesso rango (il che è molto simile a quello che avevamo visto sull'equivalenza di matrici). Purtroppo su $\RR$ le radici non esistono sempre, e quindi abbiamo bisogno di un'altra condizione per caratterizzare la congruenza tra matrici. L'idea non è particolarmente più elaborata di quella appena usata, e consiste nel tenere conto di quali numeri abbiano o non abbiano una radice in $\RR$ (ovvero di tenere conto di quanti valori positivi e di quanti valori negativi appaiano nella matrice diagonale della forma). 
+	\begin{theorem}[Sylvester reale]
+		Sia $V$ uno spazio vettoriale reale e $B$ una forma bilineare simmetrica su di esso di rango $r$, allora esistono unici $p,q\in\NN$ tali che $p+q=r$ e una base $\mathcal{V}$ di $V$ per cui la forma $B$ nella base $\mathcal{V}$ si scrive come
+		$$
+		\left(
+		\begin{array}{c|c|c}
+			+I_p & & \\
+			\hline
+			& -I_q & \\
+			\hline
+			& & 0_{n-r} 
+		\end{array}
+		\right).
+		$$
 	\end{theorem}
+	\begin{proof}
+		L'esistenza segue come prima rinormalizzando tutti i vettori della base trovata con il metodo di Lagrange per il loro modulo, ovvero
+		$$v_i':=v_i\frac{1}{\sqrt{\abs{B(v_i,v_i)}}}$$
+		e dunque i coefficienti positivi rimangono positivi, mentre i coefficienti negativi rimangono negativi, dando la matrice della tesi. Supponiamo allora per assurdo che ci siano due basi $\mathcal{W}$ e $\mathcal{U}$ di $V$ tali che $B$ in queste abbia la forma della tesi, ma con $p$ diversi, ovvero siano
+		\begin{gather*}
+			\mathcal{W}=\left\{v_1,\dots,v_p,\dots,v_n\right\} \\
+			\mathcal{U}=\left\{w_1,\dots,w_{p'},\dots,w_n\right\}
+		\end{gather*}
+		con $p\ne p'$ tali che
+		\begin{gather*}
+			B(v_i,v_i)=1 \qquad 1\le i\le p \\
+			B(w_i,w_i)=1 \qquad 1 \le i \le p'.
+		\end{gather*}
+		assumiamo WLOG che $p'<p$ allora 
+		\begin{gather*}
+			W_+:=\langle v_{1},\dots, v_p\rangle \\
+			U_-:=\langle w_{p'+1},\dots, w_{n}\rangle 
+		\end{gather*}
+		allora abbiamo che
+		$$\dim U_- + \dim W_+ = n-p'+p >n$$
+		dunque per la formula di Grassman questi due spazi hanno intersezioni non vuota. Questo è contraddittorio, perché se così fosse esisterebbe un $0\ne v\in U_-\cap W_+$ tale che si possa scrivere come
+		$$\alpha_1v_1+\dots+\alpha_pv_p=v=\beta_{p'+1}w_{p'+1}+\dots+\beta_nw_n$$
+		ma allora calcolando $B(v,v)$ in una rappresentazione e nell'altra otteniamo
+		\begin{gather*}
+			B(v,v)=\sum_{i=1}^p \alpha_i^2 > 0 \\
+			B(v,v)=-\sum_{i=p'+1}^r \beta_i^2 < 0
+		\end{gather*}
+		il che è assurdo, e quindi abbiamo finito.
+	\end{proof}
+	Il teorema di sylvester ci dà quindi un nuovo invariante completo:
+	\begin{definition}[Segnatura]
+		Uno spazio $V$ finitamente generato equipaggiato con una forma bilineare simmetrica $B$ si dice avere \textit{segnatura} $(p,q)$ se 
+		$$(V,B)\cong \RR^{p,q}\perp (\RR^{n-q-p},0)$$
+		e per il teorema di Sylvester la segnatura esiste sempre ed è unica. $p$ viene detto \textit{indice di positività}, $q$ viene detto \textit{indice di negatività} e $p-q$ viene detto \textit{indice d'inerzia}. Analogamente si definisce la segnatura di una matrice $n\times n$, come la segnatura di una forma bilineare su $\RR^n$ avente quella matrice di Gram.
+	\end{definition}
+	Un corollario che otteniamo subito è
+	\begin{corollary}[Caratterizzazione della definitezza]
+		Una forma bilineare $B$ su uno spazio $V$ di dimensione $n$ è:
+		\begin{itemize}
+			\item Definita positiva se e solo se ha segnatura $(n,0)$, ovvero se esiste una base in cui la matrice di $B$ si scrive come $P^\intercal P$ per qualche $P\in \text{M}_n(\RR)$. 
+			\item Definita negativa se e solo se ha segnatura $(0,n)$, ovvero se esiste una base in cui la matrice di $B$ si scrive come $-P^\intercal P$ per qualche $P\in \text{M}_n(\RR)$.
+			\item Indefinita se ha indice di positività e di negatività entrambi non nulli.
+			\item Semidefinita (postiva o negativa, sulla base di quale indice non è nullo) se $p+q<n$, ovvero se non ha rango massimo.
+		\end{itemize}
+	\end{corollary}
+	
+	\subsubsection{Criteri per determinare la segnatura}
+	
+	Come si calcola dunque la segnatura di una matrice (o di una forma bilineare, che dir si voglia)? Sicuramente un modo (a cui non vogliamo davvero ricorrere a mano, ma su un calcolatore di sicuro è il più rapido) è l'eliminazione di Gauss simmetrica: ovvero un'eliminazione di Gauss in cui si applicando contemporaneamente su righe e colonne le stesse operazioni. Un modo più umano è il cosiddetto criterio di Sylvester, che si basa sui minori principali di una matrice:
+	\begin{definition}[Minori principali]
+		Data una matrice $A$ il minore costituito dalle prime $i$ righe e dalle prime $i$ colonne è chiamato l'$i$-esimo \textit{minore principale}, e verrà denotato con $A^{(i)}$.
+	\end{definition}
+	La prima osservazione che facciamo è che se una matrice è diagonale con autovalori $\lambda_i$ allora
+	$$A^{(i)}=\lambda_1\lambda_2\dots\lambda_i$$
+	questo ci suggerisce un'idea, se riuscissimo in qualche modo a ricondurci da una matrice $A$ generica alla matrice in forma di Sylvester senza variare i minori ci basterebbe calcolare tutti i minori principali per capire la segnatura della matrice, infatti se $\lambda_{i+1}<0$ abbiamo che $A^{(i+1)}$ cambia segno rispetto a $A^{(i)}$, e dunque l'indice di negatività della matrice è proprio uguale al numero di cambi di segno nella successione dei minori principali. Per arrivare a questo fatto abbiamo prima bisogno di
+	\begin{lemma}[Invarianza dei minori principali]
+		Siano $A$ e $P$ matrici $n\times n$. Se $A$ è simmetrica e $P$ è \textit{unitriangolare superiore}, cioè si scrive come
+		$$P=
+		\begin{pmatrix}
+			1 & * & \dots & * \\
+			0 & 1 & \dots & * \\
+			\vdots & \vdots & \ddots & \vdots \\
+			0 & 0 & \dots & 1
+		\end{pmatrix}
+		$$
+		allora i minori principali di $A$ sono uguali ai minori principali di $P^\intercal A P$.
+	\end{lemma}
+	\begin{proof}
+		Siano $v_1,v_2,\dots,v_n$ le colonne di $A$. Allora abbiamo che le colonne $v_i'$ di $AP$ sono 
+		$$v_i'=v_i+\sum_{j=1}^{i-1}v_jP_{ji}$$
+		ma allora abbiamo proprio che tutti i minori di $AP$ sono uguali a tutti i minori di $A$, perché le colonne di $AP$ si ottengono da quelle di $A$ attraverso operazioni elementari che non alterano il determinante. Con questo abbiamo finito, perché usando la simmetria di $A$ e il fatto che i minori principali della trasposta sono uguali ai minori originali si ha, per ogni $i$:
+		$$\left(P^\intercal A P\right)^{(i)}=\left(P^\intercal A\right)^{(i)}=\left[\left(P^\intercal A\right)^\intercal\right]^{(i)}=\left(A^\intercal P\right)^{(i)}=\left(AP\right)^{(i)}=A^{(i)}$$
+		che era proprio la tesi.
+	\end{proof}
+	Da questo risultato dunque seguono due criteri per determinare la segnatura:
+	\begin{corollary}[Criterio di Sylvester]
+		Per una matrice $A$ simmetrica reale, con tutti i minori principali diversi da $0$, la segnatura è uguale al numero di cambi di segno nella successione
+		$$1,\,A^{(1)},\,A^{(2)},\dots,\,A^{(n)}.$$ 
+	\end{corollary}
+	\begin{proof}
+		Segue dal fatto che le trasformazioni che esegue il metodo di Lagrange sono tutte congruenza per unitriangolari superiori, e che prodotto di unitriangolari superiori è ancora unitriangolare superiore.
+	\end{proof}
+	O analogamente:
+	\begin{corollary}[Criterio di Jacobi]
+		Per una matrice $A$ simmetrica e con tutti i minori principali non nulli si ha che $A$ è congruente alla matrice diagonale 
+		$$
+		\begin{pmatrix}
+			\alpha_1 & 0 & \dots & 0 \\
+			0 & \alpha_2 & \dots & 0 \\
+			\vdots & \vdots & \ddots & \vdots \\
+			0 & 0 & \dots & \alpha_n
+		\end{pmatrix}
+		$$
+		con 
+		$$\alpha_i:=\frac{A^{(i)}}{A^{(i-1)}}$$
+		e ponendo $A^{(0)}=1$.
+	\end{corollary}
+	\begin{proof}
+		Di nuovo segue dal fatto che il metodo di Lagrange ci fornisce due matrici $P$ e $T$ tali che $P$ è unitriangolare, $D$ è diagonale e 
+		$$P^\intercal A P = D$$
+		e per il lemma dimostrato sopra abbiamo che i minori principali di $D$ sono uguali ai minori principali di $A$.
+	\end{proof}
+	
+	\subsection{Forme alternanti}
+	
+	Come per le forme bilineari eravamo interessati agli spazi pseudoeuclidei, per le forme alternanti siamo interessati agli spazi simplettici:
+	\begin{definition}[Spazio simplettico]
+		Uno \textit{spazio vettoriale simplettico} è uno spazio $V$ equipaggiato con una forma $B$ alternante e non degenere. Una tale forma si dice \textit{forma simplettica}.
+	\end{definition}
+	Per le forme bilineari simplettiche non ha alcun senso parlare di diagonalizzazione, perché chiaramente avremmo che tutti i termini sulla diagonale dovrebbero essere $0$! (contraddicendo il fatto che $B$ è non degenere). L'esempio standard di forma simplettica è quella definita su $V:=U\times U^*$ tale che
+	$$B(\left(u,\varphi\right),\left(v,\psi\right))=\psi(u)-\varphi(v)$$
+	che, come suggerisce il termine simplettico (che deriva dal greco e sta per "intrecciato") è una combinazione intrecciata di funzionali e vettori. Questa sembra un esempio molto specifico di spazio simplettico, ma vedremo che in realtà è spaventosamente generale:
+	\begin{proposition}[Dimensione di spazi simplettici]
+		Se $(V,B)$ è uno spazio simplettico di dimensione finita, allora $\dim V = 2m$ per qualche $m\in\NN$:
+	\end{proposition}
+	\begin{proof}[Dimostrazione semplice]
+		Sia $\dim V=n$, e $A=M_\mathcal{V}(B)$ una matrice di $B$ in una qualunque base $\mathcal{V}$. Allora abbiamo già visto che 
+		$$A=-A^\intercal$$
+		d'altra parte prendendo i determinanti da entrambi i lati abbiamo
+		$$\det A = \det(-A^\intercal)=\det\left(-A\right)=\left(-1\right)^n\det A$$
+		ma dato che $B$ è non degenere abbiamo che $\det A \ne 0$, e dunque $(-1)^n=1$, da cui $n$ pari.
+	\end{proof}
+	Questa dimostrazione è semplice, ma purtroppo funziona solo in caratteristica diversa da $2$. Per generalizzare il ragionamento dobbiamo procedere per induzione:
+	\begin{proof}[Dimostrazione generale]
+		Procediamo per induzione su $n$ la dimensione di $V$. Per $\dim V=0$ chiaramente non c'è nulla da verificare, e per $\dim V=1$ l'unica forma alternante è quella identicamente nulla, che è degenere e quindi non è simplettica. Supponiamo allora che $\dim V=n\ge 2$, allora prendiamo un vettore non nullo $u\in V$, dato che $B$ è non degenere l'applicazione $B_1$ sarà un isomorfismo. Ma questo vuol dire che
+		$$B(u,-)=B_1(u)\ne 0\in V^*$$
+		ovvero il funzionale associato ad $u$ non è la funzione nulla. Dunque avremo che esiste un $v\in V$ tale che
+		$$B(u,v)\ne 0$$
+		ma d'altra parte questo per l'alternanza di $B$ implica che $u$ e $v$ sono linearmente indipendenti. Questo vuol dire che la matrice di $B_{\mid \langle u,v\rangle}$ è proprio
+		$$A=\begin{pmatrix}
+			0 & 1 \\
+			-1 & 0
+		\end{pmatrix}$$
+		ma questa è una matrice invertibile, quindi $B_{\mid \langle u,v\rangle}$ è non degenere, cioè 
+		$$\langle u,v\rangle\oplus \langle  u,v\rangle^\perp = V.$$ 
+		Abbiamo finito, infatti per ipotesi induttiva, dato che $B_{\mid \langle u,v \rangle^\perp}$ è sia alternante che non degenere abbiamo che $\langle u,v\rangle^\perp$ deve avere dimensione pari, e dato che $\langle u,v\rangle$ ha dimensione pari per quanto visto prima, abbiamo proprio che $V$ ha dimensione pari, e fine.
+	\end{proof}
+	Il motivo per cui questa dimostrazione è particolarmente interessante non è tanto perché abbiamo esteso l'enunciato ai campi di caratteristica $2$ (di cui ci interessa fino a un certo punto), ma più che altro perché l'idea che abbiamo usato ci permette di costruire esplicitamente la matrice di una forma simplettica in una certa forma canonica.
+	\begin{corollary}[Esistenza di basi simplettiche]
+		Per una forma simplettica $B$ possiamo sempre trovare una base della forma $\mathcal{V}=\left\{u_1,u_2,\dots,u_m,v_1,\dots,v_m\right\}$, con $m=\half \dim V$ tale che la matrice di $B$ in questa base sia
+		$$M_\mathcal{V}(B)=
+		\left(
+		\begin{array}{c|c}
+			0 & I_m \\
+			\hline 
+			-I_m& 0
+		\end{array}
+		\right)
+		$$
+		che denoteremo con $J_m$.
+	\end{corollary}
+	Questa matrice è così importante che la rinforziamo con un'ulteriore definizione:
+	\begin{definition}[Base simplettica]
+		Sia $(V,B)$ uno spazio vettoriale simplettico di dimensione finita $2m$. Una base $\mathcal{W}=\left\{w_1,\dots,w_{2m}\right\}$ di $V$ tale che 
+		$$M_\mathcal{W}(B)=J_m$$
+		si dice \textit{base simplettica} di $(V,B)$.
+	\end{definition}
+	Da quanto appena visto segue che
+	\begin{corollary}[Ricondursi allo spazio simplettico standard]
+		Per ogni spazio vettoriale simplettico $(V,B)$ esiste un isomorfismo 
+		\begin{align*}
+			V & \to \KK^m \times \left(\KK^m\right)^* \\
+			u_i & \mapsto \left(e_i,0\right) \\
+			v_j & \mapsto \left(0,e_j^*\right)
+		\end{align*}
+		dove $u_i,v_j$ è una base simplettica di $V$.
+	\end{corollary}
+	\begin{remark}[Ricondursi a spazi simplettici]
+		In generale data una forma alternante $B$ possiamo considerare il suo nucleo $W$ (dato che è antisimmetrica nucleo sinistro e nucleo destro sono uguali), e scomporre lo spazio
+		$$V=W\oplus W^\perp$$
+		in questo modo $B_{\mid W^\perp}$ è non degenere, e quindi possiamo trovare una base in cui $B$ ha matrice
+		$$
+		\left(
+		\begin{array}{c|c}
+			0 & 0 \\
+			\hline
+			0 & J_{r/2}
+		\end{array}
+		\right)
+		$$
+		dove $r$ è il rango di $B$.
+	\end{remark}
+	E dunque abbiamo classificato tutte le forme simplettiche. 
+	
+	\newpage
+	
+	\section{Isometrie di spazi arbitrari}
+	
+	Lo scorso anno abbiamo studiato le isometrie di spazi euclidei e affini. Estendiamo il nostro studio a spazi arbitrari con una certa struttura $B$ (una forma bilineare). Il programma di quanto faremo è il seguente:
+	\begin{itemize}
+		\item Vogliamo poter disporre di un insieme di \textbf{modelli canonici} di spazi con certe strutture.
+		\item Comunque dato uno spazio $V$ vogliamo poter dire a quale modello canonico questo è isomorfo, attraverso delle grandezze chiamate \textit{invarianti}. Se un certo insieme di invarianti caratterizza completamente il modello canonico di quello spazio allora questi si dicono \textit{invarianti completi}.
+		\item Vogliamo studiare come si comportano gli automorfismi per i modelli canonici che troveremo.
+	\end{itemize}
+	Questa è una cosa che abbiamo già fatto l'anno scorso: per esempio con
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			Esempio & Modello & Invariante & Automorfismi \\
+			\hline
+			$V$ spazio vett. finitamente generato su $\KK$ & $\KK^n$ & $n=\dim_\KK V$ & $\GL_n(\KK)$ \\
+			\hline
+			$\AA$ affine su $\KK$ & $\AA^n_\KK$ & $n=\dim_\KK\AA$ & $\GL_n(\KK)\rtimes \KK^n$ \\
+			\hline
+		\end{tabular}
+	\end{center}
+	Un altro esempio di spazio per cui sappiamo già qual è il modello canonico è lo spazio euclideo:
+	\begin{definition}[Spazio Euclideo]
+		Uno \textit{spazio vettoriale Euclideo} è uno spazio $V$ equipaggiato con una forma $B$ definita positiva e simmetrica. Una tale forma si dice un \textit{prodotto scalare}.
+	\end{definition}
+	Gli spazi euclidei in generale non sono solo $\RR^n$, ma possono avere metriche più strane. In generale uno spazio è euclideo se è isomorfo a $\RR^n$, ovvero se e solo se la sua palla unitaria è un ellissoide (cioè a meno di una trasformazione lineare è una sfera). Sugli spazi euclidei valgono tutte le cose che abbiamo dimostrato in generale su $\RR^n$ (Cauchy-Schwarz, Gram-Schmidt...), ed è proprio questo il motivo per cui ci interessa trovare un modello canonico per \textbf{tutti} gli spazi, non solo per quelli euclidei. Altri esempi allora sono
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			Esempio & Modello & Invariante & Automorfismi \\
+			\hline
+			$(V,B)$ spazio vett. euclideo & $\left(\RR^,\cdot\right)$ & $n=\dim_\KK V$ & $O_n(\KK)$ \\
+			\hline
+			$(\mathbb{E},V,B)$ affine euclideo & $(\AA^n_\RR,\RR^n,\cdot)$ & $n=\dim_\KK\mathbb{E}$ & $O_n(\RR)\rtimes \RR^n$ \\
+			\hline
+			$(V,B)$ vett. pseudoeuclideo & $(\RR^n,\langle \cdot,\cdot\rangle_{p,q})$ & $n=\dim_\KK V$ e $(p,q)$ & ? \\
+			\hline
+			$(V,B)$ simplettico & $(U\times U^*,h)$ con $U=\KK^n$ & $m=\half \dim V$ & ? \\
+			\hline
+		\end{tabular}
+	\end{center}
+	dunque quello che ci manca è proprio capire quali sono gli automorfismi di spazi simplettici e pseudoeuclidei. 
+	\begin{definition}[Automorfismo di uno spazio]
+		Dato un qualunque spazio $(V,B)$ un suo \textit{automorfismo} è un'applicazione $\varphi:V\to V$ lineare e biettiva tale che
+		$$B(\varphi(v),\varphi(w))=B(v,w)$$
+		per ogni $v,w\in V$.
+	\end{definition}
+	\subsection{Trasformazioni pseudoeuclidee}
+	
+	\begin{definition}[Trasformazione pseudoeuclidee]
+		Una $\varphi:V\to V$ lineare sullo spazio pseudoeuclideo $V$ si dice una \textit{trasformazione pseudoeuclidea} se 
+		$$B(\varphi(v),\varphi(w))=B(v,w)$$
+		per ogni $v,w\in V$. 
+	\end{definition}
+	\begin{proposition}[Caratterizzazione degli automorfismi pseudoeuclidei]
+		Sia $(V,B)$ uno spazio equipaggiato con una forma bilineare simmetrica, allora gli automorfismi di $(V,B)$ sono quelli la cui matrice $H$ in una certa base $\mathcal{V}$ soddisfa
+		$$A=H^\intercal A H$$
+		dove $A$ è la matrice di $B$ nella base $\mathcal{V}$.
+	\end{proposition}
 	
 	\newpage
 	

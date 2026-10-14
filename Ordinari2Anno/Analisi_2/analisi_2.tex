@@ -1153,7 +1153,163 @@
 		che non è continua, e quindi la successione non converge in $\mathcal{C}([-1,1])$.
 	\end{proof}
 	
+	\subsection{Operatori su spazi infinito dimensionali}
 	
+	\begin{definition}[Limitatezza di operatori]
+		Consideriamo due spazi $X$ e $Y$ normati, e una funzione $T:X\to Y$ lineare. L'operatore $T$ si dice \textit{limitato} se la seguente quantità
+		$$\abs{\abs{T}}:=\sup_{\abs{\abs{x}}_X\le 1}\abs{\abs{Tx}}_Y$$
+		è finita. Denotiamo con $\mathcal{L}(X,Y)$ lo spazio degli operatori lineari limitati da $X$ a $Y$.
+	\end{definition}
+	Quella che abbiamo denotato come norma, è effettivamente una norma. \`E la norma di un operatore! 
+	\begin{proposition}[Norma di operatori]
+		Dato un operatore lineare $T:X\to Y$ la quantità
+		$$\abs{\abs{T}}:=\sup_{\abs{\abs{x}}_X\le 1}\abs{\abs{Tx}}_Y$$
+		è una norma.
+	\end{proposition}
+	Osserviamo che per linearità di $T$ e omogeneità della norma abbiamo
+	$$\abs{\abs{Tx}}_Y=\abs{\abs{T\left(\frac{x}{\abs{\abs{x}}_X}\right)}}_Y\abs{\abs{x}}_X$$
+	ma d'altra parte quell'oggetto dentro al $T$ ha proprio norma $1$, quindi usando la norma
+	$$\abs{\abs{T\left(\frac{x}{\abs{\abs{x}}_X}\right)}}_Y\abs{\abs{x}}_X\le \abs{\abs{T}}\abs{\abs{x}}$$
+	cioè la norma è quella quantità che stima linearmente quanto può diventare grande la norma di $Tx$, in funzione della norma di $x$.
+	\begin{proposition}[Caratterizzazione della continuità di operatori lineari]
+		Sia $T:X\to Y$ un operatore lineare, allora le tre seguenti sono equivalenti:
+		\begin{itemize}
+			\item $T$ è limitato.
+			\item $T$ è continuo.
+			\item $T$ è continuo in un punto.
+		\end{itemize}
+	\end{proposition}
+	\begin{proof}
+		Per dimostrare che limitato implica continuo consideriamo un $x_0\in X$, allora per quanto visto sulla norma abbiamo
+		$$\abs{\abs{Tx-Tx_0}}=\abs{\abs{T(x-x_0)}}\le \abs{\abs{T}}\abs{\abs{x-x_0}}$$
+		cioè $T$ è lipschitziano, in particolare è continuo. Supponiamo ora che $T$ sia continua in un punto, assumiamo WLOG $0$, allora esisterà un $\delta>0$ tale che se $\abs{\abs{x}}\le \delta$ si ha $\abs{\abs{Tx}}\le 1$, dunque la norma di $T$ sarà
+		$$\abs{\abs{T}}=\sup_{\abs{\abs{x}}\le 1}\abs{\abs{Tx}}=\sup \frac{1}{\delta}\abs{\abs{T(\delta x)}}\le \frac{1}{\delta}$$
+		dunque $T$ è limitato, e quindi sarà anche continuo, da cui la tesi.
+	\end{proof}
+	\begin{remark}[Dimensione finita]
+		Il risultato sopra in spazi finito dimensionali non è molto interessante, in quanto tutti gli operatori $T:\RR^n\to\RR^k$ sono evidentemente continui: questo segue dal fatto che ogni componente è semplicemente un'espressione del tipo
+		$$T_i(x)=\sum_{j=1}^{n}a_{ij}x_j$$
+		che è evidentemente continua, e quindi per quanto visto sopra sui limiti in $\RR^n$ abbiamo che anche $T$ stessa è continua.
+	\end{remark}
+	Quello che ci interessa qui dunque è parlare di spazi infinitamente generati. 
+	\begin{example}[Un operatore lineare non continuo]
+		Consideriamo lo spazio $c_{00}$ delle successioni di reali definitivamente $0$, equipaggiato con la norma infinita (cioè con $\abs{\abs{\cdot}}_\infty:=\max$). Allora definendo l'operatore $T:c_{00}\to\RR$ tale che
+		$$T(x)=\sum_{n=1}^{\infty}nx_n$$
+		abbiamo che questo è illimitato, infatti $\abs{\abs{e_n}}_{\infty}=1$ per ogni $n$ ma d'altra parte
+		$$\abs{\abs{Te_n}}=n$$
+		e dunque avremo $\abs{\abs{T}}=\infty$.
+	\end{example}
+	\begin{example}[Funzionali infinito dimensionali]
+		Se consideriamo lo spazio delle funzioni $\mathcal{C}([a,b])$ equipaggiato con la norma infinita allora l'operatore:
+		$$Tf:=\int_a^b f(t)\dif t$$
+		allora $T$ è lineare e limitato, perché
+		$$\abs{\abs{T(f)}}\le \int_a^b \abs{f}\dif t \le \left(b-a\right)\abs{\abs{f}}_\infty$$
+		e di conseguenza è anche continua. In questo caso in realtà si può dimpostrare qualcosa di più forte (per esercizio) ovvero 
+		$$\abs{\abs{T}}=b-a.$$
+	\end{example}
+	
+	\subsubsection{Teorema delle contrazioni}
+	
+	\begin{definition}[Contrazione]
+		Una funzione tra spazi metrici $T:X\to X$ si dice una \textit{contrazione} se esiste un certo $0<\lambda<1$ tale che, per ogni $x,y\in X$ si ha 
+		$$d\left(T(x),T(y)\right)\le \lambda d\left(x,y\right)$$
+		equivalentemente una contrazione è una mappa lipschitziana con costante di lipschitz strettamente minore di $1$. 
+	\end{definition}
+	In particolare abbiamo che una contrazione è lipschitziana e continua. Il motivo per cui ci interessano le contrazioni è il seguente:
+	\begin{theorem}[Banach-Caccioppoli]
+		Sia $X$ uno spazio metrico completo, e $T:X\to X$ una contrazione su di esso. Allora esiste sempre ed è unico un $x\in X$ tale che
+		$$Tx=x.$$
+	\end{theorem}
+	\begin{proof}
+		L'idea è fare esattamente quello che ci verrebbe da fare se fossimo su un calcolatore: prendiamo un $x_0$ casuale e costruiamo la successione
+		$$x_n:= T^n(x_0)$$
+		dove $T^n$ rappresenta la composizione $n$ volte. L'idea a questo punto, dato che siamo in uno spazio completo, è mostrare che questa successione è di Cauchy: per ogni $\varepsilon>0$ dobbiamo dimostrare che $d(x_n,x_{n+k})$ è definitivamente boundata. Ma allora usando la disuguaglianza triangolare abbiamo
+		$$d(x_{n+k},x_n)\le \sum_{i=1}^{k}d\left(x_{n+i},x_{n+i-1}\right)$$
+		e dunque stimando quella somma con una serie:
+		$$\sum_{i=1}^{k}d\left(x_{n+i},x_{n+i-1}\right) \le \sum_{i=1}^{\infty}d\left(T^{n+i-1}(T(x_0)),T^{n+i-1}(x_0)\right)$$
+		ma quindi usando il fatto che $T$ è una contrazione abbiamo
+		$$\sum_{i=1}^{\infty}d\left(T^{n+i-1}(T(x_0)),T^{n+i-1}(x_0)\right)\le \sum_{i=1}^{\infty}\lambda^{n+i-1}d(T(x_0),x_0)\le \frac{\lambda^{n-1}}{1-\lambda}d\left(T(x_0),x_0\right)<\varepsilon$$
+		cioè abbiamo proprio mostrato che definitivamente la distanza con cui eravamo partiti va sotto $\varepsilon$, per ogni $\varepsilon>0$. Ma allora $x_n$ è di Cauchy, per completezza avrà un limite, allora usando un trick molto famoso (invocando la continuità di $T$):
+		$$x=\lim_{n\to\infty}x_n=\lim_{n\to\infty}x_{n+1}=\lim_{n\to\infty}T(x_n)=T\lim_{n\to\infty}x_n=T(x)$$
+		come volevamo mostrare. L'unicità infine è la parte facile, se $Tx=x$ e $Ty=y$ abbiamo
+		$$\lambda d(x,y)\ge d\left(Tx,Ty\right)=d(x,y)$$
+		cioè dato che $0<\lambda<1$ abbiamo un assurdo.
+	\end{proof}
+	\`E chiaro che il teorema appena mostrato usa in modo determinante entrambe le ipotesi. Una traslazione (cioè una "contrazione" con $\lambda=1$) evidentemente non ammette punti fissi, così come in uno spazio non completo la successione che abbiamo trovato (unica in uno spazio completo) potrebbe non convergere. Abbiamo tuttavia un fatto più interessante:
+	\begin{corollary}[Teorema delle contrazioni forte]
+		Se $X$ è uno spazio metrico completo e $T:X\to X$ è un operatore, allora se esiste un $n$ tale che $T^n$ è una contrazione, esisterà un $x\in X$ unico tale che
+		$$Tx=x.$$
+	\end{corollary}
+	\begin{proof}
+		Per Banach-Cacioppoli abbiamo che esiste un unico punto $x\in X$ tale che
+		$$T^nx=x$$
+		allora 
+		$$d(x,Tx)=d\left(T^n(x),T(T^n(x))\right)=d\left(T^n(x),T^n(Tx)\right)$$
+		ma usando il fatto che $T^n$ è una contrazione:
+		$$d(x,Tx)\le \lambda d\left(x,Tx\right)$$
+		da cui abbiamo proprio la tesi. Di nuovo l'unicità è la parte facile, in quanto se per assurdo avessimo più di un punto fisso per $T$, questo sarebbe un punto fisso anche per $T^n$.
+	\end{proof}
+	\begin{example}
+		Prendiamo l'operatore tra gli spazi $T:\mathcal{C}([0,1])\to\mathcal{C}([0,1])$ equipaggiati con la norma infinita, tale che 
+		$$(Tf)(x)=\int_0^x tf(t)\dif t+\frac{x^2}{2}.$$
+		Allora $Tf\in C^1$ per ogni $f$, inoltre $T$ è una contrazione. 
+	\end{example}
+	\begin{proof}
+		Abbiamo 
+		$$\abs{Tf_1(x)-Tf_2(x)}\le \int_0^1 t\abs{\abs{f_1-f_2}}_\infty \dif t=\half \abs{\abs{f_1-f_2}}_\infty$$
+		per ogni $x$, dunque avremo la disuguaglianza anche per il sup, cioè $T$ è lipschitziana con costante minore di $1$, cioè è una contrazione. Per Banach Caccioppoli allora abbiamo ch esisterà una funzione $f$ tale che
+		$$f(x)=\frac{x^2}{2}+\int_0^x tf(t)\dif t$$
+		ovvero esiste una soluzione al \textit{problema di cauchy}:
+		$$\begin{cases}
+			f'(x)=xf(x)+x \\
+			f(0)=0
+		\end{cases}$$
+		che conosceremo poi.
+	\end{proof}
+	
+	\subsubsection{Alcune disuguaglianze notevoli}
+	Vogliamo arrivare alla dimostrazione della disuguaglianza di Minkowski trovata sopra. Per questo dobbiamo passare prima per altre due disuguaglianze:
+	\begin{proposition}[Disuguaglianza di Young]
+		Sia $p>1$, allora definiamo il suo \textit{esponente coniugato} come $p'$ tale che 
+		$$\frac{1}{p}+\frac{1}{p'}=1$$
+		allora per ogni $x,y\in \RR$ si ha
+		$$\abs{xy}\le \frac{\abs{x}^p}{p}+\frac{\abs{y}^{p'}}{p'}$$
+		che notiamo per $p=2$ si riduce ad AM-GM.
+	\end{proposition}
+	\begin{proof}
+		Riscrivendo la tesi bisogna mostrare che, se $x,y\in \RR^+$ si ha
+		$$A^{\frac{1}{p}}B^{\frac{1}{p'}}\le \frac{A}{p}+\frac{B}{p'}$$
+		ma d'altra parte prendendo il logaritmo di entrambi i lati abbiamo
+		$$\frac{1}{p}\log A+\frac{1}{p'}\log B\le \log\left(\frac{A}{p}+\frac{B}{p'}\right)$$
+		che segue da Jensen.
+	\end{proof}
+	Una conseguenza di questa è la seguente:
+	\begin{proposition}[Disuguaglianza di H\"older]
+		Per ogni $x,y\in \RR^n$ si ha
+		$$\abs{\sum_{i=1}^{n}x_iy_i}\le \abs{\abs{x}}_p\abs{\abs{y}}_{p'}$$
+		dove $p$ e $p'$ sono esponenti coniugati tra loro. Questa per $p=2$ diventa Cauchy-Schwarz. 
+	\end{proposition}
+	\begin{proof}
+		Questa disuguaglianza in realtà vale anche se $0<p<1$, ma la dimostreremo solo nel caso $p>1$. Riscriviamo la tesi come
+		$$\sum_{i=1}^{n}\frac{\abs{x_i}}{\abs{\abs{x}}_p}\frac{\abs{y_i}}{\abs{\abs{y}}_{p'}}\le 1.$$
+		D'altra parte per Young abbiamo
+		$$\sum_{i=1}^{n}\frac{\abs{x_i}}{\abs{\abs{x}}_p}\frac{\abs{y_i}}{\abs{\abs{y}}_{p'}}\le \sum_{i=1}^{n}\left(\frac{\abs{x_i}^p}{p\abs{\abs{x}}_p^p}+\frac{\abs{y_i}^{p'}}{p'\abs{\abs{y}}_{p'}^{p'}}\right)=\frac{\abs{x}^p}{p\abs{\abs{x}}_p^p}+\frac{\abs{y}^{p'}}{p'\abs{\abs{y}}_{p'}^{p'}}=\frac{1}{p}+\frac{1}{p'}=1$$
+		proprio come volevamo mostrare.
+	\end{proof}
+	E dunque infine abbiamo
+	\begin{proposition}[Disuguaglianza di Minkowski]
+		Per ogni $x,y\in \RR^n$ abbiamo che, per ogni $p\in [1,\infty]$, vale
+		$$\abs{\abs{x+y}}_p\le \abs{\abs{x}}_p+\abs{\abs{y}}_p.$$
+	\end{proposition}
+	\begin{proof}
+		Per $p=1$ o $p=\infty$ è facile, e lo abbiamo già mostrato. D'altra parte se $p>1$ abbiamo, per la disuguaglianza triangolare:
+		$$\sum_{i=1}^{n}\abs{x_i+y_i}^p\le \sum_{i=1}^{n}\abs{x_i+y_i}^{p-1}\left(\abs{x_i}+\abs{y_i}\right)$$
+		ma d'altra parte per H\"older
+		$$\sum_{i=1}^{n}\abs{x_i+y_i}^{p-1}\left(\abs{x_i}+\abs{y_i}\right)\le \left(\sum_{i=1}^{n}\abs{x_i+y_i}^{(p-1)p'}\right)^{1/p'}\left(\sum_{i=1}^{n}\abs{x_i}^p\right)^{1/p}+\left(\sum_{i=1}^{n}\abs{x_i+y_i}^{(p-1)p'}\right)^{1/p'}\left(\sum_{i=1}^{n}\abs{y_i}^p\right)^{1/p}$$
+		ovvero scrivendola in modo che stia nella pagina
+		$$\abs{\abs{x+y}}_p^p\le \abs{\abs{x+y}}_p^{p-1}\left(\abs{\abs{x}}_p+\abs{\abs{y}}_p\right)$$
+		che è proprio la tesi che cercavamo.
+	\end{proof}
 	
 	\newpage
 	
