@@ -705,7 +705,7 @@
 	$$\text{End}(G)\cong \ZZ$$
 	e visto che gli automorfismi sono gli endomorfismi invertibili abbiamo $U\left(\faktor{\ZZ}{n\ZZ}\right)$ nel caso finito, e $C_2$ nel caso infinito. Nel caso finito, questo ha cardinalità sempre $\varphi(n)$.
 	
-	\subsection{Azioni di gruppo}
+	\section{Azioni di gruppo}
 	
 	Abbiamo capito che lavorare con le permutazioni in generale è facile: abbiamo una base composta da $\binom{n}{2}$ elementi e ci sappiamo fare tutti i conti che vogliamo. Un modo per ricondurci alle permutazioni lo abbiamo già visto: il teorema di Cayley. Ma un modo più fine consiste nel cercare un modo di inserire omomorficamente il gruppo $G$ nel gruppo simmetrico di un qualche insieme.
 	\begin{definition}[Azione di gruppo]
@@ -828,7 +828,7 @@
 	\end{proof}
 	Questo è il primo esempio di dimostrazione in cui abbiamo ottenuto un risultato non banale sui gruppi semplicemente contando. \`E un topos molto importante che tornerà spesso, quindi teniamolo a mente.
 	
-	\subsubsection{Classi di coniugio del gruppo simmetrico}
+	\subsection{Classi di coniugio del gruppo simmetrico}
 	
 	Richiamiamo un risultato trovato in Algebra 1, ovvero presi $\sigma,\tau\in S_n$ vogliamo trovare una formula esplicita per
 	$$\tau\sigma\tau^{-1}$$
@@ -880,6 +880,165 @@
 		$$\tau^*\left(1\quad 2 \quad 3\right)\left(\tau^*\right)^{-1}=\tau\left(1\quad 2 \quad 3\right)\tau^{-1}$$
 		ovvero $\tau^*\in \tau\langle\left(1\quad 2 \quad 3\right)\rangle$. Quindi ci basta trovare un solo $\tau$ che funziona, che è semplicemente $\tau=\left(2 \quad 3\right)$. 
 	\end{proof}
+	
+	 \subsection{Equazione delle classi}
+	 
+	 L'equazione delle classi è la generalizzazione del ragionamento sui centralizzanti che abbiamo fatto sopra. Abbiamo trovato sopra che per ogni centralizzante $C_G$ e ogni classe di coniugio $\mathcal{C}_{g}$ in un gruppo finito abbiamo
+	 $$\abs{\mathcal{C}_g}=\frac{\abs{G}}{\abs{C_G(g)}}.$$
+	 Elenchiamo allora in ordine di cardinalità le classi $\mathcal{C}_i$, associate a $g_i$, in modo che siano crescenti, e in modo che 
+	 $$\abs{\mathcal{C}_i}=1 \iff i\le r$$
+	 d'altra parte la classe di coniugio è banale se e solo se $g_i\in Z(G)$, ovvero $\abs{Z(G)}=r$. Abbiamo quindi tutti gli elementi per dimostrare:
+	 \begin{proposition}[Equazione delle classi]
+	 	Per ogni gruppo finito $G$ abbiamo che
+	 	$$\abs{G}=\sum_{i}\frac{\abs{G}}{C_G(g_i)}=\abs{Z(G)}+\sum_{r+1\le i\le t}\frac{\abs{G}}{\abs{C_G(g_i)}}$$
+	 	con $\abs{G}/\abs{C_G(g_i)}\ne 1$ per ogni $g_i$.
+	 \end{proposition}
+	 \begin{proof}
+	 	Segue da quanto osservato sopra e dal fatto che le classi di coniugio sono una partizione di $G$.
+	 \end{proof}
+	 Un'applicazione di ciò è immediatamente:
+	 \begin{definition}[$p$-gruppo]
+	 	Un gruppo $G$ tale che $\abs{G}=p^n$, con $n\ne 0$, si dice \textit{$p$-gruppo}.
+	 \end{definition}
+	 \begin{proposition}[I $p$ gruppi hanno centro non banale]
+	 	Per ogni $p$ gruppo $G$ si ha che $Z(G)\ne 1$.
+	 \end{proposition}
+	 \begin{proof}
+	 	L'equazione delle classi ci dice che
+	 	$$p^n=\abs{Z(G)}+\sum \frac{p^n}{\abs{C_G(g_i)}}$$
+	 	e considerando entrambi i lati modulo $p$ abbiamo che il LHS è chiaramente $0$, mentre la somma al RHS è a sua volta composta da termini diversi da $1$ che dividono $p^n$, e quindi è anch'essa $0$ mod $p$. abbiamo quindi mostrato
+	 	$$\abs{Z(G)}\equiv 0 \pmod{p}$$
+	 	da cui segue la tesi.
+	 \end{proof}
+	 Altre applicazioni sono
+	 \begin{lemma}[Abelianizzato ciclico implica abeliano]
+	 	Se il gruppo $\faktor{G}{Z(G)}$ è ciclico allora $G=Z(G)$, ovvero $G$ è abeliano.
+	 \end{lemma}
+	 \begin{proof}
+	 	Il fatto che $G/Z(G)$ è ciclico implica che esiste un $g\in G$ tale che
+	 	$$\faktor{G}{Z(G)}=\langle gZ(G)\rangle$$
+	 	ovvero abbiamo che per ogni $x\in G$ esisterà un $t\in \NN$ e un $z\in Z(G)$ tali che
+	 	$$x=g^tz.$$
+	 	prendiamo allora due $x_1$ e $x_2$ i loro rispettivi $t_1,t_2,z_1,z_2$ allora moltiplicando membro a membro le equazioni trovate sopra, e usando il fatto che gli elementi del centro commutano con tutto:
+	 	$$x_2x_1=g^{t_2}g^{t_1}z_1z_2=x_1x_2$$
+	 	e dunque abbiamo finito.
+	 \end{proof}
+	 E quindi
+	 \begin{proposition}[$p$ gruppo piccolo implica abeliano]
+	 	Consideriamo un $G$ di ordine $p^2$. Allora $G$ è abeliano ed è isomorfo a $C_p\times C_p$.
+	 \end{proposition}
+	 \begin{proof}
+	 	Per l'equazione delle classi abbiamo nuovamente che
+	 	$$\abs{Z(G)}\in \left\{p,p^2\right\}$$
+	 	d'altra parte se $Z(G)=p$ abbiamo che $\faktor{G}{Z(G)}$ ha cardinalità $p$, quindi è ciclico, e quindi $G$ è proprio abeliano. L'altro caso è ovvio, e quindi abbiamo finito.
+	 \end{proof}
+	 \begin{proposition}[Centralizzanti di cicli massimali]
+	 	Per un $\gamma\in S_n$ ciclo di lunghezza massima abbiamo che
+	 	$$C_{S_n}(\gamma)=\langle \gamma \rangle.$$
+	 \end{proposition}
+	 \begin{proof}
+	 	Ci basta capire quali sono tutti i coniugati di $\gamma$. Questi sono semplicemente tutti i cicli di lunghezza massima, ovvero sono precisamente $(n-1)!$. Ma questo vuol dire che 
+	 	$$\abs{C_G(\gamma)}=\frac{n!}{(n-1)!}=n$$
+	 	e visto che tutte le potenze di $\gamma$ (che sono $n$) commutano evidentemente con $\gamma$ abbiamo proprio la tesi.
+	 \end{proof}
+	 \begin{exercise}
+	 	Trovare tutti i gruppi finiti $G$ cono solo $2$ classi di coniugio.
+	 \end{exercise}
+	 \begin{proof}[Soluzione]
+	 	Una classe di coniugio è semplicemente quella di $1$, ovvero quella contenente solo l'identità. Dunque
+	 	$$n=\abs{G}=\abs{\mathcal{C}_1}+\abs{\mathcal{C}_2}=1+\abs{\mathcal{C}_2}$$
+	 	ma d'altra parte per la relazione con i centralizzanti abbiamo
+	 	$$\frac{\abs{G}}{\abs{C_G(g)}}=\abs{\mathcal{C}_2}=n-1$$
+	 	ovvero $n-1\mid n$, cioè $n=2$.
+	 \end{proof}
+	 In questo corso parleremo solo di gruppi finiti, e il risultato che abbiamo appena visto sembrerebbe difficile non valga anche per i gruppi infiniti. In realtà l'esperienza insegna che quando vogliamo generalizzare un asserto dal caso finito a quello infinito, ci sono solo due casi:
+	 \begin{itemize}
+	 	\item L'asserto è molto facile da dimostrare.
+	 	\item L'assero è falso.
+	 \end{itemize}
+	 Questo perché i gruppi infiniti possono essere arbitrariamente schifosi.
+	 \begin{exercise}
+	 	Trovare tutti i gruppi con esattamente $4$ classi di coniugio.
+	 \end{exercise}
+	 Il nostro gruppo cavia è come sempre $S_4$. Se vogliamo cercare i sottogruppi normali di $S_4$ troviamo in effetti che
+	 $$1\normal K \normal A_4 \normal S_4$$
+	 dove $K$ è il gruppo di klein, ovvero $C_2\times C_2$, il centralizzante di $(12)(34)$ in $A_4$. 
+	 \begin{claim}
+	 	Non ci sono altri sottogruppi normali di $S_4$.
+	 \end{claim}
+	 \begin{proof}
+	 	Supponiamo di avere un $N$ tale che
+	 	$$K\normal N \normal S_4$$
+	 	allora per il teorema di corrispondenza questo corrisponderà ad un sottogruppo normale di $\faktor{S_4}{K}$. D'altra parte se consideriamo il sottogruppo $H$ tale che
+	 	$$H:=\left\{\sigma\in S_4:\sigma(4)=4\right\}$$
+	 	abbiamo che 
+	 	$$\abs{HK}=\frac{\abs{H}\abs{K}}{\abs{H\cap K}}$$
+	 	ma $H\cap K$ è banale (perché nessun elemento di $K$ fissa $4$) e quindi abbiamo che $HK$ ha proprio lo stesso ordine di $S_4$, cioè è $S_4$. Ma allora per il secondo teorema d'omomorfismo
+	 	$$\faktor{S_4}{K}=\faktor{HK}{K}\cong \faktor{H}{H\cap K}=H=S_3$$
+	 	dato che $H$ è proprio $S_3$ (sono le permutazioni di $1$, $2$ e $3$). Ma d'altra parte $S_3$ è un gruppo molto piccolo e semplice, e qui è facile realizzare che 
+	 	\begin{center}
+	 		\begin{tikzcd}
+	 			&  & S_3\arrow[dr]\arrow[drr]\arrow[dl]\arrow[dll]&  & \\
+	 			(12)& (23) &    &  (231)& (123) \\
+	 			&& 1 &&
+	 		\end{tikzcd}
+	 	\end{center}
+	 	e quindi tutti i gruppi normali sopra il klein sono solo quelli che abbiamo elencato sopra. Supponiamo ora che $K\not\normal N\normal S_4$. D'altra parte questo implica che
+	 	$$K\cap N=1$$
+	 	dato che il klein non ha sottogruppi non banali. Ma allora dato che $N$ è normale non può contenere doppi scambi (altrimenti sarebbero coniugati ad elementi del klein e quindi in $N$, dato che è normale). \\
+	 	D'altra parte se $N$ contiene una sola trasposizione non può essere normale, se contiene un ciclo da $4$ abbiamo
+	 	$$(1,2,3,4)^2=(13)(24)$$
+	 	e quindi abbiamo intersezione non nulla con il klein. E se contiene un $3$ ciclo sarà un sottogruppo normale di $S_3$, e quindi abbiamo che ricadrà in uno dei gruppi sopra al klein.
+	 \end{proof}
+	 
+	 \subsection{Gruppi semplici}
+	 
+	 La seguente definizione è di vitale importanza:
+	 \begin{definition}[Gruppo semplice]
+	 	Un gruppo $G$ che non ha altri sottogruppi normali oltre a $1$ e se stesso si dice \textit{semplice}.
+	 \end{definition}
+	 Lo studio dei gruppi semplici è stato uno dei motori dell'algebra, in particolare da parte di Galois nello studio delle equazioni polinomiali. Quello che mostrò Galois è
+	 \begin{theorem*}[Semplicità degli alterni]
+	 	Per ogni $n\ge 5$ il gruppo $A_n$ è semplice. 
+	 \end{theorem*}
+	 Che implica nella teoria di Galois che non esistono formule risolutive per equazioni di grado $n\ge 5$. Questo teorema è abbastanza difficile, e quindi noi ci accontenteremo di 
+	 \begin{theorem}[Irrisolubilità delle quintiche]
+	 	Il gruppo $A_5$ è semplice.
+	 \end{theorem}
+	 \begin{proof}
+	 	Cominciamo contando le classi di coniugio:
+	 	\begin{itemize}
+	 		\item Per $1\in A_5$ la classe ha ordine $1$.
+	 		\item Per $(12)(34)$ la classe ha ordine $15=\half\binom{5}{2}\binom{3}{2}$.
+	 		\item Per $(123)$ la classe ha ordine $20$. 
+	 		\item Per $(12345)$ la classe ha ordine $24$.
+	 	\end{itemize}
+	 	Questo succede in $S_5$. Per trovare i corrispettivi in $A_5$ dobbiamo trovare i centralizzanti in $S_5$ e intersecarli con $A_5$. Infine usiamo il fatto che un sottogruppo normale è unione disgiunta di classi di coniugio per trovare che tutte le possibili combinazioni di classi di coniugio non dividono $60$.
+	 \end{proof}
+	 Un'altra cosa che si può fare
+	 \begin{exercise}
+	 	Trovare tutti i coniugati di $H$ in $S_4$, dove $H$ è 
+	 	$$\left\{\sigma\in S_4:\sigma(1)=1\right\}.$$ 
+	 \end{exercise}
+	 \begin{proof}[Soluzione]
+	 	Per il teorema di Lagrange abbiamo che il numero che stiamo cercando è semplicemente
+	 	$$\abs{S_4:N_{S_4}(H)}$$
+	 	d'altra parte per quanto mostrato sopra l'unico gruppo normale che contiene $H$ è proprio $A_5$, dunque $\abs{S_4:N_{S_4}(H)}=2$. BHO NON HO CAPITO.
+	 \end{proof}
+	 Questo ci suggerisce il seguente risultato.
+	 \begin{proposition}[Il coniugio per sottogruppi non dà classi]
+	 	Prendiamo un $H<G$ strettamente diverso da $G$. Vogliamo dimostrare allora che
+	 	$$\bigcup_{g\in G}gHg^{-1}\ne G$$
+	 	cioè non possiamo scrivere $G$ come unione di coniugati di $H$ un suo sottogruppo proprio.
+	 \end{proposition}
+	 \begin{proof}
+	 	Sia $\Omega$ l'insieme della tesi, allora abbiamo che, per definizione di normalizzante
+	 	$$\abs{\Omega}\le 1+\frac{\abs{G}}{\abs{N_G(H)}}\left(\abs{H}-1\right)$$
+	 	ma d'altra parte allora possiamo stimare
+	 	$$1+\frac{\abs{G}}{\abs{N_G(H)}}\left(\abs{H}-1\right)\le 1+\frac{\abs{G}}{\abs{H}}\left(\abs{H}-1\right)=1+\abs{G}-\frac{\abs{G}}{\abs{H}}<\abs{G}$$
+	 	da cui la tesi.
+	 \end{proof}
+	 
 	 
 	
 	\newpage

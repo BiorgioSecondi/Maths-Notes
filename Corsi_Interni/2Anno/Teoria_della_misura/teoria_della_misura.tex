@@ -1215,7 +1215,7 @@
 	\end{proof}
 	
 	\begin{exercise}[$\sigma$-algebra dei Boreliani]
-		Ricordiamo che la $\sigma$-algebra generata dagli aperti, in un qualunque spazio metrico $X$, si dice dei \textit{Boreliani}, e si denota con $\mathscr{B}(X)$. Mostrare che 
+		Ricordiamo che la $\sigma$-algebra generata dagli aperti, in un qualunque spazio metrico $X$, si dice dei \textit{Boreliani}, e si denota con $\mathscr{B}(X)$. Denotiamo con $\sigma(\mathcal{E})$ la $\sigma$-algebra generata dall'insieme $\mathcal{E}$. Mostrare che 
 		\begin{align*}
 			&\mathcal{E}_1= \sigma\left\{(a,b):a,b\in \RR,\,a<b\right\} \quad  &\mathcal{E}_2= \sigma\left\{[a,b):a,b\in \RR,\,a<b\right\} \\
 			&\mathcal{E}_3= \sigma\left\{(a,b]:a,b\in \RR,\,a<b\right\}  \quad  &\mathcal{E}_4= \sigma\left\{[a,b]:a,b\in \RR,\,a<b\right\} \\
@@ -1238,15 +1238,58 @@
 			$$\bigcup_{n\in\NN}\left[ a+\frac{1}{n},b \right)=(a,b)$$
 			e quindi abbiamo $\sigma(\mathcal{E}_1)=\sigma\left(\mathcal{E}_2\right)=\mathscr{B}(\RR)$.
 			\item Analogo al punto precedente.
-			\item Di nuovo al punto precedente.
+			\item Di nuovo analogo al punto precedente.
 			\item Le due identità che dobbiamo usare questa volta sono
 			$$(a,\infty)=\bigcup_{n\in\NN}(a,n]$$
 			e 
 			$$(a,b]=(a,\infty)\setminus(b,\infty)$$
-			da cui si deduce che $\sigma\left(\mathcal{E}_3\right)=\sigma\left(\mathcal{E}_5\right)$.
+			da cui si deduce che $\sigma\left(\mathcal{E}_3\right)=\sigma\left(\mathcal{E}_5\right)$. 
+			\item Le due formule in questo caso sono
+			$$\bigcup_{n\in\NN}\left[a+\frac{1}{n},\infty\right)=(a,\infty)$$
+			e 
+			$$\bigcap_{n\in\NN}\left(a-\frac{1}{n},\infty\right)$$
+			da cui si deduce $\sigma(\mathcal{E}_5)=\sigma\left(\mathcal{E}_6\right)$.
+			\item Analogo al caso $5$.
+			\item Analogo al caso $6$.
 		\end{enumerate}
+		Dunque abbiamo risolto tutti i casi, e abbiamo finito.
 	\end{proof}
-	
+	\begin{exercise}[Additività e numerabile additività]
+		Esibire una funzione $\mu:\parti{X}\to [0,\infty]$ additiva ma non numerabilmente additiva.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		La funzione cercata è $\mu:\parti{X}\to [0,\infty]$ tale che per ogni $A\subseteq X$ si abbia 
+		$$
+		\mu(A):=
+		\begin{cases}
+			0 & \text{se $\abs{A}<\infty$} \\
+			\infty & \text{se $\abs{A}=\infty$.}
+		\end{cases}
+		$$
+		è chiaramente additiva, infatti dati due insiemi $A_1$ e $A_2$, se questi sono entrambi finiti allora anche la loro unione sarà finita, e dunque
+		$$\mu(A_1)+\mu(A_2)=0+0=0=\mu(A_1\cup A_2)$$
+		mentre se almeno uno tra $A_1$ e $A_2$ è infinito abbiamo che anche $A_1\cup A_2$ sarà infinito e quindi
+		$$\mu(A_1)+\mu(A_2)=\infty = \mu(A_1+A_2).$$
+		Tuttavia questa funzione non è $\sigma$-additiva, infatti presa una successione di singoletti disgiunti $A_n:=\left\{x_n\right\}$, con $x_n\ne x_m$ per $n\ne m$ abbiamo che
+		$$\sum_{n\in\NN}\mu(A_n)=\sum_{n\in\NN}0=0$$
+		ma l'unione è un insieme infinito, e quindi
+		$$\mu\left(\bigcup_{n\in\NN}A_n\right)=\infty$$
+		ovvero $\mu$ non può essere $\sigma$-additiva.
+	\end{proof}
+	\begin{exercise}[Nozioni di piccolezza in $\RR$]
+		Un insieme $A\subseteq \RR$ si dice magro se è contenuto in un'unione al più numerabile di chiusi a interno vuoto. Rispondere alle seguenti domande:
+		\begin{enumerate}
+			\item Esistono insiemi magri con misura di Lebesgue positiva?
+			\item Esistono insiemi di misura nulla che non sono magri?
+		\end{enumerate}
+	\end{exercise}
+	\begin{proof}
+		Il primo punto è già stato visto in classe, ed è semplicemente
+		$$S:=\RR\setminus\QQ_\varepsilon$$
+		dove
+		$$\QQ_\varepsilon:=\bigcup_{n\in\NN}\left(q_n-\frac{\varepsilon}{2^n},q_n+\frac{\varepsilon}{2^n}\right)$$
+		con $\varepsilon>0$ un certo valore sufficientemente piccolo e $q_n$ una enumerazione dei razionali.
+	\end{proof}
 	\subsection{Foglio 2: Teoria dell'integrale}
 	
 \end{document}
