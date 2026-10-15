@@ -1,3 +1,3 @@
 # Maths-Notes
 
-Here you can find all the notes i ever took in any of the courses i have followed at UNIPD and Scuola Galileiana. 
+Here you can find all the notes I have ever taken in any of the courses i have followed at UNIPD and Scuola Galileiana. 
