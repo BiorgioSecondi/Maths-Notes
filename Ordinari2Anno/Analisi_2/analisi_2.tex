@@ -707,11 +707,11 @@
 		\end{align*}
 		E ora dovremmo dimostrare che questo è un completamento. Non lo faremo.
 	\end{proof}
-	\begin{exercise}[Lemma dei compatti]
+	\begin{lemma}[Lemma dei compatti]\label{lemma dei compatti}
 		Si dimostri che, in uno spazio metrico completo $X$, data una successione $K_n$ di chiusi decrescente e tale che il diametro tenda a $0$ allora
 		$$\bigcap_{n\in\NN} K_n=\left\{x\right\} $$
 		con $x\in X$.
-	\end{exercise}
+	\end{lemma}
 	\begin{proof}
 		Vedere il lemma dei compatti sugli Appunti di Complementi di Analisi.
 	\end{proof}
@@ -1309,6 +1309,117 @@
 		ovvero scrivendola in modo che stia nella pagina
 		$$\abs{\abs{x+y}}_p^p\le \abs{\abs{x+y}}_p^{p-1}\left(\abs{\abs{x}}_p+\abs{\abs{y}}_p\right)$$
 		che è proprio la tesi che cercavamo.
+	\end{proof}
+	
+	\subsection{Compattezza sequenziale equivale a compattezza}
+	
+	Abbiamo lasciato indietro qualcosa quando abbiamo parlato di compattezza in spazi metrici arbitrari. Per $\RR^n$ avevamo mostrato che essere compatto era equivalente a essere chiuso e limitato. Questo è falso in generale per spazi di dimensione infinita:
+	\begin{example}[Uno spazio in cui i chiusi e limitati non sono compatti]
+		Consideriamo lo spazio $\ell^\infty$ delle successioni reali limitate con la norma del sup. Consideriamo allora l'insieme delle successioni
+		$$K=\left\{a_n\in \ell^\infty: \exists j\text{ t.c. } a_i=\delta_{ij}\right\}$$
+		ovvero l'insieme delle successioni $0$ ovunque tranne che in un punto, in cui valgono $1$. Allora $K$ è chiuso e limitato (esercizio) ma non è compatto, infatti il seguente ricoprimento
+		$$\left(B(e_i,1/3)\right)_{j\in\NN}$$
+		dove le successioni $e_i$ sono quella che soddisfano $(e_i)_j:=\delta_{ij}$, è aperto e infinito, ma non ammette un sottoricoprimento finito.
+	\end{example}
+	In generale si dimostrerà ai corsi di analisi funzionale che in uno spazio $X$ normato il fatto che $\overline{B(0,1)}$ sia compatta è equivalente al fatto che la dimensione di $X$ sia finita. 
+	\begin{definition}[Totalmente limitato]
+		Uno spazio metrico $(X,d)$ si dice \textit{totalmente limitato} se per ogni $r>0$ esistono un numero finito di punti $x_1,\dots,x_n$ tali che
+		$$X\subseteq \bigcup_{i=1}^n B(x_i,r)$$
+		per un qualche $r\in\RR$. Insomma, $X$ è contenuto in numero finito di palle.
+	\end{definition}
+	\begin{remark}
+		\'E chiaro che totalmente limitato implichi limitato, infatti 
+		$$d(x,y)\le \max_{1\le i,j\le n}d(x_i,x_j)+2r$$
+		e dato che il RHS è costituti solo da numeri abbiamo proprio che la distanza tra due punti arbitrari di $X$ è limitata dall'alto, cioè $X$ è limitato.
+	\end{remark}
+	Il risultato che ci interessa in questa sezione quindi è
+	\begin{theorem}[Compatto equivale a sequenzialmente compatto]
+		Sia $(X,d)$ uno spazio metrico, allora le seguenti quattro sono equivalenti:
+		\begin{enumerate}
+			\item $X$ è compatto.
+			\item Ogni sottoinsieme $A\subseteq X$ di cardinalità infinita ha almeno un punto di accumulazione.
+			\item $X$ è sequenzialmente compatto.
+			\item $X$ è completo e totalmente limitato.
+		\end{enumerate}
+	\end{theorem}
+	\begin{proof}
+		\textbf{Partiamo da $1\implies 2$.} Supponiamo per assurdo che esista un sottoinsieme $A\subseteq X$ di cardinalità infinita senza punti di accumulazione. Questo vuol dire che per ogni $x$ esiste un $r_x$ tale che
+		$$A\cap \left[B(x,r_x)\setminus \left\{x\right\}\right]=\eset$$
+		ma d'altra parte questo insieme di palle che abbiamo trovato è proprio un ricoprimento aperto di $X$, dunque possiamo estrarne un sottoricoprimento
+		$$A\subseteq \bigcup_{i=1}^n B(x_i,r_{x_i})$$
+		ma allora abbiamo
+		$$A=A\cap \bigcup_{i=1}^n B(x_i,r_{x_i})\subseteq \bigcup_{i=1}^n \left\{x_i\right\}$$
+		cioè $A$ ha cardinalità finita, assurdo. \\
+		\textbf{Dimostriamo ora che $2\implies 3$.} Sia $x_n$ una successione a valori in $X$, e definiamo $A=\left\{x_n:n\in\NN\right\}\subseteq X$. Semplicemente quindi abbiamo che se $\abs{A}<\infty$ allora ci sarà un punto su cui la successione cade frequentemente, e quindi possiamo estrarre una sottosuccessione convergente (costante, in particolare). Se del pari
+		$$\abs{A}=\infty$$
+		allora per ipotesi ci sarà un punto $x$ di accumulazione, ovvero esisterà un insieme di indici $n_k$  tali che
+		$$x_{n_k}\in B(x,1/k)$$
+		ci manca solo di dimostrare che $n_k$ è crescente, ma d'altra parte possiamo sempre sceglierla in modo che sia crescente, dato che la successione $x_n$ sta frequentemente dentro la palla $B(x,\frac{1}{k})$ per ogni $k$. Quindi abbiamo finito. \\
+		\textbf{Dimostriamo che $3\implies 4$.} Consideriamo una successione di Cauchy $x_n$, allora per $3$ esisterà una sua sottosuccessione convergente $x_{n_k}\to x$. Ma allora
+		$$d(x_n,x)\le d(x_n,x_{n_k})+d(x_{n_k},x)$$
+		d'altra parte se $n_k$ è sufficientemente grande il secondo termine tende a $0$ (dato che quella successione tende a $x$) mentre se sia $n$ che $n_k$ sono sufficientemente grandi, dato che la successione è di Cauchy, abbiamo che il primo termine va a $0$. Dunque $x_n\to x$, cioè $X$ è completo. Ci manca la totale limitatezza, supponiamo allora per assurdo che esista un $r>0$ sfortunato per cui non possiamo scegliere nessun insieme finito di palle che ricoprano $X$. Dato $x_1\in X$ ostruiamo allora una successione
+		$$x_n:=\begin{cases}
+			x_1 & \text{se $n=1$} \\
+			c\left(X\setminus \bigcup_{i=1}^{n-1}B(x_i,r)\right) & \text{altrimenti}
+		\end{cases}$$
+		dove $c$ è la funzione di scelta dataci dall'assioma della scelta. Ma allora abbiamo costruito una successione $x_n$ tale che per ogni $n\ne m$ abbiamo 
+		$$d(x_n,x_m)\ge r$$
+		dunque nessuna sottosuccessione può convergere, assurdo. \\
+		\textbf{Dimostriamo infine che $4\implies 1$.} Per questo ci serve il lemma dei compatti, ovvero \ref{lemma dei compatti}. Supponiamo per assurdo che esista una famiglia di aperti $\left(A_j\right)_j\in\ J$ che ricopra $X$ ma non ammetta sottoricoprimenti finiti. Allora dato che $X$ è totalmente limitato abbiamo che esisterà una prima famiglia finita $B^1_n$ di palle chiuse di raggio $1$ che ricoprono $X$ (la definizione di totale limitatezza diceva che le palle devono essere aperte, ma ci basta prendere la chiusura). Allora esisterà una palla $B_{i_1}^1$ che non è ricoperta da un numero finito di $A_j$. D'altra parte dato che $B_{i_1}^1$ è totalmente limitata\footnote{Vedere il lemma successivo per una giustificazione di questo fatto.}, dunque esisterà un suo ricoprimento con finite palle chiuse di raggio $\half$, chiamiamolo $B^2_{n_2}$. Ancora allora esisterà una palla $B^2_{i_2}$ non contenuta in finiti $A_j$. Per induzione dunque per ogni $k$ possiamo trovare palle chiuse
+		$$B^k_{i_k}$$
+		di raggio $1/k$ una contenuta dentro l'altra (dato che ogni volta le palle che sceglievamo erano palle dello spazio $(B_{i_k}^k,d_X)$). Ma allora per il lemma dei compatti, invocando la completezza, abbiamo
+		$$\bigcap_{k\in \NN}B_{i_k}^k=\left\{x\right\}$$
+		cioè la loro intersezione è un punto. Ma questo è assurdo, perché sicuramente $x\in A_j$ per qualche $j$, e dato che $A_j$ è aperto esisterà un raggio $r>0$ finito tale che $B(x,r)\subseteq A_j$, ma definitivamente dato che il diametro di $B_{i_k}^k$ tende a $0$ dovremo avere che 
+		$$B_{i_k}^k\subseteq B(x,r)$$
+		e dunque abbiamo un assurdo, perché definitivamente potremmo ricoprire $B_{i_k}^k$ con un solo $A_j$, da cui finalmente abbiamo la tesi.
+	\end{proof}
+	Abbiamo usato il fatto che 
+	\begin{lemma}[Sottoinsiemi di tot limitati sono tot limitati]
+		Ogni $A\subseteq X$ con $X$ totalmente limitato, è a sua volta totalmente limitato.
+	\end{lemma}
+	\begin{proof}
+		Consideriamo $r>0$ tale che 
+		$$X\subseteq \bigcup_{i=1}^n B(x_i,r)$$
+		allora vorremmo mostrare che 
+		$$A\subseteq \bigcup_{i=1}^n A\cap B(x_i,r)$$
+		ma allora se $B(x_i,r)\cap A\ne \eset$ abbiamo che, scelto un $a_i\in B(x_i,r)\cap A$ si ha 
+		$$B(x_i,r)\cap A \subseteq B(a_i,2r)\cap A=B_A(a_i,2r)$$
+		e allora 
+		$$A\subseteq \bigcup_{i=1}^\infty B_A(a_i,2r)\subseteq \bigcup_{i=1}^n B(x_i,r)\cap A$$
+		da cui la tesi (BHO NON HO CAPITO).
+	\end{proof}
+	L'ultima cosa che diciamo sulla compattezza è che
+	\begin{definition}[Separabilità]
+		Uno spazio metrico $X$ si dice \textit{separabile} se esiste un $D\subseteq X$ al più numerabile tale che $\overline{D}=X$.
+	\end{definition} 
+	\begin{proposition}[Compatto implica separabile]
+		Uno spazio metrico $X$ compatto è anche separabile. 
+	\end{proposition}
+	\begin{proof}
+		In realtà è sufficiente il fatto che $X$ sia totalmente limitato, infatti data la successione finita $x_1^k,\dots,x_{n_k}^k$ tale che
+		$$X\subseteq \bigcup_{i=1}^n B(X_i^k,1/k)$$
+		allora il nostro candidato insieme denso è
+		$$D=\bigcup_{k\in\NN}\left\{x_i^k:i\in \NN\right\}$$
+		e dunque dobbiamo mostrare che per ogni $x\in X$ e $\varepsilon>0$ si hanno $i,k$ tali che
+		$$d(x,x_i^k)<\varepsilon.$$
+		Ma questo è facile, infatti scegliendo $1/k<\varepsilon$ abbiamo che esisterà un punto $x_i^k$ tale che la sua palla di raggio $1/k$ contenga $x$, e dunque si ha proprio 
+		$$d(x,x_i^k)<\frac{1}{k}<\varepsilon$$
+		da cui la tesi.
+	\end{proof}
+	\begin{example}[Uno spazio non separabile]
+		Consideriamo $\ell^\infty$ con la norma del sup. Questo spazio non è sequenzialmente compatto.
+	\end{example}
+	\begin{proof}
+		Consideriamo $D=\left\{s^1,s^2,\dots,\right\}$ un insieme numerabile di successioni. Mostriamo che non è denso, ovvero esiste un $a\in \ell^\infty$ tale che
+		$$\abs{\abs{a-s^i}}\ge 1$$
+		per ogni $i$. Costruiamo allora $a$ nel seguente modo:
+		$$a_i:=\begin{cases}
+			1 & \text{se $s_i^i< 0$} \\
+			-1 & \text{se $s_i^i\ge 0$}
+		\end{cases}$$
+		questo è un trucco analogo alla diagonalizzazione di Cantor (quella che si usa per mostrare che $\RR$ non è numerabile) e essenzialmente ci permette di mostrare che per ogni $i$ si ha
+		$$\abs{\abs{a-s^i}}_\infty= \sup_{j\in \NN}\abs{a_j-s^i_j}\ge 1$$
+		e dunque abbiamo proprio la tesi.
 	\end{proof}
 	
 	\newpage

@@ -819,7 +819,7 @@
 		$$\mathcal{H}^s(E):=\lim_{\delta\to 0}\mathcal{H}_\delta^s=\sup_{\delta>0}\mathcal{H}^s_\delta(E).$$
 	\end{definition}
 	Si può dimostrare che questa è una misura esterna. La misura di Hausdorff è utile almeno per due motivi, in primo luogo perchè ci permette di misurare oggetti più piccoli dello sapzio di partenza:
-	\begin{example}
+	\begin{example}[Lunghezza di una curva]
 		Prendiamo una curva $\gamma:[0,1]\to \RR^n$ in $C^1$ iniettiva. Allora
 		$$\mathcal{H}^1\left(\text{supp}(\gamma)\right)=\int_0^1\abs{\gamma'(t)}\dif t$$
 	\end{example}
@@ -1284,11 +1284,12 @@
 		\end{enumerate}
 	\end{exercise}
 	\begin{proof}
-		Il primo punto è già stato visto in classe, ed è semplicemente
+		Il primo punto è già stato visto in classe, e la risposta è negativa, infatti semplicemente
 		$$S:=\RR\setminus\QQ_\varepsilon$$
 		dove
 		$$\QQ_\varepsilon:=\bigcup_{n\in\NN}\left(q_n-\frac{\varepsilon}{2^n},q_n+\frac{\varepsilon}{2^n}\right)$$
-		con $\varepsilon>0$ un certo valore sufficientemente piccolo e $q_n$ una enumerazione dei razionali.
+		con $\varepsilon>0$ un certo valore sufficientemente piccolo e $q_n$ una enumerazione dei razionali, è un insieme di misura positiva magro. Il secondo punto è anche falso, poiché dato l'insieme di Cantor $\mathcal{C}$ sull'intervallo $[0,1]$ possiamo definire
+		$$F:=\mathcal{C}\setminus\left\{0\right\}.$$
 	\end{proof}
 	\subsection{Foglio 2: Teoria dell'integrale}
 	

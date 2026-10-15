@@ -358,7 +358,7 @@
 	Un modo carino per dire che lavorare a destra o lavorare a sinistra è perfettamente equivalente è il seguente: giriamo la formula di decomposizione trovata sopra prendendo gli inversi di tutti gli elementi:
 	$$G=G^{-1}=\bigsqcup_{t\in T}\left(tH\right)=\bigsqcup_{t\in T}H^{-1}t^{-1}=\bigsqcup_{t\in T}Ht^{-1}$$
 	cioè possiamo passare agilmente da laterali destri a laterali sinistri invertendo.
-	\begin{proposition}[Trasversali]
+	\begin{proposition}[Lagrange per trasversali]
 		Siano tre gruppi $K\le H \le G$. Se $T$ è un trasversale di $H$ in $G$ e $U$ è un trasversale di $K$ in $H$ allora il trasversale di $K$ in $G$ è il prodotto dei trasversali $TU$, e in particolare quindi $\abs{G:K}=\abs{G:H}\abs{H:K}$.
 	\end{proposition}
 	\begin{proof}
@@ -378,40 +378,36 @@
 		$$t_2^{-1}t_1\in u_2Ku_1^{-1}\subseteq H$$
 		ma questo, dato che $T$ è un trasversale di $H$ vuol dire che $t_1=t_2$, e quindi anche $u_1=u_2$ (dato che $U$ è un trasversale di $K$), da cui la tesi.
 	\end{proof}
-	Un'altra cosa che si può fare con gli indici e i trasversali ci viene suggerita dal seguente grafico. \\
-	\begin{figure}[h]
+	Un'altra cosa che si può fare con gli indici e i trasversali ci viene suggerita dal seguente grafico: \\
 		\begin{center}
 			\begin{tikzcd}
-				&&G\arrow[d]&& \\
-				&&\langle H,K \rangle\arrow[dr]\arrow[dl] &&  \\
-				&H\arrow[dr]&&K\arrow[dl]& \\
+				&&G\arrow[d,no head]&& \\
+				&&\langle H\cup K \rangle\arrow[dr,no head]\arrow[dl, no head] &&  \\
+				&H\arrow[dr, no head]&&K\arrow[dl, no head]& \\
 				&&H\cap K&&
 			\end{tikzcd}
 		\end{center}
-	\end{figure}
 	Notiamo che intuitivamente la distanza tra $G$ e $K$ è maggiore di quella tra $H$ e $H\cap K$, allora la disuguaglianza che vogliamo è
 	\begin{proposition}[Disuguaglianza tra trasversali]
 		Se $H\le G$ e $K \le G$ abbiamo che 
 		$$\abs{H:H\cap K}\le \abs{G:K}$$
 	\end{proposition}
 	\begin{proof}
-		Prendendo due laterali diversi di $H\cap K$ abbiamo
+		Prendendo due laterali diversi di $H\cap K$ abbiamo che esistono due $h_1,h_2\in H$ tali che
 		$$h_1\left(H\cap K\right)\ne h_2\left(H\cap K\right)$$
 		cioè $h_2^{-1}h_1 \not\in H\cap K$. Cioè $h_2^{-1}h_1\not\in K$ insomma abbiamo altre due classi laterali disgiunte per $K$, il che dimostra proprio la tesi.
 	\end{proof}
-	Da cui 
+	Da cui discende 
 	\begin{corollary}[Disuguaglianza per l'intersezione degli indici]
 		In generale se $G\ge H,K$ abbiamo
 		$$\abs{G:H\cap K}\le \abs{G:H}\abs{G:K}.$$
 	\end{corollary}	
 	\begin{proof}
-		Per quanto appena mostrato abbiamo
-		\begin{gather*}
-			\abs{G:K}\ge \abs{H:H\cap K} \\
-			\abs{G:H}\ge \abs{K:H\cap K}
-		\end{gather*}
-		ovvero moltiplicando membro a membro e usando quanto mostrato sul prodotto dei trasversali abbiamo
-		$$\abs{G:K}\abs{G:H}\ge  \abs{H:H\cap K} \abs{K:H\cap K}=\abs{HK}$$
+		Semplicemente per quanto appena mostrato abbiamo 
+		$$\abs{G:K}\ge \abs{H\cap H\cap K}$$
+		e dunque per Lagrange sui laterali:
+		$$\abs{G:K}\abs{G:H}\ge \abs{G:H}\abs{H:H\cap K}=\abs{G:H\cap K}$$
+		che era la tesi.
 	\end{proof}
 	E purtroppo in generale non possiamo fare di meglio. La buona notizia è che:
 	\begin{proposition}[Se gli indici sono coprimi si ha uguaglianza]
@@ -954,7 +950,7 @@
 	 In questo corso parleremo solo di gruppi finiti, e il risultato che abbiamo appena visto sembrerebbe difficile non valga anche per i gruppi infiniti. In realtà l'esperienza insegna che quando vogliamo generalizzare un asserto dal caso finito a quello infinito, ci sono solo due casi:
 	 \begin{itemize}
 	 	\item L'asserto è molto facile da dimostrare.
-	 	\item L'assero è falso.
+	 	\item L'asserto è falso.
 	 \end{itemize}
 	 Questo perché i gruppi infiniti possono essere arbitrariamente schifosi.
 	 \begin{exercise}
@@ -1039,8 +1035,69 @@
 	 	da cui la tesi.
 	 \end{proof}
 	 
+	 \subsection{Teoremi di Sylow e Cauchy}
 	 
-	
+	 Uno dei motivi per cui la teoria dei gruppi è difficile è che il teorema di Lagrange non si può invertire: ovvero se $d$ divide l'ordine di un certo $G$ non è detto che esista un sottogruppo di $G$ di ordine $d$. Il teorema principale che ci vorremo dimostrare è il seguente:
+	 \begin{theorem}[Cauchy]
+	 	Sia $G$ finito, e sia $p$ un primo che divide $\abs{G}$, allora esiste un elemento $g \in G$ di ordine $p$.
+	 \end{theorem}
+	 \begin{proof}
+	 	Anche questo teorema rientra nella famiglia di teoremi che si dimostrano "contando". Consideriamo l'insieme 
+	 	$$\Omega=\left\{\left(g_1,\dots,g_p\right)\in G^p:g_1g_2\dots g_p=1\right\}$$
+	 	la cardinalità di questo insieme è esattamente 
+	 	$$\abs{\Omega}=\abs{G}^{p-1}$$
+	 	dato che per ogni lista di $p-1$ elementi di $G$ esiste un $g_p$ che moltiplicato con loro dà $1$. Consideriamo ora il gruppo 
+	 	$$C:=\langle \sigma \rangle$$
+	 	dove $\sigma\in S_p$ è il ciclo $\sigma=\left(1,2,\dots,p\right)$ di lunghezza $p$. Vogliamo allora far agire $C$ su $\Omega$ nel seguente modo
+	 	$$\sigma\circ \left(g_1,\dots,g_p\right)=\left(g_p,g_1,\dots,g_{p-1}\right)$$
+	 	in effetti dovremmo verificare che quest'azione è chiusa rispetto a $\Omega$, ma in effetti se partiamo da $g_i$ come nella definizione di $\Omega$ abbiamo
+	 	$$g_1\dots g_p=1 \implies 1=g_pg_1\dots g_{p-1}g_pg_p^{-1}=g_pg_1\dots g_{p-1}$$
+	 	e dunque abbiamo proprio definito un'azione. Decomponendo allora $\Omega$ in orbite abbiamo
+	 	$$\abs{\Omega}=\sum_{i}\abs{\mathcal{O}_i}=\sum_{i} \abs{C:\text{Stab}_C(\omega)}$$
+	 	ma d'altra parte $C$ è ciclico di ordine $p$, e quindi gli stabilizzatori possono avere cardinalità per forza o $1$ o $p$. Se chiamiamo allora $t$ il numero di orbite di cardinalità $1$ abbiamo, riducendo da entrambi i lati mod $p$:
+	 	$$0\equiv t \pmod{p}$$
+	 	d'altra parte un'orbita di cardinalità $1$ è proprio costituita da elementi tali che
+	 	$$\sigma\circ \omega=\omega$$
+	 	per ogni $\sigma\in C$. Ma allora abbiamo finito, perché l'equazione sopra vuol dire che
+	 	$$\left(g_1,\dots,g_p\right)=\left(g_{p},g_1,\dots,g_{p-1}\right)$$
+	 	cioè $g_1=\dots = g_p$, e inoltre abbiamo che il loro prodotto è $1$, cioè
+	 	$$g_1g_2\dots g_p=1 \implies g_i^p=1$$
+	 	e dato che l'insieme di questi elementi è sicuramente non vuoto e congruo a $0$ mod $p$ abbiamo che esisterà un $g$ non banale con questa proprietà, da qui la tesi.
+	 \end{proof}
+	 Una prima applicazione di questo è lo studio dei gruppi di ordine quasi primo, cioè $\abs{G}=2p$. Per il teorema di Cauchy esiste un elemento $a$ di ordine $p$ e uno $b$ di ordine $2$. Abbiamo quindi che 
+	 $$G=\langle a\rangle \langle b \rangle$$
+	 molto comodamente un prodotto di due cicli. D'altra parte dato che il gruppo $\langle a \rangle$ è normale abbiamo che per ogni $b$ esisterà un $t\in \NN$ tale che
+	 $$bab=a^t$$
+	 ma d'altra parte visto che $b$ ha ordine $2$ abbiamo
+	 $$a=bbabb=ba^tb=a^{t^2}$$
+	 ma questo vuol dire che 
+	 $$t^2\equiv 1 \pmod{p}$$
+	 dato che $p$ è l'ordine di $a$. Le soluzioni a questa equazione sono solo $2$ modulo $p$, ovvero $\pm 1$. Se $t=1$ abbiamo $G\cong C_{2p}$ mentre se $t=-1$ abbiamo $G\cong D_p$. Questa discussione giustifica
+	 \begin{proposition}[Classificazione dei gruppi di ordine quasi primo]
+	 	Un gruppo $G$ di ordine $2p$ è necessariamente isomorfo a $C_{2p}$ o a $D_p$.
+	 \end{proposition} 
+	 \begin{exercise}
+	 	Trovare tutti i sottogruppi di $D_6$.
+	 \end{exercise}
+	 \begin{proof}[Soluzione]
+	 	Consideriamo $R\cong C_6$ in $D_6$, allora se un $H\le D_6$ non è contenuto in $R$ (il caso contenuto è facile, sono semplicemente tutti i gruppi ciclici generati dalle rotazioni), ovvero
+	 	$$H\not \subseteq R$$
+	 	studiamo come si comporta il loro prodotto, ovvero $RH$. Chiaramente questo non può essere $R$ (perchè altrimenti avremmo che $H$ è un sottoinsieme di $R$), allora dobbiamo necessariamente avere
+	 	$$RH=D_6$$
+	 	cioè per il secondo teorema d'omomorfismo abbiamo
+	 	$$RH=D_6\implies \langle \iota \rangle=\faktor{RH}{R}\cong \faktor{H}{H\cap R}.$$
+	 	Non ci resta che iterare su tutti i sottogruppi di $R$ per capire chi sia l'intersezione $R\cap H$, e in tutti i casi troviamo che $H$ è un certo ciclico con riflessioni.
+	 \end{proof}
+	 \begin{exercise}
+	 	Trovare tutti i sottogruppi normali di $D_n$.
+	 \end{exercise}
+	 \begin{proof}[Soluzione]
+	 	Consideriamo di nuovo $R\cong C_n$, il sottogruppo ciclico, che chiaramente soddisfa $R\normal D_n$. Se $H\le R$ abbiamo che $H\normal D_n$, e si vede con un calcolo diretto (dato che tutte le rotazioni commutano e le simmetrie invertono).  D'altra parte se 
+	 	$$H\not\le R$$
+	 	abbiamo come prima che
+	 	$$HR=D_n \implies \langle \iota \rangle = \faktor{HR}{R}\cong \faktor{H}{H\cap R}$$
+	 	e fai esattamente quello che hai fatto nel caso $=6$.
+	 \end{proof}
 	\newpage
 	
 	\section{Soluzioni agli esercizi proposti}
