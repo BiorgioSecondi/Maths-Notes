@@ -381,7 +381,7 @@
 	
 	\subsection{combinatoria}
 	
-	La combinatoria è l'arte del contare quanti elementi ha un certo insieme finito. Per una trattazione più approfondita si rimanda ad altri tesi.
+	La combinatoria è l'arte del contare quanti elementi ha un certo insieme finito. Per una trattazione più approfondita si rimanda ad altri testi.
 	
 	\newpage
 	
@@ -1194,8 +1194,13 @@
 			\item Prendiamo $d$ un divisore di $n$. Allora se $g$ è un generatore di $G$ possiamo sempre costruire il gruppo generato da $g^{n/d}$, che è ciclico e di ordine $d$. Ora supponiamo per assurdo che ci siano due sottogruppi ciclici distinti di ordine $d$, siano $A$ e $B$. Per quanto detto prima possiamo trovare due esponenti distinti minimi tali che $g^a\in A$ e $g^b\in B$. Questi due elementi sono entrambi generatori dei sottogruppi $A$ e $B$, e dunque
 			$$\frac{n}{\MCD(a,n)}=\ordine{G}{g^a}=d=\ordine{G}{g^b}=\frac{n}{\MCD(b,n)}$$
 			ma allora abbiamo
-			$$\MCD(a,n)=\MCD(b,n)$$
-			cioè $a=b$ dato che $a,b<n$ come volevasi dimostrare.
+			$$\MCD(a,n)=\MCD(b,n).$$
+			D'altra parte essendo $a$ e $b$ i minimi elementi appartenenti ad $A$ e $B$ abbiamo
+			\begin{gather*}
+				n=q_aa+r_a \implies 1=g^n=g^{q_aa+r_a} \implies g^{r_a}\in A \\
+				n=q_bb+r_b \implies 1=g^n=g^{q_bb+r_b} \implies g^{r_b}\in B
+			\end{gather*}
+			da cui per minimalità abbiamo $r_a=r_b=0$, ovvero $a,b\mid n$. Questo unito all'equazione dell'MCD trovata sopra ci dà $a=b$, come richiesto. 
 			\item Questo segue direttamente da quanto appena detto.
 		\end{itemize}
 		Dunque abbiamo finito.
