@@ -1098,6 +1098,137 @@
 	 	$$HR=D_n \implies \langle \iota \rangle = \faktor{HR}{R}\cong \faktor{H}{H\cap R}$$
 	 	e fai esattamente quello che hai fatto nel caso $=6$.
 	 \end{proof}
+	 
+	 Un altro modo per risolvere il problema del trovare sottogruppi di cardinalità fissata sono i teoremi di Sylow. 
+	 \begin{theorem}[Cauchy]
+	 	Sia $p$ un primo, e sia $p^k\mid \abs{G}$, con $k>0$. Allora esisterà un $H\le G$ di ordine $p^k$.
+	 \end{theorem}
+	 \begin{proof}
+	 	Procediamo per induzione su $\abs{G}$. Il caso base è il gruppo identico, e non c'è molto di interessante da dire. Abbiamo alcuni casi:
+	 	\begin{itemize}
+	 		\item Supponiamo che $p\mid Z(G)$. Allora per Cauchy esisterà un gruppo ciclico $N$ di ordine $p$ tale che $N\le Z(G)$. Tuttavia $N$ sarà anche normale, e quindi abbiamo il quoziente $\faktor{G}{N}$. Ma questo vuol dire che
+	 		$$p^{k-1}\mid \abs{\faktor{G}{N}}$$
+	 		ma questo vuol dire per ipotesi induttiva che esisterà un $\faktor{H}{N}\le \faktor{G}{N}$ di ordine $p^{k-1}$. Da questo segue che $H\le G$ ha ordine $p^k$, come volevamo.
+	 		\item Supponiamo che $p\not\mid Z(G)$. L'equazione delle classi dice che
+	 		$$\abs{G}=\abs{Z(G)}+\sum \frac{\abs{G}}{\abs{C_G(g)}}$$
+	 		allora riducendo entrambi i lati modulo $p$ abbiamo che deve esistere almeno un $g$ tale che
+	 		$$\frac{\abs{G}}{\abs{C_G(g)}}\not\equiv 0 \pmod{p}$$
+	 		facciamo un disegno
+	 		\begin{center}
+	 			\begin{tikzcd}
+	 				G \arrow[d,no head,"\text{coprimo con $p$}"]\\
+	 				C_G(g) \arrow[d,no head]\\
+	 				1
+	 			\end{tikzcd}
+	 		\end{center}
+	 		ma questo, dato che $\abs{G}$ era divisibile per $p^k$ vuol dire che anche $C_G(g)$ è divisibile per $p^k$. Allora invocando nuovamente l'ipotesi induttiva abbiamo che esisterà un $H\le C_G(g)$ con ordine $p^k$, e quindi abbiamo finito.
+	 	\end{itemize}
+	 	In ogni caso abbiamo la tesi, e quindi abbiamo finito.
+	 \end{proof}
+	 
+	 \begin{theorem}[Teoremi di Sylow]
+	 	Sia $G$ un gruppo di ordine $p^an$ con $(n,p)=1$ allora:
+	 	\begin{enumerate}
+	 		\item Esiste almeno un sottogruppo di ordine $p^a$, e questo si dice un \textit{$p$-sylow} di $G$. 
+	 		\item Per ogni $g\in G$ e $p$-sylow $P_1$ in $G$ si ha che esiste un $p$-sylow $P_2$ tale che
+	 		$$gP_1g^{-1}=P_2$$
+	 		in particolare tutti i $p$-sylow sono isomorfi tra loro.
+	 		\item Per ogni $p$, il numero di $p$-sylow di $G$, denotato con $n_p(G)$ soddisfa
+	 		$$n_p(G)\equiv 1 \pmod{p}.$$
+	 		\item Per ogni $p$-gruppo $P$ esister un $p$-sylow $Q$ tale che
+	 		$$P\le Q \le G.$$
+	 	\end{enumerate}
+	 \end{theorem}
+	 \begin{proof}
+	 	La prima tesi è un semplice corollario del teorema di Cauchy forte trovato sopra.
+	 	Consideriamo $\Sigma$ l'insieme di tutti i $p$-sylow. Facciamo agire $G$ su $\Sigma$ con il coniugio, e consideriamo un'orbita di questa azione $\Omega$. Ma allora consideriamo un $p$-sylow $P\le G$, e consideriamo la sua azione su $\Omega$. Decomponiamo allora
+	 	$$\Omega=\mathcal{O}_1\sqcup \mathcal{O}_2 \sqcup \dots \sqcup \mathcal{O}_t$$
+	 	nelle orbite rispetto all'azione di $P$.
+	 	\begin{lemma}[I $p$-sylow contengono i $p$-gruppi nel normalizzante]
+	 		Sia $H\le G$ un $p$-sottogruppo di $G$ e $P$ un $p$-sylow di $G$. Allora
+	 		se $H\le N_G(P)$ si ha che $H\le P$.
+	 	\end{lemma}
+	 	\begin{subproof}[Sottodimostrazione]
+	 		Supponiamo che $H\le N_G(P)$, allora.
+	 		$$H\le N_G(P)\implies P \normal \langle H,P\rangle$$ 
+	 		allora avremo che $\langle H,P\rangle = HP$ e dunque
+	 		$$\abs{HP}=\frac{\abs{H}\abs{P}}{\abs{H\cap P}}=p^{t}$$
+	 		ma dato che i $p$-sylow sono massimali dobbiamo avere che $\abs{HP}=\abs{P}$ e quindi $H\cap P = H$ cioè $H\le P$.
+	 	\end{subproof}
+	 	Ritorniamo allora alle orbite, scegliamo un $P_i\in \mathcal{O}_i$ per ogni $\mathcal{O}_i$. D'altra parte per orbite stabilizzatori, in questo caso abbiamo 
+	 	$$\abs{\mathcal{O}_i}=\abs{P:N_P(P_i)}$$
+	 	dunque dato che $P$ ha ordine $p^a$ abbiamo che
+	 	$$\abs{\mathcal{O}_i}=p^{n_i}$$
+	 	con $n_i$ possibilmente $0$. D'altra parte se $0$ abbiamo che
+	 	$$P=N_P(P_i)$$
+	 	ma questo vuol dire per il lemma appena mostrato che $P\le P_i$. Ma essendo questi entrambi $p$-sylow avranno lo stesso odine, e quindi $P=P_i$. Questo vuol dire che l'unica orbita banale può essere $P$. D'altra parte avevamo due scelte per $P$:
+	 	\begin{itemize}
+	 		\item Se $P\in\Omega$ abbiamo che $\abs{\Omega}\equiv 1 \pmod{p}$
+	 		\item Se $P\not\in \Omega$ abbiamo che non ci può essere la classe di equivalenza di $P$, e quindi $\Omega \equiv 0 \pmod{p}$. 
+	 	\end{itemize} 
+	 	Queste due cose sono contraddittorie, e quindi, dato che $\Omega\ne \eset$, non può esistere un $P\not\in\Omega$, da cui le tesi $2$ e $3$. Manca la tesi $4$, ma d'altra parte se invece di fare agire un $p$-sylow su $\Omega$ avessimo fatto agire un semplice $p$-gruppo avremmo concluso in ogni caso che $P\le N_P(P_i)$.
+	 	$$P\le N_G(P_i)$$
+	 	e quindi per il lemma $P\le P_i$, con $P_i$ un $p$-sylow, da cui la tesi $4$.
+	 \end{proof}
+	 Vediamo qualche applicazione. 
+	 \begin{exercise}
+	 	Sia $G$ un gruppo tale che $\abs{G}=148$. Si dimostri che $G$ non è semplice. 
+	 \end{exercise}
+	 \begin{proof}[Soluzione]
+	 	Abbiamo che 
+	 	$$148=37\cdot 4$$
+	 	dunque per il terzo teorema di sylow abbiamo
+	 	$$n_{37}(G)\equiv 1 \pmod{37}$$
+	 	d'altra parte $n_{37}(G)\mid 4$. E quindi necessariamente $n_{37}(G)=1$, da cui per il secondo teorema di Sylow abbiamo che è normale.
+	 \end{proof}
+	 \begin{exercise}
+	 	Sia $\abs{G}=15$, cosa si può dire di $G$?
+	 \end{exercise}
+	 \begin{proof}[Soluzione]
+	 	Abbiamo semplicemente che i due sylow sono entrambi normali, e disgiunti, quindi
+	 	$$A\cap B=1$$
+	 	con $A,B\normal G$. Inoltre dunque abbiamo che
+	 	$$\langle a \rangle = A$$
+	 	e 
+	 	$$\langle b \rangle = B$$
+	 	ma $A$ è normale, quindi
+	 	$$bab^{-1}\in \left\{1,a,a^{-1}\right\}$$
+	 	in tutti i casi troviamo che $a$ e $b$ commutano, dunque il loro prodotto avrà ordine $15$, e allora $G\cong C_{15}$.
+	 \end{proof}
+	 \begin{exercise}
+	 	Sia $G$ un gruppo di ordine $pq$, cosa possiamo dire di $G$?
+	 \end{exercise}
+	 \begin{proof}[Soluzione]
+	 	Come prima abbiamo che, se $p>q$ abbiamo
+	 	$$n_p(G)\equiv 1 \pmod{p}$$
+	 	e
+	 	$$n_p(G)\equiv 0 \pmod{q}$$
+	 	da cui di nuovo abbiamo che $n_p(G)=1$, cioè $G$ non è semplice.
+	 \end{proof}
+	 Possiamo ora costruire il reticolo dei sottogruppi di $S_4$:
+	 \begin{center}
+	 	\begin{tikzcd}
+	 		24 & S_4\arrow[d,no head] \\
+	 		12 & A_4 \\
+	 		8 & \\
+	 		6 & \\
+	 		4 & \\
+	 		3 & \\
+	 		2 & \\
+	 		1 & 
+	 	\end{tikzcd}
+	 \end{center}
+	 \begin{itemize}
+	 	\item Ad ordine $24$ si ha solo $S_4$
+	 	\item Ad ordine $12$ si ha solo $A_4$
+	 	\item Ad ordine $8$ si hanno i $2$-sylow. Abbiamo visto che $S_4$ non ha sottogruppi normali di ordine $8$, quindi ce ne devono essere almeno $2$. D'altra parte devono anche dividere $3$, e quindi abbiamo solo $3$ sylow per $p=2$, e sono tutti isomorfi a $D_4$, tutti contenenti una copia isomorfa di $K$.
+	 	\item Ad ordine $6$ si ha per Cauchy che ogni sottogruppo $H$ di ordine $6$ ha un sottogruppo ciclico normale di ordine $3$. Ma abbiamo già calcolato i gruppi di ordine $3$, e questi sono proprio i $3$-sylow. Ma dato che questi sono $4$ si avrà proprio che il loro normalizzante ha ordine $6$, cioè qui abbiamo solo i $N_G(T)$, dove $T$ è un $3$-sylow.
+	 	\item Ad ordine $4$ si hanno $C_4$ (3 copie), e $3$ copie del Klein $K$. 
+	 	\item Ad ordine $3$ si hanno i $4$ $3$-sylow.
+	 	\item Ad ordine $2$ si hanno $6+3$ sottogruppi di ordine $2$ (tutti i ciclici generati da trasposizioni o doppi scambi).
+	 	\item Ad ordine $1$ si ha
+	 \end{itemize}
+	 
 	\newpage
 	
 	\section{Soluzioni agli esercizi proposti}

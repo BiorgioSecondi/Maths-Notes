@@ -975,7 +975,7 @@
 	Notiamo subito prima di tutto che una funzione semplice è misurabile se e solo se gli $A_i$ nella sua rappresentazione unica sono tutti misurabili. \\
 	Abbiamo scoperto di poter fare limiti con le funzioni misurabili:
 	\begin{theorem}[Approssimazione di misurabili con semplici]
-		Sia $f:X\to [0,\infty]$ misurabile, allora esiste una successione $\varphi_n:X\to[0,\infty)$ di funzioni semplici e misurabili, tali che siano monotone, cioè $\varphi_n\le \varphi_{n+1}$, e
+		Sia $f:X\to [0,\infty]$ misurabile, allora esiste una successione $\varphi_n:X\to[0,\infty)$ di funzioni semplici e misurabili, tali che siano monotone, cioè $\varphi_n\le \varphi_{n+1}$, e per ogni $x\in X$ si abbia
 		$$f(x)=\lim_{n\to\infty}\varphi_n(x)$$
 		inoltre se $f$ è limitata tale convergenza è anche uniforme. 
 	\end{theorem}
@@ -1000,13 +1000,13 @@
 		Sia $(X,\mathcal{A},\mu)$ uno spazio di misura con $\mu(X)<\infty$. Siano inoltre $f_n,f:X\to\RR$ funzioni misurabili tali che $f_n\to f$ $\mu$-q.o. allora per ogni $\varepsilon>0$ esiste un $X_\varepsilon\subseteq X$ tale che 
 		$$\mu\left(X\setminus X_\varepsilon\right)<\varepsilon$$
 		e 
-		$$f_{n\mid X_\varepsilon}\to f_{X_\varepsilon}$$
+		$$f_{n\mid X_\varepsilon}\to f_{\mid X_\varepsilon}$$
 		uniformemente.
 	\end{theorem}
 	\begin{proof}
 		Siano $n,k\in\NN$ e definiamo 
 		$$S_{n,k}=\bigcap_{j\ge n}\left\{x\in X:\abs{f_j(x)-f(x)}<\frac{1}{k}\right\}$$
-		insomma è l'insieme dei punti di $f_n$ tali che, dopo $n$ passi, rimangono $1/k$ vicini a $f$. Dato che $f_j$ ed $f$ sono entrambi misurabili, allora anche $S_{n,k}$ sarà misurabile. \`E chiaro inoltre che 
+		insomma è l'insieme dei punti di $f_n(x)$ tali che, dopo $n$ passi, rimangono $1/k$ vicini a $f$. Dato che $f_j$ ed $f$ sono entrambi misurabili, allora anche $S_{n,k}$ sarà misurabile. \`E chiaro inoltre che 
 		$$S_{n+1,k}\supseteq S_{n,k}$$
 		dato che $f_j\to f$ $\mu$-q.o. abbiamo che
 		$$\mu\left(X\setminus \bigcup_{n\in\NN}S_{n,k}\right)=0$$
@@ -1066,7 +1066,7 @@
 		scambiando le sommatorie, e quindi abbiamo finito.
 	\end{proof}
 	
-	\subsection{Integrale di Lebesgue e convergenza}
+	\subsection{Integrale di Lebesgue e Teoremi di convergenza}
 	
 	Grazie a questo teorema quindi possiamo finalmente definire:
 	\begin{definition}[Integrale di Lebesgue]
@@ -1284,12 +1284,32 @@
 		\end{enumerate}
 	\end{exercise}
 	\begin{proof}
-		Il primo punto è già stato visto in classe, e la risposta è negativa, infatti semplicemente
+		Il primo punto è già stato visto in classe, e la risposta è negativa, infatti semplicemente definendo
 		$$S:=\RR\setminus\QQ_\varepsilon$$
 		dove
-		$$\QQ_\varepsilon:=\bigcup_{n\in\NN}\left(q_n-\frac{\varepsilon}{2^n},q_n+\frac{\varepsilon}{2^n}\right)$$
-		con $\varepsilon>0$ un certo valore sufficientemente piccolo e $q_n$ una enumerazione dei razionali, è un insieme di misura positiva magro. Il secondo punto è anche falso, poiché dato l'insieme di Cantor $\mathcal{C}$ sull'intervallo $[0,1]$ possiamo definire
-		$$F:=\mathcal{C}\setminus\left\{0\right\}.$$
+		$$\QQ_\varepsilon:=\bigcup_{n\in\NN}\left(q_n-\frac{\varepsilon}{2^{n+1}},q_n+\frac{\varepsilon}{2^{n+1}}\right)$$
+		con $\varepsilon>0$ un certo valore sufficientemente piccolo e $q_n$ una enumerazione dei razionali, abbiamo che per subadditività
+		$$\mathscr{L}(\QQ_\varepsilon)\le \sum_{n\in\NN}\frac{\varepsilon}{2^n}=\varepsilon$$
+		e dunque il suo complementare, cioè $S$ avrà misura strettamente positiva pur essendo magro. Anche il secondo punto è falso, infatti considerando l'insieme
+		$$F:=\bigcap_{n\in\NN}\QQ_{\frac{1}{n}}$$
+		con $\QQ_{1/n}$ definito come sopra. Per quanto visto sopra e per monotonia si ha per ogni $n$:
+		$$\mathscr{L}(F)\le \mathscr{L}(\QQ_{1/n})\le \frac{1}{n}$$
+		dunque $F$ ha proprio misura nulla. D'altra parte se per assurdo $\QQ_{1/n}$ fosse magro potremmo scriverlo come unione numerabile di chiusi a interno vuoto, d'altra parte
+		$$F^\complement=\bigcup_{n\in\NN}\left(\QQ_{1/n}\right)^\complement$$
+		e quindi anche il suo complementare può essere scritto come unione numerabile di chiusi a interno vuoto. Questo vorrebbe dire che potremmo scrivere tutto $\RR$ come unione numerabile di chiusi a interno vuoto, il che è assurdo per il lemma di Ba\"ire, e quindi $F$ non può essere magro, nonostante abbia misura nulla.
+	\end{proof}
+	\begin{exercise}[Misura, misura esterna e completamento]
+		Sia $(X,\mathcal{A},\mu)$ uno spazio di misura, consideriamo la misura esterna $\mu^*$ indotta da $\mu$:
+		$$\mu^*(A):=\inf\left\{\sum_{k\in\NN}\mu(E_k):E_k\in \mathcal{A},\bigcup_{k\in\NN}E_k \supseteq E\right\}$$
+		da questa definiamo la $\sigma$-algebra $\mathcal{M}$ degli insiemi $\mu^*$ misurabili e $\tilde{\mu}$ la misura ottenuta restringendo $\mu^*$ a $\mathcal{M}$:
+		\begin{enumerate}
+			\item Dimostrare che $\mathcal{A}\subseteq \mathcal{M}$ e che sugli elementi di $\mathcal{A}$ si ha che $\tilde{\mu}=\mu$.
+			\item Denotato con $\overline{\mu}:\overline{\mathcal{A}}\to [0,\infty]$ il completamento di $\mu$, dimostrare che $\overline{\mathcal{A}}\subseteq \mathcal{M}$ e che $\overline{\mu}=\tilde{\mu}$ su $\overline{\mathcal{A}}$.
+			\item \`E sempre vero che $\tilde{\mu}=\overline{\mu}$?
+		\end{enumerate}
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		contenuto...
 	\end{proof}
 	\subsection{Foglio 2: Teoria dell'integrale}
 	

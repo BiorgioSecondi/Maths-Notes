@@ -1492,18 +1492,133 @@
 		$$B(\varphi(v),\varphi(w))=B(v,w)$$
 		per ogni $v,w\in V$.
 	\end{definition}
-	\subsection{Trasformazioni pseudoeuclidee}
-	
-	\begin{definition}[Trasformazione pseudoeuclidee]
+	\begin{definition}[Trasformazione pseudoeuclidea]
 		Una $\varphi:V\to V$ lineare sullo spazio pseudoeuclideo $V$ si dice una \textit{trasformazione pseudoeuclidea} se 
 		$$B(\varphi(v),\varphi(w))=B(v,w)$$
 		per ogni $v,w\in V$. 
 	\end{definition}
-	\begin{proposition}[Caratterizzazione degli automorfismi pseudoeuclidei]
+	\begin{remark}[Caratterizzazione degli automorfismi pseudoeuclidei]
 		Sia $(V,B)$ uno spazio equipaggiato con una forma bilineare simmetrica, allora gli automorfismi di $(V,B)$ sono quelli la cui matrice $H$ in una certa base $\mathcal{V}$ soddisfa
 		$$A=H^\intercal A H$$
 		dove $A$ è la matrice di $B$ nella base $\mathcal{V}$.
+	\end{remark}
+	
+	Questi erano un po' di casi specifici, vediamo ora in generale
+	\begin{definition}[Trasformazione ortogonale]
+		Per uno spazio vettoriale $V$ munito di una forma bilineare $B$ non degenere un endomorfismo $f$ di $V$ si dice \textit{ortogonale rispetto a $B$} (oppure $B$-ortogonale) se soddisfa la condizione
+		$$B\left(f(v),f(w)\right)=B(v,w)$$
+		per ogni $v,w\in V$.
+	\end{definition}
+	La prima cosa che possiamo dire di una trasformazione ortogonale è la seguente:
+	\begin{lemma}[Ortogonale implica invertibile]
+		S4 $f:V\to V$ è ortogonale allora è anche invertibile.
+	\end{lemma}
+	\begin{proof}
+		Se $v\in \ker{f}$ abbiamo che
+		$$0=B(0,f(w))=B(v,w)$$
+		per ogni $w$, cioè $v$ è un vettore degenere per $B$, ma questo contraddice l'ipotesi che $B$ sia non degenere. Dunque $f$ è iniettiva, ma d'altra parte dato che $V$ ha dimensione finita abbiamo che $f$ è invertibile.
+	\end{proof}
+	Come facevamo per le matrici ortogonali abbiamo
+	\begin{definition}[Gruppo $B$-ortogonale]
+		Per ogni spazio $(V,B)$ l'insieme delle trasformazioni $B$-ortogonali formano un gruppo rispetto alla composizione, detto il \textit{gruppo $B$-ortogonale}, denotato con $O(V,B)$.
+	\end{definition}
+	E analogamente a prima
+	\begin{remark}[Caratterizzazione matriciale delle trasformazioni ortogonali]
+		Data una forma bilineare $g_A$ di matrice di gram $A$ abbiamo che le trasformazioni ortogonali sono quelle di matrice $H$ tali che
+		$$A=H^\intercal A H$$
+		e in particolare se $A=I_n$, ovvero abbiamo lo spazio euclideo standard, ritroviamo la definizione di matrice ortogonale
+		$$H^\intercal H=I_n.$$ 
+	\end{remark}
+	\begin{definition}[Gruppo simplettico e gruppo pseudoeuclideo]
+		Il gruppo ortogonale di uno spazio simplettico viene detto \textit{gruppo simplettico}, mentre il gruppo ortogonale di uno spazio pseudoeuclideo con segnatura $p,q$ viene detto \textit{gruppo pseudoeuclideo}. Questi si denotano rispettivamente con $\text{Sp}_{2n}(\KK)$ e $\text{O}_{p,q}(\KK)$.
+	\end{definition}
+	\begin{remark}
+		Il gruppo simplettico contiene una copia isomorfa di $\GL_n$, infatti
+		$$M\mapsto \left(
+		\begin{array}{c|c}
+			M & 0 \\
+			\hline
+			0 & \left(M^{-1}\right)^\intercal
+		\end{array}
+		\right)$$
+		è un morfismo di gruppi, ed è iniettivo. Questo corrisponde al fatto che ogni $\varphi:V\to V$ induce una trasformazione simplettica 
+		\begin{align*}
+			V\times V^* & \to V\times V^* \\
+			(v,f) & \mapsto \left(\varphi(v),(\varphi(v)^{-1})^\intercal f\right).
+		\end{align*}
+	\end{remark}
+	
+	\subsection{Aggiunzione rispetto a matrici arbitrarie}
+	
+	Per i prodotti interni standard ed hermitiani avevamo definito il concetto di aggiunzione come
+	$$\langle Av,w\rangle = \langle v,A^* w\rangle$$
+	e avevamo detto che $A^*$ e $A$ sono una l'aggiunta dell'altra. Allo stesso modo possiamo definire:
+	\begin{definition}[Aggiunzione]
+		Siano $V$ e $W$ due spazi vett di dimensione finita, e siano $B$ e $B'$ forme bilineari non degeneri su $V$ e $W$. Data una mappa lineare $L:V\to W$ possiamo costruire il seguente diagramma commutativo:
+		\begin{center}
+			\begin{tikzcd}
+				V\arrow[d,"L",swap]\arrow[r,"B_1"] & V^*  &  V\arrow[l,"B_2",swap]\\
+				W\arrow[r,"B_2'",swap] & W^*\arrow[u,"L^\intercal"] &  W\arrow[l,"B_1'"]\arrow[u,dashed,"T(L)",swap]
+			\end{tikzcd}
+		\end{center}
+		allora definiamo l'\textit{aggiunta destra} (analogamente definiamo l'\textit{aggiunta sinistra}, scambiando $B_1$ con $B_2$ e $B_1'$ con $B_2'$) di $L$ rispetto alle forme $B$ e $B'$ come l'unica funzione $T(L):W\to V$ che fa commutare quel diagramma, ovvero 
+		$$B_2\circ T(L)=L^\intercal \circ B_1'$$
+		cioè
+		$$T(L)=B_2^{-1}\circ L^\intercal \circ B_1'$$
+		o analogamente
+		$$B(w,L(v))=B'(T(L)(w),v)$$
+		che notiamo nel caso in cui entrambi gli spazi siano notati della metrica euclidea standard (o hermitiana), ritorna ad essere esattamente $L^\intercal$, dato che $B_2$ e $B_1$ sono isomorfismi canonici che corrispondono all'identità tra vettori riga e vettori colonna. 
+	\end{definition}
+	Questo cosa vuol dire in termini di matrici? Se le due forme hanno matrici $A$ e $A'$ abbiamo che la matrice $T(H)$ associata alla trasposta di $H$ è 
+	$$T(H)=A^{-1}L^\intercal\left(A'\right)^\intercal$$
+	per l'aggiunta destra, e invece per quella sinistra
+	$$T'(H)=\left(A^\intercal\right)^{-1}L^\intercal A'.$$
+	Nel caso in cui $L$ sia un endomorfismo tuttavia possiamo avere $T(L)=L$, e quindi:
+	\begin{definition}[Endomorfismo autoaggiunto]
+		Su uno spazio $(V,B)$ di dimensione finita, con forma simmetrica e non degenere, per un endomorfismo $L$ essere \textit{autoaggiunto} vuol dire
+		$$B(L(v),v')=B(v,L(v'))$$
+		per ogni $v,v'\in V$, ovvero $L$ è l'aggiunto di se stesso. 
+	\end{definition}
+	Di nuovo per le matrici possiamo riformulare questa cosa in modo molto più chiaro. 
+	\begin{proposition}[Autoaggiunzione con le matrici]
+		Se $L:V\to V$ è un endomorfismo di $V$ tale che   
+		\begin{gather*}
+			L(x):=Mx \\
+			B(x,y):=x^\intercal A y
+		\end{gather*}
+		abbiamo che $M$ è autoaggiunto rispetto a $B$ se e solo se
+		$$M=A^{-1}M^\intercal A.$$
 	\end{proposition}
+	
+	\subsection{Riflessioni}
+	
+	Vogliamo trovare un modo per costruire e classificare le trasformazioni ortogonali di uno spazio $(V,B)$. Dimostriamo allora
+	\begin{definition}[Simmetria]
+		Dato uno spazio $(V,B)$ consideriamo un $W\subseteq V$ anisotropo, allora abbiamo
+		$$W\oplus W^\perp = V$$
+		e dunque se $\text{car}\KK\ne 2$ definiamo la \textit{simmetria di asse $W$} come
+		$$\rho_W(w+w')=w-w'$$
+		con $w\in W$ e $w'\in W^\perp$. O analogamente come l'endomorfismo di $V$ tale che su $W$ sia l'identità e su $W^\perp$ sia $\rho_(W)(w')=-w'$. 
+	\end{definition}
+	\begin{lemma}[Le simmetrie sono ortogonali]
+		Per ogni $W$ anisotropo abbiamo che $\rho_W$ è ortogonale.
+	\end{lemma}
+	\begin{proof}
+		\`E un calcolo diretto, infatti
+		$$B\left(\rho_W(w+u),\rho_W(w'+u')\right)=B\left(w-u,w'-u'\right)$$
+		che espandendo e usando il fatto che $w,w'\perp u,u'$ dà la tesi.
+	\end{proof}
+	Nel caso specifico della riflessione rispetto ad un iperpiano $\langle w \rangle^\perp$ possiamo usare i coefficienti di Fourier per avere una formula esplicita della riflessione
+	$$\rho_W(v)=v-2\frac{B(w,v)}{B(w,w)}w$$
+	dove $B(w,w)\ne 0$ perché l'ortogonale $\langle w \rangle^\perp$ è anisotropo, e quindi anche lo spazio originale sarà tale (ovvero $w$ non è isotropo). 
+	\begin{theorem}[di estensione di Witt]
+		Sia $(V,B)$ è uno spazio pseudoeuclideo di dimensione finita su un campo $\KK$ con caratteristica diversa da $2$ e $W\subseteq V$ un sottospazio di $V$. Se $g:W\to V$ è una funzione ortogonale, allora esiste un endomorfismo $f$ di $V$ tale che:
+		\begin{itemize}
+			\item $f$ estende $g$, cioè $f_{\mid W}=g$.
+			\item $f$ è composizione di un numero finito di riflessioni rispetto a iperpiani, in particolare è $B$-ortogonale.
+		\end{itemize}
+	\end{theorem}
+	
 	
 	\newpage
 	
