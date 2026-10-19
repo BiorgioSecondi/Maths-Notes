@@ -400,7 +400,7 @@
 	\begin{proof}
 		Sia $F$ un insieme chiuso. Se $B_k$ è la palla chiusa di raggio $k$ centrata in $0$ abbiamo che 
 		$$\bigcup_{k\in\NN}\left[B_k\cap F\right]=F$$
-		e dunque ci basta dimostrare che ciascuno dei $B_k\cap F$ sono misurabili. D'altra parte ciascuno di questi è chiuso e limitato, quindi ci siamo ricondotti a dimostrare che la tesi vale sui compatti, e possiamo assumere WLOG che $F$ sia compatto. Per il lemma dell'approssimabilità con aperti possiamo scegliere un $\mathcal{O}$ tale che
+		e dunque ci basta dimostrare che ciascuno dei $B_k\cap F$ sono misurabili. D'altra parte ciascuno di questi è chiuso e limitato, quindi ci siamo ricondotti a dimostrare che la tesi vale sui compatti, e possiamo assumere WLOG che $F$ sia compatto. Per il lemma dell'approssimabilità con aperti possiamo scegliere un $\mathcal{O}\supseteq F$ tale che
 		$$m_*(\mathcal{O})-m_*(F)\le \varepsilon$$
 		ora vorremmo dimostrare che
 		$$m_*(\mathcal{O}-F)+m_*(F)\le m_*(\mathcal{O})$$
@@ -408,8 +408,16 @@
 		$$\mathcal{O}=F\sqcup \left(\mathcal{O}-F\right)=F\sqcup\bigcup_{i=1}^\infty Q_i$$
 		dove i $Q_i$ sono la scomposizione di $\mathcal{O}-F$. Allora invocando la monotonia abbiamo, per ogni $N\in \NN$
 		$$m_*(\mathcal{O})=m_*\left(F\sqcup \bigcup_{i=1}^\infty Q_i\right)\ge m_*\left(F\sqcup \bigcup_{i=1}^N Q_i\right)$$
-		d'altra parte l'unione di $N$ cubi chiusi è compatta, 
+		d'altra parte l'unione di $N$ cubi chiusi è compatta, quindi per il lemma precedente avrà distanza positiva da $F$, cioè abbiamo
+		$$m_*(\mathcal{O})\ge m_*\left(F\right)+m_*\left(\bigcup_{i=1}^N Q_i\right)=m_*(F)+m_*(\mathcal{O}-F)$$
+		ovvero 
+		$$\varepsilon \ge m_*(\mathcal{O})-m_*(F)\ge m_*(\mathcal{O}-F)$$
+		che era la tesi.
 	\end{proof}
+	E da questo segue finalmente:
+	\begin{corollary}[Chiusura per complementari]
+		Per ogni $E$ Lebesgue misurabile anche $E^\complement$ è Lebesgue misurabile.
+	\end{corollary}
 	
 	\newpage
 	
@@ -644,7 +652,7 @@
 			\vdots \quad \quad \qquad \qquad \qquad\\
 			= \sum_{i=1}^{n}\mu^*\left(\left(A_i\setminus \bigcup_{k=1}^{i-1}A_k\right)\cap E\right)+\mu^*\left(\left(\bigcup_{i=1}^n A_i\right)^\complement \cap E\right) &
 		\end{align*}
-		d'altra parte per monotonia abbiamo facilmente che il secondo addendo può essere boundato dal basso dall'unione \textit{infinita} degli $A_i$, quindi \ref prendendo anche $n\to \infty$ possiamo mantenere la disuguaglianza:
+		d'altra parte per monotonia abbiamo facilmente che il secondo addendo può essere boundato dal basso dall'unione \textit{infinita} degli $A_i$, quindi prendendo anche $n\to \infty$ possiamo mantenere la disuguaglianza:
 		\begin{equation}\label{Misure:formula fondamentale Carathèodory}
 			\mu(E)\ge \sum_{i=1}^{\infty}\mu^*\left(\left(A_i\setminus \bigcup_{k=1}^{i-1}A_k\right)\cap E\right)+\mu^*\left(\left(\bigcup_{i=1}^\infty A_i\right)^\complement \cap E\right)
 		\end{equation}
@@ -709,7 +717,7 @@
 			$$A^\complement \cap N^\complement = \left(A\cup N\right)^\complement \in \overline{\mathcal{A}}$$
 			per fare ciò cerchiamo un $A'\in \mathcal{A}$ e un $N'\in \mathcal{N}$ tali che
 			$$A^\complement \cap N^\complement = A'\cup N'.$$
-			L'idea chiave per fare ciò è decomporre $N^\complement$ in una parte dentro $\mathcal{A}$ e una dentro $\mathcal{N}$. Dato un $F\supseteq N$ tale che $\mu(B)=0$ possiamo scrivere $N^\complement$ come
+			L'idea chiave per fare ciò è decomporre $N^\complement$ in una parte dentro $\mathcal{A}$ e una dentro $\mathcal{N}$. Dato un $F\supseteq N$ tale che $\mu(F)=0$ possiamo scrivere $N^\complement$ come
 			$$N^\complement = \left(F\setminus N \right)\cup F^\complement$$
 			da cui troviamo, sostituendo in $A^\complement \cap N^\complement$:
 			$$A^\complement\cap \left(\left(F\setminus N \right)\cup F^\complement\right)=\left[A^\complement\cap \left(F\setminus N\right)\right]\cup \left[A^\complement \cap F^\complement\right]$$
@@ -1167,6 +1175,127 @@
 		ma questo vuol dire che esisterà un $\varphi=\frac{1}{n}\mathbbm{1}_{E_n}\le f$ con integrale positivo, e quindi abbiamo un assurdo in quanto avevamo supposto che l'integrale di $f$ fosse nullo.
 	\end{proof}
 	Questo ha come conseguenza interessante che due funzioni $f=g$ quasi ovunque hanno sempre lo stesso integrale. In particolare da questo nascono alcune varianti del teorema di convergenza monotona. In effetti nel teorema che avevamo il fatto che il limite fosse misurabile era un'ipotesi superflua (perché il limite di misurabili è misurabile). Tuttavia reintroducendo questa ipotesi e assumendo che $f_n\to f$ non ovunque, ma \textbf{quasi ovunque}, il teorema resta valido. L'ipotesi che $f$ sia misurabile in realtà si può rimpiazzare con qualcosa di un po' più tranquillo, cioè con il fatto che la misura su cui stiamo lavorando sia completa. 
+	\subsection{Integrali di funzioni con segno arbitrario e convergenza dominata}
+	\begin{definition}[Moltiplicare per la funzione caratteristica]
+		Il seguente è un abuso di notazione
+	\end{definition}
+	\begin{definition}[Integrale di funzioni a valori reali]
+		Sia $(X,\mathcal{A},\mu)$ uno spazio di misura, e sia $f:X\to\overline{\RR}$ una funzione misurabile, allora denotando
+		\begin{gather*}
+			f^+(x):=\max\left\{f(x),0\right\} \\
+			f^-(x):=\min\left\{-f(x),0\right\}
+		\end{gather*}
+		abbiamo 
+		$$f=f^+-f^-$$
+		allora per quanto visto sopra siamo in grado di integrare sia $f^+$ che $f^-$, dunque se almeno uno tra gli integrali delle due parti è finito definiamo
+		$$\int_X f\dif \mu:=\int_X f^+\dif \mu + \int_X f^- \dif \mu$$
+		inoltre se entrambi gli integrali sono finiti diciamo che $f$ è $\mu$-\textit{integrabile}, e lo indichiamo con $f\in L^1(X,\mu)$.
+	\end{definition}
+	Quello che abbiamo usato in realtà è un abuso di notazione: lo spazio $L^1$ è uno spazio di Banach che di solito non consta di funzioni, ma di classi di equivalenza, con la relazione di equivalenza
+	$$f\sim g \iff \int_X\left(f-g\right)\dif \mu=0$$
+	ovvero delle funzioni che differiscono tra loro al massimo per un insieme di misura nulla.
+	\begin{remark}
+		Per ogni $f$ misurabile abbiamo che $f$ è integrabile se e solo se $\abs{f}$ è integrabile. L'assunzione che $f$ sia misurabile è necessaria, si pensi per esempio alla misura di Lebesgue e alla funzione $f$che vale $-1$ su tutti i punti dell'insieme di Vitali, e $1$ altrove.
+	\end{remark}
+	\begin{theorem}[Linearità dell'integrale]
+		Dato $(X,\mathcal{A},\mu)$ uno spazio di misura abbiamo che la mappa 
+		$$f\mapsto \int_X f \dif \mu$$
+		è lineare su $L^1(X,\mu)$.
+	\end{theorem}
+	\begin{proof}
+		Abbiamo già mostrato che se $f,g$ sono misurabili anche $\alpha f + \beta g$ lo sono, allora per la disuguaglianza triangolare
+		$$\abs{\alpha f+ \beta g}\le \abs{\alpha}\abs{f}+\abs{\beta}\abs{g}$$
+		e dunque abbiamo che, per monotonia dell'integrale, $\abs{\alpha f + \beta g}$ è integrabile, e dunque usando la linearità degli integrali di funzioni positive abbiamo la tesi.
+	\end{proof}
+	\begin{remark}
+		Se $f$ è misurabile e limitata e $\mu(X)<\infty$ allora $g$ è integrabile, infatti 
+		$$\int_X\abs{f}\dif \mu \le M \mu(X).$$
+	\end{remark}
+	Il teorema principale che ci servirà allora sarà il seguente:
+	\begin{theorem}[Convergenza dominata]
+		Siano $f_n,f:X\to \overline{\RR}$ misurabili. Se esiste una $g\in L^1(X,\mu)$ tale che per ogni $n\in \NN$ vale
+		$$\abs{f_n(x)}\le g(x)$$
+		per ogni $x\in X$ allora abbiamo che $f\in L^1(X,\mu)$, e inoltre
+		$$\lim_{n\to\infty}\int_X f_n\dif \mu = \int_X f \dif \mu.$$
+	\end{theorem}
+	\begin{proof}
+		Prima di tutto abbiamo che $f$ è integrabile, infatti dalle ipotesi segue facilmente che tutte le $f_n$ sono integrabili e dunque per Fatou
+		$$\int_X \abs{f}\dif \mu=\int_X \liminf_{n\to\infty}\abs{f_n}\dif \mu \le \liminf_{n\to\infty}\int_X \abs{f_n(x)}\dif \mu \le \int_X g\dif \mu$$
+		da cui abbiamo proprio l'integrabilità di $f$. 
+		Consideriamo ora la successione di funzioni misurabili e positive $g-f_n\ge 0$. Allora abbiamo per Fatou
+		$$\int_X \liminf_{n\to\infty}\left(g-f_n\right)\dif \mu \le \liminf_{n\to\infty}\int_X \left(g-f_n\right)\dif \mu$$
+		ma allora usando linearità di liminf e integrale a destra e a sinistra possiamo cancellare $g$, e ottenere 
+		$$-\int_X f\dif \mu \le -\limsup_{n\to\infty}\int_X f_n\dif \mu  $$
+		(dove abbiamo rimpiazzato il liminf con un limsup perché per far passare il $-$ da dentro a fuori di un liminf bisogna cambiarlo con un limsup) ovvero
+		$$\limsup_{n\to\infty}\int_X f_n \dif \mu \le \int_X f \dif \mu$$
+		che è un verso dell'uguaglianza che volevamo, per avere l'altro consideriamo la successione $g+f_n\ge 0$, e applicando in modo identico Fatou otteniamo
+		$$\int_X\liminf \left(g+f_n\right)\dif \mu\le \liminf\int_X \left(g+f_n\right)\dif \mu$$
+		ovvero
+		$$\int_X f \le \liminf_{n\to\infty}\int_X f_n$$
+		da cui la tesi.
+	\end{proof}
+	\begin{corollary}[Assoluta continuità dell'integrale]
+		Sia $f:X\to\overline{\RR}$ integrabile, allora per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che per ogni $A\in \mathcal{A}$ per cui $\mu(A)<\delta$ si ha che
+		$$\int_A\abs{f}\dif \mu < \varepsilon.$$
+	\end{corollary}
+	\begin{proof}
+		Di solito in analisi quando si cerca un $\delta>0$ per ogni $\varepsilon>0$ in modo che questo non sia quantitativo (cioè quando non costruiamo esplicitamente $\delta$ come funzione di $\varepsilon$)  si lavora per assurdo e per compattezza. Questo è il primo esempio di ciò. \\
+		Supponiamo per assurdo che esista un $\varepsilon>0$ tale che per ogni $\delta>0$ si abbia, per ogni $A_\delta\in \mathcal{A}$ che
+		$$\mu(A_\delta)<\delta \implies \int_{A_\delta} \abs{f}\dif \mu \ge \varepsilon$$
+		per ogni $n$ allora consideriamo $A_{2^{-n}}$, e prendiamo il limsup:
+		$$A:=\limsup_{n\to\infty}A_{2^{-n}}$$
+		ovvero
+		$$A:=\bigcap_{n\ge 0}\bigcup_{k\ge n}A_{2^{-k}}$$
+		cioè è l'insieme di tutti i punti che appartengono definitivamente ad almeno uno degli $A$. Vogliamo mostrare che 
+		$$0=\mu(A)=\mu\left(\bigcap_{n\ge 0}\bigcup_{k\ge n}A_{2^{-k}} \right)$$
+		d'altra parte per continuità monotona della misura abbiamo
+		$$\mu(A)\le \mu\left(\bigcup_{k\ge n}A_{2^{-k}}\right)$$
+		per ogni $n\in\NN$, dunque per subadditività
+		$$\mu\left(\bigcup_{k\ge n}A_{2^{-k}}\right)\le \sum_{k\ge n}\mu\left(A_{2^{-n}}\right)\le 2^{-n+1}$$
+		cioè abbiamo proprio $\mu(A)=0$.
+		Ma allora prendendo la successione $f_n:=\abs{f}\mathbbm{1}_{A_{2^{-n}}}$ questa è dominata da
+		$$f_n\le \abs{f}$$
+		e quindi per il teorema di convergenza dominata
+		$$\int_A f\dif \mu =\int_X\lim_{n\to\infty}f_n\dif \mu= \lim_{n\to\infty}\int_X f_n \dif \mu$$
+		ma d'altra parte il lato sinistro è $0$ perché stiamo integrando su un insieme di misura nulla, e il lato destro è $\ge \varepsilon$ per l'assunzione assurda. Da qui la contraddizione.
+	\end{proof} 
+	\begin{definition}[Uniforme integrabilità]
+		Una famiglia $\left\{f_i\right\}_{i\in I}$ di funzioni $f_i:X\to\overline{\RR}$ misurabili si dice $\mu$-\textit{uniformemente integrabile} se per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che per ogni $i\in I$ e per ogni $A\in \mathcal{A}$ con $\mu(A)<\delta$ vale 
+		$$\int_A\abs{f_i}\dif \mu < \varepsilon$$
+		insomma è una sorta di "equiassoluta continuità".
+	\end{definition}
+	Chiaramente l'assoluta continuità dell'integrale implica che $\left\{f\right\}$, con $f$ integrabile, è uniformemente integrabile. Allo stesso modo se esiste una $\varphi\in L^1(X,\mu)$ abbiamo che se $\abs{f_i}\le \varphi$ allora $\left\{f_i\right\}_{i\in I}$ è uniformemente integrabile (per la convergenza dominata).
+	\begin{theorem}[Vitali]
+		Siano $f_n:X\to\overline{\RR}$ misurabili tali che per ogni $x\in X$ si abbia
+		$$f_n(x)\to f(x)$$
+		(o anche soltanto quasi ovunque, se abbiamo l'assunzione che $f$ è misurabile). Assumiamo che $f_n\in L^1(X,\mu)$, allora sono equivalenti le seguenti:
+		\begin{enumerate}
+			\item $f\in L^1(X,\mu)$ e inoltre
+			$$\lim_{n\to\infty}\int_X \abs{f_n-f}\dif \mu =0.$$
+			\item La successione $f_n$ è uniformemente integrabile, e inoltre per ogni $\varepsilon>0$ esisterà un $X_\varepsilon\subseteq X$ tale che 
+			$\mu(X_\varepsilon)<\infty$ e per cui per ogni $n$ si ha
+			$$\int_{X\setminus X_\varepsilon} \abs{f_n}\dif \mu < \varepsilon.$$
+		\end{enumerate}
+	\end{theorem}
+	\begin{proof}
+		Mostriamo prima di tutto che $1$ implica $2$. Cominciamo con l'uniforme integrabilità, dato che $f\in L^1(X,\mu)$ abbiamo che per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che per ogni $A\in \mathcal{A}$ con $\mu(A)<\delta$ si abbia
+		$$\int_A \abs{f}\dif \mu < \frac{\varepsilon}{2}$$
+		consideriamo allora un $N_\varepsilon\in \NN$ tale che se $n\ge N_\varepsilon$ si abbia
+		$$\int_X \abs{f-f_n}\dif \mu < \frac{\varepsilon}{2}$$
+		ma allora per disuguaglianza triangolare e monotonia dell'integrale abbiamo che
+		$$\int_X \abs{f_n}\dif \mu \le \int_A \abs{f}+\abs{f-f_n}\dif \mu \le \int_A\abs{f}\dif \mu +\int_X \abs{f-f_n}\dif \mu < \frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon$$
+		ovvero $f_n$ è uniformemente integrabile. Dimostrare la seconda condizione è analogo, come prima per ogni $\varepsilon>0$ esisterà per assoluta continuità un $X_\varepsilon\subseteq X$ tale che 
+		$$\int_{X\setminus X_\varepsilon} \abs{f}\dif \mu < \varepsilon$$  
+		chiamiamo allora $X^\alpha:=\left\{\abs{f}>\alpha\right\}$ allora abbiamo
+		$$\alpha \mu\left(X^\alpha\right)\le \int_X \abs{f}\dif \mu$$
+		ma allora prendendo $\alpha=\frac{1}{n}$ e considerando la successione 
+		$$f_n=\abs{f}\mathbbm{1}_{X^{1/n}}\le \abs{f}$$
+		e quindi la convergenza dominata ci dice che 
+		$$\int_X f_n\dif \mu \to \int_X \abs{f}\dif \mu$$ 	
+		FINISCILA \\
+		Dimostriamo ora $2$ implica $1$. Questo è essenzialmente una conseguenza di Egorov e Fatou: la strategia sarà applicare il secondo punto dell'ipotesi $2$ per restringerci ad insiemi di misura finita, e poi usando egorov tolto un insieme di misura piccola avremo $f_n\to f$ uniformemente, che ci permetterà di concludere.
+		$$\int_A \abs{f}\dif \mu \le \liminf_{n\to\infty}\int_A \abs{f_n}\dif \mu$$
+	\end{proof}
 	
 	\newpage
 	
@@ -1309,7 +1438,40 @@
 		\end{enumerate}
 	\end{exercise}
 	\begin{proof}[Soluzione]
-		contenuto...
+		Dimostriamo una cosa alla volta:
+		\begin{enumerate}
+			\item Cominciamo dimostrando che se $A\in \mathcal{A}$ allora $\mu^*(A)=\mu(A)$. Chiaramente si ha, per definizione di inf
+			$$\mu^*(A)\le \mu(A)$$
+			a questo per definizione operativa di $\inf$ comunque dato un $\varepsilon>0$ possiamo trovare un ricoprimento di $A$ con elementi di $\mathcal{A}$ tali che
+			$$\mu^*(A)+\varepsilon\ge \sum_{k\in\NN}\mu(A_k)$$
+			ma per monotonia e subadditività
+			$$\mu^*(A)+\varepsilon \ge \sum_{k\in\NN}\mu(A_k) \ge \sum_{k\in\NN}\mu\left(A_k\cap A\right)\ge \mu\left(\bigcup_{k\in\NN}A_k\cap A\right)=\mu(A)$$
+			e dunque abbiamo mostrato quanto volevamo. \\
+			Prendiamo ora un $A\in \mathcal{A}$ e un $E\subseteq X$, dimostriamo che
+			$$\mu^*(A\cap E)+\mu^*(A^\complement\cap E)=\mu^*(E)$$
+			un verso come sempre segue per subadditività, che segue dal teorema di costruzione di misure esterne. Rimane quindi da mostrare che 
+			$$\mu^*(E)\ge \mu^*(A^\complement\cap E)+\mu^*(A\cap E)$$
+			per ogni $\varepsilon>0$ consideriamo allora un ricoprimento $A_k\in \mathcal{A}$ di $E$ tale che
+			$$\varepsilon+\mu^*(E)\ge \sum_{k\in\NN}\mu(A_k)$$
+			ma allora usando l'additività di $\mu$
+			$$\varepsilon+\mu^*(E)\ge \sum_{k\in\NN}\mu(A_k\cap A)+\mu\left(A_k\cap A^\complement\right)=\sum_{k\in\NN}\mu\left(A_k\cap A\right)+\sum_{k\in\NN}\mu\left(A_k\cap A^\complement\right)$$
+			e quindi per definizione di $\mu^*$,
+			$$\sum_{k\in\NN}\mu\left(A_k\cap A\right)+\sum_{k\in\NN}\mu\left(A_k\cap A^\complement\right)\ge \mu^*\left(E\cap A\right)+\mu^*\left(E\cap A^\complement\right)$$
+			che implica la tesi per quanto detto sopra.
+			\item Dato un $A\cup N\in \overline{A}$ e un $E\subseteq X$, vogliamo mostrare che
+			$$\mu^*(E)=\mu^*\left(\left(A\cup N\right)\cap E\right)+\mu^*\left(\left(A\cup N\right)^\complement \cap E\right)$$
+			come sempre un verso viene direttamente dalla subadditività. Per dimostrare l'altro prendiamo un $F\subseteq N$ in $\mathcal{A}$ e di misura ($\tilde{\mu}$) nulla, consideriamo poi un $\varepsilon>0$, per la definizione di inf esisterà un ricoprimento $A_k$ di $E$ tale che
+			$$\varepsilon+\mu^*(E)\ge \sum_{k\in\NN}\mu(A_k)$$
+			e dunque usando l'additività di $\mu$:
+			$$\sum_{k\in\NN}\mu(A_k)=\sum_{k\in\NN}\mu\left(A_k\cap \left(A\cup F\right)\right)+\sum_{k\in\NN}\mu\left(A_k\cap \left(A\cup F\right)^\complement\right)$$
+			ma ora usando l'identità
+			$$E\cap \left(A\cup N\right)^\complement=\left[E\cap A^\complement \cap \left(F\setminus N\right)\right]\sqcup \left[E\cap A^\complement \cap F^\complement\right]$$
+			e inoltre il fatto che 
+			$$E\cap A^\complement \cap \left(F\setminus N\right)\subseteq F$$
+			abbiamo che 
+			$$\bigcup_{k\in\NN}\left(A_k\cap \left(A\cup F\right)^\complement\right)=$$
+			
+		\end{enumerate}
 	\end{proof}
 	\subsection{Foglio 2: Teoria dell'integrale}
 	

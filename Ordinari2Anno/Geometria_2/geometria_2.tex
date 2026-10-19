@@ -1618,8 +1618,109 @@
 			\item $f$ è composizione di un numero finito di riflessioni rispetto a iperpiani, in particolare è $B$-ortogonale.
 		\end{itemize}
 	\end{theorem}
-	
-	
+	\begin{proof}
+		La dimostrazione si articola in due passi:
+		\begin{claim}
+			Per le ipotesi del teorema esiste un $W\le U \le V$ anisotropo, cioè tale che $U\cap U^\perp=\left\{0\right\}$, e inoltre esiste una $f:U\to V$ che sia un'estensione di $g$, e che sia lineare e $B$-ortogonale.
+		\end{claim}
+		\begin{subproof}[Sottodimostrazione]
+			Lavoriamo per induzione sulla dimensione di $W\cap W^\perp$. Se la dimensione è $0$ ci basta prendere $f=g$. Supponiamo che $W\cap W^\perp$ sia non nulla, e quindi abbia dimensione $m$, per il metodo di Lagrange siamo in grado di costruire una base $B$-ortogonale di $W$, chiamiamola $\left\{w_1,\dots,w_m\right\}$ e supponiamola ordinata in modo che gli ultimi vettori siano quelli isotropi, ovvero abbiamo necessariamente che 
+			$$B(w_m,w_m)=0$$
+			consideriamo allora la funzione
+			\begin{align*}
+				\alpha:V & \to \KK^n \\
+				v & \mapsto \begin{pmatrix}
+					B(w_1,v) \\
+					B(w_2,v) \\
+					\vdots \\
+					B(w_m,v)
+				\end{pmatrix}
+			\end{align*}
+			e questa dovrà necessariamente essere suriettiva, dato che $B$ è non degenere su $V$ (PERCH\'E???). Questo vuol dire che esisterà un $w_{m+1}\in V$ tale che 
+			$$B(w_1,w_{m+1})=\dots = B(w_{m-1},w_{m+1})=0$$
+			ma 
+			$$B(w_m,w_{m+1})=1$$
+			cioè abbiamo che $e_n$ appartiene all'immagine della funzione che stiamo considerando. Allora abbiamo, usando la bilinearità 
+			$$B(w_{m+1}+\lambda w_m,w_{m+1}+\lambda w_m)=\lambda^2 B(w_m,w_m)+B(w_{m+1},w_{m+1})+2\lambda=2\lambda+B(w_{m+1},w_{m+1})$$
+			ma allora questo vuol dire che per un'opportuna scelta di $\lambda$ possiamo ottenere un vettore isotropo, cioè sostituendo $w_{m+1}$ con 
+			$$w_{m+1}\mapsto w_{m+1}-\half B(w_{m+1},w_{m+1})w_m$$
+			avremo ancora che 
+			\begin{gather*}
+				B(w_1,w_{m+1})=\dots = B(w_{m-1},w_{m+1})=0 \\
+				B(w_m,w_{m+1})=1
+			\end{gather*}
+			ma per ipotesi abbiamo che $g$ rispetta $B$, quindi $\left\{g(w_1),\dots,g(w_m)\right\}$ sarà una base $B$-ortogonale di $g(W)$, quindi possiamo ripetere il ragionamento fatto sopra per trovare un $v_{m+1}\in V\setminus g(W)$\footnote{Questo è possibile perché abbiamo assunto $w_m$, isotropo, infatti qualunque $w\in W$ è tale che $\alpha(w)$ ha ultima coordinata $0$.} tale che la sua immagine nella funzione definita sopra sia $e_n$, consideriamo dunque 
+			$$U:=\langle w_1,\dots,w_m,w_{m+1}\rangle$$
+			e estendiamo $g$ con $f$ tale che
+			\begin{align*}
+				f: U & \to V \\
+				w_{1} & \mapsto g(w_1) \\
+				w_{2} & \mapsto g(w_2) \\
+				& \vdots \\
+				w_{m+1} & \mapsto v_{m+1}
+			\end{align*}
+			e quindi ci basta mostrare che 
+			$$\dim U \cap U^\perp < \dim W \cap W^\perp $$
+			per dimostrare il claim, grazie all'ipotesi induttiva. D'altra parte notiamo che 
+			$$U\cap U^\perp \subseteq W$$
+			infatti se 
+			$$u=\alpha_1w_1+\dots+\alpha_mw_m+\alpha_{m+1}w_{m+1}$$
+			sta in $U\cap U^\perp$ allora 
+			$$B(u,w_m)=\alpha_{m+1}B(w_m,w_{m+1})=\alpha_{m+1}$$
+			ma d'altra parte essendo $u$ ortogonale a tutti i vettori di $U$, ed essendo $w_m\in U$ dobbiamo necessariamente avere $\alpha_{m+1}=0$, da cui abbiamo proprio che $u\in W$ (in quanto si scrive come combinazione lineare di elementi di $W$). Inoltre dal fatto che $W\subseteq U$ segue $W^\perp \subseteq U^\perp$, e quindi abbiamo proprio 
+			$$U\cap U^\perp \subseteq W\cap W^\perp$$
+			d'altra parte per avere la tesi ci servirebbe in realtà avere che l'inclusione è stretta, ma questo si vede facilmente dal fatto che $w_{m}\not\in U\cap U^\perp $ (perché ci sono elementi di $U$ che non sono ortogonali a $w_m$, tipo $w_{m+1}$) ma d'altra parte $w_{m}\in W\cap W^\perp$ (perché per definizione lo avevamo preso isotropo).
+		\end{subproof}
+		\begin{claim}
+			Supponiamo in aggiunta alle ipotesi del teorema di Witt di avere che $W$ sia anisotropo, allora esiste un endomorfismo $f:V\to V$ che estende $g$ e che è composizione di al più $2\dim W$ riflessioni rispetto a iperpiani.
+		\end{claim}
+		\begin{subproof}
+			Sia $m=\dim W$ e sia $\left\{w_1,\dots,w_m\right\}$ una base $B_{\mid W}$ ortogonale. Dato che $W$ è anisotropo possiamo assumere che $B(w_i,w_i)\ne 0$ per ogni $i$. Consideriamo allora 
+			$$v_i:=g(w_i)$$
+			per $i$ che va da $1$ a $m$. Dimostriamo allora per induzione su $k$ che va da $0$ a $m$ che esiste un 
+			$$f=f_k\in O(V,B)$$
+			che sia composizione di al più $2k$ riflessioni rispetto a iperpiani e tale che $$f(w_i)=v_i$$
+			per $i$ da $0$ a $k$.\\
+			Il caso base è $k=0$, che è banale. Supponiamo allora di avere un endomorfismo $h$ di $V$, composizione di al più $2(k-1)$ riflessioni di iperpiani, tale che
+			$$h(w_i)=v_i$$
+			per ogni $1\le i \le k-1$. Supponiamo allora che $h(w_k)=v_k$, allora per ortogonalità di $h$ abbiamo
+			$$B(u_k,u_k)=B(w_k,w_k)\ne 0$$
+			e l'ultima relazione segue dal fatto che $w_k$ è anisotropo. Inoltre
+			$$B(v_i,u_k)=B(w_i,w_k)=0$$
+			per $i\le k-1$. Consideriamo allora la forma quadratica $Q:V\to \KK$ associata a $B$ che soddisfa per bilinearità la relazione
+			$$Q(u_k+v_k)+Q(u_k-v_k)=2\left[Q(u_k)+Q(v_k)\right]$$
+			ma visto che, per ortogonalità di $g$ abbiamo $Q(v_k)=Q(w_k)=Q(u_k)$ dobbiamo avere che il RHS è diverso da $0$, cioè al lato sinistro almeno uno dei due addendi deve essere diverso da $0$, dividiamo in due casi:
+			\begin{itemize}
+				\item Se $Q(u_k-v_k)\ne 0$ abbiamo che vale la seguente cosa
+				$$\rho_{\langle u_k-v_k \rangle^\perp}(v_i)=v_i$$
+				per ogni $i\le k-1$. Ma allora abbiamo che
+				$$\rho_{\langle u_k-v_k \rangle^\perp}(u_k)=u_k-2\frac{B(u_k,u_k-v_k)}{B(u_k-v_k,u_k-v_k)}(u_k-v_k)=v_k$$
+				dunque la $f$ che stiamo cercando in questo caso è proprio $f=\rho_{\langle u_k-v_k \rangle^\perp} \circ h$, e per ipotesi induttiva abbiamo finito.
+				\item Se invece si ha che $Q(u_k+w_k)\ne 0$ allora 
+				$$\rho_{\langle v_k\rangle^\perp} \circ \rho_{\langle u_k+v_k \rangle^\perp}(v_i))=v_i$$
+				per ogni $i\le k-1$. E come prima abbiamo
+				$$\rho_{\langle v_k\rangle^\perp} \circ \rho_{\langle u_k+v_k \rangle^\perp}(u_k))=v_k$$
+				e dunque la funzione cercata è
+				$$f=\rho_{\langle v_k\rangle^\perp}\circ \rho_{\langle u_k + v_k \rangle^\perp}\circ h.$$
+				E dunque abbiamo finito anche qui per ipotesi induttiva.
+			\end{itemize}
+			In ogni caso siamo arrivati alla tesi, e quindi abbiamo finito.
+		\end{subproof}
+		Mettendo insieme questi due claim otteniamo immediatamente il teorema di Witt, in quanto abbiamo trovato una forma esplicita per $f$ (e quindi possiamo estenderla facilmente a tutto $V$) che soddisfa la seconda tesi.
+	\end{proof}
+	Un corollario di ciò è
+	\begin{corollary}[Cartàn-Dieudonnè]
+		Sia $f:\RR^n\to\RR^n$ un'isometria (cioè un'applicazione ortogonale rispetto al prodotto scalare standard), se $W=\ker{f-\text{id}_{\RR^n}}$ è il luogo dei punti fissi di $f$ e $c:=n-\dim W$ la sua codimensione. Allora $f$ è prodotto di al massimo $c$ riflessioni di asse un iperpiano.
+ 	\end{corollary}
+ 	\begin{proof}
+ 		Semplicemente è una conseguenza di witt, infatti $f$ è iniettiva e 
+ 	\end{proof}
+	\begin{corollary}
+		Se $U$ e $W$ sono sottospazi \textit{totalmente isotropi} di $(V,B)$ uno spazio pseudoeuclideo. Se $\dim U \le \dim W$ allora esiste una $f\in O(V,B)$ tale che $f(U)\subseteq f(W)$.
+	\end{corollary}
+	\begin{proof}
+		Sia $g:U\to W$ una qualsiasi applicazione lineare iniettiva. Dato che $B_{\mid U}=B_{\mid W}=0$ abbiamo che $g$ è ortogonale, e quindi applicando Witt esisterà una $f$ estensione di $g$ che soddisfa le ipotesi (dato che $f(W)=f(f(U))$).
+	\end{proof}
 	\newpage
 	
 	\part{Modulo B}

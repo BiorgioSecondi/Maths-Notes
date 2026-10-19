@@ -1421,6 +1421,131 @@
 		$$\abs{\abs{a-s^i}}_\infty= \sup_{j\in \NN}\abs{a_j-s^i_j}\ge 1$$
 		e dunque abbiamo proprio la tesi.
 	\end{proof}
+	\subsection{Ascoli-Arzelà e applicazioni}
+	\begin{definition}[Equilimitatezza ed equicontinuità]
+		Sia $X$ uno spazio metrico, dato l'insieme $C(X)$ delle funzioni $f:X\to\RR$ continue, un suo sottoinsieme $K\subseteq C(X)$ si dice \textit{equilimitato} se esiste un $M>0$ tale che
+		$$\abs{\abs{f}}_\infty\le M$$
+		ovvero l'insieme $K$ è limitato come sottoinsieme dello spazio metrico $\mathcal{C}(X)$. Allo stesso modo $K$ si dice \textit{equicontinuo} se per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che, comunque presi due $x,y\in X$ e $f\in K$ di ha
+		$$d(x,y)<\delta \implies d\left(f(x),f(y)\right)<\varepsilon$$
+		cioè in un certo senso sono tutte uniformemente continue, con lo stesso $\delta$ per ogni $\varepsilon$.
+	\end{definition}
+	Il risultato che vogliamo arrivare a mostrare in questa sezione quindi è 
+	\begin{theorem}[Ascoli-Arzelà]
+		Sia $X$ uno spazio metrico compatto,per ogni $K\subseteq C(X)$ le seguenti due asserzioni sono equivalenti:
+		\begin{itemize}
+			\item[A:] $K$ è compatto.
+			\item[B:] $K$ è chiuso, equicontinuo ed equilimitato.
+		\end{itemize}
+	\end{theorem}
+	\begin{proof}
+		\textbf{Dimostriamo prima di tutto che $A\implies B$}. Chiaramente se $K$ è compatto sarà chiuso e limitato, e quindi abbiamo gratis il fatto che $K$ è chiuso ed equilimitato. Per dimostrare l'equicontinuità allora fissiamo un $\varepsilon>0$, dato che $K$ è compatto sarà anche totalmente limitato, quindi esisterà un insieme finito di $f_i$ tale che
+		$$K\subseteq \bigcup_{i=1}^n B_{\abs{\abs{\cdot}}_\infty}\left(f_i,\varepsilon\right)$$
+		inoltre dato che $X$ è compatto ognuna di queste $f_i$ sarà uniformemente continua (per Heine-Cantor). Ma allora per ogni $i$ esisterà un $\delta_i$ tale che
+		$$d(x,y)<\delta \implies \abs{f_i(x)-f_i(y)}<\varepsilon$$
+		ma d'altra parte questi $\delta_i$ sono un insieme finito, e quindi prendere il minimo di questo insieme è possibile, e questo $\delta$ va bene per tutte le $f_i$. Chiamiamo $\delta$ questo minimo, il nostro claim è che questo vada bene per tutte le $f\in K$, e in effetti se $d(x,y)<\delta$, presa una $f\in K$ contenuta nella palla di raggio $\varepsilon$ di $f_i$ abbiamo per la disuguaglianza triangolare
+		$$\abs{f(x)-f(y)}\le \abs{f(x)-f_i(x)}+\abs{f_i(x)-f_i(y)}+\abs{f_i(y)-f(y)}< 3\varepsilon$$
+		dove la stima del primo e dell'ultimo termine segue dal fatto che $f$ è nella palla di $f_i$. Dunque abbiamo la prima tesi. \\
+		\textbf{Mostriamo ora che $B\implies A$}. Dimostriamo che $K$ è sequenzialmente compatto, data una $\left(f_n\right)_{n\in\NN}\subseteq K$ vogliamo costruire una sottosuccessione convergente. La prima idea è usare la separabilità di $X$ (che segue dalla sua compattezza), per costruire una successione $x_1,\dots,x_n,\dots \in X$ densa in questo stesso. Allora per equilimitatezza abbiamo che per ogni $i$ le successioni $f_n(x_i)$ al variare di $n$ è limitata, cioè
+		$$\sup_{n\in\NN}\abs{f_n(x_i)}\le M$$
+		ma allora per Bolzano-Weierstrass da ognuna delle successioni $f_n(x_i)$ possiamo estrarre, una dopo l'altra, ognuna estratta da dentro la precedente, delle sottosuccessioni, e a ogni estrazione aggiungeremo la convergenza in un nuovo punto $x_i$. Dunque abbiamo costruito una sottosuccessione. Abbiamo quindi costruito $\NN$ sottosuccessioni tali che
+		$$f^i_n(x_j)\overset{n\to\infty}{\longrightarrow}\alpha_j$$
+		per ogni $j\le i$ e dati opportuni punti $\alpha_j$. Abbiamo quindi
+		$$
+		\begin{array}{ccc}
+			f_1^1 & f_2^1 & \dots \\
+			f^2_1 & f^2_2 & \dots \\
+			\vdots & \vdots & \ddots
+		\end{array}
+		$$
+		e ognuna di queste successioni converge ai primi $i$ punti del denso che abbiamo definito. La seconda idea, dovuta a Cantor come sempre, è di considerare la sottosuccessione \textit{diagonale} di questa tabella:
+		$$
+		\begin{array}{cccc}
+			f^1_1 & f^2_2 & f^3_3 & \dots
+		\end{array}
+		$$
+		questa convergerà in tutti i punti $x_n$, perché ogni termine $f^i_i$ sarà un termine della successione $f^{i-1}_{n}$, e quindi tenderà a $x_i$. Ma questo sarà vero per ogni $i$, e quindi abbiamo proprio che $f^i_i(x_n)\to \alpha_n$ per ogni $n$. Rinominiamo allora $\bar{f}_n$ questa successione, dimostriamo che è di Cauchy rispetto alla norma infinita (cioè converge uniformemente). Fissiamo $\varepsilon>0$, per equicontinuità esisterà un $\delta>0$ tale che per ogni $n$, vale
+		$$d(x,y)<\delta \implies\abs{\bar{f}_n(x)-\bar{f}_n(y)}<\varepsilon$$
+		consideriamo allora le palle $B(x_i,\delta)$, queste per densità di $x_n$ ricopriranno tutto $X$, ma dato che questo è compatto avremo
+		$$X\subseteq \bigcup_{i=1}^n B(x_i,\delta)$$
+		ma allora dato che per ogni $i$ la successione reale $\bar{f}_n(x_i)$ in funzione di $i$ è di Cauchy (l'abbiamo definita apposta perché faccia ciò), esisterà un $\bar{n}$ tale che, se $m,n\ge \bar{n}$ allora
+		$$\abs{\bar{f}_n(x_i)-\bar{f}_m(x_i)}<\varepsilon$$ 
+		per ogni $i\le N$ (semplicemente abbiamo preso l'$\bar{n}$ per ogni $i$, e abbiamo preso il minimo). Ma allora abbiamo finito, ci basta mettere insieme tutte le informazioni applicando due volte la triangolare, infatti per $x\in X$ esisterà un $x_k$, con $k\le N$ tale che $d(x_k,x)<\delta$, allora
+		$$\abs{\bar{f}_n(x)-\bar{f}_m(x)}\le \abs{\bar{f}_n(x)-\bar{f}_n(x_k)}+\abs{\bar{f}_m(x_k)-\bar{f}_n(x_k)}+\abs{\bar{f}_m(x_k)-\bar{f}_m(x)}$$
+		d'altra parte il primo e il terzo termine sono $<\varepsilon$ per equicontinuità, mentre quello in mezzo è $<\varepsilon$ per il fatto che $\bar{f}_n(x_k)$ è di Cauchy per ogni $k$, e quindi abbiamo che $\bar{f}_n$ converge uniformemente a qualcosa, quel qualcosa è in $K$ per chiusura di $K$, e quindi $K$ è sequenzialmente compatto, ovvero la tesi.
+	\end{proof}
+	La prima applicazione di questo teorema è 
+	\begin{corollary}[Estrarre sottosuccessioni uniformemente convergenti]
+		Sia $X$ uno spazio metrico compatto e $\left(f_n\right)_{n\in\NN}\subseteq \mathcal{C}(X)$ una successione di funzioni equicontinue ed equilimitate, allora esiste una sottosuccessione $f_{n_k}$ che converge uniformemente in $\mathcal{C}(X)$.
+	\end{corollary}
+	\begin{proof}
+		Essenzialmente per applicare Ascoli-Arzelà basta dimostrare che 
+		$$K=\overline{\left\{f_n:n\in\NN\right\}}$$
+		è ancora equicontinuo ed equilimitato (da questo seguirà che è compatto, e quindi dalla compattezza seguirà la tesi). \textbf{Per casa}.
+	\end{proof}
+	\begin{exercise}
+		Consideriamo l'insieme
+		$$K:=\left\{f\in \mathcal{C}([a,b]):\abs{f(x_0)}\le A,\,\text{Lip}(f)\le B\right\}$$
+		con $A,B>0$ due costanti fissate e $x_0\in [a,b]$ un certo punto. Allora $K$ è compatto.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Usiamo Ascoli-Arzelà, prima di tutto abbiamo che $X=[a,b]$ è compatto, poi abbiamo:
+		\begin{itemize}
+			\item $K$ è chiuso: $f_n\in K$ e $f_n\to f$ uniformemente allora 
+			$$\abs{f(x_0)}=\lim_{n\to\infty}\abs{f_n(x_0)}\le A$$
+			inoltre
+			$$\frac{\abs{f(x)-f(y)}}{\abs{x-y}}=\lim_{n\to\infty}\frac{\abs{f_n(x)-f_n(y)}}{\abs{x-y}}\le B$$
+			e dunque la costante di Lipschitz rimane limitata.
+			\item $K$ è equicontinuo, perché banalmente per ogni $\varepsilon>0$ scegliamo $\delta=\varepsilon/B$.
+			\item $K$ è equilimitato, infatti 
+			$$\abs{f(x)}\le \abs{f(x)-f(x_0)}+\abs{f(x_0)}\le B\abs{x-x_0}+A\le B(b-a)+A$$
+			cioè graficamente ci basta prendere il massimo valore assunto in $x_0$ e tracciare il cono di Lipschitz in quel punto; dato che tutte le $f$ devono stare al di sotto di quel cono, quando questo incontrerà gli estremi dell'intervallo $[a,b]$ avremo la costante che stiamo cercando.
+		\end{itemize}
+		Dunque per Ascoli-Arzelà abbiamo la tesi.
+	\end{proof}
+	Una cosa che abbiamo usato sopra è vera anche in generale, e vale la pena isolarla:
+	\begin{proposition}[Equicontinuo e limitato in un punto implica equilimitato]
+		Sia $K\subseteq \mathcal{C}([a,b])$ equicontinuo, allora se esiste un $x_0$ tale che
+		$$\abs{f(x_0)}\le M$$
+		per qualche $M\in\RR$ allora $K$ è equilimitato.
+	\end{proposition}
+	\begin{proof}
+		Supponiamo per semplicità che $\varepsilon=1$, allora esisterà un $\delta>0$ tale che $\abs{x-y}\le \delta \implies \abs{f(x)-f(y)}<1$ per ogni $f\in K$. Allora abbiamo 
+		$$\abs{f(x)-f(y)}\le \floor{\frac{x-y}{\delta}}+1\le \floor{\frac{b-a}{\delta}}+1$$
+		BHO ANCHE QUESTO NON HO CAPITO
+	\end{proof}
+	Come applicazione definiamo la nozione di lunghezza di una curva:
+	\begin{definition}[Lunghezza di una curva]
+		Sia $\gamma:[0,1]\to \RR^n$ una curva, allora definiamo la sua lunghezza $L(\gamma)$ come
+		$$L(\gamma):=\sup_{t_n\in [0,1]}\sum_{i=1}^N \abs{\gamma(t_i)-\gamma(t_{i+1})}$$
+		con $t_i$ una successione crescente \textbf{finita} di punti di $[0,1]$. Insomma è l'approssimazione sempre più fine della curva con spezzate.
+	\end{definition}
+	\begin{theorem}[Esistenza delle geodetiche]
+		Sia $C\subseteq \RR^n$ un chiuso (per esempio una sfera, un cono, un toro,$\dots$). Presi due punti $x,y\in C$ tali per cui esista una $\tilde{\gamma}:[0,1]\to C$ tale che $\gamma(0)=x$ e $\gamma(1)=y$ tale che $L(\tilde{\gamma})<\infty$, esiste 
+		$$\min\left\{L(\gamma):\gamma:[0,1]\to C,\,\gamma(0)=x,\,\gamma(1)=y\right\}$$
+		e tale curva che realizza il minimo si dice \textit{geodetica}.
+	\end{theorem}
+	\begin{proof}
+		Prendiamo l'insieme sia $\Gamma$ l'insieme delle curve da $x$ a $y$ in $C$, e consideriamo
+		$$I:=\inf\left\{L(\gamma):\gamma\in\Gamma\right\}$$
+		per ipotesi questo è finito, prendiamo allora una successione $\gamma_n\in \Gamma$ minimizzante. Per un fatto che si vedrà a geometria $2$ possiamo assumere che ogni $\gamma_n$ sia parametrizzata a velocità costante, ovvero 
+		$$L\left(\gamma_{\mid [s,t]}\right)=(t-s)L(\gamma_n)$$
+		denotiamo inoltre $L(\gamma_n)=:L_n$. Allora abbiamo che:
+		\begin{itemize}
+			\item $\gamma_n$ è equicontinua, infatti 
+			$$\abs{\gamma_n(s)-\gamma_n(t)}\le L\left(\gamma_{n\mid [s,t]}\right)=(t-s)L_n\le C(t-s)$$
+			e quindi è addirittura uniformemente lipschitziana.
+			\item $\gamma_n$ è equilimitata, infatti $\abs{\gamma_n(0)}=\abs{x}$ per tutti gli $n$, e quindi per l'osservazione fatta sopra abbiamo che 
+			$$\abs{\gamma_n(0)}\le \abs{\gamma_n(s)-\gamma_n(0)}+\abs{\gamma_n(0)}\le C\abs{s}+\abs{x}$$
+			ovvero abbiamo proprio equilimitatezza.
+		\end{itemize}
+		Allora per il corollario al teorema di Ascoli-Arzelà abbiamo che $\gamma_n\to \gamma$ uniformemente in $[0,1]$, d'altra parte dato che $C$ è chiuso $\gamma\in C$. Rimane solo da mostrare che la lunghezza di questo $\gamma$ sia proprio quella minima, per definizione di sup abbiamo che esisterà una spezzata $t_i$ tale che
+		$$L(\gamma)\le \sum_{i=1}^{N}\abs{\gamma(t_i)-\gamma(t_{i-1})}+\varepsilon$$
+		ma allora
+		$$\sum_{i=1}^{N}\abs{\gamma(t_i)-\gamma(t_{i-1})}+\varepsilon=\liminf_{n\to\infty}\sum_{i=1}^{N}\abs{\gamma_n(t_i)-\gamma_n(t_{i-1})}+\varepsilon=\liminf_{n\to\infty}L(\gamma_n)+\varepsilon=I+\varepsilon$$
+		ma dato che questo vale per $\varepsilon$ arbitrario abbiamo 
+		$$L(\gamma)\le I$$
+		e per definizione di $\inf$ questo conclude che $L(\gamma)=I$, come volevamo.
+	\end{proof}
 	
 	\newpage
 	
