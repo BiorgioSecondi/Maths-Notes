@@ -343,7 +343,7 @@
 	\end{proof}
 	E appunto come corollario di ciò otteniamo che i razionali sono infinitamente generati, in quanto è molto facile mostrare che non sono ciclici.
 	
-	\subsection{Classi laterali e struttura quoziente}
+	\subsection{Laterali e trasversali}
 	
 	Continuiamo il ripasso introducendo la seguente nozione
 	\begin{definition}[Classe laterale]
@@ -378,7 +378,7 @@
 		$$t_2^{-1}t_1\in u_2Ku_1^{-1}\subseteq H$$
 		ma questo, dato che $T$ è un trasversale di $H$ vuol dire che $t_1=t_2$, e quindi anche $u_1=u_2$ (dato che $U$ è un trasversale di $K$), da cui la tesi.
 	\end{proof}
-	Un'altra cosa che si può fare con gli indici e i trasversali ci viene suggerita dal seguente grafico: \\
+	Un'altra cosa che si può fare con gli indici e i trasversali ci viene suggerita dal seguente grafico: 
 		\begin{center}
 			\begin{tikzcd}
 				&&G\arrow[d,no head]&& \\
@@ -404,15 +404,41 @@
 	\end{corollary}	
 	\begin{proof}
 		Semplicemente per quanto appena mostrato abbiamo 
-		$$\abs{G:K}\ge \abs{H\cap H\cap K}$$
+		$$\abs{G:K}\ge \abs{H: H\cap K}$$
 		e dunque per Lagrange sui laterali:
 		$$\abs{G:K}\abs{G:H}\ge \abs{G:H}\abs{H:H\cap K}=\abs{G:H\cap K}$$
 		che era la tesi.
 	\end{proof}
-	E purtroppo in generale non possiamo fare di meglio. La buona notizia è che:
+	E purtroppo in generale non possiamo fare di meglio.
+	\begin{example}[La disuguaglianza può essere stretta]
+		Consideriamo $G=S_3$ e i due sottogruppi
+		\begin{gather*}
+			H:=\langle \left(1,2\right)\rangle \\
+			K:=\langle \left(1,3\right)\rangle
+		\end{gather*}
+		per questi si ha che
+		$$9=3\cdot 3 = \abs{G:H}\abs{G:K}>\abs{G:H\cap K}=6$$
+		e dunque la disuguaglianza è stretta.
+	\end{example}
+	La buona notizia però è che:
 	\begin{proposition}[Se gli indici sono coprimi si ha uguaglianza]
-		SE GLI INDICI SONO COPRIMI ALLORA HAI UGUAGLIANZA, RIPRENDILA
+		Prendiamo $H,K\le G$ tali che $\abs{G:H}$ e $\abs{G:K}$ siano finiti e coprimi, allora si ha
+		$$\abs{G:H}\abs{G:K}=\abs{G:H\cap K}.$$
 	\end{proposition}
+	\begin{proof}
+		Per Lagrange abbiamo che
+		$$\abs{G:H}\abs{H:H\cap K}=\abs{G:H\cap K}=\abs{G:K}\abs{K:K\cap H}$$
+		ma questo vuol dire che, per coprimalità di $\abs{G:H}$ e $\abs{G:K}$.
+		$$\abs{G:H}\mid \abs{G:K}\abs{K:K\cap H} \implies \abs{G:H}\mid \abs{K:K\cap H} \implies \abs{G:H}\le \abs{K:K\cap H}$$
+		ma questo insieme alla disuguaglianza dimostrata sopra mostra proprio che 
+		$$\abs{G:H}=\abs{K:H\cap K}$$
+		da cui abbiamo, moltiplicando da ambo i lati per $\abs{G:K}$ che
+		$$\abs{G:H}\abs{G:K}=\abs{G:K}\abs{K:K\cap H}=\abs{G:K\cap H}$$
+		come volevamo.
+	\end{proof}
+	
+	\subsection{Prodotti diretti}
+	
 	Quando si parla di quozienti parliamo di gruppi normali:
 	\begin{definition}[Gruppo Normale]
 		Un sottogruppo $N\le G$ si dice normale e si scrive $N\normal G$ se e solo se 
@@ -420,7 +446,7 @@
 		per ogni $g\in G$.
 	\end{definition}
 	Inoltre ricordiamo la definizione di prodotto diretto:
-	\begin{definition}[Prodotto tra gruppi]
+	\begin{definition}[Prodotto interno tra gruppi]
 		Dati due $G\ge H,K$ allora definiamo il gruppo \textit{prodotto} come
 		$$HK:=\left\{hk:h\in H, k\in K\right\}.$$
 	\end{definition}
@@ -437,7 +463,7 @@
 	Con i prodotto possiamo fare tante cose interessanti:
 	\begin{proposition}[Ordine del prodotto]
 		Per ogni $H,K\le G$ abbiamo
-		$$\abs{HK}=\frac{\abs{K}\abs{K}}{\abs{K\cap H}}.$$
+		$$\abs{HK}=\frac{\abs{H}\abs{K}}{\abs{K\cap H}}.$$
 	\end{proposition}
 	\begin{proof}
 		Consideriamo la funzione 
@@ -452,13 +478,35 @@
 		$$(hx,x^{-1}k)\mapsto hk$$
 		dunque abbiamo proprio la tesi.
 	\end{proof}
-	Cosa succede allora se $N\normal G$, $H\le G$ e il prodotto è proprio $G=HN$, mentre $H\cap N=\left\{1\right\}$? Beh per la funzione costruita prima questo vuol dire che ogni elemento $g\in G$ possiamo trovare una e una sola coppia $(h,k)$ tale che
+	\begin{definition}[Prodotto esterno tra gruppi]
+		Dati due gruppi $A,B$ il loro \textit{prodotto esterno}, è l'insieme $A\times B$ munito dell'operazione
+		$$(a,b)(a',b')=(aa',bb')$$
+		per ogni $a\in A$ e $b\in B$, che gli conferisce la struttura di un gruppo. 
+	\end{definition}
+	Il risultato precedente ci potrebbe far pensare che prodotto interno e prodotto esterno in realtà siano equivalenti.
+	Cosa succede allora se $N\normal G$, $H\le G$ e il prodotto è proprio $G=HN$, mentre $H\cap N=\left\{1\right\}$? Beh per la funzione costruita prima questo vuol dire che ogni elemento $g\in G$ possiamo trovare una e una sola coppia $(h,k)\in H\times K$ tale che
 	$$hk=g$$
 	quello che ci viene da pensare immediatamente allora è che la biezione $\sigma$ che abbiamo costruito sia un isomorfismo. E questo è \textbf{falso} in generale, infatti abbiamo che
-	$$(h,1)\mapsto h$$
-	e 
-	$$(1,k)\mapsto k$$
-	ma gli elementi a sinistra commutano (per come è fatto il prodotto diretto), mentre quelli a destra non necessariamente.
+	\begin{gather*}
+		(h,1)\mapsto h \\
+		(1,k)\mapsto k
+	\end{gather*}
+	ma gli elementi a sinistra commutano (per come è fatto il prodotto diretto), mentre quelli a destra non necessariamente. L'oggetto a cui siamo davanti quindi è essenzialmente diverso.
+	
+	Un criterio ci giunge dal risultato dimostrato alla sezione precedente sui trasversali:
+	\begin{proposition}[Criterio per la scomposizione di gruppi]
+		Siano $H,K\le G$ con $G$ finito, allora se $H$ e $K$ hanno indici coprimi si ha
+		$$HK=G.$$
+	\end{proposition}
+	\begin{proof}
+		Per quanto mostrato sopra sui laterali abbiamo
+		$$\abs{G:H\cap K}=\abs{G:H}\abs{G:K}$$
+		inoltre per definizione di indice abbiamo
+		$$\abs{H\cap K}=\frac{\abs{G}}{\abs{G:H\cap K}}=\frac{\abs{G}}{\abs{G:H}\abs{G:K}}=\frac{\abs{G}}{\frac{\abs{G}^2}{\abs{H}\abs{K}}}=\frac{\abs{H}\abs{K}}{\abs{G}}$$
+		che sostituendo nella formula per la cardinalità del prodotto di due gruppi ci dà
+		$$\abs{HK}=\frac{\abs{H}\abs{K}}{\abs{H\cap K}}=\frac{\abs{H}\abs{K}}{\frac{\abs{H}\abs{K}}{\abs{G}}}=\abs{G}$$
+		cioè $HK=G$ come richiesto.
+	\end{proof}
 	\subsubsection{Applicazioni dei teoremi d'omomorfismo}
 	Ricordiamo i teoremi d'omomorfismo: questi scaturiscono essenzialmente dalla proiezione canonica
 	$$G\overset{\pi}{\longrightarrow}\faktor{G}{N}$$
@@ -1229,6 +1277,151 @@
 	 	\item Ad ordine $1$ si ha
 	 \end{itemize}
 	 
+	 \subsection{Prodotti semidiretti}
+	 
+	 Quando lavoriamo con prodotti di gruppi abbiamo visto che c'erano due approcci essenzialmente:
+	 \begin{itemize}
+	 	\item Il prodotto \textit{esterno}, anche noto come prodotto diretto: dati due gruppi $A$ e $B$ il loro prodotto diretto è $A\times B$, il prodotto cartesiano, equipaggiato con la moltiplicazione componente per componente. In questo prodotto ci sono delle copie naturali sia di $A$ che di $B$:
+	 	\begin{gather*}
+	 		\tilde{A}=\left\{\left(a,1\right):a\in A\right\} \\
+	 		\tilde{B}=\left\{\left(1,b\right):b\in B\right\}
+	 	\end{gather*}
+	 	entrambi questi sono tali che $\tilde{A}\tilde{B}=1$ con il prodotto interno, ed entrambi sono normali in $A\times B$.
+	 	\item Il prodotto \textit{interno}: dato un gruppo $G$ che si possa scrivere come 
+	 	$$G=AB$$
+	 	con $A,B\normal G$ e $A\cap B=1$, allora abbiamo che ogni elemento di questo gruppo si può scrivere in maniera unica come 
+	 	$$g=ab$$
+	 	con $a\in A$ e $b\in B$. In questo caso abbiamo proprio che
+	 	\begin{align*}
+	 		\gamma: A\times B & \to G \\
+	 		\left(a,b\right) & \mapsto ab
+	 	\end{align*}
+	 	e questa applicazione è un isomorfismo (e affinché ciò sia vero è necessario avere $A,B\normal G$).
+ 	\end{itemize}
+ 	Cosa succede allora se vogliamo esprimere un prodotto interno tra due gruppi che non sono entrambi normali? Abbiamo già visto che se $H\le G$ e $N\normal G$ abbiamo $HN\le G$ e possiamo costruire una mappa biettiva
+ 	\begin{align*}
+ 		\gamma:N\times H & \to G \\
+ 		(n,h) & \mapsto nh
+ 	\end{align*}
+ 	che però abbiamo già visto non essere un isomorfismo se $H$ non è normale. Questo succede se equipaggiamo $N\times H$ con la struttura di prodotto esterno, ma possiamo inventare una struttura un po' più fine, che ci permette di rendere questa mappa un isomorfismo, ovvero dato che il prodotto tra elementi di $G$ è
+ 	$$n_1h_1n_2h_2=n_1(h_1n_2h_1^{-1})h_1h_2$$
+ 	allora la struttura di cui vogliamo dotare $N\times H$ è 
+ 	$$(n_1,h_1)(n_2,h_2)=(n_1h_1n_2h_1^{-1},h_1h_2).$$
+	Vediamo più formalmente questa cosa, consideriamo un omomorfismo
+	$$\rho:H\to \text{Aut}(N)$$
+	insomma abbiamo definito un'azione di $H$ su $N$ (è più di una permutazione degli elementi di $N$ in questo caso, è un automorfismo). Con questa azione possiamo definire su $N\times H$ la struttura di gruppo
+	$$\left(n_1,h_1\right)*(n_2,h_2)=\left(n_1\left(h_1\circ n_2\right),h_1h_2\right)$$
+	dove $h_1\circ n_2$ è l'azione di $h_1$ su $n_2$, come definita da $\rho$ ovvero
+	$$h_1\circ n_2=\rho(h_1)n_2$$
+	di nuovo, in questo gruppo possiamo trovare due copie naturali di $N$ e $H$, ovvero
+	$$\tilde{N}=\left\{(n,1):n\in N\right\}$$
+	$$\tilde{H}=\left\{(h,1):h\in H\right\}$$
+	ed entrambi questi gruppi sono normali, infatti
+	$$(1,h)(n,1)(1,h)^{-1}=(h\circ n,1)$$
+	usando il fatto che $(n,h)^{-1}=(h^{-1}\circ n^{-1},h^{-1})$.
+	\begin{definition}[Prodotto semidiretto]
+		Dato un gruppo $G$ e due sottogruppi $N\normal G$ e $H\le G$, definita un'azione $\rho$ di $H$ su $N$ il loro \textit{prodotto semidiretto} è l'insieme 
+		$$N\underset{\rho}{\rtimes} H :=N\times H$$
+		equipaggiato con la moltiplicazione 
+		$$\left(n_1,h_1\right)*(n_2,h_2)=\left(n_1\left(h_1\circ n_2\right),h_1h_2\right)$$
+		per ogni $n_1,n_2 \in N$ e $h_1,h_2\in H$.
+	\end{definition}
+	Abbiamo già visto un sacco di casi di prodotti semidiretti in realtà:
+	\begin{example}[Diedrale]
+		Il gruppo delle isometrie del piano si può scrivere come 
+		$$R\rtimes C_2$$
+		così come tutti i diedrali si possono scrivere come
+		$$D_n=C_n\rtimes C_2.$$
+	\end{example}
+	\begin{example}[Simmetrici]
+		Abbiamo visto che $S_4$ si scriveva come
+		$$S_4=KH$$
+		con $K$ il Klein $H$ isomorfo a $S_3$. Questo è un prodotto semidiretto appunto, in particolare
+		$$S_4=\left(C_2\times C_2\right)\rtimes S_3.$$
+	\end{example}
+	\begin{exercise}
+		Prendiamo un $G\le S_{12}$ e i due elementi
+		\begin{gather*}
+			\alpha=(1,2,3)(4,5,6)(7,8,9)(10,11,12) \\
+			\beta=(1,4,7,10)(2,6,8,12)(3,5,9,11)	
+		\end{gather*}
+		\begin{enumerate}
+			\item  Calcola $\beta \alpha \beta^{-1}$. 
+			\item  Calcola quanti sono i $p$-sylow.
+			\item  Calcola il centro.
+		\end{enumerate}
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Facendo il primo calcolo troviamo
+		$$\beta \alpha \beta^{-1}=(4,6,5)(7,9,8)(10,12,11)(1,3,2)$$
+		e quindi abbiamo
+		$$\beta \alpha \beta^{-1}=\alpha^{-1}$$
+		ma questo vuol dire che possiamo fare agire $\langle \beta\rangle$ su $\langle \alpha\rangle$ per coniugio, e quindi abbiamo
+		$$G=C_3\rtimes C_4$$
+		ma allora questo gruppo ha ordine $12$, e quindi avremo che $n_3(G)=1$. Questo vuol dire che $C_3$ è unico. Ma dato che 
+		$$n_2(G)=\abs{G:N_G(\langle \beta \rangle)}$$
+		ma dato che $N_G(\langle \beta \rangle)\ge \langle \beta \rangle$ per una questione di divisibilità non possiamo avere altro che
+		$$N_G(\langle \beta \rangle)=\langle \beta \rangle$$ 
+		cioè $n_2(G)=3$. Chi è il centro? Abbiamo sicuramente che 
+		$$\beta^2\alpha \beta^2=\alpha$$
+		e quindi abbiamo che
+		$$\langle \beta^2\rangle \le Z(G)$$
+		da cui si deduce con altre considerazioni che $Z(G)=\langle \beta^2\rangle$. 
+	\end{proof}
+	Ci piacerebbe elencare tutti i gruppi di ordine $12$. Sappiamo che sicuramente contengono un $3$-sylow normale, e quindi abbiamo che delle possibilità sono
+	$$C_4\times C_3$$
+	e 
+	$$K_4\times C_3$$
+	e questi erano tutti gli abeliani. Per quanto riguarda i gruppi non abeliani conosciamo $A_4$, $D_6$ e il gruppo $G$ trovato sopra ovvero $C_3\rtimes C_4$ con l'azione di coniugio il nostro claim è che questi siano tutti. Supponiamo allora che $X$ non sia abeliano, ma abbia ordine $12$, dividiamo in due casi:
+	\begin{itemize}
+		\item Se esiste un $x\in Z(X)$ di ordine $2$ allora per Cauchy esisterà un $y\in X$ di ordine $3$. Ma dato che $x$ è nel centro questo commuterà con $y$, e quindi 
+		$$z:=xy$$
+		avrà ordine $6$. Ma allora abbiamo ancora due casi: 
+		\begin{itemize}
+			\item Se esiste un $u$ di ordine $2$ fuori dal centro abbiamo semplicemente
+			$$X=\langle z \rangle \rtimes \langle u \rangle$$
+			e quindi abbiamo proprio $X=D_6$.
+			\item Se $x$ è l'unico elemento di ordine $2$ allora nei $2$-sylow non ci potrà essere il klein, ovvero ci potrà essere solo $C_4$. D'altra parte abbiamo
+			$$n_3(X)=\abs{X:N_X(Q)}$$
+			con $Q$ un $3$-sylow. Ma quel numero deve essere $\le 2$, e per il teorema di Sylow deve essere congruo a $1$ modulo $3$, quindi deve essere necessariamente unico. Ma allora $C_3C_4=X$ ovvero
+			$$X=C_3\times C_4$$
+			ovvero il gruppo $G$ che avevamo trovato sopra.
+		\end{itemize}
+		\item Supponiamo ora che il centro non abbia elementi di ordine $2$, se per assurdo avessimo 
+		$$n_3(X)=4$$
+		allora che esiste un $Q$ che sia un $3$-sylow e tale che $N_X(Q)=Q$, dunque il suo cuore normale deve essere necessariamente $Q_X=1$ ma questo vuol dire che 
+	\end{itemize}
+	E invece dei gruppi $G$ di ordine $8$ cosa possiamo dire? Iteriamo sull'esponente:
+	\begin{itemize}
+		\item Se l'esponente è $2$ abbiamo che $G$ è abeliano, infatti 
+		$$xyxy=1$$
+		ovvero
+		$$xy=y^{-1}x^{-1}=yx$$
+		e dunque essendo abeliano le uniche possibilità sono $C_4\times C_2$ e $C_2\times C_2\times C_2$.
+		\item Se l'esponente è $8$ abbiamo semplicemente che è ciclico.
+		\item Se l'esponente è $4$ abbiamo che esiste un $x$ di ordine $4$. Se al di fuori di $\langle x \rangle$ esiste un elemento $y$ di ordine $2$ abbiamo semplicemente
+		$$G=\langle x \rangle \rtimes \langle y \rangle$$
+		cioè abbiamo trovato $D_4$. Altrimenti se $x^2$ è l'unico elemento di ordine $4$ abbiamo tutti gli altri $6$ elementi devono avere ordine $4$, ma allora dato che $x$ e $x^{-1}$ hanno lo stesso avremo precisamente tre sottogruppi distinti con ordine $4$, siano $I$, $J$ e $K$. Allora il reticolo di $G$ è
+		\begin{center}
+			\begin{tikzcd}
+				& G\arrow[d,no head]\arrow[dr,no head]\arrow[dl,no head] & \\
+				I\arrow[dr,no head]&J\arrow[d,no head]   &K\arrow[dl,no head]  \\
+				&\langle x^2\rangle \arrow[d,no head] & \\
+				& 1 & 
+			\end{tikzcd}
+		\end{center} 
+		esiste un affare del genere? lo conosciamo? In realtà sì, se consideriamo l'anello dei quaternioni su $\ZZ$:
+		$$\mathbb{H}\supseteq R=\left\{a_0+a_1i+a_2j+a_3k:a_0,a_1,a_2,a_3\in\ZZ\right\}$$
+		tale che 
+		$$i^2=j^2=k^2=ijk=-1$$
+		il sottoanello delle unità di questo, ovvero $U(R)$ questo è composto solo dagli elementi di norma unitaria (come al solito su strutture di questo tipo), dato che per ogni $x_1\in U(R)$ deve esistere l'inverso abbiamo
+		$$N(x_1x_1^{-1})=N(x_1)N(x_1^{-1})$$
+		ma dato che $N(x)\in \ZZ$ per ogni $x\in U(R)$ dobbiamo necessariamente avere $N(x_1)=1$, da cui abbiamo che
+		$$U(R)=\left\{\pm 1,\pm i, \pm j, \pm k \right\}$$
+		che è proprio il gruppo che stavamo cercando, di solito denotato con $Q_8$.
+	\end{itemize}
+	
+	
 	\newpage
 	
 	\section{Soluzioni agli esercizi proposti}

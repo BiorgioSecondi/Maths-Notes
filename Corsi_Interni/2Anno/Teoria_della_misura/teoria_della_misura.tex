@@ -855,7 +855,7 @@
 		un tale $\overline{s}$ si dice \textit{dimensione di Hausdorff}.
 	\end{definition}
 	
-	\subsubsection{Alcuni altri esempi}
+	\subsubsection{Misure di Borel}
 	
 	Un altro modo ancora di definire misure è il cosiddetto \textit{push-forward} o misura immagine. 
 	\begin{definition}[Push-Forward]
@@ -1074,7 +1074,7 @@
 		scambiando le sommatorie, e quindi abbiamo finito.
 	\end{proof}
 	
-	\subsection{Integrale di Lebesgue e Teoremi di convergenza}
+	\subsection{Integrale di Lebesgue e Convergenza monotona}
 	
 	Grazie a questo teorema quindi possiamo finalmente definire:
 	\begin{definition}[Integrale di Lebesgue]
@@ -1268,7 +1268,7 @@
 	\begin{theorem}[Vitali]
 		Siano $f_n:X\to\overline{\RR}$ misurabili tali che per ogni $x\in X$ si abbia
 		$$f_n(x)\to f(x)$$
-		(o anche soltanto quasi ovunque, se abbiamo l'assunzione che $f$ è misurabile). Assumiamo che $f_n\in L^1(X,\mu)$, allora sono equivalenti le seguenti:
+		(o anche soltanto quasi ovunque, se abbiamo l'assunzione che $f$ è misurabile). Assumiamo che $f_n\in L^1(X,\mu)$, e che $f$ sia finita quasi ovunque, allora sono equivalenti le seguenti:
 		\begin{enumerate}
 			\item $f\in L^1(X,\mu)$ e inoltre
 			$$\lim_{n\to\infty}\int_X \abs{f_n-f}\dif \mu =0.$$
@@ -1293,9 +1293,177 @@
 		e quindi la convergenza dominata ci dice che 
 		$$\int_X f_n\dif \mu \to \int_X \abs{f}\dif \mu$$ 	
 		FINISCILA \\
-		Dimostriamo ora $2$ implica $1$. Questo è essenzialmente una conseguenza di Egorov e Fatou: la strategia sarà applicare il secondo punto dell'ipotesi $2$ per restringerci ad insiemi di misura finita, e poi usando egorov tolto un insieme di misura piccola avremo $f_n\to f$ uniformemente, che ci permetterà di concludere.
-		$$\int_A \abs{f}\dif \mu \le \liminf_{n\to\infty}\int_A \abs{f_n}\dif \mu$$
+		Dimostriamo ora $2$ implica $1$. Questo è essenzialmente una conseguenza di Egorov e Fatou: la strategia sarà applicare il secondo punto dell'ipotesi $2$ per restringerci ad insiemi di misura finita, e poi usando egorov tolto un insieme di misura piccola avremo $f_n\to f$ uniformemente, che ci permetterà di concludere. Per Fatou per ogni $\varepsilon>0$ esisterà un $\delta>0$ tale che se $\mu(A)<\delta$ si ha
+		$$\int_A \abs{f}\dif \mu \le \liminf_{n\to\infty}\int_A \abs{f_n}\dif \mu<\varepsilon$$
+		e quindi anche $f$ è uniformemente integrabile, assieme alle altre $f_n$. Analogamente si fa per la seguente proprietà. Fissiamo allora $\varepsilon>0$ esisterà allora un $X_\varepsilon$ come nelle ipotesi, allora dal teorema di Egorov si ha che esiste un $X_\delta^\varepsilon\subseteq X^\varepsilon$ tale che $f_n\to f$ uniformemente su di esso e $\mu(X^\varepsilon\setminus X_\delta^\varepsilon)<\delta$. Allora per uniforme integrabilità si ha
+		$$\int_X \abs{f-f_n}\dif \mu =\int_{X\setminus X_\varepsilon} \abs{f-f_n}\dif \mu + \int_{X^\varepsilon\setminus X^\varepsilon_\delta} \abs{f_n-f}\dif \mu + \int_{X^\varepsilon_\delta}\abs{f-f_n}\dif \mu$$
+		e il primo termine è boundato da $\varepsilon$ per ipotesi, il secondo è boundato da $2\varepsilon$ per uniforme integrabilità e il terzo è boundato da $\varepsilon$ perché su quell'insieme $f_n$ converge uniformemente a $f$, e quindi possiamo stimare $\abs{f_n-f}$ con il sup, che va a $0$.
 	\end{proof}
+	\begin{exercise}
+		Si dimostri che il punto $2$ del teorema precedente implicache $f$ è finita $\mu$-quasi ovunque, se $\mu$ non ha atomi. Una misura si dice \textit{non avere atomi} se per ogni $A\in \mathcal{A}$ con $\mu(A)>0$ esiste un $A\supseteq B\in\mathcal{A}$ tale che 
+		$$0<\mu(B)<\mu (A).$$
+	\end{exercise}
+	Consideriamo ora una funzione problematica:
+	\begin{example}[Scala del diavolo]
+		Prendiamo un insieme di Cantor $\mathcal{C}$ in $[0,1]$. Consideriamo la seguente funzione definita per ricorsione (TROVA UN MODO PER SCRIVERLA) questa successione soddisfa
+		$$\abs{\abs{f-f_n}}_\infty<\varepsilon$$
+		definitivamente, inoltre dato che ogni $f_n$ è continua, anche il limite dovrà essere continuo, e quindi il limite dovrà effettivamente esistere in $\mathcal{C}([0,1])$. Tuttavia questa funzione ha la proprietà non ovvia che 
+		\begin{gather*}
+			f(0)=0 \\
+			f(1)=1
+		\end{gather*}
+		e cresce quasi come una retta, però $f'(x)=0$ quasi ovunque (rispetto a Lebesgue). E allora si ha che
+		$$\int_{[0,1]} f'(x)\dif x =0$$
+		ma 
+		$$f(1)-f(0)=1$$
+		e quindi non funziona il teorema fondamentale del calcolo.
+	\end{example}
+	
+	\subsection{Diverse nozioni di convergenza}
+	
+	Finora le nozioni di convergenza che abbiamo visto per successioni di funzioni $f_n\to f$ sono le seguenti:
+	\begin{itemize}
+		\item \textbf{Convergenza puntuale $\mu$-q.o.}, ovvero esiste un insieme di misura nulla $N$ tale che per ogni $x\in X\setminus N$ si ha che
+		$$\lim_{n\to\infty}f_n(x)=f(x).$$
+		\item \textbf{Convergenza quasi uniforme}, quella data da Egorov, cioè esiste un $X^\varepsilon\subseteq X$ tale che $\mu(X\setminus X^\varepsilon)<\varepsilon$ e si ha che $f_{n\mid X^\varepsilon}\to f_{\mid X^\varepsilon}$ uniformemente.
+		\item \textbf{Convergenza in $L^1(X,\mu)$} ovvero $f_n\to f$ rispetto alla metrica di $L^1$, cioè
+		$$\lim_{n\to\infty}\int_{X}\abs{f-f_n}\dif \mu=0.$$
+		\item \textbf{Convergenza in misura} (nuova!) per ogni $\varepsilon>0$ si ha che
+		$$\lim_{n\to\infty}\mu\left(\left\{\abs{f-f_n}\ge \varepsilon\right\}\right)=0.$$
+		Questo è spesso denotato con $f_n\overset{\mu}{\to} f$. 
+	\end{itemize}
+	Il diagramma riassuntivo di queste nozioni di convergenza allora è 
+	\begin{center}
+		\begin{tikzcd}
+			CV\, \mu \,\text{q.o.} & CV\,\text{q. uniforme} \\
+			CV \,\text{in $L^1$} & CV\, \text{in misura}
+		\end{tikzcd}
+	\end{center}
+	Dimostrare le varie relazioni è lasciato come esercizio al lettore, per dimostrare il caso che faremo noi però ci servirà:
+	\begin{lemma}[Borel-Cantelli]
+		Consideriamo una successione $A_n\in\mathcal{A}$ in uno spazio di misura, allora se 
+		$$\sum_{n=1}^\infty \mu(A_n)<\infty$$
+		si ha che
+		$$\mu\left(\limsup_{n\to\infty}A_n\right)=0.$$
+	\end{lemma}
+	\begin{proof}
+		Lo abbiamo mostrato quando abbiamo mostrato l'assoluta continuità dell'integrale.
+	\end{proof}
+	\begin{proposition}[Convergenza in misura implica convergenza quasi ovunque]
+		Se $f_n\overset{\mu}{\to}f$, con $f,f_n:X\to \overline{\RR}$, allora si ha anche che $f_n\to f$ puntualmente $\mu$-q.o.
+	\end{proposition}
+	\begin{proof}
+		Dalla convergenza in misura abbiamo che per ogni $k\in \NN$ esisterà un $n_k\in \NN$ tale che 
+		$$\mu\left(\left\{\abs{f_{n_k}-f}>\frac{1}{2^k}\right\}\right)<\frac{1}{2^k}$$
+		sia allora
+		$$A_k:=\left\{\abs{f_{n_k}-f}>\frac{1}{2^k}\right\}$$
+		questa successione soddisfa le ipotesi di Borel-Cantelli, capiamo allora chi è 
+		$$A:=\limsup_{k\to\infty}A_k$$
+		in realtà si ha che $\mu(A)=0$, e preso un $x\in A^\complement$ avremo che esiste un $\bar{k}\in \NN$ tale che se $k\ge \bar{k}$ si ha che 
+		$$\abs{f_{n_k}(x)-f(x)}\le \frac{1}{2^k}$$
+		cioè $f_n$ converge ovunque tranne che in $A$, che ha misura nulla, e quindi la tesi. 
+	\end{proof}
+	Un'altra cosa che mostriamo è
+	\begin{example}[Convergenza in $L^1$ non implica quasi ovunque]
+		Prendiamo la successione 
+		\begin{gather*}
+			f_1:= \mathbbm{1}_{[0,1/2]} \\
+			f_2:= \mathbbm{1}_{[1/2,1]} \\
+			f_3:= \mathbbm{1}_{[0,1/4]} \\
+			f_4:= \mathbbm{1}_{[1/4,1/2]} \\
+			f_5:= \mathbbm{1}_{[1/2,3/4]} \\
+			f_6:= \mathbbm{1}_{[3/4,1]} \\
+			f_7:= \mathbbm{1}_{[0,1/8]} \\
+			\vdots
+		\end{gather*}
+		e così via, allora questa non converge in nessun punto, ma converge in $L^1$.
+	\end{example}
+	
+	\newpage
+	
+	\section{Misure prodotto e Fubini-Tonelli}
+	
+	Dati due spazi di misura $\left(X,\mathcal{A},\mu\right)$ e $\left(Y,\mathcal{B},\nu\right)$ vogliamo definire una misura prodotto $\mu \otimes \nu$ sullo spazio prodotto $\mathcal{A}\otimes \mathcal{B}$ (ovvero la sigma algebra generata da $\mathcal{A}\times \mathcal{B}$, immersa in $X\times Y$) e tale che valga
+	$$\mu\otimes \nu (A\times B)=\mu(A)\mu(B)$$
+	per fare ciò ci torna utile dare la seguente definizione:
+	\begin{definition}[Semianello]
+		Se $\mathcal{S}\subseteq \parti{X}$ diciamo che $\mathcal{S}$ è un \textit{semianello} se:
+		\begin{itemize}
+			\item $\eset\in \mathcal{S}$.
+			\item Se $A_1,A_2\in \mathcal{S}$ allora $A_1\cap A_2\in \mathcal{S}$.
+			\item Se $A_1,A_2\in \mathcal{S}$ allora 
+			$$A_1\setminus A_2 = \bigsqcup_{k=1}^n C_k$$
+			con $C_k$ una successione di elementi disgiunti di $\mathcal{S}$. 
+		\end{itemize}
+	\end{definition}
+	Per esempio l'insieme dei plurirettangoli è un semianello, o anche una qualunque $\sigma$-algebra. Una generica topologia non è un semianello. Tuttavia abbiamo il seguente fatto:
+	\begin{proposition}[Prodotto di Semianelli è un Semianello]
+		Se $\mathcal{S}_1$ è un semianello su $X_1$ e $\mathcal{S}_2$ è un semianello su $X_2$ allora 
+		$$\mathcal{S}_1\times \mathcal{S}_2 = \left\{A_1\times A_2:A_1\in \mathcal{S}_1,A_2\in \mathcal{S}_2\right\}$$
+		è un semianello su $X_1\times X_2$.
+	\end{proposition}
+	\begin{proof}
+		Esercizio.
+	\end{proof}
+	\begin{definition}[Misure su Semianelli]
+		Una \textit{misura $\rho$ su un semianello} $\mathcal{S}$ è una mappa $\rho:\mathcal{S}\to [0,\infty]$ tale che:
+		\begin{itemize}
+			\item $\rho(\eset)=0$.
+			\item Se $A_j\in \mathcal{S}$ è una successione di disgiunti in $\mathcal{S}$ tale che 
+			$$\bigsqcup_{j\in\NN}A_j\in \mathcal{S}$$
+			allora 
+			$$\rho\left(\bigsqcup_{j\in\NN}A_j\right)=\sum_{j=1}^{\infty}\rho(A_j).$$
+		\end{itemize}
+		e chiaramente tutte le misure su $\sigma$-algebre sono anche misure su semianelli.
+	\end{definition}
+	\begin{proposition}[Misure esterne da misure su semianelli]
+		Dato un $X$ e un semianello $\mathcal{S}$ su di $X$ e una misura $\rho$ su di esso abbiamo che la seguente funzione
+		$$\mu^*(A):=\inf \left\{\sum_{j=1}^{\infty}\rho(A_j):A_j\in \mathcal{S}\,\,\text{e}\,\, \bigcup_{j=1}^\infty A_j \supseteq A\right\}$$
+		è una misura esterna su $X$ (se quell'insieme è vuoto assegniamo per convenzione $\inf \eset =\infty$).
+	\end{proposition}
+	\begin{proof}
+		Esercizio.
+	\end{proof}
+	\begin{proposition}
+		Se $\mu^*$ è una misura esterna generata da $\rho$ una misura su un semianello allora per ogni $A\in \mathcal{S}$ abbiamo che 
+		$$\mu^*(A)=\rho(A).$$
+	\end{proposition}
+	\begin{proof}
+		Un verso è chiaro, come sempre, ovvero $\mu^*(A)\le \rho(A)$. Mostriamo viceversa che se $\mu^*(A)<\infty$ si ha che 
+		$$\mu^*(A)\ge \rho(A).$$
+		Per fare ciò ci basta mostrare che per ogni ricoprimento $A_j\in \mathcal{S}$ di $A$ si ha che 
+		$$\sum_{j=1}^{\infty}\rho(A_j)\ge \rho(A)$$
+		consideriamo allora la successione
+		$$B_n:=A_n\setminus\bigcup_{j=1}^{n-1}A_j$$
+		allora per definizione di semianello esisteranno $C_{n,k}\in \mathcal{S}$ disgiunti tali che
+		$$B_n=\bigsqcup_{k=1}^{k_n}C_{n,k}$$
+		ma allora ci siamo ricondotti ad una unione numerabile di insiemi disgiunti nel semianello, e quindi possiamo usare la $\sigma$-additività di $\rho$:
+		$$\rho(A)=\rho\left(A\cap \bigsqcup_{n\in\NN}B_n\right)=\rho\left(\bigsqcup_{n\in\NN}\bigsqcup_{k=1}^{k_n}A\cap C_{n,k}\right)=\sum_{n\in\NN}\sum_{k=1}^{k_n}\rho\left(A\cap C_{n,k}\right)=\sum_{n\in\NN}\le \rho(A_n)$$
+		e la monotonia nell'ultimo caso può essere ricavata dal fatto che $A_n=\left(A\cap A_n\right)\cup \left(A_n\setminus A\right)$ per cui entrambe le cose appartengono a $\mathcal{S}$.
+	\end{proof}
+	Il nostro programma a questo punto sarà quello di mostrare che $\mathcal{S}\subseteq \mathcal{M}(X,\mu^*)$, e che la misura ottenuta facendo brutalmente il prodotto 
+	$$\rho(A\times B):=\mu(A)\nu(B)$$
+	per ogni $A,B\in \mathcal{A},\mathcal{B}$ e $\mu,\nu$ misure, è effettivamente una misura su un semianello, in particolare sul semianello $\mathcal{A}\times \mathcal{B}$. D'altra parte quest'ultima cosa è facile notando che:
+	\begin{itemize}
+		\item $\rho(\eset)=\mu(\eset)\nu(\eset)$ e quindi la tesi da $0\cdot 0=0$.
+		\item Supponiamo che 
+		$$A\times B=\bigsqcup_{n\in\NN}A_n\times B_n$$
+		vogliamo mostrare che 
+		$$\rho(A\times B)=\sum_{n\in\NN} \rho(A_n\times B_n)$$
+		per ogni $x\in A$ a questo punto abbiamo la seguente identità
+		$$B=\bigsqcup_{n:x\in A_n}B_n$$
+		cioè per ogni $x$ vediamo quali $A_n$ contengono $x$, e sommiamo i $B_n$ associati a questi $A_n$. Dato che $\nu$ è una misura e i $B_n$ sono tutti disgiunti per ipotesi abbiamo che
+		$$\nu(B)=\sum_{n:x\in A_n} \nu(B_n)$$
+		moltiplicando da ambo i lati per $\mathbbm{1}_A(x)$ abbiamo quindi che
+		$$\nu(B)\mathbbm{1}_A(x)=\sum_{n=1}^{\infty}\nu(B_n)\mathbbm{1}_A(x)$$
+		d'altra parte se $x\not\in B_n$ avremo che l'addendo a destra è necessariamente $0$, e quindi per ogni $n$ abbiamo
+		$$\nu(B_n)\mathbbm{1}_{A}(x)=\nu(B_n)\mathbbm{1}_{A_n}(x)$$
+		dato che i $B_n$ erano stati scelti proprio come quegli insiemi tali che $x\in A_n$ (e tutti gli $A_n$ sono disgiunti). Integrando da entrambi i lati rispetto a $\mu$ abbiamo quindi
+		$$\int_X \nu(B_n)\mathbbm{1}_A(x)\dif \mu=\int_X \sum_{n\in\NN}\nu(B_n)\mathbbm{1}_{A_n}(x)\dif \mu$$
+		ma l'integrale di una funzione caratteristica $\mathbbm{1}_{A_n}$ rispetto a $\mu$ è semplicemente la misura dell'insieme $A_n$, e quindi scambiando serie e integrale (per convergenza monotona) abbiamo che
+		$$\nu(B)\mu(A)=\sum_{n=1}^{\infty}\nu(B_n)\mu(A_n)$$
+		che era quanto volevamo.
+	\end{itemize}
 	
 	\newpage
 	

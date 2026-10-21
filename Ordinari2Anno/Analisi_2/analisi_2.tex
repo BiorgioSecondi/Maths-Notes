@@ -1547,6 +1547,127 @@
 		e per definizione di $\inf$ questo conclude che $L(\gamma)=I$, come volevamo.
 	\end{proof}
 	
+	\subsection{Stone-Weierstrass}
+	
+	Il teorema di Weierstrass asserisce che:
+	\begin{theorem*}[Weierstrass]
+		I polinomi sono densi in $\mathcal{C}([a,b])$ lo spazio di Banach delle funzioni continue su $[a,b]$ equipaggiato con la norma del sup.
+	\end{theorem*}
+	E una sua versione più generale è invece
+	\begin{theorem}[Stone-Weierstrass]
+		Prendiamo uno spazio metrico compatto $X$, consideriamo lo spazio $\mathcal{C}(X)$ equipaggiato con la norma del sup. Prendiamo un $A\subseteq \mathcal{C}(X)$ che sia una \textit{sottoalgebra} e che \textit{separi i punti}\footnote{Un'\textit{algebra} è uno spazio vettoriale chiuso per prodotto, mentre si dice che un insieme \textit{separa i punti} se per ogni $x,y\in X$ esiste una $f\in A$ tale che $f(x)\ne f(y)$.} allora $A$ è denso in $\mathcal{C}(X)$.
+	\end{theorem}
+	Noi dimostraremo solo il teorema di Weierstrass, per cui esistono un sacco di dimostrazioni in realtà. Quella che vedremo noi è dovuta a Lebesgue. Tutte le dimostrazioni note del teorema di Weierstrass tuttavia usano Heine-Cantor, cioè dimostrano che le funzioni su cui si sta lavorando sono uniformemente continue.
+	\begin{theorem}[Weierstrass]
+		I polinomi sono densi in $\mathcal{C}([a,b])$ lo spazio di Banach delle funzioni continue su $[a,b]$ equipaggiato con la norma del sup.
+	\end{theorem}
+	\begin{proof}
+		Per Heine-Cantor data una $f\in \mathcal{C}([a,b])$ abbiamo che $f$ è uniformemente continua. Allora per ogni $\varepsilon>0$ esisterà un $\delta>0$ tale che 
+		$$\abs{x-y}<\delta \implies \abs{f(x)-f(y)}<\varepsilon$$
+		suddividiamo allora $[a,b]$ in intervallini di lunghezza $<\delta$, e costruiamo una funzione $S(x)$ che sui punti della partizione sia uguale a $f$, e che negli intervalli interpoli linearmente tra un punto e l'altro. Siano allora $x_1,\dots,x_n$ i punti della partizione, abbiamo che 
+		$$S(x_i)=f(x_i).$$
+		Il primo passo è mostrare che questa funzione approssima bene $f$. Preso un $x\in [x_{i-1},x_i]=:I$ allora abbiamo
+		$$\min_{x\in I_i} f - \max_{I_i}S\le f(x)-S(x)\le \max_{x\in I_i}f(x)-\min_{x\in I_i}S(x)$$
+		ma essendo $S$ lineare abbiamo
+		\begin{gather*}
+			\min_{I_i} S \ge \min_{I_i} f \\
+			\max_{I_i} S \le \max_{I_i} f
+		\end{gather*}
+		dunque 
+		$$-\varepsilon<\min_{x\in I_i} f - \max_{I_i}f\le f(x)-S(x)\le \max_{x\in I_i}f(x)-\min_{x\in I_i}f(x)< \varepsilon$$
+		cioè 
+		$$\abs{\abs{S-f}}_\infty< \varepsilon$$
+		dunque ci basta mostrare che il teorema è valido per le spezzate. D'altra parte $S$ può essere scritta esplicitamente come
+		$$S(x)=f(0)+\sum_{i=1}^{n}\left(m_i-m_{i-1}\right)\left(x-x_{i-1}\right)^+$$
+		dove $m_i$ è la pendenza della retta nell'$i$-esimo intervallo. Ma questo dimostra una riduzione ancora più fine! Cioè che ci basta approssimare la funzione $x^+$ con polinomi! Infatti $S(x)$ è semplicemente una somma finita di traslazioni e riscalamenti di $x^+$. Possiamo andare ancora oltre, scriviamo
+		$$x^+=\frac{x+\abs{x}}{2}=\frac{x}{2}+\frac{\abs{x}}{2}$$
+		e quindi ci siamo ricondotti ancora ad un'altra cosa, cioè ad approssimare $\abs{x}$. Ancora meglio, dovremmo approssimare $\abs{x}$ su $[a,b]$, ma d'altra parte facendo di nuovo dilatazioni e traslazioni possiamo restringerci ad approssimare $\abs{x}$ su $[-1,1]$. Insomma, dal problema di approssimare funzioni arbitrarie con polinomi su intervalli arbitrari ci ridotti al problema di approssimare \textbf{una} funzione su \textbf{un} intervallo. D'altra parte notiamo che
+		$$\abs{x}=\sqrt{1+\left(x^2-1\right)}$$
+		e usando la serie di McLaurin della radice abbiamo
+		$$\sqrt{1+t}=\sum_{n=0}^{\infty}\binom{\half}{n}t^n=:g(t)$$
+		dove
+		$$\binom{\alpha}{n}:=\frac{\alpha\left(\alpha-1\right)\dots \left(\alpha-n+1\right)}{n!}$$
+		e dato che il raggio di convergenza di quella serie è $1$, e la funzione $g$ soddisfa
+		$$(1+t)g'(t)=\half g(t)$$
+		abbiamo che
+		$$\left[g(t)(1+t)^{-\half}\right]'=0$$
+		ovvero 
+		$$g(t)=C\sqrt{1+t}$$
+		ma usando il fatto che $g(0)=1$ troviamo che $C=1$. Questo dimostra il teorema tra $(-1,1)$, ma ci avanzano fuori ancora i punti $1$ e $-1$. Per fare ciò studiamo l'assoluta convergenza di 
+		$$\sum_{n=0}^{\infty}\abs{\binom{1/2}{n}}$$
+		questo dimostrerà che la serie 
+		$$\sum_{n=0}^{\infty} \binom{1/2}{n}\left(x^2-1\right)^n$$
+		converge totalmente, e in particolare quindi convergerà uniformemente a $\abs{x}$, dunque se troncata ci darà un polinomio con distanza del sup minore di $\varepsilon$ da $\abs{x}$, che era la tesi. Ci rimane da mostrare che quella serie numerica converge assolutamente. Proviamo a fare il criterio del rapporto e abbiamo
+		$$\frac{\abs{\binom{1/2}{n}}}{\abs{\binom{1/2}{n+1}}}=\frac{2n-1}{2n+2}$$
+		che tende a $1$ purtroppo... ma può comunque dirci qualcosa di interessante, infatti
+		$$\frac{2n-1}{2n+2}=1-\frac{3}{2n+2}\sim 1-\frac{3}{2n}$$
+		cioè sappiamo che il termine generale di quella serie va a $1$ circa come $3/2n$ il nostro claim allora è che
+		\begin{claim}
+			Si ha che
+			$$\abs{\binom{1/2}{n}}\le \frac{C}{n^{3/2-\delta}}.$$
+			per un certo $\delta<\half$.
+		\end{claim}
+		\begin{subproof}[Sottodimostrazione]
+			Procediamo per induzione. Il passo induttivo è 
+			$$\abs{\binom{1/2}{n+1}}=\frac{2n-1}{2n+2}\abs{\binom{1/2}{n}}\le \frac{2n-1}{2n+2}\frac{C}{n^{3/2-\delta}}$$
+			e vogliamo mostrare allora che 
+			$$\frac{2n-1}{2n+2}\frac{C}{n^{3/2-\delta}}\le \frac{C}{\left(1+n\right)^{3/2-\delta}}$$
+			ma d'altra parte questo è equivalente a 
+			$$\left(1-\frac{3}{2n+2}\right)\left(1+\frac{1}{n}\right)^{\frac{3}{2}-\delta}\le 1$$
+			ma passando ai logaritmi e applicando Jensen abbiamo proprio che la disuguaglianza è vera per un certo $n\ge \bar{n}$. Rimane solo da fare la base, ma notiamo che per 
+			$$C:=\bar{n}^{3/2-\delta}\abs{\binom{1/2}{\bar{n}}}$$
+			abbiamo anche la base induttiva (ovvero la disuguaglianza vale anche per $\bar{n}$). E dunque abbiamo finito.
+		\end{subproof}
+		E quindi questo finalmente conclude! Perché stimando tutti i termini quella roba sopra abbiamo che la serie a destra converge.
+	\end{proof}
+	Questa dimostrazione era una scusa per introdurre
+	\begin{lemma}[Criterio di Gauss]
+		Se $\sum a_n$ è una serie per cui il criterio del rapporto fallisce, allora se 
+		$$\abs{\frac{a_{n+1}}{a_n}}=1-\frac{P}{n}+O\left(\frac{1}{n^{1+r}}\right)$$
+		per un certo $r>0$, allora la serie converge assolutamente se $P>1$, e diverge assolutamente se $P\le 1$.
+	\end{lemma}
+	\subsection{Spazi di Hilbert}
+	Prendiamo uno spazio vettoriale $V$ con una forma bilineare $B$ definita positiva e simmetrica. Questa forma si dice un \textit{prodotto scalare} su $V$ (ovvero $(V,B)$ è isometrico allo spazio euclideo, come dimostrato a geometria). Possiamo definire una norma 
+	$$\abs{\abs{v}}:=\sqrt{q(v)}$$
+	dove $q$ è la forma quadratica associata a $B$. Allora $V$ con questa norma è uno spazio normato, infatti abbiamo mostrato prima Cauchy-Schwarz
+	$$\abs{\langle x,y}\rangle \le \abs{\abs{x}}\abs{\abs{y}}$$
+	e poi ne abbiamo dedotto la disuguaglianza triangolare
+	$$\abs{\abs{x+y}}\le \abs{\abs{x}}+\abs{\abs{y}}$$
+	questi sono esattamente gli ingredienti di cui abbiamo bisogno per dare la definizione di spazio di Hilbert.
+	\begin{definition}[Spazio di Hilbert]
+		Sia $V$ uno spazio vettoriale reale equipaggiato con un prodotto scalare $B$, ovvero una forma bilineare $\langle \cdot,\cdot\rangle$ simmetrica e definita positiva. Allora $(V,B)$ si dice uno \textit{spazio di Hilbert} se è completo rispetto alla metrica indotta dalla norma indotta da $B$.
+	\end{definition}
+	Chiaramente ogni spazio di Hilbert è uno spazio di Banach. Alcuni esempi di spazi di Hilbert sono, oltre ovviamente allo spazio euclideo standard $\RR^n$ munito della metrica euclidea, lo spazio $\ell^2$ delle successioni infinite $\left(a_n\right)_{n\in\NN}$ tali che
+	$$\sum_{n\in\NN}a_n^2<\infty$$
+	è uno spazio di Hilbert, infatti la norma viene dal prodotto scalare 
+	$$\langle x,y\rangle:=\sum_{n\in\NN}a_nb_n$$
+	in un certo senso questo è la versione infinito (numerabile) dimensionale, di $\RR^n$. 
+	\begin{example}[Uno spazio con prodotto non di Hilbert]
+		Consideriamo lo spazio delle funzioni $\mathcal{C}([-1,1])$ equipaggiato con il prodotto scalare
+		$$\langle f,g\rangle:=\int_{-1}^1 f(x)g(x)\dif x$$
+		allora questo è chiaramente uno spazio con prodotto, ma non è completo! Infatti abbiamo già mostrato che la successione
+		$$f_n(x):=
+		\begin{cases}
+			1 & \text{se $x<0$} \\
+			-nx+1 & \text{se $x\in [0,1/n]$} \\
+			0 & \text{altrimenti.}
+		\end{cases}
+		$$
+		è di Cauchy, ma dovrebbe convergere ad una funzione tale che se $x<0$ fa $1$ e se $x\ge 0$ fa $0$. Questa è chiaramente discontinua, e quindi abbiamo che non apparterrà a $\mathcal{C}([-1,1])$, dimostrando l'incompletezza di questo spazio.
+	\end{example}
+	\begin{remark}[Identità del parallelogramma]
+		Se $\abs{\abs{\cdot}}$ viene da un prodotto scalare allora 
+		$$\abs{\abs{x+y}}^2=\abs{\abs{x}}^2+\abs{\abs{y}}^2+2\langle x,y \rangle$$
+		ovvero
+		$$\abs{\abs{x+y}}^2+\abs{\abs{x-y}}^2=2\abs{\abs{x}}^2+2\abs{\abs{y}}^2$$
+		questa è nota come \textit{identità del parallelogramma}.
+	\end{remark}
+	Questo ci dà un modo molto facile per verificare se una norma \textbf{non} viene da un prodotto scalare. Per esempio lo spazio $\RR^n$ con la norma $\abs{\abs{x}}_\infty$ \textbf{non} viene da un prodotto scalare, infatti 
+	$$1=\abs{\abs{e_1}}_\infty=\abs{\abs{e_2}}_\infty=\abs{\abs{e_1+e_2}}_\infty=\abs{\abs{e_1-e_2}}_\infty$$
+	e quindi non verifica l'identità del parallelogramma. In realtà possiamo mostrare di più
+	\begin{proposition}[Caratterizzazione degli spazi con prodotto]
+		Per uno spazio vettoriale $V$ equipaggiato con una norma $\abs{\abs{\cdot}}$ abbiamo che $\abs{\abs{\cdot}}$ è originata da un prodotto scalare $\langle \cdot,\cdot\rangle$ se e solo se soddisfa l'identità del parallelogramma.
+	\end{proposition}
 	\newpage
 	
 	\part{Modulo B}

@@ -1590,7 +1590,7 @@
 		$$M=A^{-1}M^\intercal A.$$
 	\end{proposition}
 	
-	\subsection{Riflessioni}
+	\subsection{Riflessioni, Witt e Cartàn-Dieudonnè}
 	
 	Vogliamo trovare un modo per costruire e classificare le trasformazioni ortogonali di uno spazio $(V,B)$. Dimostriamo allora
 	\begin{definition}[Simmetria]
@@ -1708,12 +1708,12 @@
 		\end{subproof}
 		Mettendo insieme questi due claim otteniamo immediatamente il teorema di Witt, in quanto abbiamo trovato una forma esplicita per $f$ (e quindi possiamo estenderla facilmente a tutto $V$) che soddisfa la seconda tesi.
 	\end{proof}
-	Un corollario di ciò è
-	\begin{corollary}[Cartàn-Dieudonnè]
-		Sia $f:\RR^n\to\RR^n$ un'isometria (cioè un'applicazione ortogonale rispetto al prodotto scalare standard), se $W=\ker{f-\text{id}_{\RR^n}}$ è il luogo dei punti fissi di $f$ e $c:=n-\dim W$ la sua codimensione. Allora $f$ è prodotto di al massimo $c$ riflessioni di asse un iperpiano.
+	Un risultato analogo è Cartàn-Dieudonnè, già mostrato a geometria 1B, che si presta ad essere naturalmente generalizzato:
+	\begin{corollary}[Cartàn-Dieudonnè generalizzato]
+		Sia $(V,B)$ uno spazio pseudoeuclideo su un campo $\KK$ a caratteristica non $2$. Allora ogni applicazione $f:V\to V$ lineare e $B$-ortogonale si può scrivere scrivere come composizione di al massimo $n=\dim V$ riflessioni di asse un iperpiano.
  	\end{corollary}
  	\begin{proof}
- 		Semplicemente è una conseguenza di witt, infatti $f$ è iniettiva e 
+ 		Analoga al teorema di Witt.
  	\end{proof}
 	\begin{corollary}
 		Se $U$ e $W$ sono sottospazi \textit{totalmente isotropi} di $(V,B)$ uno spazio pseudoeuclideo. Se $\dim U \le \dim W$ allora esiste una $f\in O(V,B)$ tale che $f(U)\subseteq f(W)$.
@@ -1721,6 +1721,86 @@
 	\begin{proof}
 		Sia $g:U\to W$ una qualsiasi applicazione lineare iniettiva. Dato che $B_{\mid U}=B_{\mid W}=0$ abbiamo che $g$ è ortogonale, e quindi applicando Witt esisterà una $f$ estensione di $g$ che soddisfa le ipotesi (dato che $f(W)=f(f(U))$).
 	\end{proof}
+	\subsection{Teorema spettrale}
+	
+	Finora abbiamo parlato solo di prodotti bilineari, ovvero la generalizzazione naturale dei prodotti scalari reali. Quello che vogliamo fare ora è generalizzare il concetto di prodotto hermitiano, attraverso la definizione di forma Hermitiana:
+	\begin{definition}[Forma Sesquilineare ed Hermitiana]
+		Sia $V$ uno spazio vettoriale su $\CC$. Una forma $\sigma:V\times V\to \CC$ si dice \textit{sesquilineare} se, per ogni $v,v',w,w'\in V$ e $\lambda,\mu\in \CC$ si ha:
+		\begin{enumerate}
+			\item \'E lineare nel secondo argomento, cioè
+			$$\sigma\left(\lambda v + \mu v ',w\right)={\lambda}\sigma\left(v,w\right)+{\mu}\sigma\left(v',w\right).$$
+			\item Nel primo argomento è lineare a meno del coniugio, cioè
+			$$\sigma\left(v,\lambda w + \mu w' \right)=\overline{\lambda}\sigma(v,w')+\overline{\mu}\sigma\left(v,w'\right).$$
+		\end{enumerate}
+		Inoltre se una forma sesquilineare soddisfa la condizione
+		$$\sigma(v,w)=\overline{\sigma(w,v)}$$
+		allora questa si dice \textit{Hermitiana}.
+	\end{definition}
+	Esattamente come fatto per le forme bilineari possiamo associare a $\sigma$ una matrice di Gram, in una certa base ordinata $\mathcal{V}:=\left\{v_1,\dots,v_n\right\}$ come
+	$$A_{ij}:=\sigma\left(v_i,v_j\right)$$
+	e data la funzione $\alpha_\mathcal{V}:V\to\CC^n$ che rappresenta il vettore $v$ nella base $\mathcal{V}$ abbiamo che 
+	$$B(v,w):=\overline{\alpha_\mathcal{V}(v)}^\intercal A \alpha_{\mathcal{V}}(v)$$
+	cioè in componenti
+	$$\sigma(v,w)=\sum_{1\le i,j\le n}a_{ij}\overline{v}_iw_j.$$
+	Come non ci sorprende quindi. Ricordiamo la definizione di aggiunta Hermitiana:
+	\begin{definition}[Aggiunta hermitiana]
+		Data una matrice $A$ la sua \textit{aggiunta hermitiana} è la matrice $A^H:=\overline{A}^\intercal$.
+	\end{definition}
+	\begin{remark}[Caratterizzazione delle forme hermitiane]
+		Per ogni matrice $A\in \mathcal{M}_n(\CC)$ abbiamo una forma sesquilineare associata
+		$$h_A(x,y):=\overline{x}^\intercal A y$$
+		per ogni $x,y\in \CC^{n}$. D'altra parte è chiaro che una forma sesquilineare è hermitiana se e solo se la sua matrice di Gram $A$ è uguale alla sua aggiunta hermitiana, ovvero se e solo se $A=A^*$ è \textit{hermitiana}.
+	\end{remark}
+	Un corollario di ciò è che per ogni forma hermitiana $h$ abbiamo che 
+	$$h(v,v)=\overline{h(v,v)}\in \RR$$
+	e quindi possiamo usare la segnatura nuovamente per classificare le forme hermitiane, e quindi avremo ancora forme hermitiane definite positive/negative e semidefinite positive/negative (o indefinite). Esattamente come fatto per gli spazi euclidei quindi
+	\begin{definition}[Spazio vettoriale Hermitiano]
+		Uno \textit{spazio vettoriale hermitiano} è uno spazio vettoriale $V$ su $\CC$ munito di una forma hermitiana definita positiva.
+	\end{definition}
+	Non ci ripeteremo ancora una volta sulla definizione di ortogonalità e di base ortogonale e ortonormale. Abbiamo la seguente variante del teorema di Sylvester:
+	\begin{theorem}[Sylvester Hermitiano]
+		Se $h$ è una forma hermitiana su uno spazio $V$ su $\CC$ allora esiste una e una sola coppia $(p,q)$ tale che $p+q=r$ e per cui la matrice di gram di $h$ si scrive come
+		$$
+		M_\mathcal{V}(h)=
+		\left(
+		\begin{array}{c|c|c}
+			+I_p & 0 & 0 \\
+			\hline
+			0 & -I_q & 0 \\
+			\hline
+			0 & 0 & 0
+		\end{array}
+		\right).
+		$$ 
+	\end{theorem}
+	\begin{proof}
+		\`E essenzialmente identica alla dimostrazione del teorema di Sylvester reale.
+	\end{proof}
+	Da questo quindi abbiamo che per ogni spazio vettoriale hermitiano abbiamo un isomorfismo $(V,h)\to (\CC^n,\cdot)$ e quindi recuperiamo tutti i risultati di geometria 1B. 
+	\begin{definition}[Trasformazione unitaria]
+		Una trasformazione $f:(V,h)\to (W,h')$ con $B$ una forma hermitiana su uno spazio vettoriale $V$ su $\CC$ si dice \textit{unitaria} se e solo se preserva le forme hermitiane. Analogamente si possono definire i gruppi unitario e unitario speciale.
+	\end{definition}
+	Allo stesso modo la teoria delle aggiunte si adatta bene ai prodotti hermitiani. 
+	\begin{definition}[Morfismo normale]
+		Un endomorfismo $L$ di $(V,h)$ si dice \textit{normale} se e solo se 
+		$$L\circ T(L)=T(L)\circ L$$
+		questo equivale a chiedere che la sua matrice associata rispetto ad una base $h$-ortonormale è normale.
+	\end{definition}
+	e quindi finalmente:
+	\begin{theorem}[Teorema spettrale]
+		La matrice associata ad un endomorfismo $L:V\to V$, con $h$ una forma hermitiana, è $h$-unitariamente diagonalizzabile se e solo se $L$ è normale. 
+	\end{theorem}
+	\begin{remark}
+		Forme hermitiane e forme bilineari reali sono collegate dal seguente diagramma
+		\begin{center}
+			\begin{tikzcd}
+					& & \RR \\
+				V\times V\arrow[r,"h"] & \CC\arrow[ur,"\Im"]\arrow[dr,"\Re"] & \\
+				 & & \RR
+			\end{tikzcd}
+		\end{center}
+		e dato che il coniugato scambia il segno della parte immaginaria, la forma ottenuta seguendo il percorso che va verso l'alto sarà antisimmetrica, mentre quella che segue il percorso che va verso il basso sarà simmetrica.
+	\end{remark}
 	\newpage
 	
 	\part{Modulo B}
