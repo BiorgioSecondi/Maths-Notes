@@ -1668,6 +1668,164 @@
 	\begin{proposition}[Caratterizzazione degli spazi con prodotto]
 		Per uno spazio vettoriale $V$ equipaggiato con una norma $\abs{\abs{\cdot}}$ abbiamo che $\abs{\abs{\cdot}}$ è originata da un prodotto scalare $\langle \cdot,\cdot\rangle$ se e solo se soddisfa l'identità del parallelogramma.
 	\end{proposition}
+	
+	\newpage
+	
+	\section{Calcolo differenziale in più variabili}
+	
+	La gran parte del lavoro è già stato fatto per spazi metrici arbitrari. Ricordiamo la definizione di limite:
+	\begin{definition}[Limite e continuità in $\RR^n$]
+		Sia $A\subseteq \RR^n$ e consideriamo una $f:A\to\RR$ assieme ad un $x_0\in \RR^n$ punto di accumulazione di $A$. Scriveremo allora che 
+		$$\lim_{x\to x_0}f(x)=L\in \RR$$
+		se per ogni $\varepsilon>0$ esister un $\delta>0$ tale che
+		$$\abs{x-x_0}<\delta \implies \abs{f(x)-L}<\varepsilon.$$
+		Se inoltre si ha che $L=f(x_0)$ abbiamo che la funzione è \textit{continua} in $x_0$.
+	\end{definition}
+	Facciamo un po' di pratica 
+	\begin{exercise}
+		Calcolare il limite
+		$$\lim_{(x,y)\to (0,0)}\frac{y}{x^2+y^2}.$$
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Questo limite non esiste, perché avvicinandosi lungo l'asse $x$ abbiamo che quel limita fa $0$, mentre lungo l'asse $y$ da destra fa $\infty$ e da sinistra $-\infty$.
+	\end{proof}
+	\begin{exercise}
+		Calcolare il limite
+		$$\lim_{(x,y)\to (0,0)}\frac{xy}{x^2+y^2}.$$
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Questo limite non esiste, perché avvicinandosi lungo l'asse $x$ si ha $0$ (e anche lungo l'asse $y$ si ha lo stesso limite), ma avvicinandosi lungo la retta $x=y$ si ha $1/2$.
+	\end{proof}
+	\begin{exercise}
+		Calcolare il limite
+		$$\lim_{(x,y)\to (0,0)}\frac{\abs{xy}^{1+\varepsilon}}{x^2+y^2}.$$
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Usando AM-GM in realtà abbiamo
+		$$0\le \frac{\abs{xy}^{1+\varepsilon}}{x^2+y^2}\le \frac{\left(\frac{x^2+y^2}{2}\right)^{1+\varepsilon}}{x^2+y^2}=\frac{(x^2+y^2)^\varepsilon}{2^{1+\varepsilon}}\to 0$$
+		che dimostra che il limite è $0$ (per il teorema dei carabinieri).
+	\end{proof}
+	\begin{exercise}
+		Calcolare il limite
+		$$\lim_{(x,y)\to (0,0)}\frac{x^3y^2}{x^4+y^4}.$$
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Usiamo le coordinate polari:
+		$$
+		\begin{cases}
+			x=\rho \cos\theta \\
+			y = \rho \sin\theta
+		\end{cases}
+		$$
+		da cui abbiamo
+		$$0\le \abs{\frac{x^3y^2}{x^4+y^4}}=\abs{\rho\frac{\cos^3\theta\sin^2\theta}{\left(\cos^4\theta+\sin^4\theta\right)}}$$
+		ora in un modo o nell'altro possiamo dire che quella grossa combinazione di seni e coseni è boundata da una costante $c$ dall'alto, e da questo segue 
+		$$0\le \abs{\frac{x^3y^2}{x^4+y^4}}=\abs{\rho\frac{\cos^3\theta\sin^2\theta}{\left(\cos^4\theta+\sin^4\theta\right)}}\le \frac{\rho}{c}\to 0$$
+		e di nuovo abbiamo finito per il teorema dei carabinieri.
+	\end{proof}
+	Abbiamo introdotto, senza davvero dirlo, le coordinate polari, e usato il seguente risultato:
+	\begin{proposition}[Coordinate polari]
+		Consideriamo un limite
+		$$\lim_{(x,y)\to (0,0)}f(x,y)=L$$
+		passando in coordinate polari, abbiamo che quel limite è $L$ se e solo se
+		$$\lim_{\rho \to 0}\left(\sup_{\theta\in [0,2\pi)}\abs{f\left(\rho \cos\theta,\rho \sin \theta\right)-L}\right)=0.$$
+	\end{proposition}
+	\begin{exercise}
+		Calcolare il seguente limite
+		$$\underset{(x,y)\in D}{\lim_{(x,y)\to (0,0)}}\frac{xy}{x^2+y^2}$$
+		dove $D:=\left\{0\le y \le x^2\right\}$.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		In realtà in questo caso il limite esiste, e si vede dalla maggiorazione
+		$$0\le \abs{\frac{xy}{x^2+y^2}}\le \frac{\abs{x}^3}{x^2+y^2}\le \frac{\abs{x}^3}{x^2}\to 0$$
+		e dunque abbiamo finito per il teorema dei carabinieri.
+	\end{proof}
+	\begin{exercise}
+		Dire per quali $\alpha\in\RR$ esiste il seguente limite
+		$$\lim_{(x,y)\to (0,0)}\frac{x^2y^2}{x^4+\abs{y}^\alpha}.$$
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Possiamo osservare facilmente che se $\alpha=4$ il limite non esiste, per esempio sulla retta $x=y$ abbiamo limite $\half$ mentre su $x=0$ abbiamo limite $0$. D'altra parte per $\alpha>4$ abbiamo che di nuovo il limite non esiste, infatti 
+		$$f(x,x)=\frac{x^4}{x^4+\abs{x}^{4+\varepsilon}}=\frac{1}{1+\abs{x}^\varepsilon}\to 1$$
+		e sugli assi $x$ e $y$ di nuovo fa $0$. D'altra parte se $\alpha\le 2$ abbiamo che
+		$$0\le \frac{x^2y^2}{x^4+\abs{y}^\alpha}\le \frac{x^2y^2}{\abs{y}^\alpha}=x^2\abs{y}^{2-\alpha}\to 0.$$
+		Il caso difficile è $\alpha\in (2,4)$ per cui dobbiamo ricorrere ad un po' di sane disuguaglianze. L'idea qui è Young:
+		$$0\le \frac{x^2y^2}{x^4+\abs{y}^\alpha}\le \frac{\frac{\abs{x}^{2p}}{p}+\frac{\abs{y}^{2q}}{q}}{x^4+\abs{y}^\alpha}\le \frac{1}{p}\frac{\abs{x}^{2p}}{x^4}+\frac{1}{q}\frac{\abs{y}^{2q}}{\abs{y}^\alpha}$$
+		per una coppia $p,q$ di esponenti coniugati. Avremmo quindi finito se potessimo scegliere $p,q$ in modo che
+		$$
+		\begin{cases}
+			2p > 4 \\
+			2q > \alpha
+		\end{cases}
+		$$
+		dunque la seconda condizione ci dà $q>\frac{\alpha}{2}$, mentre la prima
+		$$p>2 \implies q<2$$
+		che è sempre possibile, in quanto $\alpha<4$ è un intervallo aperto. 
+	\end{proof}
+	\begin{exercise}
+		Dire se la funzione
+		$$f(x,y):=
+		\begin{cases}
+			\frac{x^2y}{x^4+y^2} & \text{se $(x,y)\ne (0,0)$} \\
+			0 & \text{altrimenti.}
+		\end{cases}
+		$$
+		è continua in $0$.
+	\end{exercise}
+	\begin{proof}
+		Sembrerebbe che il limite sia proprio $0$, tant'è che presa una qualunque retta $y=kx$ abbiamo
+		$$f(x,kx)=\frac{kx^3}{x^4+k^2x^2}=\frac{kx}{x^2+k^2}\to 0 $$
+		ma questo non basta a concludere che il limite è proprio $0$, perché dobbiamo avere che \textbf{ogni} successione di Cauchy $x_n\in \RR^2$ che tenda a $(0,0)$ ha immagine $f(x_n)\to 0$, e in effetti per una successione lungo la parabola di equazione $y=x^2$ abbiamo
+		$$f(x,x^2)=\frac{x^4}{x^4+x^4}=\frac{1}{2}$$
+		e quindi abbiamo che il limite non esiste.
+	\end{proof}
+	Ricordiamo anche la definizione di liminf e limsup
+	\begin{definition}[Liminf e limsup]
+		Per una funzione $f:\RR^n\to \RR$ definiamo il limsup come
+		$$\limsup_{x\to x_0}f(x)=\lim_{r\to 0}\sup_{x\in B(x_0,r)}f(x)$$
+		sostituendo il sup con un inf definiamo il liming, in modo analogo.
+	\end{definition}
+	\begin{exercise}Abbiamo allora che
+		$$1 \ge \frac{x}{\abs{x}+y^2}$$
+		Calcolare il seguente limite
+		$$\lim_{(x,y)\to(0,0)}\frac{x}{\abs{x}+y^2}$$
+		nel dominio $D_1:=\left\{0\le y \le x\right\}$ e $D_2:=\left\{0 \le y \le -x\right\}$. Infine calcolare liminf e limsup su tutto $\RR^2$ (per $(x,y)\to (0,0)$).
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Non è difficile vedere che nel primo caso abbiamo
+		$$1\ge \frac{x}{\abs{x}+y^2}\ge \frac{x}{x+x^2}\to 1$$
+		e nel secondo in modo analogo si ha limite $-1$. D'altra parte dato che
+		$$-1\le f(x,y)\le 1$$
+		per ogni $x,y\in \RR$ abbiamo che
+		$$\limsup_{x\to x_0}f(x)=1$$
+		e analogamente
+		$$\liminf_{x\to x_0}f(x)=-1$$
+	\end{proof}
+	Introduciamo inoltre la nozione di limiti all'infinito:
+	\begin{definition}[Limite all'infinito]
+		Sia $f:A\to\RR$ con $A\subseteq \RR^n$ non limitato, allora scriviamo che 
+		$$\lim_{\abs{\abs{x}}\to \infty}f(x)=L$$
+		se per ogni $\varepsilon>0$ esiste un $R>0$ tale che 
+		$$x\in A\setminus B(o,R) \implies \abs{f(x)-L}<\varepsilon$$
+		e analogamente si fa per $L=\pm\infty$.
+	\end{definition}
+	\begin{exercise}
+		Calcolare il seguente limite
+		$$\lim_{\abs{\abs{(x,y)}}\to \infty}\frac{y}{x^2+y^2}.$$
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		In questo caso abbiamo che
+		$$0\le\abs{\frac{y}{x^2+y^2}}\le \frac{\sqrt{x^2+y^2}}{x^2+y^2}=\frac{1}{\sqrt{x^2+y^2}}\to 0$$
+		che è essenzialmente la stessa cosa che avremmo fatto facendo il cambio di coordinate in polari
+		$$\frac{y}{x^2+y^2}=\frac{\rho\sin\theta}{\rho^2}\le \frac{1}{\rho}.$$
+	\end{proof}
+	\begin{exercise}
+		Calcolare il limite all'infinito
+		$$\lim_{\abs{\abs{(x,y)}}\to (0,0)}\frac{xy}{x^2+y^2}.$$
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Questa all'infinito non ha limite, perché sulla retta $y=x$ abbiamo che la funzione è costante a $\half$, mentre su $y=-x$ è costante a $-\half$.
+	\end{proof}
 	\newpage
 	
 	\part{Modulo B}

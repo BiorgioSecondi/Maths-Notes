@@ -1790,17 +1790,126 @@
 	\begin{theorem}[Teorema spettrale]
 		La matrice associata ad un endomorfismo $L:V\to V$, con $h$ una forma hermitiana, è $h$-unitariamente diagonalizzabile se e solo se $L$ è normale. 
 	\end{theorem}
+	Forme hermitiane e forme bilineari reali sono collegate dal seguente diagramma
+	\begin{center}
+		\begin{tikzcd}
+			& & \RR \\
+			V\times V\arrow[r,"h"]\arrow[rru,bend left,"s",dashed]\arrow[rrd,bend right,"a",dashed,swap] & \CC\arrow[ur,"\Re"]\arrow[dr,"\Im"] & \\
+			& & \RR
+		\end{tikzcd}
+	\end{center}
+	e dato che il coniugato scambia il segno della parte immaginaria, la forma ottenuta seguendo il percorso che va verso l'alto sarà antisimmetrica (alternante, in quanto $\CC$ ha caratteristica diversa da $2$), mentre quella che segue il percorso che va verso il basso sarà simmetrica. Definire $H$ allora è equivalente a definire $s$ ed $a$:
+	$$h(z,w)=s(z,w)+ia(z,w)$$
+	tuttavia non ci basta prendere una forma alternante e una forma simmetrica a caso e combinarle, infatti queste devono soddisfare anche
+	$$
+	\begin{cases}
+		s(iv,w) = -s(v,iw) = a(v,w)=a(iv,iw) \\
+		s(v,w)  =  s(iv,w) = a(v,iw)=s(iv,iw)
+	\end{cases}
+	$$
+	in questo modo abbiamo costruito una corrispondenza biunivoca.
+	\begin{lemma}[Da simmetriche a Hermitiane]
+		Se $V$ è uno spazio vettoriale complesso e $s:V\times V\to\RR$ è una forma $\RR$-bilineare simmetrica tale che
+		$s(v,w)=s(iv,iw)$ allora
+		$$h(v,w)=s(v,w)+is(iv,w)$$
+		è una forma hermitiana.
+	\end{lemma}
+	\begin{lemma}[Da alternanti a Hermitiane]
+		Se $V$ è uno spazio vettoriale complesso e $a:V\times V\to\RR$ è una forma  $\RR$-bilineare alternante tale che $a(v,w)=a(iv,iw)$ abbiamo che 
+		$$h(v,w)=a(v,iw)+ia(v,w)$$
+		è una forma hermitiana.
+	\end{lemma}
+
+	\newpage
+	
+	\section{Forme quadratiche e quadriche}
+	
+	Se $B$ è una forma bilineare simmetrica $B$ su $V$ su un campo $\KK$ a caratteristica diversa da $2$ allora $B$ è univocamente determinata dalla sua forma quadratica associata (lo abbiamo già mostrato prima), ovvero
+	\begin{align*}
+		Q_B:V & \to \KK \\
+		v & \mapsto B(v,v)
+	\end{align*}
+	come per le forme bilineari ad una forma quadratica $Q_B:\KK^n\to\KK$ associata alla forma $B$ possiamo associare la matrice di Gram di $A$, ovvero
+	$$B(x,y)=x^\intercal A y$$
+	da cui abbiamo
+	$$Q(x)=x^\intercal A x = \sum_{i=1}^{n}a_{ii}x_i^2+\sum_{i\ne j}a_{ij}x_ix_j.$$
+	In generale possiamo definire 
+	\begin{definition}[Forma quadratica]
+		Una funzione $Q:V\to \KK$ dallo spazio $V$ definito sul campo $\KK$ si dice una \textit{forma quadratica} se per ogni $\lambda\in \KK$ si ha
+		$$\lambda^2 Q(v)=Q(\lambda v)$$
+		e per ogni $v,w\in V$ si ha che la funzione
+		$$B(v,w):=\frac{Q(v+w)-Q(v)-Q(w)}{2}$$
+		è una forma bilineare su $V$ (in caratteristica $2$ basta chiedere che quell'espressione senza i $1/2$ si una forma bilineare). La forma bilineare così ottenuta si chiama la \textit{forma polare} associata a $Q$, e quella formula si dice \textit{formula di polarizzazione}. Lo spazio delle forme quadratiche su $V$ di solito si denota con $\text{Quad}_\KK(V)$.
+	\end{definition} 
+	La formula di polarizzazione ha diverse qualità, la prima è che ci permette di trovare un isomorfismo 
+	$$\text{Bil}_\KK(V)\longrightarrow \text{Quad}_\KK(V)$$
+	e la seconda è che ci permette di dimostrare
+	\begin{lemma}[Formula di Polarizzazione generalizzata]
+		Per ogni $Q:V\to \KK$ forma quadratica e per ogni $v_i\in V$ lista finita di $n$ vettori si ha
+		$$Q\left(\sum_{i=1}^{n}v_i\right)=\sum_{i=1}^{n}Q(v_i)+2\sum_{1\le i < j \le n}B(v_i,v_j)$$
+		dove $B$ è la forma polare di $Q$.
+	\end{lemma}
+	In pratica quindi tutte le forme quadratiche sono polinomi omogenei di grado $2$ rispetto ad un certo insieme di variabili $x_i$, ovvero le coordinate rispetto ad una certa base fissata.
+	\begin{example}[Norma $L^2$]
+		Su $V$ lo spazio delle funzioni continue su $[0,1]$ definiamo la forma quadratica 
+		$$Q(f):=\int_0^1 f^2(x)\dif x.$$
+	\end{example}
+	\begin{example}[Traccia]
+		Su $M_n(\KK)$ definiamo la forma quadratica
+		$$Q(A):=\tr{A^2}.$$
+	\end{example}
+	\begin{example}[Polinomi]
+		Prendiamo su $\RR^2$ la forma quadratica
+		$$Q(x_1,x_2)=2x_1^2+3x_1x_2+4x_2^2$$
+		vogliamo capire chi è la sua forma polare $B$, d'altra parte applicando direttamente la formula di polarizzazione abbiamo che la matrice $A$ associata a $B$ è
+		$$A=\begin{pmatrix}
+			2 & 3/2 \\
+			3/2 & 4
+		\end{pmatrix}.$$
+	\end{example}
+	Riguardo al cambiamento di base, come per le forme bilineari abbiamo che se $A_Q$ è la matrice associata ad una forma quadratica $Q$, cioè
+	$$Q(v):=v^\intercal A_q v$$
+	abbiamo di nuovo che cambiando la base con una matrice $H$ la matrice $A$ cambia come
+	$$A'=H^\intercal A H$$
+	esattamente come per le forme bilineari. Dato allora che per cambi di base il determinante della matrice $A$ cambia come
+	$$\det A'=\left(\det H\right)^2 \det A$$
+	questo motiva la seguente definizione:
+	\begin{definition}[Discriminante]
+		Data una forma quadratica $Q$ il suo \textit{discriminante} è la classe di equivalenza del determinante della matrice associata $M_\mathcal{V}(Q)$ in una qualunque base $\mathcal{V}$ nell'insieme $\faktor{\KK}{\sim}$ quozientato con la relazione di equivalenza
+		$$a\sim b \iff a=\lambda^2b$$
+		per qualche $\lambda\in \KK$.
+	\end{definition}
+	\begin{example}[Diagonalizzazione]
+		Se $Q$ è una forma quadratica su $V$ di dimensione finita allora esiste sempre una base diagonalizzante $\left(v_1,\dots,v_n\right)$ di $V$ e rispetto a tale base si ha
+		$$Q(x_1v_1+\dots+x_nv_n)=\sum_{i=1}^{n}a_ix_i^2$$
+		e quindi il discriminante è semplicemente la classe di equivalenza del prodotto di tutti gli $a_i$.
+	\end{example}
+	
+	\subsection{Quadriche proiettive}
+	Per le forme bilineari avevamo visto che possiamo interpretare geometricamente il loro significato attraverso il loro cono d'isotropia. Per una forma quadratica invece possiamo definire
+	\begin{definition}[Quadrica]
+		Sia $V$ uno spazio vettoriale di dimensione finita. Una \textit{quadrica proiettiva} in $\PP(V)$ è una classe di proporzionalità di una forma quadratica su $V$. Un particolare rappresentante di questa classe di equivalenza è detta \textit{equazione della quadrica}. Il \textit{supporto} di una quadrica $[Q]$ è il sottoinsieme di $\PP(V)$ tale che
+		$$\text{supp}[Q]=\left\{[v]\in\PP(V):Q(v)=0\right\}$$ 
+		che chiaramente non dipende dalla scelta di $Q(v)$. Insomma il supporto non è altro che la proiettivizzazione del cono isotropo della forma polare di $Q$. 
+	\end{definition}
+	Come avevamo fatto nel caso vettoriale, nel caso proiettivo le quadriche sono in biezione con i polinomi omogenei nelle variabili $x_0,\dots,x_n$, ovvero le coordinate omogenee di $\PP^n$. Dunque data una quadrica
+	$$F(v):=\sum_{i=0}^{n}a_{ii}x_i^2+\sum a_{ij}x_ix_j$$
+	il suo supporto è l'insieme dei $v\in\PP(V)$ tali che
+	$$0=\sum_{i=0}^n a_{ii}x_i^2+\sum a_{ij}x_ix_j.$$
 	\begin{remark}
-		Forme hermitiane e forme bilineari reali sono collegate dal seguente diagramma
-		\begin{center}
-			\begin{tikzcd}
-					& & \RR \\
-				V\times V\arrow[r,"h"] & \CC\arrow[ur,"\Im"]\arrow[dr,"\Re"] & \\
-				 & & \RR
-			\end{tikzcd}
-		\end{center}
-		e dato che il coniugato scambia il segno della parte immaginaria, la forma ottenuta seguendo il percorso che va verso l'alto sarà antisimmetrica, mentre quella che segue il percorso che va verso il basso sarà simmetrica.
+		Le quadriche in $\PP(V)$ sono esattamente gli elementi 
+		$$\PP(\text{Symm}_\KK(V)).$$
 	\end{remark}
+	Molte proprietà che avevamo definito e studiato sulle forme bilineari restano invariate quando si parla di quadriche. Per esempio la degenerazione o il rango. Quello che tuttavia cambia è il concetto di segnatura, che non è ben definita infatti $\langle \cdot,\cdot\rangle_{p,q}$ e $\langle \cdot,\cdot \rangle_{q,p}$ hanno la stessa quadrica. Per questo definiamo
+	\begin{definition}[Indice]
+		Data una quadrica $[Q]$ il suo \textit{indice} è il valore
+		$$\text{ind}[Q]:=\left\{\min\left\{p,q\right\}:(p,q)\text{ è la segnatura di una $P\in [Q]$}\right\}.$$
+	\end{definition} 
+	Perché distinguere una quadrica dal suo supporto allora se quello che ci interessa è il suo significato geometrico? Perché in effetti ci sono quadriche non banali a supporto vuoto, per esempio
+	$$B(x,y)=x_0^2+x_1^2+x_2^2+x_3^2$$
+	che ha supporto proiettivo vuoto. Questo è un problema che si risolve lavorando su campi algebricamente chiusi, come $\CC$.
+	
+	
 	\newpage
 	
 	\part{Modulo B}

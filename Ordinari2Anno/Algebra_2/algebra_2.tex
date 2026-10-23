@@ -17,6 +17,7 @@
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage{lmodern}
+
 \usepackage{faktor}
 \usepackage{bbm} %oer fare gli insiemi indicatori
 \usepackage{leftindex} %per gli ideali e gli indici a sinistra
@@ -24,6 +25,8 @@
 \usepackage{epigraph} 
 \usepackage{pgfplots}
 \usepackage[export]{adjustbox}
+
+\usetikzlibrary{matrix}
 
 %Pacchetti per i codici
 \usepackage{listings}
@@ -217,7 +220,7 @@
 		$$\sum_{H\le G}\abs{\left\{g\in G:\langle g \rangle=H \right\} }=\sum_{H\le G}\varphi\left(\abs{H}\right)=\sum_{d\mid n}\varphi(d)$$
 		che era la tesi.
 	\end{proof}
-	E infine un esercizietto carino è:
+	Un esercizietto carino è:
 	\begin{proposition}[Caratterizzazione dei ciclici con ordine primo]
 		Un gruppo $G$ tale per cui ogni suo $H\le G$ soddisfa o $H=G$ o $H=\left\{1\right\}$ è ciclico di ordine primo.
 	\end{proposition}
@@ -225,6 +228,31 @@
 		Prendiamo un elemento $g\in G$ diverso da $1$, allora dato che
 		$$\langle g \rangle \le G$$
 		e $\langle g \rangle \ne \left\{1\right\}$ dobbiamo avere che $\langle g \rangle=G$, cioè $G$ è ciclico ed è generato da tutti i suoi elementi. Infine se per assurdo l'ordine di $G$ non fosse primo avrebbe sottogruppi non banali (in quanto avrebbe divisori non banali), dunque $\abs{G}=p$ e abbiamo finito.
+	\end{proof}
+	Concludiamo con un risultato che ci permette di caratterizzare in modo un pochino più elegante la struttura di tutti i gruppi ciclici (tornerà più avanti in forma molto più forte):
+	\begin{proposition}[Scomposizione di gruppi ciclici]
+		Se $G$ è un gruppo ciclico finito $G=\langle g \rangle$ con ordine
+		$$n=p_1^{n_1}p_2^{n_2}\dots p_t^{n_t}$$
+		allora
+		$$G\cong G_1\times \dots \times G_t$$
+		dove $\abs{G_i}=p_i^{n_i}$.
+	\end{proposition}
+	\begin{proof}
+		Sia $q_i:=\frac{n}{p_i^{n_i}}$, e definiamo
+		$$g_i:=g^{q_i}$$
+		allora chiaramente i gruppi generati dai $g_i$ hanno gli ordini giusti. Il nostro claim è quindi che
+		$$G_i:=\langle g_i\rangle$$
+		consideriamo allora la mappa
+		\begin{align*}
+			\gamma:G_1\times \dots \times G_t & \to G \\
+			(x_1,\dots,x_t) & \mapsto x_1x_2\dots x_t
+		\end{align*}
+		grazie al fatto che tutti gli elementi che stiamo considerando stanno in $G$, che è ciclico e quindi abeliano, abbiamo allora che $\gamma$ è un omomorfismo. Visto allora che dominio e codominio hanno lo stesso ordine (finito), ci basta mostrare che $\gamma$ è suriettivo o iniettivo per ottenere l'altra proprietà gratis. \\
+		Per dimostrare la suriettività allora usiamo Bezout: dato che i $q_i$ sono tutti coprimi abbiamo che esistono coefficienti $z_i\in \ZZ$ tali che
+		$$\sum_{i=1}^{n}z_iq_i=1$$
+		esponenziando da entrambi i lati $g$ abbiamo allora
+		$$g=g^{\sum_{i=1}^{n}z_iq_i}=\prod g_i^{z_i}=\gamma\left(g_1^{z_1},\dots,g_t^{z_t}\right)$$
+		dunque $g$ appartiene all'immagine di $\gamma$, che è dunque suriettiva, e quindi abbiamo finito.
 	\end{proof}
 	
 	\subsubsection{Esponenti}
@@ -483,8 +511,7 @@
 		$$(a,b)(a',b')=(aa',bb')$$
 		per ogni $a\in A$ e $b\in B$, che gli conferisce la struttura di un gruppo. 
 	\end{definition}
-	Il risultato precedente ci potrebbe far pensare che prodotto interno e prodotto esterno in realtà siano equivalenti.
-	Cosa succede allora se $N\normal G$, $H\le G$ e il prodotto è proprio $G=HN$, mentre $H\cap N=\left\{1\right\}$? Beh per la funzione costruita prima questo vuol dire che ogni elemento $g\in G$ possiamo trovare una e una sola coppia $(h,k)\in H\times K$ tale che
+	Il risultato precedente ci potrebbe far pensare che prodotto interno e prodotto esterno in realtà siano equivalenti. Cosa succede allora se $N\normal G$, $H\le G$ e il prodotto è proprio $G=HN$, mentre $H\cap N=\left\{1\right\}$? Beh per la funzione costruita prima questo vuol dire che ogni elemento $g\in G$ possiamo trovare una e una sola coppia $(h,k)\in H\times K$ tale che
 	$$hk=g$$
 	quello che ci viene da pensare immediatamente allora è che la biezione $\sigma$ che abbiamo costruito sia un isomorfismo. E questo è \textbf{falso} in generale, infatti abbiamo che
 	\begin{gather*}
@@ -517,15 +544,17 @@
 	abbiamo proprio il secondo teorema d'omomorfismo. Più articolato è il terzo teorema: quando ci troviamo nella situazione $H,K\normal G$ possiamo costruire la mappa
 	$$\gamma:\faktor{G}{K}\to \faktor{G}{H}$$
 	tale che $gK\mapsto gH$. Da cui ricaviamo facilmente il terzo teorema d'omomorfismo. Un'applicazione interessante è:
-	\begin{theorem*}[Cauchy dispari]
+	\begin{theorem*}[I gruppi pari non sono semplici]
 		Sia $G$ un gruppo tale che $\abs{G}=2m$, con $m$ dispari. Allora $G$ contiene un sottogruppo di ordine $m$.
 	\end{theorem*}
 	Per arrivarci tuttavia passiamo per un paio di lemmi:
-	\begin{lemma}[Ordine $2$]
+	\begin{lemma}[$2$-Cauchy]
 		Se $G$ è un gruppo finito di ordine pari allora contiene un elemento di ordine $2$.
 	\end{lemma}
 	\begin{proof}
-		La dimostrazione consiste essenzialmente nel considerare la funzione che associa ad ogni $g\mapsto g^{-1}$ il suo inverso. Dato che il gruppo ha ordine pari, e che $(g^{-1})^{-1}$ abbiamo necessariamente che il numero degli elementi che vanno in se stessi sotto questa funzione deve necessariamente essere pari. D'altra parte questo insieme è sicuramente non vuoto, in quanto
+		La dimostrazione consiste essenzialmente nel considerare la funzione
+		$$g\mapsto g^{-1}$$
+		che associa ad ogni $g\in G$ il suo inverso. Dato che il gruppo ha ordine pari, e che $(g^{-1})^{-1}=g$ abbiamo necessariamente che il numero degli elementi che vanno in se stessi sotto questa funzione deve necessariamente essere pari. D'altra parte questo insieme è sicuramente non vuoto, in quanto
 		$$1\mapsto 1^{-1}=1$$
 		e dunque dato che è pari ci sarà sempre almeno un altro elemento, che avrà ordine $2$ appunto.
 	\end{proof}
@@ -535,7 +564,7 @@
 		x & \mapsto gx
 	\end{align*}
 	che è un omomorfismo. Non solo, è anche biettivo, dunque possiamo costruire una biezione $g\mapsto l_g$ che ci permette di identificare $G$ con $\text{Sym}(G)$, ovvero ogni gruppo finito è un gruppo di permutazioni. Finalmente quindi:
-	\begin{theorem}[Cauchy dispari]
+	\begin{theorem}[I gruppi pari non sono semplici]
 		Sia $G$ un gruppo tale che $\abs{G}=2m$, con $m$ dispari. Allora $G$ contiene un sottogruppo di ordine $m$.
 	\end{theorem}
 	\begin{proof}
@@ -544,36 +573,16 @@
 			l:G& \to \text{Sym}(G) \\
 			g &\mapsto l_g 
 		\end{align*}
-		la cosa cruciale è che ogni permutazione può essere scomposta in trasposizioni, ovvero esplicitamente in questo caso
-		$$l(g)=(x_1\quad gx_1)(x_2 \quad gx_2)\dots (x_n \quad gx_n)$$
-		e dato che l'ordine di $G$ è pari questo vuol dire che il numero di trasposizioni è $n-1$, dunque $l(g)$ non è nel gruppo alterno. Dato che $\text{Alt}(G)$ ha ordine $2$ deve essere normale, dunque
-		$$\text{Alt}(G)\normal \text{Alt}(G)l(G)\normal \text{Sym}(G)$$
+		chiamando $G^*$ dunque l'immagine di $G$ rispetto a $l$, ci basta mostrare che in $G^*$ vi è un sottogruppo di ordine $m$.
+		L'idea cruciale è che ogni permutazione può essere scomposta in trasposizioni, per il lemma precedente abbiamo che esiste un $g\in G$ di ordine $2$, allora la sua controparte $l(g)\in G^*$ si scomporrà come:
+		$$l(g)=(x_1, gx_1)(x_2, gx_2)\dots (x_m, gx_m)$$
+		questo vuol dire che il numero di trasposizioni è $m$, dispari, e dunque $l(g)$ non è nel gruppo alterno. Ma dato che $\text{Alt}(G)$ ha solo due laterali dobbiamo avere che
+		$$G^*\text{Alt}(G)=S_{2m}$$
+		da questo chiudiamo agilmente grazie al secondo teorema d'omomorfismo, infatti
+		$$C_2\cong \faktor{S_{2m}}{\text{Alt}(G)}\cong \faktor{G^*\text{Alt}(G)}{\text{Alt}(G)}\cong \faktor{G^*}{G^*\cap \text{Alt}(G)}$$
+		ma questo vuol dire che la cardinalità dell'intersezione $G^*\cap \text{Alt}(G)$ è proprio $m$, e dunque abbiamo la tesi.
 	\end{proof}
-	Infine un risultato che non abbiamo ancora enunciato sui gruppi ciclici è:
-	\begin{proposition}[Scomposizione di gruppi ciclici]
-		Se $G$ è un gruppo ciclico finito $G=\langle g \rangle$ con ordine
-		$$n=p_1^{n_1}p_2^{n_2}\dots p_t^{n_t}$$
-		allora
-		$$G\cong G_1\times \dots \times G_t$$
-		dove $\abs{G_i}=p_i^{n_i}$.
-	\end{proposition}
-	\begin{proof}
-		Sia $q_i:=\frac{n}{p_i^{n_i}}$, e definiamo
-		$$g_i:=g^{q_i}$$
-		allora chiaramente i gruppi generati dai $g_i$ hanno gli ordini giusti. Il nostro claim è quindi che
-		$$G_i:=\langle g_i\rangle$$
-		consideriamo allora la mappa
-		\begin{align*}
-			\gamma:G_1\times \dots \times G_t & \to G \\
-			(x_1,\dots,x_t) & \mapsto x_1x_2\dots x_t
-		\end{align*}
-		grazie al fatto che tutti gli elementi che stiamo considerando stanno in $G$, che è ciclico e quindi abeliano, abbiamo allora che $\gamma$ è un omomorfismo. Visto allora che dominio e codominio hanno lo stesso ordine, ci basta mostrare che $\gamma$ è suriettivo o iniettivo per ottenere l'altra proprietà gratis. \\
-		Per dimostrare la suriettività allora usiamo Bezout: dato che i $q_i$ sono tutti coprimi abbiamo che esistono coefficienti $z_i\in \NN$ tali che
-		$$\sum_{i=1}^{n}z_iq_i=1$$
-		esponenziando da entrambi i lati $g$ abbiamo allora
-		$$g=g^{\sum_{i=1}^{n}z_iq_i}=\prod g_i^{z_i}=\gamma\left(g_1^{z_1},\dots,g_t^{z_t}\right)$$
-		dunque $g$ appartiene all'immagine di $\gamma$, che è dunque suriettiva, e quindi abbiamo finito.
-	\end{proof}
+	
 	\subsection{Torsione}
 	Definiamo
 	\begin{definition}[Torsione]
@@ -593,14 +602,15 @@
 		e quindi abbiamo anche gli inversi. La seconda cosa è una semplice conseguenza della definizione di $T(G)$. 
 	\end{proof}
 	Consideriamo un'applicazione di ciò:
-	\begin{example}
+	\begin{example}[Torsione di $\mathbb{S}^1$]
 		La torsione $T\left(\faktor{\RR}{\ZZ}\right)$ è l'insieme $\faktor{\QQ}{\ZZ}$, infatti se $x+\ZZ$ ha ordine finito vuol dire che esiste un $n\in\NN$ tale che 
-		$$nx\in \ZZ$$
+		$$nx+\ZZ = \ZZ \implies nx\in \ZZ$$
 		cioè $x\in\QQ$.   
 	\end{example}
 	\begin{example}[Un gruppo senza torsione]
 		Un gruppo senza torsione è
 		$$\faktor{\RR/\ZZ}{\QQ/\ZZ}\cong \faktor{\RR}{\QQ}.$$
+		dato che abbiamo mostrato prima che la torsione di $\RR/\ZZ$ è proprio $\QQ/\ZZ$.
 	\end{example}
 	Infine abbiamo
 	\begin{proposition}[Bound sull'ordine di gruppi abeliani]
@@ -612,7 +622,7 @@
 	\begin{proof}
 		Segue dal fatto che le espressioni formali distinte che possiamo fare combinando i $g_i$ sono al più il prodotto degli ordini (visto che il gruppo è abeliano).
 	\end{proof}
-	\begin{corollary}
+	\begin{corollary}[Il cerchio razionale è infinitamente generato]
 		Il gruppo $\faktor{\QQ}{\ZZ}$ è infinitamente generato.
 	\end{corollary}
 	\begin{proof}
@@ -654,7 +664,7 @@
 	cioè abbiamo decomposto $G$ come prodotto diretto di due gruppi. \\
 	Un'altra cosa che possiamo cercare di capire di $G$ è quale sia la sua torsione. Senza dubbio abbiamo prima di tutto che
 	$$T(G)\supseteq I$$
-	d'altra parte abbiamo anche che tutti i $\rho_\alpha$ con $\alpha$ razionale hanno ordine finito, e apparterranno sicuramente a $T(G)$. In questo caso la torsione non è un sottogruppo, in quanto il prodotto di una simmetria arbitraria con una rotazione di angolo razionale può dare una rotazione di angolo irrazionale (che ha ordine infinito). Insomma il gruppo è tale che due elementi con ordine finito possono dare un elemento di ordine infinito. \\
+	d'altra parte abbiamo anche che tutti i $\rho_\alpha$ con $\alpha$ razionale hanno ordine finito, e apparterranno sicuramente a $T(G)$. In questo caso la torsione non è un sottogruppo, in quanto il prodotto di una simmetria arbitraria con una rotazione di angolo razionale può dare una rotazione di angolo irrazionale (che ha ordine infinito). Insomma il gruppo è tale che il prodotto di due elementi con ordine finito può dare un elemento di ordine infinito. \\
 	Un'altra cosa ancora è capire quali sono i centralizzanti di $G$. Cerchiamo per esempio il centralizzante $C_G(\rho_\alpha)$. Chiaramente tutte le rotazioni commutano tra loro, quindi $C_G(\rho_\alpha)\supseteq R$, d'altra parte essendo $R$ un sottogruppo massimale di $G$, l'unica cosa che rimane da escludere è che 
 	$$C_G(\rho_\alpha)\ne G$$
 	ma questo è chiaro una volta che si osserva
@@ -749,6 +759,8 @@
 	$$\text{End}(G)\cong \ZZ$$
 	e visto che gli automorfismi sono gli endomorfismi invertibili abbiamo $U\left(\faktor{\ZZ}{n\ZZ}\right)$ nel caso finito, e $C_2$ nel caso infinito. Nel caso finito, questo ha cardinalità sempre $\varphi(n)$.
 	
+	\newpage
+	
 	\section{Azioni di gruppo}
 	
 	Abbiamo capito che lavorare con le permutazioni in generale è facile: abbiamo una base composta da $\binom{n}{2}$ elementi e ci sappiamo fare tutti i conti che vogliamo. Un modo per ricondurci alle permutazioni lo abbiamo già visto: il teorema di Cayley. Ma un modo più fine consiste nel cercare un modo di inserire omomorficamente il gruppo $G$ nel gruppo simmetrico di un qualche insieme.
@@ -780,7 +792,7 @@
 	\end{align*}
 	è un omomorfismo! Questo è esattamente quello che stavamo cercando: un omomorfismo dal gruppo $G$ ad un certo gruppo simmetrico. Questa formulazione rende chiaro anche che esiste un \textit{nucleo} di questo omomorfismo:
 	\begin{definition}[Stabilizzatore]
-		Per un gruppo $G$ agente su un insieme $\Omega$ possiamo definire lo \textit{stabilizzatore} di di $\omega\in \Omega$ come il sottogruppo:
+		Per un gruppo $G$ agente su un insieme $\Omega$ possiamo definire lo \textit{stabilizzatore} di $\omega\in \Omega$ come il sottogruppo:
 		$$\text{Stab}_G(\omega)=\left\{g\in G:g\circ \omega=\omega\right\}$$
 		l'intersezione di tutti gli stabilizzatori a questo punto è proprio $\ker{\sigma}$, dove $\sigma$ è l'omomorfismo definito sopra da $G$ a $\text{Symm}(\Omega)$. 
 	\end{definition}
@@ -793,7 +805,7 @@
 	E quindi il primo teorema importante che lega questi due concetti è:
 	\begin{theorem}[Orbite-Stabilizzatori]
 		Sia $G$ un gruppo che agisce su $\Omega$. Preso un $\omega\in \Omega$ consideriamo la sua orbita $G\circ \omega$ e il suo stabilizzatore $H_\omega$ in $G$. Allora abbiamo
-		$$\abs{G\circ \omega}=\abs{G:H_\omega}$$
+		$$\abs{G\circ \omega}=\abs{G:H_\omega}=\frac{\abs{G}}{\abs{H_\omega}}$$
 	\end{theorem}
 	\begin{proof}
 		Consideriamo l'insieme 
@@ -858,8 +870,8 @@
 	ma d'altra parte per il primo teorema d'omomorfismo abbiamo che $\faktor{G}{H_G}\le \text{Symm}(n)$ cioè abbiamo per il teorema di Lagrange che 
 	$$\abs{\faktor{G}{H_G}}\mid n!$$
 	questo fatto ci torna utile nella seguente proposizione:
-	\begin{proposition}[Cauchy normale]
-		Prendiamo un gruppo $G$ tale che $\abs{G}=t$, e sia $p$ il più piccolo primo che divide $t$. Allora se $\abs{G:H}=p$ abbiamo $H\normal G$.
+	\begin{proposition}[Normalità di PPP]
+		Prendiamo un gruppo $G$ tale che $\abs{G}=t$, e sia $p$ il più piccolo primo (PPP) che divide $t$. Allora se $\abs{G:H}=p$ abbiamo $H\normal G$.
 	\end{proposition}
 	\begin{proof}
 		Cerchiamo di capire quanto vale $\abs{H:H_G}$. Possiamo scomporre l'indice grazie a un risultato provato prima come
@@ -1002,6 +1014,23 @@
 	 \end{itemize}
 	 Questo perché i gruppi infiniti possono essere arbitrariamente schifosi.
 	 \begin{exercise}
+	 	Trovare tutti i gruppi con esattamente $3$ classi di coniugio.
+	 \end{exercise}
+	 \begin{proof}[Soluzione]
+	 	Siano $1\le a \le b$ gli ordini delle $3$ classi di coniugio, chiamato $n$ l'ordine del gruppo abbiamo
+	 	$$n=1+a+b$$
+	 	sia allora $d$ il massimo comun divisore tra $a$ e $b$. Per orbite stabilizzatori dobbiamo avere che $d\mid n$, d'altra parte abbiamo 
+	 	$$d\mid a+b=n-1$$
+	 	ma questo vuol dire proprio che $d=1$, cioè dato che $a$ e $b$ sono divisori di $n$ abbiamo
+	 	$$ab\mid n$$
+	 	in particolare abbiamo allora 
+	 	$$ab\le 1+a+b$$
+	 	che è una condizione evidentemente molto stringente, perché ci dà immediatamente che, se $a=1$ abbiamo \begin{gather*}
+	 		b\in \left\{1,2\right\}
+	 	\end{gather*}
+	 	che ci dà come possibili gruppi solo $C_3$ (il caso $n=4$ è impossibile). Mentre se $a\ge 2$ abbiamo $2\le a\le b\le 3$. Dunque escludendo di nuovo $n=5$ l'unico caso è $n=3$, per cui troviamo solo $S_3$.
+	 \end{proof}
+	 \begin{exercise}
 	 	Trovare tutti i gruppi con esattamente $4$ classi di coniugio.
 	 \end{exercise}
 	 Il nostro gruppo cavia è come sempre $S_4$. Se vogliamo cercare i sottogruppi normali di $S_4$ troviamo in effetti che
@@ -1085,8 +1114,8 @@
 	 
 	 \subsection{Teoremi di Sylow e Cauchy}
 	 
-	 Uno dei motivi per cui la teoria dei gruppi è difficile è che il teorema di Lagrange non si può invertire: ovvero se $d$ divide l'ordine di un certo $G$ non è detto che esista un sottogruppo di $G$ di ordine $d$. Il teorema principale che ci vorremo dimostrare è il seguente:
-	 \begin{theorem}[Cauchy]
+	 Uno dei motivi per cui la teoria dei gruppi è difficile è che il teorema di Lagrange non si può invertire: ovvero se $d$ divide l'ordine di un certo $G$ non è detto che esista un sottogruppo di $G$ di ordine $d$. In questa sezione vedremo due famiglie di teoremi che ci permettono di fare esattamente questo, il primo è:
+	 \begin{theorem}[Cauchy debole]
 	 	Sia $G$ finito, e sia $p$ un primo che divide $\abs{G}$, allora esiste un elemento $g \in G$ di ordine $p$.
 	 \end{theorem}
 	 \begin{proof}
@@ -1095,14 +1124,14 @@
 	 	la cardinalità di questo insieme è esattamente 
 	 	$$\abs{\Omega}=\abs{G}^{p-1}$$
 	 	dato che per ogni lista di $p-1$ elementi di $G$ esiste un $g_p$ che moltiplicato con loro dà $1$. Consideriamo ora il gruppo 
-	 	$$C:=\langle \sigma \rangle$$
-	 	dove $\sigma\in S_p$ è il ciclo $\sigma=\left(1,2,\dots,p\right)$ di lunghezza $p$. Vogliamo allora far agire $C$ su $\Omega$ nel seguente modo
+	 	$$C_p:=\langle \sigma \rangle$$
+	 	dove $\sigma\in S_p$ è il ciclo $\sigma=\left(1,2,\dots,p\right)$ di lunghezza $p$. Vogliamo allora far agire $C_p$ su $\Omega$ nel seguente modo
 	 	$$\sigma\circ \left(g_1,\dots,g_p\right)=\left(g_p,g_1,\dots,g_{p-1}\right)$$
 	 	in effetti dovremmo verificare che quest'azione è chiusa rispetto a $\Omega$, ma in effetti se partiamo da $g_i$ come nella definizione di $\Omega$ abbiamo
 	 	$$g_1\dots g_p=1 \implies 1=g_pg_1\dots g_{p-1}g_pg_p^{-1}=g_pg_1\dots g_{p-1}$$
 	 	e dunque abbiamo proprio definito un'azione. Decomponendo allora $\Omega$ in orbite abbiamo
-	 	$$\abs{\Omega}=\sum_{i}\abs{\mathcal{O}_i}=\sum_{i} \abs{C:\text{Stab}_C(\omega)}$$
-	 	ma d'altra parte $C$ è ciclico di ordine $p$, e quindi gli stabilizzatori possono avere cardinalità per forza o $1$ o $p$. Se chiamiamo allora $t$ il numero di orbite di cardinalità $1$ abbiamo, riducendo da entrambi i lati mod $p$:
+	 	$$\abs{\Omega}=\sum_{i}\abs{\mathcal{O}_i}=\sum_{i} \abs{C_p:\text{Stab}_{C_p}(\omega)}$$
+	 	ma d'altra parte $C_p$ è ciclico di ordine $p$, e quindi gli stabilizzatori possono avere cardinalità per forza o $1$ o $p$. Se chiamiamo allora $t$ il numero di orbite di cardinalità $1$ abbiamo, riducendo da entrambi i lati mod $p$:
 	 	$$0\equiv t \pmod{p}$$
 	 	d'altra parte un'orbita di cardinalità $1$ è proprio costituita da elementi tali che
 	 	$$\sigma\circ \omega=\omega$$
@@ -1147,8 +1176,8 @@
 	 	e fai esattamente quello che hai fatto nel caso $=6$.
 	 \end{proof}
 	 
-	 Un altro modo per risolvere il problema del trovare sottogruppi di cardinalità fissata sono i teoremi di Sylow. 
-	 \begin{theorem}[Cauchy]
+	 Un altro modo per risolvere il problema del trovare sottogruppi di cardinalità fissata sono i teoremi di Sylow, che iniziano da una generalizzazione del teorema di Cauchy: 
+	 \begin{theorem}[Cauchy forte]
 	 	Sia $p$ un primo, e sia $p^k\mid \abs{G}$, con $k>0$. Allora esisterà un $H\le G$ di ordine $p^k$.
 	 \end{theorem}
 	 \begin{proof}
@@ -1173,16 +1202,18 @@
 	 	\end{itemize}
 	 	In ogni caso abbiamo la tesi, e quindi abbiamo finito.
 	 \end{proof}
+	 Siamo finalmente pronti ad enunciare e dimostrare il risultato principale di questa sezione:
 	 
 	 \begin{theorem}[Teoremi di Sylow]
 	 	Sia $G$ un gruppo di ordine $p^an$ con $(n,p)=1$ allora:
 	 	\begin{enumerate}
 	 		\item Esiste almeno un sottogruppo di ordine $p^a$, e questo si dice un \textit{$p$-sylow} di $G$. 
-	 		\item Per ogni $g\in G$ e $p$-sylow $P_1$ in $G$ si ha che esiste un $p$-sylow $P_2$ tale che
-	 		$$gP_1g^{-1}=P_2$$
-	 		in particolare tutti i $p$-sylow sono isomorfi tra loro.
-	 		\item Per ogni $p$, il numero di $p$-sylow di $G$, denotato con $n_p(G)$ soddisfa
-	 		$$n_p(G)\equiv 1 \pmod{p}.$$
+	 		\item L'insieme dei $p$-sylow rispetto all'azione per coniugio di $G$ è un'orbita. Dunque per ogni coppia $S,T$ di $p$-sylow esisterà un $g\in G$ tale che
+	 		$$gSg^{-1}=T$$
+	 		e se la cardinalità di questo insieme è $1$ l'unico $p$-sylow è normale.
+	 		\item Per ogni $p,q\mid \abs{G}$, il numero di $p$-sylow di $G$, denotato con $n_p(G)$ soddisfa
+	 		$$n_p(G)\equiv \delta_{pq} \pmod{q}$$
+	 		dove quel simbolo è la delta di Kronecker.
 	 		\item Per ogni $p$-gruppo $P$ esister un $p$-sylow $Q$ tale che
 	 		$$P\le Q \le G.$$
 	 	\end{enumerate}
@@ -1192,10 +1223,10 @@
 	 	Consideriamo $\Sigma$ l'insieme di tutti i $p$-sylow. Facciamo agire $G$ su $\Sigma$ con il coniugio, e consideriamo un'orbita di questa azione $\Omega$. Ma allora consideriamo un $p$-sylow $P\le G$, e consideriamo la sua azione su $\Omega$. Decomponiamo allora
 	 	$$\Omega=\mathcal{O}_1\sqcup \mathcal{O}_2 \sqcup \dots \sqcup \mathcal{O}_t$$
 	 	nelle orbite rispetto all'azione di $P$.
-	 	\begin{lemma}[I $p$-sylow contengono i $p$-gruppi nel normalizzante]
+	 	\begin{claim}
 	 		Sia $H\le G$ un $p$-sottogruppo di $G$ e $P$ un $p$-sylow di $G$. Allora
 	 		se $H\le N_G(P)$ si ha che $H\le P$.
-	 	\end{lemma}
+	 	\end{claim}
 	 	\begin{subproof}[Sottodimostrazione]
 	 		Supponiamo che $H\le N_G(P)$, allora.
 	 		$$H\le N_G(P)\implies P \normal \langle H,P\rangle$$ 
@@ -1203,18 +1234,22 @@
 	 		$$\abs{HP}=\frac{\abs{H}\abs{P}}{\abs{H\cap P}}=p^{t}$$
 	 		ma dato che i $p$-sylow sono massimali dobbiamo avere che $\abs{HP}=\abs{P}$ e quindi $H\cap P = H$ cioè $H\le P$.
 	 	\end{subproof}
-	 	Ritorniamo allora alle orbite, scegliamo un $P_i\in \mathcal{O}_i$ per ogni $\mathcal{O}_i$. D'altra parte per orbite stabilizzatori, in questo caso abbiamo 
+	 	Ritorniamo allora alle orbite, scegliamo un $P_i\in \mathcal{O}_i$ per ogni $\mathcal{O}_i$. D'altra parte per orbite stabilizzatori, visto che in questo caso gli stabilizzatori sono i normalizzanti, abbiamo
 	 	$$\abs{\mathcal{O}_i}=\abs{P:N_P(P_i)}$$
 	 	dunque dato che $P$ ha ordine $p^a$ abbiamo che
 	 	$$\abs{\mathcal{O}_i}=p^{n_i}$$
-	 	con $n_i$ possibilmente $0$. D'altra parte se $0$ abbiamo che
+	 	con $n_i$ possibilmente $0$. D'altra parte se $n_i=0$ abbiamo che
 	 	$$P=N_P(P_i)$$
 	 	ma questo vuol dire per il lemma appena mostrato che $P\le P_i$. Ma essendo questi entrambi $p$-sylow avranno lo stesso odine, e quindi $P=P_i$. Questo vuol dire che l'unica orbita banale può essere $P$. D'altra parte avevamo due scelte per $P$:
 	 	\begin{itemize}
 	 		\item Se $P\in\Omega$ abbiamo che $\abs{\Omega}\equiv 1 \pmod{p}$
 	 		\item Se $P\not\in \Omega$ abbiamo che non ci può essere la classe di equivalenza di $P$, e quindi $\Omega \equiv 0 \pmod{p}$. 
 	 	\end{itemize} 
-	 	Queste due cose sono contraddittorie, e quindi, dato che $\Omega\ne \eset$, non può esistere un $P\not\in\Omega$, da cui le tesi $2$ e $3$. Manca la tesi $4$, ma d'altra parte se invece di fare agire un $p$-sylow su $\Omega$ avessimo fatto agire un semplice $p$-gruppo avremmo concluso in ogni caso che $P\le N_P(P_i)$.
+	 	Queste due cose sono contraddittorie, e quindi, dato che $\Omega\ne \eset$, non può esistere un $P\not\in\Omega$, da cui la tesi $2$.
+	 	Per quanto riguarda la tesi $3$, abbiamo già mostrato che
+	 	$$\abs{\Omega}\equiv 1 \pmod{p}$$
+	 	d'altra 
+	 	Manca la tesi $4$, ma d'altra parte se invece di fare agire un $p$-sylow su $\Omega$ avessimo fatto agire un semplice $p$-gruppo avremmo concluso in ogni caso che $P\le N_P(P_i)$.
 	 	$$P\le N_G(P_i)$$
 	 	e quindi per il lemma $P\le P_i$, con $P_i$ un $p$-sylow, da cui la tesi $4$.
 	 \end{proof}
@@ -1420,6 +1455,152 @@
 		$$U(R)=\left\{\pm 1,\pm i, \pm j, \pm k \right\}$$
 		che è proprio il gruppo che stavamo cercando, di solito denotato con $Q_8$.
 	\end{itemize}
+	
+	\subsection{Struttura dei gruppi abeliani}
+	
+	Il teorema a cui vogliamo arrivare in questa sezione è
+	\begin{theorem}[Teorema di struttura dei gruppi abeliani]
+		Sia $G$ un gruppo abeliano finito, allora 
+		$$G\cong G_1 \times \dots \times G_t$$
+		e ogni $G_i$ è un gruppo ciclico con ordine potenza di un primo $p_i^{n_i}$.
+	\end{theorem}
+	\begin{proof}
+		Prendiamo un gruppo abeliano di ordine 
+		$$\abs{G}=p_1^{n_1}\dots p_t^{n_t}$$
+		e siano $P_1,\dots, P_t$ i sottogruppi di sylow per ogni $p_1,p_2,\dots,p_t$. Come avevamo fatto per i gruppi ciclici quindi scriviamo la mappa:
+		\begin{align*}
+			\gamma: P_1\times \dots \times P_t & \to G \\
+			\left(x_1,\dots,x_t\right) & \mapsto x_1x_2\dots x_t 
+		\end{align*}
+		e come già fatto per i gruppi ciclici, è un omomorfismo. Come fatto per i gruppi ciclici troviamo con il teorema di Bezout che questo omomorfismo è suriettivo, e quindi dato che cardinalità di dominio e codominio sono finite e uguali, abbiamo proprio trovato un isomorfismo. Abbiamo mostrato quindi che
+		$$G\cong P_1\times \dots \times P_t$$
+		e non rimane altro da fare se non mostrare che ogni $p$-sylow si scompone in gruppi ciclici. Assumiamo quindi che $G$ sia un $p$-sylow, e mostriamo la tesi originale. 
+		\begin{claim}
+			Sia $G$ un $p$-gruppo abeliano finito tale ch esista un $a\in G$ di ordine $\abs{a}=\exp G$. Allora, denominato $A=\langle a \rangle$ esiste un $B\le G$ tale che 
+			$$G=AB$$
+			dove $A\cap B=1$ (ossia $G\cong A\times B$).
+		\end{claim}
+		\begin{subproof}[Sottodimostrazione]
+			Supponiamo che $A\ne G$ (altrimenti trovare un $B$ è molto facile). Scegliamo allora un $x\not\in A$ di ordine minimo. Abbiamo che
+			$$\abs{x^p}=\frac{\abs{x}}{p}<\abs{x}$$
+			ma questo vuol dire che $x^p\in A$, per minimalità dell'ordine $x$. D'altra parte abbiamo che
+			$$\langle x^p\rangle \ne A$$
+			infatti se per assurdo $\langle x^p\rangle$ contenesse $a$ avremmo che $\abs{x^p}=\abs{a}$, ma quindi $x$ avrebbe ordine strettamente maggiore di $a$, assurdo per definizione di esponente. Allora abbiamo che $\langle x^p\rangle$ è contenuto strettamente in $A$, da cui segue che $\langle x^p\rangle \subseteq \lambda a^p\rangle$, per definizione quindi abbiamo che esiste un $t\in \ZZ$ tale che
+			$$x^p = a^{pt} \implies \left(xa^{-t}\right)^p=1$$
+			ma allora dato che $x\not\in A$ abbiamo che anche $xa^{-t}\not\in A$. Questo genera dunque un gruppo di ordine $X$ che non è contenuto in $A$, allora per i teoremi d'omomorfismo abbiamo
+			$$\faktor{G}{X}\ge \faktor{AX}{X}\cong \faktor{A}{X\cap A}\cong A$$
+			dove l'ultima uguaglianza segue dal fatto che 
+		\end{subproof}
+	\end{proof}
+	Questo teorema ci dà un modo operativo per scomporre un dato gruppo abeliano in ciclici:
+	\begin{itemize}
+		\item Scomponiamo prima di tutto il gruppo in $p$-sylow $P$.
+		\item Per ogni $P$ e per ogni $a\in \NN$ calcoliamo il numero di elementi $g\in G$ tali che
+		$$g^{p^a}=1$$
+		per ogni $a$ questo ci dirà quanti sono i blocchi nel "livello" $a$, ovvero avremo che nella scomposizione in ciclici di $P$ ci sono almeno $a$ gruppi di ordine $\ge p^a$. Facciamo un esempio:
+		consideriamo il caso d'esempio
+		$$G\cong C_{81}\times C_9 \times C_9 \times C_3 \times C_3 \times C_3$$
+		ma supponiamo di non sapere che $G$ si scomponga in questo modo. Consideriamo allora il seguente diagramma:
+		\begin{center}
+				\begin{tikzpicture}[square/.style={draw, minimum size=1cm}]
+					
+					% Colonna 1: alta 4
+					\foreach \r in {1,...,4}
+					\node[square] at (1,\r) {};
+					
+					% Colonne 2 e 3: alte 2
+					\foreach \c in {2,3}
+					\foreach \r in {1,...,2}
+					\node[square] at (\c,\r) {};
+					
+					% Colonne 4, 5 e 6: alte 3
+					\foreach \c in {4,5,6}
+					\node[square] at (\c,1) {};
+					
+					\foreach \r in {1,...,4}
+					\node at (0,\r) {$p^\r$};
+					
+					\node at (1,0) {$C_{81}$};
+					\node at (2,0) {$C_9$};
+					\node at (3,0) {$C_9$};
+					\node at (4,0) {$C_3$};
+					\node at (5,0) {$C_3$};
+					\node at (6,0) {$C_3$};
+				\end{tikzpicture}
+		\end{center}
+		ogni colonna rappresenta un gruppo nella scomposizione di $G$, consideriamo allora il numero dei $g\in G$ tali che
+		$$g^3=1$$
+		visto che a posteriori sappiamo che $G$ si scompone come sopra questo equivale a contare gli elementi $g=(x_1,x_2,x_3,x_4,x_5,x_6)$ tali che
+		$$(x_1,x_2,x_3,x_4,x_5,x_6)^3=1 \iff x_1^3=x_2^3=x_3^3=x_4^3=x_5^3=x_6^3=1$$
+		ma questo vuol dire che, visto che in un gruppo finito abeliano l'insieme degli elementi di ordine minore o uguale di $k$ è un sottogruppo, ed in particolare in un gruppo ciclico dev'essere necessariamente il gruppo ciclico di ordine $k$, abbiamo che si deve avere
+		\begin{gather*}
+			x_1\in C_3 \subseteq C_{81} \\
+			x_2 \in C_3 \subseteq C_{9} \\
+			x_3 \in C_3 \subseteq C_9 \\
+			x_4 \in C_3 \subseteq C_3 \\
+			x_5 \in C_3 \subseteq C_3 \\
+			x_6 \in C_3 \subseteq C_3
+		\end{gather*}
+		e quindi semplicemente il numero che cerchiamo sarà $3^6$. Questo numero, per come lo abbiamo calcolato, ci dice che ci devono essere almeno $6$ gruppi di ordine almeno $3$, ovvero al livello in corrispondenza di $3^1$ ci saranno $6$ blocchi! Analogamente se calcoliamo il numero di $g\in G$ tali che
+		$$g^{3^2}=1$$
+		qualunque elemento degli ultimi tre gruppi nella scomposizione andrà bene  
+	\end{itemize}
+	\begin{exercise}
+		Sia $G\le S_n$ un $p$-gruppo. Supponiamo che $n<p^2$, si dimostri che $G$ è abeliano.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Per il quarto teorema di Sylow esisterà un $p$-sylow di $S_n$ che contiene $G$, ovvero
+		$$G\le P \le S_n$$
+		ci basta mostrare allora a questo punto che $P$ è abeliano. Capiamo qual è l'ordine di $P$ allora con la formula di Legendre de Polignac
+		$$v_p(n!)=\sum_{k=1}^{\infty}\floor{\frac{n}{p^k}}$$
+		ma dato che $n<p^2$ abbiamo $n/p^2<1$ cioè abbiamo
+		$$v_p(n!)=\floor{\frac{n}{p}}=:t$$
+		ma allora ci basta costruire un sottogruppo di $S_n$ che sia abeliano di ordine $p^t$, perché tutti i $p$-sylow sono isomorfi. Ma questo è facile, infatti semplicemente
+		$$P\cong C_p^t$$
+		che si ottiene motiplicando tra loro $t$ gruppi ciclici generati da $p$-cicli disgiunti (che esistono sempre in quanto $pt<n$). Dunque abbiamo che $P$ è abeliano, e quindi abbiamo anche $G$ abeliano, che era la tesi.
+	\end{proof}
+	\begin{exercise}
+		Dimostra che in $\FF=\faktor{\ZZ}{p\ZZ}$ il fatto che l'equazione 
+		$$n^2\equiv 1$$
+		abbia soluzione è equivalente a 
+		$$p\equiv 1 \pmod{4}.$$
+	\end{exercise}
+	\begin{proof}
+		Abbiamo che
+		$$n^4\equiv 1 \pmod{p}$$
+		e quindi $n$ ha ordine $4$ (non può avere ordine $2$, perché fa $-1$). Ma questo vuol dire che l'ordine di $\FF^*$ deve essere divisibile per $4$, ovvero
+		$$4\mid \FF^*$$
+		che era la tesi. L'altro verso si fa considerando che se esiste un elemento di ordine $4$ si ha
+		$$n^4-1\equiv 0 \implies \left(n^2-1\right)\left(n^2+1\right)\equiv 0 \implies n^2\equiv -1$$
+		cioè se abbiamo un elemento di ordine $4$ abbiamo la soluzione all'equazione con $n$. D'altra parte essendo $\FF^*$ un sottogruppo finito di un campo sarà ciclico, quindi l'esistenza di un elemento di ordine $4$ è equivalente a 
+		$$4\mid \FF^{*}$$
+		e quindi abbiamo di nuovo finito.
+	\end{proof}
+	\begin{exercise}
+		Consideriamo il prodotto semidiretto 
+		$$\QQ\rtimes \ZZ$$
+		con l'azione 
+		$$t\circ x := 2^t x$$
+		per ogni $t\in \ZZ$ e $x\in \QQ$.
+		\begin{itemize}
+			\item Calcolare le classi di coniugio.
+			\item Dimostrare che 
+			$$\left\{\left(x,0\right):x\in\ZZ\right\}$$
+			non è normale, in particolare si ha per $g=(0,1)$ che
+			$$gHg^{-1}\le H$$
+			ma
+			$$g^{-1}Hg\not\le H.$$
+		\end{itemize}
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Tutto discende dal trovare una formula esplicita per il coniugio, ovvero
+		$$(y,b)(x,a)(y,b)^{-1}=(2^bx+y(1-2^a),a)$$
+		e da questa troviamo che per ogni $(x,0)\in H$ abbiamo
+		$$(0,1)(x,0)(0,1)^{-1}=(2x,0)\in H$$
+		però d'altra parte
+		$$(0,1)^{-1}(x,0)(0,1)=(x/2,0)$$
+		che non è in $H$, e quindi abbiamo finito.
+	\end{proof}
 	
 	
 	\newpage
