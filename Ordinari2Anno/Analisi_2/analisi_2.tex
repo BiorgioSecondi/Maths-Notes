@@ -1826,6 +1826,252 @@
 	\begin{proof}[Soluzione]
 		Questa all'infinito non ha limite, perché sulla retta $y=x$ abbiamo che la funzione è costante a $\half$, mentre su $y=-x$ è costante a $-\half$.
 	\end{proof}
+	
+	\subsection{Derivate parziali e direzionali}
+	Consideriamo $e_1,\dots,e_n$ la base canonica di $\RR^n$.
+	\begin{definition}[Derivata parziale]
+		Consideriamo una $f;A\to \RR$, dove $A\subseteq \RR^n$ è un aperto. La \textit{derivata parziale $i$-esima} in $x\in A$ è la seguente espressione:
+		$$\frac{\partial f}{\partial x_i}(x):=\lim_{t\to 0}\frac{f(x+te_i)-f(x)}{t}$$
+		purché il limite a destra esista finito. Notazioni alternative per la derivata parziale sono
+		$$\partial_if(x)=\partial_{x_i}f=D_if=D_{x_i}f=f_{x_i}.$$
+	\end{definition}
+	Quello che sta facendo la derivata parziale è essenzialmente trattare tutte le variabili $x_1,\dots,x_n$ da cui dipende $f$ come costanti, per esempio nel caso in $2$ variabili abbiamo
+	$$\frac{\partial f}{\partial x}(x,y):=\lim_{t\to 0}\frac{f(x+t,y)-f(x,y)}{t}$$
+	e questo vuol dire che essenzialmente deriviamo usando le regole a cui siamo abituati nel caso unidimensionale, ma trattando tutte le variabili rispetto a cui non stiamo derivando come se fosse costanti. Per esempio
+	$$\frac{\partial}{\partial x}\arctan(x e^{y^2})=\frac{e^{y^2}}{1+(xe^{y^2})^2}.$$
+	Ricordiamo che la derivata parziale può non esistere, per esempio
+	\begin{example}[La norma non è derivabile in $0$]
+		Sia $f(x)=\abs{\abs{x}}$ la norma, allora la derivata in $0$ di $f$ è
+		$$\frac{\partial f}{\partial x_i}(0)=\lim_{t\to 0}\frac{\abs{\abs{0,0,\dots,t,\dots,0}}-\abs{\abs{0}}}{t}=\lim_{t\to 0}\frac{\abs{t}}{t}$$
+		che non esiste.
+	\end{example}
+	Chiaramente questa nozione nuda e cruda ci dice poco, essendo in più variabili vorremmo una nozione un po' più forte di derivata. Introduciamo allora
+	\begin{definition}[Gradiente]
+		Il \textit{gradiente} di una funzione $f:A\to\RR$ a valori reali è la quantità
+		$$\nabla f(x):=Df(x):=\left(\frac{\partial f}{\partial x_1}(x),\frac{\partial f}{\partial x_2}(x),\dots, \frac{\partial f}{\partial x_x}(x)\right).$$
+	\end{definition}
+	E un'altra naturale generalizzazione è
+	\begin{definition}[Derivata direzionale]
+		Sia $A\subseteq \RR^n$ un aperto, allora una funzione $f:A\to\RR^n$ si dice avere \textit{derivata direzionale} in $x$ nella direzione $v\in \RR^n$ se 
+		$$\frac{\partial f}{\partial v}:=f_v(x):= \lim_{t\to 0}\frac{f(x+tv)-f(x)}{t}$$
+		assumendo come sempre che il limite esista.
+	\end{definition}
+	\begin{proposition}[Omogeneità della derivata direzionale]
+		Per ogni $v\in\RR^n$, $\lambda\in \RR$ e funzione $f:A\to\RR^n$ si ha che
+		$$\frac{\partial f}{\partial \lambda v}=\lambda\frac{\partial f}{\partial v}.$$
+	\end{proposition}
+	\begin{example}[Una funzione derivabile in ogni direzione, ma non continua]
+		Consideriamo la funzione
+		$$f(x,y):=\begin{cases}
+			\frac{x^2y}{x^4+y^2} & \text{se $(x,y)\ne (0,0)$} \\
+			0 & \text{altrimenti.}
+		\end{cases}$$
+		Allora la derivata parziale in $0$ per un generico $v\in \RR^n$ è
+		$$\frac{\partial f}{\partial v}(0,0)=\lim_{t\to 0}\frac{f(tv)-f(0)}{t}=\lim_{t\to 0}\frac{t^3v_1^2v_2}{t^4v_1^4+t^2+v_2^2}=\begin{cases}
+			\frac{v_1^2}{v_2} & \text{se $v_2\ne 0$} \\
+			0 & \text{altrimenti.}
+		\end{cases}.$$
+	\end{example}
+	E quindi questo esempio ci turba, vorremmo che nella teoria che stiamo costruendo il fatto che una funzione sia derivabile implichi il fatto che è continua. In modo ancora più disturbante addirittura se consideriamo la funzione
+	$$g(x):=\mathbbm{1}_{A}(x)$$
+	con 
+	$$A:=\left\{(x,y)\in\RR^2: x^2=y \land (x,y)\ne (0,0)\right\}$$
+	abbiamo che in $0$ questa ammette tutte le derivate direzionali in tutte le direzioni, ma è chiaramente molto discontinua. Vorremmo allora introdurre una nozione più forte della semplice derivabilità. Introduciamo prima il concetto di derivata per funzioni a valori vettoriali:
+	\begin{definition}[Derivata parziale a valori vettoriali]
+		Consideriamo la funzione $f:A\to\RR^m$, con $A\subseteq \RR^n$, detta a \textit{valori vettoriali}, ovvero tale che le sue immagini sono sempre vettori colonna. Allora la sua derivata parziale rispetto a $x_j$ è 
+		$$\frac{\partial f}{\partial x_j}(x)=
+		\begin{pmatrix}
+			\frac{\partial f_1}{\partial x_j} \\
+			\frac{\partial f_2 }{\partial x_j} \\
+			\vdots \\
+			\frac{\partial f_m}{\partial x_j}
+		\end{pmatrix}
+		=
+		\lim_{t\to 0}\frac{f(x+te_j)-f(x)}{t}
+		$$
+		dove il limite va inteso in $\RR^n$ (le due definizione sono equivalenti per quanto mostrato sui limiti in $\RR^m$ in generale).
+	\end{definition}
+	\begin{definition}[Matrice Jacobiana]
+		La \textit{matrice Jacobiana} di $f$ in $x$ è 
+		$$Jf(x):=J_f(x):=\begin{pmatrix}
+			\frac{\partial f_1}{\partial x_1}(x) & \frac{\partial f_1}{\partial x_2}(x) & \dots & \frac{\partial f_1}{\partial x_n}(x) \\
+			\frac{\partial f_2}{\partial x_1}(x) & \frac{\partial f_2}{\partial x_2}(x) & \dots & \frac{\partial f_2}{\partial x_n}(x) \\
+			\vdots & \vdots & \ddots & \vdots \\
+			\frac{\partial f_n}{\partial x_1}(x) & \frac{\partial f_n}{\partial x_2}(x) & \dots & \frac{\partial f_n}{\partial x_n}(x)
+		\end{pmatrix}=\begin{pmatrix}
+		\nabla f_1(x) \\
+		\nabla f_2(x) \\
+		\vdots \\
+		\nabla f_n(x)
+		\end{pmatrix}.$$
+	\end{definition}
+	 
+	\subsection{Differenziabilità}
+	In questa sezione lavoreremo solo in $\RR^n$, quindi per noi gli operatori lineari $T:\RR^n\to\RR^m$ saranno tutte e sole le matrici $T\in \RR_{n\times m}$ nella base canonica in arrivo e in partenza. La nozione, più forte della derivabilità, che stiamo cercando è la differenziabilità:
+	\begin{definition}[Differenziabilità]
+		Una funzione $f:A\to\RR^m$, con $A\subseteq \RR^n$ si dice \textit{differenziabile} in $x_0\in A$ se esiste una $T:\RR^n\to\RR^m$ lineare tale che 
+		$$\lim_{x\to x_0}\frac{f(x)-f(x_0)-T(x-x_0)}{\abs{x-x_0}}$$
+		e il \textit{differenziale} di $f$ in $x_0$ si definisce come 
+		$$\dif f(x_0):=T.$$ 
+	\end{definition} 
+	Il fatto che una funzione $f$ in $x_0$ sia differenziabile con differenziale $T$ vuol dire che localmente la funzione $f$ può essere approssimata da $T$, ovvero
+	$$f(x)=f(x_0)+T(x-x_0)+o\left(\abs{x-x_0}\right)$$
+	e questo si vede essere equivalente alla definizione semplicemente per linearità del limite.
+	\begin{proposition}[Proprietà del differenziale]
+		Per ogni $f:A\to \RR^m$ con differenziale $\dif f(x_0)$ in $x_0$ si ha che il differenziale soddisfa:
+		\begin{enumerate}
+			\item Il differenziale, se esiste, è unico.
+			\item In dimensione $n=1$ il differenziale è la derivata
+			$$\dif f(x_0)=f'(x_0)$$
+			intesa come vettore colonna di $\RR^m$.
+			\item Se $f(x)=y_0+Tx$ è affine, allora il differenziale è $\dif f = T$ per ogni $x\in \RR^n$.
+			\item Dire che $f$ a valori vettoriali è differenziabile in $x_0$ è equivalente a dire che ciascuna componente di $f$ è differenziabile individualmente.
+		\end{enumerate}
+	\end{proposition}
+	\begin{remark}
+		In realtà questa costruzione si può generalizzare a mappe arbitrarie $f:X\to Y$ tra spazi normati arbitrari. Data una tale $f$, questa si dice \textit{differenziabile} in $x_0$ se e solo se esiste una $T:X\to Y$ lineare e continua tale che
+		$$\lim_{x\to x_0}\frac{\abs{\abs{f(x)-f(x_0)-T(x-x_0)}}_Y}{\abs{\abs{x-x_0}}_X}=0$$
+		e analogamente abbiamo che $\dif f(x_0):=T$.
+	\end{remark}
+	\begin{theorem}[Differenziabile implica continua]
+		Se $A\subseteq \RR^n$ è aperto e $f:A\to\RR^m$ è una funzione differenziabile in $x_0\in A$ allora:
+		\begin{enumerate}
+			\item $f$ è continua in $x_0$.
+			\item $f$ è derivabile in $x_0$ lungo tutte le direzioni $v\in\RR^n$, e in particolare si ha
+			$$\frac{\partial f}{\partial v}(x_0)=T(v).$$
+		\end{enumerate}
+	\end{theorem}
+	\begin{proof}
+		Per dimostrare la prima tesi semplicemente abbiamo, per definizione di differenziale che
+		$$\lim_{x\to x_0}f(x)=\lim_{x\to x_0}f(x_0)+T(x-x_0)+o\left(\abs{x-x_0}\right)=f(x_0)+0+0=f(x_0)$$
+		e quindi abbiamo che $f$ è continua in $x_0$. Per dimostrare la seconda proprietà invece ci basta
+		$$\frac{\partial f}{\partial v}(x_0)=\lim_{t\to 0}\frac{f(x_0+tv)-f(x_0)}{t}=\lim_{t\to 0}\frac{f(x_0)+\dif f(x_0)(tv)-f(x_0)}{t}=\dif f (x_0)(v)$$
+		e quindi abbiamo proprio la tesi.
+	\end{proof}
+	Come abbiamo già visto il fatto che $f$ abbia tutte le derivate direzionali in $x_0$ non è equivalente al fatto che sia differenziabile in $x_0$, e il controesempio è proprio la funzione
+	$$f(x,y):=
+	\begin{cases}
+		\frac{x^2y}{x^4+y^2} & \text{se $(x,y)\ne (0,0)$} \\
+		0 & \text{altrimenti.}
+	\end{cases}
+	$$
+	Il differenziale ha alcune altre proprietà interessanti, per esempio:
+	\begin{proposition}[Relazione con il gradiente]
+		Sia $f:A\to\RR$ con $A$ aperto, allora se $f$ è differenziabile in $x_0$ si ha
+		$$\dif f(x_0)(v)=\frac{\partial f}{\partial v}(x_0)=\langle \nabla f(x_0),v\rangle$$
+		per ogni $v\in\RR^n$.
+	\end{proposition}
+	\begin{proof}
+		Segue dimostrando la tesi per la base canonica, e poi invocando linearità varie.
+	\end{proof}
+	Questa è una conseguenza di Riesz, ed è notevole che il vettore che rappresenti il differenziale sia proprio il gradiente di $f$. In particolare abbiamo che
+	\begin{proposition}[Il gradiente è la direzione di massima crescita]
+		In generale abbiamo che, presa un $f:A\to\RR$, con $A$ aperto, differenziabile in $x_0$ se $v\in \RR^n$ ha modulo unitario si ha
+		$$f_v(x_0)\le \abs{\nabla f(x_0)}$$
+		e in particolare l'uguaglianza si ha se e solo se 
+		$$v=\frac{\nabla f (x_0)}{\abs{\nabla f(x_0)}}$$
+		cioè se e solo se $v$ è nella direzione del gradiente.
+	\end{proposition}
+	\begin{proof}
+		Usando la formula per la derivata direzionale con il differenziale, e poi Cauchy-Schwwarz.
+	\end{proof}
+	\begin{proposition}[Il differenziale è lo Jacobiano]
+		Se $f:A\to\RR^m$ è una funzione differenziabile in $x_0$ e definita su un aperto $A\subseteq \RR^n$ avremo che
+		$$\dif f (x_0)=Jf(x_0).$$ 
+	\end{proposition}
+	\begin{proof}
+		Componente per componente sulla base canonica.
+	\end{proof}
+	la ricetta in generale quindi per testare se una funzione $f:A \to\RR$ (con tutte le derivate parziali, altrimenti la risposta è certamente negativa) è differenziabile in $x_0$ è verificare se 
+	$$\lim_{x\to x_0}\frac{f(x)-f(x_0)-\langle \nabla f(x_0),x-x_0\rangle}{\abs{x-x_0}}$$
+	oppure analogamente per $m>1$ calcoliamo lo stesso limite usando come candidato differenziale
+	$$Jf(x_0)(x-x_0)$$
+	e cercando di capire se quel limite va effettivamente a $0$. METTI UN DIAGRAMMA FATTO IN JULIA CON IL SIGNIFICATO GEOMETRICO DELLA DIFFERENZIABILIT\'A.
+	\begin{proposition}[differenziale nullo]
+		Se $f(x)=o(\abs{\abs{x}})$ per $x=0$ abbiamo che $f(0)=0$, $f$ è differenziabile in $0$ e si ha $\dif f(0)=0$.
+	\end{proposition}
+	Infine dimostriamo un paio di teoremi sull'algebra delle funzioni differenziabili:
+	\begin{proposition}[Algebra delle funzioni differenziabili]
+		Sia $A\subseteq \RR^n$, $x_0\in A$ e $f,g:A\to\RR^m$ funzioni differenziabili in $x_0$, allora:
+		\begin{itemize}
+			\item La funzione $f+g$ è differenziabile, e si ha
+			$$\dif \left(f+g\right)(x_0)=\dif f(x_0) + \dif g(x_0).$$
+			\item Se $m=1$ allora $fg$ è differenziabile in $x_0$ e si ha
+			$$\dif \left(fg\right)(x_0)=f(x_0)\dif g(x_0)+g(x_0)\dif f(x_0)$$
+			e quindi in particolare per il gradiente si ha
+			$$\nabla \left(fg\right)=f\nabla g + g \nabla f.$$
+		\end{itemize}
+	\end{proposition}
+	\begin{proof}
+		La prima cosa è abbastanza facile da dimostrare. La seconda segue sostituendo l'approssimazione sia di $f$ che di $g$ nel prodotto:
+		$$fg(x)=$$
+	\end{proof}
+	\begin{theorem}[Differenziale della funzione composta]
+		Sia $f:A\to\RR^m$ una funzione differenziabile in $x_0\in A\subseteq \RR^n$ un certo aperto, e sia $g:B\to\RR^k$ un'altra funzione differenziabile in $f(x_0)\in B\subseteq \RR^m$ un altro aperto. Allora $g\circ f:A\to \RR^k$ è differenziabile in $x_0$, e
+		$$\dif \left(g\circ f\right)(x_0)=\dif g \left(f(x_0)\right)\circ \dif f(x_0).$$
+		A livello di matrici questo è equivalente a dire che
+		$$J_{g\circ f}(x_0)=J_g(f(x_0))J_f(x_0).$$ 
+	\end{theorem}
+	\begin{proof}
+		Per definizione di differenziale abbiamo
+		$$f(x)-f(x_0)=\dif f(x_0)(x-x_0)+o\left(\abs{x-x_0}\right)$$
+		d'altra parte per $g\circ f$ abbiamo
+		$$g(f(x))=g(f(x_0))+\dif g (f(x_0))(f(x)-f(x_0))+o\left(\abs{f(x)-f(x_0)}\right)$$
+		dunque sostituendo abbiamo
+		$$g(f(x))=g(f(x_0))+\dif g (f(x_0))\circ\dif f(x_0)(x-x_0)+\dif g (f(x_0))o\left(\abs{x-x_0}\right)+o\left(\abs{f(x)-f(x_0)}\right)$$
+		e vorremmo dire che tutti quei termini con gli $o$-piccoli sono $o(\abs{x-x_0})$, d'altra parte dalla prima formula che abbiamo scritto troviamo facilmente che 
+		$$f(x)-f(x_0)\le C\abs{x-x_0} \implies f(x)-f(x_0)=O\left(\abs{x-x_0}\right) \implies o(\abs{x-x_0})$$
+		e dunque abbiamo proprio finito.
+	\end{proof}
+	\begin{exercise}
+		Prendiamo una curva $\gamma:\RR\to\RR^n$ derivabile. Consideriamo anche una $f:\RR^\to\RR$ differenziabile, allora investighiamo il differenziale di $f\circ \gamma$, i suoi massimi e i suoi minimi.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Per il teorema del differenziale composto abbiamo che la derivata è
+		$$\frac{\dif}{\dif t}f(\gamma(t))=J_f(\gamma(t))J_\gamma(t)$$
+		ovvero
+		$$\begin{pmatrix}
+			f_{x_1}(\gamma(t)) & \dots & f_{x_n}(\gamma(t)) 
+		\end{pmatrix}
+		\begin{pmatrix}
+			\dot{\gamma}_1(t) \\
+			\vdots \\
+			\dot{\gamma}_n(t)
+		\end{pmatrix}=\langle \nabla f(\gamma(t)),\dot{\gamma}(t)\rangle
+		$$
+		e quindi questa è $0$ se e solo se il vettore tangente alla curva è ortogonale al gradiente.
+	\end{proof}
+	Cosa succede se abbiamo una funzione $f:\RR^2\to\RR$, e abbiamo un'altra funzione $g$ tale che in coordinate polari si abbia
+	$$f(x,y)=g(\rho,\theta)$$
+	per definizione di coordinate polari abbiamo allora
+	$$f(\rho \cos\theta,\rho\sin\theta)=g(\rho,\theta)$$
+	se vogliamo allora derivare $g$ rispetto a $\rho$ o a $\theta$ dobbiamo fare
+	$$\frac{\partial g}{\partial \rho}(\rho,\theta)=\frac{\partial f}{\partial x}\cos\theta+\frac{\partial f}{\partial y}\sin\theta$$
+	mentre rispetto a $\theta$:
+	$$\frac{\partial g}{\partial \theta}(\rho,\theta)=-\rho \frac{\partial f}{\partial x}\sin \theta+\rho\frac{\partial f}{\partial y}\cos\theta$$
+	e queste sono in un certo senso le derivate direzionali di $f$ rispetto ai versori $\hat{\theta}$ e $\hat{r}$. Perché queste formule sono valide? Perché possiamo vedere $g$ come
+	$$g=f\circ h$$
+	dove $h:\RR^2\to\RR^2$ è la funzione tale che
+	$$h(\rho,\theta)=\begin{pmatrix}
+		\rho \cos \theta \\
+		\rho \sin \theta
+	\end{pmatrix}$$
+	ma allora la jacobiana di $g$ per il teorema del differenziale composto è
+	$$J_g(\rho,\theta)=J_f\left(h(\rho,\theta)\right)J_h(\rho,\theta)=\begin{pmatrix}
+		\frac{\partial f}{\partial x} & \frac{\partial f}{\partial y}
+	\end{pmatrix}
+	\begin{pmatrix}
+		\cos \theta & -\rho \sin\theta \\
+		\sin \theta & \rho \cos\theta
+	\end{pmatrix}
+	$$
+	e facendo il prodotto riga per colonna otteniamo proprio quello che stavamo cercando
+	$$J_g(\rho,\theta)=
+	\begin{pmatrix}
+		\frac{\partial f}{\partial x}\cos\theta+\frac{\partial f}{\partial y}\sin\theta & -\rho \frac{\partial f}{\partial x}\sin \theta+\rho\frac{\partial f}{\partial y}\cos\theta
+	\end{pmatrix}.
+	$$
+	Insomma il teorema del differenziale composto giustifica tutti i conti che facevamo di solito in fisica quando facevamo cambi di variabili.
 	\newpage
 	
 	\part{Modulo B}

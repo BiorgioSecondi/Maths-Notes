@@ -117,8 +117,7 @@
 
 \begin{document}
 	\title{
-		Appunti di Teoria delle  \\
-		Rappresentazioni di Gruppi
+		Group Representation Theory Notes
 		 }
 	\subtitle{
 		Giovanna Carnovale - SGSS \\
@@ -132,5 +131,143 @@
 	\tableofcontents
 	
 	\newpage
+	
+	\section{Basics of Representation theory}
+	
+	\begin{definition}[Group representation]
+		A \textit{representation} of a group $G$ is a morphism $\rho:G\to \GL(V)$, where $V$ is a certain vector space. Commonly one refers to $V$ as being the representation of $G$, taking as granted from the context the mosphism $\rho$. 
+	\end{definition}
+	Analogously a representation of a ring or a field is a morphism from it to an arbitrary $\GL(V)$. As it's usual with actions, if $\rho$ is clear from the context we write
+	$$\rho_V(g)v=g\circ v=gv$$
+	with a slight abuse o notation.
+	\begin{definition}[Group algebra]
+		Given a field $k$ and a group $G$ the \textit{group algebra} of $G$ is the set
+		$$kG:=\left\{\sum_{g\in G}\lambda_g g:\lambda_g\in k\right\}$$
+		equipped with the obvious sum (as a vector space) and the distributive multiplication that satisfies the multiplication of $G$.
+	\end{definition}
+	We should prove that the one above is actually an algebra, but it is quite easy indeed. Given a representation $\rho$ of $G$ we can extend it linearly to a representation $\tilde{\rho}$ such that
+	$$\tilde{\rho}:kG \to \text{End}(V)$$
+	and this is a ring representation (we go in End because multiplication in $kG$ is not necessarily invertible).
+	\begin{definition}[Algebra]
+		Given a field $k$, an \textit{algebra} over it is a $k$-vector space equipped with a bilinear, unitary and associative product.
+	\end{definition}
+	Just as with groups we define a representation of an algebra as a morphism $\rho:A \to \text{End}(V)$.
+	\begin{example}[Trivial representation]
+		For any group the map
+		$\rho:G\to \GL(V)$
+		such that
+		$$g\mapsto 1$$
+		is the so called \textit{trivial representation} of $G$.
+	\end{example}
+	\begin{example}[Regular representation]
+		For any group $G$, if we take $V=kG$ we get the so called \textit{regular representation} of $G$ as 
+		$$h\circ \sum_{g\in G}\lambda_g g \mapsto \sum_{g\in G} h\lambda_g g.$$
+	\end{example}
+	\begin{example}[Representation of a permutation]
+		For $G=S_n$ and $V=k^n$ the map that permutes the canonical basis is a representation, in other words
+		$$g\circ e_i := e_{g(i)}$$
+		is a representation.
+	\end{example}
+	\begin{example}[Determinant]
+		Given a representation $\rho:G\to \GL(V)$ the map 
+		$$\det\circ \rho$$
+		is also a representation (in particular is always $1$-dimensional).
+	\end{example}
+	
+	\subsection{Morphisms of representations}
+	
+	\begin{definition}[Morphisms of representations]
+		Given a group $G$ and two representations $\rho_V$ and $\rho_W$ over the same field $k$, a \textit{morphism} between theese is a linear map $T:V\to W$ such that is compatible with both $\rho_V$ and $\rho_W$; that is, we have the following commutative diagram
+		\begin{center}
+			\begin{tikzcd}
+				V\arrow[r,"T"] \arrow[d,"\rho_V(g)",swap]& W\arrow[d,"\rho_W(g)"] \\
+				V\arrow[r,"T",swap] & W
+			\end{tikzcd}
+		\end{center}
+		for any $g\in G$. Theese are also called \textit{intertwined operators} or $G$-\textit{equivariant maps}, or $G$-\textit{morphisms}... they have a lot of names. Anyway we say that a morphism of representations is an \textit{isomorphism} if it is invertible.
+	\end{definition}
+	What we are saying essentially is, being that $\rho_V(g)$ and $\rho_W(g)$ are matrices, $T$ commutes with all such matrices in the way given above. The set of all intertwined operators is oftend denoted as
+	$$\text{Hom}(V,W)\ge \text{Hom}_G(V,W)$$
+	which is always a non empty vector space (!). \\
+	Let's now consider two representations $V$ and $W$, we can investigate what happens to the action of $G$ when we take $V\oplus W$, as we expected
+	$$g\circ (v,w)=\left(g\circ v,g\circ w\right)$$
+	and no one is surprised. As usual with vector spaces, given two finite dimensional representations $V,W$, if we choose basis $\mathcal{B}_V$, $\mathcal{B}_W$ theese induce a morphism of representations from $V$ and $W$ to
+	$$\rho_V:G\to \GL_n(k)$$
+	and
+	$$\rho_W:G\to \GL_m(k)$$
+	in this way $\rho_{V\oplus W}(g)$ has also a nice matrix representation
+	$$\rho_{V\oplus W}(g)=
+	\left(\begin{array}{c|c}
+		\rho_V(g) & 0 \\
+		\hline 
+		0 & \rho_W(g)
+	\end{array}\right).$$
+	\begin{lemma}
+		Given a map between two representations $V$ and $W$ of $G$, we have that this is $G$-equivariant iff is $kG$ equivariant, given $k$ the field over which $V$ is defined.
+	\end{lemma} 
+	\begin{example}[Dual representation]
+		Given a representation $V$ of $G$, it's dual space $V^*$ has naturally a representation structure
+		$$\left(\rho_{V^*}(g)f\right)(v)=f\left(\rho_V(g)^{-1}v\right)$$
+		where the inverse is taken to make sure that it is an homomorphism.
+		\begin{center}
+			\begin{tikzcd}
+				contenuto...
+			\end{tikzcd}
+		\end{center}
+		a more compact way to write it is $g\circ f = f\circ g^{-1}$. An even more compact way to see is through matrices, choosing a basis $B$ and it's dual basis $B^*$ of $V^*$ we see that the actions, as matrices satisfy
+		$$\rho_{V^*}(g)=\rho_V(g)^\intercal$$
+	\end{example}
+	\begin{definition}[Tensor product of representations]
+		Given two representations $V$ and $W$ of a group their \textit{tensor product} is the space 
+		$$V\otimes W := \langle \left\{v \otimes w: v\in V,w\in W\right\}\rangle$$
+		equipped with the action 
+		$$\rho_{V\otimes W}(g)(v\otimes w):=\rho_V(g)v\otimes \rho_W(g)w.$$
+	\end{definition}
+	\begin{remark}
+		Given spaces $W$ and $V^*$ there is always a canonical injection
+		\begin{align*}
+			F: W\otimes V^* & \inj \text{Hom}(V,W) \\
+			\sum c_{wf}w\otimes f & \mapsto \sum c_{wf} f(v)w
+		\end{align*}
+		which is equivalent to say that on pure tensors our map is just 
+		$$w\otimes f \mapsto F(w\otimes f)(v):=f(v)w$$
+		and for all the other elements of $V\otimes W$ we extend it linearly.  
+	\end{remark}
+	This gives us immediately that if $V$ and $W$ representations of $G$, so is $V^*\otimes W$. Since the canonical injection defined above is equivariant (prove it) we hence have that $\text{Hom}(V,W)$ is a representation of $G$. What is the action of this? We have that
+	$$\left(g\circ f\right)(v)=\rho_W(g)\left(f\left(\rho_V(g^{-1})v\right)\right)$$
+	and so if $V=W$ this is just a conjugation of $f\in \text{End}(V)$!
+	
+	\subsection{Subrepresentations}
+	
+	\begin{definition}[Subrepresentation]
+		Given a representation $V$ of an object $G$, a \textit{subrepresentation} of $V$ is a subspace $U\le V$ such that is $G$-stable, that is 
+		$$G\circ U \subseteq U$$
+		which means that acting with $G$ on $U$ always gets us to elements still in $U$.
+	\end{definition}
+	\begin{example}[Fixed point of permutations]
+		Given $G=S_n$ with it's permutation representation on $V=k^n$, a subrepresentation of $V$ is
+		$$U=\langle e_1+e_2+\dots+e_n\rangle$$
+		and in this case is much more than $G$ invariant: is pointwise fixed by the action of $G$. A non pointwise fixed example is the space $W$ with cartesian equation
+		$$\sum_{i=1}^{n}x_i=0$$
+		which, if $\text{car}K \not \mid n$ is not pointwise fixed for every point, $w\not\in G\circ w$ for any $w$. 
+	\end{example}
+	An operation we haven't yet touched is the quotient of spaces, we want to investigate what happens if we take two representation $V\ge U$ of $G$ and consider $\faktor{V}{U}$. We claim that this is a representation with the action
+	$$\rho_{V/U}(v+U):=\rho_V(g)v+U$$
+	and we should check that this is actually well defined and is a homomorphism. What does this mean in matrix terms? Given a basis $u_i$ of $U$ and a completion of it to a basis of $V$, the matrix of $\rho_V(g)$ in this basis has generally the form
+	$$\rho_V(g)=
+	\left(
+	\begin{array}{c|c}
+		\rho_U(g) & * \\
+		\hline
+		0 & \rho_{V/U}(g)
+	\end{array}
+	\right)
+	$$
+	one of the big questions of representation theory, as always when we deal with matrices, is wether, given a certain representation $V$ of a group $G$, we can express the action of $G$ on $V$ as acting through block diagonal matrices. From the formula above we see that if we can find a couple of spaces $U\oplus U'$ that are both $G$ stable, we have achieved our goal. 
+	\begin{example}[Decomposition of a representation of $V$]
+		Taking $G=S_n$ and $V=k^n$, since we have 
+		$$\langle e_1+e_2+\dots+e_n \rangle \oplus \left\langle \left\{\sum_{i=1}^n x_i=0:x\in k^n\right\}\right\rangle$$
+		and theese are $G$-stable we have that this is a decomposition of $V$ as a representation.
+	\end{example}
 	
 \end{document}

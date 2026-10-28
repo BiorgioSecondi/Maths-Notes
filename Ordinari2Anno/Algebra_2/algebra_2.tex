@@ -1485,7 +1485,7 @@
 			$$\abs{x^p}=\frac{\abs{x}}{p}<\abs{x}$$
 			ma questo vuol dire che $x^p\in A$, per minimalità dell'ordine $x$. D'altra parte abbiamo che
 			$$\langle x^p\rangle \ne A$$
-			infatti se per assurdo $\langle x^p\rangle$ contenesse $a$ avremmo che $\abs{x^p}=\abs{a}$, ma quindi $x$ avrebbe ordine strettamente maggiore di $a$, assurdo per definizione di esponente. Allora abbiamo che $\langle x^p\rangle$ è contenuto strettamente in $A$, da cui segue che $\langle x^p\rangle \subseteq \lambda a^p\rangle$, per definizione quindi abbiamo che esiste un $t\in \ZZ$ tale che
+			infatti se per assurdo $\langle x^p\rangle$ contenesse $a$ avremmo che $\abs{x^p}=\abs{a}$, ma quindi $x$ avrebbe ordine strettamente maggiore di $a$, assurdo per definizione di esponente. Allora abbiamo che $\langle x^p\rangle$ è contenuto strettamente in $A$, da cui segue che $\langle x^p\rangle \subseteq \langle a^p\rangle$, per definizione quindi abbiamo che esiste un $t\in \ZZ$ tale che
 			$$x^p = a^{pt} \implies \left(xa^{-t}\right)^p=1$$
 			ma allora dato che $x\not\in A$ abbiamo che anche $xa^{-t}\not\in A$. Questo genera dunque un gruppo di ordine $X$ che non è contenuto in $A$, allora per i teoremi d'omomorfismo abbiamo
 			$$\faktor{G}{X}\ge \faktor{AX}{X}\cong \faktor{A}{X\cap A}\cong A$$
@@ -1543,7 +1543,7 @@
 		\end{gather*}
 		e quindi semplicemente il numero che cerchiamo sarà $3^6$. Questo numero, per come lo abbiamo calcolato, ci dice che ci devono essere almeno $6$ gruppi di ordine almeno $3$, ovvero al livello in corrispondenza di $3^1$ ci saranno $6$ blocchi! Analogamente se calcoliamo il numero di $g\in G$ tali che
 		$$g^{3^2}=1$$
-		qualunque elemento degli ultimi tre gruppi nella scomposizione andrà bene  
+		qualunque elemento degli ultimi tre gruppi andrà bene, quindi per $x_4,x_5$ e $x_6$ avremo ancora $3$ scelte per ciascuno, d'altra parte se  
 	\end{itemize}
 	\begin{exercise}
 		Sia $G\le S_n$ un $p$-gruppo. Supponiamo che $n<p^2$, si dimostri che $G$ è abeliano.
@@ -1602,33 +1602,38 @@
 		che non è in $H$, e quindi abbiamo finito.
 	\end{proof}
 	
+	\subsection{$\bigstar$ Appendice: Gruppi noti}
+	
+	In questa sottosezione riporto i principali gruppi finiti di ordine piccolo che sono stati trattati durante il corso, ordinati per ordine. Un indice preliminare è il seguente: 
+	\begin{description}
+		\item[Ordine 1:] Banale.
+		\item[Ordine 2:] Ciclico $C_2$.
+		\item[Ordine 3:] Ciclico $C_3$. 
+		\item[Ordine 4:] Ciclico $C_4$ e Gruppo di Klein $K_4\cong C_2\times C_2$.
+		\item[Ordine 5:] Ciclico $C_5$.
+		\item[Ordine 6:] Ciclico $C_6\cong C_3\times C_2$, Simmetrico $S_3\cong D_3\cong C_3 \rtimes C_2$.
+		\item[Ordine 7:] Ciclico $C_7$.
+		\item[Ordine 8:] Ciclico $C_8$, Diedrale $D_4$, Gruppo dei quaternioni $Q_8$.
+		\item[Ordine 9:] Ciclico $C_9$, Abeliano $C_3\times C_3$.
+		\item[Ordine 10:] Ciclico $C_{10} \cong C_2\times C_5$, Diedrale $D_5\cong C_5\rtimes C_2$.
+		\item[Ordine 11:] Ciclico $C_{11}$.
+		\item[Ordine 12:] Ciclico $C_{12} \cong C_{4}\times C_3$, Abeliano $C_2\times C_2\times C_3$, Diedrale $D_6\cong C_6 \rtimes C_2$, Alterno $A_4$, Diciclico $\text{Dic}_3\cong C_4 \rtimes C_3$.
+		\item[Ordine 13:] Ciclico $C_{13}$.
+		\item[Ordine 14:] Ciclico $C_{14}$, Abeliano $C_2\times C_7$, Diedrale $D_7\cong C_7 \rtimes C_2$.
+		\item[Ordine 15:] Ciclico $C_{15}\cong C_5\times C_3$. 
+		\item[Ordine 16:] Ciclico $C_{16}$, Abeliano $C_{8}\times C_{2}$, Abeliano $C_4\times C_4$, Abeliano $C_4\times C_2\times C_2$, Abeliano $C_2\times C_2\times C_2\times C_2$, Diedrale $D_8$, (ALTRO?). 
+		\item[Ordine 17:]
+		\item[Ordine 18:]
+		\item[Ordine 19:]
+		\item[Ordine 20:]
+		\item[Ordine 21:]
+		\item[Ordine 22:]
+		\item[Ordine 23:]
+		\item[Ordine 24:]
+	\end{description}
+	
+	\subsubsection{Il gruppo di Heisenberg}
 	
 	\newpage
-	
-	\section{Soluzioni agli esercizi proposti}
-	Durante il corso venivano proposti diversi esercizi nei fogli di riepilogo settimanali. Qui una raccolta di testi e soluzioni divisi per settimana.
-	\subsection{Settimana 1: testi}
-	
-	\subsection{Settimana 1: soluzioni}
-	
-	\subsection{Settimana 2: testi}
-	
-	\subsection{Settimana 2: soluzioni}
-	
-	\subsection{Settimana 3: testi}
-	
-	\subsection{Settimana 3: soluzioni}
-	
-	\subsection{Settimana 4: testi}
-	
-	\subsection{Settimana 4: soluzioni}
-	
-	\subsection{Settimana 5: testi}
-	
-	\subsection{Settimana 5: soluzioni}
-	
-	\subsection{Settimana 6: testi}
-	
-	\subsection{Settimana 6: soluzioni}
 	
 \end{document}

@@ -1885,7 +1885,7 @@
 		e quindi il discriminante è semplicemente la classe di equivalenza del prodotto di tutti gli $a_i$.
 	\end{example}
 	
-	\subsection{Quadriche proiettive}
+	\subsection{Quadriche proiettive e spazi tangenti}
 	Per le forme bilineari avevamo visto che possiamo interpretare geometricamente il loro significato attraverso il loro cono d'isotropia. Per una forma quadratica invece possiamo definire
 	\begin{definition}[Quadrica]
 		Sia $V$ uno spazio vettoriale di dimensione finita. Una \textit{quadrica proiettiva} in $\PP(V)$ è una classe di proporzionalità di una forma quadratica su $V$. Un particolare rappresentante di questa classe di equivalenza è detta \textit{equazione della quadrica}. Il \textit{supporto} di una quadrica $[Q]$ è il sottoinsieme di $\PP(V)$ tale che
@@ -1908,7 +1908,195 @@
 	Perché distinguere una quadrica dal suo supporto allora se quello che ci interessa è il suo significato geometrico? Perché in effetti ci sono quadriche non banali a supporto vuoto, per esempio
 	$$B(x,y)=x_0^2+x_1^2+x_2^2+x_3^2$$
 	che ha supporto proiettivo vuoto. Questo è un problema che si risolve lavorando su campi algebricamente chiusi, come $\CC$.
+	\begin{example}[Quadriche in $\PP^1$]
+		Per ogni campo $\KK$ una generica quadrica di $\PP^1_\KK:=\PP(\KK^2)$ ha equazione
+		$$Q\left(\begin{pmatrix}
+			x_0 \\
+			x_1
+		\end{pmatrix}\right)=
+		\begin{pmatrix}
+			x_0 & x_1
+		\end{pmatrix}\begin{pmatrix}
+		a & b \\
+		b & c
+		\end{pmatrix}
+		\begin{pmatrix}
+			x_0 \\
+			x_1
+		\end{pmatrix}$$
+		dividiamo in casi allora in base al rango della matrice $A$ di $Q$:
+		\begin{description}
+			\item[Rango 1:] Se il rango di $A$ è $1$ abbiamo che
+			$$A=
+			\begin{pmatrix}
+				0 & 0 \\
+				0 & 1
+			\end{pmatrix}
+			$$
+			oppure 
+			$$A=
+			\begin{pmatrix}
+				1 & t \\
+				t & t^2
+			\end{pmatrix}
+			$$
+			ricordandoci che $A$ ha coefficienti in $\PP^1_\KK$. Nel primo caso abbiamo che l'equazione è semplicemente 
+			$$x_1^2=0$$
+			e quindi l'unico punto della quadrica è $[1:0]$. Nel secondo caso abbiamo che l'equazione è
+			$$x_0^2+2tx_0+t^2x_1^2=0$$
+			cioè
+			$$(x_0+tx_1)^2=0$$
+			e anche qui abbiamo che l'unico punto del supporto è $[-t:1]$.
+			\item[Rango 2:] Se la matrice ha rango $2$ abbiamo
+			$$b^2-ac\ne 0$$
+			e il supporto ha equazione
+			$$ax_0^2+2bx_0x_1+cx_1^2=0$$
+			ma dividendo da entrambi i lati per $x_0^2$ abbiamo che questa ha discriminante 
+			$$\frac{\Delta}{4}=b^2-ac=-\det A \ne 0$$
+			se esiste un $t\in \KK$ tale che $t^2=\Delta$ l'equazione ha due soluzioni per $x_0/x_1$, e quindi abbiamo che il supporto è costituito esattamente da due punti. In caso contrario, se $\Delta$ non è un quadrato abbiamo che il supporto è vuoto.
+		\end{description}
+	\end{example}
+	E come abbiamo detto questo mostra che il supporto può essere vuoto. Un'altra cosa che mostra questo è esempio è il fatto che l'intersezione tra un a retta e il supporto di una quadrica può avere $0$, $1$ o $2$ punti, oppure può essere l'intera retta.
+	\begin{remark}
+		Data una quadrica $Q$ di forma polare $B$, presa una retta $\ell=\PP(W)$ tale che 
+		$$\text{supp}Q\cap \ell = \ell$$
+		allora abbiamo che $W$ è totalmente isotropo per la forma polare $B$.
+	\end{remark} 
+	Questo ci porta ad una classificazione della posizione di una retta rispetto ad una certa quadrica:
+	\begin{definition}[Retta tangente ad una quadrica]
+		Data una quadrica $\mathcal{Q}=[Q]$ in $\PP(V)$ di forma polare $B$ e una retta $\ell = \PP(W)$ diremo che La retta $\ell$ è \textit{tangente} a $Q$ se l'intersezione 
+		$$\text{supp}Q \cap \ell$$
+		consta di un solo punto, o se è l'intera retta $\ell$.
+	\end{definition}
+	\begin{definition}[Intersezione tra una quadrica e un sottospazio]
+		Se $Q=[Q]$ è una quadrica in $\PP(V)$ allora per ogni sottospazio $W\le V$ che non sia totalmente isotropo per la forma polare $B$ definiamo l'\textit{intersezione} tra la quadrica $Q$ e $\PP(W)$ come la quadrica di equazione $Q_{\mid W}$ (che non è tutto lo spazio dato che $W$ non è totalmente isotropo). 
+	\end{definition}
+	\begin{remark}
+		Il supporto dell'intersezione tra $Q$ e $\PP(W)$ è semplicemente
+		$$\text{supp}(Q_{\mid W})=\text{supp}(Q)\cap \PP(W).$$
+	\end{remark}
+	\begin{definition}[Tangenza tra spazio e quadrica]
+		Il sottospazio proiettivo $\Lambda:=\PP(W)$ si dice \textit{tangente} alla quadrica $Q=[Q]$ su $\PP(W)$ se $Q_{\mid W}$ è una forma quadratica degenere su $W$. In tal caso diremo che $\Lambda$ è tangente a $Q$ in tutti i punti $p\in \text{supp}[Q]\cap \PP(W)$.  
+	\end{definition}
+	METTI DIAGRAMMA CON ELLISSE IN $\PP^2$ E RETTA TANGENTE.
+	\begin{example}[Quadriche in $\PP^3$]
+		In $\PP^3_\RR$ consideriamo la forma di equazione
+		$$Q=x_0^2-x_1^2-x_2^2-x_3^2$$
+		consideriamo allora sulla carta affine $\mathcal{U}_0=\left\{x_0\ne 0\right\}$ abbiamo che il supporto di $Q$ è costituito dai punti tali che
+		$$0=Q\left(\left[1,t_1,t_2,t_3\right]\right)=1-t_1^2-t_2^2-t_3^2$$
+		cioè è una sfera! In questo caso per ogni punto, l'unione delle rette tangenti a $Q$ in quel punto forma proprio \textbf{un piano}.
+	\end{example}
+	\begin{definition}[Spazio tangente ad una quadrica e punti singolari]
+		Se $\mathcal{Q}=[Q]$ è una quadrica in $\PP(V)$ di dimensione $n$, dato un $p=[v]\in \text{supp}\mathcal{Q}$ allora definiamo il \textit{sottospazio proiettivo tangente} a $Q$ in $p$ come 
+		$$\mathbb{T}_p\mathcal{Q}:=\PP(v^\perp)\subseteq \PP(V)$$
+		questo se $v\not\in \ker{Q}$ è uno spazio proiettivo di dimensione $n-1$, e quindi è l'\textit{iperpiano tangente} a $\mathcal{Q}$ in $p$, in questo caso diremo che $p$ è un \textit{punto regolare}. Questo succede se tutti i punti di $\mathcal{Q}$ non appartengono anche al kernel di $\mathcal{Q}$, ovvero se $Q$ è non degenere. D'altra parte se abbiamo $v\in \ker{Q}$ abbiamo che tutti i punti di $\PP(V)$ appartengono allo spazio tangente, e quindi diremo che $p$ è un \textit{punto singolare}.
+	\end{definition}
 	
+	\subsection{Classificazione delle quadriche}
+	
+	Come fatto finora quindi il nostro obbiettivo sarà classificare le quadriche, in modo da avere un insieme finito di modelli di quadriche, a cui ricondurci in ogni caso. La prima cosa che ci chiediamo è cosa succeda ad una quadrica sotto proiettività. Data una $\varphi:V\to V'$ un isomorfismo di spazi vettoriali, allora $\varphi$ definisce canonicamente una trasformazione proiettiva
+	$$F=F(\varphi):\PP(V)\to\PP(V')$$
+	data quindi una quadrica $\mathcal{Q}$ la sua immagine rispetto alla proiettività $F$ è la quadrica $F(\mathcal{Q})$, di equazione
+	$$F(Q):=(Q\circ \varphi^{-1})(v)=0$$
+	infatti questa è la quadrica che soddisfa
+	$$F(Q)\left(\varphi(v)\right)=0 \iff Q(v)=0$$
+	cioè è la quadrica che contiene i punti del supporto di $\mathcal{Q}$ mandati tramite $\varphi$ a $V'$. Scriviamolo bene: 
+	\begin{definition}[Quadrica immagine]
+		Data una quadrica $\mathcal{Q}$ su $\PP(V)$ e un isomorfismo $\varphi:V\to V'$ definiamo la \textit{quadrica immagine} di $\mathcal{Q}$ rispetto a $\varphi$ come
+		$$F(\mathcal{Q}):=[Q\circ \varphi^{-1}]$$
+		due quadriche tali che esista un isomorfismo proiettivo che mandi una nell'altra si dicono isomorfe.
+	\end{definition}
+	\begin{remark}
+		Per come abbiamo definito quindi la quadrica immagine abbiamo
+		$$\text{supp}\left(F\left(\mathcal{Q}\right)\right)=F\left(\text{supp}(\mathcal{Q})\right).$$
+	\end{remark}
+	\begin{definition}[Ipersuperficie]
+		Data una quadrica non degenere $\mathcal{Q}$ in $\PP^n$ gli elementi del suo supporto sono un esempio di \textit{ipersuperficie (proiettiva)}. In generale qualunque insieme di punti caratterizzato da una sola equazione verrà detto ipersuperficie. 
+	\end{definition}
+	Consideriamo allora una proiettività indotta da una mappa lineare $\varphi:\KK^{n+1}\to \KK^{n+1}$. Se $\mathcal{Q}$ è una quadrica di matrice $A$ vogliamo capire come cambia la matrice di $A$ quando applichiamo la proiettività indotta da $\varphi$. D'altra parte se $\varphi$ ha matrice $H$ abbiamo che la trasformazione è
+	$$X\mapsto HY$$
+	e quindi i punti del supporto diventano nell'immagine
+	$$0=X^\intercal A X = \left(H^{-1}Y\right)^\intercal A \left(HY\right)=Y^\intercal\left[\left(H^{-1}\right)^\intercal A H^{-1}\right]Y$$
+	che conferma quello che sapevamo già dalle forme bilineari. Questo vuol dire che essenzialmente la trasformazione che stiamo facendo è una congruenza, e quindi possiamo evocare il teorema di sylvester per mostrare che
+	\begin{theorem}[Teorema di classificazione delle quadriche complesse]
+		Due quadriche complesse $\mathcal{Q}$ e $\mathcal{Q}'$ di $\PP^n$ sono isomorfe se e solo se hanno lo stesso rango. In particolare quindi ogni quadrica di $\PP^n$ è isomorfa alla quadrica diagonalizzata di equazione
+		$$x_0^2+x_1^2+\dots+x_{r-1}^2=0$$
+		dove $r$ è il rango della quadrica considerata. Dunque in $\PP^n_\CC$ ci sono $n+1$ tipi di quadriche non isomorfe.
+	\end{theorem}
+	\begin{proof}
+		Due quadriche di matrici $A$ e $A'$ in $\PP^n$ sono isomorfe se e solo se esiste un $\lambda\in \KK$, con $\lambda\ne 0$ tale che $A$ è congruente a $\lambda A'$. Dato che su $\CC$ tutti i numeri sono quadrati abbiamo che $\lambda$ è sicuramente scrivibile come 
+		$$\lambda = \alpha^2$$
+		per qualche $\alpha\in \CC$, allora abbiamo che
+		$$\lambda A'=\left(\alpha I\right)^\intercal A'\left(\alpha I\right)$$
+		e dunque ci basta mostrare che $A$ e $A'$ sono congruenti, e questo segue da Sylvester.
+	\end{proof}
+	Abbiamo già visto che in $\PP^1$ le quadriche complesse possibili erano quella vuota, quella con un solo punto e quella con due punti. D'altra parte in dimensione $3$ abbiamo già $3$ casi: una retta singola, due rette che si intersecano o una circonferenza. In dimensione $4$ abbiamo ancora più possibilità. Su $\RR$ abbiamo lo stesso identico risultato che avevamo per sylvester:
+	\begin{theorem}[Teorema di classificazione delle quadriche reali]
+		Su $\RR$ due quadriche in $\PP^n$ sono isomorfe se e solo se hanno segnatura uguale a meno dell'ordine (dunque se hanno stesso rango e stesso indice).
+	\end{theorem}
+	\begin{proof}
+		Esattamente come sylvester.
+	\end{proof}
+	Questo implica che il numero di quadriche in $\PP^n_\RR$ a meno di isomorfismo sono
+	$$\floor{\frac{n(n+1)}{2}}+1$$
+	e sono tante quindi. In dimensione $2$ le quadriche sono solitamente note come \textit{coniche}. \\
+	METTI DISEGNO CON QUADRICHE REALI E COMPLESSE IN DIMENSIONE 2 E 3 \\
+	Si può dimostrare che due quadriche reali con abbastanza punti (quindi per esempio, che non sono vuote o costituite solo da un punto) con lo stesso supporto devono necessariamente coincidere. In $\CC$ invece questo è vero indipendentemente da tutto: due quadriche complesse con lo stesso supporto sono sempre uguali.
+	\begin{proposition}[Caratterizzazione dei punti singolari]
+		Sia $\mathcal{Q}$ una quadrica di equazione $Q\in \text{Quad}_\KK(V)$. Allora i punti singolari di $\mathcal{Q}$, data la sua forma polare $B$, e una base $\mathcal{V}$, sono esattamente i punti dell'insieme
+		$$\ker{B}=\left\{x\in \KK^{n+1}:\nabla Q(x)=0\right\}$$
+		dove $Q$ è da intendersi come l'equazione $Q(x_1,\dots,x_n)$ rispetto alla base $\mathcal{V}$.
+	\end{proposition}
+	\begin{proof}
+		Sia $A$ la matrice di $B$ nella base $\mathcal{V}$. L'equazione di $\mathcal{Q}$ in questa base è 
+		$$Q(x_0v_0+\dots+x_nv_n)=\sum_{i,j}a_{ij}x_ix_j$$
+		quindi derivando e imponendo il gradiente nullo otteniamo 
+		$$\begin{cases}
+			2\sum_{j=1}^{n}a_{1j}x_j =0 \\
+			2\sum_{j=1}^{n}a_{2j}x_j =0 \\
+			\vdots \\
+			2\sum_{j=1}^{n}a_{nj}x_j =0
+		\end{cases}$$ 
+		cioè proprio $2Ax=0$, che è l'insieme che volevamo.
+	\end{proof}
+	Decomponiamo allora 
+	$$V=\ker{B}\oplus W$$
+	con $W$ un certo complementare di $B$. 
+	\begin{definition}[Cono Proiettivo]
+		Dati due spazi $W$ e $U$ il \textit{cono proiettivo} di base $U$ e vertice $W$ è l'insieme delle rette $P\lor P'$, con $P\in \PP(U)$ e $P'\in \PP(W)$. 
+	\end{definition}
+	\begin{proposition}[Ricondursi a quadriche non degeneri]
+		Consideriamo una quadrica degenere $\mathcal{Q}$, la cui forma polare $B$ ha kernel $L$. Sia $W$ un complementare di $L$, ovvero uno spazio tale che
+		$$L\oplus W=V$$
+		Allora il supporto di $\mathcal{Q}$ è il cono di vertice $L$ e base il supporto di $Q_{\mid W}$.
+	\end{proposition}
+	\begin{proof}
+		Sia $p=[v]$ con $v\in V$ e $v\ne 0$ allora chiaramente possiamo scrivere 
+		$$v=u+w$$
+		con $u\in L$ e $w\in W$. Allora abbiamo
+		$$Q(v)=Q(u+w)=Q(u)+Q(w)+2B(u,w)=Q(w)$$
+		quindi $p=[v]$ sta nel supporto di $\mathcal{Q}$ se e solo se $w$ sta nel supporto di $Q_{\mid W}$, il che era la tesi.
+	\end{proof}
+	Questo spiega un fenomeno interessante che si poteva notare elencando le quadriche in dimensioni $1$, $2$ e $3$, ovvero che se la quadrica era degenere potevamo sempre trovare uno spazio $W$ tale che, se intersecavamo la quadrica con essa trovavamo una quadrica non degenere in dimensione minore! Insomma le quadriche non degeneri in qualche senso sono le quadriche irriducibili, la cui forma non abbiamo ancora incontrato in dimensioni inferiori.
+	\begin{example}[Quadriche degeneri tangenti ad una quadrica non degenere]
+		Prendiamo una quadrica non degenere $\mathcal{Q}$. Preso un punto regolare $p$ su di essa, se definiamo
+		$$H:=\mathbb{T}_p\mathcal{Q}$$
+		allora $H\cap \mathcal{Q}$ è una quadrica degenere in $H$ (per definizione) e il suo luogo singolare è
+		$$\ker{B}_{\mid H}=H\cap H^\perp = \langle v \rangle.$$
+		Insomma il punto singolare è precisamente il punto di tangenza! 
+	\end{example}	
+	
+	\subsection{Fasci di quadriche}
+	Siamo ora interessati a studiare la struttura di spazio vettoriale delle quadriche. Ricordando che lo spazio proiettivo delle quadriche ha dimensione 
+	$$\frac{(n+1)(n+2)}{2}-1=\frac{n^2+3n}{2}.$$
+	\begin{lemma}[Fascio di quadriche generato da un punto]
+		Preso un $p=[v]\in \PP(V)$, il seguente insieme 
+		$$H(p)=\left\{q\in \PP\left(\text{Quad}_\KK(V)\right):p\in \text{supp}q\right\}$$
+		è un iperpiano nello spazio delle quadriche.
+	\end{lemma}
+	\begin{proof}
+		Dimostriamo prima di tutto che questo  
+	\end{proof}
 	
 	\newpage
 	

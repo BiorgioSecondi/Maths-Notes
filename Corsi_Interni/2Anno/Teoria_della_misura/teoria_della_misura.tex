@@ -973,7 +973,7 @@
 		$$\liminf_{k\to\infty} f_k=\sup_{n\in\NN}\inf_{k\ge n}f_k$$
 		e la misurabilità quindi segue da quanto appena mostrato per sup e inf.
 	\end{proof}
-	\subsection{Integrazione di funzioni semplici}
+	\subsection{Integrale di funzioni semplici}
 	Siamo pronti ad integrare le nostre prime funzioni:
 	\begin{definition}[Funzione semplice]
 		Una funzione $f:X\to\RR$ si dice \textit{semplice} se $\Immagine{f}$ ha cardinalità finita, ovvero se si può scrivere $f$ come
@@ -1074,12 +1074,12 @@
 		scambiando le sommatorie, e quindi abbiamo finito.
 	\end{proof}
 	
-	\subsection{Integrale di Lebesgue e Convergenza monotona}
+	\subsection{Integrale di Funzioni positive e Convergenza monotona}
 	
 	Grazie a questo teorema quindi possiamo finalmente definire:
-	\begin{definition}[Integrale di Lebesgue]
+	\begin{definition}[Integrale di Lebesgue Positivo]
 		Per una funzione $f:X\to [0,\infty]$ misurabile definiamo il suo \textit{integrale di Lebesgue} come
-		$$\int_X f\dif \mu := \sup\left\{\int_X\varphi \dif \mu : 0\le \varphi\le f \text{ ed è semplice e misurabile}\right\}.$$
+		$$\int_X f\dif \mu := \sup\left\{\int_X\varphi \dif \mu : 0\le \varphi\le f \text{ e $\varphi$ è semplice e misurabile}\right\}.$$
 	\end{definition}
 	Osserviamo immediatamente che se $f$ è semplice, per monotonia ritroviamo immediatamente quanto definito sopra per le funzioni semplici. Così come l'omogeneità dell'integrale, che è immediatamente ereditata dalle proprietà degli integrali di funzioni semplici. Il prossimo teorema è noto anche come teorema di Beppo-Levi:
 	\begin{theorem}[Convergenza Monotona]
@@ -1099,7 +1099,7 @@
 		$$X=\bigcup_{n\in\NN}E^n_\varepsilon$$
 		ma allora dato che l'integrale è una misura possiamo invocare la sua continuità monotona dal basso, cioè
 		$$\int_X \varphi \dif \mu = \lim_{n\to\in\infty}\int_{E^n_\varepsilon}\varphi \dif \mu$$ 
-		e allora naturalmente ci viene da considerare queste due successioni termine a termine, infatti per definizione di $E_\varepsilon^n$ abbiamo che 
+		e allora naturalmente ci viene da confrontare le successioni degli integrali delle $f_n$ con gli integrali di $\varphi$ su $E^n_\varepsilon$ termine a termine, infatti per definizione di $E_\varepsilon^n$ abbiamo che 
 		$$\int_{E^n_\varepsilon}\varphi\dif \mu\le \frac{1}{1-\varepsilon}\int_{E^n_\varepsilon}f_n\dif \mu$$
 		da cui per il teorema dei carabinieri, e facendo tendere $\varepsilon\to 0$ abbiamo proprio la tesi.
 	\end{proof}
@@ -1175,20 +1175,25 @@
 		ma questo vuol dire che esisterà un $\varphi=\frac{1}{n}\mathbbm{1}_{E_n}\le f$ con integrale positivo, e quindi abbiamo un assurdo in quanto avevamo supposto che l'integrale di $f$ fosse nullo.
 	\end{proof}
 	Questo ha come conseguenza interessante che due funzioni $f=g$ quasi ovunque hanno sempre lo stesso integrale. In particolare da questo nascono alcune varianti del teorema di convergenza monotona. In effetti nel teorema che avevamo il fatto che il limite fosse misurabile era un'ipotesi superflua (perché il limite di misurabili è misurabile). Tuttavia reintroducendo questa ipotesi e assumendo che $f_n\to f$ non ovunque, ma \textbf{quasi ovunque}, il teorema resta valido. L'ipotesi che $f$ sia misurabile in realtà si può rimpiazzare con qualcosa di un po' più tranquillo, cioè con il fatto che la misura su cui stiamo lavorando sia completa. 
-	\subsection{Integrali di funzioni con segno arbitrario e convergenza dominata}
+	\subsection{Integrali di funzioni arbitrarie e Convergenza dominata}
 	\begin{definition}[Moltiplicare per la funzione caratteristica]
 		Il seguente è un abuso di notazione
+		$$f\mathbbm{1}_A:=\begin{cases}
+			f(x) & \text{se $x\in A$} \\
+			0 & \text{altrimenti.}
+		\end{cases}$$
+		per ogni funzione $f:X\to [0,\infty]$.
 	\end{definition}
-	\begin{definition}[Integrale di funzioni a valori reali]
+	\begin{definition}[Integrale di Lebesgue]
 		Sia $(X,\mathcal{A},\mu)$ uno spazio di misura, e sia $f:X\to\overline{\RR}$ una funzione misurabile, allora denotando
 		\begin{gather*}
 			f^+(x):=\max\left\{f(x),0\right\} \\
-			f^-(x):=\min\left\{-f(x),0\right\}
+			f^-(x):=\max\left\{-f(x),0\right\}
 		\end{gather*}
 		abbiamo 
 		$$f=f^+-f^-$$
-		allora per quanto visto sopra siamo in grado di integrare sia $f^+$ che $f^-$, dunque se almeno uno tra gli integrali delle due parti è finito definiamo
-		$$\int_X f\dif \mu:=\int_X f^+\dif \mu + \int_X f^- \dif \mu$$
+		allora per quanto visto sopra siamo in grado di integrare sia $f^+$ che $f^-$, dunque se almeno uno tra gli integrali delle due parti di $f$ è finito definiamo il suo \textit{integrale di Lebesgue} come:
+		$$\int_X f\dif \mu:=\int_X f^+\dif \mu - \int_X f^- \dif \mu$$
 		inoltre se entrambi gli integrali sono finiti diciamo che $f$ è $\mu$-\textit{integrabile}, e lo indichiamo con $f\in L^1(X,\mu)$.
 	\end{definition}
 	Quello che abbiamo usato in realtà è un abuso di notazione: lo spazio $L^1$ è uno spazio di Banach che di solito non consta di funzioni, ma di classi di equivalenza, con la relazione di equivalenza
@@ -1213,7 +1218,7 @@
 	\end{remark}
 	Il teorema principale che ci servirà allora sarà il seguente:
 	\begin{theorem}[Convergenza dominata]
-		Siano $f_n,f:X\to \overline{\RR}$ misurabili. Se esiste una $g\in L^1(X,\mu)$ tale che per ogni $n\in \NN$ vale
+		Siano $f_n,f:X\to \overline{\RR}$ misurabili una successione di funzioni tale che $f_n\to f$ quasi ovunque. Se esiste una $g\in L^1(X,\mu)$ tale che per ogni $n\in \NN$ vale
 		$$\abs{f_n(x)}\le g(x)$$
 		per ogni $x\in X$ allora abbiamo che $f\in L^1(X,\mu)$, e inoltre
 		$$\lim_{n\to\infty}\int_X f_n\dif \mu = \int_X f \dif \mu.$$
@@ -1228,71 +1233,99 @@
 		$$-\int_X f\dif \mu \le -\limsup_{n\to\infty}\int_X f_n\dif \mu  $$
 		(dove abbiamo rimpiazzato il liminf con un limsup perché per far passare il $-$ da dentro a fuori di un liminf bisogna cambiarlo con un limsup) ovvero
 		$$\limsup_{n\to\infty}\int_X f_n \dif \mu \le \int_X f \dif \mu$$
-		che è un verso dell'uguaglianza che volevamo, per avere l'altro consideriamo la successione $g+f_n\ge 0$, e applicando in modo identico Fatou otteniamo
-		$$\int_X\liminf \left(g+f_n\right)\dif \mu\le \liminf\int_X \left(g+f_n\right)\dif \mu$$
+		che è un verso dell'uguaglianza che volevamo. Per avere l'altro consideriamo la successione $g+f_n\ge 0$, e applicando in modo identico Fatou otteniamo
+		$$\int_X\liminf_{n\to\infty} \left(g+f_n\right)\dif \mu\le \liminf_{n\to\infty}\int_X \left(g+f_n\right)\dif \mu$$
 		ovvero
-		$$\int_X f \le \liminf_{n\to\infty}\int_X f_n$$
+		$$\int_X f\dif \mu \le \liminf_{n\to\infty}\int_X f_n\dif \mu$$
 		da cui la tesi.
 	\end{proof}
-	\begin{corollary}[Assoluta continuità dell'integrale]
-		Sia $f:X\to\overline{\RR}$ integrabile, allora per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che per ogni $A\in \mathcal{A}$ per cui $\mu(A)<\delta$ si ha che
-		$$\int_A\abs{f}\dif \mu < \varepsilon.$$
-	\end{corollary}
+	Un corollario immediato di questo potentissimo teorema è che ogni successione di funzioni misurabili e limitate ha limite integrabile, e il limite degli integrali è uguale all'integrale del limite! \textbf{Questo vuol dire in particolare che per tutte le funzioni propriamente Riemann integrabili possiamo scambiare integrale e limite}. Una conseguenza del teorema appena mostrato è la seguente:
+	\begin{proposition}[Assoluta continuità dell'integrale]
+		Sia $f:X\to\overline{\RR}$ integrabile, allora per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che
+		$$\mu(A)<\delta \implies\int_A\abs{f}\dif \mu < \varepsilon$$
+		per ogni $A\in \mathcal{A}$.
+	\end{proposition}
 	\begin{proof}
 		Di solito in analisi quando si cerca un $\delta>0$ per ogni $\varepsilon>0$ in modo che questo non sia quantitativo (cioè quando non costruiamo esplicitamente $\delta$ come funzione di $\varepsilon$)  si lavora per assurdo e per compattezza. Questo è il primo esempio di ciò. \\
-		Supponiamo per assurdo che esista un $\varepsilon>0$ tale che per ogni $\delta>0$ si abbia, per ogni $A_\delta\in \mathcal{A}$ che
+		Supponiamo per assurdo che esista un $\varepsilon>0$ sfortunato tale che per ogni $\delta>0$ si abbia, per ogni $A_\delta\in \mathcal{A}$ che
 		$$\mu(A_\delta)<\delta \implies \int_{A_\delta} \abs{f}\dif \mu \ge \varepsilon$$
 		per ogni $n$ allora consideriamo $A_{2^{-n}}$, e prendiamo il limsup:
 		$$A:=\limsup_{n\to\infty}A_{2^{-n}}$$
 		ovvero
 		$$A:=\bigcap_{n\ge 0}\bigcup_{k\ge n}A_{2^{-k}}$$
-		cioè è l'insieme di tutti i punti che appartengono definitivamente ad almeno uno degli $A$. Vogliamo mostrare che 
-		$$0=\mu(A)=\mu\left(\bigcap_{n\ge 0}\bigcup_{k\ge n}A_{2^{-k}} \right)$$
-		d'altra parte per continuità monotona della misura abbiamo
+		cioè è l'insieme di tutti i punti che appartengono definitivamente ad almeno uno degli $A$. Vogliamo mostrare che\footnote{Questo è un caso particolare del cosiddetto lemma di Borel-Cantelli, che verrà mostrato in generale nella prossima sezione.}
+		$$0=\mu(A)=\mu\left(\bigcap_{n\ge 0}\bigcup_{k\ge n}A_{2^{-k}} \right).$$
+		D'altra parte per continuità monotona della misura abbiamo
 		$$\mu(A)\le \mu\left(\bigcup_{k\ge n}A_{2^{-k}}\right)$$
 		per ogni $n\in\NN$, dunque per subadditività
-		$$\mu\left(\bigcup_{k\ge n}A_{2^{-k}}\right)\le \sum_{k\ge n}\mu\left(A_{2^{-n}}\right)\le 2^{-n+1}$$
+		$$\mu\left(\bigcup_{k\ge n}A_{2^{-k}}\right)\le \sum_{k\ge n}\mu\left(A_{2^{-n}}\right)\le\frac{1}{2^{n-1}}$$
 		cioè abbiamo proprio $\mu(A)=0$.
 		Ma allora prendendo la successione $f_n:=\abs{f}\mathbbm{1}_{A_{2^{-n}}}$ questa è dominata da
 		$$f_n\le \abs{f}$$
-		e quindi per il teorema di convergenza dominata
+		e quindi per il teorema di convergenza dominata, dato che converge quasi ovunque a $f$ (integrabile), abbiamo
 		$$\int_A f\dif \mu =\int_X\lim_{n\to\infty}f_n\dif \mu= \lim_{n\to\infty}\int_X f_n \dif \mu$$
 		ma d'altra parte il lato sinistro è $0$ perché stiamo integrando su un insieme di misura nulla, e il lato destro è $\ge \varepsilon$ per l'assunzione assurda. Da qui la contraddizione.
 	\end{proof} 
 	\begin{definition}[Uniforme integrabilità]
-		Una famiglia $\left\{f_i\right\}_{i\in I}$ di funzioni $f_i:X\to\overline{\RR}$ misurabili si dice $\mu$-\textit{uniformemente integrabile} se per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che per ogni $i\in I$ e per ogni $A\in \mathcal{A}$ con $\mu(A)<\delta$ vale 
-		$$\int_A\abs{f_i}\dif \mu < \varepsilon$$
-		insomma è una sorta di "equiassoluta continuità".
+		Una famiglia $\left\{f_i\right\}_{i\in I}$ di funzioni $f_i:X\to\overline{\RR}$ misurabili si dice $\mu$-\textit{uniformemente integrabile} se per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che per ogni $i\in I$ si abbia
+		$$\mu(A)<\delta \implies\int_A\abs{f_i}\dif \mu < \varepsilon$$
+		per ogni $A\in \mathcal{A}$. Insomma è una sorta di "assoluta equicontinuità".
 	\end{definition}
-	Chiaramente l'assoluta continuità dell'integrale implica che $\left\{f\right\}$, con $f$ integrabile, è uniformemente integrabile. Allo stesso modo se esiste una $\varphi\in L^1(X,\mu)$ abbiamo che se $\abs{f_i}\le \varphi$ allora $\left\{f_i\right\}_{i\in I}$ è uniformemente integrabile (per la convergenza dominata).
+	Chiaramente l'assoluta continuità dell'integrale implica che $\left\{f\right\}$, con $f$ integrabile, è uniformemente integrabile. Allo stesso modo se esiste una $\varphi\in L^1(X,\mu)$ abbiamo che se $\abs{f_i}\le \varphi$ allora $\left\{f_i\right\}_{i\in I}$ è uniformemente integrabile (per la convergenza dominata). Il teorema della convergenza dominata, per quanto forte, non costituisce una completa caratterizzazione della convergenza in $L^1$ di successioni di funzioni arbitrarie. Il prossimo teorema, dovuto a Vitali, fa esattamente questo:
 	\begin{theorem}[Vitali]
 		Siano $f_n:X\to\overline{\RR}$ misurabili tali che per ogni $x\in X$ si abbia
 		$$f_n(x)\to f(x)$$
 		(o anche soltanto quasi ovunque, se abbiamo l'assunzione che $f$ è misurabile). Assumiamo che $f_n\in L^1(X,\mu)$, e che $f$ sia finita quasi ovunque, allora sono equivalenti le seguenti:
 		\begin{enumerate}
 			\item $f\in L^1(X,\mu)$ e inoltre
-			$$\lim_{n\to\infty}\int_X \abs{f_n-f}\dif \mu =0.$$
+			$$\lim_{n\to\infty}\int_X \abs{f_n-f}\dif \mu =0$$
+			ed in particolare dato che $\abs{f_n-f}\ge f_n-f$  abbiamo che
+			$$\lim_{n\to\infty}\int_X f_n \dif \mu = \int_X f\dif \mu.$$
 			\item La successione $f_n$ è uniformemente integrabile, e inoltre per ogni $\varepsilon>0$ esisterà un $X_\varepsilon\subseteq X$ tale che 
 			$\mu(X_\varepsilon)<\infty$ e per cui per ogni $n$ si ha
 			$$\int_{X\setminus X_\varepsilon} \abs{f_n}\dif \mu < \varepsilon.$$
 		\end{enumerate}
 	\end{theorem}
 	\begin{proof}
-		Mostriamo prima di tutto che $1$ implica $2$. Cominciamo con l'uniforme integrabilità, dato che $f\in L^1(X,\mu)$ abbiamo che per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che per ogni $A\in \mathcal{A}$ con $\mu(A)<\delta$ si abbia
-		$$\int_A \abs{f}\dif \mu < \frac{\varepsilon}{2}$$
+		\textbf{Mostriamo prima di tutto che $1$ implica $2$}. Cominciamo con l'uniforme integrabilità, dato che $f\in L^1(X,\mu)$ abbiamo che per ogni $\varepsilon>0$ esiste un $\delta>0$ tale che per ogni $A\in \mathcal{A}$ si abbia
+		$$\mu(A)<\delta \implies\int_A \abs{f}\dif \mu < \frac{\varepsilon}{2}$$
 		consideriamo allora un $N_\varepsilon\in \NN$ tale che se $n\ge N_\varepsilon$ si abbia
 		$$\int_X \abs{f-f_n}\dif \mu < \frac{\varepsilon}{2}$$
-		ma allora per disuguaglianza triangolare e monotonia dell'integrale abbiamo che
+		ma allora per disuguaglianza triangolare e monotonia dell'integrale abbiamo che, se $n\ge N_\varepsilon$ si ha
 		$$\int_X \abs{f_n}\dif \mu \le \int_A \abs{f}+\abs{f-f_n}\dif \mu \le \int_A\abs{f}\dif \mu +\int_X \abs{f-f_n}\dif \mu < \frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon$$
-		ovvero $f_n$ è uniformemente integrabile. Dimostrare la seconda condizione è analogo, come prima per ogni $\varepsilon>0$ esisterà per assoluta continuità un $X_\varepsilon\subseteq X$ tale che 
-		$$\int_{X\setminus X_\varepsilon} \abs{f}\dif \mu < \varepsilon$$  
-		chiamiamo allora $X^\alpha:=\left\{\abs{f}>\alpha\right\}$ allora abbiamo
-		$$\alpha \mu\left(X^\alpha\right)\le \int_X \abs{f}\dif \mu$$
-		ma allora prendendo $\alpha=\frac{1}{n}$ e considerando la successione 
-		$$f_n=\abs{f}\mathbbm{1}_{X^{1/n}}\le \abs{f}$$
-		e quindi la convergenza dominata ci dice che 
-		$$\int_X f_n\dif \mu \to \int_X \abs{f}\dif \mu$$ 	
-		FINISCILA \\
+		da cui troviamo facilmente che $\left\{f_n,f\right\}$ è uniformemente integrabile, prendendo
+		$$\delta \gets \min\left\{\delta_1,\dots,\delta_{N_\varepsilon-1},\delta\right\}$$ 
+		dove le $\delta_i$ sono quelle forniteci dalla continuità assoluta applicata alla funzione $f_i$. \\
+		Dimostrare la seconda condizione è analogo, segue dal seguente claim:
+		\begin{claim}
+			Sia $g:X\to\RR$ una funzione integrabile allora per ogni $\varepsilon>0$ esiste un $\tilde{X}_\varepsilon\in \mathcal{A}$ tale che $\mu(\tilde{X}_\varepsilon)<\infty$ e inoltre
+			$$\int_{X\setminus \tilde{X}_\varepsilon} g\dif \mu <\varepsilon.$$
+		\end{claim}
+		\begin{subproof}[Sottodimostrazione]
+			Consideriamo la successione di funzioni
+			$$g_n:=\abs{g}\mathbbm{1}_{\left\{x:\abs{g(x)}>\frac{1}{n}\right\}}$$
+			allora abbiamo che $g_n$ soddisfa le ipotesi del teorema di convergenza monotona, dunque per ogni $\varepsilon>0$ avremo che esiste un $\bar{n}$ tale che per ogni $n\ge \bar{n}$ si ha 
+			$$\varepsilon+\int_X g_n\dif \mu > \int_X \abs{g}\dif \mu $$ 
+			ma allora definendo 
+			$$\tilde{X}_\varepsilon:=\left\{x\in X:\abs{g(x)}>\frac{1}{\bar{n}}\right\}$$
+			restringendoci a $X\setminus \tilde{X}_\varepsilon$ abbiamo che per ogni $n\ge \bar{n}$ si ha
+			$$\int_{X\setminus \tilde{X}_\varepsilon} g_n\dif \mu =0$$
+			e quindi la formula trovata prima diventa
+			$$\varepsilon> \int_{X\setminus \tilde{X}_\varepsilon}g\dif \mu$$
+			come richiesto. Rimane da verificare che $\mu(\tilde{X}_\varepsilon)<\infty$, ma d'altra parte dato che 
+			$$\abs{g}\ge \frac{\mathbbm{1}_{\tilde{X}_\varepsilon}}{n}$$
+			integrando da entrambi i lati abbiamo quello che cercavamo dall'integrabilità di $g$:
+			$$\infty > \int_X g\dif \mu \ge \int_X \frac{\mathbbm{1}_{\tilde{X}_\varepsilon}}{n} \dif \mu = \frac{\mu(\tilde{X}_\varepsilon)}{n}$$
+			e dunque questo conclude.
+		\end{subproof}
+		Forti di questo claim consideriamo $N_\varepsilon$ come sopra, allora se $n\ge N_\varepsilon$ per ogni $i\le N_\varepsilon$ grazie al claim abbiamo che esistono insiemi $\tilde{X}^i_{\varepsilon/2}$ di misura finita tali che 
+		$$\int_{X\setminus \tilde{X}^i_\varepsilon}f_i\dif \mu<\frac{\varepsilon}{2}$$
+		con la premura di definire anche 
+		$$\int_{X\setminus \tilde{X}^0_{\varepsilon/2}} f\dif \mu <\frac{\varepsilon}{2}.$$
+		Finalmente allora chiamando $X_\varepsilon:=\bigcup_{n=0}^{N_\varepsilon} \tilde{X}_{\varepsilon/2}^i$ abbiamo che la disuguaglianza che cerchiamo è chiaramente soddisfatta per i primi $N_\varepsilon$ termini, e per gli $n\ge N_\varepsilon$ ci basta usare la disuguaglianza triangolare con la convergenza di $f_n\to f$:
+		$$\int_{X\setminus X_\varepsilon} \abs{f_n}\dif \mu \le \int_{X\setminus X_\varepsilon}\abs{f_n-f}\dif \mu  + \int_{X\setminus X_\varepsilon}\abs{f}\dif \mu \le \frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon$$
+		dove il primo termine è stato stimato per la convergenza di $f_n\to f$ (la definizione di $N_\varepsilon$) mentre il secondo è stato stimato 
+		\\
 		Dimostriamo ora $2$ implica $1$. Questo è essenzialmente una conseguenza di Egorov e Fatou: la strategia sarà applicare il secondo punto dell'ipotesi $2$ per restringerci ad insiemi di misura finita, e poi usando egorov tolto un insieme di misura piccola avremo $f_n\to f$ uniformemente, che ci permetterà di concludere. Per Fatou per ogni $\varepsilon>0$ esisterà un $\delta>0$ tale che se $\mu(A)<\delta$ si ha
 		$$\int_A \abs{f}\dif \mu \le \liminf_{n\to\infty}\int_A \abs{f_n}\dif \mu<\varepsilon$$
 		e quindi anche $f$ è uniformemente integrabile, assieme alle altre $f_n$. Analogamente si fa per la seguente proprietà. Fissiamo allora $\varepsilon>0$ esisterà allora un $X_\varepsilon$ come nelle ipotesi, allora dal teorema di Egorov si ha che esiste un $X_\delta^\varepsilon\subseteq X^\varepsilon$ tale che $f_n\to f$ uniformemente su di esso e $\mu(X^\varepsilon\setminus X_\delta^\varepsilon)<\delta$. Allora per uniforme integrabilità si ha
@@ -1300,26 +1333,41 @@
 		e il primo termine è boundato da $\varepsilon$ per ipotesi, il secondo è boundato da $2\varepsilon$ per uniforme integrabilità e il terzo è boundato da $\varepsilon$ perché su quell'insieme $f_n$ converge uniformemente a $f$, e quindi possiamo stimare $\abs{f_n-f}$ con il sup, che va a $0$.
 	\end{proof}
 	\begin{exercise}
-		Si dimostri che il punto $2$ del teorema precedente implicache $f$ è finita $\mu$-quasi ovunque, se $\mu$ non ha atomi. Una misura si dice \textit{non avere atomi} se per ogni $A\in \mathcal{A}$ con $\mu(A)>0$ esiste un $A\supseteq B\in\mathcal{A}$ tale che 
+		Si dimostri che il punto $2$ del teorema precedente implica che $f$ è finita $\mu$-quasi ovunque, se $\mu$ non ha atomi. Una misura si dice \textit{non avere atomi} se per ogni $A\in \mathcal{A}$ con $\mu(A)>0$ esiste un $A\supseteq B\in\mathcal{A}$ tale che 
 		$$0<\mu(B)<\mu (A).$$
 	\end{exercise}
-	Consideriamo ora una funzione problematica:
+	Consideriamo infine una funzione problematica:
 	\begin{example}[Scala del diavolo]
-		Prendiamo un insieme di Cantor $\mathcal{C}$ in $[0,1]$. Consideriamo la seguente funzione definita per ricorsione (TROVA UN MODO PER SCRIVERLA) questa successione soddisfa
+		Prendiamo un insieme di Cantor $\mathcal{C}$ in $[0,1]$. Consideriamo la seguente funzione definita per ricorsione: la funzione iniziale è $f_0(x)=x$, e poi 
+		$$
+		f_{n+1}(x):=
+		\begin{cases}
+			\frac{f_n(3x)}{2} & \text{se $x\in [0,1/3)$} \\
+			1/2 & \text{se $x\in [1/3,2/3)$} \\
+			\half + \frac{f_n(3x-2)}{2} & \text{se $x\in [2/3,1]$.}
+		\end{cases}
+		$$
+		questa successione soddisfa
 		$$\abs{\abs{f-f_n}}_\infty<\varepsilon$$
-		definitivamente, inoltre dato che ogni $f_n$ è continua, anche il limite dovrà essere continuo, e quindi il limite dovrà effettivamente esistere in $\mathcal{C}([0,1])$. Tuttavia questa funzione ha la proprietà non ovvia che 
+		definitivamente, inoltre dato che ogni $f_n$ è continua, anche il limite dovrà essere continuo, e quindi il limite dovrà effettivamente esistere in $\mathcal{C}([0,1])$, questa $f\in \mathcal{C}([0,1])$ si chiama \textit{funzione di Cantor}, o \textit{scala del diavolo} (vedi la figura \ref{fig:scala di cantor}). La scala del diavolo ha la proprietà non ovvia che
 		\begin{gather*}
 			f(0)=0 \\
 			f(1)=1
 		\end{gather*}
-		e cresce quasi come una retta, però $f'(x)=0$ quasi ovunque (rispetto a Lebesgue). E allora si ha che
+		e cresce quasi come una retta, però $f'(x)=0$ quasi ovunque, in effetti l'insieme dei punti in cui $f$ non è derivabile è proprio $\mathcal{C}$ (questo è anche un esempio di funzione monotona che ha un insieme di punti massimale in cui non è derivabile). Da questo si ha che, non importa come definiamo il valore di $f'$ nei punti dell'insieme di Cantor, dovremo avere che 
 		$$\int_{[0,1]} f'(x)\dif x =0$$
 		ma 
 		$$f(1)-f(0)=1$$
 		e quindi non funziona il teorema fondamentale del calcolo.
 	\end{example}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=\textwidth]{cantor.png}
+		\caption{La scala del diavolo, o funzione di Cantor, realizzata in MATLAB.}
+		\label{fig:scala di cantor}
+	\end{figure}
 	
-	\subsection{Diverse nozioni di convergenza}
+	\subsubsection{Diverse nozioni di convergenza}
 	
 	Finora le nozioni di convergenza che abbiamo visto per successioni di funzioni $f_n\to f$ sono le seguenti:
 	\begin{itemize}
@@ -1381,7 +1429,7 @@
 	
 	\newpage
 	
-	\section{Misure prodotto e Fubini-Tonelli}
+	\subsection{Misure prodotto e Fubini-Tonelli}
 	
 	Dati due spazi di misura $\left(X,\mathcal{A},\mu\right)$ e $\left(Y,\mathcal{B},\nu\right)$ vogliamo definire una misura prodotto $\mu \otimes \nu$ sullo spazio prodotto $\mathcal{A}\otimes \mathcal{B}$ (ovvero la sigma algebra generata da $\mathcal{A}\times \mathcal{B}$, immersa in $X\times Y$) e tale che valga
 	$$\mu\otimes \nu (A\times B)=\mu(A)\mu(B)$$
@@ -1464,11 +1512,273 @@
 		$$\nu(B)\mu(A)=\sum_{n=1}^{\infty}\nu(B_n)\mu(A_n)$$
 		che era quanto volevamo.
 	\end{itemize}
+	Con questo siamo pronti ad enunciare e dimostrare i teoremi di Fubini e Tonelli. L'idea del teorema di Tonelli è circa che se abbiamo una successione in due variabili $a_{n,m}\ge 0$ possiamo scambiare le sommatorie
+	$$\sum_{n=1}^\infty\sum_{m=1}^\infty a_{m,n}=\sup_{N,M\in\NN}\sum_{n=1}^{N}\sum_{m=1}^{M}a_{n,m}=\sup_{N,M\in\NN}\sum_{m=1}^{M}\sum_{n=1}^{N}a_{n,m}=\sum_{m=1}^{\infty}\sum_{n=1}^{\infty}a_{n,m}$$
+	e il teorema di Fubini è la sua generalizzazione per segni arbitrari, a patto che si abbia assoluta convergenza. I teoremi di Fubini e Tonelli dunque sono questo concetto tradotto agli integrali:
+	\begin{definition}[misura $\sigma$-finita]
+		Una misura $\mu$ si dice \textit{$\sigma$-finita} se esiste una successione $\left(X_n\right)_{n\in\NN}\subseteq \mathcal{A}$ tale che 
+		$$\mu(X_n)<\infty$$
+		per ogni $n$ e inoltre
+		$$\bigcup_{n=1}^\infty X_n=X.$$ 
+	\end{definition}
+	\begin{lemma}[Tonelli per funzioni caratteristiche]
+		Dati due spazi di misura $(X,\mathcal{A},\mu)$ e $\left(Y,\mathcal{B},\nu\right)$ consideriamo lo spazio prodotto $(X\times Y, \mathcal{A}\otimes \mathcal{B},\mu \otimes \nu)$ tali che sia $\mu$ che $\nu$ siano $\sigma$-finite, e inoltre si abbia che $\nu$ è completa. Allora per ogni $E\in \mathcal{A}\otimes \mathcal{B}$ si ha:
+		\begin{enumerate}
+			\item Per $\mu$-q.o. $x\in X$ si ha che l'insieme 
+			$$E_x:=\left\{y\in Y:(x,y)\in E\right\}$$
+			è $\nu^*$-misurabile, cioè $E_x\in \mathcal{B}$.
+			\item La mappa che associa $x\mapsto \nu(E_x)$ è misurabile.
+			\item Abbiamo che
+			$$\mu\otimes \nu \left(E\right)=\int_X \nu(E_x)\dif \mu.$$
+		\end{enumerate}
+	\end{lemma}
+	\begin{proof}
+		\textbf{Dimostriamo prima di tutto il teorema per $\mu$, $\nu$ finite}.
+		Supponiamo prima di tutto che $E=A\times B$ con $A\in \mathcal{A}$ e $B\in \mathcal{B}$ allora abbiamo che
+		$$E_x:=\begin{cases}
+			B & \text{se $x\in A$} \\
+			\eset & \text{se $x\not\in A$}
+		\end{cases}$$
+		e quindi abbiamo gratis le prime due tesi. Ma allora semplicemente abbiamo che
+		$$\nu(E_x)=\nu(B)\mathbbm{1}_A(x)$$
+		che integrando da ambo i lati rispetto a $\dif\mu$ ci dà
+		$$\int_X\nu(E_x)\dif \mu =\mu\otimes \nu (E)$$
+		che era la terza tesi. \\
+		Supponiamo ora che
+		$$E:=\bigcup_{n\in\NN}E_n$$
+		con $E_n:=A_n\times B_n$ e $A_n\in \mathcal{A}$ e $B\in \mathcal{B}$. Come già abbiamo fatto in precedenza, qui non ci fa perdere di generalità supporre che tutti gli $E_n$ siano disgiunti (nel caso ci basta considerare $E_{n+1}\setminus \bigcup E_n$, come al solito) se costruiamo allora per ogni $x\in X$ la successione $E_{n,x}$ tale che
+		$$E_x=\bigsqcup_{n\in\NN}E_{n,x}$$
+		dato che ciascun $E_{n,x}$ è misurabile per quanto mostrato prima, anche $E_x$ lo sarà, e quindi abbiamo la prima tesi. D'altra parte come prima prendendo la misura da entrambi i lati e integrando rispetto a $\dif\mu $ abbiamo
+		$$\int_X \nu(E_x)\dif \mu = \int_X \sum_{n\in\NN}\nu(E_{n,x})\dif \mu=\sum_{n\in\NN}\int_X\nu(E_{n,x})\dif \mu =\sum_{n\in\NN}\mu\otimes \nu(E_n)=\mu \otimes \nu (E)$$
+		che era la terza tesi (la seconda segue dal fatto che somma di funzioni misurabili è misurabile). \\
+		Quello che abbiamo fatto finora purtroppo no copre tutti gli elementi della $\sigma$-algebra, per farlo ci mancano ancora almeno le intersezioni: consideriamo
+		$$E_x=\bigcap_{n\in\NN}E_{n,x}$$
+		con $E_n$ come sopra. Non è restringente in questo caso supporre che $E_{n+1,x}\subseteq E_{n,x}$. Per continuità monotona
+		$$\mu(E_x)=\lim_{n\to\infty}\mu(E_{n,x})$$
+		e come al solito integrando da entrambi i lati
+		$$\int_X \mu(E_x)\dif \mu = \int_X \lim_{n\to\infty}\mu(E_{n,x})\dif \mu $$
+		per portare fuori il limite quindi invochiamo il teorema della convergenza dominata, dato che $\mu(E_n)<\mu(X\times Y)$ per ogni $n$, e quindi
+		$$\mu\otimes \nu (E)=\lim_{n\to\infty}\mu\otimes \nu(E_n)=\lim_{n\to\infty}\int_X\nu(E_{n,x})\dif \mu=\int_X \nu(E_x)\dif \mu$$
+		che era di nuovo la tesi $3$ (le altre due seguono come prima). \\
+		E questo non basa ancora! Quello che ci serve sono gli insiemi di misura nulla:
+		$$\mu\otimes \nu (E)=0$$
+		dato che $E$ ha misura $0$ prendendo ricoprimenti che vanno a $0$, unendo i loro elementi e intersecando tutto abbiamo che esiste un $\tilde{E}$ scrivibile come unione e intersezione di elementi della forma $A\times B$ tale che 
+		$$\tilde{E}\supseteq E$$
+		e inoltre 
+		$$\mu \otimes \nu (\tilde{E})=0$$ 
+		ma allora se consideriamo $\tilde{E}_x$ dobbiamo avere che 
+		$$\int_X \nu(\tilde{E}_x)\dif \mu =0$$
+		da cui abbiamo che per quasi ogni $x\in X$ si ha che $\nu\left(\tilde{E}_x\right)=0$ ma visto che $E_x\subseteq \tilde{E}_x$ per completezza di $\nu$ dovremo avere che $\nu(E_x)=0$ da cui 
+		$$\mu\otimes \nu (E_x)=0=\int_X \nu(E_x)\dif \mu$$
+		che era di nuovo la terza tesi. \\
+		Prendiamo finalmente un $E\in \mathcal{A}\otimes \mathcal{B}$ generico, allora come fatto prima possiamo costruire un $\tilde{E}\supseteq E$ tale che
+		$$\mu\otimes \nu \left(\tilde{E}\setminus E\right)=0$$
+		ma allora per quanto mostrato al caso precedente abbiamo che
+		$$\mu\otimes \nu\left(\tilde{E}\setminus E\right)=\int_X \nu(\tilde{E}_x\setminus E_x)\dif \mu$$ 
+		e quindi usando linearità varie e il fatto che $\tilde{E}_x$ sappiamo come si comporta, abbiamo la tesi. \\
+		\textbf{Dimostriamo ora il risultato per $\mu$ e $\nu$ potenzialmente infinite}. Supponiamo di avere $\mu(X)=\mu(Y)=\infty$, consideriamo allora per $\sigma$-finitezza due successioni di insiemi $X_n$ e $Y_n$ di misura nulla che ricoprano $X$ e $Y$, e tali che $X_{n\subseteq X_{n+1}}$ e $Y_n\subseteq Y_{n+1}$. Allora dato un $E\in \mathcal{A}\otimes \mathcal{B}$ definiamo
+		$$E_n:=E\cap \left(X_n\times Y_n\right)$$ 
+		ma allora per ciascun $E_{n,x}$ la misura è finita, quindi possiamo applicare quanto mostrato nei casi precedenti, e quindi usando la continuità dall'alto
+		$$\mu\otimes \nu (E)= \lim_{n\to\infty}\mu\otimes \nu (E_n)=\lim_{n\to\infty}\int_X \nu(E_{n,x})\dif \mu = \int_X\nu (E_x)\dif \mu$$
+		dove nell'ultimo passaggio abbiamo usato la convergenza monotona, dato che gli $E_{n,x}$ sono uno contenuto dentro l'altro (e quindi per monotonia della misura avremo anche che la successione delle misure è monotona). Con questo abbiamo finalmente concluso.
+	\end{proof}
+	Per fortuna da questo seguono in modo più facile sia Tonelli che Fubini.
+	\begin{theorem}[Tonelli]
+		Siano $(X,\mathcal{A},\mu)$ e $(Y,\mathcal{B},\nu)$ due spazi di misura $\sigma$-finiti, con $\nu$ completa. Sia inoltre $f:X\times Y\to [0,\infty]$ una funzione $\left(\mu \otimes \nu\right)^*$-misurabile allora:
+		\begin{enumerate}
+			\item Per $\mu$-q.o. $x\in \RR$ si ha che la mappa $y\mapsto f(x,y)$ è misurabile.
+			\item La mappa 
+			$$x\mapsto \int_Y f(x,y)\dif \nu $$
+			è misurabile.
+			\item L'integrale doppio è un integrale multiplo, ovvero
+			$$\int_{X\times Y} f\dif \left(\mu \otimes \nu\right)=\int_X\left(\int_Y f(x,y)\dif \nu\right)\dif \mu.$$
+		\end{enumerate} 
+	\end{theorem}
+	\begin{proof}
+		Se $f$ è una funzione caratteristica rispetto a $x$, il teorema è stato già dimostrato nel lemma precedente. D'altra parte per linearità dell'integrale segue che la tesi è vera anche per generiche funzioni semplici. Se $f_n$ d'altra parte è misurabile, esisterà una successione $f_n$ monotona di funzioni semplici e misurabili che l'approssima ovvero
+		$$\lim_{n\to\infty}f_n(x,y)=f(x,y)$$
+		per ogni $(x,y)\in X\times Y$. Dunque abbiamo che:
+		\begin{enumerate}
+			\item La prima tesi segue dal fatto che limite di funzioni misurabili è misurabile.
+			\item La seconda tesi segue di nuovo dal fatto che limite di funzioni misurabili è misurabili, e da convergenza monotona.
+			\item La terza tesi segue dal fatto che, per convergenza monotona applicato $3$ volte si ha
+			$$\int_{X\times Y}f\dif \left(\mu \otimes \nu\right)=\lim_{n\to\infty}\int_{X\times Y}f_n\dif \left(\mu \otimes \nu\right)=\lim_{n\to\infty}\int_X\left(\int_Y f(x,y)\dif \nu\right)\dif \mu=\int_X\left(\int_Y f(x,y)\dif \nu\right)\dif \mu$$
+			che era la tesi.
+		\end{enumerate}
+		Dunque abbiamo finito.
+	\end{proof}
+	E infine:
+	\begin{corollary}[Fubini]
+		Siano $(X,\mathcal{A},\mu)$ e $(Y,\mathcal{B},\nu)$ due spazi di misura $\sigma$-finiti con $\nu$ completa. Se $f:X\times Y \to \RR$ è una funzione integrabile e misurabile rispetto alla misura prodotto, ovvero $f\in L^1\left(X\times Y, \mu \otimes \nu\right)$ abbiamo che:
+		\begin{enumerate}
+			\item La funzione $y\mapsto f(x,y)$ è integrabile per $\mu$-q.o. $x\in X$.
+			\item La funzione
+			$$x\mapsto \int_Y f(x,y)\dif \nu$$
+			è integrabile.
+			\item L'integrale doppio è un integrale multiplo, ovvero
+			$$\int_{X\times Y} f\dif \left(\mu \otimes \nu\right)=\int_X\left(\int_Y f(x,y)\dif \nu\right)\dif \mu.$$
+		\end{enumerate}
+	\end{corollary}
+	\begin{proof}
+		Dato che $f\in L^1$ anche $f^+,f^-\in \L^1$. E quindi la tesi segue da Tonelli applicato a $f^+$ e $f^-$.
+	\end{proof}
+	Di solito usiamo questi teoremi per scambiare gli integrali, e in effetti se sia $\mu$ che $\nu$ sono complete abbiamo che
+	$$\int_X\int_Y f(x,y)\dif \nu \dif \mu = \int_{X\times Y} f(x,y)\dif \left(\mu \otimes \nu\right)= \int_Y \int_X f(x,y)\dif \mu \dif \nu$$
+	se $f(x,y)\ge 0$. Se abbiamo anche che $f$ ha segno arbitrario dobbiamo prima mostrare che è integrabile rispetto a $\mu \otimes \nu$. D'altra parte se riusciamo a mostrare che 
+	$$\int_X \int_Y \abs{f(x,y)}\dif \nu \dif \mu <\infty$$
+	abbiamo per Tonelli che il lato sinistro è uguale all'integrale di $f$ rispetto a $\mu \otimes \nu$, e quindi abbiamo che $f$ è integrabile, e quindi da Fubini abbiamo che possiamo effettivamente scambiare gli integrali. Mostriamo infine con un esempio che l'ipotesi che i due spazi fosser $\sigma$-finiti è necessaria.
+	\begin{example}[Una funzione caratteristica per cui fallisce il teorema di Tonelli]
+		Prendiamo $X=[0,1]$ con la misura di Lebesgue, e $Y=[0,1]$ con la misura che conta i punti. Consideriamo allora
+		$$A=\left\{(x,x):x\in [0,1]\right\}$$
+		dimostriamo che Tonelli fallisce sulla funzione caratteristica $\mathbbm{1}_A$. Abbiamo allora che
+		$$\int_X\left(\int_Y\mathbbm{1}_A(x,y) \dif \nu \right)\dif \mathscr{L}^1=\int_X 1\dif \mathscr{L}^1=1$$
+		ma d'altra parte
+		$$\int_Y\left(\int_X \mathbbm{1}_A(x,y) \dif \mathscr{L}^1\right)\dif \nu = \int_Y 0 \dif \nu =0$$
+		e dato che entrambe queste misure sono complete (l'unico insieme di misura nulla per $\nu$ è $\eset$) questo contraddice direttamente un corollario del teorema di Tonelli, e quindi contraddice anche il teorema di Tonelli.
+	\end{example}
+	\begin{exercise}[Integrale di Lebesgue come somma di rettangoli orizzontali]
+		Sia $(X,\mathcal{A},\mu)$ uno spazio di misura $\sigma$-finito e completo,  $f:X\to[0,\infty]$ una funzione misurabile. Allora abbiamo che 
+		$$\int_X f \dif \mu = \int_{[0,\infty]}\mu\left(\left\{f>t\right\}\right)\dif \mathscr{L}^1(t)$$
+		il che fa vedere come la popolare immagine dell'integrale di Lebesgue come "somma di rettangoli orizzontali", sia vera.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		L'idea è usare Tonelli, scrivendo prima di tutto $f$ come
+		$$f(x)=\int_0^f(x)1\dif \mathscr{L}^1(t)=\int_{[0,\infty]}\mathbbm{1}_{[n,f(x)]}(t)\dif \mathscr{L}^1(t)$$
+		ma allora integrando da entrambi i lati rispetto a $x$ e usando Tonelli:
+		$$\int_X f(x)\dif \mu = \int_X\int_{[0,\infty]}\mathbbm{1}_{[n,f(x)]}(t)\dif \mathscr{L}^1(t)\dif \mu=\int_{[0,\infty]}\mu\left(\left\{f>t\right\}\right)\dif \mathscr{L}^1(t) $$
+		da cui abbiamo finito. \textbf{In realtà qui non serviva $\mu$ completa}, perché Tonelli applicato alle funzioni caratteristiche nel caso particolare che la funzioni caratteristiche siano misurabili (come in questo caso), non richiede la completezza della misura (nella dim originale l'avevamo usato per dimostrare che $E$ è misurabile se ha misura nulla, ma d'altra parte se $E_x$ era una funzione caratteristica tale che $E_x$ è misurabile per ogni $x$, ovvero è misurabile come funzione, questo ci viene gratis). 
+	\end{proof}
 	
 	\newpage
 	
 	\section{Compattezza e convergenza debole}
+	Abbiamo visto finora praticamente solo misure singole non interagenti tra loro. In questa sezione 
 	
+	\subsection{Densità di misure}
+	
+	\begin{definition}[Assoluta continuità di misure]
+		Siano $\mu$ e $\nu$ due misure su $(X,\mathcal{A})$. Diremo che $\nu$ è \textit{assolutamente continua} rispetto a $\mu$, e scriveremo $\nu\ll \mu$ se 
+		$$\mu(A)=0 \implies \nu(A)=0$$
+		per ogni $A\in \mathcal{A}$.
+	\end{definition}
+	Vediamo che questa nozione è proprio una generalizzazione dell'assoluta continuità dell'integrale (abbiamo proprio che $\int f \dif \mu $ è sempre assolutamente continuo rispetto a $\mu$, ovvero $\abs{f}\mu \ll \mu$).
+	\begin{definition}[Mutua singolarità]
+		Diremo che due misure $\mu$ e $\nu$ definite sullo stesso spazio sono \textit{mutuamente singolari}, e scriveremo $\mu \perp \nu$ se e solo se esiste un $E\in \mathcal{A}$ tale che
+		\begin{gather*}
+			\mu(E)= 0 \\
+			\mu(E^\complement)=0
+		\end{gather*}
+		e quindi in un certo senso ``non si parlano''. Per un $E$ come sopra di solito si dice che $\mu$ è \textit{concentrata su $E^\complement$} mentre $\nu$ è \textit{concentrata su $E$}.
+	\end{definition}
+	\begin{example}[Delta]
+		La delta $\delta_x$ e $\mathscr{L}^1$ sono mutuamente singolari, scegliendo come insieme $E=\left\{x\right\}$.
+	\end{example}
+	\begin{example}[Cantor]
+		La misura di Borel generata dalla scala di Cantor, $\mu_C$ è perpendicolare sia a $\delta_x$ che a $\mathscr{L}^1$.
+	\end{example}
+	Le due nozioni che abbiamo definito non coprono chiaramente tutte le possibili relazioni che possono intercorrere tra due misure, pensiamo ad esempio a 
+	$$\mu:= \delta_{x_1}+\delta_{x_2}\qquad \nu:=\delta_{x_2}+\delta_{x_3}$$
+	con $x_1\ne x_2\ne x_3$ non sono nè mutuamente singolari nè assolutamente continue una rispetto all'altra. Analogamente si ha considerando $\mathscr{L}^1+\delta_0$ e $\mathscr{L}^1+\mu_c$. Il risultato seguente è essenzialmente quello che abbiamo già fatto per gli integrali:
+	\begin{proposition}[Caratterizzazione dell'assoluta continuità]
+		Se $\nu$ è una misura finita allora $\nu \ll \mu$ è equivalente a dire che per ogni $\varepsilon>0$ esiste u $\delta>0$ tale che
+		$$\mu(A)<\delta \implies \nu(A)<\varepsilon$$
+		per ogni $A\in \mathcal{A}$.
+	\end{proposition}
+	\begin{proof}
+		Un verso e facile, se abbiamo la tesi e vogliamo mostrare che $\nu \ll \mu$ semplicemente abbiamo che se $\mu(A)=0$ allora per ogni $\varepsilon>0$ avremo
+		$$\nu(A)<\varepsilon$$
+		e quindi anche $\nu(A)=0$, da cui $\nu\ll\mu$. Il verso interessante è l'altro, supponiamo per assurdo che esistano un $\varepsilon>0$ e una successione $A_n\in \mathcal{A}$ tali che
+		$$\mu(A_n)<2^{-n} \quad \text{e}\quad \nu(A_n)\ge \varepsilon$$
+		ma allora questi soddisfano le ipotesi del lemma di Borel-Cantelli, e quindi abbiamo
+		$$\mu(A):=\nu\left(\limsup_{n\to\infty}A_n\right)=0$$
+		d'altra parte abbiamo che, per continuità monotona
+		$$\nu(A)=\nu\left(\bigcap_{n=1}^\infty\bigcup_{k=n}^\infty A_k\right)=\lim_{n\to\infty}\nu\left(\bigcup_{k=n}^\infty A_k\right)\ge \limsup_{n\to\infty}\nu(A_n)\ge \varepsilon$$
+		e questo contraddice l'ipotesi che $\nu$ fosse assolutamente continua rispetto a $\mu$.
+	\end{proof}
+	Il risultato che vogliamo dimostrare in questa sezione è il seguente: 
+	\begin{theorem*}[Lebegue-Radon-Nikodym]
+		Prese due misure $\mu$ e $\nu$ che siano $\sigma$-finite su $(X,\mathcal{A})$ abbiamo che esistono e sono uniche due $\nu^{ac}$ e $\nu^s$ che siano a loro volta $\sigma$-finite e tali che
+		$$\nu=\nu^{ac}+\nu^s$$
+		e per cui si abbia
+		\begin{gather*}
+			\nu^{ac}\ll \mu \\
+			\nu^s \perp \mu.
+		\end{gather*}
+		Inoltre esiste una $f:X\to [0,\infty]$ misurabile tale che $\nu^{ac}=f\mu$, e per ogni altra $\tilde{f}:X\to [0,\infty]$ misurabile tale che $\nu^{ac}=\tilde{f}\mu$ abbiamo che $f=\tilde{f}$ quasi ovunque rispetto a $\mu$. Una tale $f$ si dice \textit{densità} di $\nu$ rispetto a $\mu$.
+	\end{theorem*}
+	Questo è la fusione di due teoremi: la prima parte di solito attribuita a Lebesgue e la seconda a Radon e Nikodym.
+	\begin{lemma}[di decomposizione di Hahn]
+		Date $\mu$ e $\nu$ due misure finite su $(X,\mathcal{A})$ esistono $A_\mu, A_\nu\in\mathcal{A}$ che decompongono lo spazio in cui stiamo lavorando
+		$$X=A_\mu \cup A_\nu$$
+		tali che per ogni $A\subseteq A_\mu$ si ha $\nu(A)\le \mu(A)$, e per ogni $A\subseteq A_\nu$ si ha $\mu(A)\le \nu(A)$.
+	\end{lemma}
+	\begin{remark}
+		Questo lemma, come tutti gli altri che mostreremo, sarà naturalmente riassunto nel teorema di Radon-Nikodym (infatti è molto facile dimostrarlo una volta che sappiamo $\nu = f\mu$).
+	\end{remark}
+	\begin{proof}
+		Prendiamo gli insiemi:
+		\begin{gather*}
+			\mathcal{A}_\mu:=\left\{A\in \mathcal{A}:\nu(B)\le \mu(B)\text{ per ogni $B\subseteq A$ e $B\in \mathcal{A}$}\right\} \\
+			\mathcal{A}_\nu:=\left\{A\in \mathcal{A}:\mu(B)\le \nu(B)\text{ per ogni $B\subseteq A$ e $B\in \mathcal{A}$}\right\}
+		\end{gather*}
+		questi hanno la proprietà di essere chiusi rispetto ad unioni numerabili, e quindi abbiamo che, definendo
+		$$M:=\sup\left\{\mu(A):A\in \mathcal{A}_\mu\right\}$$
+		questo sarà un massimo, in quanto l'elemento che realizza il massimo è l'unione di una successione che realizza il sup. Sia quindi $A_\mu := \bigcup A_n$, con $A_n$ una successione in $\mathcal{A}_\mu$ che realizza il sup. Definiamo 
+		$$A_\nu:=X\setminus A_\mu$$
+		e inoltre definiamo la funzione $g:\mathcal{A}\to \RR$ tale che 
+		$$f:A\mapsto \mu(A)-\nu(A).$$
+		Mostriamo che $A_\nu$ è effettivamente quello che cerchiamo. Dalla massimalità di $A_\mu$ sappiamo che per ogni $B\in\mathcal{A}$ e $B\subseteq A_\nu$ e misura $\mu(B)>0$ sappiamo che
+		$$\nu(\tilde{B})>\mu(\tilde{B})$$
+		per ogni $\tilde{B}\subseteq B$ (se per assurdo non fosse così avremmo contraddetto la massimalità di $A_\mu$). Supponiamo dunque per assurdo che $\mu(B)>\nu(B)$ allora avremmo che 
+		$$g\left(A_\nu\setminus B\right)>g(A_\nu)$$
+		e di conseguenza avremmo $A_\nu\not\in \mathcal{A}_\nu$. Costruiamo allora una successione $A_j\in \mathcal{A}$ tale che $g(A_0)>0$, e tale che soddisfi per ogni $j$:
+		$$n_j:=\min\left\{n\in\NN:\exists B \subseteq A_{j-i},g(B)>g(A_{j-1})+\frac{1}{n}\right\}$$
+		e quell'insieme è non vuoto per ogni $j$ perché possiamo sempre prendere $B:=A_j\setminus \tilde{B}$, con $\tilde{B}$ come definito sopra. Questi insiemi sono tutti uno dentro l'altro, ovvero $A_j\subseteq A_{j-1}$, quindi definendo
+		$$A:=\lim_{n\to\infty}A_n$$
+		avremo che
+		$$g(A)>g(A_j)>0$$
+		e quindi $\mu(A)>0$ d'altra parte essendo $\mu$ finita abbiamo che
+		$$\sup g \le \mu(X)<\infty$$
+		e visto che, per definizione di $n_j$ si ha
+		$$\frac{1}{n_j}<g(A_j)-g(A_{j-1})$$
+		abbiamo
+		$$\sum_{j=1}^\infty \frac{1}{n_j}<\sup g - g(A_0)<\infty$$
+		allora l'ipotesi assurda $A\not\in A_\mu$ NON HO CAPITO RIPRENDILA DAGLI APPUNTI.
+	\end{proof}
+	E il secondo risultato che ci servirà è
+	\begin{lemma}
+		Per $\mu$ e $\nu$ misure finite su $(X,\mathcal{A})$ allora vale una delle seguenti:
+		\begin{enumerate}
+			\item Abbiamo che $\mu \perp \nu$.
+			\item Esiste un $\varepsilon>0$ tale che esiste un $E\in \mathcal{A}$ per cui $\mu(E)>0$ e 
+			$$\nu_{\mid E}\ge \varepsilon \mu_{\mid E}.$$
+		\end{enumerate}
+	\end{lemma}
+	\begin{proof}
+		Per ogni $n$ dal lemma precedente possiamo costruire una successione $A^n_\nu$ tale che 
+		$$\nu \ge \frac{1}{n}\mu$$
+		restringendoci ad $A^n_\nu$. Allora definendo
+		$$\tilde{A}_j:=\bigcup_{n=1}^\infty A^n_\nu$$
+		allora abbiamo due casi:
+		\begin{itemize}
+			\item Se $\mu(\tilde{A}_\nu)=0$ abbiamo $\mu\perp\nu$, perché $\nu(\tilde{A}_\nu^\complement)=0$ infatti per ogni $n\in\NN$ abbiamo
+			$$\nu(\tilde{A}^\complement_\nu)\le \frac{1}{n}\mu(\tilde{A}^\complement_\nu).$$
+			\item Se $\mu(\tilde{A}_\nu)>0$ abbiamo semplicemente che prendendo un $A^n_\nu$ con $n$ abbastanza grande abbiamo la seguente tesi.
+		\end{itemize}
+	\end{proof}
+	\begin{proof}[Dimostrazione di radon nikodym]
+		Sia
+		$$\mathcal{F}:=\left\{f:X\to [0,\infty]:\text{$f$ è misurabile e }\int_Ef\dif \mu \le \nu(E),\forall E \in \mathcal{A}\right\}$$
+		per monotonia dell'integrale allora abbiamo che se $f_1,f_2\in \mathcal{F}$ anche la funzione $\max\left\{f_1,f_2\right\}\in\mathcal{F}$, infatti 
+		$$\int_E\max\left\{f_1,f_2\right\}\dif \mu = \int_{E_1\cap E} f_1\dif\mu +\int_{E_2\cap E} f_2\dif \mu \le \nu(E_1\cap E)+\nu(E_2\cap E)=\nu(E)$$
+		dove $E_1$ è l'insieme in cui $f_1$ è più grande ed $E_2$ l'insieme in cui $E_2$ è più grande. Questo giustifica allora che 
+		$$m:=\sup_{f\in\mathcal{F}}\int_X d\dif \mu$$
+		è un massimo, per argomenti di massimalità soliti. Allora denotata con $\bar{f}$ la funzione che realizza il massimo definiamo
+		$$\nu^{ac}:=\bar{f}\mu$$
+		e allo stesso modo
+		$$\nu^s:=\nu-\nu^{ac}$$
+		rimane solo da mostrare che $\nu^s$ è effettivamente mutuamente singolare.
+	\end{proof}
 	\newpage
 	
 	\section{Introduzione al Trasporto Ottimo}
@@ -1626,20 +1936,80 @@
 			e quindi per definizione di $\mu^*$,
 			$$\sum_{k\in\NN}\mu\left(A_k\cap A\right)+\sum_{k\in\NN}\mu\left(A_k\cap A^\complement\right)\ge \mu^*\left(E\cap A\right)+\mu^*\left(E\cap A^\complement\right)$$
 			che implica la tesi per quanto detto sopra.
-			\item Dato un $A\cup N\in \overline{A}$ e un $E\subseteq X$, vogliamo mostrare che
+			\item Cominciamo dimostrando che $\overline{\mathcal{A}}\subseteq \mathcal{M}$. Dato un $A\cup N\in \overline{\mathcal{A}}$ e un $E\subseteq X$, vogliamo mostrare che
 			$$\mu^*(E)=\mu^*\left(\left(A\cup N\right)\cap E\right)+\mu^*\left(\left(A\cup N\right)^\complement \cap E\right)$$
-			come sempre un verso viene direttamente dalla subadditività. Per dimostrare l'altro prendiamo un $F\subseteq N$ in $\mathcal{A}$ e di misura ($\tilde{\mu}$) nulla, consideriamo poi un $\varepsilon>0$, per la definizione di inf esisterà un ricoprimento $A_k$ di $E$ tale che
+			come sempre un verso viene direttamente dalla subadditività. Per dimostrare l'altro prendiamo un $F\subseteq N$ in $\mathcal{A}$ e di misura ($\mu$) nulla, consideriamo poi un $\varepsilon>0$, per la definizione di inf esisterà un ricoprimento $A_k$ di $E$ tale che
 			$$\varepsilon+\mu^*(E)\ge \sum_{k\in\NN}\mu(A_k)$$
 			e dunque usando l'additività di $\mu$:
 			$$\sum_{k\in\NN}\mu(A_k)=\sum_{k\in\NN}\mu\left(A_k\cap \left(A\cup F\right)\right)+\sum_{k\in\NN}\mu\left(A_k\cap \left(A\cup F\right)^\complement\right)$$
-			ma ora usando l'identità
+			visto che $\mu(F)=0$ aggiungerlo a destra non ci costa nulla, rimaniamo quindi con la seguente espressione
+			$$\varepsilon+\mu^*(E)\ge\sum_{k\in\NN}\mu\left(A_k\cap \left(A\cup F\right)\right)+\mu(F)+\sum_{k\in\NN}\mu\left(A_k\cap \left(A\cup F\right)^\complement\right).$$
+			In realtà da qui abbiamo già essenzialmente finito, infatti per l'identità
 			$$E\cap \left(A\cup N\right)^\complement=\left[E\cap A^\complement \cap \left(F\setminus N\right)\right]\sqcup \left[E\cap A^\complement \cap F^\complement\right]$$
-			e inoltre il fatto che 
-			$$E\cap A^\complement \cap \left(F\setminus N\right)\subseteq F$$
-			abbiamo che 
-			$$\bigcup_{k\in\NN}\left(A_k\cap \left(A\cup F\right)^\complement\right)=$$
-			
+			abbiamo trovato due ricoprimenti degli insiemi che ci interessano, infatti chiaramente abbiamo
+			$$\bigcup_{k\in\NN}A_k\cap (A\cup F)=E\cap (A\cup F)\supseteq E\cap (A\cup N)$$
+			mentre per l'altro pezzo usando l'identità appena menzionata abbiamo
+			\begin{gather*}
+				F\supseteq E\cap A^\complement \cap \left(F\setminus N\right)\\
+				\bigcup_{k\in\NN}\left(A_k\cap \left(A\cup F\right)^\complement\right)= E\cap A^\complement \cap F^\complement \\
+				\implies F\cup \bigcup_{k\in\NN}\left(A_k\cap \left(A\cup F\right)^\complement\right) \supseteq E\cap (A\cup N)^\complement
+			\end{gather*}
+			da cui per definizione di inf (nella definizione di misura esterna) abbiamo
+			$$\varepsilon+\mu^*(E)\ge \mu^*\left(E\cap \left(A\cup N\right)\right)+\mu^*\left(E\cap \left(A\cup N\right)^\complement\right)$$
+			che per l'arbitrarietà di $\varepsilon$ è esattamente la tesi. Rimane da mostrare che $\overline{\mu}=\tilde{\mu}$, ma semplicemente preso un $A\cup N\in \overline{\mathcal{A}}$ abbiamo che
+			$$\overline{\mu}(A\cup N)=\mu(A)=\mu^*(A)=\mu^*(A\cup N)=\tilde{\mu}(A\cup N)$$
+			dove la prima uguaglianza segue per definizione di completamento, la seconda per quanto mostrato al punto $1$, e la terza segue prendendo un $F\supseteq N$ con $\mu^*(F)=\mu(F)=0$ e mettendo insieme le seguenti due considerazioni
+			\begin{align*}
+				&\mu^*(A)\le \mu^*(A\cup N) & \text{monotonia} &\\
+				&\mu^*(A)=\mu^*(A)+\mu^*(F)\ge \mu^*(A\cup N) & \text{definizione di $F$ e ricoprimento di $A\cup N$} &
+			\end{align*}
+			dunque abbiamo finito.
+			\item Purtroppo in generale questo è falso, infatti se consideriamo $X=\RR$ e la $\sigma$-algebra $\mathcal{A}\subset \RR$ degli insiemi tali che
+			$$\mathcal{A}:=\left\{S\in \parti{\RR}:\abs{S}\le \abs{\NN} \lor \abs{S^\complement}\le \abs{\NN}\right\}$$
+			e $\mu$ la misura che conta i punti, abbiamo che $\overline{\mathcal{A}}=\mathcal{A}$, in quanto l'unico elemento di $\mathcal{A}$ con misura esterna nulla è $\eset$, ma d'altra parte 
+			$$\mathcal{M}=\RR$$
+			infatti preso un qualunque $M\subseteq \RR$ e $E\subseteq\RR$ abbiamo sempre che
+			$$\mu^*(E)\ge \mu^*(E\cap M)+\mu^*(E\cap M^\complement)$$
+			infatti se $\abs{E}\ge \infty$ abbiamo chiaramente che 
+			$$\mu^*(E)=\infty$$
+			e quindi la disuguaglianza tiene, d'altra parte se $\abs{E}<\infty$ abbiamo che $E\in \overline{\mathcal{A}}$, e quindi per quanto mostrato sopra sarà misurabile. 
+			\\
+			\\
+			Se tuttavia aggiungiamo tra le nostre assunzioni il fatto che $\mu$ sia finita, cioè $\mu(X)<\infty$, possiamo dimostrare che $\overline{\mathcal{A}}=\mathcal{M}$. Prendiamo un $M\in \mathcal{M}$, vogliamo mostrare che $M\in\overline{\mathcal{A}}$. Per prima cosa ci ridurremo agli insiemi di misura nulla, consideriamo una successione di ricoprimenti $\left(A^n_k\right)_{n\in\NN}$ che realizza l'inf nella definizione di $\tilde{\mu}(M)$, ovvero una successione di ricoprimenti di $M\subseteq \bigcup_{k\in\NN}A_k^n$ tali che
+			$$\tilde{\mu}(M)=\lim_{n\to\infty}\sum_{k\in\NN}\overline{\mu}(A_k^n)$$
+			consideriamo allora il seguente insieme
+			$$S:=\bigcap_{n\in\NN}\bigcup_{k\in\NN}A_k^n$$
+			dato che ciascuno degli $A_k$ appartiene a $\overline{\mathcal{A}}$ avremo che, per le proprietà di $\sigma$-algebra, anche $S\in\overline{\mathcal{A}}$. D'altra parte dato che per ogni $n\in\NN$ si ha per definizione di ricoprimento
+			$$\bigcup_{k\in\NN}A_k^n \supseteq M$$
+			avremo anche che
+			$$S=\bigcap_{n\in\NN}\bigcup_{k\in\NN}A_k^n\supseteq M$$
+			da cui per monotonia della misura
+			$$\tilde{\mu}(S)\ge \tilde{\mu}(M).$$
+			Prendendo la definizione di $S$ e applicando la monotonia da entrambi i lati abbiamo allora che
+			$$\tilde{\mu}(S)=\tilde{\mu}\left(\bigcap_{n\in\NN}\bigcup_{k\in\NN}A_k^n\right)\le \inf_{n\in\NN} \tilde{\mu}\left(\bigcup_{k\in\NN} A^n_k\right)$$
+			ma per subadditività e definizione di $\mu^*(M)$ abbiamo
+			$$\tilde{\mu}(S)\le \inf_{n\in\NN}\tilde{\mu}\left(\bigcup_{k\in\NN}A^n_k\right)\le \inf_{n\in\NN}\sum_{k\in\NN}\overline{\mu}(A^n_k)=\mu^*(M)=\tilde{\mu}(M)$$
+			cioè abbiamo mostrato complessivamente che
+			$$\tilde{\mu}(S)=\tilde{\mu}(M)$$
+			ma essendo $S,M\in\mathcal{M}$ e $S\supseteq M$ questo vuol dire per misurabilità di $M$, e per finitezza di $\mu$ che
+			$$\tilde{\mu}(S\setminus M)=0$$
+			e quindi ci siamo ricondotti a mostrare che l'insieme $S\setminus M$ di misura nulla appartiene a $\overline{\mathcal{A}}$, infatti se così fosse avremmo che
+			$$S\setminus \left(S\setminus M\right)=M$$
+			e visto che il lato sinistro è espressione finita di termini in $\overline{\mathcal{A}}$, è vero anche che $M\in \overline{\mathcal{A}}$. D'altra parte come prima possiamo costruire l'insieme $S'\supseteq S\setminus M$ ottenuto come 
+			$$S':=\bigcap_{n\in\NN}\bigcup_{k\in\NN}A_k^{'n}$$
+			dove $A_k^{'n}$ è una successione di ricoprimenti di $S\setminus M$ che realizza l'inf. Ma allora in questo caso abbiamo che $S'\in \overline{\mathcal{A}}$ soddisfa $\mu(S')=0$, e come prima abbiamo 
+			$$S'\supseteq S\setminus M$$
+			ma questo per completezza di $\overline{\mathcal{A}}$ implica che $S\setminus M\in \overline{\mathcal{A}}$, da cui la tesi. 
 		\end{enumerate}
+		Abbiamo mostrato tutte le tesi, e quindi abbiamo finito.
+	\end{proof}
+	\begin{exercise}[Boreliani e Lebsgue misurabili]
+		Mostrare che i plurirettangoli sono $\mathscr{L}^{n*}$-misurabili. Dedurne che la $\sigma$-algebra dei Boreliani su $\RR^n$ è contenuta nella $\sigma$-algebra degli insiemi $\mathscr{L}^{n*}$-misurabili.
+	\end{exercise}
+	\begin{proof}
+		Anche questo è un risultato che abbiamo già mostrato, ma lo ridimostriamo nel setting più astratto sviluppato durante il corso. Denotiamo con $m^*$ la misura esterna di Lebesgue, come al solito dato un plurirettangolo $R$ vogliamo mostrare che
+		$$m^*(E)\ge m^*\left(E\cap R\right)+m^*\left(E\cap R^\complement\right)$$
+		dato che da questo e la subadditività della misura di Lebesgue seguirà la misurabilità di tutti gli $R$.
 	\end{proof}
 	\subsection{Foglio 2: Teoria dell'integrale}
 	
