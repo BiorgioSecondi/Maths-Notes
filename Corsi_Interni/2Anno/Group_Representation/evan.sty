@@ -358,9 +358,9 @@
   \ifevanauthor
     \title{} % empty title to avoid crashes
     \ifluatex
-      \author{Filippo Gargiulo\thanks{Mail per segnalare errori: \href{filippo.gargiulo@studenti.unipd.it}{filippo.gargiulo@studenti.unipd.it}}}
+      \author{Filippo Gargiulo\thanks{Please report any mistakes to: \href{filippo.gargiulo@studenti.unipd.it}{filippo.gargiulo@studenti.unipd.it}}}
     \else
-      \author{Filippo Gargiulo\thanks{Mail per segnalare errori: \href{filippo.gargiulo@studenti.unipd.it}{filippo.gargiulo@studenti.unipd.it}}}
+      \author{Filippo Gargiulo\thanks{Please report any mistakes to: \href{filippo.gargiulo@studenti.unipd.it}{filippo.gargiulo@studenti.unipd.it}}}
     \fi
     \date{\today}
   \fi
@@ -521,63 +521,63 @@
     %Branching here: the option secthm changes theorems to be labelled by section
     \ifevanmdthm
       \ifevansecthm
-        \declaretheorem[style=thmbluebox,name=Teorema,numberwithin=section]{theorem}
+        \declaretheorem[style=thmbluebox,name=Theorem,numberwithin=section]{theorem}
       \else
-        \declaretheorem[style=thmbluebox,name=Teorema]{theorem}
+        \declaretheorem[style=thmbluebox,name=Theorem]{theorem}
       \fi
       \declaretheorem[style=thmbluebox,name=Lemma,sibling=theorem]{lemma}
-      \declaretheorem[style=thmbluebox,name=Proposizione,sibling=theorem]{proposition}
-      \declaretheorem[style=thmbluebox,name=Corollario,sibling=theorem]{corollary}
-      \declaretheorem[style=thmbluebox,name=Assunzione,sibling=theorem]{assume}
-      \declaretheorem[style=thmbluebox,name=Teorema,numbered=no]{theorem*}
+      \declaretheorem[style=thmbluebox,name=Proposition,sibling=theorem]{proposition}
+      \declaretheorem[style=thmbluebox,name=Corollary,sibling=theorem]{corollary}
+      \declaretheorem[style=thmbluebox,name=Assumption,sibling=theorem]{assume}
+      \declaretheorem[style=thmbluebox,name=Theorem,numbered=no]{theorem*}
       \declaretheorem[style=thmbluebox,name=Lemma,numbered=no]{lemma*}
-      \declaretheorem[style=thmbluebox,name=Proposizione,numbered=no]{proposition*}
-      \declaretheorem[style=thmbluebox,name=Corollario,numbered=no]{corollary*}
-      \declaretheorem[style=thmbluebox,name=Assunzione,numbered=no]{assume*}
+      \declaretheorem[style=thmbluebox,name=Proposition,numbered=no]{proposition*}
+      \declaretheorem[style=thmbluebox,name=Corollary,numbered=no]{corollary*}
+      \declaretheorem[style=thmbluebox,name=Assumption,numbered=no]{assume*}
     \else
       \ifevansecthm
-        \declaretheorem[name=Teorema,numberwithin=section]{theorem}
+        \declaretheorem[name=Theorem,numberwithin=section]{theorem}
       \else
-        \declaretheorem[name=Teorema]{theorem}
+        \declaretheorem[name=Theorem]{theorem}
       \fi
       \declaretheorem[name=Lemma,sibling=theorem]{lemma}
-      \declaretheorem[name=Proposizione,sibling=theorem]{proposition}
-      \declaretheorem[name=Corollario,sibling=theorem]{corollary}
-      \declaretheorem[name=Assunzione,sibling=theorem]{assume}
-      \declaretheorem[name=Teorema,numbered=no]{theorem*}
+      \declaretheorem[name=Proposition,sibling=theorem]{proposition}
+      \declaretheorem[name=Corollary,sibling=theorem]{corollary}
+      \declaretheorem[name=Assumption,sibling=theorem]{assume}
+      \declaretheorem[name=Theorem,numbered=no]{theorem*}
       \declaretheorem[name=Lemma,numbered=no]{lemma*}
-      \declaretheorem[name=Proposizione,numbered=no]{proposition*}
-      \declaretheorem[name=Corollario,numbered=no]{corollary*}
-      \declaretheorem[name=Assunzione,numbered=no]{assume*}
+      \declaretheorem[name=Proposition,numbered=no]{proposition*}
+      \declaretheorem[name=Corollary,numbered=no]{corollary*}
+      \declaretheorem[name=Assumption,numbered=no]{assume*}
     \fi
 
     \ifevanmdthm
-      \declaretheorem[style=thmgreenbox,name=Algoritmo,sibling=theorem]{algorithm}
-      \declaretheorem[style=thmgreenbox,name=Algoritmo,numbered=no]{algorithm*}
+      \declaretheorem[style=thmgreenbox,name=Algorithm,sibling=theorem]{algorithm}
+      \declaretheorem[style=thmgreenbox,name=Algorithm,numbered=no]{algorithm*}
       \declaretheorem[style=thmgreenbox,name=Claim,sibling=theorem]{claim}
       \declaretheorem[style=thmgreenbox,name=Claim,numbered=no]{claim*}
     \else
-      \declaretheorem[name=Algoritmo,sibling=theorem]{algorithm}
-      \declaretheorem[name=Algoritmo,numbered=no]{algorithm*}
+      \declaretheorem[name=Algorithm,sibling=theorem]{algorithm}
+      \declaretheorem[name=Algorithm,numbered=no]{algorithm*}
       \declaretheorem[name=Claim,sibling=theorem]{claim}
       \declaretheorem[name=Claim,numbered=no]{claim*}
     \fi
 
     \ifevanmdthm
-      \declaretheorem[style=thmredbox,name=Esempio,sibling=theorem]{example}
-      \declaretheorem[style=thmredbox,name=Esempio,numbered=no]{example*}
+      \declaretheorem[style=thmredbox,name=Example,sibling=theorem]{example}
+      \declaretheorem[style=thmredbox,name=Example,numbered=no]{example*}
     \else
-      \declaretheorem[name=Esempio,sibling=theorem]{example}
-      \declaretheorem[name=Esempio,numbered=no]{example*}
+      \declaretheorem[name=Example,sibling=theorem]{example}
+      \declaretheorem[name=Example,numbered=no]{example*}
     \fi
 
     % Remark-style theorems
     \ifevanmdthm
-      \declaretheorem[style=thmblackbox,name=Osservazione,sibling=theorem]{remark}
-      \declaretheorem[style=thmblackbox,name=Osservazione,numbered=no]{remark*}
+      \declaretheorem[style=thmblackbox,name=Remark,sibling=theorem]{remark}
+      \declaretheorem[style=thmblackbox,name=Remark,numbered=no]{remark*}
     \else
-      \declaretheorem[name=Osservazione,sibling=theorem]{remark}
-      \declaretheorem[name=Osservazione,numbered=no]{remark*}
+      \declaretheorem[name=Remark,sibling=theorem]{remark}
+      \declaretheorem[name=Remark,numbered=no]{remark*}
     \fi
 
     \ifevanmdthm
@@ -591,30 +591,30 @@
       \declaretheoremstyle[spaceabove=6pt,spacebelow=6pt]{basehead}
     \fi
 
-    \declaretheorem[style=basehead,name=Risposta,sibling=theorem]{answer}
-    \declaretheorem[style=basehead,name=Risposta,numbered=no]{answer*}
-    \declaretheorem[style=basehead,name=Congettura,sibling=theorem]{conjecture}
-    \declaretheorem[style=basehead,name=Congettura,numbered=no]{conjecture*}
-    \declaretheorem[style=basehead,name=Definizione,sibling=theorem]{definition}
-    \declaretheorem[style=basehead,name=Definizione,numbered=no]{definition*}
-    \declaretheorem[style=basehead,name=Esercizio,sibling=theorem]{exercise}
-    \declaretheorem[style=basehead,name=Esercizio,numbered=no]{exercise*}
-    \declaretheorem[style=basehead,name=Fatto,sibling=theorem]{fact}
-    \declaretheorem[style=basehead,name=Fatto,numbered=no]{fact*}
-    \declaretheorem[style=basehead,name=Problema,sibling=theorem]{problem}
-    \declaretheorem[style=basehead,name=Problema,numbered=no]{problem*}
-    \declaretheorem[style=basehead,name=Domanda,sibling=theorem]{ques}
-    \declaretheorem[style=basehead,name=Domanda,numbered=no]{ques*}
+    \declaretheorem[style=basehead,name=Answer,sibling=theorem]{answer}
+    \declaretheorem[style=basehead,name=Answer,numbered=no]{answer*}
+    \declaretheorem[style=basehead,name=Conjecture,sibling=theorem]{conjecture}
+    \declaretheorem[style=basehead,name=Conjecture,numbered=no]{conjecture*}
+    \declaretheorem[style=basehead,name=Definition,sibling=theorem]{definition}
+    \declaretheorem[style=basehead,name=Definition,numbered=no]{definition*}
+    \declaretheorem[style=basehead,name=Exercise,sibling=theorem]{exercise}
+    \declaretheorem[style=basehead,name=Exercise,numbered=no]{exercise*}
+    \declaretheorem[style=basehead,name=Fact,sibling=theorem]{fact}
+    \declaretheorem[style=basehead,name=Fact,numbered=no]{fact*}
+    \declaretheorem[style=basehead,name=Problem,sibling=theorem]{problem}
+    \declaretheorem[style=basehead,name=Problem,numbered=no]{problem*}
+    \declaretheorem[style=basehead,name=Question,sibling=theorem]{ques}
+    \declaretheorem[style=basehead,name=Question,numbered=no]{ques*}
 
     \ifevanpkg
-      \Crefname{answer}{Risposta}{Risposte}
-      \Crefname{assume}{Assunzione}{Assunzioni}
+      \Crefname{answer}{Answer}{Answers}
+      \Crefname{assume}{Assumption}{Assumptions}
       \Crefname{claim}{Claim}{Claims}
-      \Crefname{conjecture}{Congettura}{Congetture}
-      \Crefname{exercise}{Esercizio}{Esercizi}
-      \Crefname{fact}{Fatto}{Fatti}
-      \Crefname{problem}{Problema}{Problemi}
-      \Crefname{ques}{Domanda}{Domande}
+      \Crefname{conjecture}{Conjecture}{Conjectures}
+      \Crefname{exercise}{Exercise}{Exercises}
+      \Crefname{fact}{Fact}{Facts}
+      \Crefname{problem}{Problem}{Problems}
+      \Crefname{ques}{Question}{Questions}
     \fi
   \fi
 

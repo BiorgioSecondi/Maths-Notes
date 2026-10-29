@@ -1,3 +1,5 @@
+% !TeX spellcheck = en_US
+
 \documentclass[11pt]{scrartcl}
 \usepackage[sexy]{evan} %BLBLBLBLBLBLBLBLBLBLBLB EVANCHEN
 \usepackage[T1]{fontenc}
@@ -11,7 +13,7 @@
 \usepackage{amssymb}
 \usepackage{gensymb}
 \usepackage{amsfonts}
-\usepackage[english,italian]{babel}
+\usepackage[english]{babel}
 \usepackage{quoting}
 \quotingsetup{font=big}
 \usepackage{booktabs}
@@ -123,7 +125,7 @@
 		Giovanna Carnovale - SGSS \\
 		Andriy Regeta - SGSS 
 	}
-	\date{Ottobre - Dicembre 2026}
+	\date{October - December 2026}
 	
 	
 	\maketitle
@@ -159,32 +161,35 @@
 		$$g\mapsto 1$$
 		is the so called \textit{trivial representation} of $G$.
 	\end{example}
-	\begin{example}[Regular representation]
-		For any group $G$, if we take $V=kG$ we get the so called \textit{regular representation} of $G$ as 
-		$$h\circ \sum_{g\in G}\lambda_g g \mapsto \sum_{g\in G} h\lambda_g g.$$
-	\end{example}
+	\begin{definition}[Regular representation]
+		For any group $G$, if we take $V=kG$ we get the so called \textit{regular (left) representation} of $G$ as 
+		$$h\circ \sum_{g\in G}\lambda_g g \mapsto \sum_{g\in G} h\lambda_g g$$
+		this is equivalent to postulate that $G$ acts on $kG$ as the standard left multiplication $h\circ g:= hg$ on elements of the form $g\in kG$, and then on all the other elements we extend it linearly.
+	\end{definition}
 	\begin{example}[Representation of a permutation]
 		For $G=S_n$ and $V=k^n$ the map that permutes the canonical basis is a representation, in other words
 		$$g\circ e_i := e_{g(i)}$$
 		is a representation.
 	\end{example}
 	\begin{example}[Determinant]
-		Given a representation $\rho:G\to \GL(V)$ the map 
-		$$\det\circ \rho$$
+		Given a representation $\rho:G\to \GL(V)$, with $V$ a vector space on $k$, the map 
+		$$\det\circ \rho:G\to \GL(V)\to k$$
 		is also a representation (in particular is always $1$-dimensional).
 	\end{example}
 	
 	\subsection{Morphisms of representations}
 	
 	\begin{definition}[Morphisms of representations]
-		Given a group $G$ and two representations $\rho_V$ and $\rho_W$ over the same field $k$, a \textit{morphism} between theese is a linear map $T:V\to W$ such that is compatible with both $\rho_V$ and $\rho_W$; that is, we have the following commutative diagram
+		Given a group $G$ and two representations $\rho_V$ and $\rho_W$ over the same field $k$, a \textit{morphism} between these is a linear map $T:V\to W$ such that is compatible with both $\rho_V$ and $\rho_W$; that is, we have the following commutative diagram
 		\begin{center}
 			\begin{tikzcd}
 				V\arrow[r,"T"] \arrow[d,"\rho_V(g)",swap]& W\arrow[d,"\rho_W(g)"] \\
 				V\arrow[r,"T",swap] & W
 			\end{tikzcd}
 		\end{center}
-		for any $g\in G$. Theese are also called \textit{intertwined operators} or $G$-\textit{equivariant maps}, or $G$-\textit{morphisms}... they have a lot of names. Anyway we say that a morphism of representations is an \textit{isomorphism} if it is invertible.
+		for any $g\in G$. Equivalently we must have
+		$$\rho_W(g)\circ T = T \circ \rho_V(g).$$
+		These are also called \textit{intertwined operators} or $G$-\textit{equivariant maps}, or $G$-\textit{morphisms}... they have a lot of names. Anyway we say that a morphism of representations is an \textit{isomorphism} if it is invertible.
 	\end{definition}
 	What we are saying essentially is, being that $\rho_V(g)$ and $\rho_W(g)$ are matrices, $T$ commutes with all such matrices in the way given above. The set of all intertwined operators is oftend denoted as
 	$$\text{Hom}(V,W)\ge \text{Hom}_G(V,W)$$
@@ -202,20 +207,30 @@
 		\hline 
 		0 & \rho_W(g)
 	\end{array}\right).$$
-	\begin{lemma}
+	\begin{lemma}[$G$-equivariant is equivalent to $kG$-equivariant]
 		Given a map between two representations $V$ and $W$ of $G$, we have that this is $G$-equivariant iff is $kG$ equivariant, given $k$ the field over which $V$ is defined.
 	\end{lemma} 
+	\begin{proof}
+		If $T$ is $G$-equivariant we have that for any $g\in G$ one has
+		$$T\rho_V(g)=\rho_W(g)T$$
+		and so extending these to $\tilde{\rho}_V$ and $\tilde{\rho}_W$ we have that, given a certain 
+		$$\sum_{g\in G}\lambda_gg\in kG$$
+		by linearity of $T$ and $\tilde{\rho}$ we have
+		$$T\tilde{\rho}_V\left(\sum_{g\in G}\lambda_gg\right)=\tilde{\rho}_WT\left(\sum_{g\in G}\lambda_gg\right)$$
+		which means that $T$ is $kG$-equivariant. On the other hand if $T$ is $kG$-equivariant since $G\subseteq kG$ we have that $T$ is also $G$-equivariant, and hence we have our thesis. 
+	\end{proof}
 	\begin{example}[Dual representation]
 		Given a representation $V$ of $G$, it's dual space $V^*$ has naturally a representation structure
 		$$\left(\rho_{V^*}(g)f\right)(v)=f\left(\rho_V(g)^{-1}v\right)$$
-		where the inverse is taken to make sure that it is an homomorphism.
+		where the inverse is taken to make sure that it is an homomorphism.An equivalent formulation comes with the following commutative diagram:
 		\begin{center}
 			\begin{tikzcd}
-				contenuto...
+				V\arrow[r,"f"]\arrow[d,"\rho_V(g)",swap] & k \\
+				V\arrow[ur,"\rho_{V^*}(g)\circ f",swap] &
 			\end{tikzcd}
 		\end{center}
-		a more compact way to write it is $g\circ f = f\circ g^{-1}$. An even more compact way to see is through matrices, choosing a basis $B$ and it's dual basis $B^*$ of $V^*$ we see that the actions, as matrices satisfy
-		$$\rho_{V^*}(g)=\rho_V(g)^\intercal$$
+		a more compact way to write it is $g\circ f = f\circ g^{-1}$. An even more compact way to see this is through matrices, choosing a basis $B$ and it's dual basis $B^*$ of $V^*$ we see that the actions as matrices satisfy
+		$$\rho_{V^*}(g)=\left[\rho_V(g)^{-1}\right]^\intercal.$$
 	\end{example}
 	\begin{definition}[Tensor product of representations]
 		Given two representations $V$ and $W$ of a group their \textit{tensor product} is the space 
@@ -223,20 +238,25 @@
 		equipped with the action 
 		$$\rho_{V\otimes W}(g)(v\otimes w):=\rho_V(g)v\otimes \rho_W(g)w.$$
 	\end{definition}
-	\begin{remark}
-		Given spaces $W$ and $V^*$ there is always a canonical injection
+	\begin{remark}[Canonical identification of tensor products]
+		Given spaces $W$ and $V^*$ there is always a canonical bijection
 		\begin{align*}
 			F: W\otimes V^* & \inj \text{Hom}(V,W) \\
 			\sum c_{wf}w\otimes f & \mapsto \sum c_{wf} f(v)w
 		\end{align*}
 		which is equivalent to say that on pure tensors our map is just 
 		$$w\otimes f \mapsto F(w\otimes f)(v):=f(v)w$$
-		and for all the other elements of $V\otimes W$ we extend it linearly.  
+		and for all the other elements of $V\otimes W$ we extend it linearly. This is just a basis free and abstract way of saying that, given elements $\mathbf{a},\mathbf{b},\mathbf{c}\in\RR^n$ we always have
+		$$\left(\mathbf{a}\otimes \mathbf{b}\right)\mathbf{c}:=\left(\mathbf{a}\mathbf{b}^\intercal\right) \mathbf{c}=\mathbf{a}\left(\mathbf{b}^\intercal \mathbf{c}\right)=:\mathbf{a}\langle \mathbf{b},\mathbf{c}\rangle$$  
 	\end{remark}
-	This gives us immediately that if $V$ and $W$ representations of $G$, so is $V^*\otimes W$. Since the canonical injection defined above is equivariant (prove it) we hence have that $\text{Hom}(V,W)$ is a representation of $G$. What is the action of this? We have that
-	$$\left(g\circ f\right)(v)=\rho_W(g)\left(f\left(\rho_V(g^{-1})v\right)\right)$$
+	This gives us immediately that if $V$ and $W$ representations of $G$, so is $V^*\otimes W$. Since the canonical injection defined above is equivariant (prove it) we hence have that \textbf{$\text{Hom}(V,W)$ is a representation of $G$}. What is the action of this? We have that
+	$$\left(g\circ f\right)(v)=\rho_W(g)\left(f\left(\rho_V(g^{-1})v\right)\right)=\left(\rho_W(g)\circ f \circ \rho_V(g)^{-1}\right)(v)$$
 	and so if $V=W$ this is just a conjugation of $f\in \text{End}(V)$!
-	
+	\begin{remark}[$\bigstar$:Internal Automorphisms]
+		In a way, if we see a representation of $G$ just as a $H\le \GL(V)\subseteq \text{End}(V)$ monomorphic to $G$, it is natural to think of the action of $G$ on $\text{Hom})(V,V)=\text{End}(V)$ for any $h\in H$ and $f\in \text{End}(V)$ as the conjugation:
+		$$h\circ f=hfh^{-1}$$
+		in other ways this is just an internal automorphism generated by the elements of the subgroup $H$ of $\GL(V)$.
+	\end{remark}
 	\subsection{Subrepresentations}
 	
 	\begin{definition}[Subrepresentation]
@@ -247,7 +267,7 @@
 	\begin{example}[Fixed point of permutations]
 		Given $G=S_n$ with it's permutation representation on $V=k^n$, a subrepresentation of $V$ is
 		$$U=\langle e_1+e_2+\dots+e_n\rangle$$
-		and in this case is much more than $G$ invariant: is pointwise fixed by the action of $G$. A non pointwise fixed example is the space $W$ with cartesian equation
+		and in this case is much more than $G$ invariant: is pointwise fixed by the action of $G$. A non pointwise fixed example is the space $W$ with Cartesian equation
 		$$\sum_{i=1}^{n}x_i=0$$
 		which, if $\text{car}K \not \mid n$ is not pointwise fixed for every point, $w\not\in G\circ w$ for any $w$. 
 	\end{example}
@@ -267,7 +287,186 @@
 	\begin{example}[Decomposition of a representation of $V$]
 		Taking $G=S_n$ and $V=k^n$, since we have 
 		$$\langle e_1+e_2+\dots+e_n \rangle \oplus \left\langle \left\{\sum_{i=1}^n x_i=0:x\in k^n\right\}\right\rangle$$
-		and theese are $G$-stable we have that this is a decomposition of $V$ as a representation.
+		and these are $G$-stable we have that this is a decomposition of $V$ as a representation.
 	\end{example}
+	\begin{remark}[Lattice of subrepresentations]
+		If $V$ is a representation of $G$ and $U,W\le V$ are subrepresentations of $G$ then $U\cap W$ and $U+W$ are subrepresentations of $G$ too.  
+	\end{remark}
+	\begin{definition}[Fixed points]
+		For every representation $V$ of $G$ we can define the set of \textit{fixed points} of $V$ as 
+		$$V^G:=\left\{v\in V:gv=v\quad \forall g\in G\right\}$$
+		which can also be seen as the sum of all the subrepresentations isomorphic to the trivial one
+		$$V^G=\sum_{G\circ u = \left\{u\right\}}\langle u \rangle$$
+		this implies that $V^G$ has naturally a subrepresentation structure.
+	\end{definition}
+	\begin{lemma}[Fixed points of the Hom representation]
+		For any pair $V,W$ of representations of $G$ we have that
+		$$\text{Hom}_G(V,W)=\text{Hom}(V,W)^G.$$
+		seeing $\text{Hom}(V,W)$ as a representation of $G$ through the tensor product.
+	\end{lemma}
+	\begin{proof}
+		From the definition of $\text{Hom}(V,W)^G$ we have
+		$$\text{Hom}_G(V,W)=\left\{f\in \text{Hom}(V,W):\rho_V(g)\circ f \circ \rho_W(g)^{-1}=f\right\}$$
+		but since 
+		$$\rho_V(g)\circ f \circ \rho_W(g)^{-1}=f \iff \rho_V(g)\circ f =f\circ \rho_W(g)$$
+		that's just the definition of $G$ equivariant maps, and so we have the thesis.
+	\end{proof}
+	\begin{definition}[Projector]
+		Given a finite group $G$ and a field $k$ we define the \textit{projector} of $G$ in $kG$ as  
+		$$\tilde{P}:=\sum_{g\in G}g\in kG$$
+		this is always an element of $Z(kG)$. Moreover if $\charin\,k\nmid \,G$ we can define 
+		$$P:=\frac{1}{\abs{G}}\tilde{P}$$
+		which has the nice property that $P^n=P$ for any $n\in\NN$.
+	\end{definition}
+	\begin{lemma}[Projection to $V^G$]
+		Let $V$ be a representation of a group algebra $G$, then for any $v\in V$ we have
+		$$\tilde{\rho}_V(P)v\in V^G$$
+		where $\tilde{\rho}_V$ is the regular representation on a group algebra $kG$.
+	\end{lemma}
+	\begin{proof}
+		It follows form the fact that $gP=P=Pg$ for any $g\in G$ that
+		$$g\circ\left( P \circ v\right) = gP\circ v = P\circ v$$
+		and so this satisfies the definition of $V^G$.
+	\end{proof}
+	This implies that $\tilde{\rho}_V(P):V\to V^G$ is exactly a projection on $V^G$.
+	\begin{definition}[Irreducible representation]
+		A representation $V$ of $G$ is \textit{irreducible} if its only subrepresentations are itself and the trivial one.
+	\end{definition}
+	\begin{definition}[Completely reducible]
+		A representation $V$ of $G$ is completely reducible if it can be written as a direct sum of irreducible representations.
+	\end{definition}
+	\begin{example}[$1$-dimensional representations]
+		Every $1$-dimensional representation is irreducible, clearly.
+	\end{example}
+	\begin{example}[A non irreducible representation]
+		Take $C_3$ with the field $\RR$, then its regular representation $\RR C_3$ is not irreducible, since we have the subrepresentation
+		$$U=\left\{a1+bg+cg^2:a+b+c=0\right\}.$$
+	\end{example}
+	We try and think to finite dimensional representations which are not completely reducible, but not many pop up to our minds. This makes us wonder if they even exists, indeed we have:
+	\begin{lemma}[Kernel and Image of equivariant maps]
+		For any $G$-equivariant maps $T:V\to W$ its kernel and image are always $G$-stable.
+	\end{lemma}
+	\begin{proof}
+		For the kernel, given a $g\in G$ and $v\in \ker{T}$ we wish to prove that 
+		$$g\circ v\in \ker{T}$$
+		on the other hand, since $T$ is equivariant we have
+		$$T(g\circ v)=g\circ T(v)=g\circ 0 = 0$$
+		which is exactly what we wanted. On the other hand if $w\in \Immagine{T}$ we have that exists a $v\in V$ for which we have
+		$$Tv=w$$
+		but hence for any $g\in G$ we get
+		$$g\circ Tv = T\left(g\circ v\right)\in \Immagine{T}$$
+		and we have that also $\Immagine{T}$ is $G$-stable.
+	\end{proof}
+	\begin{theorem}[Maschke]
+		Let $G$ be a finite group such that $\charin k\nmid \abs{G}$. Let $V$ be a representation of $G$. Then any subrepresentation of $G$ has a $G$-stable complement, so as a consequence every finite dimensional representation of $G$ is completely reducible.
+	\end{theorem}
+	\begin{proof}
+		Let $U\le V$ be $G$-stable. If $W'$ is such that
+		$$V=U\oplus W'$$
+		let $\pi^{W'}_U=:\pi\in \text{Hom}(V,U)$ be the projection onto $U$ along $W'$. We know that $G$ acts on $\text{Hom}(V,U)$ let's take the projector $P$ of $G$, then we have that
+		$$\text{Hom}(V,U)^G=\text{Hom}_G(V,U)$$
+		and so composing $P\circ \pi$ we get a $G$-equivariant map. By definition of $P$ we have
+		$$P\circ \pi = \frac{1}{\abs{G}}\sum_{g\in G} g\circ \pi=\frac{1}{\abs{G}}\sum_{g\in G}\rho_U(g)\circ \pi\circ \rho_V(g)^{-1}$$
+		where at the RHS the $\circ$ represents function composition and on the LHS represents action. How does this function behave on $U$? If $u\in U$ we have
+		$$(P\circ \pi) u=\frac{1}{\abs{G}}\sum_{g\in G}\rho_U(g)\circ \pi\circ \rho_V(g)^{-1}(u)=\frac{1}{\abs{G}}\sum_{g\in G}g^{-1}\circ g\circ u=u$$
+		so $P\circ \pi_{\mid U}=\text{id}_{\mid U}$ but then since $P\circ \pi$ is equivariant (is the composition of equivariant maps), it's kernel must be $G$-stable, since the kernel is just $W'$, we are done.
+	\end{proof}
+	\begin{corollary}[Strong Maschke]
+		The following are equivalent:
+		\begin{itemize}
+			\item Every subrepresentation has a stable complement.
+			\item For any representation $V$ we have irreducible subrepresentations $V_i$ such that
+			$$V=\bigoplus_{i=1}^k V_i.$$
+			\item For any representation $V$ we have irreducible subrepresentations $V_i$ such that
+			$$V:=\sum_{i=1}^k V_i.$$
+		\end{itemize}
+	\end{corollary}
+	\begin{lemma}[Schur]
+		Le $V,W$ be irreducible representations then
+		$$\text{Hom}_G(V,W)=
+		\begin{cases}
+			0 & V\ne W \\
+			skew-field\footnote{Corpo.} & V\cong W
+		\end{cases}
+		$$
+		moreover if $k$ is algebraically closed then $\text{End}_G(V)=k\text{id}_V$.
+	\end{lemma}
+	\begin{proof}
+		\footnote{This proof works only for finite dimension, although the result works for general representations as well.}
+		For the first part we simply have that iff there exists a nonzero $f\in \text{Hom}_G(V,W)$ then we have $\ker{f}\le V$ is a subrepresentation of $V$, which means that $\ker{f}=0$. Thus we have $f$ injective, which means that 
+		$$V\cong \Immagine{f}\le W$$
+		which by irreducibility implies $V\cong W$. For the second part we have that, given a $f\in \text{End}_G(V)$ for the algebraic closeness of $k$ we always have an eigenvalue of $f$, let's call it $\lambda$. But this means that
+		$$0\ne \ker{f-\lambda I_V}$$
+		is $G$-stable, so it must be $V$.
+	\end{proof}
+	\begin{corollary}[Triviality of action on irreducible representations]
+		If $k$ is algebraically closed then any $z\in Z(kG)$ acts as a scalar on any irreducible representation.
+	\end{corollary}
+	
+	\subsection{Characters}
+	
+	\begin{definition}[Character]
+		Let $V$ be a representation of $G$, then the \textit{character} of $V$ is
+		\begin{align*}
+			\chi_V:G & \to k \\
+			g & \mapsto \tr{\rho_V(g)}
+		\end{align*}
+		which is invariant up to $G$-equivariant maps. This can be naturally extended to $kG$, and is commonly denoted ad $\tilde{\chi}_V$.
+	\end{definition}
+	\begin{remark}
+		For any equivariant map $T:V\to W$ we have 
+		$$\rho_W(g)=T\rho_V(g)T^{-1}$$
+		and so $\chi_V(g)=\chi_W(g)$ for any $g\in G$.
+	\end{remark}
+	\begin{remark}
+		The character is always a class function.
+	\end{remark}
+	\begin{proposition}[Properties of the character]
+		For any $V,W$ representations of $G$ we have:
+		\begin{enumerate}
+			\item The character is a class function
+			\item $\chi_{V\oplus W}=\chi_V+\chi_W$
+			\item $\chi_{V\otimes W}=\chi_V\chi_W$.
+		\end{enumerate}
+	\end{proposition}
+	Let's now specialize to the case where $k=\CC$, if we have that $\abs{G}<\infty$ this means that for $M:=\exp G$ we have 
+	$$g^M=1$$
+	and so it's associated action is $\rho_V(g)$ on an irreducible representation is a scalar, in particular is an $M$-th root of unity. Since for any matrix $\rho(g)$ we have that
+	$$\tr{\rho_V(g)}=\chi_V(g)=\dim V \iff \rho_V(g)=I$$
+	$$\ker{\rho_V}=\left\{g\in G:\chi_V(g)=\dim V\right\}$$
+	
+	\begin{definition}[Inner product on group functionals]
+		On $F(G,\CC)$ and $F_C(G,\CC)$ we define an inner product
+		$$\left(f,f'\right):=\frac{1}{\abs{G}}\sum_{g\in G} f(g)\overline{f'(g)}=\overline{\left(f',f\right)}.$$
+	\end{definition}
+	\begin{proposition}[First Orthogonality relation]
+		If $k=\CC$ and $\abs{G}<\infty$, given two representations $V,W$ we have that
+		$$\left(\chi_V,\chi_W\right)_G=\dim\text{Hom}_G(V,W)=\overline{\dim \text{Hom}_G(V,W)}=(\chi_W,\chi_V)_G=\dim \text{Hom}_G(W,V).$$
+	\end{proposition}
+	\begin{proof}
+		We want to compute 
+		$$\left(\chi_V,\chi_W\right)_G=\frac{1}{\abs{G}}\sum_{g\in G}\chi_V(g)\overline{\chi_W(g)}$$
+		since we are on $\CC$ the character of the dual representation is just the conjugate, and so we have
+		$$\dots=\frac{1}{\abs{G}}\sum_{g\in G}\chi_{V\otimes V^*}(g)$$
+		so through linearity we get
+		$$\dot= \chi_{V\otimes W^*}\left(\frac{1}{\abs{G}}\sum_{g\in G}g\right)=\chi_{V\otimes W^*}(P)=\tr{P_{\mid V\otimes W^*}}$$
+		but the trace of a projection is just the dimension of the image, so since $P$ is a projection from $\text{Hom}(V,W)$ to $\text{Hom}_G(V,W)$ we have our result. 
+	\end{proof}
+	\begin{corollary}[Ortonormality of characters]
+		The characters of a set of irreducible representations of a given representation $V$ is an orthonormal set.
+	\end{corollary}
+	\begin{proof}
+		Schur's lemma.
+	\end{proof}
+	So putting together the result of Maschke and orthogonality of characthers we get that the set $\text{Irr}(G)$ of irreducible representations of $G$ are always
+	$$\abs{\text{Irr}(G)}\le \dim F_C(G,\CC)$$
+	and so we have that any $\chi_V$ is a $\ZZ_{\ge 0}$-linear combination of $\chi_{V_i}$. 
+	\begin{corollary}
+		If $\left\{V_i,i\in I\right\}$ is a set of isomorphsim classes of irreducible representations of $G$ we have that any $V$ representation of $G$ is
+		$$V=\bigoplus_{i=1}^k V_i^{\oplus n_i}$$
+		moreover we have 
+		$$\left(\chi_V,\chi_i\right)_G=n_i$$
+		so the $n_i$ are the fourier coefficients of $\chi_V$ in the orthonormal basis $\chi_i$. This means in particular that the multiplicities $n_i$ are unique.
+	\end{corollary}  
 	
 \end{document}
