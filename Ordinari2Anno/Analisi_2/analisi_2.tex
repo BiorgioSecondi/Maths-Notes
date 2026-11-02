@@ -2217,7 +2217,7 @@
 	
 	\subsection{Schwarz e derivate di ordine superiore}
 	Una nota sulle notazioni per le derivate di ordine superiore: in generale abbiamo
-	$$D_jD_if=\frac{\partial^2 f }{\partial j \partial i}=\left(f_{x_i}\right)_{x_j}=f_{x_ix_j}$$
+	$$D_jD_if=\frac{\partial^2 f }{\partial x_j \partial x_i}=\left(f_{x_i}\right)_{x_j}=f_{x_ix_j}$$
 	e quindi la notazione può un po confondere. In generale il fatto che le derivate parziali è falso, infatti
 	\begin{example}[Una funzione per cui le derivate non commutano]
 		Prendiamo la funzione
@@ -2234,10 +2234,164 @@
 		facendo un sacco di conti che non vogliamo davvero fare.
 	\end{example}
 	Però come ci insegnano i fisici, a meno di casi patologici questo è vero:
-	\begin{theorem}[Schwarz]
+	\begin{theorem}[Schwarz debole]
 		Sia $f:\RR^2\to\RR$ una funzione tale che esista un $r>0$ per cui in $B(0,r)$ le due funzioni $f_{xy}$ e $f_{yx}$ sono definite e continue, allora si ha
 		$$f_{xy}(0,0)=f_{yx}(0,0).$$
 	\end{theorem}
+	\begin{proof}
+		Consideriamo la seguente quantità
+		$$\Delta(h,k)=f(0,0)-f(h,0)-f(0,k)+f(h,k)$$
+		questo è equivalente a dire che, definita la funzione
+		$$F(x,y):=f(x,y)-f(x,0)$$
+		abbiamo 
+		$$\Delta(h,h)=F(h,h)-F(0,h).$$
+		Consideriamo allora il seguente limite
+		$$\lim_{h\to 0}\frac{\Delta (h,h)}{h^2}=\lim_{h\to 0}\frac{F(h,h)-F(0,h)}{h^2}$$
+		ma allora per il teorema del valor medio esisterà un $\xi\in [0,h]$ tale che
+		$$\dots = \lim_{h\to 0}\frac{F_x(\xi_1,h)h}{h^2}=\lim_{x\to 0} \frac{f_x(\xi_1,h)-f_x(\xi_1,0)}{h}$$
+		e quindi riapplicando il teorema del valor medio esisterà un $\xi_2\in [0,h]$ tale che 
+		$$\dots = \lim_{h\to 0}\frac{f_{xy}(\xi_1,\xi_2)h}{h}=f_{xy}(0,0).$$
+		D'altra parte avremmo anche potuto introdurre la funzione 
+		$$G(x,y):= f(x,y)-f(0,y)$$
+		e dunque avremmo ottenuto
+		$$\Delta(h,h)=G(h,h)-G(h,0)$$
+		e quindi rifacendo gli stessi conti sulla quantità $\Delta(h,h)/h^2$ otteniamo $f_{yx}(0,0)$ e quindi abbiamo la tesi.
+	\end{proof}
+	In un certo senso la quantità che abbiamo considerato, ovvero
+	$$\Delta(h,k)=f(0,0)-f(h,0)-f(0,k)+f(h,k)$$
+	è la generalizzazione naturale della discretizzazione della derivata seconda in una sola variabile
+	$$f''(x)=\lim_{h\to 0}\frac{f(x+h)+f(x-h)-2f(x)}{h^2}$$
+	e quindi da qui veniva l'intuizione per il teorema di Schwarz. Ora lo abbiamo dimostrato in $\RR^2$, ma è molto facile da estendere:
+	\begin{definition}[Funzioni di classe $C^2$]
+		Dato un aperto $A\subseteq \RR^n$, una funzione $f:A\to\RR$ questa si dice \textit{di classe $C^2$} e si scrive $f\in C^2(A)$ se per ogni $i,j$ la funzione
+		$D_iD_jf$ esiste ed è continua.
+	\end{definition}
+	\begin{definition}[Matrice Hessiana]
+		La \textit{matrice hessiana} di una funzione $f:A\to\RR$ per cui esistono tutte le derivate seconde è
+		$$D^2f(x)=Hf(x)=\left(D_iD_j f(x)\right)_{ij}$$
+		la matrice avente come entrate le derivate seconde. 
+	\end{definition}
+	\begin{theorem}[Schwarz forte]
+		Se $A\subseteq \RR^n$ è un aperto e $f\in C^2(A)$ allora la matrice Hessiana di $f$ è simmetrica, ovvero
+		$$D_iD_jf=D_jD_1f.$$
+	\end{theorem}
+	\begin{remark}
+		Se $f\in C^2$ allora $f$ e $\nabla f $sonon differenziabili (per il teorema del differenziale totale).
+	\end{remark}
+	\begin{definition}[Funzioni lisce]
+		Per ogni $k\in \NN$ e aperto $A\subseteq\RR^n$ definiamo l'insieme 
+		$$C^k(A):=\left\{f:A\to \RR:D_if\in C^{k-1}(A)\,\forall i\le n\right\}$$
+		e prendendo il limite di questa cosa definiamo 
+		$$C^\infty (A):=\bigcap_{k\in\NN}C^k(A)$$
+		e le funzioni $f\in C^\infty(A)$ si dicono \textit{lisce}.
+	\end{definition}
+	Come corollario del teorema di Schwarz troviamo facilmente per induzione che, per ogni $\sigma\in S_k$ abbiamo che se $f\in C^k$ si ha
+	$$D_1D_2\dots D_k f=D_{\sigma(1)}D_{\sigma(2)}\dots D_{\sigma(k)}f.$$
+	\begin{example}[Una funzione molto brutta]
+		Consideriamo la funzione
+		$$f(x,y):=
+		\begin{cases}
+			e^{-\frac{x^2}{y^2}-\frac{y^2}{x^2}} & \text{se $xy\ne 0$}\\
+			0 & \text{altrimenti.}
+		\end{cases}
+		$$
+		questa è:
+		\begin{itemize}
+			\item $f$ è $C^\infty(\RR^2\setminus \left\{0,0\right\})$.
+			\item $f$ è derivabile rispetto a $x$ e $y$ infinite volte.
+			\item $f$ non è continua in $(0,0)$.
+		\end{itemize}
+	\end{example}
+	
+	\subsection{Formula di Taylor in più variabili}
+	
+	\begin{theorem}[Taylor al secondo ordine]
+		Sia $A\subseteq\RR^n$ un aperto. Siano inoltre $x_0\in A$ e $f\in C^2(A)$. Se il segmento $[x,x_0]\subseteq A$ allora esisterà un $\xi\in [x,x_0]$ tale che
+		$$f(x)=f(x_0)+\langle \nabla f(x_0),x-x_0\rangle+\half \langle Hf(\xi)(x-x_0),x-x_0\rangle.$$
+		Questa formula si chiama formula di taylor con resto di Lagrange. Alternativamente con resto di Peano si può scrivere
+		$$f(x)=f(x_0)+\langle \nabla f(x_0),x-x_0\rangle+\half \langle Hf(x_0)(x-x_0),x-x_0\rangle+o\left(\abs{x-x_0}^2\right).$$
+	\end{theorem}
+	\begin{proof}
+		Scriviamo 
+		$$v:=x-x_0$$
+		e definiamo la funzione 
+		$$g(t):=f(x_0+tv)$$
+		con $t\in [0,1]$. Allora per taylor in una dimensione abbiamo
+		$$g(1)=g(0)+g'(0)(1-0)+\half g''(\tau)(1-0)^2$$
+		per un certo $\tau\in [0,1]$. D'altra parte la derivata di $g$ è
+		$$g'(t)=\langle \nabla f (x_0+tv),v\rangle=\sum_{i=1}^n f_{x_i}(x_0+tv)v_i$$
+		mentre per la derivata seconda usiamo
+		$$g''(t)=\sum_{i=1}^n \sum_{j=1}^n f_{x_ix_j}(x_0+tv)v_iv_j=\langle Hf(x_0+tv)v,v\rangle$$
+		e quindi semplicemente sostituendo queste espressioni nella formula per $g$ che abbiamo trovato, ricordando che $g(1)=f(x)$ e $g(0)=f(x_0)$ abbiamo la tesi (di Lagrange). Per il resto di Peano ci basta osservare che, dato $\xi\in [x,x_0]$ abbiamo 
+		$$Hf(\xi)=Hf(x_0)+o(1)$$
+		per $x\to x_0$, infatti $f\in C^2$ e quindi tutte le derivate seconde sono continue. Dunque sostituendo questa cosa nella formula di Lagrange otteniamo quella di Peano.
+	\end{proof}
+	Per andare ad ordini superiori dobbiamo introdurre un po' di notazione. 
+	\begin{definition}[Derivate arbitrarie]
+		Dato un $\alpha\in \NN^n$ scriviamo
+		$$D^\alpha := \frac{\partial^{\abs{\alpha}}}{\partial_{x_1}^{\alpha_1}\partial_{x_2}^{\alpha_2}\dots \partial_{x_n}^{\alpha_n}}$$
+		dove $\abs{\alpha}$ è la somma delle componenti di $\alpha$. 
+	\end{definition}
+	\begin{definition}[Abusi di notazione sui vettori]
+		Dato un $\alpha\in \NN^n$ definiamo 
+		$$\alpha ! := \alpha_1!\dots \alpha_n!$$
+		e inoltre
+		$$(x-x_0)^\alpha:=\left(x-x_0\right)_1^{\alpha_1}\dots $$
+	\end{definition}
+	\begin{theorem}[Formula di Taylor arbitraria]
+		Sia $A\subseteq\RR^n$ un aperto e sia $x_0\in A$. Data una $f\in C^k(A)$ se $x\in A$ è tale che $[x,x_0]\subseteq A$ allora esisterà un $\xi\in [x,x_0]$ tale che
+		$$f(x)=\sum_{\abs{\alpha}\le k-1}\frac{D^\alpha f(x_0)}{\alpha !}(x-x_0)^\alpha +\sum_{\abs{\alpha}=k}\frac{D^\alpha f(\xi)}{\alpha !}(x-x_0)^\alpha.$$
+		E chiamata $P_{x_0,k}(x)$ la prima parte (quella senza $\xi$) di quell'espressione (il \textit{polinomio di taylor}) abbiamo la formula di Peano che è analoga
+		$$f(x)=P_{x_0,k}(x)+o\left(\abs{x-x_0}^k\right).$$
+	\end{theorem}
+	\begin{proof}
+		Non la facciamo, ma l'idea è procedere per induzione su $\abs{\alpha}$, utilizzando essenzialmente quello che abbiamo già fatto per l'ordine $2$.
+	\end{proof}
+	
+	\subsubsection{Massimi, minimi e selle}
+	
+	Ricordiamo un lemma sulle forme quadratiche:
+	\begin{lemma}[Forma quadratica definita positiva]
+		Sia $B$ una forma quadratica definita positva (una matrice simmetrica definita positiva). Allora abbiamo che esiste un $m>0$ tale che		
+		$$\langle Bv, v\rangle \ge m {\abs{v}}^2.$$
+	\end{lemma}
+	\begin{proof}
+		Dato che una forma quadratica è essenzialmente un polinomio di grado $2$, sarà continua sulla sfera $S:=\left\{v\in\RR^n:\abs{v}=1\right\}$. D'altra parte questo è un insieme compatto, e quindi per Weierstrass $\langle Bv,v\rangle$ avrà un minimo. Da questo segue la tesi.
+	\end{proof}
+	In termini di autovalori essere definiti positivi o negativi vuol dire che se gli autovalori sono ordinati come
+	$$\lambda_n\ge \lambda_{n-1}\ge \dots \ge \lambda_1$$
+	allora $B$ è definita positiva sse $\lambda_1>0$, e in particolare il coefficiente $m$ del punto precedente coincide proprio con $\lambda_1$.
+	\begin{definition}[Minimi e locali e minimi locali stretti]
+		Per una funzione $f:A\to\RR$ un punto $x_0\in A$ si dice un punto di \textit{minimo locale} di $f$ se esiste un $r>0$ tale che
+		$$f(x)\ge f(x_0)$$
+		per ogni $x\in B(x_0,r)\cap A$. Tale punto si dice di minimo locale \textit{stretto} se quella disuguaglianza è stretta. Analogamente si definisce il punto di massimo. 
+	\end{definition}
+	\begin{definition}[Punto critico]
+		Per un aperto $A\subseteq\RR^n$ e una funzione $f:A\to\RR$, un punto $x_0\in A$ si dice \textit{critico} se
+		$$\nabla f (x_0)=0.$$
+	\end{definition}
+	\begin{theorem}[Condizioni necessarie di estremalità]
+		Dato un aperto $A\subseteq\RR^n$ e una $f\in C^2(A)$ allora se $x_0\in A$ è un minimo locale di $f$ si ha che:
+		\begin{itemize}
+			\item $\nabla f(x_0)=0$ cioè $x_0$ è un punto critico.
+			\item $Hf(x_0)\ge 0$ cioè l'Hessiana è semidefinita positiva.
+		\end{itemize} 
+		Per i punti di massimo si ha esattamente la stessa cosa, tranne che l'Hessiana è semidefinita negativa.
+	\end{theorem}
+	\begin{proof}
+		Se $x_0$ è un minimo locale di $f$ vuol dire che esisterà una palla $B(x_0,r)$ tale che
+		$$f(x)\ge f(x_0)$$
+		per ogni $x\in B(x_0,r)\cap A$. Cominiciamo mostrando che il punto deve essere critico: abbiamo
+		$$f_{x_i}(x_0)=\lim_{t\to 0}\frac{f(x_0+te_i)-f(x_0)}{t}$$
+		d'altra parte il limite da sinistra deve essere $\le 0$ (in quanto il numeratore è sempre positivo e il denominatore è negativo), mentre quello da destra deve essere $\ge 0$. Dato che la derivata deve esistere i due limiti devono coincidere, e quindi abbiamo proprio $f_{x_i}(x_0)=0$ come richiesto. Per il secondo punto usiamo Taylor, per $t$ sufficientemente piccolo avremo che
+		$$0\le f(x_0+tv)-f(x_0)$$
+		d'altra parte usando Taylor sul primo membro abbiamo, con la formula di Peano
+		$$0\le f(x_0+tv)-f(x_0) = \half \langle Hf(x_0)tv,tv\rangle + o(\abs{tv}^2)$$ 
+		abbiamo cancellato il termine di ordine $1$ in quanto abbiamo mostrato prima che il gradiente è nullo. Ma allora dividendo da entrambi i lati per $t^2/2$ abbiamo
+		$$\frac{o(t^2)}{t^2}+\langle Hf(x_0)v,v\rangle \ge 0$$
+		e facendo tendere $t$ a $0$ abbiamo proprio che l'Hessiana è definita positiva.
+	\end{proof}
+	
 	
 	\newpage
 	

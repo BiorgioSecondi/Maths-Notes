@@ -1032,7 +1032,7 @@
 			\node[green!40!black] at (1.6,-1.9,0.64) {$U=\{x_3=0.4\,x_1\}$};
 			
 			% --- ortogonale euclideo (tratteggiato): generato da (-0.4,0,1) ---
-			\draw[gray, thick, dashed] (0.68,0,-1.7) -- (-0.68,0,1.7)
+			\draw[red, thick, dashed] (0.68,0,-1.7) -- (-0.68,0,1.7)
 			node[above left] {$U^{\perp_E}$};
 			
 			% --- U^perp (Minkowski): generato da (0.4,0,1) ---
@@ -1045,7 +1045,7 @@
 			\node[blue!60!black] at (0.3,1.9,1.7) {$C=\{x_1^2+x_2^2-x_3^2=0\}$};
 		\end{tikzpicture}
 	\end{center}
-	Sullo spazio $U$ invece la forma $B$ è non degenere, e il suo ortogonale $U^\perp$ non coincide con l'ortogonale nella metrica euclidea. Salterà fuori che gli spazi di questo tipo sono di fondamentale importanza nello studio delle forme simmetriche, quindi ne riportiamo la definizione (che era già stata più o meno data in esempi precedenti):
+	Sullo spazio $U$ invece la forma $B$ è non degenere, e il suo ortogonale $U^\perp$ non coincide con l'ortogonale nella metrica euclidea $U^{\perp_E}$. Salterà fuori che gli spazi di questo tipo sono di fondamentale importanza nello studio delle forme simmetriche, quindi ne riportiamo la definizione (che era già stata più o meno data in esempi precedenti):
 	\begin{definition}[Spazio Pseudoeuclideo]
 		Uno spazio $V$ su un campo $\KK$ equipaggiato con una forma bilineare simmetrica e non degenere si dice \textit{spazio pseudoeuclideo}.
 	\end{definition}
@@ -2098,6 +2098,75 @@
 		Dimostriamo prima di tutto che questo  
 	\end{proof}
 	
+	\subsection{Polarità}
+	Abbiamo visto che ad ogni forma quadratica potevamo associare una forma bilineare simmetrica, detta la \textit{forma polare} della quadratica di formula
+	$$B(v,w):=\frac{Q(v+w)-Q(v)-Q(w)}{2}$$
+	abbiamo anche già visto che ogni forma bilineare non degenere si può vedere come un isomorfismo da $V$ a $V^*$ tramite l'applicazione $B_1$. Cosa significa questa trasformazione geometricamente? \\
+	Ricordando che $\PP(V^*)$ è lo spazio proiettivo duale, formato dagli iperpiani di $\PP(V)$, ovvero se $[\varphi]\in \PP(V^*)$ abbiamo che
+	$$H_\varphi:=\left\{v\in V:\varphi(v)=0\right\}$$
+	è un iperpiano di $V$, e in particolare $\PP(H_\varphi)$ è un iperpiano proiettivo.
+	\begin{definition}[Polarità associata a una quadrica]
+		Prendiamo un campo $\charin \KK\ne 2$ e una quadrica $q\in \PP(V)$ con $V$ su $\KK$ di dimensione $n+1$. Allora $q$ avrà un'equazione $Q$ una certa forma quadratica su $V$. Per ogni $p=[v]$ e $\PP(V)$ l'iperpiano
+		$$p^\perp:= [B_1(v)]\in \PP(V^*)$$
+		è detto \textit{l'iperpiano polare di $p$ rispetto alla quadrica}.
+	\end{definition}
+	Questa è una generalizzazione naturale del concetto di spazio tangente, infatti nel caso che $p\in \text{supp}q$ abbiamo che $p^\perp\in \PP(V^*)$ è associato allo spazio tangente a $q$ in $\PP(V)$ (che è un iperpiano di $\PP(V)$ appunto, e quindi è associato al punto $p^\perp$ di $\PP(V^*)$).
+	
+	\begin{definition}[Coniugazione rispetto ad una quadrica]
+		Siano $p$ e $p'$ punti di $\PP(V)$ e $q$ una forma quadratica in $\PP(V)$. Allora diciamo che $p$ e $p'$ sono \textit{coniugati} rispetto a $q$ e scriviamo $p\perp_q p'$ se 
+		$$B(v,w)=0$$
+		dove $[v]=p$, $[w]=p'$ e $B$ è la forma polare di un'equazione di $q$.
+	\end{definition}
+	Dato che la relazione di coniugio rispetto ad una quadrica è essenzialmente un caso particolare dell'ortogonalità ne eredita tutte le proprietà (simmetria, inversione del reticolo...). Analogamente possiamo definire per un arbitrario $S\subseteq \PP(V)$ il suo coniugato $S^{\perp_q}$ rispetto ad una quadrica $q$, nel modo chiaro. Questo operatore ha le stesse identiche proprietà di quello di perpendicolarità.
+	\begin{definition}[Sottospazio polare e Polo]
+		Per ogni $\Lambda \le \PP(V)$ e quadrica $q$ su $\PP(V)$ l'insieme $\Lambda^\perp$ è detto il \textit{sottospazio polare} di $\Lambda$. Come per i punti diremo che $\Lambda$ e il suo polare sono \textit{coniugati}. Se $\Lambda^\perp$ è un singolo punto allora questo verrà chiamato il \textit{polo} di $\Lambda$.
+	\end{definition}
+	\begin{example}[Forma quadratica standard]
+		Su $V=\RR^{n+1}$ possiamo considerare la quadrica standard
+		$$q=\left[x_0^2+\dots+x_n^2\right]$$
+		allora la polarità rispetto a $q$ è esattamente l'ortogonalità rispetto al prodotto scalare standard.
+	\end{example}
+	Il fatto che $\perp$ inverta i reticoli ci permette di capire geometricamente cosa vuol dire prendere la polare. Sappiamo che se $p$ appartiene al supporto di $q$ la sua polare è semplicemente lo spazio tangente, per esempio in dimensione $2$ abbiamo
+		\begin{center}
+			\includegraphics[center, width=0.4\textheight,center]{PolareIperbole.png}
+		\end{center}
+	E in generale prendendo un po' di tangenti siamo in grado di trovare la polare di qualunque punto rispetto a qualunque conica. Allo stesso modo possiamo calcolare i poli di qualunque retta rispetto a qualunque conica. In dimensione $1$ per calcolare i poli dobbiamo ricorrere a un po' di birapporti:
+	\begin{fact}
+		Lo spazio polare $A^\perp$ a qualunque sottospazio $A\le B\le \PP(V)$ rispetto a $q$, ristretto a $B$ ovvero
+		$$A^\perp \cap B$$ 
+		è il polare di $A$ rispetto a $q$ ristretta a $B$, ovvero $q_{\mid B}$. 
+	\end{fact}
+	
+	\subsubsection{Quadrica duale}
+	Un'applicazione della dualità è la costruzione della cosiddetta quadrica duale. Consideriamo $\perp$ la polarità rispetto ad una certa quadrica $q$, allora la seguente trasformazione
+	\begin{align*}
+		\varphi:\PP(V) &\to \PP(V^*) \\ 
+		p & \mapsto p^\perp
+	\end{align*}
+	dall'insieme dei punti all'insieme dei "piani" è una trasformazione proiettiva in quanto in coordinate semplicemente manda
+	$$X\mapsto AX$$
+	dove $A$ è la matrice di $B_1$. Cosa succede se restringiamo questa applicazione al supporto di $q$? Dato che $p$ appartiene al supporto di $q$ se e solo se $p=[X]$ in coordinate soddisfa
+	$$X^\intercal A X=0$$
+	per qualche scelta della matrice $A$ di $q$. Ma dato che $\varphi(p)$ in coordinate è semplicemente
+	$$Y=AX$$
+	sostituendo $X=A^{-1}Y$ nella condizione per $X$ troviamo la condizione per $X$:
+	$$(A^{-1}Y)^\intercal Y=0$$
+	cioè
+	$$Y^\intercal A^{-1}Y=0$$
+	e quindi l'immagine è di nuovo una quadrica, ma è associata questa volta all'inversa della matrice di $q$! Se denotiamo con $Q^*$ allora la quadrica con supporto $\varphi(\text{supp}(Q))$ abbiamo appena scoperto che 
+	$$M_\mathcal{V}(Q)=A \implies M_{\mathcal{V}^*}(Q^*)=A^{-1}$$
+	dove $\mathcal{V}^*$ è la base duale a $\mathcal{V}$. Questa costruzione può essere estesa anche al caso in cui $A$ non sia invertibile (ovvero quando $q$ è degenere) usando la matrice dei cofattori al posto della matrice inversa (che esiste quasi sempre, tranne quando tutti i cofattori sono $0$)\footnote{Non ho davvero capito questa cosa, se riesci a rivederla bene, altrimenti mi sembra abbastanza opzionale.}.
+	\begin{definition}[Quadrica inviluppo]
+		Le quadriche nello spazio duale $\PP(V^*)$ sono dette \textit{quadriche inviluppo}. Per una quadrica non degenere $q$ in $\PP(V)$ la quadrica $q^*=[Q^*]$ definita sopra è detta \textit{quadrica duale} di $Q$. 
+	\end{definition}
+	Il problema che dobbiamo risolvere in realtà è che $\PP(V)$ e $\PP(V^*)$ non sono nello stesso spazio. D'altra parte fissando una forma bilineare non degenere $B$ abbiamo un isomorfismo $B_1$ da $V$ a $V^*$, e quindi
+	\begin{center}
+		\begin{tikzcd}
+			\PP(V)\arrow[r] & \PP(V^*)\arrow[r,"B_1^{-1}"] & \PP(V) \\
+			q \arrow[r,maps to] & q^*\arrow[r,maps to] & q' \\
+			A \arrow[r,maps to] & A^{-1}\arrow[r,maps to] & \tilde{A}A^{-1}\tilde{A}
+		\end{tikzcd}
+	\end{center}
 	\newpage
 	
 	\part{Modulo B}
