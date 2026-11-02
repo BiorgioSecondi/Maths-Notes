@@ -2072,6 +2072,173 @@
 	\end{pmatrix}.
 	$$
 	Insomma il teorema del differenziale composto giustifica tutti i conti che facevamo di solito in fisica quando facevamo cambi di variabili.
+	
+	\subsection{Teoremi di valor medio}
+	
+	\begin{theorem}[Teorema del valor medio]
+		Sia $A\subseteq \RR^n$ una funzione $f:A\to\RR$ differenziabile, definito il segmento tra $x,y\in A$ come
+		$$[x,y]:=\left\{tx+(1-t)y:t\in [0,1]\right\}$$
+		allora esiste un $\xi\in (x,y)$ (il segmento aperto, essenzialmente $[x,y]\setminus\left\{x,y\right\}$), tale che
+		$$f(x)-f(y)=\langle \nabla f (\xi),x-y\rangle.$$
+	\end{theorem}
+	\begin{proof}
+		Consideriamo la curva
+		$$\gamma(t):=tx+(1-t)y$$
+		che parametrizza $[x,y]$. Allora definita
+		$$g(t):=f(\gamma(t))$$
+		la funzione derivabile in $[0,1]$ (visto che differenziabile implica che le derivate direzionali esistono sempre) allora per il teorema di Lagrange esisterà un $\bar{t}\in (0,1)$ tale che
+		$$g(1)-g(0)=g'(\bar{t})=\langle \nabla f(\gamma(t)),x-y\rangle$$
+		dove abbiamo usato la relazione tra gradiente e derivate direzionali. Quindi chiamato $\xi=\gamma(\bar{t})$ abbiamo proprio la tesi.
+	\end{proof}
+	In effetti non abbiamo usato davvero il fatto che $f$ è differenziabile, basta che abbiamo la derivata direzionale lungo $x-y$.
+	\begin{corollary}[Gradiente nullo]
+		Sia $A\subseteq \RR^n$ un aperto connesso, una funzione $f:A\to\RR$ tale che
+		$$\nabla f(x) =0$$
+		per ogni $x\in A$ abbiamo che $f$ è costante.
+	\end{corollary}
+	\begin{proof}
+		Fissiamo un $x\in A$, dato che $A$ è aperto esisterà un $\varepsilon>0$ tale che 
+		$$B(x,\varepsilon)\subseteq A$$
+		ma allora per ogni $y\in B(x,\varepsilon)$ avremo che $[x,y]\subseteq A$. Dunque esisterà un $\xi\in (x,y)$ che soddisfa il teorema del valor medio, cioè
+		$$f(x)-f(y)=\langle \nabla f (\xi),x-y\rangle =0$$
+		cioè $f$ è costante su $B(x,\varepsilon)$. Ma allora per quanto appena visto l'insieme
+		$$\left\{y\in A:f(x)=f(y)\right\}$$
+		è aperto. D'altra parte essendo un insieme di livello di $f$ sarà anche chiuso, e quindi (visto che è non vuoto) per connessione deve essere proprio $A$.
+	\end{proof}
+	\begin{corollary}[Estensione per differenziabilità]
+		Sia $A\subseteq \RR^n$ un aperto e sia $x_0\in A$ data una $f:A\to\RR$ continua in $A$ e differenziabile in $A\setminus\left\{x_0\right\}$ se esiste
+		$$\lim_{x\to x_0} \nabla f(x)=L\in\RR^n$$
+		allora $f$ è differenziabile in $x_0$ e abbiamo $\nabla f(x_0)=L$.
+	\end{corollary}
+	\begin{proof}
+		Dimostriamo che $f$ è differenziabile in $x_0$ prima di tutto. Il nostro candidato differenziale è proprio $\langle L,x-x_0\rangle$ ma allora dobbiamo calcolare il limite
+		$$\lim_{x\to x_0}\frac{\abs{f(x)-f(x_0)-\langle L, x-x_0\rangle}}{\abs{x-x_0}}$$
+	\end{proof}
+	\begin{theorem}[del valor medio Vettoriale]
+		Dato un $A\subseteq \RR^n$ aperto e $f:A\to\RR^m$ una funzione differenziabile. Dati $x\ne y\in\RR^n$ tali che $[x,y]\subseteq \RR^n$ abbiamo che per ogni $v\in\RR^n$ esiste un $\xi = \xi(v)\in (x,y)$ tale che 
+		$$\langle f(x)-f(y),v\rangle=\langle \dif f(\xi)(x-y),v	\rangle.$$
+	\end{theorem}
+	\begin{remark}
+		Se $v=e_i$ ritroviamo il teorema nel caso scalare, con $\xi_i$ differenti per ogni componente.
+	\end{remark}
+	\begin{proof}
+		Consideriamo la funzione
+		$$g(x):=\langle f(x),v\rangle =\sum_{i=1}^m v_if_i(x)$$
+		allora applicando il teorema del valor medio (in versione scalare) a $g(x)$, dato che
+		$$\nabla g(x)=Jf(x)^\intercal v=\langle v,\nabla f (x)\rangle$$
+		esisterà un $\xi$ tale che
+		$$g(x)-g(y)=\langle \nabla g(\xi),x-y\rangle=\langle Jf(\xi)^\intercal v,x-y\rangle$$
+		e facendo passare la trasposta da un lato all'altro abbiamo
+		$$g(x)-g(y)=\langle v,Jf(\xi)(x-x_o)\rangle = \langle v, \dif f(\xi)(x-x_0)\rangle$$
+		che era proprio la tesi.
+	\end{proof}
+	Quello che in generale ci verrebbe da dire è che
+	$$f(x)-f(y)=\dif f(\xi)(x-y)$$
+	ma questo è \textbf{falso} e il seguente esempio ce ne mostra un controesempio.
+	\begin{example}[Per funzioni vettoriali non vale Rolle]
+		Consideriamo la $f:\RR\to\RR^2$ tale che
+		$$f(x)=\left(\cos x , \sin x\right)$$
+		allora la jacobiana di $f$ è
+		$$J_f(x)=
+		\begin{pmatrix}
+			-\sin x \\
+			\cos x
+		\end{pmatrix}
+		$$
+		dato che $f(0)=f(2\pi)$ abbiamo $f(0)-f(2\pi)=0$, ma d'altra parte
+		$$\dif f (\xi)(2\pi-0)\ne 0$$
+		per ogni $\xi\in [0,2\pi]$ e quindi
+		$$f(2\pi)-f(0)\ne \dif f (\xi)(2\pi-0).$$
+	\end{example}
+	\begin{lemma}[Bound con la norma dell'operatore]
+		Una funzione differenziabile $f:A\to\RR^m$ con $A\subseteq \RR^n$ aperto è tale che per ogni $x\ne y\in A$ tali che $[x,y]\subseteq A$ si ha 
+		$$\abs{f(x)-f(y)}\le \abs{\abs{\dif f(\xi)}}\abs{x-y}$$
+	\end{lemma}
+	\begin{proof}
+		Applicando il teorema del valor medio vettoriale scegliendo $v=f(x)-f(y)$ abbiamo
+		$$\abs{f(x)-f(y)}^2=\langle \dif f(\xi)(x-y),f(x)-f(y)\rangle$$
+		e quindi applicando Cauchy-Schwarz e la definizione di norma operatoriale abbiamo la tesi.
+	\end{proof}
+	\begin{corollary}[Caratterizzazione della lipschitzianità in più dimensioni]
+		Sia $A\subset \RR^n$ aperto e \textit{convesso} (ovvero tale che per ogni $x,y\in A$ si ha $[x,y]\subseteq A$), definita una $f:A\to\RR^m$ differenziabile abbiamo che $f$ è lipschitziana se e solo se 
+		$$\sup_{x\in A}\abs{\abs{\dif f(x)}}<\infty.$$
+	\end{corollary}
+	\begin{proof}
+		Se $f$ è lipschitziana, per ogni $v\in \RR^n$ di norma $1$ abbiamo che
+		$$\abs{\abs{\dif f(x)}}=\abs{\abs{\dif f(x)(v)}}=\abs{\abs{\frac{\partial f}{\partial v}(x)}}$$
+		ovvero per definizione di derivata direzionale abbiamo
+		$$\abs{\abs{\frac{\partial f}{\partial v}(x)}}=\lim_{t\to 0} \abs{\abs{\frac{f(x+tv)-f(x)}{t}}}\le \text{Lip}(f)$$
+		e quindi la norma di $\dif f$ è limitata. L'altro verso segue direttamente dal corollario precedente.
+	\end{proof}
+	L'ipotesi di convessità è necessaria, infatti
+	\begin{example}[Una funzione differenziabile con differenziale limitato e non lipschitziana]
+		Consideriamo il dominio
+		$$A:=B(0,r)\setminus \overline{B(0,1)}\setminus \left\{(x,0):x>0\right\}$$
+		allora definendo
+		$$f(x,y)=\arctan \frac{y}{x}$$
+		abbiamo che 
+		$$
+		J_f(x)=
+		\begin{pmatrix}
+			-\frac{1}{x^2+y^2} \\
+			\frac{y^2}{x^2+y^2}
+		\end{pmatrix}
+		$$
+		e quindi abbiamo che $\abs{\abs{\dif f}}\le 1$ ma d'altra parte
+		$$\frac{\Delta f}{\varepsilon}\sim \frac{2\pi}{\varepsilon}$$
+		per $\Delta f=f(a)-f(b)$ con $a $ e $b$ che si avvicinano alla retta $x<0$.
+	\end{example}
+	\begin{definition}[Funzioni di classe $C^1$]
+		Una funzione $f:A\to\RR^m$ con $A$ aperto diremo che $f\in C^1(A,\RR^m)$ ovvero che è \textit{di classe $C^1$} se per ogni $i,j$ la funzione 
+		$\frac{\partial f_j}{\partial x_i}$
+		esiste continua.
+	\end{definition}
+	\begin{theorem}[Del differenziale totale]
+		Se $f\in C^1(A,\RR^n)$ allora $f$ è differenziabile in $A$.
+	\end{theorem}
+	\begin{proof}
+		Possiamo supporre che $m=1$ (perché è tutto lineare). Prendiamo un $x_0\in A$ il nostro candidato differenziale in $x_0$ allora è $T:\RR^n\to\RR$ tale che
+		$$Th=\langle \nabla f(x_0),h\rangle=\sum_{i=1}^n h_if_{x_i}(x_0)$$
+		per ogni $h\in \RR^n$. Vogliamo mostrare allora che
+		$$\lim_{h\to 0}\frac{f(x_0+h)-f(x_0)-Th}{\abs{h}}=0$$
+		l'idea a questo punto è considerare la sommatoria telescopica
+		$$f(x_0+h)-f(x_0)=\sum_{i=1}^n\left[f(x_i)-f(x_{i-1})\right]$$
+		dove abbiamo definito 
+		$$x_i:=x_0+\sum_{j=1}^i h_je_j$$
+		dove $e_j$ è la base canonica. Allora per il teorema del valor medio\footnote{In realtà non stiamo invocando il teorema del valor medio, perché non abbiamo differenziabilità: stiamo invocando la sua versione con l'ipotesi più debole che esista la derivata direzionale nella direzione che ci interessa.} abbiamo che esistono $n$ punti $\xi_1\in (x_0,x_1),\xi_2\in (x_1,x_2),\dots,\xi_n\in (x_{n-1},x_n)$ tali che
+		$$f(x_i)-f(x_{i-1})=h_if_{x_i}(\xi_i)$$
+		ma allora abbiamo
+		$$\lim_{h\to 0}\frac{f(x_0+h)-f(x_0)-Th}{\abs{h}}=\lim_{h\to 0}\frac{\sum h_if_{x_i}(\xi_i) -Th}{\abs{h}}=\lim_{h\to 0}\sum_{i=1}^n \frac{h_i}{\abs{h}}\left(f_{x_i}-f_{x_i}(x_i)\right)$$
+		che tende a $0$ visto che $f_{x_i}$ è continua per ogni $i$, e quindi abbiamo proprio la tesi.
+	\end{proof}
+	Il contrario del teorema del differenziale totale non è vero, ma lo sapevamo già da Analisi 1, infatti per funzioni in una variabile differenziabilità ed esistenza delle derivate parziali coincidono, e quindi una funzione tipo 
+	$$f(x)=x^2\sin\frac{1}{x}$$
+	per cui la derivata esiste, ma non è continua, è un controesempio appropriato.
+	
+	\subsection{Schwarz e derivate di ordine superiore}
+	Una nota sulle notazioni per le derivate di ordine superiore: in generale abbiamo
+	$$D_jD_if=\frac{\partial^2 f }{\partial j \partial i}=\left(f_{x_i}\right)_{x_j}=f_{x_ix_j}$$
+	e quindi la notazione può un po confondere. In generale il fatto che le derivate parziali è falso, infatti
+	\begin{example}[Una funzione per cui le derivate non commutano]
+		Prendiamo la funzione
+		$$f(x,y)=
+		\begin{cases}
+			xy\frac{x^2-y^2}{x^2+y^2} & \text{se $(x,y)\ne (0,0)$} \\
+			0 & \text{se $(x,y)=(0,0)$}
+		\end{cases}
+		$$
+		allora abbiamo che 
+		$$f_{xy}(0,0)=1$$
+		e 
+		$$f_{yx}(0,0)=-1$$
+		facendo un sacco di conti che non vogliamo davvero fare.
+	\end{example}
+	Però come ci insegnano i fisici, a meno di casi patologici questo è vero:
+	\begin{theorem}[Schwarz]
+		Sia $f:\RR^2\to\RR$ una funzione tale che esista un $r>0$ per cui in $B(0,r)$ le due funzioni $f_{xy}$ e $f_{yx}$ sono definite e continue, allora si ha
+		$$f_{xy}(0,0)=f_{yx}(0,0).$$
+	\end{theorem}
+	
 	\newpage
 	
 	\part{Modulo B}

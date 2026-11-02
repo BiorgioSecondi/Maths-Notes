@@ -329,20 +329,6 @@
 		and so this satisfies the definition of $V^G$.
 	\end{proof}
 	This implies that $\tilde{\rho}_V(P):V\to V^G$ is exactly a projection on $V^G$.
-	\begin{definition}[Irreducible representation]
-		A representation $V$ of $G$ is \textit{irreducible} if its only subrepresentations are itself and the trivial one.
-	\end{definition}
-	\begin{definition}[Completely reducible]
-		A representation $V$ of $G$ is completely reducible if it can be written as a direct sum of irreducible representations.
-	\end{definition}
-	\begin{example}[$1$-dimensional representations]
-		Every $1$-dimensional representation is irreducible, clearly.
-	\end{example}
-	\begin{example}[A non irreducible representation]
-		Take $C_3$ with the field $\RR$, then its regular representation $\RR C_3$ is not irreducible, since we have the subrepresentation
-		$$U=\left\{a1+bg+cg^2:a+b+c=0\right\}.$$
-	\end{example}
-	We try and think to finite dimensional representations which are not completely reducible, but not many pop up to our minds. This makes us wonder if they even exists, indeed we have:
 	\begin{lemma}[Kernel and Image of equivariant maps]
 		For any $G$-equivariant maps $T:V\to W$ its kernel and image are always $G$-stable.
 	\end{lemma}
@@ -357,6 +343,22 @@
 		$$g\circ Tv = T\left(g\circ v\right)\in \Immagine{T}$$
 		and we have that also $\Immagine{T}$ is $G$-stable.
 	\end{proof}
+	this lemma tells us once more that $V^G$ is a subrepresentation of $V$.
+	\begin{definition}[Irreducible representation]
+		A representation $V$ of $G$ is \textit{irreducible} if its only subrepresentations are itself and the trivial one.
+	\end{definition}
+	\begin{definition}[Completely reducible]
+		A representation $V$ of $G$ is said to be \textit{completely reducible}, or \textit{semisimple} if it can be written as a direct sum of irreducible representations.
+	\end{definition}
+	\begin{example}[$1$-dimensional representations]
+		Every $1$-dimensional representation is irreducible, clearly.
+	\end{example}
+	\begin{example}[A non irreducible representation]
+		Take $C_3$ with the field $\RR$, then its regular representation $\RR C_3$ is not irreducible, since we have the subrepresentation
+		$$U=\left\{a1+bg+cg^2:a+b+c=0\right\}.$$
+	\end{example}
+	We try and think to finite dimensional representations which are not completely reducible, but not many pop up to our minds. This makes us wonder if they even exists, indeed for finite groups we have the strong fact result that is Maschke's Theorem:
+	
 	\begin{theorem}[Maschke]
 		Let $G$ be a finite group such that $\charin k\nmid \abs{G}$. Let $V$ be a representation of $G$. Then any subrepresentation of $G$ has a $G$-stable complement, so as a consequence every finite dimensional representation of $G$ is completely reducible.
 	\end{theorem}
@@ -372,15 +374,17 @@
 		so $P\circ \pi_{\mid U}=\text{id}_{\mid U}$ but then since $P\circ \pi$ is equivariant (is the composition of equivariant maps), it's kernel must be $G$-stable, since the kernel is just $W'$, we are done.
 	\end{proof}
 	\begin{corollary}[Strong Maschke]
-		The following are equivalent:
+		For any representation $V$ of $G$ we have that the following are equivalent:
 		\begin{itemize}
-			\item Every subrepresentation has a stable complement.
+			\item Every subrepresentation of $V$ has a stable complement.
 			\item For any representation $V$ we have irreducible subrepresentations $V_i$ such that
 			$$V=\bigoplus_{i=1}^k V_i.$$
 			\item For any representation $V$ we have irreducible subrepresentations $V_i$ such that
 			$$V:=\sum_{i=1}^k V_i.$$
 		\end{itemize}
+		In particular Maschke's theorem tells us that the first condition is true, and so all the other ones must follow as well.
 	\end{corollary}
+	Another strong result about irreducible representations is Schur's lemma:
 	\begin{lemma}[Schur]
 		Le $V,W$ be irreducible representations then
 		$$\text{Hom}_G(V,W)=
@@ -403,7 +407,8 @@
 		If $k$ is algebraically closed then any $z\in Z(kG)$ acts as a scalar on any irreducible representation.
 	\end{corollary}
 	
-	\subsection{Characters}
+	\subsection{Group functionals and Characters}
+	
 	
 	\begin{definition}[Character]
 		Let $V$ be a representation of $G$, then the \textit{character} of $V$ is
