@@ -2391,6 +2391,23 @@
 		$$\frac{o(t^2)}{t^2}+\langle Hf(x_0)v,v\rangle \ge 0$$
 		e facendo tendere $t$ a $0$ abbiamo proprio che l'Hessiana è definita positiva.
 	\end{proof}
+	\begin{theorem}[Condizioni sufficienti di estremalità]
+		Sia un aperto $A\subseteq\RR^n$ e sia $f\in C^2(A)$. Se in un certo $x_0\in A$ si ha che:
+		\begin{itemize}
+			\item $\nabla f(x_0)=0$ ovvero tutte le derivate direzionali sono nulle.
+			\item $Hf(x_0)>0$ ovvero l'Hessiana è definita positiva.
+		\end{itemize}
+		allora il punto $x_0$ è di minimo locale (se l'Hessiana è definita negativa allora è di massimo locale).
+	\end{theorem}
+	\begin{proof}
+		Applichiamo taylor per $x\to x_0$, con il resto di Peano abbiamo
+		$$f(x)-f(x_0)=\half \langle Hf(x_0)(x-x_0),x-x_0\rangle+o(\abs{x-x_0}^2)$$
+		ma allora dato che l'Hessiana è definita positiva esisterà una costante $m$ tale che
+		$$\half \langle Hf(x_0)(x-x_0),x-x_0\rangle+o\left(\abs{x-x_0}^2\right)\ge \half m (x-x_0)^2+o(\abs{x-x_0}^2)=\left(\frac{m}{2}+o(1)\right)\abs{x-x_0}^2$$
+		e quindi abbiamo proprio che per $x\to x_0$
+		$$\frac{m}{2}+o(1)\ge 0$$
+		e dunque $f(x)-f(x_0)\ge 0$ per una palla di centro $x_0$ sufficientemente piccola, ovvero $x_0$ è un minimo locale.
+	\end{proof}
 	
 	
 	\newpage

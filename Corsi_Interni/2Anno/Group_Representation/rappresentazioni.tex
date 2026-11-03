@@ -457,7 +457,7 @@
 		$$\dot= \chi_{V\otimes W^*}\left(\frac{1}{\abs{G}}\sum_{g\in G}g\right)=\chi_{V\otimes W^*}(P)=\tr{P_{\mid V\otimes W^*}}$$
 		but the trace of a projection is just the dimension of the image, so since $P$ is a projection from $\text{Hom}(V,W)$ to $\text{Hom}_G(V,W)$ we have our result. 
 	\end{proof}
-	\begin{corollary}[Ortonormality of characters]
+	\begin{corollary}[Orthonormality of characters]
 		The characters of a set of irreducible representations of a given representation $V$ is an orthonormal set.
 	\end{corollary}
 	\begin{proof}
@@ -466,12 +466,131 @@
 	So putting together the result of Maschke and orthogonality of characthers we get that the set $\text{Irr}(G)$ of irreducible representations of $G$ are always
 	$$\abs{\text{Irr}(G)}\le \dim F_C(G,\CC)$$
 	and so we have that any $\chi_V$ is a $\ZZ_{\ge 0}$-linear combination of $\chi_{V_i}$. 
-	\begin{corollary}
+	\begin{corollary}[Fourier Coefficients of the characters]
 		If $\left\{V_i,i\in I\right\}$ is a set of isomorphsim classes of irreducible representations of $G$ we have that any $V$ representation of $G$ is
 		$$V=\bigoplus_{i=1}^k V_i^{\oplus n_i}$$
 		moreover we have 
 		$$\left(\chi_V,\chi_i\right)_G=n_i$$
 		so the $n_i$ are the fourier coefficients of $\chi_V$ in the orthonormal basis $\chi_i$. This means in particular that the multiplicities $n_i$ are unique.
-	\end{corollary}  
+	\end{corollary}
 	
+	\begin{proposition}[Equality of Characters implies equality of representation]
+		Let $(V,\rho)$ and $(W,\rho')$ be two representations of a group $G$ over complex numbers. If $\chi_\rho = \chi_{\rho'}$ then $V=W$.
+	\end{proposition}
+	\begin{proof}
+		Let's consider the set of all irreducible representations of $G$ as
+		$$\text{Irr}_G(G)=\left\{V_1,\dots V_r\right\}$$
+		now by Maschke's theorem we can decompose both $W$ and $V$ as a sum of irreducibles:
+		\begin{gather*}
+			V=\bigoplus_{j=1}^rV_i^{\oplus n_i} \\
+			W=\bigoplus_{j=1}^rV_i^{\oplus m_i}
+		\end{gather*}
+		since the character of a sum of representations is the sum of the character, denoted with $\chi_i$ the characters of $V_i$ we have that
+		$$\chi_\rho = \sum_{i=1}^r n_i\chi_i$$
+		but since the character are the same we have that
+		$$\sum_{i=1}^r n_i\chi_i=\sum_{i=1}^r m_i\chi_i$$
+		and so taking the inner product on both sides wrt to any $\chi_i$ we have
+		$$n_i=\left(\chi_\rho,\chi_i\right)=\left(\chi_{\rho'},\chi_i\right)=m_i$$
+		and hence $V=W$ as desired.
+	\end{proof}
+	\begin{corollary}[Characterisation of irreducibility]
+		If $V$ is a finite dimensional representation of $G$ on $\CC$ the $V$ is irreducible if and only if 
+		$$(\chi_V,\chi_V)=1$$
+	\end{corollary}
+	\begin{proof}
+		We decompose $V$ as a sum of irreducible representations again
+		$$V=\bigoplus_{i=1}^r V_i^{\oplus n_i}$$
+		from this we have a very explicit formula for $\chi_V$, which we can use to compute the quantity we are considering
+		$$\left(\chi_V,\chi_V\right)=\left(\sum_{i=1}^r \chi_in_i,\sum_{i=1}^r \chi_in_i\right).$$
+		If that expression is $1$ we see immediately that we must have $n_j=\delta_{ij}$ for some $i\in \NN$, and hence $V$ is irreducible. The other side of the thesis follows immediately from first orthogonality relations, and so we are done.
+	\end{proof}
+	\begin{corollary}[$V$ is irreducible iff $V^*$ is irreducible]
+		Let $V$ be a finite dimensional complex representation of a finite group $G$ then $V$ is irreducible if and only id $V^*$ is irreducible.
+	\end{corollary}
+	\begin{proof}
+		We have the following chain of equalities
+		$$1=\left(\chi_V,\chi_V\right)=\overline{\left(\chi_V,\chi_V\right)}=\left(\overline{\chi_V},\overline{\chi_V}\right)=\left(\chi_{V^*},\chi_{V^*}\right)$$
+		hence we have proven that $V^*$ is irreducible by the previous result. The converse follows from identifying $V^{**}$ with $V$ invoking the finite dimensionality of $V$.
+	\end{proof}
+	\begin{lemma}[Action of the regular representation]
+		For any finite $G$ acting on $\CC G$ through the regular representation we have that
+		$$\chi_{reg}(g)=\abs{G}\delta_{e g}$$
+		where $e$ is the identity.
+	\end{lemma}
+	\begin{proof}
+		It's clear that the character if $g=e$ the matrix we are considering is the identity, and so we have our thesis. \\
+		The difficult case is when $g\ne e$. In the action of $g$ on $\CC G$ we see that 
+		$$e_h \mapsto e_{gh}$$
+		and so in the basis $\left\{e_g:g\in G\right\}$ every column of the matrix of $\rho(g)$ consists of just a non zero entry, equal to $1$. Moreover we can't have that if $h_1\ne h_2$
+		$$e_{gh_1}=e_{gh_2}$$ 
+		since acting left and right by $g^{-1}$ we have $h_1=h_2$. This mean that $\rho(g)$ is just a permutation matrix, and since $g\ne e$ we have
+		$$e_{gh}\ne e_h$$
+		for any $h$, this means that along the main diagonal there are only zeros, and hence the theorem follows. 
+	\end{proof}
+	\begin{theorem}[Decomposition of the regular representation]
+		Let $V_1, \dots, V_k$ be the complete set of irreducible representations of $G$ and let $\chi_i$ be the corresponding characters. Then the regular representation decomposes as 
+		$$\CC G = \bigoplus_{i=1}^k V_i^{\oplus \dim V_i}.$$
+	\end{theorem}
+	\begin{proof}
+		Let's calculate the fourier coefficients of $\chi_{reg}$ using the previous lemma:
+		$$\left(\chi_{i},\chi_{reg}\right)=\frac{1}{\abs{G}}\sum_{g\in G}\chi_i(g)\overline{\chi_{reg}(g)}=\frac{1}{\abs{G}}\abs{G}\delta_{e g}\chi_i(e)=\dim V_i$$
+		which by uniqueness of the decomposition in irreducible is our thesis. Explicitly we have that if 
+		$$V=\bigoplus V_i^{\oplus n_i}$$
+		then computing the inner product using this formula and the additivity of characters we gain
+		$$\dim V_i=\left(\chi_i,\chi_{reg}\right)=\left(\chi_i,\sum n_i\chi_i\right)=n_i$$
+		and hence we are done.
+	\end{proof}
+	\begin{corollary}[Sum of squares formula]
+		For any group $G$, given the set of irreducible representations $V_i$ we always have that
+		$$\abs{G}=\sum_{i=1}^k \left(\dim V_i\right)^2.$$
+	\end{corollary}
+	\begin{proof}
+		Taking the dimension on both sides of the formula 
+		$$\CC G = \bigoplus_{i=1}^k V_i^{\oplus \dim V_i}$$
+		we have the thesis.
+	\end{proof}
+	
+	\subsection{Diagonalizzability of representations}
+	
+	Let's consider a finite group $G$ of order $d$. Given a representation
+	$$\rho : G \to \GL(V)$$
+	we have that for every $g\in G$ this is a matrix. Moreover by Lagrange's theorem we have that
+	$$g^d=1 \implies \rho(g)^d = \text{id}$$
+	this means that denoted with $X:= \rho(g)$ its minimal polynomial $m_X$ satisfies
+	$$m_X \mid x^d-1$$
+	now we make two important assumption about our field:
+	\begin{enumerate}
+		\item All the roots of $x^d-1$ exist in $k$.
+		\item We have $(\charin k, d)=1$ (this is to make sure that we have no repeated roots in $x^d-1$).
+	\end{enumerate}
+	Then we have that $m_X$ factors as a product of distinct linear factors, and we have diagonalizzability! All the above assumptions are naturally satisfied if we work on $\CC$, which is anyway the field where we'll be working on. We need here an ounce of linear algebra
+	\begin{proposition}[Simultaneous diagonalizzability]
+		Let $X,Y\in \text{End}(V)$ diagonalizzable. Then $X$ and $Y$ are simultaneously diagonalizzable iff they commute.
+	\end{proposition}
+	\begin{proof}
+		If they are simultaneously diagonalizzable the thesis clearly holds, since all diagonal matrices commute. To prove the converse we decompose $V$ in $X$ eigenspaces
+		$$V=\bigoplus E_\lambda(X)$$
+		now if we apply $Y$ to any $E_\lambda(X)$ we stay in $E_\lambda(X)$, in fact if $v\in E_\lambda(X)$ we have through commutativity
+		$$X(Yv)=YXv=Y\lambda v= \lambda Yv$$
+		which just implies $Yv\in E_\lambda(X)$. But this immediately concludes, because 
+		$$X_{\mid E_\lambda(X)}=\lambda\text{id}$$
+		and so since $Y$ is again diagonalizable in $E_\lambda(X)$ if we just pick any basis of $E_\lambda(X)$ that diagonalizes $Y$ we get for free that $X$ is diagonal in that same base (since it is diagonal in any base!). 
+	\end{proof}
+	Putting together theese two results we have that if $A$ is a finite abelian group, then for any representation $V$ we can pick a basis of $V$ where all $\rho(a)$ are diagonal matrices! A fun little application is:
+	\begin{corollary}[Representation of finite ciclyc groups]
+		For any $r\in\NN$ and $d\in \NN$ we have that if
+		$$\left(\faktor{\ZZ}{d\ZZ}\right)^r \hookrightarrow \GL_n(\CC)$$
+		is an injective morphism then $r\le n$.
+	\end{corollary}
+	Let $A$ be an abelian group and $\rho:A\to \GL(V)$. If each $\rho(g)\in \GL(V)$ is diagonalizzable then all elements $\rho(g)$ are diagonalizable, so if we take 
+	$$V_i:=\langle v_i \rangle$$
+	where $v_i$ is the basis that diagonalizes all the $\rho(g)$. For any $g\in A$ and $i\le \dim V$ then we have that
+	$$\rho(g)V_i \subseteq V_i$$
+	which means that for all $i$ the $V_i$s are subrepresentations of $V$. From this discussion we evince
+	\begin{proposition}[Irreducible representations of finite abelian groups]
+		All the irreducible representations of a finite abelian group $A$ are the finite dimensional ones. Moreover from the sum of squares formula we have that there are exactly $\abs{A}$ irreducible representations of $A$.
+	\end{proposition}
+	From the structure theorem of finite abelian groups we know that any finite abelian $A$ decomposes as
+	$$A\cong C_{p_1^{e_1}}\times C_{p_2^{e_2}}\times \dots \times C_{p_k^{e_k}}$$
+	where $p_i$ are not necessarily distinct primes. This means we can find $g_1,\dots,g_k$ elements of $A$ (ideally the elements $(a_1,1,\dots,1)$, $(1,a_2,\dots,1)$, $\dots$, $(1,1,\dots,a_k)$, generators of the canonical isomorphic images of $C_{p_i^{e_i}}$ in $A$) of order respectively $p_i^{e_i}$. Then choosing the representation of $A$ amounts to just choosing $\rho(g_i)$ for all $g_i$. For any of these elements we have $p_i^{e_i}$ choices, and since this choices are all independent the number of distinct representations of $A$ are $p_1^{e_1}p_2^{e_2}\dots p_k^{e_k}$, which is exactly what we concluded in the previous result. 
 \end{document}
