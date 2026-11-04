@@ -408,7 +408,9 @@
 	\end{corollary}
 	
 	\subsection{Group functionals and Characters}
-	
+	\begin{definition}[Class function]
+		For any group $G$ and field $k$ a \textit{group functional} from $G$ to $k$ is just a function $f:G\to k$, the set of all such functions is denoted with $F(G,k)$. The set of group functionals which are constant over the 
+	\end{definition}
 	
 	\begin{definition}[Character]
 		Let $V$ be a representation of $G$, then the \textit{character} of $V$ is
@@ -550,7 +552,7 @@
 		we have the thesis.
 	\end{proof}
 	
-	\subsection{Diagonalizzability of representations}
+	\subsection{Commutators and abelian groups}
 	
 	Let's consider a finite group $G$ of order $d$. Given a representation
 	$$\rho : G \to \GL(V)$$
@@ -593,4 +595,113 @@
 	From the structure theorem of finite abelian groups we know that any finite abelian $A$ decomposes as
 	$$A\cong C_{p_1^{e_1}}\times C_{p_2^{e_2}}\times \dots \times C_{p_k^{e_k}}$$
 	where $p_i$ are not necessarily distinct primes. This means we can find $g_1,\dots,g_k$ elements of $A$ (ideally the elements $(a_1,1,\dots,1)$, $(1,a_2,\dots,1)$, $\dots$, $(1,1,\dots,a_k)$, generators of the canonical isomorphic images of $C_{p_i^{e_i}}$ in $A$) of order respectively $p_i^{e_i}$. Then choosing the representation of $A$ amounts to just choosing $\rho(g_i)$ for all $g_i$. For any of these elements we have $p_i^{e_i}$ choices, and since this choices are all independent the number of distinct representations of $A$ are $p_1^{e_1}p_2^{e_2}\dots p_k^{e_k}$, which is exactly what we concluded in the previous result. 
+	\begin{definition}[Commutator]
+		For any group $G$ the function $G\times G\to G$ such that
+		$$[g,h]:=ghg^{-1}h^{-1}$$
+		is called the \textit{commutator} of $g$ and $h$. The \textit{derived subgroup} of $G$ (also called the commutator group) is defined to be
+		$$[G,G]:=\left\{[g,h]:g,h\in G\right\}$$
+		which is a normal subgroup of $G$, the \textit{abelianization} of $G$ is the group $\faktor{G}{[G,G]}$.
+	\end{definition}
+	We immediately see that for any one dimensional representation $\rho:G\to V$ of any finite group $G$ we have that
+	$$\rho([g,h])=1$$
+	since the image is commutative. From a generalization of the first homomorphism theorem we evince immediately that
+	\begin{center}
+		\begin{tikzcd}
+			G\arrow[r,"\rho"]\arrow[d,"\pi",swap] & \CC^* \\
+			\faktor{G}{[G,G]}\arrow[ur,"\overline{\rho}",swap] & 
+		\end{tikzcd} 
+	\end{center}
+	and so immediately we can decompose any representation of any group $G$ in a product of two morphisms, one that is just a representation of an abelian group, and the other one which is a group morphism.
+	\begin{corollary}[Number of monodimensional representations]
+		If $k$ is algebraically closed and $(\charin k, \abs{G})=1$ we have that the number of finite dimensional representations of $G$ is $\abs{G:[G:G]}$.
+	\end{corollary}
+	\begin{proof}
+		Follows from the number of $1$-dimensional representations of abelian groups.
+	\end{proof}
+	\begin{example}[Symmetric one dimensional representations]
+		How many are the one dimensional representations of $S_n$?
+	\end{example}
+	
+	\subsection{Class functions}
+	
+	Let's return to class functions. For any $f\in F_c(G,\CC)$ and any $\rho:G\to\GL(V)$ we can define a map
+	$$s_f:=\sum_{g\in G}f(g)\rho(g)\in \text{Hom}\CC(V,V)$$
+	this has some quite nice properties, for example we have that
+	$$s_f:=\sum_{g\in G}\rho(g)$$
+	which is basically the projector multiplied by $\abs{G}$. 
+	\begin{remark}
+		The projector $P$ has the property that 
+		$$\rho(h)(Pv)=Pv$$
+		for any $v\in V$, and it really is the projection transformation onto the space of fixed points of $V$, that is $V^G$.
+	\end{remark}
+	Actually the property of commutation enjoyed by the projector is much more general:
+	\begin{proposition}[Commutativity of class functions]
+		For any $f\in F_c(G,\CC)$ and $h\in G$ we have that
+		$$\rho(h)s_f=s_f\rho(h)$$
+		that is, $s_f$ is $G$-equivariant.
+	\end{proposition}
+	\begin{proof}
+		An explicit calculation, we have
+		$$\rho(h)\left(\sum_{g\in G}f(g)\rho(g)\right)\rho(h)^{-1}=\sum_{g\in G}f(g)\rho(hgh^{-1})=\sum_{g\in G}f(g)\rho(g)$$
+		which proves our thesis.
+	\end{proof}
+	\begin{proposition}[Trace and inner product formula]
+		For any $f\in F_c(G,\CC)$ we have that
+		$$\chi_\rho(s_f)=\sum_{g\in G}f(g)\chi_\rho(g).$$
+	\end{proposition}
+	\begin{proof}
+		Follows form linearity of trace.
+	\end{proof}
+	From this last property follows that for any $f\in F(G,k)$ one has
+	$$\abs{G}(f,\overline{\chi}_\rho)=\chi_\rho(s_f).$$
+	\begin{theorem}[Orthonormality of characters]
+		Let $\chi_1,\chi_2,\dots,\chi_n$ be all the irreducible characters of a group $G$ (that is, the characters associated with any irreducible representation of $G$), then this is an orthonormal base of $F_c(G,\CC)$.
+	\end{theorem}
+	\begin{proof}
+		We already proved that the characters are an orthonormal set, in fact
+		$$\left(\chi_i,\chi_j\right)=\delta_{ij}$$
+		it remains to be shown that these span all $F_c(G,k)$. Let's consider $f\in F_c(G,\CC)$ such that
+		$$f\in H^\perp$$
+		where
+		$$H=\langle \chi_1,\dots ,\chi_k\rangle$$
+		this is equivalent to saying that for all $\chi_i$ we have 
+		$$\left(f,\chi_i\right)=0 \implies \left(f,\overline{\chi}_i\right)=0$$
+		but we proved before that
+		$$(f,\overline{\chi}_i)=\frac{\chi_i(s_f)}{\abs{G}}$$
+		now by schur's lemma we now have that (since we are working on a closed field), since $s_f$ is an equivariant map, over any $V_i$ irreducible representation associated with $\chi_i$ we have that $s_f$ acts as a scalar on every irreducible representation of $G$, but since this scalar is just given by 
+		$$\chi_i(s_f)$$
+		we get that $s_f$ is identically 0, which implies that $f=0$, as desired. 
+	\end{proof}
+	\begin{corollary}[Conjugacy classes of a group]
+		The number of conjugacy classes of $G$ equal the number of it's irreducible representations.
+	\end{corollary}
+	\begin{proof}
+		Since the dimension of $F_c(G,\CC)$ is just the number of conjugacy classes of $G$, we have that $k$, the number of irreducible characters, is equal to the dimension of $F_c(G,k)$.
+	\end{proof}
+	
+	\begin{example}[Dihedral group]
+		For a dihedral group $D_4$ we have that the group of commutators is
+		$$[D_4,D_4]=\langle r^2\rangle$$
+		where $r$ is an element of order $4$. This means that the number of one dimensional representations of $D_4$ is just $4$. From the sum of squares formula we have 
+		$$8=1^2+1^2+1^2+1^2+\dots$$
+		what we are missing is a four, but since we have just listed all one dimensional representation of $G$ that four must be written as a $2^2$, which means that all the irreducible representations of $D_4$ are just the $4$ one dimensional one and the $2$ dimensional one. This implies that $D_4$ has exactly $5$ characters (or $5$ conjugacy classes).
+	\end{example}
+	We can express the characters of a group through a \textbf{character table}, for example for $D_4$ we have:
+	\begin{center}
+		\begin{tabular}{c|c|c|c|c|c|}
+			 &$\left\{e\right\}$ &$\left\{r^2\right\}$&$\left\{r,r^3\right\}$&$\left\{s,sr^2\right\}$&$\left\{sr,sr^3\right\}$ \\
+			\hline
+			$\chi_1$ & $1$ & 1 &1 & 1 & 1 \\
+			\hline
+			$\chi_2$ & 1 & 1 & -1 & 1 & -1\\
+			\hline
+			$\chi_3$ & 1 & 1 & -1 & -1 & 1\\
+			\hline
+			$\chi_4$ & 1 & 1 & 1& -1 & -1\\
+			\hline
+			$\chi_5$ & 2 & -2 & 0 & 0 & 0\\
+		\end{tabular}
+	\end{center}
+	in every cell $a_{ij}$ we have the value that the character $\chi_i$ assumes on the class $j$. The first character is just the one associated to the trivial representation.
+	
 \end{document}

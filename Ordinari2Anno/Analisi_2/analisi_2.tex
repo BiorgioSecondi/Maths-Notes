@@ -2409,6 +2409,26 @@
 		e dunque $f(x)-f(x_0)\ge 0$ per una palla di centro $x_0$ sufficientemente piccola, ovvero $x_0$ è un minimo locale.
 	\end{proof}
 	
+	\begin{definition}[Punto di Sella]
+		Un punto critico che non sia nè di massimo né di minimo si dice punto di \textit{sella}.
+	\end{definition}
+	\begin{example}[Un punto di Sella]
+		Consideriamo la funzione
+		$$f(x,y)=x^2-y^2$$
+		allora l'Hessiana è costante ed è uguale a
+		$$Hf=
+		\begin{pmatrix}
+			2 & 0 \\
+			0 & -2
+		\end{pmatrix}
+		$$
+		dunque nessun punto potrà essere di massimo o minimo locale. Dato che il gradiente invece è
+		$$\nabla f (x,y)=\begin{pmatrix}
+			2x & -2y
+		\end{pmatrix}$$
+		in tutti i punti lungo la retta $x=y$ abbiamo punti critici, ma nessuno di questi è un punto di massimo o di minimo.
+	\end{example}
+	
 	
 	\newpage
 	

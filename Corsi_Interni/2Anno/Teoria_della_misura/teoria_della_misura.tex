@@ -1779,6 +1779,110 @@
 		$$\nu^s:=\nu-\nu^{ac}$$
 		rimane solo da mostrare che $\nu^s$ è effettivamente mutuamente singolare.
 	\end{proof}
+	
+	\subsection{Misure di Radon}
+	
+	\begin{definition}[Misura esterna di Radon]
+		Una misura esterna $\mu^*$ da $\parti{\RR^n}\to [0,\infty]$ si dice \textit{misura (esterna) di Radon} se valgono le seguenti proprietà:
+		\begin{itemize}
+			\item I boreliani sono $\mu^*$ misurabili, ovvero
+			$$\beta_{\RR^n}\subseteq \mathcal{M}(\RR^n,\mu^*)$$
+			\item Per ogni insieme $C\subseteq \RR^n$ compatto vale che $\mu(C)<\infty$ (dunque la misura sarà anche $\sigma$-finita).
+			\item Per ogni $E\subseteq\RR^n$ esiste un Boreliano $B\supseteq E$ tale che
+			$$\mu^*(E)=\mu^*(B).$$
+		\end{itemize}
+	\end{definition}
+	Queste proprietà ci ricordano molto il modo in cui avevamo definito la misura esterna di Lebesgue nel prologo. In generale le misure possono essere molto brutte: la misura che conta i punti, e le misure che non sono sigma finite fanno da controesempio a molti teoremi che ci piacerebbe dimostrare. Il motivo per cui ci interessa restringerci alle misure di Radon è esattamente perché su queste possiamo mostrare molte cose forti:
+	\begin{theorem*}
+		Sia $\mu^*$ una misura di Radon su $\RR^n$. Allora:
+		\begin{enumerate}
+			\item Per ogni $E\subseteq \RR^n$ abbiamo che 
+			$$\mu^*(E)=\inf\left\{\mu^*(E):U\supseteq E,\,U\text{ aperto}\right\}.$$
+			\item Per ogni $E\in \mathcal{M}(\RR^n,\mu^*)$ abbiamo che
+			$$\mu^*(E)=\sup\left\{\mu^*(C):C\subseteq E,\,C\text{ chiuso}\right\}.$$
+		\end{enumerate}
+	\end{theorem*}
+	\begin{remark}
+		Non possiamo stimare dall'interno con insiemi aperti, basta pensare agli irrazionali: non contengono nessun aperto ma hanno misura positiva.
+	\end{remark}
+	Per dimostrare questo teorema avremo bisogno di un paio di risultati:
+	\begin{lemma}[Approssimabilità dei boreliani]
+		Sia $\mu^*$ una misura di Radon su $\RR^n$ e $B\sin \beta_{\RR^n}$ allora
+		\begin{enumerate}
+			\item Se $\mu^*(B)<\infty$ per ogni $\varepsilon>0$ esiste un chiuso $C$ tale che 
+			$$\mu^*(B\setminus C)<\varepsilon.$$
+			\item Per ogni $\varepsilon>0$ esiste un aperto $U$ tale che 
+			$$\mu^*(U\setminus B)<\varepsilon.$$
+		\end{enumerate}
+	\end{lemma}
+	\begin{proof}
+		Possiamo assumere che $\mu^*(\RR^n)<\infty$ (altrimenti ci restringiamo ad un opportuno compatto). Per dimostrare il primo punto consideriamo la famiglia
+		$$\mathcal{F}:=\left\{A\in \mathcal{M}(\RR^n,\mu^*):  \text{approssimabili con chiusi}\right\}$$
+		questa chiaramente contiene tutti i chiusi. Dimostriamo ora che è una $\sigma$-algebra: per le intersezioni consideriamo $A_n$ è una successione in $\mathcal{F}$ consideriamo la successione $C_n$ di chiusi tali che
+		$$\mu^*(A_n\setminus C_n)<\frac{\varepsilon}{2^n}$$
+		allora abbiamo che 
+		$$\bigcap_{n\in\NN}A_n \setminus \bigcap_{n\in\NN}C_n \subseteq \bigcup_{n\in\NN}A_n\setminus C_n$$
+		e dato che la seconda intersezioni è chiusa e la misura dell'insieme al RHS è $<\varepsilon$ abbiamo che l'intersezione appartiene a $\mathcal{F}$. Le unioni seguono allo stesso modo per la continuità dal basso della misura, infatti
+		$$\mu^*\left(\bigcup_{n\in\NN}C_n\right)=\lim_{n\to\infty} \mu^*\left(\bigcup_{k=1}^n C_k\right)$$
+		e quindi prendendo un $n$ sufficientemente grande abbiamo che 
+		$$\mu^*\left(\bigcup_{n\in\NN}A_n \setminus \bigcup_{k=1}^\infty C_k \right)=\lim_{n\to\infty}\mu^*\left(\bigcup_{k\in\NN}A_n\setminus \bigcup_{k=1}^nC_k\right)$$
+		e quindi il LHS va a $0$ in quanto anche il RHS va a $0$. Abbiamo quindi mostrato che $\mathcal{F}$ è una $\sigma$-algebra, infatti usando il fatto che $\mu^*$ è finita abbiamo anche i complementari, dunque dato che $\mathcal{F}$ contiene anche tutti gli aperti (abbiamo mostrato nel prologo che gli aperti si possono scrivere come unione numberabile di cubi chiusi quasi disgiunti) abbiamo finito. \\
+		Questo dimostra la tesi $1$, ma d'altra parte la tesi $2$ è analoga, infatti per ogni palla $B_j$ di raggio $j$ centrata nell'origine abbiamo, considerando un generico boreliano $B$, che
+		$$B_j\cap B^\complement$$ 
+		è un boreliano, e quindi lo possiamo stimare dall'interno con un certo chiuso $C_j$. Allora definendo
+		$$C:=\bigcup_{j\in\NN} C_j$$
+		il suo complementare è un aperto che contiene $B$ e che ha la misura giusta, e quindi abbiamo finito. 
+	\end{proof}
+	Usando questo possiamo finalmente mostrare che
+	\begin{theorem}[di Approssimabilità]
+		Sia $\mu^*$ una misura di Radon su $\RR^n$. Allora:
+		\begin{enumerate}
+			\item Per ogni $E\subseteq \RR^n$ abbiamo che 
+			$$\mu^*(E)=\inf\left\{\mu^*(E):U\supseteq E,\,U\text{ aperto}\right\}.$$
+			\item Per ogni $E\in \mathcal{M}(\RR^n,\mu^*)$ abbiamo che
+			$$\mu^*(E)=\sup\left\{\mu^*(C):C\subseteq E,\,C\text{ chiuso}\right\}.$$
+		\end{enumerate}
+	\end{theorem}
+	\begin{proof}
+		Il primo punto segue direttamente dal lemma e della definizione di misura di Radon (basta intersecare un po' di aperti). Per il secondo distinguiamo due casi: nel primo caso prendiamo un $A$ misurabile tale che 
+		$$\mu^*(A)<\infty$$
+		allora la misura $\nu^*:=\mu^*_{\mid A}$ è ancora di Radon, ma allora esisterà un aperto $U\supseteq A^\complement$ tale che
+		$$\nu^*(U\setminus A^\complement)<\varepsilon$$
+		e quindi avremo nuovamente che $C:=U^\complement$ soddisfa
+		$$\nu^*(A\setminus C)<\varepsilon$$
+		e quindi in questo caso abbiamo finito. D'altro canto se $\mu^*(A)=\infty$ consideriamo i dischi chiusi
+		$$D_k:=\left\{x\in \RR^n:k\le \abs{x}\le k+1\right\}$$
+		allora gli insiemi $A_k= A\cap D_k$ è boreliano con misura finita per ogni $k$, quindi esisterà un $C_k\subseteq A_k$ tale che
+		$$\mu^*(A_k\setminus C_k)<\frac{\varepsilon}{2^k}$$
+		ma visto che $\mu(A)=\infty$ abbiamo
+		$$\mu^*(A)=\sum_{k\in\NN}\mu^*(A_k)$$
+		ma per come abbiamo definito i $C_k$ anche loro hanno misura che somma a infinito, e quindi unendo i primi $n$ chiusi costruiamo una successione $\tilde{C}_n$ che va a infinito e approssima la misura di $A$, proprio come volevamo.
+	\end{proof}
+	Con questo teorema possiamo mostrare:
+	\begin{theorem}[Lusin]
+		Sia $\mu^*$ una misura di Radon su $\RR^n$ e $f:\RR^n\to\RR$ una funzione misurabile. Sia $A\subseteq\RR^n$ un insieme misurabile, allora esister un $K\subseteq A$ compatto tale che 
+		$$\mu^*(A\setminus K)<\varepsilon$$
+		e tale che $f_{\mid K}$ è continua.
+	\end{theorem}
+	\begin{proof}
+		La strategia è usare Egorov: vogliamo mostrare che $f$ è limite puntuale di funzioni continue $f_j$, e poi usando egorov ci restringiamo a $K$ ottenendo che $f_{\mid K}$ è limite uniforme di funzioni $f_j:K\to\RR$, e che successione scegliere se non le approssimanti semplici che abbiamo usato per definire gli integrali di Lebesgue? Vediamo la dimostrazione: \\
+		Possiamo restringerci solo alla parte positiva di $f$, ovvero assumiamo che $f\ge 0$. Prendiamo allora un $A$ di misura finita, definendo
+		$$A_n:=\left\{x\in A:f(x)<n\right\}$$
+		notiamo chiaramente che $\bigcup A_n=A$, dunque per ogni $\varepsilon>0$ possiamo trovare un $\bar{n}$ tale che
+		$$\mu^*\left(A\setminus A_{\bar{n}}\right)<\frac{\varepsilon}{2}$$
+		ma allora considerando per ogni $\bar{n}$ una successione $f_j:A_{\bar{n}}\to \RR$ di funzioni semplici, queste per ogni $\bar{n}$ convergeranno uniformemente a $f$ sull'insieme $A_{\bar{n}}$ (perché su quell'insieme $f$ è limitata, e possiamo applicare il teorema di approssimazione con funzioni semplici). Ora tutte le funzioni $f_j$ hanno immagine finita, sia $h_{ij}$ l'elemento $i$-esimo dell'immagine della $j$-esima funzione, per il teorema di approssimazione dimostrato sopra allora possiamo prendere un compatto (abbiamo dimostrato solo chiuso, ma non è difficile vedere come si possa aggiungere l'ipotesi di limitatezza) tale che
+		$$K_{ij}\subseteq f_j^{-1}(h_{ij})$$
+		e per cui valga
+		$$\mu^*\left(f^{-1}_j(h_{ij})\setminus K_{ij}\right)<\frac{\varepsilon}{2^{1+i+j}}$$
+		ma allora avremo che l'insieme 
+		$$K:=\bigcap_{j\in\NN}\bigcup_{i=1}^{\abs{\Immagine{f_{ij}}}}K_{ij}$$
+		è compatto (perché è prima unione finita di compatti e poi intersezione infinita di compatti). Ma dato che per come li avevamo scelti tutti i $K_{ij}$, al variare di $i$, erano disgiunti abbiamo che $f_{j\mid K_{ij}}$ è continua (anche per il lemma dei compatti se vogliamo). Rimane da stimare che $\mu^*(A\setminus K)$ ha effettivamente misura piccola, ma d'altra parte
+		$$\mu^*(A\setminus K)\le \mu^*\left(A\setminus A_{\bar{n}}\right)+\mu^*\left(A_{\bar{n}}\setminus K\right)$$
+	\end{proof}
+	\begin{proposition}[Teorema di estensione di Whitney]
+		Se $K\subseteq \RR^n$ è compatto e $f:K\to\RR$ è una funzione continua allora esiste una $\tilde{f}:\RR^n\to\RR$ continua tale che $f(x)=\tilde{f}(x)$.
+	\end{proposition}
+	Combinando questi due teoremi otteniamo una cosa molto interessante, ovvero presa una funzione completamente a caso $f:\RR^n\to \RR$ misurabile abbiamo che possiamo restringerla per Lusin ad una funzione $g:\left(\RR^n\setminus K\right)\to\RR$ che possiamo poi estendere ad una $\tilde{f}$ che sia continua! In pratica ogni funzione ha una controparte continua (che ne differisce per un insieme di misura arbitrariamente piccola).
 	\newpage
 	
 	\section{Introduzione al Trasporto Ottimo}

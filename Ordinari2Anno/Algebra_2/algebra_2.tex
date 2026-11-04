@@ -1613,6 +1613,124 @@
 		Dimostra che se $\text{Aut}(G)$ è ciclico allora anche $G$ è ciclico.
 	\end{exercise}
 	
+	\subsection{Tanti esercizi}
+	
+	\begin{exercise}[$\GL_2(\FF_3)$]
+		Consideriamo il gruppo $G$ delle matrici $2\times 2$ invertibili sul campo con $3$ elementi, ovvero $\GL_2(\FF_3)$. Studiamo questo gruppo.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Cominciamo contando quanti sono gli elementi di $G$. Per scegliere la prima colonna di una matrice invertibile a coefficienti in $\FF_3$ abbiamo esattamente $9-1$ scelte (tutti i vettori tranne quello nullo). Affinché la matrice sia invertibile possiamo scegliere la seconda colonna come vogliamo, a patto che non sia multiplo della prima, quindi abbiamo $9-3$ possibilità. Il gruppo ha ordine $48$ quindi. \\
+		Su questo gruppo abbiamo molte delle cose che normalmente ci sono sui gruppi classici, per esempio l'insieme
+		$$N:=\ker{\det}=:\SL_2(\FF_3)$$
+		è un sottogruppo normale di ordine $24$. Allo stesso modo è molto facile capire qual è il centro, ovvero le matrici diagonali invertibili. In questo caso abbiamo
+		$$Z(G)\cong K_4$$
+		in quanto si vede chiaramente che le scelte per ciascun autovalore sono $1$ o $-1$. \\
+		Quanti sono gli elementi di ordine $4$? Beh semplicemente abbiamo
+		$$\abs{g}=4 \implies \abs{g^2}=2$$
+		ma questo vuol dire che il polinomio minimo di $g$ deve dividere
+		$$m_{g^2}\mid x^2-1$$
+		e quindi abbiamo $3$ casi: o $g^2$ è l'identità, o $g^2$ è $-I$ o $g^2$ ha polinomio minimo $x^2-1$, il che vuol dire che deve essere uguale al polinomio caratteristico, e facendo i conti (calcolandolo esplicitamente) vediamo che ci si riconduce al caso precedente. Dunque abbiamo trovato che i $g$ di ordine $4$ sono tali che
+		$$
+		\begin{pmatrix}
+			a & b \\
+			c & d
+		\end{pmatrix}^2=
+		\begin{pmatrix}
+			-1 & 0 \\
+			0 & -1
+		\end{pmatrix}.
+		$$
+		Per risolvere quest'equazione di nuovo ricorriamo ai polinomi minimi: abbiamo
+		$$m_g\mid x^4-1=(x-1)(x+1)(x^2+1)$$
+		chiaramente il polinomio minimo deve avere grado $\le n$, e quindi l'unica possibilità (che non ritorni al caso precedente) è
+		$$m_g=x^2+1$$
+		da cui deduciamo proprio che gli elementi di ordine $4$ sono
+		$$\pm
+		\begin{pmatrix}
+			0 & 1 \\
+			-1 & 0
+		\end{pmatrix},\pm
+		\begin{pmatrix}
+			1 & 1 \\
+			1 & -1
+		\end{pmatrix},\pm,
+		\begin{pmatrix}
+			-1 & 1 \\
+			1 & 1
+		\end{pmatrix}
+		$$
+		ovvero l'insieme delle matrici 
+		$$H=\left\{\begin{pmatrix}
+			a & b \\
+			b & -a
+		\end{pmatrix}: a^2+b^2\ne 0\right\}.$$
+		Possiamo dire tante altre cose su questo gruppo, per esempio contare il numero di $2$-Sylow. In realtà notiamo che l'insieme 
+		$$H\cup Z(G)$$
+		è proprio un $2$-Sylow. Non solo, questo è normale e quindi abbiamo
+		$$N\cong Q_8\rtimes C_3$$
+		dato che $Q_8\cong H\cup Z(G)$ (non è abeliano e ha un solo elemento di ordine $2$, quindi non può essere $D_4$). Un altro modo divertente per vederlo è che per trovare gli elementi di $H\cup Z(G)$ diversi da $1$ e $-1$ (gli elementi del centro) abbiamo risolto l'equazione
+		$$g^2=-1$$
+		che è esattamente l'equazione che definisce l'unità immaginaria $i$! Questo mostra come $j$ e $k$ siano in un certo senso delle altre unità immaginarie, semplicemente in un algebra un po' diversa (in particolare nell'algebra $\FF_3G$). \\
+		C'è un altro gruppo interessante qui dentro, ovvero
+		$$S_4\cong \faktor{G}{Z}.$$
+		E questo si dimostra in un modo che bho non ho capito.
+	\end{proof}
+	
+	\begin{exercise}
+		Sia $G$ un gruppo finito con la proprietà che se $H,K\le G$ allora si ha per forza almeno una tra $H\le G$ e $G\le H$. Mostrare che $G$ è ciclico di ordine potenza di primo.
+	\end{exercise}
+	\begin{proof}
+		Sia $x\in G$ un elemento di ordine massimo. Allora per ogni $y\in G$ dobbiamo avere per forza
+		$$\langle x \rangle \le \langle y \rangle$$
+		o
+		$$\langle y \rangle \le \langle x \rangle$$
+		nel primo caso abbiamo che $y$ ha lo stesso ordine di $y$, quindi quei due gruppi hanno lo stesso ordine e $y\in \langle x \rangle$. D'altra parte questo è vero anche nel secondo caso, quindi
+		$$G\le \langle x \rangle$$
+		da cui $G$ ciclico. Il fatto che sia di ordine primo è semplice conseguenza del fatto che se potessimo scomporlo in fattori coprimi avremmo due sottogruppi che non sono contenuti uno dentro l'altro.
+	\end{proof}
+	\begin{exercise}
+		Sia $p$ un primo, consideriamo il gruppo $$G=\left\{z\in \CC^*:\exists n\in\NN,\abs{z}=p^n\right\}$$
+		studiarne i sottogruppi.
+	\end{exercise}	
+	\begin{proof}
+		Consideriamo prima di tutto i sottogruppi finiti. Dato che $\CC^*$ è il sottogruppo moltiplicativo di un campo abbiamo proprio che tutti i suoi sottogruppi finiti devono essere ciclici, e quindi abbiamo finito: per ogni $p^n$ esiste un unico sottogruppo di $G$ isomorfo a $C_{p^n}$. \\
+		Supponiamo ora che $H\le G$ sia infinito, allora deve avere esponente infinito, infatti altrimenti il polinomio
+		$$x^{\exp H}-1$$
+		avrebbe infinite radici. Dunque $H$ deve avere ordine infinito, ma questo vuol dire che per ogni $g\in G$  
+	\end{proof}
+	\begin{exercise}
+		Prendiamo un $G$ infinito tale che tutti i suoi sottogruppi propri siano finiti. Dimostrare che $\faktor{G}{Z(G)}$ è semplice.
+	\end{exercise}
+	\begin{proof}
+		Per il teorema di corrispondenza se $\faktor{G}{Z(G)}$ avesse un sottogruppo normale non banale, questo dovrebbe essere $N$ finito.
+	\end{proof}
+	\begin{exercise}
+		Supponiamo che $G$ abbia ordine $p^2q^2$, con $p>q$. Se $n_p(g)\ne 1$ allora $\abs{G}=36$.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Per il secondo teorema di sylow abbiamo che
+		$$n_p(G)\equiv 1 \pmod{p}$$
+		e inoltre $n_p(G)\mid q^2$. Ma essendo diverso da $1$ abbiamo solo due casi, se dividesse $q$ avremmo un assurdo dal fatto che $p>q$, dunque necessariamente 
+		$$n_p(G)=q^2$$
+		e quindi per il lemma di euclide
+		$$p\mid q^2-1 \implies p\mid q+1$$
+		cioè $p=q+1$, da cui la tesi.
+	\end{proof}
+	\begin{exercise}
+		Prendiamo un $H\normal G$ e $P$ un $p$-sylow di $G$, allora abbiamo il diagramma di Hasse
+		\begin{center}
+			\begin{tikzcd}
+				&& G\arrow[d,no head,"m_2"] && \\
+				&& PN\arrow[dr,no head,"p^{a_1}"]\arrow[dl,no head,"m_1",swap] && \\
+				&P\arrow[dr,swap,no head,"p^{a_1}"] && N\arrow[dl,no head,"m_1"] & \\
+				&& P\cap N\arrow[d,no head,"p^{a_2}"] && \\
+				&& 1 &&
+			\end{tikzcd}
+		\end{center} 
+		dove $\abs{G}=p^am$ e $a_1+a_2=a$, $m=m_1m_2$. Allora $P\cap N\in \text{Syl}_p(N)$ è un sylow di $N$, e quindi per il teorema di omomorfismo abbiamo che $\faktor{PN}{N}\in \text{Syl}_p(G/N)$.
+	\end{exercise}
+	\newpage
+	
 	\subsection{$\bigstar$ Appendice: Gruppi noti}
 	
 	In questa sottosezione riporto i principali gruppi finiti di ordine piccolo che sono stati trattati durante il corso, ordinati per ordine. Un indice preliminare è il seguente: 
@@ -1624,7 +1742,7 @@
 		\item[Ordine 5:] Ciclico $C_5$.
 		\item[Ordine 6:] Ciclico $C_6\cong C_3\times C_2$, Simmetrico $S_3\cong D_3\cong C_3 \rtimes C_2$.
 		\item[Ordine 7:] Ciclico $C_7$.
-		\item[Ordine 8:] Ciclico $C_8$, Abeliano $C_4 \times C_2$, Abeliano $C_2\times C_2 \times C_2$, Diedrale $D_4$, Gruppo dei quaternioni $Q_8$.
+		\item[Ordine 8:] Ciclico $C_8$, Abeliano $C_4 \times C_2$, Abeliano $C_2\times C_2 \times C_2$, Diedrale $D_4$, Gruppo dei quaternioni $Q_8\cong \text{Dic}_2$.
 		\item[Ordine 9:] Ciclico $C_9$, Abeliano $C_3\times C_3$.
 		\item[Ordine 10:] Ciclico $C_{10} \cong C_2\times C_5$, Diedrale $D_5\cong C_5\rtimes C_2$.
 		\item[Ordine 11:] Ciclico $C_{11}$.
@@ -1634,13 +1752,13 @@
 		\item[Ordine 15:] Ciclico $C_{15}\cong C_5\times C_3$. 
 		\item[Ordine 16:] Ciclico $C_{16}$, Abeliano $C_{8}\times C_{2}$, Abeliano $C_4\times C_4$, Abeliano $C_4\times C_2\times C_2$, Abeliano $C_2\times C_2\times C_2\times C_2$, Diedrale $D_8$, (ALTRO?). 
 		\item[Ordine 17:] Ciclico $C_{17}$.
-		\item[Ordine 18:] Ciclico $C_{18}$, Abeliano $C_2\times C_9$, Abeliano $C_2\times C_3\times C_3$ (ALTRO?).
+		\item[Ordine 18:] Ciclico $C_{18}$, Abeliano $C_2\times C_9$, Abeliano $C_2\times C_3\times C_3$, Diedrale $D_9$ (ALTRO?).
 		\item[Ordine 19:] Ciclico $C_{19}$.
 		\item[Ordine 20:]
 		\item[Ordine 21:] Ciclico $C_{21}$, Abeliano $C_3\times C_7$, .
-		\item[Ordine 22:] Ciclico $C_{22}$, Abeliano $C_{11}\times C_2$, Diedrale $D_{22}\cong C_{11}\rtimes C_2$.
+		\item[Ordine 22:] Ciclico $C_{22}$, Abeliano $C_{11}\times C_2$, Diedrale $D_{11}\cong C_{11}\rtimes C_2$.
 		\item[Ordine 23:] Ciclico $C_{23}$.
-		\item[Ordine 24:]
+		\item[Ordine 24:] Ciclico $C_{24}$, Abeliano $C_3\times C_2\times C_2\times C_2$, Abeliano $C_3\times C_4\times C_2$, Abeliano $C_3\times C_8$, Diedrale $D_{12}\cong C_{12}\rtimes C_2$, Simmetrico $S_{4}$. 
 		\item[Ordine 25:] Ciclico $C_{25}$, Abeliano $C_{5}\times C_5$.
 		\item[Ordine 26:] Ciclico $C_{26}$, Abeliano $C_2\times C_{13}$, Diedrale $D_{13}\cong C_{13}\rtimes C_2$.
 		\item[Ordine 27:] Ciclico $C_{27}$, Abeliano $C_3\times C_9$, Abeliano $C_3\times C_3\times C_3$, Heisenberg $H(\FF_3)$ (ALTRO?).
@@ -1682,14 +1800,21 @@
 		Una possibile presentazione del gruppo di Heinseberg è data da
 		$$H(\FF_p)=\langle x,y \mid x^p= y^p = [x,y]^p=1,\, [x,[x,y]]=[y,[x,y]]=1 \rangle$$
 		dove le parentesi $[x,y]$ denotano il commutatore di $x$ e $y$ nel gruppo $H(\FF_p)$, ovvero
-		$$[x,y]:=xyx^{-1}y^{-1}$$
+		$$[x,y]:=xyx^{-1}y^{-1}.$$
 	\end{fact}
 	\subsubsection{Gruppi diciclici}
 	
 	\begin{definition}[Gruppo diciclico]
-		contenuto...
+		Un gruppo \textit{diciclico} è un sottoinsieme del gruppo libero su due elementi $F(a,b)$ con la presentazione
+		$$\langle x,y\mid x^{n}=y^n=1,xyx^{-1}=\rangle$$
 	\end{definition}
 	
 	\newpage
+	
+	\section{Anelli}
+	Ricominciamo a parlare di Anelli ricordando una versione forte del teorema cinese del resto:
+	\begin{theorem}
+		contenuto...
+	\end{theorem}
 	
 \end{document}

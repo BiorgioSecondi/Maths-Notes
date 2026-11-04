@@ -2164,9 +2164,133 @@
 		\begin{tikzcd}
 			\PP(V)\arrow[r] & \PP(V^*)\arrow[r,"B_1^{-1}"] & \PP(V) \\
 			q \arrow[r,maps to] & q^*\arrow[r,maps to] & q' \\
-			A \arrow[r,maps to] & A^{-1}\arrow[r,maps to] & \tilde{A}A^{-1}\tilde{A}
+			A \arrow[r,maps to] & A^{-1}\arrow[r,maps to] & \tilde{A}A^{-1}\tilde{A}.
 		\end{tikzcd}
 	\end{center}
+	
+	\newpage
+	
+	\section{Quadriche affini ed euclidee}
+	
+	Le quadriche proiettive sono semplici, quelle affini ed euclidee sono molto più brutte:
+	\begin{definition}[Quadrica affine]
+		Una \textit{quadrica affine} in $\AA_\KK^n$ è la classe di proporzionalità di un polinomio di grado $2$ nelle coordinate $x_1,\dots,x_n$ di $\AA^n_\KK$. \\
+		Se $q=[Q]$ è una quadrica affine allora $Q$ è detta \textit{equazione} di $q$ e il suo \textit{supporto} è costituito dal sottoinsieme di $\AA_\KK^n$ definito dall'annullamento di $Q$.
+	\end{definition}
+	\begin{example}
+		In $\AA^2$ possiamo definire la quadrica 
+		$$
+		Q
+		\begin{pmatrix}
+			x_1 \\
+			x_2
+		\end{pmatrix}=x_1^2+x_2^2-1
+		$$
+		e se $\KK=\RR$ abbiamo che il suo supporto è la circonferenza di raggio $1$.
+	\end{example}
+	\begin{example}[Sfera unitaria]
+		Sullo spazio affine euclideo $\mathbb{E}$ la \textit{sfera di centro $P$ e raggio $r$} è il seguente insieme
+		$$S(P,r)=\left\{X\in A:\abs{\abs{X-P}}=r^2\right\}$$
+		e questo è il supporto di una quadrica euclidea.
+	\end{example}
+	Consideriamo ora $\PP^n$ e una quadrica proiettiva $q$ al suo interno. Dato che sappiamo che $\PP^n$ è ricoperto da carte affini in particolare se consideriamo l'iperpiano di equazione
+	$$H_\infty:=\left\{x_0=0\right\}$$
+	ovvero idealmente l'iperpiano all'infinito dello spazio proiettivo $\PP^n$, abbiamo la carta 
+	\begin{align*}
+		U_0:\PP^n & \to \AA^n \\
+		(x_0:x_1:\dots: x_n) & \mapsto (1,x_1,\dots,x_n)
+	\end{align*}
+	come non ci stupisce. La parte originale arriva considerando l'equazione $Q$ di $q$, e vedendo cosa succede se la intersechiamo con $U_0$, ovvero se gli rimuoviamo i punti all'infinito. Essenzialmente i punti del supporto di $q$ prima erano quelli che soddisfacevano
+	$$0=Q=\sum_{0\le i,j\le n}Q_{ij}X_iX_j$$
+	ma allora \textbf{deomogeneizzando} (ovvero sostituendo il vincolo $x_0=1$) troviamo l'equazione di una quadrica affine, infatti la quadrica proiettiva era un polinomio \textbf{omogeneo} di grado $n$, mentre la quadrica deomogeneizzata sarà un polinomio completo di grado $n$.
+	\begin{definition}[Quadrica immagine e isomorfismo tra quadriche]
+		Se $f:\AA\to\AA'$ è un isomorfismo affine allora la \textit{quadrica immagine} di una quadrica affine $Q$ è la quadrica di supporto
+		$$Q^*=Q\circ f^{-1}.$$
+		Due quadriche affini quindi si dicono \textit{isomorfe} se un isomorfismo affine manda il supporto di una nel supporto dell'altra.
+	\end{definition}
+	Il nostro obbiettivo come sempre sarà classificare le quadriche, ovvero trovare un ristretto insieme di quadriche per cui tutte le altre quadriche siano isomorfe ad almeno un elemento di questo insieme. Cominciamo scomponendo l'equazione della nostra quadrica affine in $3$ pezzi
+	$$Q(\mathbf{x})=Q_2(\mathbf{x})+Q_1(\mathbf{x})+Q_0$$
+	dove $Q_2$ è un polinomio omogeneo di grado $2$, $Q_1$ è un polinomio omogeneo di grado $1$ e $Q_0$ un polinomio omogeneo di grado $0$. Di nuovo nell'ottica della deomogeneizzazione di prima, se $[Q]$ è la deomogeneizzata di una quadrica proiettiva $q$ di matrice $A$, nella carta affine $U_0$ avremo che l'equazione $Q$ di $[Q]$ si scrive come
+	$$Q=
+	\left(
+	\begin{array}{c|c}
+		1 & \mathbf{x}^\intercal
+	\end{array}
+	\right)A\left(
+	\begin{array}{c}
+		1 \\
+		\hline 
+		\mathbf{x}
+	\end{array}
+	\right)
+	$$
+	e notiamo che (ricordando che $A$ è simmetrica) se scriviamo $A$ come
+	$$
+	A=
+	\left(
+	\begin{array}{c|c}
+		a_{00} & v^\intercal \\
+		\hline
+		v & B
+	\end{array}
+	\right)
+	$$
+	abbiamo che 
+	\begin{align*}
+		& Q_2=\mathbf{x}^\intercal B \mathbf{x} \\
+		& Q_1 =\mathbf{x}^\intercal v + v^\intercal \mathbf{x}= 2\mathbf{x}^\intercal v \\
+		& Q_0 = a_{00}
+	\end{align*}
+	questa discussione motiva:
+	\begin{proposition}[Da quadriche proiettive ad affini e viceversa]
+		Esiste una biezione tra le quadriche affini su $\AA^n$ e le quadriche proiettive su $\PP^n$ definita dalla mappa di omogeneizzazione e deomogeneizzazione.
+	\end{proposition}
+	\begin{definition}[Rango di una quadrica affine]
+		Data una quadrica affine $[Q]$ definiamo il suo \textit{rango} come il rango della quadrica proiettiva omogeneizzata di $[Q]$. Diremo che $[Q]$ è \textit{degenere} se è degenere la sua omogeneizzata.
+	\end{definition}
+	Ricordando che abbiamo il ricoprimento affine di $\PP^n$ come 
+	$$\PP^n = \AA^n \cup \AA^{n-1}\cup \dots \cup \AA^0$$
+	abbiamo che 
+	$$\PP^n = \AA^n \cup \PP^{n-1}$$
+	dove i $\PP^{n-1}$ sono i punti all'infinito, come sappiamo bene. Allora con questo concetto alle spalle possiamo definire:
+	\begin{definition}[Quadrica all'infinito]
+		Data una quadrica affine $Q$ in $\AA^n$ e un iperpiano $H_\infty\le \PP^n$ se $\tilde{Q}$ è la quadrica proiettiva omogeneizzata di $Q$ definiamo la \textit{quadrica all'infinito} come la deomogeneizzazione della quadrica proiettiva
+		$$\tilde{Q}\cap H_\infty.$$
+		Questi sono i "punti all'infinito" della nostra quadrica affine.  
+	\end{definition}
+	Se in una base di $\PP^n$ in cui gli ultimi $n$ vettori appartengono ad $H_\infty$ la matrice $A$ della quadrica affine si scrive come
+	$$A=
+	\left(
+	\begin{array}{c|c}
+		a_{00} & v^\intercal \\
+		\hline
+		v & B
+	\end{array}
+	\right)
+	$$
+	$B$ è la matrice della quadrica all'infinito. Gli invarianti su cui lavoreremo allora sono $2$, il rango della matrice $A$ (quindi il rango della quadrica affine) e il rango della matrice $B$ (il rango della quadrica all'infinito).
+	\subsection{Forma canonica di quadriche affini}
+	Prendiamo una quadrica affine $[Q]$ di matrice $A$ e quadrica all'infinito di matrice $B$. Vogliamo scegliere un sistema di riferimento in cui la quadrica $Q$ assuma una forma particolarmente semplice, e per fare ciò cominciamo scegliendo $n$ vettori in $\RR^n$ tali che siano una base $B$-ortogonale. In questo modo la matrice $A$ diventa
+	$$
+	A=
+	\left(
+	\begin{array}{c|c}
+		k & v^\intercal \\
+		\hline
+		v & \begin{array}{cccc}
+				b_1 & 0 & \dots & 0 \\
+				0 & b_2 & \dots & 0 \\
+				\vdots & \vdots & \ddots & \vdots \\
+				0 & 0 & \dots & b_n
+			\end{array}
+	\end{array}
+	\right)
+	$$
+	in questo modo l'equazione di $[Q]$ diventa
+	$$Q=k+2v^\intercal \mathbf{x}+\sum_{i=1}^{n}b_ix_i^2.$$
+	Rimane da decidere l'origine, la scelta evidentemente più conveniente è quella che annulla tutti i termini lineari ovvero l'origine dopo la traslazione 
+	$$x_i \mapsto x_i-\frac{2a_i}{b_i^2}$$
+	questo presuppone che $b_i\ne 0$ in realtà, quindi quello che faremo sarà cancellare i termini lineari solo per 
 	\newpage
 	
 	\part{Modulo B}
