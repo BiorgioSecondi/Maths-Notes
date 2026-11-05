@@ -975,7 +975,7 @@
 	 	da cui segue la tesi.
 	 \end{proof}
 	 Altre applicazioni sono
-	 \begin{lemma}[Abelianizzato ciclico implica abeliano]
+	 \begin{lemma}[Automorfismi interni ciclici implica abeliano]
 	 	Se il gruppo $\faktor{G}{Z(G)}$ è ciclico allora $G=Z(G)$, ovvero $G$ è abeliano.
 	 \end{lemma}
 	 \begin{proof}
@@ -1219,16 +1219,16 @@
 	 		\item L'insieme dei $p$-sylow rispetto all'azione per coniugio di $G$ è un'orbita. Dunque per ogni coppia $S,T$ di $p$-sylow esisterà un $g\in G$ tale che
 	 		$$gSg^{-1}=T$$
 	 		e se la cardinalità di questo insieme è $1$ l'unico $p$-sylow è normale.
-	 		\item Per ogni $p,q\mid \abs{G}$, il numero di $p$-sylow di $G$, denotato con $n_p(G)$ soddisfa
-	 		$$n_p(G)\equiv \delta_{pq} \pmod{q}$$
-	 		dove quel simbolo è la delta di Kronecker.
-	 		\item Per ogni $p$-gruppo $P$ esister un $p$-sylow $Q$ tale che
+	 		\item Per ogni $p\mid \abs{G}$, il numero di $p$-sylow di $G$, denotato con $n_p(G)$ soddisfa
+	 		$$n_p(G)\equiv 1 \pmod{p}$$
+	 		e inoltre abbiamo che $n_p$ divide ogni  $\abs{G:P}$ per ogni $P$ che sia un $p$-sylow.
+	 		\item Per ogni $p$-gruppo $P$ esiste un $p$-sylow $Q$ tale che
 	 		$$P\le Q \le G.$$
 	 	\end{enumerate}
 	 \end{theorem}
 	 \begin{proof}
 	 	La prima tesi è un semplice corollario del teorema di Cauchy forte trovato sopra.
-	 	Consideriamo $\Sigma$ l'insieme di tutti i $p$-sylow. Facciamo agire $G$ su $\Sigma$ con il coniugio, e consideriamo un'orbita di questa azione $\Omega$. Ma allora consideriamo un $p$-sylow $P\le G$, e consideriamo la sua azione su $\Omega$. Decomponiamo allora
+	 	Consideriamo $\Sigma$ l'insieme di tutti i $p$-sylow. Facciamo agire $G$ su $\Sigma$ con il coniugio, e consideriamo un'orbita di questa azione $\Omega$. Consideriamo inoltre un $p$-sylow $P\le G$, e facciamolo agire su $\Omega$ per coniugio. Decomponiamo allora
 	 	$$\Omega=\mathcal{O}_1\sqcup \mathcal{O}_2 \sqcup \dots \sqcup \mathcal{O}_t$$
 	 	nelle orbite rispetto all'azione di $P$.
 	 	\begin{claim}
@@ -1256,8 +1256,8 @@
 	 	Queste due cose sono contraddittorie, e quindi, dato che $\Omega\ne \eset$, non può esistere un $P\not\in\Omega$, da cui la tesi $2$.
 	 	Per quanto riguarda la tesi $3$, abbiamo già mostrato che
 	 	$$\abs{\Omega}\equiv 1 \pmod{p}$$
-	 	d'altra 
-	 	Manca la tesi $4$, ma d'altra parte se invece di fare agire un $p$-sylow su $\Omega$ avessimo fatto agire un semplice $p$-gruppo avremmo concluso in ogni caso che $P\le N_P(P_i)$.
+	 	d'altra parte per orbite stabilizzatori abbiamo $\abs{\Omega}=\abs{G:N_G(P)}\mid \abs{G:P}$ da cui segue anche la seconda parte della tesi $3$. \\
+	 	Manca la tesi $4$, ma d'altra parte se invece di fare agire un $p$-sylow su $\Omega$ avessimo fatto agire un semplice $p$-gruppo avremmo concluso in ogni caso che $P\le N_P(P_i)$. Dunque da questo segue
 	 	$$P\le N_G(P_i)$$
 	 	e quindi per il lemma $P\le P_i$, con $P_i$ un $p$-sylow, da cui la tesi $4$.
 	 \end{proof}
