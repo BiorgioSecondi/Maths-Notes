@@ -716,18 +716,18 @@
 	 \end{align*}
 	 l'immagine di questo omomorfismo appunto si dice insieme degli automorfismi \textit{interni} di $G$. Si capisce subito anche che il kernel di questo morfismo è proprio $Z(G)$, da cui
 	 $$\faktor{G}{Z(G)}\cong \text{Inn}(G).$$
-	\begin{exercise}[Automorfismi interni di abeliani]
+	\begin{proposition}[Automorfismi interni di abeliani]
 		L'applicazione 
 		\begin{align*}
 			\varphi:G & \to G \\
 			g & \mapsto g^{-1}
 		\end{align*}
 		è un automorfismo se e solo se $G$ è abeliano.
-	\end{exercise}
+	\end{proposition}
 	\begin{proof}
 		Se $G$ è abeliano abbiamo che 
 		$$\left(g_1g_2\right)^{-1}=g_1^{-1}g_2^{-1}$$
-		e quindi è proprio un omomorfismo.
+		e quindi è proprio un omomorfismo. D'altra parte se $\varphi$ è un automorfismo
 	\end{proof}
 	\begin{exercise}
 		Studiare gli automorfismi di $S_3$.
@@ -835,7 +835,7 @@
 		$$g\circ x=gx$$
 		ma dato che lo stabilizzatore di questa azione è banale per ogni $g$, abbiamo che il $\ker{\sigma}$ è banale, e quindi questa è proprio una biezione. Insomma abbiamo ritrovato che $\sigma$ è l'isomorfismo che avevamo usato per dimostrare Cayley.
 	\end{example}
-	\begin{example}[Coniugio]
+	\begin{example}[Stabilizzatore del Coniugio]
 		Facciamo agire $G$ su se stesso nel seguente modo:
 		$$g\circ x:= gxg^{-1}$$
 		per ogni $x$ a questo punto abbiamo
@@ -845,7 +845,7 @@
 		$$\abs{G\circ x}=\abs{G:C_G(x)}$$
 		l'orbita di $x$ in questo caso si chiama \textit{classe di coniugio}, e questa è una formula molto esplicita che ci permette di dire che cardinalità ha una generica classe di coniugio.
 	\end{example}
-	\begin{example}[Coniugio sulle classi]
+	\begin{example}[Stabilizzatore del coniugio sui sottogruppi]
 		Consideriamo $S(G)$ il reticolo dei sottogruppi di $G$. Facciamo agire $G$ su $S(G)$ nel modo seguente:
 		$$g\circ H=gHg^{-1}$$
 		allora abbiamo che lo stabilizzatore di $H$ è l'insieme
@@ -954,7 +954,7 @@
 	 d'altra parte la classe di coniugio è banale se e solo se $g_i\in Z(G)$, ovvero $\abs{Z(G)}=r$. Abbiamo quindi tutti gli elementi per dimostrare:
 	 \begin{proposition}[Equazione delle classi]
 	 	Per ogni gruppo finito $G$ abbiamo che
-	 	$$\abs{G}=\sum_{i}\frac{\abs{G}}{C_G(g_i)}=\abs{Z(G)}+\sum_{r+1\le i\le t}\frac{\abs{G}}{\abs{C_G(g_i)}}$$
+	 	$$\abs{G}=\sum_{i}\frac{\abs{G}}{C_G(g_i)}=\abs{Z(G)}+\sum_{g_i\in G\setminus Z(G)}\frac{\abs{G}}{\abs{C_G(g_i)}}$$
 	 	con $\abs{G}/\abs{C_G(g_i)}\ne 1$ per ogni $g_i$.
 	 \end{proposition}
 	 \begin{proof}
@@ -1059,7 +1059,7 @@
 	 	dato che $H$ è proprio $S_3$ (sono le permutazioni di $1$, $2$ e $3$). Ma d'altra parte $S_3$ è un gruppo molto piccolo e semplice, e qui è facile realizzare che 
 	 	\begin{center}
 	 		\begin{tikzcd}
-	 			&  & S_3\arrow[dr]\arrow[drr]\arrow[dl]\arrow[dll]&  & \\
+	 			&  & S_3\arrow[dr,no head]\arrow[drr,no head]\arrow[dl, no head]\arrow[dll,no head]&  & \\
 	 			(12)& (23) &    &  (231)& (123) \\
 	 			&& 1 &&
 	 		\end{tikzcd}
@@ -1070,54 +1070,6 @@
 	 	D'altra parte se $N$ contiene una sola trasposizione non può essere normale, se contiene un ciclo da $4$ abbiamo
 	 	$$(1,2,3,4)^2=(13)(24)$$
 	 	e quindi abbiamo intersezione non nulla con il klein. E se contiene un $3$ ciclo sarà un sottogruppo normale di $S_3$, e quindi abbiamo che ricadrà in uno dei gruppi sopra al klein.
-	 \end{proof}
-	 
-	 \subsection{Gruppi semplici}
-	 
-	 La seguente definizione è di vitale importanza:
-	 \begin{definition}[Gruppo semplice]
-	 	Un gruppo $G$ che non ha altri sottogruppi normali oltre a $1$ e se stesso si dice \textit{semplice}.
-	 \end{definition}
-	 Lo studio dei gruppi semplici è stato uno dei motori dell'algebra, in particolare da parte di Galois nello studio delle equazioni polinomiali. Quello che mostrò Galois è
-	 \begin{theorem*}[Semplicità degli alterni]
-	 	Per ogni $n\ge 5$ il gruppo $A_n$ è semplice. 
-	 \end{theorem*}
-	 Che implica nella teoria di Galois che non esistono formule risolutive per equazioni di grado $n\ge 5$. Questo teorema è abbastanza difficile, e quindi noi ci accontenteremo di 
-	 \begin{theorem}[Irrisolubilità delle quintiche]
-	 	Il gruppo $A_5$ è semplice.
-	 \end{theorem}
-	 \begin{proof}
-	 	Cominciamo contando le classi di coniugio:
-	 	\begin{itemize}
-	 		\item Per $1\in A_5$ la classe ha ordine $1$.
-	 		\item Per $(12)(34)$ la classe ha ordine $15=\half\binom{5}{2}\binom{3}{2}$.
-	 		\item Per $(123)$ la classe ha ordine $20$. 
-	 		\item Per $(12345)$ la classe ha ordine $24$.
-	 	\end{itemize}
-	 	Questo succede in $S_5$. Per trovare i corrispettivi in $A_5$ dobbiamo trovare i centralizzanti in $S_5$ e intersecarli con $A_5$. Infine usiamo il fatto che un sottogruppo normale è unione disgiunta di classi di coniugio per trovare che tutte le possibili combinazioni di classi di coniugio non dividono $60$.
-	 \end{proof}
-	 Un'altra cosa che si può fare
-	 \begin{exercise}
-	 	Trovare tutti i coniugati di $H$ in $S_4$, dove $H$ è 
-	 	$$\left\{\sigma\in S_4:\sigma(1)=1\right\}.$$ 
-	 \end{exercise}
-	 \begin{proof}[Soluzione]
-	 	Per il teorema di Lagrange abbiamo che il numero che stiamo cercando è semplicemente
-	 	$$\abs{S_4:N_{S_4}(H)}$$
-	 	d'altra parte per quanto mostrato sopra l'unico gruppo normale che contiene $H$ è proprio $A_5$, dunque $\abs{S_4:N_{S_4}(H)}=2$. BHO NON HO CAPITO.
-	 \end{proof}
-	 Questo ci suggerisce il seguente risultato.
-	 \begin{proposition}[Il coniugio per sottogruppi non dà classi]
-	 	Prendiamo un $H<G$ strettamente diverso da $G$. Vogliamo dimostrare allora che
-	 	$$\bigcup_{g\in G}gHg^{-1}\ne G$$
-	 	cioè non possiamo scrivere $G$ come unione di coniugati di $H$ un suo sottogruppo proprio.
-	 \end{proposition}
-	 \begin{proof}
-	 	Sia $\Omega$ l'insieme della tesi, allora abbiamo che, per definizione di normalizzante
-	 	$$\abs{\Omega}\le 1+\frac{\abs{G}}{\abs{N_G(H)}}\left(\abs{H}-1\right)$$
-	 	ma d'altra parte allora possiamo stimare
-	 	$$1+\frac{\abs{G}}{\abs{N_G(H)}}\left(\abs{H}-1\right)\le 1+\frac{\abs{G}}{\abs{H}}\left(\abs{H}-1\right)=1+\abs{G}-\frac{\abs{G}}{\abs{H}}<\abs{G}$$
-	 	da cui la tesi.
 	 \end{proof}
 	 
 	 \subsection{Teoremi di Sylow e Cauchy}
@@ -1257,9 +1209,10 @@
 	 	Per quanto riguarda la tesi $3$, abbiamo già mostrato che
 	 	$$\abs{\Omega}\equiv 1 \pmod{p}$$
 	 	d'altra parte per orbite stabilizzatori abbiamo $\abs{\Omega}=\abs{G:N_G(P)}\mid \abs{G:P}$ da cui segue anche la seconda parte della tesi $3$. \\
-	 	Manca la tesi $4$, ma d'altra parte se invece di fare agire un $p$-sylow su $\Omega$ avessimo fatto agire un semplice $p$-gruppo avremmo concluso in ogni caso che $P\le N_P(P_i)$. Dunque da questo segue
-	 	$$P\le N_G(P_i)$$
-	 	e quindi per il lemma $P\le P_i$, con $P_i$ un $p$-sylow, da cui la tesi $4$.
+	 	Manca la tesi $4$, ma d'altra parte se invece di fare agire un $p$-sylow su $\Omega$ avessimo fatto agire un semplice $p$-gruppo avremmo concluso che, visto che $$\abs{\Omega}\equiv 1 \pmod{p}$$
+	 	e tutte le $P$-orbite di $\Omega$ hanno cardinalità una potenza di $P$, allora deve esistere almeno un'orbita di cardinalità $1$, sia $\mathcal{O}=\left\{Q\right\}$. Allora dobbiamo avere che 
+	 	$$P\le N_G(Q)$$
+	 	da cui $P\le Q$ per il lemma, il che mostra la tesi 4.
 	 \end{proof}
 	 Vediamo qualche applicazione. 
 	 \begin{exercise}
@@ -1463,6 +1416,80 @@
 		$$U(R)=\left\{\pm 1,\pm i, \pm j, \pm k \right\}$$
 		che è proprio il gruppo che stavamo cercando, di solito denotato con $Q_8$.
 	\end{itemize}
+	
+	\subsection{Gruppi semplici}
+	
+	La seguente definizione è di vitale importanza:
+	\begin{definition}[Gruppo semplice]
+		Un gruppo $G$ che non ha altri sottogruppi normali oltre a $1$ e se stesso si dice \textit{semplice}.
+	\end{definition}
+	Lo studio dei gruppi semplici è stato uno dei motori dell'algebra, in particolare da parte di Galois nello studio delle equazioni polinomiali. Quello che mostrò Galois è
+	\begin{theorem*}[Semplicità degli alterni]
+		Per ogni $n\ge 5$ il gruppo $A_n$ è semplice. 
+	\end{theorem*}
+	Che implica nella teoria di Galois che non esistono formule risolutive per equazioni di grado $n\ge 5$. Questo teorema è abbastanza difficile, e quindi noi ci accontenteremo di 
+	\begin{theorem}[Irrisolubilità delle quintiche]
+		Il gruppo $A_5$ è semplice.
+	\end{theorem}
+	\begin{proof}
+		Cominciamo contando le classi di coniugio:
+		\begin{itemize}
+			\item Per $1\in A_5$ la classe ha ordine $1$.
+			\item Per $(12)(34)$ la classe ha ordine $15=\half\binom{5}{2}\binom{3}{2}$.
+			\item Per $(123)$ la classe ha ordine $20$. 
+			\item Per $(12345)$ la classe ha ordine $24$.
+		\end{itemize}
+		Questo succede in $S_5$. Per trovare i corrispettivi in $A_5$ dobbiamo trovare i centralizzanti in $S_5$ e intersecarli con $A_5$. Infine usiamo il fatto che un sottogruppo normale è unione disgiunta di classi di coniugio per trovare che tutte le possibili combinazioni di classi di coniugio non dividono $60$.
+	\end{proof}
+	Un'altra cosa che si può fare
+	\begin{exercise}
+		Trovare tutti i coniugati di $H$ in $S_4$, dove $H$ è 
+		$$\left\{\sigma\in S_4:\sigma(1)=1\right\}.$$ 
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Per orbite stabilizzatori abbiamo che il numero che stiamo cercando è semplicemente
+		$$\abs{S_4:N_{S_4}(H)}$$
+		d'altra parte per quanto mostrato sopra l'unico gruppo normale che contiene $H$ è proprio $A_5$, dunque $\abs{S_4:N_{S_4}(H)}=2$. BHO NON HO CAPITO.
+	\end{proof}
+	Questo ci suggerisce il seguente risultato.
+	\begin{proposition}[Il coniugio per sottogruppi non dà classi]
+		Prendiamo un $H<G$ strettamente diverso da $G$. Vogliamo dimostrare allora che
+		$$\bigcup_{g\in G}gHg^{-1}\ne G$$
+		cioè non possiamo scrivere $G$ come unione di coniugati di $H$ un suo sottogruppo proprio.
+	\end{proposition}
+	\begin{proof}
+		Sia $\Omega$ l'insieme della tesi, allora abbiamo che, per definizione di normalizzante
+		$$\abs{\Omega}\le 1+\frac{\abs{G}}{\abs{N_G(H)}}\left(\abs{H}-1\right)$$
+		ma d'altra parte allora possiamo stimare
+		$$1+\frac{\abs{G}}{\abs{N_G(H)}}\left(\abs{H}-1\right)\le 1+\frac{\abs{G}}{\abs{H}}\left(\abs{H}-1\right)=1+\abs{G}-\frac{\abs{G}}{\abs{H}}<\abs{G}$$
+		da cui la tesi.
+	\end{proof}
+	\begin{theorem}[$A_5$ è il più piccolo gruppo semplice non abeliano]
+		Sia $G$ un gruppo semplice non abeliano, allora se $\abs{G}\le 60$ abbiamo
+		$$G\cong A_5.$$
+	\end{theorem}
+	\begin{proof}
+		Se $\abs{G}=p^nq$ allora 
+		$$n_p(G)=1$$
+		come conseguenza del terzo teorema di Sylow, come al solito. Dunque in questo caso $G$ non è semplice. D'altra parte abbiamo anche mostrato che i gruppi di ordine $2m$ con $m$ dispari non è semplice (ha un sottogruppo ciclico di ordine $m$), e abbiamo anche mostrato che tutti i $p$-gruppi hanno centro non banale (o sono ciclici). Le uniche possibilità che rimangono allora sono:
+		$$20,24,28,36,40,44,45,48,52,56$$
+		il $56$ abbiamo già mostrato essere non semplice, in quanto ha almeno un sylow normale. In modo più o meno analogo si escludono tutti gli altri (ragionando su quello che fanno i vari sylow). Abbiamo quindi mostrato che se $\abs{G}<60$ non abeliano allora è per forza non semplice. Rimane da mostrare che un gruppo semplice di ordine $60$ e non abeliano è isomorfo ad $A_5$. Prendiamo un qualunque sottogruppo proprio $H$ di $G$. Dobbiamo avere che 
+		$$\abs{G:H}\ge 5$$
+		in quanto altrimenti sarebbe normale (e se l'indice fosse $4$ si immergerebbe in $S_4$, troppo piccolo). Allora se l'indice è proprio $5$ necessariamente abbiamo
+		$$G\le S_5$$
+		e quindi $G\cong A_5$. Supponiamo allora che $\abs{G:H}\ge 6$. Enumeriamo allora tutti gli elementi di $G$ per ordine:
+		$n_3(G)\equiv 1 \pmod{3}$
+		e $n_3(G)\mid 20$ quindi $n_3(G)=10$. Abbiamo allora $20$ elementi di ordine $3$. D'altra parte abbiamo
+		$$n_5(G)\equiv 1 \pmod{5}$$
+		e divide $12$, quindi abbiamo $6$ gruppi $5$-sylow, e $24$ elementi di ordine $5$. Infine
+		$$n_2(G)\mid 15$$
+		e non può essere $3$ o $5$ perché altrimenti il normalizzante avrebbe indice troppo piccolo. Abbiamo quindi $15$ sottogruppi di $2$-sylow. Se tutti i $2$-sylow non si intersecano abbiamo finito (perché abbiamo trovato più di $60$ elementi, e quindi abbiamo una contraddizione) altrimenti se $P_1$ e $P_2$ si intersecano avremo
+		$$P_1\cap P_2\cong C_2$$
+		adesso abbiamo due casi: se $\langle P_1,P_2\rangle$ non è $G$ allora ha indice un divisore proprio di $15$, assurdo per quanto assunto sull'ordine minimo di un sottogruppo in $G$. Allora dobbiamo avere
+		$$G=\langle P_1,P_2\rangle$$
+		ma dato che $P_1$ e $P_2$ sono entrambi abeliani (hanno ordine $p^2$) dobbiamo avere che gli elementi di $P_1\cap P_2$ commutano sia con gli elementi di $P_1$ che di $P_2$, ovvero commutano con tutto $G$! Ma allora $Z(G)\ge P_1\cap P_2\cong C_2$ e quindi abbiamo trovato un sottogruppo normale di $G$.
+	\end{proof}
+	
 	
 	\subsection{Struttura dei gruppi abeliani}
 	
@@ -1729,6 +1756,66 @@
 		\end{center} 
 		dove $\abs{G}=p^am$ e $a_1+a_2=a$, $m=m_1m_2$. Allora $P\cap N\in \text{Syl}_p(N)$ è un sylow di $N$, e quindi per il teorema di omomorfismo abbiamo che $\faktor{PN}{N}\in \text{Syl}_p(G/N)$.
 	\end{exercise}
+	\begin{exercise}[Landau]
+		Per ogni $n$ esistono solo finiti gruppi con al più $n$ classi di coniugio.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Per l'equazione delle classe abbiamo che 
+		$$\abs{G}=\sum_{g\in G}\frac{\abs{G}}{C_G(g)}$$
+		e quindi chiamando $x_i:=\abs{C_G(g)}$ ci riconduciamo a risolvere la seguente diofantea
+		$$1=\frac{1}{x_1}+\frac{1}{x_2}+\dots+\frac{1}{x_n}$$
+		ci basta allora mostrare che questa equazione ha finite soluzioni. Assumiamo $x_1\le \dots \le x_n$. Abbiamo che
+		$$1=\frac{1}{x_1}+\frac{1}{x_2}+\dots+\frac{1}{x_n}\le \frac{n}{x_1}$$
+		e quindi 
+		$$x_1\le n.$$
+		Supponiamo allora per induzione che
+		$$\frac{n-i}{x_{i+1}}\ge \frac{1}{x_{i+1}}+\dots+\frac{1}{x_n}$$
+		allora usando la diofantea abbiamo
+		$$\frac{n-i}{x_{i+1}}\ge 1-\left(\frac{1}{x_1}+\frac{1}{x_2}+\dots+\frac{1}{x_i}\right)$$
+		da cui otteniamo
+		$$x_{i+1}\le (n-i)(x_1x_2\dots x_i)$$
+		da cui per induzione abbiamo la tesi.
+	\end{proof}
+	\begin{exercise}
+		Studia tutti i gruppi di ordine $105$.
+	\end{exercise}
+	\begin{proof}
+		Se $G$ è abeliano è semplicemente $C_3\times C_5\times C_7$ (in particolare è ciclico). Cominciamo con sylow, abbiamo
+		$$n_5(G)\in \left\{1,21\right\}$$
+		e allo stesso modo
+		$$n_7(G)\in \left\{1,15\right\}$$
+		d'altra parte questi due numeri sono molto grandi, infatti se avessimo $n_5(G)=21$ e $n_7(G)=15$ avremmo 
+		$$4\cdot 21+6\cdot 15 > 105$$
+		e quindi abbiamo troppi elementi. Abbiamo allora due casi:
+		\begin{itemize}
+			\item Se $n_5=1$ abbiamo un $C_5\normal G$ allora considerando $C_G(C_5)$ dobbiamo avere che 
+			$$\faktor{G}{C_G(C_5)}\le \text{Aut}(C_5)\cong C_4$$
+			il che vuol dire che $G=C_G(C_5)$ ma allora preso un $7$-sylow $P_7$ abbiamo che 
+			$$N_G(P_7)\ge C_G(P_7)\ge P_5$$
+			da cui otteniamo che 
+			$$n_7=\abs{G:N_G(P_7)}\le 3$$
+			ovvero è proprio $1$.
+			\item In modo del tutto analogo si dimostra che $n_7=1$ implica $n_5=1$.
+		\end{itemize}
+		Allora $G$ si può scrivere come
+		$$G\cong \left(C_5\times C_7\right)\rtimes C_3$$
+		ma dato che l'azione di $C_3$ su $C_5$ è per forza un automorfismo di $C_5$, ovvero deve essere un sottogruppo di $\text{Aut}(C_5)\cong C_4$, ma dato che $C_3\cap C_4=1$ abbiamo per forza che l'azione di $C_3$ su $C_5$ è quella banale, ovvero
+		$$G\cong C_5\times \left(C_7\rtimes C_3\right)$$
+		e quindi visto che esiste un solo gruppo non abeliano di ordine $21$ abbiamo finito.
+	\end{proof}
+	
+	\begin{exercise}
+		Sia $G$ un gruppo finito non abeliano tale che tutti i suoi sottogruppi propri siano abeliani. Dimostriamo che $G$ non è semplice.
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Prendiamo due sottogruppi massimali $M_1$ ed $M_2$, allora abbiamo che 
+		$$M_1\cap M_2 \le C_G(M_1),C_G(M_2)$$
+		d'altra parte per massimalità abbiamo
+		$$G=\langle M_1,M_2\rangle$$
+		dunque abbiamo che $M_1\cap M_2\le Z(G)$, e quindi se $Z(G)$ è non banale abbiamo che $G$ non è semplice. Assumiamo allora che $Z(G)$ sia banale, allora tutti i massimali hanno intersezione banale. Ma allora possiamo decomporre $G$ in massimali
+		$$G\setminus \left\{1\right\}=\bigsqcup_{M\overset{max}{\le} G} M\setminus\left\{1\right\} $$
+	\end{proof}
+	
 	\newpage
 	
 	\subsection{$\bigstar$ Appendice: Gruppi noti}
@@ -1755,7 +1842,7 @@
 		\item[Ordine 18:] Ciclico $C_{18}$, Abeliano $C_2\times C_9$, Abeliano $C_2\times C_3\times C_3$, Diedrale $D_9$ (ALTRO?).
 		\item[Ordine 19:] Ciclico $C_{19}$.
 		\item[Ordine 20:]
-		\item[Ordine 21:] Ciclico $C_{21}$, Abeliano $C_3\times C_7$, .
+		\item[Ordine 21:] Ciclico $C_{21}$, Abeliano $C_3\times C_7$, Con azione di coniugio.
 		\item[Ordine 22:] Ciclico $C_{22}$, Abeliano $C_{11}\times C_2$, Diedrale $D_{11}\cong C_{11}\rtimes C_2$.
 		\item[Ordine 23:] Ciclico $C_{23}$.
 		\item[Ordine 24:] Ciclico $C_{24}$, Abeliano $C_3\times C_2\times C_2\times C_2$, Abeliano $C_3\times C_4\times C_2$, Abeliano $C_3\times C_8$, Diedrale $D_{12}\cong C_{12}\rtimes C_2$, Simmetrico $S_{4}$. 

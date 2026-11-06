@@ -2290,7 +2290,74 @@
 	$$Q=k+2v^\intercal \mathbf{x}+\sum_{i=1}^{n}b_ix_i^2.$$
 	Rimane da decidere l'origine, la scelta evidentemente più conveniente è quella che annulla tutti i termini lineari ovvero l'origine dopo la traslazione 
 	$$x_i \mapsto x_i-\frac{2a_i}{b_i^2}$$
-	questo presuppone che $b_i\ne 0$ in realtà, quindi quello che faremo sarà cancellare i termini lineari solo per 
+	questo presuppone che $b_i\ne 0$ in realtà, quindi quello che faremo sarà cancellare i termini lineari solo per i termini con $b_i\ne 0$. Questo ci porta alla classificazione di tutte le quadriche affini:
+	\begin{enumerate}
+		\item Se possiamo cancellare tutti i termini lineari e $k=0$ abbiamo
+		$$Q=\sum_{i=1}^r a_ix_i^2$$
+		dove $r$ è il rango di $B$.
+		\item Se possiamo cancellare tutti i termini lineari e $k\ne 0$ abbiamo
+		$$Q=1+\sum_{i=1}^r a_ix_i^2$$
+		dove ancora $r$ è il rango di $B$.
+		\item Se non riusciamo a cancellare tutti i termini lineari e $r<n$ possiamo compattare tutti i termini lineari (tramite un'opportuna trasformazione) nell'ultima coordinata, ottenendo
+		$$Q=\sum_{i=1}^{r}a_ix_i^2+2x_n.$$
+	\end{enumerate}
+	Se assumiamo anche che il campo su cui lavoriamo sia algebricamente chiuso (ovvero nello specifico $\KK=\CC$) possiamo anche ignorare tutti gli $a_i$ e assumere che siano $1$ (sempre per Sylvester).
+	
+	\begin{proposition}[Classificazione reale delle quadriche affini]
+		Se $\KK=\RR$ ogni quadrica affine è isomorfa tramite affinità a una delle quadriche seguenti:
+		\begin{enumerate}
+			\item Nel primo caso, con una matrice $B$ di segnatura $(p,q)$ abbiamo
+			$$Q=\sum_{i=1}^{p}x_i^2-\sum_{i=p+1}^{r}x_i^2$$
+			dove di nuovo $r$ è il rango.
+			\item Nel secondo caso, con una matrice $B$ di segnatura $(p,q)$ abbiamo
+			$$Q=\sum_{i=1}^{p}x_i^2-\sum_{i=p+1}^{r}x_i^2+1.$$
+			\item Nel terzo caso, con una matrice $B$ di segnatura $(p,q)$ abbiamo
+			$$Q=\sum_{i=1}^{p}x_i^2-\sum_{i=p+1}^{r}x_i^2+2x_n$$
+			dove quest'ultimo caso si verifica se e solo se $r<n$ ovvero $p+q<n$.
+		\end{enumerate} 
+	\end{proposition}
+	
+	\subsection{Parametrizzazione di coniche}
+	
+	Prendiamo una \textit{conica} $q$ definita su $\PP^2$, con supporto non vuoto, e un $p$ appartenente a tale supporto. Consideriamo allora una retta $l$ che non passi per $p$, e prendiamo la proiezione
+	$$\pi_{l}^p:\PP^2\setminus\left\{p\right\}\to l\cong \PP^1$$
+	questa sappiamo geometricamente come agisce, ovvero ogni $p'\in \text{supp}(q)$ viene mandato nell'intersezione tra la retta $p\lor p'$ e la retta $l$:
+	$$p'\mapsto \left(p\lor p'\right)\land l.$$
+	Normalmente non potremmo davvero scegliere un'immagine per $p'$, tuttavia se consideriamo la proiezione $\pi$ (sopprimiamo indici e pedici, dando per scontato che sia chiaro che sia la proiezione su $l$ lungo $p$) e la restringiamo al supporto della conica $\text{supp}(q)$, c'è un punto che ci verrebbe da associare naturalmente a $p$, ovvero l'intersezione 
+	$$p \mapsto p^\perp \land l$$
+	dove $p^\perp$ è la polare di $p$. \\
+	Facciamo un conto esplicito per convincerci che ciò sia possibile, prendiamo una conica proiettiva in $\CC$ non degenere, allora questa sarà WLOG isomorfa a  
+	$$Q=x_0x_1-x_2^2$$
+	allo stesso modo WLOG possiamo assumere che $p=[1:0:0]$ e che 
+	$$l:x_0=0$$
+	allora la polare di $p$ è
+	$$\mathbb{T}_pq:x_1=0$$
+	e quindi l'intersezione tra $l$ e questa polare è 
+	$$\mathbb{T}_pq\land l= [0:0:1].$$
+	D'altra parte la mappa $\pi:\text{supp}(q)\to \PP^1$ è
+	$$[x_0:x_1:x_2]\mapsto
+	\begin{cases}
+		[x_1:x_2] & \text{se $\left(x_1,x_2\right)\ne (0,0)$} \\
+		[x_2:x_0] & \text{se $\left(x_2,x_0\right)\ne (0,0)$}
+	\end{cases}
+	$$
+	restringiamo allora questa mappa al supporto. I punti del supporto hanno la forma
+	$$[x_0:x_1:x_2]=[x_0x_1:x_1^2:x_2x_1]=[x_2^2:x_1^2:x_1x_2]$$
+	e quindi la mappa che abbiamo definito manda
+	$$[x_2^2:x_1^2:x_1x_2]\mapsto
+	\begin{cases}
+		[x_1^2:x_1x_2] & \text{se $\left(x_1^2,x_1x_2\right)\ne (0,0)$} \\
+		[x_1x_2:x_2^2] & \text{se $\left(x_1x_2,x_2^2\right)\ne (0,0)$}
+	\end{cases}
+	$$ 
+	che è evidentemente biettiva, e la verifica è lasciata al lettore. (METTI UN DISEGNO CON TUTTE LE FORME DI QUADRICHE AFFINI).
+	\subsection{Quadriche euclidee}
+	Le quadriche euclidee non hanno davvero niente di diverso da quelle affini, eccetto che \textbf{il concetto di isomorfismo non è definito tramite affinità, ma tramite rigidità}. Si può mostrare che una quadrica non degenere euclidea è sempre scrivibile in una delle seguenti forme:
+	$$Q=\sum_{i=1}^p a_ix_i^2-\sum_{i=p+1}^n a_ix_i^2 +1$$
+	oppure 
+	$$Q=\sum_{i=1}^{p} a_ix_i^2-\sum_{i=p+1}^{n-1}a_ix_i^2 +2x_n$$ 
+	
+	
 	\newpage
 	
 	\part{Modulo B}

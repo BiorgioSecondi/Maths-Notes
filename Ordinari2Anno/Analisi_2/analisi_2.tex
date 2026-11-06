@@ -2429,6 +2429,122 @@
 		in tutti i punti lungo la retta $x=y$ abbiamo punti critici, ma nessuno di questi è un punto di massimo o di minimo.
 	\end{example}
 	
+	\subsection{Convessità}
+	
+	\begin{definition}[Insieme convesso]
+		Un sottoinsieme $A\subseteq\RR^n$ si dice \textit{convesso} se per ogni $x,y\in A$ abbiamo che il segmento $[x,y]:=\left\{tx+(1-t)y:t\in [0,1]\right\}$
+		è contenuto in $A$.
+	\end{definition}
+	\begin{definition}[Funzione convessa]
+		Se $A$ è un insieme convesso una funzione $f:A\to\RR$ è \textit{convessa} se per per ogni $x,y\in A$ si ha che
+		$$f\left(tx+(1-t)y\right)\le tf(x)+(1-t)f(y)$$
+		e si dice \textit{strettamente convessa} se vale sempre la disuguaglianza stretta (per ogni $x\ne y$ e per ogni $t\not\in \left\{0,1\right\}$).
+	\end{definition}
+	\begin{theorem}[Caratterizzazione della convessità in $C^1$]
+		Prendiamo un $A\subseteq\RR^n$ aperto convesso e una $f\in C^1(A)$, allora sono equivalenti le seguenti:
+		\begin{itemize}
+			\item[(a)] $f$ è convessa.
+			\item[(b)] Per ogni $x,y\in A$ si ha che
+			$$f(y)\ge f(x)+\langle \nabla f(x),x-y\rangle.$$
+			\item[(c)] Per ogni coppia di punti $x,y\in A$ abbiamo che
+			$$\langle \nabla f (x)-\nabla f(y),x-y\rangle \ge 0$$
+		\end{itemize}
+	\end{theorem}
+	\begin{remark}
+		La terza condizione in $\RR$ è semplicemente
+		$$\left(f'(x)-f'(y)\right)(x-y)\ge 0$$
+		cioè $f'$ è crescente.
+	\end{remark}
+	\begin{proof}
+		Iniziamo dimostrando che (a) implica (b). Per definizione di convessità abbiamo
+		$$f\left(ty+(1-t)x\right)\le tf(y)+(1-t)f(x)$$
+		che riordinando un po' i termini diventa
+		$$\frac{f\left(x+t(y-x)\right)-f(x)}{t}\le f(y)-f(x)$$
+		ma allora facendo tendere $t\to 0$ questo ci dà
+		$$\frac{\partial f}{\partial(y-x)}(x)\le f(y)-f(x)$$
+		e usando il fatto che $f\in C^1(A)$ possiamo scrivere quella derivata direzionale con il gradiente, e quindi abbiamo proprio la tesi. \\
+		Per mostrare che (b) implica (c) ci basta invertire $x$ e $y$ nella formula che abbiamo trovato sopra, ottenendo
+		\begin{gather*}
+			f(y)\ge f(x)+\langle \nabla f(x),y-x\rangle \\
+			f(x)\ge f(y)+\langle \nabla f(y),x.y\rangle
+		\end{gather*}
+		e quindi sommando membro a membro abbiamo proprio la tesi. \\
+		 Dimostriamo infine che (c) implica (a): per ogni $x,y\in A$ definiamo la funzione
+		 $$g(t):=f(tx+(1-t)y)=:f(P_t)$$
+		 dove $P_t$ è definito proprio come quella combinazione lineare. Per mostrare che $f$ è convessa ci basta mostrare che è convessa $g$, cioè ci basta mostrare che
+		 $$g'(t)=\langle \nabla f(P_t),x-y\rangle$$
+		 è una funzione crescente. Ma allora presi $0\le s < t \le 1$ vogliamo mostrare che 
+		 $$(t-s)(g'(t)-g'(s))\ge 0$$
+		 d'altra parte con un conto esplicito si vede che
+		 $$(t-s)(g'(t)-g'(s))=(t-s)\langle \nabla f(P_t)-\nabla f(P_s),x-y\rangle=\langle \nabla f(P_t)-\nabla f(P_s),P_t-P_s\rangle \ge 0$$
+		 e quindi abbiamo finito.
+	\end{proof}
+	\begin{theorem}[Caratterizzazione della convessità in $C^2$]
+		Sia $A\subseteq\RR^n$ un aperto convesso, e sia $f\in C^2(A)$ allora sono equivalenti le seguenti:
+		\begin{itemize}
+			\item[(a)] $f$ è convessa.
+			\item[(b)] La matrice Hessiana di $f$ è demidefinita positiva, ovvero per ogni $x$ si ha
+			$$Hf(x)\ge 0.$$
+		\end{itemize}
+	\end{theorem}
+	\begin{proof}
+		Dimostriamo prima di tutto che (a) implica (b):
+		preso un $x\in A$ e un $v\in \RR^n$ definiamo la funzione
+		$$g(t):=f(x+tv)$$
+		in $C^2(A)$. Allora questa sarà convessa in un certo intorno $(-\delta,\delta)$ di $0$, ma allora 
+		$$g''(0)\ge 0$$
+		ovvero
+		$$\langle Hf(x)v,v\rangle \ge 0$$
+		che era la prima tesi. Per d'altra parte dimostrare che (b) implica (a) ci basta usare taylor, infatti con il resto di Lagrange ci sarà un $z\in [x,y]$ tale che
+		$$f(x)=f(y)+\langle \nabla f(y),x-y\rangle+\half \langle Hf(z)(x-y),x-y\rangle \ge \langle \nabla f(y),x-y\rangle $$
+		e dunque dalla caratterizzazione in $C^1$ abbiamo che $f$ è convessa.
+	\end{proof}
+	
+	La convessità è particolarmente importante nello studio dei problemi di massimo e minimo.
+	\begin{proposition}[Trovare minimi sulle funzioni convesse e $C^1$ è facile]
+		Se $A\subseteq\RR^n$ è un aperto convesso e $f\in C^1(A)$ è convessa abbiamo che se $x_0$ è un punto critico allora è anche un minimo assoluto.
+	\end{proposition}
+	\begin{proof}
+		Segue dal fatto che 
+		$$f(x)\ge f(x_0)+\langle \nabla f(x_0),x-x_0\rangle$$
+		e il secondo sommando al RHS si annulla se il punto è critico.
+	\end{proof}
+	\begin{proposition}[Se un minimo esiste su una funzione convessa, allora è unico]
+		Se $A\subseteq\RR^n$ è un aperto convesso, $f$ è una funzione strettamente convessa e $x_0$ è un punto di minimo di $f$ su $A$, allora $x_0$ è l'unico punto di minimo.
+	\end{proposition}
+	\begin{proof}
+		Facile.it
+	\end{proof}
+	
+	
+	\subsection{Complementi e risultati avanzati}
+	
+	Utilizzando le nozioni di misura di Lebesgue in $\RR^n$ possiamo formulare il seguente importante teorema:
+	\begin{theorem*}[Rademacher]
+		Una funzione $f:\RR^n\to\RR^m$ lipschitziana è differenziabile quasi ovunque.
+	\end{theorem*}
+	Il fatto che $f$ debba avere come dominio tutto $\RR^n$ è un po' strano, ma in realtà abbiamo un modo per sistemare questa cosa:
+	\begin{theorem}[di estensione di McShane]
+		Se $X$ è uno spazio metrico e $A\subseteq X$ è un suo sottoinsieme, allora per ogni $f:A\to\RR$ lipschitziana esiste una $\tilde{f}:X\to\RR$ lipschitziana tale che
+		$$\tilde{f}_{\mid A}=f$$
+		e ha la stessa costante di lipschitz di $f$.
+	\end{theorem}
+	\begin{corollary}[Estensione a valori vettoriali]
+		Se $X$ è uno spazio metrico allora ogni $f:A\subseteq X \to \RR^m$ lipschitziana può essere estesa in modo lipschitziano su tutto $X$, ma in questo caso la costante di Lipschitz è
+		$$\text{Lip}(\tilde{f})\le \sqrt{m}\text{Lip}(f).$$
+	\end{corollary}
+	Quel bound è stretto: esistono spazi metrici molto brutti in cui quella disuguaglianza è un'uguaglianza. Tuttavia per funzioni $f:\RR^n\to\RR^m$ abbiamo che le costanti di Lipschitz sono proprio uguali (questo è dovuto a Kirszbraun).
+	\begin{theorem}[Convesso implica localmente lipschitziano]
+		Se $A\subseteq\RR^n$ è un aperto convesso e $f:A\to\RR$ è una funzione convessa allora $f$ è localmente lipschitziana, cioè per ogni compatto $K\subset A$ la funzione $f_{\mid K}$ è lipschitz.
+	\end{theorem}
+	\begin{corollary}[Rademacher convesso]
+		Se $f:A\to\RR$ è convessa allora $f$ è differenziabile quasi ovunque su $A$.
+	\end{corollary}
+	\begin{theorem}[Alexandrov]
+		contenuto...
+	\end{theorem}
+	
+	
 	
 	\newpage
 	
