@@ -827,7 +827,7 @@
 		$$\gamma\left(g_1H_\omega\right)=\gamma\left(g_2H_\omega\right)$$
 		allora abbiamo
 		$$g_1\circ \omega=g_2\circ \omega$$
-		ovvero, moltiplicando da entrambi i lati per l'inverso abbiamo $g_2^{-1}\circ g_1\in H$, cioè $g_1H_\omega=g_2H_\omega$! Dunque questa funzione è iniettiva. D'altra parte è anche suriettiva, e dunque dato che $\abs{\Lambda}=\abs{G:H_\omega}$ abbiamo proprio la tesi.
+		ovvero, moltiplicando da entrambi i lati per l'inverso abbiamo $g_2^{-1} g_1\in H$, cioè $g_1H_\omega=g_2H_\omega$! Dunque questa funzione è iniettiva. D'altra parte è anche suriettiva, e dunque dato che $\abs{\Lambda}=\abs{G:H_\omega}$ abbiamo proprio la tesi.
 	\end{proof}
 	Facciamo qualche esempio e vediamo qualche applicazione di questo concetto appena introdotto:
 	\begin{example}[Cayley]
@@ -862,7 +862,7 @@
 		$$\text{Stab}_G(xH)=xHx^{-1}$$
 		in particolare allora il nucleo dell'azione è
 		$$\ker\sigma=\bigcap_{x\in G}xHx^{-1}$$
-		anche questo oggetto ha un nome e un simbolo. Va sotto il nome di $H_G$, si chiama il \textit{cuore normale} di $H$, ed è il più grande sottogruppo normale contenuto in $H$. Infatti se avessimo un $N$ tale che
+		anche questo oggetto ha un nome e un simbolo. Va sotto il nome di $H_G$, si chiama il \textit{cuore normale} di $H$, ed è il più grande sottogruppo normale di $G$ contenuto in $H$. Infatti se avessimo un $N$ tale che
 		$$H\le N\normal G$$
 		allora 
 		$$gHg^{-1}\subseteq gNg^{-1}\normal gGg^{-1}=G$$
@@ -871,13 +871,21 @@
 	Questa è una struttura così notevole che la riportiamo qui come definizione:
 	\begin{definition}[Cuore normale]
 		Dato un $H\le G$ il suo \textit{cuore normale} è 
-		$$H_G:=\bigcap_{x\in G}xHx^{-1}.$$
+		$$H_G:=\bigcap_{x\in G}xHx^{-1}$$
+		o analogamente è il più grande sottogruppo normale di $G$ contenuto in $H$.
 	\end{definition}
-	Supponiamo di avere un sottogruppo $H\le G$ tale che $\abs{G:H}=n$ allora l'azione che abbiamo visto prima è
-	$$\sigma:G\to \text{Symm}(n)$$
-	ma d'altra parte per il primo teorema d'omomorfismo abbiamo che $\faktor{G}{H_G}\le \text{Symm}(n)$ cioè abbiamo per il teorema di Lagrange che 
-	$$\abs{\faktor{G}{H_G}}\mid n!$$
-	questo fatto ci torna utile nella seguente proposizione:
+	\begin{proposition}[Indice del cuore normale in $G$]
+		Se $H\le G$ è tale che $\abs{G:H}=n$ allora 
+		$$\abs{\faktor{G}{H_G}}\mid n!.$$
+	\end{proposition}
+	\begin{proof}
+		L'azione che abbiamo definito sopra di $G$ sull'insieme dei laterali destri $\Lambda$ di $H$ è l'azione di $G$ su un gruppo con $n$ elementi, dunque definisce un omomorfismo
+		$$\sigma:G\to S_n$$
+		di nucleo $H_G$, e dunque per il primo teorema di omomorfismo abbiamo
+		$$\faktor{G}{H_G}\cong \Immagine{\sigma}\le S_n$$
+		da cui segue la tesi.
+	\end{proof}
+	Questo fatto ci torna utile nella seguente proposizione:
 	\begin{proposition}[Normalità di PPP]
 		Prendiamo un gruppo $G$ tale che $\abs{G}=t$, e sia $p$ il più piccolo primo (PPP) che divide $t$. Allora se $\abs{G:H}=p$ abbiamo $H\normal G$.
 	\end{proposition}
@@ -1214,6 +1222,18 @@
 	 	$$P\le N_G(Q)$$
 	 	da cui $P\le Q$ per il lemma, il che mostra la tesi 4.
 	 \end{proof}
+	 \begin{example}[Un $p$-gruppo inserito in più $p$-sylow]
+	 	Il quarto teorema di Sylow dice che ogni $p$-gruppo si può inserire in almeno un $p$-sylow, e questo può non essere unico. Per esempio se consideriamo $S_4$ i suoi $p$-sylow sono tutti isomorfi a $D_4$ e la loro intersezione è isomorfa a $K_4$, che quindi si può inserire in tutti i $p$-sylow.
+	 \end{example}
+	 \begin{proof}
+	 	Per il terzo teorema di sylow abbiamo che
+	 	$$n_2(S_4)\mid 3$$
+	 	d'altra parte abbiamo almeno un gruppo di ordine $8$ non normale, ovvero
+	 	$$D^1_4 \cong \langle (1,2,3,4)\rangle \rtimes \langle (1,3)\rangle$$
+	 	con l'azione di coniugio. Vediamo facilmente che è non normale perché
+	 	$$(1,4)(1,2,3,4)(1,4)^{-1}=(4,2,3,1)$$
+	 	che non è in $D_4^1$. Dunque $S_4$ deve avere esattamente $3$ sottogruppi $2$-sylow.
+	 \end{proof}
 	 Vediamo qualche applicazione. 
 	 \begin{exercise}
 	 	Sia $G$ un gruppo tale che $\abs{G}=148$. Si dimostri che $G$ non è semplice. 
@@ -1252,14 +1272,14 @@
 	 Possiamo ora costruire il reticolo dei sottogruppi di $S_4$:
 	 \begin{center}
 	 	\begin{tikzcd}
-	 		24 & S_4\arrow[d,no head] \\
-	 		12 & A_4 \\
-	 		8 & \\
+	 		24 & & & S_4 &&&&  \\
+	 		12 & A_4 &&&&& \\
+	 		8 & & & & D_4^1 & D_4^2 & D_4^3\\
 	 		6 & \\
 	 		4 & \\
 	 		3 & \\
 	 		2 & \\
-	 		1 & 
+	 		1 &&& \left\{1\right\} &&&
 	 	\end{tikzcd}
 	 \end{center}
 	 \begin{itemize}
@@ -1900,8 +1920,40 @@
 	
 	\section{Anelli}
 	Ricominciamo a parlare di Anelli ricordando una versione forte del teorema cinese del resto:
-	\begin{theorem}
-		contenuto...
+	\begin{theorem}[Teorema cinese del resto]
+		Sia $R$ un anello commutativo, e siano $I_1,\dots,I_t$ tali che 
+		$$I_i+I_j=R$$
+		per ogni $i\ne j$. Allora denotato con $J:=\bigcap_{i=1}^t I_i$ abbiamo che 
+		$$\faktor{R}{J}\cong \faktor{R}{I_1}\times \faktor{R}{I_2}\times \dots \times \faktor{R}{I_t}.$$
 	\end{theorem}
+	\begin{proof}
+		Cominciamo con il dimostrare che per ogni $j$ si ha che
+		$$I_j+\left(\bigcap_{i\ne j}I_i\right)=R$$
+		senza perdita di generalità assumiamo $j=1$, e procediamo per induzione: la base induttiva è 
+		$$I_1+I_2=R$$
+		che è chiaramente vero, supponiamo ora per induzione che per un certo $u<t$ valga
+		$$I_1+\left(\bigcap_{i=2}^u I_i\right)=R$$
+		allora prima di tutto chiaramente abbiamo che
+		$$I_1+\left(\bigcap_{i=2}^{u+1}I_i\right)\subseteq R$$
+		d'altra parte ricordando che, per la proprietà di assorbimento degli ideali si ha $I_iI_j\le I_i \cap I_j\le I_i,I_j$, otteniamo
+		$$R=R^2=\left[I_1+\left(\bigcap_{i=2}^{u}I_i\right)\right]\left(I_1+I_{u+1}\right)=I_1\left(..\right)+I_{u+1}\left(\bigcap_{i=2}^u I_i\right)\subseteq I_1+\bigcap_{i=2}^{u+1}I_i$$
+		da cui abbiamo proprio quello che volevamo. Per mostrare la tesi principale allora costruiamo un isomorfismo esplicitamente tramite la proiezione canonica:
+		\begin{align*}
+			\pi: R & \to \faktor{R}{I_1}\times \faktor{R}{I_2}\times \dots \times \faktor{R}{I_t} \\
+			r & \mapsto \left(r+I_1,r+I_2,\dots,r+I_t\right)
+		\end{align*}
+		affinché l'immagine di questa mappa sia $(0,0,\dots,0)$ dobbiamo avere che $r\in I_i$ per ogni $i$, quindi abbiamo proprio che il kernel è $\bigcap_{i=1}^n I_i$. Rimane da mostrare che è suriettiva, d'altra parte preso un $(a_1,\dots,a_t)\in R^t$ possiamo decomporre ogni $a_i$ come
+		$$a_i=x_i+y_i$$
+		con $x_i\in I_i$ e $y_i\in \bigcap_{j\ne i} I_j$. Allora l'elemento che cerchiamo è proprio
+		$$a:=y_1+y_2+\dots+y_t$$
+		infatti 
+		$$a+I_i=y_i+I_i=x_i+y_i+I_i=a_i+I_i$$
+		e quindi
+		$$\pi(a)=\left(a_1+I_1,a_2+I_2,\dots,a_t+I_t\right)$$
+		come volevamo.
+	\end{proof}
+	Questo teorema ha un sacco di importanti, corollari, per esempio il fatto che se $n=p_1^{\alpha_1}p_2^{\alpha_2}\dots p_t^{\alpha_t}$ allora abbiamo
+	$$\faktor{\ZZ}{n\ZZ}\cong \faktor{\ZZ}{p_1^{\alpha_1}\ZZ}\times \dots \times \faktor{\ZZ}{p_t^{\alpha_t}\ZZ}$$
+	e quindi 
 	
 \end{document}

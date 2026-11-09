@@ -768,7 +768,7 @@
 	\begin{theorem}[Caratterizzazione topologica della compattezza]
 		In uno spazio $X$ un insieme $K$ è sequenzialmente compatto se e solo se è compatto.
 	\end{theorem}
-	\subsubsection{Continuità e compattezza}
+	\subsubsection{Funzioni continue su un compatto}
 	Ancora meglio è il seguente fatto:
 	\begin{theorem}[Le funzioni continue preservano la compattezza]
 		Sia $f:X\to Y$ una funzione continua tra gli spazi metrici $X$ e $Y$, allora se $X$ è compatto anche $f(X)$ è compatto.
@@ -810,6 +810,23 @@
 		$$\lim_{i\to\infty}d\left(f(x_{n_i}),f(y_{n_i})\right)\le \lim_{i\to\infty}\left[d\left(f(x_{n_i}),f(x_0)\right)+d\left(f(y_{n_i}),f(x_0)\right)\right]$$
 		che per continuità della distanza tende a $0$! Cioè abbiamo la tesi, per assurdo.
 	\end{proof}
+	Come nel caso in una variabile abbiamo le condizioni sufficienti e necessarie della farfalla e dell'asintoto:
+	\begin{theorem}[Uniformemente continua implica sublineare]
+		Sia $f:\RR^n\to\RR$ una funzione uniformemente continua, allora esistono $A,B\in \RR$ tali che
+		$$\abs{f(x)}\le A\abs{\abs{x}}+B.$$
+	\end{theorem}
+	\begin{proof}Continuità e compattezza: la continuità uniforme
+		Prendiamo $\varepsilon=1$ nella definizione di uniforme continuità, allora esisterà un $\delta>0$ tale che
+		$$d(x,y)\le \delta \implies \abs{f(x)-f(y)}<1$$
+		allora per ogni $x$ nella palla chiusa di raggio $\delta$, chiamiamola $K_\delta$, abbiamo 
+		$$\abs{f(x)-f(0)}<1 \implies \abs{f(x)}<1+B$$
+		d'altra parte questa cosa si generalizza facilmente per induzione, se $x\in K_{j\delta}$ avremo che
+		$$\abs{f(x)}<j+B$$
+		e dato che 
+		$$j \le \frac{\abs{\abs{x}}}{\delta}+2$$
+		abbiamo proprio la tesi.
+	\end{proof}
+	
 	
 	\subsection{Connessione}
 	
@@ -2544,7 +2561,7 @@
 		contenuto...
 	\end{theorem}
 	
-	
+	\subsection{Esercizi}
 	
 	\newpage
 	

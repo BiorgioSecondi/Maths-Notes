@@ -2350,13 +2350,83 @@
 		[x_1x_2:x_2^2] & \text{se $\left(x_1x_2,x_2^2\right)\ne (0,0)$}
 	\end{cases}
 	$$ 
-	che è evidentemente biettiva, e la verifica è lasciata al lettore. (METTI UN DISEGNO CON TUTTE LE FORME DI QUADRICHE AFFINI).
+	che è evidentemente biettiva, e la verifica è lasciata al lettore (METTI UN DISEGNO CON TUTTE LE FORME DI QUADRICHE AFFINI).
 	\subsection{Quadriche euclidee}
 	Le quadriche euclidee non hanno davvero niente di diverso da quelle affini, eccetto che \textbf{il concetto di isomorfismo non è definito tramite affinità, ma tramite rigidità}. Si può mostrare che una quadrica non degenere euclidea è sempre scrivibile in una delle seguenti forme:
 	$$Q=\sum_{i=1}^p a_ix_i^2-\sum_{i=p+1}^n a_ix_i^2 +1$$
 	oppure 
-	$$Q=\sum_{i=1}^{p} a_ix_i^2-\sum_{i=p+1}^{n-1}a_ix_i^2 +2x_n$$ 
-	
+	$$Q=\sum_{i=1}^{p} a_ix_i^2-\sum_{i=p+1}^{n-1}a_ix_i^2 +2x_n.$$ 
+	\begin{definition}[Quadrica a centro]
+		Se $q$ è una quadrica euclidea con matrice associata $A$ tale che la quadrica all'infinito ha rango massimo, allora diremo che $q$ è una \textit{quadrica a centro}. Se il rango di $A$ è $n$ diremo che $q$ è semplicemente degenere, mentre se il rango è $n-1$ diremo che è doppiamente degenere.
+	\end{definition}
+	\begin{definition}[Punti impropri]
+		I punti del supporto della quadrica all'infinito si dicono i \textit{punti impropri} della quadrica affine ad essa associata.
+	\end{definition}
+	\begin{proposition}[Centri di simmetria di quadriche]
+		Una quadrica $q$ in $\AA^n$ ha uno e un solo centro di simmetria se e solo se è una quadrica a centro. In particolare il \textit{centro} della quadrica (ovvero il centro di simmetria) risulta essere il punto che soddisfa l'equazione
+		$$B\mathbf{x}+\mathbf{v}=0$$
+		dove $B$ è la matrice della quadrica all'infinito e $\mathbf{v}$ è il vettore dei coefficienti $a_{01},a_{02},\dots,a_{0n}$.
+	\end{proposition}
+	\begin{proof}
+		La matrice di una simmetria centrale di centro $x$ è semplicemente
+		$$S=
+		\left(
+		\begin{array}{c|c}
+			1 & 0 \\
+			\hline
+			2x & -I
+		\end{array}
+		\right)
+		$$
+		vogliamo quindi mostrare che, data un'equazione di $q$ del tipo
+		$$Q=
+		\left(
+		\begin{array}{c|c}
+			k & v^\intercal \\
+			\hline
+			v & B
+		\end{array}
+		\right)
+		$$
+		vogliamo mostrare che la quadrica dopo la trasformazione è sempre la stessa, ovvero
+		$$S^\intercal Q S = \alpha Q$$
+		d'altra parte facendo un calcolo diretto abbiamo che
+		$$
+		S^\intercal Q S = 
+		\left(
+		\begin{array}{c|c}
+			k+2v^\intercal x +2x^\intercal v + 2x^\intercal B x & -v^\intercal -2x^\intercal B \\
+			\hline 
+			-v-Bx & B
+		\end{array}
+		\right)
+		$$
+		uguagliando termine a termine con $A$ allora troviamo che
+		\begin{gather*}
+			B = \alpha B \\
+			-2Bx-v=-\alpha v  \\
+			-v^\intercal -2x^\intercal B = -\alpha v^\intercal \\
+			k +2v^\intercal x + 2x^\intercal v + 2x^\intercal B x = \alpha k
+		\end{gather*}
+		dalla prima equazione otteniamo che $\alpha = 1$ (a meno che $B$ non sia la matrice identicamente nulla, caso non molto interessante), la seconda e la terza equazione sono quindi equivalenti a
+		$$Bx+v=0$$
+		che è evidentemente equivalente all'ultima sostituendo $Bx\mapsto -v$ nella quarta equazione e notando che l'equazione diventa $0=0$. Dunque dato che l'equazione $Bx+v=0$ ha un'unica soluzione se e solo se $B$ ha rango massimo, abbiamo finito. 
+	\end{proof}
+	\begin{theorem}[Classificazione delle coniche euclidee]
+		Ogni conica euclidea in $\mathbb{E}^2$ è congruente a esattamente una delle seguenti coniche, al variare di $a,b,p\in \RR_{>0}$:
+		\begin{align*}
+			& C_1:\frac{x^2}{a^2}+\frac{y^2}{b^2}-1=0 && \text{con $a\ge b >0$} \\
+			& C_2:\frac{x^2}{a^2}+\frac{y^2}{b^2}+1=0 && \text{con $a\ge b$} \\
+			& C_3:\frac{x^2}{a^2}-\frac{x^2}{b^2}+1=0  &&
+			\\
+			& C_4:y^2-2px=0 && \\
+			& C_5:\frac{x^2}{a^2}+\frac{y^2}{b^2}=0 && \text{con $a\ge b$} \\
+			& C_6:\frac{x^2}{a^2}-\frac{y^2}{b^2}=0 && \text{con $a\ge b$} \\
+			& C_7:y^2-a^2=0 &&  \\
+			& C_8:y^2+a^2=0 &&  \\
+			& C_9:y^2=0 && 
+		\end{align*}
+	\end{theorem}
 	
 	\newpage
 	

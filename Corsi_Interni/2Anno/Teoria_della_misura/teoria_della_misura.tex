@@ -1789,11 +1789,12 @@
 			$$\beta_{\RR^n}\subseteq \mathcal{M}(\RR^n,\mu^*)$$
 			\item Per ogni insieme $C\subseteq \RR^n$ compatto vale che $\mu(C)<\infty$ (dunque la misura sarà anche $\sigma$-finita).
 			\item Per ogni $E\subseteq\RR^n$ esiste un Boreliano $B\supseteq E$ tale che
-			$$\mu^*(E)=\mu^*(B).$$
+			$$\mu^*(E)=\mu^*(B)$$
+			questa proprietà di solito si chiama \textit{Borel regolarità}. 
 		\end{itemize}
 	\end{definition}
 	Queste proprietà ci ricordano molto il modo in cui avevamo definito la misura esterna di Lebesgue nel prologo. In generale le misure possono essere molto brutte: la misura che conta i punti, e le misure che non sono sigma finite fanno da controesempio a molti teoremi che ci piacerebbe dimostrare. Il motivo per cui ci interessa restringerci alle misure di Radon è esattamente perché su queste possiamo mostrare molte cose forti:
-	\begin{theorem*}
+	\begin{theorem*}[Di approssimabilità]
 		Sia $\mu^*$ una misura di Radon su $\RR^n$. Allora:
 		\begin{enumerate}
 			\item Per ogni $E\subseteq \RR^n$ abbiamo che 
@@ -1883,6 +1884,132 @@
 		Se $K\subseteq \RR^n$ è compatto e $f:K\to\RR$ è una funzione continua allora esiste una $\tilde{f}:\RR^n\to\RR$ continua tale che $f(x)=\tilde{f}(x)$.
 	\end{proposition}
 	Combinando questi due teoremi otteniamo una cosa molto interessante, ovvero presa una funzione completamente a caso $f:\RR^n\to \RR$ misurabile abbiamo che possiamo restringerla per Lusin ad una funzione $g:\left(\RR^n\setminus K\right)\to\RR$ che possiamo poi estendere ad una $\tilde{f}$ che sia continua! In pratica ogni funzione ha una controparte continua (che ne differisce per un insieme di misura arbitrariamente piccola).
+	
+	\subsection{Teorema di Riesz}
+	
+	In questa sezione denotiamo con $\mathcal{C}_b(\RR^n)$ le funzioni $f:\RR^n\to\RR$ limitate e continue. 
+	\begin{definition}[Supporto di una funzione]
+		Per una funzione $f$ il suo \textit{supporto} è la chiusura dell'insieme dei punti in cui $f\ne 0$. Le funzioni a supporto compatto su un insieme $A$ di solito si denotano con $f\in \mathcal{C}_c(A)$.
+	\end{definition}
+	Sia allora $\mu$ una misura di Borel \textbf{finita} su $\RR^n$, abbiamo definito la misura $f\mu$ come
+	$$\int_{\RR^n}f\dif \mu \qquad \forall f \in \mathcal{C}_b(\RR^n)$$
+	e quell'integrale esiste sempre in quanto $f$ è sempre integrabile, infatti
+	$$\int_{\RR^n}\abs{f}\dif \mu \le \sup_{x\in\RR^n}f(x)\mu\left(\RR^n\right)$$
+	che sono entrambi numeri finiti. Allora il funzionale
+	$$f\mapsto \int_{\RR^n}f\dif \mu$$
+	è lineare e positivo se $f$ è positiva. Riducendo un po' le nostre ipotesi abbiamo che, per una qualunque misura di Radon e $f\in \mathcal{C}_c(\RR^n)$, visto che la misura di tutti i compatti è finita, abbiamo che di nuovo $f$ è integrabile e quello è un funzionale lineare positivo. Il punto del teorema di Riesz è che vale anche il contrario:
+	\begin{theorem}[Riesz]
+		Se $I\in \mathcal{C}_c(\RR^n)^*$ è un funzionale lineare positivo (ovvero, che assume valori positivi per funzioni sempre positive) allora esiste ed è unica una misura di radon $\mu$ su $\RR^n$ tale che
+		$$I(f)=\int_{\RR^n}f\dif \mu$$
+		inoltre abbiamo che:
+		\begin{itemize}
+			\item Per ogni $U$ aperto
+			$$\mu(U)=\sup\left\{I(f):0\le f \le 1,\text{supp}(f)\subseteq U\right\}$$
+			d'ora in poi raggrupperemo quelle due condizioni semplicemente nel simbolo $f\prec U$.
+			\item Per ogni $C$ compatto
+			$$\mu(C)=\inf\left\{I(f):f\ge \mathbbm{1}_c,f\in \mathcal{C}_c(\RR^n)\right\}.$$
+		\end{itemize}
+	\end{theorem}
+	\begin{proof}
+		Per ogni $U$ aperto definiamo la funzione $\mu$ come
+		$$\mu(U):=\sup\left\{I(f):f\prec U\right\}$$
+		e consideriamo la misura esterna 
+		$$\mu^*(E)=\inf\left\{\mu(U):E\subseteq U\text{ aperto}\right\}$$
+		in realtà andrebbe dimostrato che quella è una misura esterna, perché non è esattamente quello che ci ha dato il teorema di caratheodory. Comunque è facile, e quindi non lo facciamo. Prima di tutto abbiamo che possiamo mostrare $U\subseteq V$ implica
+		$$\mu(U)\le \mu(V)$$
+		e quindi abbiamo per monotonia $\mu^*(U)=\mu(U)$.
+		\begin{claim}
+			Tutti gli aperti sono $\mu^*$ misurabili.
+		\end{claim}
+		\begin{subproof}[Sottodimostrazione]
+			Dato un $U$ aperto, se l'insieme test $E$ è aperto anche $E\cap U$ sarà aperto allora per ogni $\varepsilon>0$ esisterà una $f\prec E\cap U$ tale che 
+			$$I(f)> \mu^*(E\cap U)-\varepsilon$$
+			per definizione operativa di sup, ma allora
+			$$\mu^*(E\setminus U)\le \mu^*\left(E\setminus \text{supp}(f)\right)$$
+			e visto che il supporto è sempre chiuso anche $E\setminus\text{supp}(f)$ è aperto, e dunque esisterà una $g\prec E\setminus \text{supp}(f)$ tale che
+			$$I(g)>\mu^*\left(E\setminus \text{supp}(f)\right)-\varepsilon$$
+			ma allora sommando queste due disuguaglianze abbiamo
+			$$\mu^*(E\cap U)+\mu^*(E\setminus U)\le I(f+g)+2\varepsilon$$ 
+			e dato che il supporto di $f$ non si interseca con il supporto di $g$ dobbiamo avere che $f+g\prec E$, da cui segue che $U$ è misurabile con questo insieme di test (mandando $\varepsilon$ a $0$). D'altra parte se $E$ non è aperto abbiamo, per definizione di $\mu^*$ che esisterà un $V\supseteq E$ tale che 
+			$$\mu^*(V)<\mu^*(E)+\varepsilon$$
+			e dunque abbiamo per monotonia e misurabilità di $U$ rispetto a tutti gli insiemi di test aperti abbiamo
+			$$\mu^*(E\cap U)+\mu^*(E\setminus )\le \mu^*(V\cap U)+\mu^*(V\setminus U)\le \mu^*(V)<\mu^*(E)+\varepsilon$$
+			da cui la tesi di nuovo facendo tendere $\varepsilon$ a $0$.
+		\end{subproof}
+		Questo mostra che la $\mu^*$ ristretta ai misurabili è boreliana, e soddisfa effettivamente la prima tesi. Dimostriamo adesso che $\mu^*$ è effettivamente finita sui compatti tramite la seconda tesi. \\
+		Dato un compatto $C$ se $f\ge \mathbbm{1}_C$, $f\in \mathcal{C}_C(\RR^n)$ e per ogni $\varepsilon>0$ definiamo
+		$$U_\varepsilon:=\left\{f>1-\varepsilon\right\}\supseteq C$$
+		allora vogliamo mostrare che
+		$$\mu^*(C)\le \mu^*(U_\varepsilon)\le \frac{1}{1-\varepsilon}I(f)$$
+		la prima disuguaglianza segue per monotonia. D'altra parte comunque dato un $g \prec U_\varepsilon$ abbiamo che 
+		$$g\le \frac{1}{1-\varepsilon}f$$
+		dato che per definizione di $\prec$ abbiamo $g\le 1$ e per definizione di $U_\varepsilon$ abbiamo $f>1-\varepsilon$ dunque da questo segue che 
+		$$0\le I\left(\frac{1}{1-\varepsilon}f-g\right)=\frac{1}{1-\varepsilon}I(f)-I(g)$$
+		dunque dato che $\mu^*(U_\varepsilon):=\sup_{g\prec U_\varepsilon}I(g)$ abbiamo proprio la disuguaglianza che stavamo cercando, e da qui segue la tesi facendo tendere $\varepsilon\to 0$. Da questo segue proprio che $\mu^*$ ristretta ai misurabili è una misura di Radon. \\
+		Rimane solo da mostrare che effettivamente $I(f)$ si scrive come quell'integrale. Grazie alle linearità varie sia a destra che a sinistra ci basta mostrare che per ogni $f:\RR^n\to [0,1]$ continua e a supporto compatto si ha
+		$$I(f)=\int_{\RR^n} f\dif \mu.$$
+		Prendiamo allora una successione di funzioni semplici $f_1,\dots,f_N$ definita sui compatti 
+		$$
+		\begin{cases}
+			K_0 = \text{supp}(f) \\
+			K_n = \left\{f\ge \frac{j}{N}\right\}
+		\end{cases}
+		$$
+		tale che
+		$$f_j(x):=\left(f(x)-\frac{j-1}{N}\right)\left(\mathbbm{1}_{K_{j-1}}(x)-\mathbbm{1}_{K_j}(x)\right)+\frac{1}{N}\mathbbm{1}_{K_j}(x)$$
+		allora non è difficile rendersi conto che la somma di tutti questi oggetti (\textbf{è simile a Stone-Weierstrass come idea}) è
+		$$f=\sum_{j=1}^N f_j$$
+		d'altra parte per come abbiamo definito $f_j$ abbiamo
+		$$\frac{1}{N}\mathbbm{1}_{K_j}\le f_j\le \frac{1}{N}\mathbbm{1}_{K_{j-1}}.$$
+		Non solo, per la tesi $2$ abbiamo anche che
+		$$I(f_j)\ge \frac{1}{N}\mu(K_j)$$
+		da cui segue la disuguaglianza a sinistra, inoltre dato un $U$ aperto $U\supseteq K_{j-1}$ se $Nf_j\prec U$ abbiamo per la tesi $1$ che 
+		$$I(Nf_j)\le \mu(U)$$
+		ma allora dato che $\mu$ è di Radon possiamo approssimare da fuori $K_{j-1}$ con $\inf \mu(U)$ e quindi
+		$$\frac{1}{N}\mu(K_j)\le I(f_j)\le \frac{1}{N}\mu(K_{j-1})$$
+		ma allora abbiamo essenzialmente finito, perché sommando abbiamo
+		$$\frac{1}{N}\sum_{j=1}^N \mu(K_j)\le I(f)\le \frac{1}{N}\sum_{j=1}^{N}\mu(K_{j-1})$$
+		ma facendo tendere $N$ a infinito abbiamo essenzialmente la tesi, perché quei due bound tendono entrambi a $\int f \dif \mu$. \\
+		Rimane da mostrare l'unicità,
+		\begin{claim}
+			se abbiamo che $\mu$ è una misura tale che per ogni $f\in \mathcal{C}_c(\RR^n)$ si ha
+			$$I(f)=\int_{\RR^n} f\dif \mu$$
+			allora $\mu$ è proprio la misura definita sopra.
+		\end{claim}
+		\begin{subproof}[Sottodimostrazione]
+			Ci basta mostrare che per ogni $U$ aperto si ha
+			$$\mu(U):=\inf \left\{I(f):f\prec U\right\}.$$
+			Preso un $U$ aperto allora per ogni $f\prec U$ abbiamo 
+			$$f\le \mathbbm{1}_U$$
+			e dunque
+			$$\int_{\RR^n}f\dif \mu \le \mu(U)$$
+			inoltre se $C$ è compatto e $C\subseteq U$ allora esisterà una $f\prec U$ e $f(x)=1$ per ogni $x\in C$ tale che
+			$$\sup_{f\prec U}\int_{\RR^n} f \dif \mu \ge \mu(C)$$
+			e approssimando $U$ con compatti dal basso (lo abbiamo fatto nel prologo!) abbiamo proprio che
+			$$\int_{\RR^n}f\dif \mu \ge \mu(U)$$
+			da cui abbiamo che $\mu$ è proprio la misura che abbiamo costruiro sopra.
+		\end{subproof}
+		Abbiamo mostrato tutti i punti, e quindi abbiamo finito.
+	\end{proof}
+	Questo risultato si può più o meno agilmente estendere ai funzionali in $\mathcal{C}_b(\RR^n)^*$, infatti prendendo una $\varphi$ che sia uguale a $1$ sulla palla unitaria di raggio $1$, $B_1$, e sia $0$ oltre possiamo costruire la successione 
+	$$\varphi_N(x):=\varphi\left(\frac{x}{N}\right)$$
+	in questo modo la successione
+	$$f_N:= \varphi_Nf$$
+	è composta effettivamente da funzioni continue a supporto compatto\footnote{In realtà dovremmo scegliere $\varphi$ come una "step function liscia" cioè una cosa che sia $1$ nella palla unitaria, $0$ al di fuori e che al bordo vada a $0$ molto velocemente. In ogni caso non importa troppo questo step, basta che le funzioni $f_N$ che otteniamo siano in $\mathcal{C}_c(\RR^n)$.}, ed è monotona, quindi per convergenza monotona abbiamo
+	$$\int_{\RR^n}f_N\dif \mu \to \int_{\RR^n}f\dif \mu $$
+	ma allora usando $I(f_N)=\int f_n\dif \mu$ abbiamo che la successione $I(f_N)$ converge, e non è difficile mostrare che converge proprio a $I(f)$.
+	\begin{definition}[Convergenza debole per misure]
+		Siano $\mu_k$ e $\mu$ misure di Radon, allora diremo che $\mu_k$ \textit{converge debolmente a} $\mu$ in dualità con $\mathcal{C}_c(\RR^n)$ e scriveremo $\mu_k\to\mu$ se per ogni $\varphi\in \mathcal{C}_c(\RR^n)$ una cosiddetta \textit{funzione di test} si ha
+		$$\lim_{n\to\infty}\int \varphi \dif \mu_n = \int \varphi \dif \mu.$$
+	\end{definition}
+	\begin{example}[Una misura che converge debolmente ma non normalmente]
+		Se consideriamo la successione di misure
+		$$\mu_n:=\delta_{1/n}$$
+		e $\mu:=\delta_0$ allora non si avrà che
+		$$\lim_{n\to\infty}\mu_n(B)=\mu(B)$$
+		infatti per esempio per $B=\left\{0\right\}$ abbiamo il LHS uguale a $0$ e il RHS uguale a $1$. Tuttavia dato che tutte le funzioni di test sono continue si ha che $\mu_n\to \mu$ debolmente.
+	\end{example}
+	
 	\newpage
 	
 	\section{Introduzione al Trasporto Ottimo}
