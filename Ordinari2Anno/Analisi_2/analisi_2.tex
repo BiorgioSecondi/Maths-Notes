@@ -2561,7 +2561,156 @@
 		contenuto...
 	\end{theorem}
 	
-	\subsection{Esercizi}
+	\newpage
+	
+	\section{Equazioni differenziali ordinarie}
+	
+	\begin{definition}[Equazione differenziale]
+		Un'\textit{equazione differenziale ordinaria} di ordine $n$ è un'espressione della forma
+		$$F\left(x,y,y',y'',\dots,y^{(n)}\right)=0$$
+		dove $x\in \RR$ e $y:\RR\to\RR$ e $F:\Omega\subseteq \RR^{n+2}\to\RR$ è una funzione almeno continua (con $\Omega$ aperto), in cui l'incognita è la funzione $y$. Un'equazione differenziale si dice \textit{in forma normale} se è della forma
+		$$y^{(n)}=f\left(x,y,y',\dots,y^{(n-1)}\right)$$
+		con $f$ una certa funzione continua.
+	\end{definition}
+	Introduciamo ora un concetto cruciale: rinominando
+	$$z_i(x):=y^{(i-1)}(x)$$
+	per ogni $i\in\NN$, allora abbiamo
+	$$
+	\begin{cases}
+		z_1'=z_2 \\
+		z_2'=z_3 \\
+		\,\,\vdots \\
+		z_n'=f\left(x,z_1,z_2,\dots,z_{n-1}\right)
+	\end{cases}
+	$$
+	insomma ci siamo ricondotti da un'unica equazione differenziale di ordine $n$ ad un sistema di $n$ equazioni del primo ordine. Allora compattando ulteriormente la cosa se introduciamo
+	$$\mathbf{z}:=\begin{pmatrix}
+		z_1(x) \\
+		z_2(x) \\
+		\vdots \\
+		z_n(x)
+	\end{pmatrix}$$
+	allora possiamo riassumere tutto il sistema nella forma
+	$$\mathbf{z}'=g\left(x,\mathbf{z}(x)\right)$$
+	dove $g$ è la funzione definita sopra tramite quel sistema. Questo mostra che un'equazione in forma normale è sempre riconducibile a un sistema di equazioni, che è sempre riconducibile in quella forma vettoriale (e viceversa!).
+	\begin{definition}[Problema di Cauchy]
+		Un'equazione differenziale $F(x,y',\dots,y^{(n)})=0$ accoppiata ad un insieme di $n$ \textit{condizioni iniziali}:
+		\begin{gather*}
+			y(x_0)=\overline{y}_0 \\
+			y(x_1)=\overline{y}_1 \\
+			\vdots \\
+			y(x_{n-1})=\overline{y}_{n-1} \\
+		\end{gather*}
+		è detto un \textit{problema di Cauchy}.
+	\end{definition}
+	Le domande che in generale ci porremo nello studio delle equazioni differenziali sono essenzialmente $4$:
+	\begin{itemize}
+		\item L'esistenza delle soluzioni.
+		\item L'unicità delle soluzioni.
+		\item La regolarità delle soluzioni (in vari sensi).
+		\item Il calcolo esplicito delle soluzioni. 
+	\end{itemize}
+	\begin{example}[Integrazione esplicita]
+		Consideriamo il problema di Cauchy
+		$$
+		\begin{cases}
+			y'=f(x) \\
+			y(x_0)=y_0
+		\end{cases}
+		$$
+		allora questo ha chiaramente la soluzione
+		$$y=y_0+\int_{x_0}^x f(t)\dif t.$$
+		\'E l'unica? In effetti se abbiamo $y'$ e $z'$ soluzioni distinte del problema di Cauchy allora
+		$$y'-z'=f-f \implies y-z=C$$
+		ma d'altra parte $y(x_0)=y_0=z(x_0)$ e quindi $y=z$.
+	\end{example}
+	\begin{example}[Esponenziale]
+		Consideriamo l'equazione differenziale
+		$$y'=y$$
+		questa ha chiaramente soluzioni $ce^x$ per ogni $c\in\RR$. Sono uniche? Se $z(x)$ è una soluzione introduciamo la quantità
+		$$W(x):=e^{-x}z(x)$$
+		allora 
+		$$W'(x)=e^{-x}z'(x)-e^{-x}z(x)=0$$
+		il che vuol dire che $W$ deve essere costante, e dunque  
+		$$e^{-x}z(x)=c\implies z(x)=ce^{x}$$
+		e quindi abbiamo anche l'unicità. 
+	\end{example}
+	\begin{example}[Pennello di Peano]
+		Consideriamo il problema di Cauchy:
+		$$
+		\begin{cases}
+			y'= 2\sqrt{\abs{y}} \\
+			y(0)=0
+		\end{cases}
+		$$
+		Discutere esistenza e unicità delle soluzioni.
+		
+	\end{example}
+	\begin{proof}[Soluzione]
+		Le due soluzioni che riusciamo a trovare, un po' a tentoni, sono 
+		$$y(x)\equiv 0$$
+		e 
+		$$y(x)=x\abs{x}$$
+		ce ne sono altre? In effetti notiamo che copiando e incollando $x^2$, $-x^2$ e $0$ possiamo trovare un sacco di soluzioni diverse, ovvero 
+		$$y_{\alpha,\beta}:=
+		\begin{cases}
+			\left(x-\beta\right)^2 & x\ge \beta \\
+			0 & \alpha < x < \beta \\
+			-\left(x-\alpha\right)^2 & x \le \alpha
+		\end{cases}
+		$$
+		dove 
+		$$-\infty \le \alpha \le 0 \le \beta \le \infty.$$
+		Osserviamo Inoltre che la soluzione
+		$$y_{-\infty,0}:=\mathbbm{1}_{[0,\infty)}x^2$$
+		in un certo senso è la \textit{più grande} perché per ogni $\alpha,\beta$ e per ogni $x$ abbiamo
+		$$y_{-\infty,0}(x)\ge y_{\alpha,\beta}.$$
+		Questo è appunto il primo esempio di problema di Cauchy con infinite soluzioni, ed è dovuto a Peano (si chiama di solito \textit{pennello di Peano}, perché l'insieme di tutte le soluzioni ricorda una pennellata).
+	\end{proof}
+	
+	\subsection{Classi particolari di equazioni}
+	
+	\begin{definition}[Equazione lineare]
+		Un'equazione differenziale \textit{lineare} è qualcosa della forma
+		$$y^{(n)}+a_{n-1}(x)y^{(n-1)}+\dots+a_1(x)y'+a_0(x)=0$$
+		e si chiama lineare appunto perché la funzione $f$ della forma normale è lineare nelle variabili $y^{(i)}$. Ad ogni equazione lineare si associa un'\textit{equazione omogenea} ovvero 
+		$$y^{(n)}+a_{n-1}(x)y^{(n-1)}+\dots+a_1(x)y'=0.$$
+	\end{definition}
+	Per risolvere un'equazione differenziale lineare si risolve prima l'equazione omogenea. Per esempio data l'equazione
+	$$y'+a(x)y+b(x)=0$$
+	risolviamo prima l'omogenea
+	$$y'+a(x)y=0$$
+	separando le variabili, come fanno i fisici. Troviamo
+	$$y(x)=ce^{-A(x)}$$
+	dove $A$ è l'integrale di $a(x)$. Allora per risolvere l'equazione di partenza attuiamo un processo chiamato \textit{variazione delle costanti}, ovvero imponiamo che la costante $c$ sia una funzione di $x$, e quindi cerchiamo soluzioni della forma
+	$$y(x)=c(x)e^{-A(x)}$$
+	magicamente questo funziona, e ci dà tutte e sole le soluzioni dell'equazione di partenza.
+	\begin{theorem}[Soluzione di equazioni lineari del secondo ordine]
+		Sia $I\subseteq\RR$ un intervallo aperto, e siano $x_0\in I$, $a,b\in C(I)$ e $A$ una primitiva di $a$. Allora l'unica soluzione del problema di Cauchy
+		$$
+		\begin{cases}
+			y'+a(x)y=b(x) \\
+			y(x_0)=y_0
+		\end{cases}
+		$$
+		è la funzione
+		$$y(x)=\left(y_0e^{A(x_0)}+\int_{x_0}^x b(t)e^{A(t)}\dif t\right)e^{-A(x)}.$$
+	\end{theorem}
+	\begin{proof}
+		Il fatto che quell'espressione sia effettivamente una soluzione è un conto, che lasciamo al lettore. Più interessante è dimostrare che questa è unica. Se $z(x)$ è una soluzione al problema di Cauchy vorremmo dimostrare che $z=y$, a questo fine consideriamo la seguente quantità:
+		$$W(x):=e^{A(x)}z(x)-\int_{x_0}^x b(t)e^{A(t)}\dif t$$
+		è facile vedere che se $W(x)$ è una costante, abbiamo finito. D'altra parte $W$ è chiaramente una costante, perché
+		$$W'(x)=e^A(az+z'-b)=e^A (0)=0$$
+		e quindi abbiamo finito. 
+	\end{proof}
+	Un modo più generale per risolvere un'equazione lineare parte dal fatto che, comunque date $y_1$ e $y_2$ soluzioni di un'equazione lineare omogenea
+	\begin{equation}
+		\label{omogenea}
+		\sum_{i=1}^n a_i(x)y^{(i)}=0
+	\end{equation}
+	abbiamo che per ogni $k_1,k_2\in\RR$ anche $k_1y_1+k_2y_2$ è soluzione di questa stessa. Ma allora l'insieme delle soluzioni all'equazione \ref{omogenea} è uno spazio vettoriale $V$. Inoltre comunque date due soluzioni $z_1,z_2$ dell'equazione completa abbiamo che
+	$$\sum_{i=1}^n a_i(x)(z_1-z_2)^{(i)}=0$$
+	ovvero $z_1-z_2\in V$. Questo vuol dire che lo spazio delle soluzioni $V'$ dell'equazione completa \textbf{è uno spazio affine di giacitura lo spazio delle funzioni dell'omogenea}. Praticamente questo vuol dire che per risolvere l'equazione completa basta risolvere l'omogenea, e poi sommare a ciascuna soluzione dell'omogenea una stessa soluzione particolare dell'equazione completa.
 	
 	\newpage
 	

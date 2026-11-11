@@ -1885,7 +1885,7 @@
 	\end{proposition}
 	Combinando questi due teoremi otteniamo una cosa molto interessante, ovvero presa una funzione completamente a caso $f:\RR^n\to \RR$ misurabile abbiamo che possiamo restringerla per Lusin ad una funzione $g:\left(\RR^n\setminus K\right)\to\RR$ che possiamo poi estendere ad una $\tilde{f}$ che sia continua! In pratica ogni funzione ha una controparte continua (che ne differisce per un insieme di misura arbitrariamente piccola).
 	
-	\subsection{Teorema di Riesz}
+	\subsection{Funzionali e convergenza debole}
 	
 	In questa sezione denotiamo con $\mathcal{C}_b(\RR^n)$ le funzioni $f:\RR^n\to\RR$ limitate e continue. 
 	\begin{definition}[Supporto di una funzione]
@@ -2000,7 +2000,7 @@
 	ma allora usando $I(f_N)=\int f_n\dif \mu$ abbiamo che la successione $I(f_N)$ converge, e non è difficile mostrare che converge proprio a $I(f)$.
 	\begin{definition}[Convergenza debole per misure]
 		Siano $\mu_k$ e $\mu$ misure di Radon, allora diremo che $\mu_k$ \textit{converge debolmente a} $\mu$ in dualità con $\mathcal{C}_c(\RR^n)$ e scriveremo $\mu_k\to\mu$ se per ogni $\varphi\in \mathcal{C}_c(\RR^n)$ una cosiddetta \textit{funzione di test} si ha
-		$$\lim_{n\to\infty}\int \varphi \dif \mu_n = \int \varphi \dif \mu.$$
+		$$\lim_{k\to\infty}\int_{\RR^n} \varphi \dif \mu_k = \int_{\RR^n} \varphi \dif \mu.$$
 	\end{definition}
 	\begin{example}[Una misura che converge debolmente ma non normalmente]
 		Se consideriamo la successione di misure
@@ -2009,6 +2009,92 @@
 		$$\lim_{n\to\infty}\mu_n(B)=\mu(B)$$
 		infatti per esempio per $B=\left\{0\right\}$ abbiamo il LHS uguale a $0$ e il RHS uguale a $1$. Tuttavia dato che tutte le funzioni di test sono continue si ha che $\mu_n\to \mu$ debolmente.
 	\end{example}
+	Per arrivare al prossimo teorema abbiamo bisogno prima di 
+	\begin{lemma}[Separabilità di $\mathcal{C}_c(\RR^n)$]
+		Esiste un insieme numerabile $\left\{f_i\right\}_{i\in\NN}\subseteq \mathcal{C}_c(\RR^n)$ tal che per ogni $\varepsilon>0$ esista un $i$ tale che
+		$$\abs{\abs{f_i-f}}_\infty<\varepsilon.$$
+	\end{lemma}
+	\begin{proof}
+		contenuto...
+	\end{proof}
+	Con questo alle spalle possiamo finalmente dimostrare
+	\begin{theorem}[Compattezza delle misure di Radon]
+		Sia $\left(\mu_k\right)_{k\in\NN}$ una successione di misure di Radon su $\RR^n$. Supponiamo che per ogni $K\subseteq \RR^n$ compatto si abbia
+		$$\sup_{k\in\NN}\mu_k\left(K\right)<\infty$$
+		allora esiste una misura di Radon $\mu$ ed una sottosuccessione $\mu_{k_j}$ tale che 
+		$$\mu_{k_j}\to \mu$$
+		debolmente in dualità con $\mathcal{C}_c(\RR^n)$.
+	\end{theorem}
+	\begin{remark}
+		Questo teorema è sorprendentemente simile ad ascoli-arzelà. In effetti la condizione sul sup può essere interpretata come una equilimitatezza, e in questo caso non serve l'equicontinuità.
+	\end{remark}
+	\begin{proof}[Dimostrazione]
+		Data una successione $f_i$ che rende separabile l'insieme $\mathcal{C}_c(\RR^n)$ abbiamo che per ogni $i,k$ si ha
+		$$\abs{\int f_i\dif \mu_k}\le \int\abs{f_i}\dif \mu_k \le \text{supp}(f_i)\max\abs{f_i}$$
+		allora per la condizione sui sup data nelle ipotesi abbiamo che la successione dei $\int f_i\dif \mu$ è limitata al variare di $k$, e quindi possiamo estrarre una sottosuccessione convergente di misure $\mu_{k_j}$. Reiterando questo processo per ogni $f_i$, ed applicando il procedimento diagonale come in Ascoli-Arzelà abbiamo che, se $\mu_{k^l_j}$ è la $l$-esima sottosuccessione estratta allora
+		$$
+		\begin{array}{ccccc}
+			\mu_{k^1_1} & \mu_{k^1_2} & \dots & \mu_{k^1_n} & \dots \\
+			\mu_{k^2_1} & \mu_{k^2_2} & \dots & \mu_{k^2_n} & \dots \\
+			\vdots & \vdots & \ddots & \vdots & \dots \\
+			\mu_{k^n_1} & \mu_{k^n_2} & \dots & \mu_{k^n_n} & \dots \\
+			\vdots & \vdots & \vdots & \vdots & \ddots \\
+		\end{array}
+		$$
+		vogliamo mostrare che $\mu_{k_i^i}$ converge debolmente per $i\to\infty$. Presa una funzione di test $f$ allora dal punto $1$ per separabiltà abbiamo
+		$$\abs{\abs{f_i-f}}_\infty<\varepsilon$$
+		dunque per disuguaglianza triangolare
+		$$\abs{\int f \dif \mu_{k_m^m}-\int f \dif \mu_{k_n^n}}\le \abs{\int\left(f-f_i\right)\dif \mu_{k_m^m}}+\abs{\int f_i \dif \mu_{k_m^m}-\int f_i \dif \mu_{k_n^n}}+\abs{\int(f_1-f)\dif\mu_{k_n^n} }$$ 
+		e dunque il primo termine è stimato da $\varepsilon \mu_{k_m^m}(\text{supp}(f-f_i))$, e il terzo termine in modo analogo. D'altra parte il termine in mezzo è un $o(1)$ per come abbiamo definito $\mu_{k^n_n}$ attraverso il procedimento diagonale. Rimane quindi da mostrare che $f-f_i$ ha sempre supporto compatto (da cui segue che è finito perché la misura è di Radon).
+		Se sostituiamo allora $f$ con 
+		$f_i\varphi_l$
+		dove $\varphi_l$ è una funzione liscia avente supporto solo la palla unitaria di raggio $l$ centrata in $0$ (ed avente valore $1$ lì) abbiamo che il supporto di $f-f_i$ è compatto per ogni $i$. \\ Abbiamo quindi mostrato che il seguente limite esiste per ogni $f$:
+		$$\lim_{n\to\infty}\int_{\RR^n} f \dif \mu_{k^n_n}\in\RR$$
+		chiamando allora $I(f)$ questa mappa da $f$ a $\RR$, osserviamo che è lineare e positiva, e quindi per Riesz esisterà una misura $\mu$ tale che
+		$$\lim_{n\to\infty}\int_{\RR^n} f \dif \mu_{k^n_n}=\int_{\RR^n}f\dif \mu$$
+		e dunque abbiamo proprio la convergenza debole che volevamo.
+	\end{proof}
+	Il procedimento diagonale che abbiamo applicato sopra può essere difficile da apprezzare, e per questo lo isoliamo nel seguente lemma:
+	\begin{lemma}[Procedimento diagonale]
+		Sia $X$ uno spazio metrico e $x_k^i$ con $i,k\in\NN$ una famiglia di successioni tale che per ogni $i\in\NN$ esista un $K^i$ compatto sequenzialmente tale che
+		$$x_k^i\in K^i$$
+		per ogni $i,k$. Allora esiste una successione strettamente crescente di indici tale che 
+		$x^i_{k_j}$ converge, per $j\to\infty$ per ogni $i\in\NN$.
+	\end{lemma}
+	\begin{proof}
+		Per induzione: estraiamo una sottosuccessione tale che $x^i_{k_j}$ converga per $i\le n$, allora possiamo estrarre una sottosuccessione di questa sottosuccessione tale che converga anche per $i=n+1$, in questo modo denotando con $k^i_j$ la $i$-esima sottosuccessione estratta, la sottosuccessione (di tutte le $K^i_j$!) $k_i^i$ sulla diagonale, è proprio quella che stiamo cercando, e quindi abbiamo finito.
+	\end{proof}
+	\begin{theorem}[Compattezza in dualità con $\mathcal{C}_b(\RR^n)$]
+		Sia $\mu_k$ una successione di misure di Radon in $\RR^n$, allora se
+		\begin{itemize}
+			\item Le misure sono equilimitate, ovvero $\sup \mu^k(\RR^n)<\infty$.
+			\item Le misure sono tutte tight, ovvero per ogni $\varepsilon>0$ esiste un $K$ compatto tale che
+			$$\sup_{k\in\NN}\mu_k\left(\RR^n\setminus K\right)<\infty.$$
+		\end{itemize}
+		allora esiste una sottosuccessione di $\mu_k$ che converge ad una $\mu$ debolmente in dualità rispetto a $\mathcal{C}_b(\RR^n)$.
+	\end{theorem}
+	\begin{remark}[Probabilità]
+		Se la funzione di test è quella identicamente $1$, questo teorema implica che
+		$$\mu_{k_j}(\RR^n)\to \mu(\RR^n)$$
+		ovvero una successione di misure di probabilità ammette sempre una sottosuccessione che converge ad un'altra misura di probabilità.
+	\end{remark}
+	Abbiamo visto che in effetti se $\mu_k$ converge debolmente a $\mu$, non è detto che la successione numerica $\mu_k(B)$ converga a $\mu(B)$. Tuttavia abbiamo il seguente risultato 
+	\begin{proposition}[Fatou per la convergenza debole]
+		Se $\mu_k$ e $\mu$ sono misure di Radon su $\RR^n$ tali che $\mu_k\to\mu$ in dualità con $\mathcal{C}_c(\RR^n)$ allora:
+		\begin{itemize}
+			\item Per ogni $U$ aperto di $\RR^n$ abbiamo
+			$$\mu(U)\le \liminf_{k\to\infty}\mu_k(U).$$
+			\item Per ogni $C$ compatto di $\RR^n$ abbiamo che 
+			$$\mu(C)\ge \limsup_{k\to\infty}\mu_k(C).$$ 
+		\end{itemize}
+	\end{proposition}
+	\begin{proof}
+		Per Riesz abbiamo che
+		$$\mu(U)=\sup\left\{\int_{\RR^n}f\dif \mu:f\prec U,f\in \mathcal{C}_c(\RR^n)\right\}$$
+		ma per definizione di $\prec$ abbiamo
+		$$\int f \dif \mu \le \lim_{k\to\infty}\int f \dif \mu \le \liminf_{k\to\infty}\mu_k(U)$$
+		e quindi abbiamo la prima tesi. La seconda è totalmente analoga, e ci possiamo addirittura ricondurre direttamente al primo caso, prendendo per ogni compatto $C$ un aperto $U\supseteq C$ che sia limitato, e notando che applicare il punto precedente a $U\setminus C$ conclude immediatamente.
+	\end{proof}
 	
 	\newpage
 	

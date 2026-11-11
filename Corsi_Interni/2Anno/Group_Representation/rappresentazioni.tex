@@ -465,8 +465,8 @@
 	\end{definition}
 	\begin{proposition}[First Orthogonality relation]
 		If $k=\CC$ and $\abs{G}<\infty$, given two representations $V,W$ we have that
-		$$\left(\chi_V,\chi_W\right)_G=\dim\text{Hom}_G(V,W)=\overline{\dim \text{Hom}_G(V,W)}$$
-		and because that number is an integer, in particular is purely real, 
+		$$\left(\chi_V,\chi_W\right)_G=\dim\text{Hom}_G(V,W)$$
+		and because that number is purely real, in particular is an integer, it's also equal to $\left(\chi_W,\chi_V\right)_G$.
 	\end{proposition}
 	\begin{proof}
 		We want to compute 
@@ -524,7 +524,7 @@
 	\begin{proof}
 		We have the following chain of equalities
 		$$1=\left(\chi_V,\chi_V\right)=\overline{\left(\chi_V,\chi_V\right)}=\left(\overline{\chi_V},\overline{\chi_V}\right)=\left(\chi_{V^*},\chi_{V^*}\right)$$
-		hence we have proven that $V^*$ is irreducible by the previous result. The converse follows from identifying $V^{**}$ with $V$ invoking the finite dimensionality of $V$.
+		hence we have proven that $V^*$ is irreducible by the previous result. The converse follows from identifying $V^{**}$ with $V$ and invoking the finite dimensionality of $V$.
 	\end{proof}
 	\begin{lemma}[Action of the regular representation]
 		For any finite $G$ acting on $\CC G$ through the regular representation we have that
@@ -671,7 +671,7 @@
 		$$\chi_\rho(s_f)=\sum_{g\in G}f(g)\chi_\rho(g).$$
 	\end{proposition}
 	\begin{proof}
-		Follows form linearity of trace.
+		Follows from the linearity of trace.
 	\end{proof}
 	From this last property follows that for any $f\in F(G,k)$ one has
 	$$\abs{G}(f,\overline{\chi}_\rho)=\chi_\rho(s_f).$$
@@ -723,6 +723,216 @@
 			$\chi_5$ & 2 & -2 & 0 & 0 &  0 \\
 		\end{tabular}
 	\end{center}
-	in every cell $a_{ij}$ we have the value that the character $\chi_i$ assumes on the class $j$. The first character is just the one associated to the trivial representation.
+	in every cell $a_{ij}$ we have the value that the character $\chi_i$ assumes on the class $j$. The first character is just the one associated to the trivial representation. \\
+	For the group of quaternions $Q_8$ on the other hand we have that
+	\begin{center}
+		\begin{tabular}{c|c|c|c|c|c|}
+			&$\left\{1\right\}$ &$\left\{-1\right\}$&$\left\{i,i^3\right\}$&$\left\{j,j^3\right\}$&$\left\{k,k^3\right\}$ \\
+			\hline
+			$\chi_1$ & $1$ & 1 &1 & 1 &  1 \\
+			\hline
+			$\chi_2$ & 1 & 1 & -1 & 1 & -1 \\
+			\hline
+			$\chi_3$ & 1 & 1 & -1 & -1 & 1 \\
+			\hline
+			$\chi_4$ & 1 & 1 & 1& -1 &  -1 \\
+			\hline
+			$\chi_5$ & 2 & -2 & 0 & 0 &  0 \\
+		\end{tabular}
+	\end{center}
+	and so we have two different nonisomorphic groups that have the same character table.
+	
+	\subsection{Algebraic integers and Frobenius's divisibility theorem}
+	
+	\begin{definition}[Algebraic integer]
+		A comples number $\alpha$ is called an \textit{algebraic integer} if it is a root of some monic polynomial with integer coefficients.
+	\end{definition}
+	This definition is basically equal to the one of an algebraic number, except for the restriction on the first coefficient of the polynomial.
+	\begin{proposition}[Algebraic integers aren't rational]
+		If we denote with $A$ the set of algebraic integers then we have
+		$$\QQ\cap A=\ZZ$$
+	\end{proposition}
+	\begin{proof}
+		We clearly have that
+		$$\ZZ\subseteq A\cap \QQ$$
+		then we just need to show the other inclusion. Let $\alpha\in \QQ\cap A$, we can write
+		$$\alpha=\frac{p}{q}$$
+		with $p,q$ coprime positive integers. Since $\alpha$ is algebraic there must exist finite $a_1,\dots,a_n$ integers such that
+		$$\alpha^n+a_{n-1}\alpha^{n-1}+\dots+a_1\alpha+a_0=0$$
+		multiplying both sides by $q$ this becomes a complete polynomial in $p,q$:
+		$$p^n=-a_{n-1}p^{n-1}q-\dots-a_1pq^{n-1}-q^n$$
+		but this implies that
+		$$q\mid p^n \implies q\mid p$$
+		which means that $q=1$, as desired.
+	\end{proof}
+	\begin{proposition}[$\ZZ$-modules are stable by algebraic integers action]
+		The number $\alpha$ is an algebraic integer if and only if there is a nonzero abelian finitely generated subgroup $M\subseteq \CC$ such that $\alpha M\subseteq M$ (that is $M$ is a module over the ring of algebraic integers).
+	\end{proposition}
+	\begin{proof}
+		We firstly prove that if $\alpha$ is an algebraic integer then we have the module condition. Since $\alpha$ is algebraic we have
+		$$\alpha^n + a_{n-1}\alpha^{n-1}+\dots+a_1\alpha + a_0=0$$
+		then let's consider the finitely generated abelian group
+		$$M:=\langle \alpha^0,\alpha^1,\dots,\alpha^{n-1}\rangle_{\ZZ}$$
+		with complex coefficients, equipped with the addition structure. Then since 
+		$$\alpha^n=-a_{n-1}\alpha^{n-1}+\dots+a_1\alpha -a_0$$
+		it's clear that multipliying any sum of powers of order $<n$ of $\alpha$ by $\alpha$ is again equal to some sum of powers of $\alpha$ of order $<n$, which means that $\alpha M \subseteq M$, as we wished to show. \\
+		Assume now that there exists a finitely generated $\ZZ$-module $M$ that is $\alpha$-stable. Let's prove that $\alpha$ is an algebraic integer: let $e_1,\dots,e_m$ be a finite set of generators of $M$ then we must have, using Einstein convention, that there exist $b_{ij}\in \ZZ$ such that
+		$$\alpha e_i = b_{ij}e_j$$
+		but this means that $\alpha$ just acts as a linear operator on $M$. Since the composition of the action of $\alpha$ is just multiplication, then calling $B$ the matrix of the coefficients $b_{ij}$ we obtain by Hamilton-Cayley that
+		$$\det\left(\alpha I-B\right)=0$$
+		which is a monic polynomial with integer coefficients having $\alpha$ as a root.
+	\end{proof}
+	\begin{proposition}[Algebraic integers are a ring]
+		We have that for any $\alpha,\beta\in A$ the set of algebraic integers
+		\begin{itemize}
+			\item The opposite is still in the set $-\alpha\in A$.
+			\item The sum is still in the set $\alpha+\beta\in A$.
+			\item The product is still in the set
+			$\alpha\beta\in A$.
+		\end{itemize}
+	\end{proposition}
+	\begin{proof}
+		The first condition is very easy to prove. We start then with the product: if $\alpha,\beta$ are algebraic then there exist two $\ZZ$-modules such that
+		\begin{gather*}
+			\alpha M \subseteq M \\
+			\beta N \subseteq N
+		\end{gather*}
+		denoting with $e_i$ and $f_j$ the basis of these, then the product $MN:=\langle e_if_j\rangle$ is also a module, and is $\alpha \beta$ stable because
+		$$\alpha \beta x_{ij}e_if_j=x_{ij}\alpha e_i \beta f_j \in MN$$
+		(where $x_{ij}e_if_j$ in Einstein notation is a generic element of $MN$) and so $\alpha\beta$ is again algebraic. With the sum is pretty much the same, since $MN$ is also $\alpha+\beta$ stable.
+	\end{proof}
+	The algebraic integers are for us a tool to show the following theorem
+	\begin{theorem}[Frobenius divisibility theorem]
+		Let's consider a finite group $G$ and $V$ an irreducible representation of $G$, then we have
+		$$\dim V \mid \abs{G}.$$
+	\end{theorem}
+	\begin{proof}
+		Let's call $\rho:G\to \GL(V)$ the morphism associated to the representation, and $\chi$ the character of $(V,\rho)$. We have already seen that all the elements $\rho(g)$ are diagonalizable and that on the diagonal of each element appear only roots of unity. Since the roots of unity are by definition algebraic integers, this means that $\chi(g)\in A$ is an algebraic integer for any $g\in G$. Let $C_1,\dots,C_k$ be the conjugacy classes of $G$, denoting with $r_i$ the cardinalities of each of these we define the elements of $\CC[G]$ as
+		$$K_i=\sum_{g\in C_i}g.$$
+		Because the conjugacy classes are by definition stable by conjugation then
+		$$gK_i=K_ig$$
+		for any $g\in \CC[G]$, hence $K_i\in Z(\CC[G])$ for all $i$. Since this are a maximal set of linear independent elements of $Z(\CC[G])$ they must be a basis. We've already proven that $K_i\in Z(\CC[G])$ means that 
+		$$\rho(K_i)=\alpha_i\text{id}$$
+		where $\alpha_i\in \CC$ is just some complex constant. This implies $\chi(K_i)=\alpha_i\dim V$ but using the linearity of the trace and invariance on conjugacy classes we get
+		$$r_i\chi(g_i)=\sum_{g\in C_i}\chi(g_i)=\chi(K_i)=\alpha_i\dim V.$$
+		We wish to show that the $\alpha_i$ are eigenvalues of some operator, from which will follow that they're also algebraic. Since 
+		$$K_iK_j=c^m_{ij}K_m$$
+		with $c_{ij}^m\in\ZZ$ (it just follows from expanding the product). This means that on the $\ZZ$-module with $\alpha_i$ as generators then $\rho(K_i)$ is an action such that
+		$$\rho(\alpha_i)\alpha_j = c_{ij}^m \alpha_m$$
+		and hence we can write this, fixing $i$, in matrix form
+		$$M_i\vec{\alpha}=\lambda_i \vec{\lambda}$$
+		where $\left(M_i\right)_{jm}:=c_{ij}^m$, and hence again by Cayley-Hamilton
+		$$\det\left(\alpha_i-M_iI\right)=0$$
+		which shows that all the $\alpha_i$ are algebraic integers. \\
+		We are ready to conclude the proof, from the irreducibility of $V$ we conclude
+		$$1=\left(\chi_V,\chi_V\right)=\frac{1}{\abs{G}}\sum_{g\in G}\chi(g)\overline{\chi(g)}\implies \sum_{g\in G}\chi(g)\overline{\chi(g)}=\abs{G}$$
+		regrouping the terms by conjugacy class we obtain
+		$$\sum_{i=1}^k r_i\chi(g_i)\overline{\chi(g_i)}=\abs{G}$$ 
+		substituting the terms we had found previuosly we find
+		$$\dim V \sum_{i=1}^k \alpha_i \chi(g_i)=\abs{G} \implies \frac{\abs{G}}{\dim V}=\sum_{i=1}^k \alpha_i \chi(g_i).$$
+		But we are done, because the RHS is a sum and product of algebraic numbers, and hence is an algebraic number, whereas the LHS is rational, and hence they both must be integer, concluding our proof.
+	\end{proof}
+	
+	\newpage
+	
+	\section{Modules and representations}
+	
+	\begin{definition}[Module]
+		Given a ring $R$ with identity $1$ then a \textit{left $R$-module} consist of an abelian group $(M,+)$ and an operation $\cdot:R\times M\to M$ (a multiplication by a scalar basically) such that for any $r,s\in R$ and $x,y\in M$ we have
+		\begin{itemize}
+			\item $r(x+y)=rx+ry.$
+			\item $(r+s)x=rx+sx.$
+			\item $(rs)x=r(sx).$
+			\item $1\cdot x = x.$
+		\end{itemize} 
+		Basically we can think of a module as a vector space over a ring.
+	\end{definition}
+	Clearly any $G$ abelian group has naturally a $\ZZ$-module structure. Modules are connected to representations in the sense that given any $\rho:G\to\GL(V)$ we are equipping the space $V$ with a module structure, in particular we are saying that $(V,\rho)$ is a $k[G]$-module (or shortly a $G$-module), where the multiplication by a scalar for any $v\in V$ is
+	$$\left(\sum_{g\in G} a_g g\right)\cdot v:=\sum_{g\in G}a_g\rho_V(g)v.$$
+	
+	\subsection{Representations of the symmetric group}
+	We'll denote as $\underline{n}$ the set $(n+1)^{(n+1)}$ of the permutations of $n$ numbers. \\
+	For any element $\sigma\in S_n$ we define a vector 
+	$$\sigma \mapsto (i_1,i_2,\dots,i_n)$$
+	where the $i_j$ are the length of the $j$-th cycle (sorted by length) in the distinct cycle decomposition of $\sigma$. As an example if 
+	$$\sigma=(1,3,5,2,6)(8,9)(4)(7)$$
+	then it's associated vector is $(5,2,1,1)$. By definition the elements of any such vector are always sorted in descending order.
+	\begin{definition}[Partition]
+		For any $n\in\NN$ a \textit{partition} of $n$ is a non increasing vector of natural positive numbers whose components sum up to $n$.
+	\end{definition}
+	We want to study the representations of $S_n$ because in any $\GL_n(k)$ the group of diagonal matrices $D$ satisfies
+	$$\faktor{N_{\GL_n(k)}(D)}{D}\cong S_n$$
+	which is quite crazy.
+	\begin{definition}[Young diagram]
+		A \textit{Young diagram} is a finite collection of boxes, arranged in left-justified rows, with the row lengths in weakly decreasing order.
+	\end{definition}
+	An example of this is showed in figure \ref{young diagram}.
+	\begin{figure}[htbp]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\begin{tikzpicture}[square/.style={draw, minimum size=1cm}]
+				
+				% Colonna 1: alta 4
+				\foreach \r in {1,...,4}
+				\node[square] at (1,-\r) {};
+				
+				% Colonne 2 e 3: alte 2
+				\foreach \c in {2,3}
+				\foreach \r in {1,...,2}
+				\node[square] at (\c,-\r) {};
+				
+				% Colonne 4, 5 e 6: alte 3
+				\foreach \c in {4,5,6}
+				\node[square] at (\c,-1) {};
+			\end{tikzpicture}
+		\end{minipage}
+		\hfill
+		\begin{minipage}{0.48\textwidth}
+			\begin{tikzpicture}[square/.style={draw, minimum size=1cm}]
+				
+				\def\sigma{{4,7,1,11,2,9,6,3,10,5,8}}
+				\newcommand{\s}[1]{\pgfmathparse{\sigma[#1-1]}\pgfmathprintnumber[fixed,precision=0]{\pgfmathresult}}
+				
+				% Riga 1: lunga 6
+				\foreach \c in {1,...,6}
+				\node[square] at (\c,-1) {\s{\c}};
+				
+				% Riga 2: lunga 3
+				\foreach \c in {7,...,9}
+				\node[square] at (\c-6,-2) {\s{\c}};
+				
+				
+				% Righe 3,4: lunghe 1
+				\node[square] at (1,-3) {\s{10}};
+				\node[square] at (1,-4) {\s{11}};
+			\end{tikzpicture}
+		\end{minipage}
+		\caption{The unique Young diagram associated to the partition $(6,3,1,1)$ of $11$, and an associated Young Tableaux.}
+		\label{young diagram}
+	\end{figure}
+	There exists a natural bijection between young diagrams consisting of $n$ boxes and partitions of $n$. An example of this is Figure \ref{young diagram}. 
+	\begin{definition}[Young Tableaux]
+		A \textit{Young tableaux} is a filling of the boxes of a young diagram of shape $\lambda$ (a partition of $n$) with the numbers from $1$ to $n$. The set of all Young Tableaxues is denoted as $YT$. Given a partition $\lambda$ of $n$ we denote the set of all Young tableauxes associated to $\lambda$ by $YT_\lambda$.
+	\end{definition}
+	For any Young tableaux associated to a partition $\lambda$ we can define a subset $S_\lambda$ of $n$: the set of elements that make each row invariant of a Young tableaux of shape $\lambda$ wrt the action of $S_n$.
+	\begin{definition}[Row equivalence]
+		Given two Young tableauxes we say that these are \textit{row equivalent} if on each row of the first young tableaux appear the same number as the ones appearing in the same of row of the second one. 
+	\end{definition}
+	\begin{definition}[Young tabloid]
+		A row equivalence class of Young tableauxes is called a \textit{Young tabloid}. The set of all Young tabloids of shape $\lambda$ is denoted as $YTD_\lambda$.
+	\end{definition}
+	The core idea is to let $S_n$ act on $YT_\lambda$, by permuting the numbers in the tableaux applying them $\sigma\in S_n$. This gives a transitive action, which is not that interesting, but by taking the formal linear combinations $\CC[YT_\lambda]$:
+	\begin{lemma}[Young Tableauxes algebra structure]
+		For any partition $\lambda$ we have that
+		$$\CC[TY_\lambda]\cong \CC[S_n].$$
+	\end{lemma}
+	\begin{proof}
+		We define an isomorphism choosing an arbitrary $t\in TY_\lambda$:
+		\begin{align*}
+			\varphi: \CC[YT_\lambda] & \to \CC[S_n] \\
+			\sigma(t) &\mapsto \sigma   
+		\end{align*}
+		this is well defined for any element of $TY_\lambda$ because of the transitivity of the action and is also easy to show that is equivariant.
+	\end{proof}
 	
 \end{document}
