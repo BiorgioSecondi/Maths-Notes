@@ -2429,8 +2429,44 @@
 			& C_9:y^2=0 && 
 		\end{align*}
 	\end{theorem}
-	Un modo alternativo di trovare questa classificazione (oltre a farla discendere da quella generale delle quadriche euclidee) è intersecare un cono con un piano, e notare che ritroviamo tutti i $9$ casi che conosciamo. \\
-	Vediamo allora un paio di altri fatti interessanti
+	Un modo alternativo di trovare questa classificazione (oltre a farla discendere da quella generale delle quadriche euclidee) è intersecare un cono con un piano, e notare che ritroviamo tutti i $9$ casi che conosciamo.
+	
+	\subsection{Parametrizzazione di quadriche in $\PP^3$}
+	
+	Consideriamo una quadrica proiettiva non degenere $q$ in $\PP^3$ su un campo algebricamente chiuso. Allora $q$ è sempre proiettivamente equivalente alla quadrica di equazione
+	$$Q=x_0x_3-x_1x_2=\det\begin{pmatrix}
+		x_0 & x_1 \\
+		x_2 & x_3
+	\end{pmatrix}$$
+	ma allora ogni punto $[x_0:x_1:x_2:x_3]$ nel supporto di $q$ è in biezione con la matrice di determinante $0$
+	$$[x_0:x_1:x_2:x_3]\mapsto
+	\begin{pmatrix}
+		x_0 & x_1 \\
+		x_2 & x_3
+	\end{pmatrix}
+	$$
+	ma dato che quella matrice è una $2\times 2$, ed è di rango $1$ (se fosse di rango $0$ non corrisponderebbe ad alcun punto proiettivo), allora possiamo scriverla come
+	$$
+	\begin{pmatrix}
+		x_0 & x_1 \\
+		x_2 & x_3
+	\end{pmatrix}=
+	\begin{pmatrix}
+		s_0t_0 & s_0t_1 \\
+		s_1t_0 & s_1t_1
+	\end{pmatrix}
+	$$
+	che è proprio uguale al prodotto tensoriale di due vettori $[s_0:s_1]\otimes[t_0:t_1]$. Questa mappa che abbiamo appena costruito
+	$$\sigma:\PP^1\times \PP^1 \to \text{supp}(q)$$
+	si chiama \textit{mappa di Segre}, e illustra come una quadrica proiettiva possa essere parametrizzata da due punti proiettivi su una retta. Riportiamo la definizione meglio sotto
+	\begin{definition}[Mappa di Segre]
+		La mappa $\sigma:\PP^1\times \PP^1 \to \PP^3$ tale che
+		$$\left([s_0:s_1],\left[t_0:t_1\right]\right)\mapsto \left(\left[s_0t_0:s_0t_1:s_1t_0:s_1t_1\right]\right)$$
+		si chiama la \textit{mappa di Segre} della quadrica proiettiva di equazione $x_0x_3-x_1x_2$, ed è una mappa suriettiva da $\PP^1\times \PP^1$ a $\text{supp}(q)$.
+	\end{definition}
+	\begin{definition}[Schiera di rette]
+		Una famiglia massimale di rette in $\PP^3$, contenute nel supporto di una quadrica proiettiva $q$, tale per ogni coppia di rette $r,s$ si abbia $r\lor s = \PP^3$ si dice una \textit{schiera di rette} di $q$.
+	\end{definition}
 	
 	\newpage
 	
