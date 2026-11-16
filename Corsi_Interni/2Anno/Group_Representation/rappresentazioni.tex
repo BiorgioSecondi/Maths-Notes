@@ -144,7 +144,7 @@
 	with a slight abuse o notation.
 	\begin{definition}[Group algebra]
 		Given a field $k$ and a group $G$ the \textit{group algebra} of $G$ is the set
-		$$kG:=\left\{\sum_{g\in G}\lambda_g g:\lambda_g\in k\right\}$$
+		$$kG=k\left[G\right]:=\left\{\sum_{g\in G}\lambda_g g:\lambda_g\in k\right\}$$
 		equipped with the obvious sum (as a vector space) and the distributive multiplication that satisfies the multiplication of $G$.
 	\end{definition}
 	We should prove that the one above is actually an algebra, but it is quite easy indeed. Given a representation $\rho$ of $G$ we can extend it linearly to a representation $\tilde{\rho}$ such that
@@ -377,9 +377,9 @@
 		For any representation $V$ of $G$ we have that the following are equivalent:
 		\begin{itemize}
 			\item Every subrepresentation of $V$ has a stable complement.
-			\item For any representation $V$ we have irreducible subrepresentations $V_i$ such that
+			\item For any finitely generated representation $V$ we have irreducible subrepresentations $V_i$ such that
 			$$V=\bigoplus_{i=1}^k V_i.$$
-			\item For any representation $V$ we have irreducible subrepresentations $V_i$ such that
+			\item For any finitely generated representation $V$ we have irreducible subrepresentations $V_i$ such that
 			$$V:=\sum_{i=1}^k V_i.$$
 		\end{itemize}
 		In particular Maschke's theorem tells us that the first condition is true, and so all the other ones must follow as well.
@@ -405,21 +405,20 @@
 	\end{proof}
 	In the case of algebraically closed fields this result is much much stronger:
 	\begin{corollary}[Schur's lemma for algebraically closed fields]
-		Le $V,W$ be irreducible representations of $G$, if $k$ is algebraically closed then $\text{End}_G(V)=k\text{id}_V$.
+		Le $V$ be an irreducible representation of $G$, if $k$ is algebraically closed then $\text{End}_G(V)=k\text{id}_V$.
 	\end{corollary}
 	\begin{proof}
-		\footnote{This proof works only for finite dimension, although the result works for general representations as well.}
-		For the first part we simply have that iff there exists a nonzero $f\in \text{Hom}_G(V,W)$ then we have $\ker{f}\le V$ is a subrepresentation of $V$, which means that $\ker{f}=0$. Thus we have $f$ injective, which means that 
-		$$V\cong \Immagine{f}\le W$$
-		which by irreducibility implies $V\cong W$. For the second part we have that, given a $f\in \text{End}_G(V)$ for the algebraic closeness of $k$ we always have an eigenvalue of $f$, let's call it $\lambda$. But this means that
+		We have that, given a nonzero $f\in \text{End}_G(V)$ for the algebraic closeness of $k$ we always have an eigenvalue of $f$, let's call it $\lambda\in k$. But this means that
 		$$0\ne \ker{f-\lambda I_V}$$
-		is $G$-stable, so it must be $V$.
+		is $G$-stable, so it must be the whole $V$ by its irreducibility.
 	\end{proof}
-	\begin{corollary}[Triviality of action on irreducible representations]
-		If $k$ is algebraically closed then any $z\in Z(kG)$ acts as a scalar on any irreducible representation.
+	\begin{corollary}[Commuting implies having scalar action]
+		If $k$ is algebraically closed then any $z\in Z(kG)$ acts as a scalar on any irreducible representation of $kG$.
 	\end{corollary}
 	\begin{proof}
-		contenuto...
+		For any $z\in Z(kG)$ and irreducible representation $V$ of $kG$ we have that the application $\rho_V(g):V\to V$ is an endomorphism of $V$, moreover it is equivariant, since for any $g\in kG$ we have that
+		$$\rho_V(g)\rho_V(z)=\rho_V(gz)=\rho_V(zg)=\rho_V(z)\rho_V(g)$$
+		and by Schur's lemma this means that $\rho_V(z)$ acts as a scalar.
 	\end{proof}
 	
 	\subsection{Group functionals and Characters}
@@ -477,9 +476,7 @@
 		$$\dot= \chi_{V\otimes W^*}\left(\frac{1}{\abs{G}}\sum_{g\in G}g\right)=\chi_{V\otimes W^*}(P)=\tr{P_{\mid V\otimes W^*}}$$
 		but the trace of a projection is just the dimension of the image, so since $P$ is a projection from $\text{Hom}(V,W)$ to $\text{Hom}_G(V,W)$ we have our result. 
 	\end{proof}
-	So putting together the result of Maschke and orthogonality of characthers we get that the set $\text{Irr}(G)$ of irreducible representations of $G$ are always
-	$$\abs{\text{Irr}(G)}\le \dim F_C(G,\CC)$$
-	and so we have that any $\chi_V$ is a $\ZZ_{\ge 0}$-linear combination of $\chi_{V_i}$. 
+	This in particular means by Schur's lemma that 
 	\begin{corollary}[Fourier Coefficients of the characters]
 		If $\left\{V_i,i\in I\right\}$ is a set of isomorphsim classes of irreducible representations of $G$ we have that any $V$ representation of $G$ is
 		$$V=\bigoplus_{i=1}^k V_i^{\oplus n_i}$$
@@ -582,7 +579,7 @@
 		Let $X,Y\in \text{End}(V)$ diagonalizable. Then $X$ and $Y$ are simultaneously diagonalizable iff they commute.
 	\end{proposition}
 	\begin{proof}
-		If they are simultaneously diagonalizable the thesis clearly holds, since all diagonal matrices commute. To prove the converse we decompose $V$ in $X$ eigenspaces
+		If they are simultaneously diagonalizable the thesis clearly holds, since all diagonal matrices commute. To prove the converse we decompose $V$ in $X$-eigenspaces
 		$$V=\bigoplus E_\lambda(X)$$
 		now if we apply $Y$ to any $E_\lambda(X)$ we stay in $E_\lambda(X)$, in fact if $v\in E_\lambda(X)$ we have through commutativity
 		$$X(Yv)=YXv=Y\lambda v= \lambda Yv$$
@@ -607,7 +604,7 @@
 	\begin{proposition}[Irreducible representations of finite abelian groups]
 		All the irreducible representations of a finite abelian group $A$ are the finite dimensional ones. Moreover from the sum of squares formula we have that there are exactly $\abs{A}$ irreducible representations of $A$.
 	\end{proposition}
-	From the structure theorem of finite abelian groups we know that any finite abelian $A$ decomposes as
+	Another way to reach this result was from the structure theorem of finite abelian groups: we know that any finite abelian $A$ decomposes as
 	$$A\cong C_{p_1^{e_1}}\times C_{p_2^{e_2}}\times \dots \times C_{p_k^{e_k}}$$
 	where $p_i$ are not necessarily distinct primes. This means we can find $g_1,\dots,g_k$ elements of $A$ (ideally the elements $(a_1,1,\dots,1)$, $(1,a_2,\dots,1)$, $\dots$, $(1,1,\dots,a_k)$, generators of the canonical isomorphic images of $C_{p_i^{e_i}}$ in $A$) of order respectively $p_i^{e_i}$. Then choosing the representation of $A$ amounts to just choosing $\rho(g_i)$ for all $g_i$. For any of these elements we have $p_i^{e_i}$ choices, and since this choices are all independent the number of distinct representations of $A$ are $p_1^{e_1}p_2^{e_2}\dots p_k^{e_k}$, which is exactly what we concluded in the previous result. 
 	\begin{definition}[Commutator]
@@ -643,7 +640,7 @@
 		$$[G,G]\le A_n$$
 	\end{proof}
 	
-	\subsection{Character tables}
+	\subsection{Orthonormality of Characters}
 	
 	Let's return to class functions. For any $f\in F_c(G,\CC)$ and any $\rho:G\to\GL(V)$ we can define an action of $f$ on $V$ in the following way
 	$$s_f:=\sum_{g\in G}f(g)\rho(g)\in \text{Hom}_\CC(V,V).$$
@@ -742,6 +739,25 @@
 	\end{center}
 	and so we have two different nonisomorphic groups that have the same character table.
 	
+	
+	
+	\newpage
+	
+	\section{Modules and representations}
+	
+	\begin{definition}[Module]
+		Given a ring $R$ with identity $1$ then a \textit{left $R$-module} consist of an abelian group $(M,+)$ and an operation $\cdot:R\times M\to M$ (a multiplication by a scalar basically) such that for any $r,s\in R$ and $x,y\in M$ we have
+		\begin{itemize}
+			\item $r(x+y)=rx+ry.$
+			\item $(r+s)x=rx+sx.$
+			\item $(rs)x=r(sx).$
+			\item $1\cdot x = x.$
+		\end{itemize} 
+		Basically we can think of a module as a vector space over a ring.
+	\end{definition}
+	Clearly any $G$ abelian group has naturally a $\ZZ$-module structure. Modules are connected to representations in the sense that given any $\rho:G\to\GL(V)$ we are equipping the space $V$ with a module structure, in particular we are saying that $(V,\rho)$ is a $k[G]$-module (or shortly a $G$-module), where the multiplication by a scalar for any $v\in V$ is
+	$$\left(\sum_{g\in G} a_g g\right)\cdot v:=\sum_{g\in G}a_g\rho_V(g)v.$$
+	
 	\subsection{Algebraic integers and Frobenius's divisibility theorem}
 	
 	\begin{definition}[Algebraic integer]
@@ -765,8 +781,8 @@
 		$$q\mid p^n \implies q\mid p$$
 		which means that $q=1$, as desired.
 	\end{proof}
-	\begin{proposition}[$\ZZ$-modules are stable by algebraic integers action]
-		The number $\alpha$ is an algebraic integer if and only if there is a nonzero abelian finitely generated subgroup $M\subseteq \CC$ such that $\alpha M\subseteq M$ (that is $M$ is a module over the ring of algebraic integers).
+	\begin{proposition}[Characterization of algebraic integers through $\ZZ$-modules]
+		The number $\alpha$ is an algebraic integer if and only if there is a nonzero finitely generated $\ZZ$-module $M\subseteq \CC$ such that $\alpha M\subseteq M$ (that is $M$ is a module over the ring of algebraic integers).
 	\end{proposition}
 	\begin{proof}
 		We firstly prove that if $\alpha$ is an algebraic integer then we have the module condition. Since $\alpha$ is algebraic we have
@@ -833,22 +849,7 @@
 		But we are done, because the RHS is a sum and product of algebraic numbers, and hence is an algebraic number, whereas the LHS is rational, and hence they both must be integer, concluding our proof.
 	\end{proof}
 	
-	\newpage
-	
-	\section{Modules and representations}
-	
-	\begin{definition}[Module]
-		Given a ring $R$ with identity $1$ then a \textit{left $R$-module} consist of an abelian group $(M,+)$ and an operation $\cdot:R\times M\to M$ (a multiplication by a scalar basically) such that for any $r,s\in R$ and $x,y\in M$ we have
-		\begin{itemize}
-			\item $r(x+y)=rx+ry.$
-			\item $(r+s)x=rx+sx.$
-			\item $(rs)x=r(sx).$
-			\item $1\cdot x = x.$
-		\end{itemize} 
-		Basically we can think of a module as a vector space over a ring.
-	\end{definition}
-	Clearly any $G$ abelian group has naturally a $\ZZ$-module structure. Modules are connected to representations in the sense that given any $\rho:G\to\GL(V)$ we are equipping the space $V$ with a module structure, in particular we are saying that $(V,\rho)$ is a $k[G]$-module (or shortly a $G$-module), where the multiplication by a scalar for any $v\in V$ is
-	$$\left(\sum_{g\in G} a_g g\right)\cdot v:=\sum_{g\in G}a_g\rho_V(g)v.$$
+	\subsubsection{$\bigstar$: Burnside's Theorem}
 	
 	\subsection{Representations of the symmetric group}
 	We'll denote as $\underline{n}$ the set $(n+1)^{(n+1)}$ of the permutations of $n$ numbers. \\

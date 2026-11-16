@@ -1834,7 +1834,7 @@
 	 	$$K\subset \bigcup_{\alpha\in \mathcal{A}}A_\alpha \quad\implies\quad \exists \mathcal{B}\subset\mathcal{A}:\abs{\mathcal{B}}<\infty\text{  e inoltre }K\subseteq \bigcup_{\alpha\in\mathcal{B}}A_\alpha $$
 	 \end{definition}
 	 Per quello che ci servirà dimostrare poi abbiamo bisogno del seguente lemma:
-	 \begin{lemma}[Oscillazioni che vanno localmente a $0$]
+	 \begin{lemma}[Le funzioni R-integrabili sono assolutamente continue]
 	 	Siano $f:[0,1]\to \RR$ e $\varepsilon>0$. Supponiamo che $\omega(f,x)<\varepsilon$ per ogni $x\in[0,1]$, allora esiste un numero $\delta>0$ tale che comunque preso un intervallo $I\subseteq[0,1]$ vale 
 	 	$$\abs{I}<\delta \implies \omega(f,I)<\varepsilon$$  
 	 \end{lemma}
@@ -1876,12 +1876,12 @@
 	 		ma per la definizione di oscillazione notiamo che questo è proprio uguale a 
 	 		$$\dots=\sum_{I\in \sigma}\omega(f,I)\abs{I}\ge \sum_{I\in \sigma:\text{int}(I)\cap D_k\ne \eset} \omega(f,I)\abs{I}$$
 	 		ma allora stimando $\omega(f,I)$ con $1/k$ grazie alla definizione di $D_k$, e di nuovo per subadditività e per il fatto che $\sigma$ è una partizione abbiamo chiuso, perche:
-	 		$$\dots\ge \sum_{I\in \sigma:\text{int}(I)\cap D_k\ne \eset}\frac{1}{k}\abs{I}=\frac{1}{k}\sum_{I\in \sigma:\text{int}(I)\cap D_k\ne \eset}\abs{I}=\frac{\abs{D_k}}{k}$$
+	 		$$\dots\ge \sum_{I\in \sigma:\text{int}(I)\cap D_k\ne \eset}\frac{1}{k}\abs{I}=\frac{1}{k}\sum_{I\in \sigma:\text{int}(I)\cap D_k\ne \eset}\abs{I}\ge\frac{\abs{D_k}}{k}$$
 	 		che è certamente maggiore di $0$ è costante, e quindi abbiamo finito.
 	 		\item[Misura nulla implica Riemann integrabile] Dato un $\varepsilon>0$ arbitrario, dimostriamo che esiste una partizione $\sigma$ tale che 
 	 		$$S(f,\sigma)-s(f,\sigma)<\varepsilon$$
 	 		l'ipotesi che $D(f)$ abbia misura nulla ci dice che anche tutti i $D_k$ hanno misura nulla. Sia $k\in\NN$, per definizione di misura nulla abbiamo
-	 		$$D_k\subseteq \bigcup_{j=1}^\infty$$
+	 		$$D_k\subseteq \bigcup_{j=1}^\infty I_j$$
 	 		$$\sum_{j=1}^\infty \abs{I_j}<\varepsilon$$
 	 		ma per come abbiamo definito $D_k$ questo è sicuramente compatto, dato che 
 	 		$$[0,1]\setminus\left\{x\in[0,1]:\omega(f,x)< \frac{1}{k}\right\}=D_k$$

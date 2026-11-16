@@ -2669,7 +2669,9 @@
 	\end{proof}
 	
 	\subsection{Classi particolari di equazioni}
+	Risolvere equazioni differenziali in generale è abbastanza difficile: vediamo qualche caso particolare che siamo in grado di risolvere.
 	
+	\subsubsection{Equazioni lineari}
 	\begin{definition}[Equazione lineare]
 		Un'equazione differenziale \textit{lineare} è qualcosa della forma
 		$$y^{(n)}+a_{n-1}(x)y^{(n-1)}+\dots+a_1(x)y'+a_0(x)=0$$
@@ -2711,6 +2713,54 @@
 	abbiamo che per ogni $k_1,k_2\in\RR$ anche $k_1y_1+k_2y_2$ è soluzione di questa stessa. Ma allora l'insieme delle soluzioni all'equazione \ref{omogenea} è uno spazio vettoriale $V$. Inoltre comunque date due soluzioni $z_1,z_2$ dell'equazione completa abbiamo che
 	$$\sum_{i=1}^n a_i(x)(z_1-z_2)^{(i)}=0$$
 	ovvero $z_1-z_2\in V$. Questo vuol dire che lo spazio delle soluzioni $V'$ dell'equazione completa \textbf{è uno spazio affine di giacitura lo spazio delle funzioni dell'omogenea}. Praticamente questo vuol dire che per risolvere l'equazione completa basta risolvere l'omogenea, e poi sommare a ciascuna soluzione dell'omogenea una stessa soluzione particolare dell'equazione completa.
+	
+	\subsubsection{Equazioni separabili}
+	
+	\begin{definition}[Equazione a variabili separabili]
+		Un'equazione del primo ordine si dice \textit{a variabili separabili} se può essere sempre scritta nella forma
+		$$y'=f(x)g(y)$$
+		con $f\in C^0(I)$ e $g\in C^0(I)$, e di conseguenza $x\in I$.
+	\end{definition}
+	Presa una qualunque equazione differenziale separabile con condizione iniziale $y(x_0)=y_0$, se $y_0=0$ abbiamo la soluzione ovvia
+	$$y(x)\equiv x_0$$
+	d'altra parte se $y_0\ne 0$ esisterà un intotno $J_1\subseteq J$ tale che
+	$$g(y_0)\ne 0$$
+	allora possiamo riscrivere l'equazione in quell'intorno come
+	$$f(x)=\frac{y'}{g(y(x))}$$
+	abbiamo cioè separato le variabili, cioè abbiamo portato tutte le $y$ da un lato e tutte le $x$ dall'altro. Se possiamo fare questo passaggio l'equazione è essenzialmente risolta, a meno di un paio di integrazioni, infatti
+	$$[G(y(y))]'=\frac{y'(x)}{g(y(x))}$$
+	dove $G$ è una primitiva di $1/g$. Chiamando allora $F(x)$ una primitiva di $f$ abbiamo che integrando entrambi i lati dell'equazione:
+	$$G(y(x))=F(x)+G(y_0)-F(x_0)$$
+	al che si trova, invertendo $G$ (che è invertibile, almeno localmente, in quanto ha derivata non nulla in un intorno di $x_0$) che
+	$$y(x)=G^{-1}\left(F(x)+G(y_0)-F(x_0)\right)$$	
+	proviamo a incidere quanto appena visto in un teorema:
+	\begin{theorem}[Soluzione di equazioni differenziali separabili]
+		Siano $I,J\subseteq\RR$ intervalli aperti, allora presi $x_0\in I$ e $y_0\in J$ e funzioni $f\in C^0(I)$ e $g\in C^0(I)$ con $g\ne 0$ su $J$ allora esister un $I_1\subseteq I$ intervallo aperto contenente $x_0$ tale che esiste un'unica soluzione $y\in C^1(I_1)$ al problema di Cauchy:
+		$$
+		\begin{cases}
+			y'=f(x)g(y) \\
+			y(x_0)=y_0
+		\end{cases}
+		$$
+		e inoltre si ha la formula esplicita
+		$$y=G^{-1}\left(F(x)+G(y_0)-F(x_0)\right)$$
+		con $G$ una primitiva di $1/g$ e $F$ una primitiva di $f$.
+	\end{theorem}
+	\begin{remark}[Soluzioni infinite]
+		L'ipotesi che $g$ non si annulli su $J$ è importante, infatti abbiamo visto prima che se $g(y_0)=0$ allora c'è la soluzione costante $y(x)\equiv y_0$, ma potrebbero essercene altre! Si pensi per esempio a
+		$$
+		\begin{cases}
+			y'= 2\sqrt{\abs{y}} \\
+			y(0)=0
+		\end{cases}
+		$$
+		ovvero il caso in cui $g(y)=\sqrt{\abs{y}}$ e $f(x)=2$, il famoso pennello di Peano che ha infinite soluzioni.
+	\end{remark}
+	\begin{example}[Equazione logistica]
+		L'equazione \textit{logistica} è la seguente equazione differenziale a variabili separabili
+		$$y'=y\left(1-\frac{y}{L}\right).$$
+	\end{example}
+	
 	
 	\newpage
 	

@@ -441,10 +441,10 @@
 	e quindi viene spontaneo pensare che ci sia una nozione di integrale che si può assegnare alla funzione $f$ ma che l'integrale di Riemann non riesce a catturare. Insomma vogliamo ridefinire la nozione di integrabilità in modo che l'insieme delle funzioni integrabili sia \textbf{chiuso rispetto ai limiti}, ovvero che sia completo, è in un certo senso un caso specifico di completamento di spazio metrico. \\
 	\\
 	Un altro problema dell'integrale di Riemann consiste nel teorema fondamentale del calcolo integrale, una versione del teorema fondamentale è che
-	\begin{theorem}[Fondamentale del calcolo integrale]
+	\begin{theorem*}[Fondamentale del calcolo integrale]
 		Se $f:(a,b)\to\RR$ è derivabile e $f'$ è Riemann integrabile allora 
 		$$\int_a^bf'(x)\dif x=f(b)-f(a).$$
-	\end{theorem}
+	\end{theorem*}
 	Il problema è proprio nell'ipotesi che $f'$ sia Riemann integrabile, e Volterra riuscì a costruire una $f$ tale che sia derivabile in ogni punto, ma per cui $f'$ non sia Riemann Integrabile. Anche qui ci viene da dire che la funzione $f'$ abbia una nozione di integrale, ma la definizione di Riemann non riesce davvero a catturarla.
 	
 	\subsection{Le $\sigma$-Algebre e le misure}
@@ -1163,7 +1163,7 @@
 		se e solo se $f=0$ $\mu$-q.o.
 	\end{proposition}
 	\begin{proof}
-		Un verso è facile, se $f=0$ quasi ovunque, scegliendo una $\varphi$ semplice e misurabile approssimante dobbiamo avere, per come abbiamo costruito gli approssimanti (li abbiamo costruiti in modo che fossero sempre sotto la funzione originale!)  abbiamo che
+		Un verso è facile: se $f=0$ quasi ovunque, dal teorema di approssimazione abbiamo che ogni approssimante $\varphi$ semplice è sempre minore o uguale di $f$, e quindi
 		$$\varphi:=\sum_{k=1}^{n}c_k \mathbbm{1}_{A_k}$$
 		e $c_k\ne 0$ se e solo se $\mu(A_k)=0$, e dunque tutti gli approssimanti di $f$ avranno integrale $0$, da cui un verso. \\
 		L'altro verso segue considerando la successione di insiemi
@@ -1178,7 +1178,7 @@
 	\subsection{Integrali di funzioni arbitrarie e Convergenza dominata}
 	\begin{definition}[Moltiplicare per la funzione caratteristica]
 		Il seguente è un abuso di notazione
-		$$f\mathbbm{1}_A:=\begin{cases}
+		$$\mathbbm{1}_Af=f\mathbbm{1}_A:=\begin{cases}
 			f(x) & \text{se $x\in A$} \\
 			0 & \text{altrimenti.}
 		\end{cases}$$
@@ -1281,7 +1281,7 @@
 			$$\lim_{n\to\infty}\int_X \abs{f_n-f}\dif \mu =0$$
 			ed in particolare dato che $\abs{f_n-f}\ge f_n-f$  abbiamo che
 			$$\lim_{n\to\infty}\int_X f_n \dif \mu = \int_X f\dif \mu.$$
-			\item La successione $f_n$ è uniformemente integrabile, e inoltre per ogni $\varepsilon>0$ esisterà un $X_\varepsilon\subseteq X$ tale che 
+			\item La successione $f_n$ è uniformemente integrabile, e inoltre per ogni $\varepsilon>0$ esiste un $X_\varepsilon\subseteq X$ tale che 
 			$\mu(X_\varepsilon)<\infty$ e per cui per ogni $n$ si ha
 			$$\int_{X\setminus X_\varepsilon} \abs{f_n}\dif \mu < \varepsilon.$$
 		\end{enumerate}
@@ -1367,7 +1367,7 @@
 		\label{fig:scala di cantor}
 	\end{figure}
 	
-	\subsubsection{Diverse nozioni di convergenza}
+	\subsection{Convergenza in misura e Borel-Cantelli}
 	
 	Finora le nozioni di convergenza che abbiamo visto per successioni di funzioni $f_n\to f$ sono le seguenti:
 	\begin{itemize}
@@ -1383,7 +1383,7 @@
 	Il diagramma riassuntivo di queste nozioni di convergenza allora è 
 	\begin{center}
 		\begin{tikzcd}
-			CV\, \mu \,\text{q.o.} & CV\,\text{q. uniforme} \\
+			CV\, \mu \,\text{q.o.} & CV\,\text{q. uniforme}\arrow[l] \\
 			CV \,\text{in $L^1$} & CV\, \text{in misura}
 		\end{tikzcd}
 	\end{center}
@@ -1395,7 +1395,13 @@
 		$$\mu\left(\limsup_{n\to\infty}A_n\right)=0.$$
 	\end{lemma}
 	\begin{proof}
-		Lo abbiamo mostrato quando abbiamo mostrato l'assoluta continuità dell'integrale.
+		Per definizione il limsup di una successione di insiemi è
+		$$\limsup_{n\to\infty}A_n:=\bigcap_{k\in\NN}\bigcup_{n\ge k}A_n$$
+		allora per continuità monotona della misura $\mu$ abbiamo che, per ogni $k\in\NN$ si ha
+		$$\mu\left(\limsup_{n\to\infty}A_n\right)\le \mu\left(\bigcup_{n\ge k}A_n\right)$$
+		ma allora per subadditività abbiamo
+		$$\mu\left(\limsup_{n\to\infty}A_n\right)\le \dots \le \sum_{n=k}^\infty\mu(A_k)$$
+		ma dato che a serie dei $\mu(A_k)$ converge dobbiamo avere che le code vanno a $0$, quindi per $k\to\infty$ abbiamo che il RHS va a $0$, il che vuol dire che $\mu(\limsup A_n)=0$, proprio come richiesto.
 	\end{proof}
 	\begin{proposition}[Convergenza in misura implica convergenza quasi ovunque]
 		Se $f_n\overset{\mu}{\to}f$, con $f,f_n:X\to \overline{\RR}$, allora si ha anche che $f_n\to f$ puntualmente $\mu$-q.o.
@@ -1514,7 +1520,7 @@
 	\end{itemize}
 	Con questo siamo pronti ad enunciare e dimostrare i teoremi di Fubini e Tonelli. L'idea del teorema di Tonelli è circa che se abbiamo una successione in due variabili $a_{n,m}\ge 0$ possiamo scambiare le sommatorie
 	$$\sum_{n=1}^\infty\sum_{m=1}^\infty a_{m,n}=\sup_{N,M\in\NN}\sum_{n=1}^{N}\sum_{m=1}^{M}a_{n,m}=\sup_{N,M\in\NN}\sum_{m=1}^{M}\sum_{n=1}^{N}a_{n,m}=\sum_{m=1}^{\infty}\sum_{n=1}^{\infty}a_{n,m}$$
-	e il teorema di Fubini è la sua generalizzazione per segni arbitrari, a patto che si abbia assoluta convergenza. I teoremi di Fubini e Tonelli dunque sono questo concetto tradotto agli integrali:
+	e l'idea del teorema di Fubini consiste essenzialmente nel notare che il fatto sopra si generalizza a successioni con segno arbitrario, a patto di avere assoluta convergenza. I teoremi di Fubini e Tonelli dunque sono questo concetto tradotto agli integrali, tuttavia un 
 	\begin{definition}[misura $\sigma$-finita]
 		Una misura $\mu$ si dice \textit{$\sigma$-finita} se esiste una successione $\left(X_n\right)_{n\in\NN}\subseteq \mathcal{A}$ tale che 
 		$$\mu(X_n)<\infty$$
@@ -1652,9 +1658,9 @@
 	\newpage
 	
 	\section{Compattezza e convergenza debole}
-	Abbiamo visto finora praticamente solo misure singole non interagenti tra loro. In questa sezione 
+	Abbiamo visto finora praticamente solo misure singole non interagenti tra loro. In questa sezione vedremo che rapporti possono intercorrere tra varie misure, e introdurremo il concetto si convergenza debole di misure.
 	
-	\subsection{Densità di misure}
+	\subsection{Assoluta continuità e Radon-Nikodym}
 	
 	\begin{definition}[Assoluta continuità di misure]
 		Siano $\mu$ e $\nu$ due misure su $(X,\mathcal{A})$. Diremo che $\nu$ è \textit{assolutamente continua} rispetto a $\mu$, e scriveremo $\nu\ll \mu$ se 
@@ -1861,7 +1867,7 @@
 	\end{proof}
 	Con questo teorema possiamo mostrare:
 	\begin{theorem}[Lusin]
-		Sia $\mu^*$ una misura di Radon su $\RR^n$ e $f:\RR^n\to\RR$ una funzione misurabile. Sia $A\subseteq\RR^n$ un insieme misurabile, allora esister un $K\subseteq A$ compatto tale che 
+		Sia $\mu^*$ una misura di Radon su $\RR^n$ e $f:\RR^n\to\RR$ una funzione misurabile. Sia $A\subseteq\RR^n$ un insieme misurabile, allora esiste un $K\subseteq A$ compatto tale che 
 		$$\mu^*(A\setminus K)<\varepsilon$$
 		e tale che $f_{\mid K}$ è continua.
 	\end{theorem}
@@ -2100,6 +2106,105 @@
 	
 	\section{Introduzione al Trasporto Ottimo}
 	
+	Prima di iniziare ricordiamo alcune cose sulle misure immagine: dato uno spazio di misura $(X,\mathcal{A},\mu)$ e uno spazio misurabile $\left(Y,\mathcal{B}\right)$, presa una funzione misurabile $T:X\to Y$ allora la misura immagine di $\mu$ rispetto a $T$ è
+	$$T_\#\mu(B):=\mu\left(T^{-1}(B)\right)$$
+	ed è una misura su $(Y,\mathcal{B})$.
+	\begin{theorem}[Formula del cambio di variabile]
+		Se $f\in L^1(Y,T_\#\mu)$ allora $f\circ T\in L^1(X,\mu)$ e vale 
+		$$\int_Y f\dif T_\#\mu=\int_X f\circ T\dif \mu.$$
+	\end{theorem}
+	\begin{proof}
+		Consideriamo prima il caso $f=\mathbbm{1}_B$ allora abbiamo
+		$$\int_Y\mathbbm{1}_B\dif T_\# \mu=T_\#\mu(B)=\mu(T^{-1}(B))=\int_X \mathbbm{1}_{T^{-1}(B)}\dif \mu = \int_X \mathbbm{1}_B\circ T\dif \mu$$
+		e quindi abbiamo finito. Da qui possiamo dimostrare la formula anche per tutte le funzioni semplici (per linearità dell'integrale), e poi per tutte le funzioni integrabili facendo un paio di limiti e invocando la convergenza monotona. \'E solo un esercizio di scrittura visto quello che abbiamo fatto sopra, e quindi non lo riportiamo.
+	\end{proof}
+	La formula sopra è essenzialmente una mega generalizzazione della formula del cambio di variabile con lo Jacobiano che si vede ad analisi 2, infatti specializzandola al caso $X=Y=\RR^n$ abbiamo che se $T$ è un diffeomorfismo (una mappa $C^1$ con inversa $C^1$) allora
+	$$f\circ T = f(T(x))\abs{T'}$$
+	dove la derivata è da intendersi come la jacobiana di $T$, e il modulo come modulo del suo determinante.
+	
+	\subsection{Formulazioni di Monge e Kantorovich}
+	
+	Il trasporto ottimo è una branca gigantesca della matematica: qui ne vedremo solo un piccolo assaggio per applicare quanto abbiamo imparato finora. La prima formulazione del problema del trasporto si deve a Monge nel 1781:
+	\begin{problem}[Problema di Monge]
+		Abbiamo una distribuzione di massa in un certo punto (pensiamo ad una miniera o a qualcosa del genere), e vogliamo trasportarla in un altro punto (pensiamo ad un impianto di raffinamento o simili). Qual è il percorso, per ciascun pezzettino infinitesimo di massa che minimizza il costo (per una qualche metrica di costo prestabilita) ? \\
+		In altri termini, vogliamo trovare una mappa di trasporto $T$ che preserva la massa (cioè tale che $B$ e $T(B)$ hanno la stessa misura per ogni $B$) e che minimizzi un qualche tipo di integrale
+		$$C(T):=\int_Af(x,T(x))\dif x$$
+		in particolare il caso più facile (quello posto da Monge) richiedeva di minimizzare la distanza, e quindi 
+		$$C(T):=\int_A \abs{x-Tx}\dif x.$$
+	\end{problem}
+	Con la nostra conoscenza teorica sulle misure di Radon possiamo riformulare questo problema in modo molto più quantitativo: date $\mu$ e $\nu$ misura di Radon di probabilità\footnote{Cioè tali che la misura di tutto lo spazio è $1$ per entrambe.} su $\RR^n$, e una certa funzione di costo $c:\RR^n\times \RR^n\to\RR^n$ allora vogliamo trovare la seguente quantità
+	$$\min_{T\in \mathcal{T(\mu,\nu)}}\int_{\RR^n}c(x,Tx)\dif \mu$$
+	dove $\mathcal{T}(\mu,\nu)$ è l'insieme delle funzioni Boreliane (cioè misurabili rispetto alle $\sigma$-algebre di Borel) tali che
+	$$T_\#\mu=\nu$$
+	ovvero in un certo senso sono le funzioni che mandano una misura nell'altra. Il problema di cui ci occuperemo noi in particolare è il caso $c(x,Tx):=\abs{x-Tx}$. \textbf{Comunque lavoreremo sempre con $c$ continua.}
+	\begin{example}[Le mappe di trasporto possono non esistere]
+		Se $\mu=\delta_x$ e $\nu$ non è una delta di Dirac allora non esiste alcuna mappa $T$ tale che
+		$$T_\#\mu = \nu$$
+		dato che l'immagine di una delta è sempre una delta.
+	\end{example}
+	Questo è un problema che sorge unicamente dal fatto che abbiamo scelto di lavorare con misure (Monge non aveva formulato il problema in questi termini, e quindi non aveva di questi problemi). In realtà possiamo aggirare questa difficoltà abbastanza comodamente, per esempio togliendo le parti mutualmente singolari dalle misure che stiamo considerando.
+	\begin{remark}
+		Se $T$ è Boreliana allora anche la mappa da $\RR^n$ a $\RR^n\times\RR^n$ tale che
+		$$x\mapsto (x,Tx)$$
+		è Boreliana. Ma allora dato che $c$ è continua, anche questa sarà Boreliana, e quindi anche
+		$$c(x,Tx)=c\circ (x,Tx)$$
+		sarà Boreliana.
+	\end{remark}
+	\begin{remark}[Formulazione originale di Monge]
+		La formulazione originale del problema di Monge si recupera ponendo
+		$$\mu=\frac{1}{\mathscr{L}(A)}\mathscr{L}^n_{\mid A}$$
+		e allo stesso modo
+		$$\nu=\frac{1}{\mathscr{L}(B)}\mathscr{L}^n_{\mid B}$$
+		con $c(x,y):=\abs{x-y}$.
+	\end{remark}
+	Un'altra formulazione del problema è quella di Kantorovich
+	\begin{problem}[Problema di Kantorovich]
+		Date due funzioni di proiezione $p_1,p_2:\RR^n\times \RR^n\to \RR^n$ tali che
+		\begin{align}
+			p_1:(x,y) &\mapsto x \\ 
+			p_2:(x,y) &\mapsto y 
+		\end{align}
+		e date due misura di Radon di probabilità $\mu$ e $\nu$ su $\RR^n$ allora definendo
+		$$\Pi (\mu,\nu):=\left\{\pi\text{ misura di probabilità di Radon su $\RR^n\times \RR^n$}:p_{1\#}\pi=\mu, p_{2\#}\pi =\nu\right\}$$
+		l'insieme dei \textit{piani di trasporto}, data la funzione costo $c(x,y)$ vogliamo trovare il minimo
+		$$\min_{\pi\in\Pi(x,y)}\int_{\RR^n\times \RR^n}c(x,y)\dif \pi(x,y).$$
+		Possiamo interpretare la quantita $\pi(A\times B)$ come la quantità di massa che parte da $A$ e arriva in $B$.
+	\end{problem}
+	\begin{remark}
+		Consideriamo la misure
+		$$\mu=\frac{\delta_{x_1}+\delta_{x_2}}{2}\qquad \nu=\frac{\delta_{y_1}+\delta_{y_2}}{2}$$ 
+		allora le mappe di trasporto sono solo due definite $\mu$-q.o. ovvero 
+		$$T_1(x_1)=y_1 \quad T_1(x_2)=y_2$$
+		oppure 
+		$$T_2(x_1)=y_2 \quad T_2(x_2)=y_1.$$
+		I piani di trasporto d'altra parte sono molti di più, per esempio
+		$$\pi=\frac{\alpha\delta_{(x_1,y_1)}+(1-\alpha)\delta_{(x_1,y_1)}}{2}+\frac{\alpha\delta_{(x_2,y_2)}+(1-\alpha)\delta_{(x_2,y_1)}}{2}$$
+		per ogni $\alpha\in [0,1]$. E notiamo che per $\alpha=0$ troviamo la mappa di trasposto $T_1$, mentre per $\alpha=1$ troviamo la mappa di trasporto $T_2$. Questo mostra come, in un certo senso, le misure sugli spazi $X\times Y$ siano una generalizzazione delle funzioni $f:X\to Y$. 
+	\end{remark}
+	\begin{theorem}
+		Siano $\mu$ e $\nu$ sono misure di probabilità di Radon su $\RR^n$. Se $c:\RR^n\times \RR^n\to[0,\infty)$ è continua e poniamo 
+		\begin{gather*}
+			\inf_\mathcal{T}:=\inf\left\{\int_{\RR^n} c(x,Tx)\dif \mu:T\in \mathcal{T}(\mu,\nu)\right\} \\
+			\inf_\Pi:=\inf\left\{\int_{\RR^n\times \RR^n} c(x,y)\dif\pi:\pi\in \Pi(\mu,\nu)\right\}
+		\end{gather*}
+		allora in generale si ha $\inf\Pi\le \inf \mathcal{T}$ e in particolare $\inf\Pi$ è un minimo realizzato da $\pi\in \Pi(\mu,\nu)$, che è una misura concentrata sul grafico
+		$$\text{gr}(T)=\left\{(x,Tx)\in \RR^n\times\RR^n:x\in \RR^n\right\}$$
+		per una qualche $T:\RR^n\to\RR^n$ Boreliana, allora si ha proprio uguaglianza, e quegli inf sono entrambi minimi.
+	\end{theorem}
+	\begin{proof}
+		Come si dimostra una disuguaglianza tra inf? La nostra strategia sarà quella di costruire una funzione dalle mappe di trasporto ai piani di trasporto (ovvero per ogni mappa troveremo un piano associato) che associ ad ogni mappa un piano che dia il suo stesso costo $c$; questo mostrerà la disuguaglianza. Consideriamo allora per ogni mappa di trasposto $T$ il piano
+		$$\pi_T=(\text{id},T)_\#\mu$$
+		allora questa soddisfa
+		$$p_{1\#}(\text{id},T)_\#\mu=\mu\left(p_1(\text{id},T)\right)=\mu(\text{id})=\mu$$
+		e allo stesso modo usando $T_\#\mu=\nu$ otteniamo 
+		$$p_{2\#}\pi_T=\nu.$$
+		Inoltre usando la formula del cambio di variabili
+		$$\int_{\RR^n\times\RR^n}c(x,y)\dif \pi=\int_{\RR^n\times\RR^n}c(x,y)\left(\text{id},T\right)_\#\mu=\int_{\RR^n}c(x,Tx)\dif \mu$$
+		e allora abbiamo mostrato che per ogni mappa di trasporto esiste un piano di trasporto con lo stesso costo, e quindi abbiamo proprio quella disuguaglianza tra inf. D'altra parte se $\pi$ è concentrato su $\text{gr}(T)$ e $\pi\in \Pi(\mu,\nu)$ allora $\pi=(\text{id},T)_\#\mu$, infatti
+		$$\pi(A\times B)=\pi\left(\left\{(x,y)\in A\times B\right\}\right)=\pi\left(\left\{(x,y):y=T(x)\right\}\right)=\left(\text{id},T\right)_\# p_{1\#}\pi(A\times B)=(\text{id},T)_\#\mu(A\times B)$$
+		e dato che ci basta verificare questa cosa sugli insiemi prodotto $A\times B$, abbiamo finito.
+	\end{proof}
+	
 	\newpage
 	
 	\section{Epilogo: Soluzioni degli esercizi}
@@ -2323,11 +2428,45 @@
 	\begin{exercise}[Boreliani e Lebsgue misurabili]
 		Mostrare che i plurirettangoli sono $\mathscr{L}^{n*}$-misurabili. Dedurne che la $\sigma$-algebra dei Boreliani su $\RR^n$ è contenuta nella $\sigma$-algebra degli insiemi $\mathscr{L}^{n*}$-misurabili.
 	\end{exercise}
-	\begin{proof}
+	\begin{proof}[Soluzione]
 		Anche questo è un risultato che abbiamo già mostrato, ma lo ridimostriamo nel setting più astratto sviluppato durante il corso. Denotiamo con $m^*$ la misura esterna di Lebesgue, come al solito dato un plurirettangolo $R$ vogliamo mostrare che
 		$$m^*(E)\ge m^*\left(E\cap R\right)+m^*\left(E\cap R^\complement\right)$$
-		dato che da questo e la subadditività della misura di Lebesgue seguirà la misurabilità di tutti gli $R$.
+		e da questo combinato con la subadditività della misura di Lebesgue seguirà la misurabilità di tutti gli $R$. D'altra parte quella disuguaglianza è facile da mostrare, se consideriamo che comunque dati due rettangoli $R$ e $Q$ gli insiemi $R\cap Q$ e $R\cap Q^\complement$ sono entrambi unioni finite di rettangoli, dunque per ogni $\varepsilon>0$ esisterà un ricoprimento $R_i$ con plurirettangoli di $E$ tale che
+		$$\varepsilon+m^*(E)\ge \sum_{i=1}^\infty \abs{R_i}=\sum_{i=1}^{\infty}\abs{R_i\cap R}+\sum_{i=1}^\infty \abs{R_i\cap R^\complement}\ge m^*(E\cap R)+m^*(E\cap R^\complement)$$
+		e dunque abbiamo la tesi dall'arbitrarietà di $\varepsilon$. Dunque tutti i plurirettangoli sono misurabili, ma dato che ogni aperto può essere scritto come unione numerabile di plurirettangoli per \ref{Rn:scomponibilità degli aperti} abbiamo proprio che tutti i boreliani sono misurabili.
 	\end{proof}
+	
 	\subsection{Foglio 2: Teoria dell'integrale}
+	
+	\begin{exercise}[Misure assolutamente continue]
+		Sia $f:(X,\mathcal{A},\mu)\to [0,\infty]$ una funzione misurabile. Mostrare che la mappa $f\mu:\mathcal{A}\to [0,\infty]$ definita come
+		$$\left(f\mu\right)(A):=\int_A f\dif \mu$$
+		è una misura. Mostrare inoltre che $f\mu$ è assolutamente continua rispetto a $\mu$, ovvero 
+		$$\mu(A)=0 \implies (f\mu)(A)=0.$$
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Chiaramente abbiamo $(f\mu)(\eset)=0$. Per la $\sigma$-additività consideriamo una successione $\left(A_n\right)_{n\in\NN}\subseteq \mathcal{A}$ e $A:=\bigcup_{n\in\NN}A_n$, vogliamo mostrare che 
+		$$\sum_{n\in\NN}\int_{A_n}f\dif \mu = \int_A f\dif\mu$$
+		d'altra parte questo è semplice se consideriamo che $f$ si può scrivere come
+		$$\mathbbm{1}_Af=\lim_{N\to\infty}\sum_{n=1}^N\mathbbm{1}_{A_n}f$$
+		questa è una successione crescente di funzioni positive, e quindi per il teorema della convergenza monotona e per linearità dell'integrale abbiamo che
+		$$\int_Af\dif \mu = \int_A\mathbbm{1}_Af\dif \mu=\sum_{n\in\NN}\int \mathbbm{1}_{A_n}f\dif \mu=\sum_{n\in\NN}\int_{A_n}f\dif\mu$$
+		che era quanto volevamo mostrare. Per l'assoluta continuità possiamo procedere utilizzando direttamente la definizione di integrale: prima di tutto abbiamo
+		$$\int_Af\dif \mu = \int_A\mathbbm{1}_Af\dif \mu$$
+		e d'altra parte $\mathbbm{1}_Af$ è $0$ quasi ovunque, dunque ogni approssimante semplice $\varphi\le \mathbbm{1}_Af$ avrà integrale $0$, infatti questa si scrive come
+		$$\varphi=\sum_{k=1}^n c_k\mathbbm{1}_{A_k}$$
+		con $c_k\ne 0$ se e solo se $\mu(A_k)=0$. Dunque abbiamo proprio che l'integrale è $0$ per ogni approssimante, e quindi $\int_A\mathbbm{1}_Af\dif \mu=0$.
+	\end{proof}
+	\begin{exercise}
+		Siano $f_n:(X,\mathcal{A},\mu)\to [0,\infty]$ funzioni misurabili tali che per ogni $x\in X$ si abbia $f_n(x)\to f(x)$, e inoltre
+		$$\lim_{n\to\infty}\int_Xf_n\dif \mu = \int_Xf\dif \mu<\infty.$$
+		Mostrare che per ogni $A\in\mathcal{A}$ vale
+		$$\lim_{n\to\infty}\int_Af_n\dif\mu=\int_Af\dif\mu.$$
+		La tesi rimane vera se non richiediamo $\int_Xf\dif\mu<\infty$?
+	\end{exercise}
+	\begin{proof}[Soluzione]
+		Riscriviamo
+		$$\int_Af\dif \mu =\int_X\mathbbm{1}_Af\dif\mu$$
+	\end{proof}
 	
 \end{document}
