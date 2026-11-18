@@ -1957,8 +1957,102 @@
 		$$\pi(a)=\left(a_1+I_1,a_2+I_2,\dots,a_t+I_t\right)$$
 		come volevamo.
 	\end{proof}
-	Questo teorema ha un sacco di importanti, corollari, per esempio il fatto che se $n=p_1^{\alpha_1}p_2^{\alpha_2}\dots p_t^{\alpha_t}$ allora abbiamo
-	$$\faktor{\ZZ}{n\ZZ}\cong \faktor{\ZZ}{p_1^{\alpha_1}\ZZ}\times \dots \times \faktor{\ZZ}{p_t^{\alpha_t}\ZZ}$$
-	e quindi 
+	Questo teorema ha un sacco di importanti, corollari, per esempio da questo discende la formula esplicita per calcolare la funzione toziente di Eulero. 
 	
+	\subsection{Interi Gaussiani}
+	
+	Nel seguito useremo $\delta:D\to \NN$ per riferirci alla valutazione di un dominio euclideo.
+	\begin{proposition}[Gli interi gaussiani sono euclidei]
+		L'anello 
+		$$\ZZ[i]:=\left\{x+iy:x,y\in\ZZ\right\}$$
+		è un dominio euclideo.
+	\end{proposition} 
+	\begin{proof}
+		Proviamo con la valutazione
+		$$\delta(x+iy):=x^2+y^2=\abs{\abs{x+iy}}$$
+		ovvero la norma hermitiana. Per ogni $a,b,c,d\in\ZZ$ abbiamo che
+		$$\frac{a+ib}{c+id}=x+iy$$
+		con $x,y\in\QQ$. Possiamo allora riscrivere
+		$$\frac{a+ib}{c+id}=x+iy=(r+is)+(u+iv)$$
+		dove $\abs{u},\abs{v}\le 1/2$ e $r,s\in\ZZ$. Ma allora ribaltando questa formula abbiamo
+		$$(a+ib)=(c+id)(r+is)+(c+id)(u+iv)$$
+		e dato che il primo termine è in $\ZZ[i]$, e anche il secondo termine è in $\ZZ[i]$ abbiamo che anche il terzo deve essere in $\ZZ[i]$. D'altra parte la norma di quel resto è scesa, infatti
+		$$\delta[(c+id)(u+iv)]=\delta(c+id)\delta(u+iv)\le \frac{\delta(c+id)}{2}$$
+		e dunque abbiamo proprio che quell'oggetto è un resto, e $\delta$ è una valutazione, provando che $\ZZ[i]$ è euclideo.
+	\end{proof}
+	Chi sono gli invertibili in $\ZZ$? Altra cosa che richiamiamo da algebra $1$ è proprio che 
+	$$z\in U(\ZZ[i]) \implies \delta(z)=1$$
+	e questo vale in tutti i domini euclidei.
+	\begin{example}[Invertibili gaussiani]
+		In $\ZZ[i]$ gli invertibili sono 
+		$$1 \qquad -1 \qquad i \qquad -i.$$
+	\end{example}
+	Una domanda più interessante è chi siano gli irriducibili di $\ZZ$. Prendiamo un $z\in \ZZ[i]$ allora possiamo scomporre in $\ZZ$ la valutazione di $z$:
+	$$z\overline{z}=\delta(z)=p_1^{\alpha_1}p_2^{\alpha_2}\dots p_t^{\alpha_t}$$
+	se $z$ è irriducibile allora per il lemma di euclide dobbiamo avere che $z\mid p_i$ per qualche $i$. Questo non implica che $z=U(R)p_i$ perché in effetti abbiamo visto che un primo può essere scritto come somma di due quadrati (se $p$ è congruo a $1$ modulo $4$), nel qual caso avremmo
+	$$p=a^2+b^2=(a+ib)(a-ib)$$
+	e quindi $(a+ib)$ è un divisore proprio di $p$. E l'unico caso? Se abbiamo
+	$$p=z_1z_2$$
+	allora lavorando in $\ZZ$:
+	$$p^2=\delta(p)=\delta(z_1)\delta(z_2) \implies \delta(z_1)=\delta(z_2)=p$$
+	ovvero abbiamo che $z=x+iy$, con $x^2+y^2=p$. Da questa discussione deduciamo
+	\begin{proposition}[Irriducibilità dei primi nei Gaussiani]
+		Un primo $2\ne p\in\ZZ$ è irriducibile in $\ZZ[i]$ se e solo se è congruo a $3$ modulo $4$.
+	\end{proposition}
+	\begin{proof}
+		Abbiamo già mostrato che $-1$ è un residuo quadratico modulo $p$ se e solo se $p$ è congruo a $1$ modulo $4$. Si tratta di generalizzare il ragionamento per interi arbitrari. Se $p\equiv 3 \pmod{4}$ chiaramente abbiamo che $p$ non si può scrivere come somma di due quadrati\footnote{Guarda quali sono i residui quadratici modulo $4$}. D'altra parte se $p\equiv 1 \pmod{4}$ abbiamo che
+		$$p\mid b^2+1$$
+		per qualche $b\in\ZZ$ (cioè $-1$ è un residuo quadratico). Ma allora se per assurdo $p$ fosse irriducibile potremmo applicare il lemma di euclide per concludere
+		$$p\mid (b-i)(b+i) \implies p\mid b+i$$
+		ma dato che, se $p\mid z$ allora si ha anche $p\mid \bar{z}$ (basta scrivere $px=z$ e prendere i coniugati da ambo i lati) e questo vorrebbe dire che 
+		$$p^2\mid b^2+1$$
+		il che è assurdo perché (BHO)
+	\end{proof}
+	\begin{proposition}[Numeri che si scrivono come somma di quadrati]
+		Consideriamo $n\in\NN$, allora $n$ si scrive come somma di quadrati se e solo se tutti i primi congrui a $3$ modulo $4$ appaiono con esponente pari nella fattorizzazione di $n$.
+	\end{proposition}
+	\begin{proof}
+		Scomponiamo $n$ nel seguente modo
+		$$n=p_1^{\alpha_1}p_2^{\alpha_2}\dots p_r^{\alpha_r}q_1^{\beta_1}q_2^{\beta_2}\dots q_s^{\beta_s}$$
+		dove i $p_i$ sono congrui a $1$ modulo $4$ e i $q_i$ sono congrui a $3$ modulo $4$. Supponiamo allora $\alpha_i=2\gamma_i$ scomponendo ciascun $q_i$ in irriducibili $q_i=\overline{z_i}z_i$ definiamo 
+		$$x=p_1^{\gamma_1}p_2^{\gamma_2}\dots p_r^{\gamma_r}z_1^{\beta_1}z_2^{\beta_2}\dots z_s^{\beta_s}$$
+		da cui deduciamo che 
+		$$n=x\overline{x}$$
+		ovvero
+		$$n=\delta(x)$$
+		cioè è della forma $n=a^2+b^2$, come volevamo! Il viceversa anche è vero, infatti
+		$$n=a^2+b^2=(a+ib)(a-ib)$$
+	\end{proof}
+	Il primo problema che ci premuriamo di dimostrare è il seguente:
+	\begin{problem}
+		Consideriamo un PID $D$ e un ideale $I\normal D$, studiamo $R=\faktor{D}{I}$:
+		\begin{enumerate}
+			\item Trovare il numero di ideali di $R$.
+			\item Trovare il numero di ideali massimali di $R$.
+			\item Trovare l'ordine di $R$.
+			\item Trovare il numero di invertibili in $R$.
+		\end{enumerate}
+	\end{problem}
+	Sia $I=(\alpha)$. Dal teorema di corrispondenza abbiamo che gli ideali di $R$ sono esattamente gli ideali 
+	$$(d_i)\supseteq  (\alpha)$$
+	cioè dobbiamo contare il numero di divisori di $\alpha$, che sappiamo facilmente fare con la funzione $d$. Quindi la prima richiesta è abbastanza facile.
+	\begin{example}[Ideali sopra a $(p)$ negli interi gaussiani]
+		Gli ideali di $\faktor{\ZZ[i]}{(p)}$ se $p$ è congruo a $3$ modulo quattro sono esattamente $2$ (quelli banali), se $p\equiv 1 \pmod{4}$ sono esattamente $4$ e se $p=2$ sono esattamente $3$ (perché $2$ è un quadrato).
+	\end{example}
+	Allo stesso modo il numero di ideali massimali corrisponde al numero di divisori irriducibili di $\alpha$.
+	\begin{definition}[Anello locale]
+		Un anello $R$ con un solo ideale massimale si dice \textit{anello locale}.
+	\end{definition}
+	\begin{proposition}[Invertibili in un anello locale]
+		Se $R$ è un anello locale con ideale massimale $M\normal R$ allora gli invertibili sono tutti e soli gli elementi di $R\setminus M$.
+	\end{proposition}
+	\begin{proof}
+		contenuto...
+	\end{proof}
+	\begin{proposition}[Numero di elementi in un quoziente degli interi Gaussiani]
+		Per ogni $a+ib=z\in \ZZ[i]$ abbiamo che $\faktor{\ZZ[i]}{(z)}$ ha esattamente $\delta(z)=a^2+b^2$ elementi.
+	\end{proposition}
+	\begin{proof}
+		La tesi è chiaramente vera se $a=0$
+	\end{proof}
 \end{document}

@@ -2070,7 +2070,7 @@
 	\begin{proof}
 		Per induzione: estraiamo una sottosuccessione tale che $x^i_{k_j}$ converga per $i\le n$, allora possiamo estrarre una sottosuccessione di questa sottosuccessione tale che converga anche per $i=n+1$, in questo modo denotando con $k^i_j$ la $i$-esima sottosuccessione estratta, la sottosuccessione (di tutte le $K^i_j$!) $k_i^i$ sulla diagonale, è proprio quella che stiamo cercando, e quindi abbiamo finito.
 	\end{proof}
-	\begin{theorem}[Compattezza in dualità con $\mathcal{C}_b(\RR^n)$]
+	\begin{theorem}[Prokhorov]
 		Sia $\mu_k$ una successione di misure di Radon in $\RR^n$, allora se
 		\begin{itemize}
 			\item Le misure sono equilimitate, ovvero $\sup \mu^k(\RR^n)<\infty$.
@@ -2181,7 +2181,7 @@
 		$$\pi=\frac{\alpha\delta_{(x_1,y_1)}+(1-\alpha)\delta_{(x_1,y_1)}}{2}+\frac{\alpha\delta_{(x_2,y_2)}+(1-\alpha)\delta_{(x_2,y_1)}}{2}$$
 		per ogni $\alpha\in [0,1]$. E notiamo che per $\alpha=0$ troviamo la mappa di trasposto $T_1$, mentre per $\alpha=1$ troviamo la mappa di trasporto $T_2$. Questo mostra come, in un certo senso, le misure sugli spazi $X\times Y$ siano una generalizzazione delle funzioni $f:X\to Y$. 
 	\end{remark}
-	\begin{theorem}
+	\begin{theorem}[Kantorovich è più generale di Monge]
 		Siano $\mu$ e $\nu$ sono misure di probabilità di Radon su $\RR^n$. Se $c:\RR^n\times \RR^n\to[0,\infty)$ è continua e poniamo 
 		\begin{gather*}
 			\inf_\mathcal{T}:=\inf\left\{\int_{\RR^n} c(x,Tx)\dif \mu:T\in \mathcal{T}(\mu,\nu)\right\} \\
@@ -2204,6 +2204,111 @@
 		$$\pi(A\times B)=\pi\left(\left\{(x,y)\in A\times B\right\}\right)=\pi\left(\left\{(x,y):y=T(x)\right\}\right)=\left(\text{id},T\right)_\# p_{1\#}\pi(A\times B)=(\text{id},T)_\#\mu(A\times B)$$
 		e dato che ci basta verificare questa cosa sugli insiemi prodotto $A\times B$, abbiamo finito.
 	\end{proof}
+	
+	\subsection{Soluzione del problema di Kantorovich}
+	Il risultato che vogliamo arrivare a dimostrare l'esistenza del minimo nel problema di Kantorovich.
+	Per fare ciò vediamo il cosiddetto "Metodo diretto del calcolo delle variazioni" (che è essenzialmente il teorema di Weierstrass):
+	\begin{theorem}[Metodo diretto del calcolo delle variazioni]
+		Sia $X$ uno spazio metrico (o topologico), e una funzione $F:X\to\RR$, allora dato un $K\subseteq X$ se sono verificati:
+		\begin{enumerate}
+			\item $K$ è sequenzialmente compatto.
+			\item $F$ è semicontinua inferiormente per successioni, ovvero se $x_j\to x$ allora
+			$$F(x)\le \liminf_{j\to\infty}F(x_j).$$
+		\end{enumerate}
+		allora esiste il minimo di $F$ su $K$.
+	\end{theorem}
+	\begin{proof}
+		Sia $\alpha=\inf_K F$, allora possiamo estrarre una successione minimizzante $x_j$ tale che
+		$$F(x_j)<\alpha+\frac{1}{j}$$
+		allora facendo il limite per $j\to\infty$ abbiamo che $x_j\to \bar{x}$, ovvero per semicontinuità inferiore
+		$$F(\bar{x})\le \liminf_{j\to\infty} F(x_j)\le \alpha+\frac{1}{j}$$
+		per ogni $j$, ma dato che $\alpha$ è proprio l'inf dobbiamo avere $F(\bar{x})=\alpha$, ovvero $\bar{x}$ realizza il minimo, come volevamo.
+	\end{proof}
+	Generalmente quando lavoriamo su spazi arbitrari senza una topologia, e stiamo cercando di individuare una nozione di convergenza (cioè di mettere una topologia sullo spazio) quelle due ipotesi sono in competizione tra loro: più successioni convergenti ci saranno e più sarà facile dimostrare la prima cosa (e difficile mostrare la seconda), e viceversa.
+	\begin{theorem}[Semicontinuità inferiore del funzionale di Kantorovich]
+		Sia $c:\RR^n\times\RR^n\to [0,\infty)$ una funzione continua e sia $\pi_k$ una successione di piani di trasporto che converga debolmente in dualità a $\mathcal{C}_b(\RR^n\times\RR^n)$ a $\pi$, allora
+		$$\int_{\RR^n\times\RR^n} c \dif \pi\le \liminf_{k\to\infty}\int_{\RR^n\times\RR^n}c\dif \pi_k.$$
+	\end{theorem}
+	\begin{proof}
+		Dato un $M>0$ poniamo 
+		$$c_M(x,y):=\min\left\{c(x,y),M\right\}$$
+		allora abbiamo che $c_M$ è una funzione di test, e quindi per definizione di convergenza debole
+		$$\int c_M\dif \pi = \lim_{k\to\infty}\int c_M\dif \pi_k\le \liminf_{k\to\infty}\int c\dif \pi_k $$
+		e facendo tendere $M\to\infty$ per convergenza monotona abbiamo che il LHS è proprio $\int c\dif \pi$ e quindi abbiamo proprio dimostrato la semicontinuità inferiore.
+	\end{proof} 
+	Siamo infine pronti a mostrare il teorema di esistenza:
+	\begin{theorem}[Esistenza del minimo in Kantorovich]
+		Siano $\mu,\nu$ due misure di Probabilità di Radon in $\RR^n$, e sia $c:\RR^n\times\RR^n\to[0,\infty)$ continua, allora esiste il seguente minimo
+		$$\min_{\pi\in \Pi(\mu,\nu)}\int_{\RR^n\times\RR^N}c(x,y)\dif \pi$$
+		ed è realizzato dal piano di trasporto $\pi_\text{opt}$.
+	\end{theorem}
+	\begin{proof}
+		Assumiamo che 
+		$$\inf_{\pi\in\Pi(\mu,\nu)}\int c \dif \pi z\infty$$
+		allora presa una successione di misure $\pi_k$ tale che
+		$$\int c \dif k \to \alpha$$
+		per $k\to\infty$. Abbiamo dimostrato che il funzionale che stiamo considerando è semicontinuo inferiormente, rimane da mostrare che il dominio su cui stiamo lavorando (quello dei piani di trasporto) è sequenzialmente compatto. A questo fine ci viene in aiuto Prokhorov: dato che tutte le misure sono misure di probabilità abbiamo gratis l'equilimitatezza, rimane da mostrare che per ogni $\varepsilon>0$ esiste un compatto $C\subseteq\RR^n\times\RR^n$ per cui
+		$$\pi_k\left(\RR^n\times\RR^n\setminus C\right)<\varepsilon$$
+		per ogni $k\in\NN$. D'altra parte per ogni elemento $\pi\in \Pi(\mu,\nu)$ denotando le \textbf{palle chiuse} di raggio $R$ con $B_R$ esisterà sempre un $R>0$ tale che
+		\begin{gather*}
+			\mu(\RR^n\setminus B_R) < \frac{\varepsilon}{2} \\
+			\nu(\RR^n\setminus B_R) < \frac{\varepsilon}{2}
+		\end{gather*} 
+		dato che queste sono entrambe misure finite (scegliamo il massimo $R$ per entrambi). Allora scegliendo
+		$$C:=B_R\times B_R$$
+		allora usando la monotonia della misura abbiamo
+		$$\pi\left(\RR^n\times \RR^n\setminus C\right)\le \pi\left(\RR^n\times\left(\RR^n\setminus B_R\right)\right)+\pi\left(\left(\RR^n\setminus B_R\right)\times \RR^n\right)=\nu\left(\RR^n\setminus B_R\right)+\mu\left(\RR^n\setminus B_R\right)< \varepsilon$$
+		e quindi abbiamo che tutti gli elementi di $\Pi(\mu,\nu)$ sono tight. Per Prokhorov allora abbiamo che, data la successione $\pi_k$ esiste una sottosuccessione $\pi_{k_j}$ che converge a $\bar{\pi}$ in dualità con $\mathcal{C}_b(\RR^n\times\RR^n)$ rimane da mostrare che $\bar{\pi}$ è ancora un piano di trasporto, d'altra parte per ogni funzione di test $f\in \mathcal{C}_b(\RR^n)$ abbiamo\footnote{Possiamo usare $f\circ p_1$ perché se $f$ è continua e limitata anche $f\circ p_1$ lo è. Questo non sarebbe stato vero per funzioni continue a supporto compatto: $f\circ p_1$ è essenzialmente la funzione $f$ con il dominio esteso alla striscia $\text{dom}(f)\times \RR^n$, e quindi indipendentemente dal fatto che $f$ abbia supporto compatto, avremo che $f\circ p_1$ non ha supporto compatto (non è mai limitato!).}
+		$$\int_{\RR^n\times\RR^n}f\circ p_1\dif \pi_{k_j}=\int f \dif p_{1\#}\pi_{k_j}=\int f \dif \mu$$
+		ma allora quella successione, al variare di $j$, è costante e quindi avremo
+		$$\int f \dif \mu=\lim_{j\to\infty}\int f\circ p_1\dif \bar\pi_{k_j}=\int f\circ p_1\dif \bar{\pi}=\int f\dif  p_{1\#}\bar{\pi}$$
+		e quindi per la condizione di unicità fornitaci da Riesz abbiamo $p_{1\#}\bar{\pi}=\mu$. Analogamente si può fare per $\nu$, e quindi abbiamo proprio che $\bar{\pi}$ è un piano di trasporto. Abbiamo quindi appena mostrato proprio che $\Pi(\mu,\nu)$ è sequenzialmente compatto in dualità con $\mathcal{C}_b(\RR^n\times\RR^n)$, e quindi insieme alla semicontinuità inferiore mostrata sopra questo ci permette di applicare il metodo diretto del calcolo delle variazioni e finire. 
+	\end{proof}
+	
+	\subsection{Esempi in dimensione $1$}
+	
+	In dimensione $1$ sia il problema di Monge che quello di Kantorovich sono risolvibili (a meno di pochi casi patologici). Per approcciare il problema di Monge prima di tutto ci chiediamo: date due misure di probabilità e di Radon $\mu,\nu$ su $\RR$, allora vogliamo capire una funzione $T:\RR\to\RR$ tale che 
+	$$T_\#\mu=\nu$$
+	ovvero ci chiediamo se esiste una mappa di trasporto. A questo fine è utile considerare le mappe
+	\begin{align*}
+		F_\mu:\RR & \to[0,1] \\
+		x & \mapsto \mu\left((-\infty,x]\right)
+	\end{align*}
+	\begin{align*}
+		F_\nu:\RR & \to[0,1] \\
+		x & \mapsto \nu\left((-\infty,x]\right)
+	\end{align*}
+	che useremo per mostrare $T_\#\mu=\nu$ sugli insiemi della forma $(-\infty,y]$, con $y\in\RR$, dato che questi generano tutta la $\sigma$-algebra su cui stiamo lavorando. Euristicamente ora vorremmo che $T$ fosse crescente e biettiva, infatti così avremmo
+	$$T_\#\mu\left((-\infty,y]\right)=\mu\left(T^{-1}((-\infty,y])\right)=\mu((-\infty,T^{-1}(y)])$$
+	e vorremmo che quell'ultima cosa fosse uguale a $\nu((-\infty,y])$, ovvero usando $F_\mu$ ed $F_\nu$ abbiamo
+	$$F_\mu(T^{-1}(y))=F_\nu(y)$$
+	e cioè vorremmo tanto
+	$$T=F_\nu^{-1}\circ F_\mu.$$
+	D'altra parte sia $F_\mu$ che $F_\nu$ sono monotone, per monotonia della misura, per concludere che queste sono anche iniettive dobbiamo richiedere che $\mu$ e $\nu$ \textbf{non abbiano atomi}, ovvero non ci devono essere insiemi $(-\infty,a]$ tali che tutti i loro sottoinsiemi hanno misura uguale a loro. Facciamo attenzione al fatto che questo \textbf{non è equivalente a dire che $\mu,\nu\ll\mathscr{L}^1$} ci sono esempi di misure senza atomi che non sono assolutamente continue. Abbiamo quindi che $F_\mu,F_\nu$ sono monotone e iniettive, allora definendo $T$ come
+	$$T(x):=\inf\left\{y\in\text{supp}(\nu):F_\nu(y)\ge F_\mu(x)\right\}$$
+	che è una specie di pseudoinversa di $F_\nu$. Riassumiamo quindi quanto appena visto in un teorema:
+	\begin{theorem}[Esistenza di una mappa di trasporto]
+		Se $\mu,\nu$ sono due misure di probabilità e di Radon, e $\mu$ non ha atomi, allora 
+		$$T(x):=\inf\left\{y\in\text{supp}\nu:F_\nu(y)\ge F_\mu(y)\right\}$$
+		è una mappa di trasporto da $\mu$ a $\nu$.
+	\end{theorem}
+	\begin{proof}
+		Basta verificare che $T_\#\mu=\nu$ per ogni $(-\infty,y]$, al variare di $y\in\RR$. Abbiamo visto sopra che questo è equivalente a 
+		$$\mu\left(T^{-1}(-\infty,y]\right)=F_\nu(y)$$
+		d'altra parte per definizione $T$ sarà monotona, e quindi 
+		$$T^{-1}((-\infty,y])=\begin{cases}
+			(-\infty,x_0) \\
+			(-\infty,x_0]
+		\end{cases}$$
+		d'altra parte visto che $\mu$ non ha atomi abbiamo in particolare che ogni punto ha misura nulla, e quindi 
+		$$\lim_{x\to x_0^-}F_\mu(x)=\mu((-\infty,x_0))=\mu\left((-\infty,x_0]\right)=F_\mu(x_0)$$
+		vogliamo mostrare allora che $F_\mu(x_0)=F_\nu(y)$ se $Tx_0=y$. \\
+		Dividiamo questa dimostrazione in due casi:
+		\begin{itemize}
+			\item Il primo caso è $F_\mu(x_0)\le F_\nu (y)$, qui per ogni $x<x_0$ abbiamo che
+		\end{itemize}
+	\end{proof}
+	
 	
 	\newpage
 	

@@ -463,6 +463,7 @@
 		$$\left(f,f'\right):=\frac{1}{\abs{G}}\sum_{g\in G} f(g)\overline{f'(g)}=\overline{\left(f',f\right)}.$$
 	\end{definition}
 	\begin{proposition}[First Orthogonality relation]
+		\label{First orthogonality relations}
 		If $k=\CC$ and $\abs{G}<\infty$, given two representations $V,W$ we have that
 		$$\left(\chi_V,\chi_W\right)_G=\dim\text{Hom}_G(V,W)$$
 		and because that number is purely real, in particular is an integer, it's also equal to $\left(\chi_W,\chi_V\right)_G$.
@@ -574,7 +575,15 @@
 		\item All the roots of $x^d-1$ exist in $k$.
 		\item We have $(\charin k, d)=1$ (this is to make sure that we have no repeated roots in $x^d-1$).
 	\end{enumerate}
-	Then we have that $m_X$ factors as a product of distinct linear factors, and we have diagonalizability! All the above assumptions are naturally satisfied if we work on $\CC$, which is anyway the field where we'll be working on. We need here an ounce of linear algebra
+	Then we have that $m_X$ factors as a product of distinct linear factors, and we have diagonalizability! All the above assumptions are naturally satisfied if we work on $\CC$, which is anyway the field where we'll be working on.
+	\begin{assume*}[Well-behaved fields]
+		From now on, if not stated differently we'll assume that the field we are working on satisfies, for any group $G$ of order $d$:
+		\begin{enumerate}
+			\item All the roots of $x^d-1$ exist in $k$.
+			\item We have $(\charin k, d)=1$.
+		\end{enumerate}
+	\end{assume*}
+	We need here an ounce of linear algebra to proceed further:
 	\begin{proposition}[Simultaneous diagonalizability]
 		Let $X,Y\in \text{End}(V)$ diagonalizable. Then $X$ and $Y$ are simultaneously diagonalizable iff they commute.
 	\end{proposition}
@@ -590,7 +599,7 @@
 	Putting together theese two results we have that if $A$ is a finite abelian group, then for any representation $V$ we can pick a basis of $V$ where all $\rho(a)$ are diagonal matrices! A fun little application is:
 	\begin{corollary}[Representation of finite ciclyc groups]
 		For any $r\in\NN$ and $d\in \NN$ we have that if
-		$$\left(\faktor{\ZZ}{d\ZZ}\right)^r \hookrightarrow \GL_n(\CC)$$
+		$$C_d^r\cong \left(\faktor{\ZZ}{d\ZZ}\right)^r \hookrightarrow \GL_n(\CC)$$
 		is an injective morphism then $r\le n$.
 	\end{corollary}
 	Let $A$ be an abelian finite group and $\rho:A\to \GL(V)$. If each $\rho(g)\in \GL(V)$ is diagonalizzable then all elements $\rho(g)$ are diagonalizable, so if we take 
@@ -602,7 +611,7 @@
 	which we have assumed has all distinct roots in $k$.
 	From this discussion we evince
 	\begin{proposition}[Irreducible representations of finite abelian groups]
-		All the irreducible representations of a finite abelian group $A$ are the finite dimensional ones. Moreover from the sum of squares formula we have that there are exactly $\abs{A}$ irreducible representations of $A$.
+		All the irreducible representations of a finite abelian group $A$ on a well-behaved field are the finite dimensional ones. Moreover from the sum of squares formula we have that there are exactly $\abs{A}$ irreducible representations of $A$.
 	\end{proposition}
 	Another way to reach this result was from the structure theorem of finite abelian groups: we know that any finite abelian $A$ decomposes as
 	$$A\cong C_{p_1^{e_1}}\times C_{p_2^{e_2}}\times \dots \times C_{p_k^{e_k}}$$
@@ -619,16 +628,23 @@
 	since the image is commutative. From a generalization of the first homomorphism theorem we evince immediately that
 	\begin{center}
 		\begin{tikzcd}
-			G\arrow[r,"\rho"]\arrow[d,"\pi",swap] & \CC^* \\
+			G\arrow[r,"\rho"]\arrow[d,"\pi",swap] & \CC^*\cong \GL(\CC) \\
 			\faktor{G}{[G,G]}\arrow[ur,"\overline{\rho}",swap] & 
 		\end{tikzcd} 
 	\end{center}
-	and so immediately we can decompose any representation of any group $G$ in a product of two morphisms, one that is just a representation of an abelian group, and the other one which is a group morphism.
-	\begin{corollary}[Number of monodimensional representations]
-		If $k$ is algebraically closed and $(\charin k, \abs{G})=1$ we have that the number of finite dimensional representations of $G$ is $\abs{G:[G:G]}$.
-	\end{corollary}
+	and so immediately we can decompose any representation of any group $G$ in a product of two morphisms, one that is just a representation of an abelian group, and the other one which is a group morphism. This idea is what we need to prove the following:
+	\begin{proposition}[Number of monodimensional representations]
+		If $k$ is a well-behaved field we have that the number of $1$-dimensional representations of $G$ is $\abs{G:[G,G]}$.
+	\end{proposition}
 	\begin{proof}
-		Follows from the number of $1$-dimensional representations of abelian groups.
+		Let's consider a $1$-dimensional representation $(\rho,k)$ of $G$, then by the upper mentioned reasoning we can always construct a commutative diagram
+		\begin{center}
+			\begin{tikzcd}
+				G\arrow[r,"\rho"]\arrow[d,"\pi",swap] & k^*\cong \GL(k) \\
+				\faktor{G}{[G,G]}\arrow[ur,"\overline{\rho}",swap] & 
+			\end{tikzcd}
+		\end{center} 
+		which means that for any $\rho$ we can find an $\overline{\rho}$ representation of $\faktor{G}{[G,G]}$. Since this correspondence is bijective (that is, for any $\rho$ we can always find a unique $\overline{\rho}$ such that the above diagram commutes, and viceversa) this means that the number of possible $\rho$ is equal to the number of possible $\overline{\rho}$, but since $\faktor{G}{[G,G]}$ is abelian this is just $\abs{G:[G,G]}$, which concludes.
 	\end{proof}
 	\begin{example}[Symmetric one dimensional representations]
 		How many one dimensional representations of $S_n$ are there? 
@@ -638,6 +654,9 @@
 		$$\text{sign}([g_1,g_2])=\text{sign}(g_1)\text{sign}(g_2)\text{sign}(g_1)^{-1}\text{sign}(g_2)^{-1}=1$$
 		this means that
 		$$[G,G]\le A_n$$
+		on the other hand $[G,G]$ is always normal in $G$, because
+		$$g[h_1,h_2]g^{-1}=gh_1h_2h_1^{-1}h_2^{-1}g^{-1}=gh_1g^{-1}gh_2g^{-1}gh_1^{-1}g^{-1}gh_2^{-1}g^{-1}=[gh_1g^{-1},gh_2g^{-1}]$$
+		and so for $n\ge 5$ from the simplicity of $A_n$ we deduce that $A_n\cong [S_n,S_n]$. This means that for any $n\ge 5$ we have exactly $\abs{S_n:A_n}=2$ one dimensional representations of $S_n$.
 	\end{proof}
 	
 	\subsection{Orthonormality of Characters}
@@ -676,8 +695,9 @@
 		Let $\chi_1,\chi_2,\dots,\chi_n$ be all the irreducible characters of a group $G$ (that is, the characters associated with any irreducible representation of $G$), then this is an orthonormal base of $F_c(G,\CC)$.
 	\end{theorem}
 	\begin{proof}
-		We already proved that the characters are an orthonormal set, in fact
+		We already proved that the characters are an orthonormal set, in fact from \ref{First orthogonality relations} follows easily that 
 		$$\left(\chi_i,\chi_j\right)=\delta_{ij}$$
+		because their associated representations are irreducible.
 		it remains to be shown that these span all $F_c(G,k)$. Let's consider $f\in F_c(G,\CC)$ such that
 		$$f\in H^\perp$$
 		where
@@ -850,6 +870,17 @@
 	\end{proof}
 	
 	\subsubsection{$\bigstar$: Burnside's Theorem}
+	A very famous application of Frobenius and in general of representation theory is Burnside's theorem, which states that any finite group of order $p^aq^b$ is not simple. We have now acquired pretty much all the results we need to prove it, and that's what this section will be devoted to.
+	\begin{definition}[Solvable Group]
+		A group $G$ is said to be \textit{solvable} if there exists a finite list $G_1,G_2,\dots,G_n$ such that
+		$$1 \normal  G_1 \normal G_2 \normal\dots \normal G_n\normal G$$
+		and for each $i\le n$ we have that the group $\faktor{G_{i+1}}{G_i}$ is abelian. Such a set of groups is called an \textit{abelian series} of $G$.
+	\end{definition}
+	\begin{lemma}[Linear combinations of roots of unity]
+		If $\varepsilon_1,\varepsilon_2,\dots,\varepsilon_n$ are roots of unity such that
+		$$\frac{\varepsilon_1+\varepsilon_2+\dots+\varepsilon_n}{n}$$
+		is an algebraic integer, then either $\varepsilon_1=\dots =\varepsilon_n$ or $\varepsilon_1+\dots+\varepsilon_n=0$.
+	\end{lemma}
 	
 	\subsection{Representations of the symmetric group}
 	We'll denote as $\underline{n}$ the set $(n+1)^{(n+1)}$ of the permutations of $n$ numbers. \\

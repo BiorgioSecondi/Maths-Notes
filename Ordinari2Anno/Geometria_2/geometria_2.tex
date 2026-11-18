@@ -2097,7 +2097,32 @@
 	\begin{proof}
 		Dimostriamo prima di tutto che questo  
 	\end{proof}
+	\begin{definition}[Fascio di quadriche]
+		Un \textit{fascio di quadriche} è una retta in $\PP\left(\text{Quad}_\KK(V)\right)$.
+	\end{definition}
+	\begin{definition}[Base di un fascio]
+		La \textit{base} di un fascio $F$ di quadriche è l'insieme dei punti in $\PP(V)$ che siano in comune a tutti i supporti delle quadriche nel fascio
+		$$\text{Base}(F):=\bigcap_{[Q]\in F}\text{supp}([Q]).$$
+	\end{definition}
 	
+	\subsubsection{Fasci di coniche}
+	
+	Per le coniche, la base di un fascio è sempre costituita dai punti di intersezione di due coniche a caso. In particolare dato che due coniche sono determinate esattamente da $5$ punti, abbiamo che la base è costituita esattamente da $4$ punti (contati con le rispettive molteplicità).
+	\begin{proposition}[Base di un fascio di coniche]
+		Un fascio di coniche in $\PP^2_\KK$ ha luogo base formato da $4$ punti in posizione generale se e solo se contiene esattamente $3$ coniche degeneri distinte.
+	\end{proposition}
+	\begin{proof}
+		Un verso è facile: sappiamo che una conica degenere è per forza un unione di rette, in particolare se queste rette appartengono al fascio devono passare per tutti i punti della base, ovvero se la base è costituita solo dai punti $A,B,C,D$ l'unica possibilità è che la conica degenere sia una delle seguenti
+		\begin{gather*}
+			\left(A\lor B\right)\cup \left(C\lor D\right) \\
+			\left(A\lor C\right)\cup \left(B\lor D\right) \\
+			\left(A\lor D\right)\cup \left(C\lor B\right)
+		\end{gather*}
+		e quindi abbiamo esattamente tre coniche degeneri. Il viceversa è un po' più complicato
+	\end{proof}
+	\begin{definition}
+		contenuto...
+	\end{definition}
 	\subsection{Polarità}
 	Abbiamo visto che ad ogni forma quadratica potevamo associare una forma bilineare simmetrica, detta la \textit{forma polare} della quadratica di formula
 	$$B(v,w):=\frac{Q(v+w)-Q(v)-Q(w)}{2}$$
@@ -2467,6 +2492,92 @@
 	\begin{definition}[Schiera di rette]
 		Una famiglia massimale di rette in $\PP^3$, contenute nel supporto di una quadrica proiettiva $q$, tale per ogni coppia di rette $r,s$ si abbia $r\lor s = \PP^3$ si dice una \textit{schiera di rette} di $q$.
 	\end{definition}
+	
+	
+	\subsection{Varietà di Grassmann}
+	
+	\textbf{Attenzione: qui assumeremo sempre che $\charin k\ne 2$.}
+	
+	\begin{definition}[Forme multilineari alternanti]
+		Una forma $n$-lineare $\alpha$ su uno spazio vettoriale $V$ fissato si dice \textit{alternante} (o \textit{alterna}) se 
+		$$\alpha(v_1,\dots,v_n)=0$$
+		ogni volta che $v_i=v_j$ per qualche $i\ne j$. L'insieme delle forme alternanti su uno stesso $V$ è sempre uno spazio vettoriale, che denoteremo con $\Omega^n(V)$.
+	\end{definition}
+	C'è un po' di ambiguità su cosa sia $\Omega^0(V)$: assumeremo che sia l'insieme delle costanti.
+	\begin{definition}[Struttura di $\Omega^\circledcirc(V)$]
+		Il \textit{prodotto di contrazione} è la mappa 
+		$$V\times \Omega^p(V)\overset{\lnot}{\longrightarrow}\Omega^{p-1}(V)$$
+		tale che
+		$$(v\lnot \alpha)(u_1,\dots,u_{p-1})=\alpha\left(v,u_1,\dots,u_{p-1}\right).$$
+	\end{definition}
+	Questa è una generalizzazione comoda della dualità canonica: infatti se $p=1$ il prodotto di contrazione tra $V$ e $V^*$ è proprio la dualità canonica.
+	\begin{lemma}[Proprietà del prodotto di contrazione]
+		Sia $\alpha$ una $k$-forma alternante su $V$ con $k\ge 1$. Allora si ha:
+		\begin{enumerate}
+			\item $\alpha=0$ se e solo se $v\lnot \alpha = 0$ per ogni $v\in V$.
+			\item Applicata due volte da $0$, ovvero $v\lnot\left(v\lnot \alpha\right)=0$ per ogni $v\in V$. 
+			\item Scambiare i prodotti di contrazione fa generare un segno $-$, ovvero $v_1\lnot (v_2\lnot\alpha)=-v_2\lnot\left(v_1\lnot\alpha\right)$
+		\end{enumerate}
+	\end{lemma}
+	\begin{proof}
+		Conti.
+	\end{proof}
+	Per definire il prodotto esterno avremo bisogno di
+	\begin{definition}[Permutazione Shuffle]
+		Una permutazione $\sigma\in S_n$ è uno \textit{shuffle} (o mischia, in italiano) di tipo $(k,n-k)$ se $\sigma_{\underline{k}}$ e $\sigma_{\underline{n}\setminus\underline{k}}$ sono funzioni crescenti. L'insieme delle permutazioni shuffle di tipo $(k,n-k)$ si denota con $S(p,q)$.
+	\end{definition}
+	Le permutazioni shuffle di tipo $(k,n-k)$ sono sempre $\binom{n}{k}$.
+	\begin{definition}[Prodotto esterno]
+		Il \textit{prodotto esterno} di $\alpha\in \Omega^p(V)$ e $\beta\in \Omega^q(V)$ si definisce come la $(p+q)$-forma $\alpha\land \beta$ tale che 
+		$$\left(\alpha\land \beta\right)(v_1,\dots,v_{p+q})=\sum_{\sigma\in S(p,q)}\text{sign}(\sigma)\alpha\left(v_{\sigma(1)},\dots,v_{\sigma(p)}\right)\beta\left(v_{\sigma(p+1)},\dots,v_{\sigma(p+q)}\right).$$ 
+	\end{definition}
+	\begin{remark}
+		Per $\lambda\in \Omega^0(V)$ e $\alpha\in \Omega^p(V)$ si ha 
+		$$\lambda\land \alpha=\alpha\land \lambda=\lambda\alpha$$
+		allo stesso modo 
+		$$\left(\varphi\land \psi\right)(v,w)=\varphi(v)\psi(w)-\varphi(w)\psi(v)$$
+		che è la forma simplettica standard!
+	\end{remark}
+	\begin{lemma}[Le forme multilineari sono chiuse rispetto al prodotto esterno]
+		Per ogni $\alpha\in \Omega^p(V)$ e $\beta\in \Omega^q(V)$ abbiamo che $\alpha\land \beta\in \Omega^{p+q}(V)$.
+	\end{lemma}
+	\begin{proof}
+		Il fatto che queste siano multilineari segue dalla multilinearità di $\alpha$. D'altra parte per dimostrare l'alternanza ci basta mostrare che questa tiene per le trasposizioni, in particolare senza perdita di generalità assumiamo che $v_i=v_{i+1}$ per qualche $i\le n$ dimostriamo allora che $\alpha\land \beta(v_1,\dots,v_n)=0$. Chiaramente se $\sigma$ manda sia $i$ che $i+1$ in numeri entrambi minori di $p$ o entrambi maggiori di $p$, abbiamo che i termini sono $0$ per alternanza di $\alpha$ e $\beta$, d'altra parte se definiamo $J$ come l'insieme delle permutazioni shuffle tali che
+		\begin{gather*}
+			\sigma^{-1}(i)\le p \\
+			\sigma^{-1}(i+1)>p
+		\end{gather*}
+		e allo stesso modo definiamo $I$ come l'insieme delle permutazioni shuffle tali che
+		\begin{gather*}
+			\sigma^{-1}(i)> p \\
+			\sigma^{-1}(i+1)\le p
+		\end{gather*}
+		allora le permutazioni in questi insiemi avranno segni opposti (infatti possiamo sempre andare da un insieme all'altro moltiplicando per la trasposizione $(i,i+1)$) dunque ad ogni addendo $\alpha(\dots)\beta(\dots)$ con $\sigma\in I$ corrisponde uno e un solo $(i,i+1)\sigma\in J$, con segno opposto, ma tale che 
+		$$\alpha\left(v_{\sigma(1)},\dots,v_{\sigma(p)}\right)\beta\left(v_{\sigma(p+1)},\dots,v_{\sigma(p+q)}\right)=\alpha\left(v_{(i,i+1)\sigma(1)},\dots,v_{(i,i+1)\sigma(p)}\right)\beta\left(v_{(i,i+1)\sigma(p+1)},\dots,v_{(i,i+1)\sigma(p+q)}\right)$$
+		e dunque tutti i termini si cancellano e abbiamo finito.
+	\end{proof}
+	\begin{lemma}[Bilinearità dei prodotti]
+		Sia il prodotto esterno che quello di contrazione sono bilineari.
+	\end{lemma}
+	\begin{proof}
+		Conti.
+	\end{proof}
+	\begin{theorem}[Proprietà del prootto esterno]
+		Il prodotto esterno soddisfa le seguenti proprietà:
+		\begin{description}
+			\item[Formula di Leibniz:] Per ogni $\alpha\in \Omega^p(V)$ e $\beta\in \Omega^q(V)$ la seguente formula vale per ogni $v\in V$:
+			$$v\lnot \left(\alpha\land \beta\right)=\left(v\lnot \alpha\right)\land \beta +(-1)^p\alpha\land\left(v\lnot \beta\right).$$
+			\item[Regola dei segni:] Per ogni $\alpha\in \Omega^p(V)$ e $\beta\in \Omega^q(V)$ si ha che $$\alpha\land \beta=(-1)^{pq}\beta\land \alpha$$
+			\item[Associatività:] Il prodotto esterno è associativo
+			$$\alpha\land\left(\beta\land \gamma\right)=\left(\alpha\land \beta\right)\land \gamma.$$
+			\item[Calcolo del prodotto esterno:] Per ogni $\varphi_1,\dots,\varphi_n\in V^*$ e $v_1,\dots,v_n\in V$ si ha 
+			$$\left(\varphi_1\land\dots\land \varphi_n\right)\left(v_1,\dots,v_n\right)=\det\left(\left(\varphi_i(v_j)\right)\right)$$
+			insomma è il determinante della matrice $A_{ij}=\varphi_i(v_j)$.
+		\end{description}
+	\end{theorem}
+	\begin{proof}
+		Per dimostrare la formula di Leibniz, prendiamo vettori $u_1,\dots,u_{p+q-1}\in V$ e due permutazioni $\sigma,\tau$ shuffle di tipo $(p-1,q)$ e $(p,q-1)$ rispettivamente.
+	\end{proof}
 	
 	\newpage
 	

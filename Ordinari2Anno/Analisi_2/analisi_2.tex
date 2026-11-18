@@ -2760,7 +2760,173 @@
 		L'equazione \textit{logistica} è la seguente equazione differenziale a variabili separabili
 		$$y'=y\left(1-\frac{y}{L}\right).$$
 	\end{example}
+	\subsubsection{Equazioni omogenee e di Bernoulli}
 	
+	\begin{example}[Una sostituzione intelligente]
+		Risolviamo l'equazione differenziale
+		$$y'=\frac{2xy}{x^2+y^2}.$$
+	\end{example}
+	\begin{proof}[Soluzione]
+		Dividendo sopra e sotto per $x^2$ otteniamo
+		$$y'=\frac{\frac{y}{x}}{1+\left(\frac{y}{x}\right)^2}$$
+		ci viene allora voglia di studiare la funzione $z(x):=y(x)/x$ più che $y$. Dato che la derivata di $y$ soddisfa
+		$$y'=z+xz'$$
+		allora possiamo riscrivere l'equazione di partenza come
+		$$z+xz'=2\frac{z}{1+z^2}.$$
+		Ma allora portando tutte le $z$ da un lato abbiamo
+		$$xz'=\frac{z-z^3}{1+z^2}$$
+		che è a variabili separabili! Integrando ambo i lati 
+		$$\int \frac{1+z^2}{z(1-z^2)}\dif z=\int \frac{1}{x}\dif x$$
+		che possiamo risolvere usando il fatto che 
+		$$\frac{1+z^2}{z(1-z^2)}=-\frac{1}{z}+\frac{1}{z+1}+\frac{1}{z-1}$$
+		e finendo i conti.  
+	\end{proof}
+	Questo è un trucco che spesso torna comodo, quindi cerchiamo di sistematizzarlo un pochino:
+	\begin{definition}[Equazione omogenea]
+		Un'\textit{equazione omogenea} del primo ordine è un'equazione differenziale ordinaria del primo ordine della forma
+		$$y'=f\left(\frac{y}{x}\right).$$
+	\end{definition}
+	In questo tipo di equazioni ha sempre senso scrivere
+	$$z:=\frac{y}{x}$$ 
+	da cui deduciamo che
+	$$y'=z+z'x$$
+	e quindi 
+	$$z+z'x=f(z) \implies \frac{1}{x}=\frac{z'}{f(z)-z}$$
+	da cui la soluzione sfruttando la separabilità delle variabili.
+	\begin{example}[Un'altra sostituzione intelligente]
+		Risolviamo l'equazione
+		$$xy'=-y^2\log x - 2y.$$
+	\end{example}
+	\begin{proof}[Soluzione]
+		Dividendo tutto per $xy^2$ abbiamo che
+		$$\frac{y'}{y^2}=-\frac{\log x}{x}-\frac{2}{xy}$$
+		ma allora usando la sostituzione
+		$$z:=\frac{1}{y}$$
+		abbiamo
+		$$zz'=-\frac{\log x}{x}-z\frac{2}{x}$$
+		che è separabile di nuovo.
+	\end{proof}
+	Anche qui generalizziamo:
+	\begin{definition}[Equazioni di Bernoulli]
+		Un'equazione differenziale della forma
+		$$y'+a(x)y=b(x)y^\alpha$$
+		si dice \textit{equazione di Bernoulli}.
+	\end{definition}
+	Un'equazione di bernoulli in generale si risolve con la sostituzione
+	$$y=z^{\frac{1}{1-\alpha}}$$
+	che facendo tutti i conti come sopra ci porta ad un'equazione separabile, di nuovo.
+	\begin{example}[L'ultima idea intelligente]
+		Risolviamo l'equazione differenziale 
+		$$y=xy'-\frac{1}{3}\left(y'\right)^3$$
+		assumendo $y\in C^2$.
+	\end{example}
+	\begin{proof}[Soluzione]
+		La prima cosa da fare in questo caso in realtà è derivare entrambi i lati rispetto a $x$, allora otteniamo
+		$$y'=y'+xy''\left(y'\right)^2y'' \implies y''(x-(y')^2)=0$$
+		questa si può risolvere a tratti imponendo che un membro o l'altro sia nullo, e poi cercando di mettere assieme i pezzi.
+	\end{proof}
+	\begin{definition}[Equazione di Clairaut]
+		Un'equazione differenziale del primo ordine del tipo
+		$$y=xy'+g(y')$$
+		si dice \textit{equazione di Clairaut}.
+	\end{definition}
+	Un'equazione di Clairaut se $y$ è assunta essere derivabile due volte si può risolvere derivando entrambi i lati
+	$$y'=y'+xy''+g'(y')y'' \implies 0=y''(x+g'(y'))$$
+	e come prima risolvendola a pezzi e cercando di rimetterli insieme successivamente.
+	
+	\subsection{Teoremi di esistenza e unicità}
+	
+	Il teorema seguente è probabilmente il fatto più importante da sapere sulle ODE, alcuni lo chiamano Cauchy-Lipschitz, altri Picard-Lindel\"of, in ogni caso quello che dice è quanto segue:
+	\begin{theorem}[Cauchy-Lipschitz]
+		Sia $\Omega\subseteq\RR^{n+1}=\RR_x\times \RR_y^n$ un aperto, e sia $(x_0,y_0)\in \Omega$. Se la funzione 
+		$$f:\Omega\to \RR^n$$
+		è continua e per ogni compatto $H\subseteq \Omega$ esiste una costante $L>0$ tale che per ogni $(x,y_1),(x,y_2)\in H$ si abbia
+		$$\abs{f(x,y_1)-f(x,y_1)}\le L\abs{y_1-y_2}$$
+		allora esiste un $\delta>0$ tale che esiste un unica funzione $y\in C^1([x_0-\delta,x_0+\delta],\RR^n)$ che risolve il seguente sistema di equazioni differenziali con condizioni iniziali:
+		$$
+		\begin{cases}
+			y'(x) = f(x,y(x)) \\
+			y(x_0)=y_0
+		\end{cases}
+		$$
+		inoltre tale $\delta$ è uniforme sui compatti di $\Omega$, ovvero per ogni $K\subseteq\Omega$ compatto abbiamo che esiste un $\delta>0$ che vada bene per ogni punto di $K$ contemporaneamente.
+	\end{theorem}
+	\begin{remark}[Idea della dimostrazione]
+		Se $y$ risolve $y'=f(x,y)$ allora possiamo riscrivere $y$ come
+		$$y=y_0+\int_{x_0}^x f(t,t(t))\dif t$$
+		l'idea fondamentale è rinominare quell'integrale come
+		$$(Ty)(x):=y_0+\int_{x_0}^x f(t,t(t))\dif t$$
+		cioè il fatto che $y$ sia soluzione di quell'equazione si può riformula dicendo che
+		$$Ty=y$$
+		ovvero $y$ è punto fisso di $T$! L'idea quindi è proprio il teorema delle contrazioni.
+	\end{remark}
+	\begin{proof}
+		Fissiamo $\varepsilon>0$, allora esisterà un $\delta>0$ tale che
+		$$K:=[x_0-\delta,x_0+\delta]\times B^n(y_0,\varepsilon)\subseteq\Omega$$
+		scegliamo allora $H\subseteq \Omega$ compatto tale che
+		$$K\subseteq \text{int}(H)$$
+		e definiamo
+		$$M:=\sup_{(x,y)\in H}f(x,y)<\infty$$
+		che visto che $f$ è continua e lipschitziana, e $H$ è compatto sarà anche un massimo per Weierstrass. Dato che $\delta>0$ può essere arbitrariamente piccolo e quello che abbiamo detto sopra continua a valere, possiamo assumere che 
+		\begin{gather*}
+			\delta M \le \varepsilon \\
+			\delta L <1
+		\end{gather*}
+		questo è più o meno tutto quello che ci serve per applicare l'idea sopra: prendiamo $T:\left(\RR^{n}\right)^{\RR^{n}}\to\left(\RR^{n}\right)^{\RR^{n}}$ come sopra, allora 
+		\begin{claim}
+			L'operatore $T$ è una contrazione sullo spazio
+			$$X:=\left\{y\in C([x_0-\delta,x_0+\delta],\RR^n):y(x_0)=y_0,\abs{\abs{y-y_0}}_\infty\le \varepsilon\right\}$$
+			equipaggiato con la norma del sup, che è un sottoinsieme chiuso di $C([x_0-\delta,x_0+\delta],\RR^n)$ equipaggiato con la norma infinita.
+		\end{claim}
+		\begin{subproof}[Sottodimostrazione]
+			Dimostriamo prima di tutto che $X$ è invariante rispetto a $T$. Abbiamo che
+			$$\abs{\abs{Ty-y_0}}\le \abs{\abs{\int_{x_0}^x f(t,y(t))\dif t}}\le M\abs{x-x_0}\le M\delta \le \varepsilon$$
+			usando le assunzioni su $\delta$ fatte sopra. Rimane da mostrare che $T$ è effettivamente una contrazione, d'altra parte prese $y,\tilde{y}$ in $X$ abbiamo
+			$$\abs{\abs{Ty-T\tilde{y}}}=\abs{\abs{\int_{x_0}^x\left[ f(t,y(t))-f(t,\tilde{y}(t))\right]\dif t}}$$ 
+			e possiamo stimare quella roba usando finalmente l'ipotesi di tipo Lipschitz: 
+			$$\int_{x_0}^x\left[ f(t,y(t))-f(t,\tilde{y}(t))\right]\dif t\le \int_{x_0}^x \abs{\abs{f(t,y(t))-f(t,\tilde{y}(t))}}\dif t\le \int_{x_0}^x L\abs{y(t)-\tilde{y}(t)}\dif t$$
+			che possiamo di nuovo stimare con il massimo
+			$$\abs{\abs{Ty-T\tilde{y}}}\le\dots\le L\abs{x-x_0}\abs{\abs{y-y_0}}\le \delta L\varepsilon<\varepsilon$$
+			e allora abbiamo proprio che questa è una contrazione!
+		\end{subproof}
+		Dato che $X$ è un sottoinsieme chiuso di uno spazio completo (limiti uniformi di funzioni continue sono sempre continui!) avremo $X$ completo, e quindi per Banach-Caccioppoli esiste un punto fisso per $T$, e che questo è unico\dots\, in $X$. Rimane da mostrare che se $\tilde{y}\in C\left([x_0-\delta,x_0+\delta],\RR^n\right)$ è una soluzione, allora $\tilde{y}\in X$, e quindi è necessariamente il punto fisso appena trovato. Chiaramente abbiamo che se questa è soluzione allora $\tilde{y}(x_0)=y_0$, rimane da mostrare che
+		$$\abs{\abs{\tilde{y}-y_0}}\le \varepsilon$$
+		d'altra parte se per assurdo esistesse un $x_1\in [x_0-\delta,x_0+\delta]$ tale che $\abs{\tilde{y}(x_1)-y_0}>\varepsilon$ allora possiamo assumere senza perdita di generalità che $x_1\in H$, infatti certamente dentro $H$ si avrà che $\abs{\abs{\tilde{y}-y_0}}\le \varepsilon$ perché per definizione di massimo:
+		$$\abs{\abs{\tilde{y}-y_0}}=\abs{\abs{\int_{x_0}^x f(t,\tilde{y}(t))}}\le M\abs{x-x_0}\le \varepsilon$$
+		allora abbiamo una contraddizione, perché anche per $x_1$ al bordo di $H$ si avrà quella condizione, il che è assurdo perché abbiamo assunto che quella quantità fosse $>\varepsilon$, e quindi abbiamo finito.
+	\end{proof}
+	\begin{definition}[Soluzione massimale]
+		Dato un $x_0$ e un sistema di equazioni differenziali
+		$$
+		\begin{cases}
+			y'=f(x,y) \\
+			y(x_0)=y_0
+		\end{cases}
+		$$
+		consideriamo il seguente sottoinsieme delle sue soluzioni:
+		$$A:=\left\{(J,y_J):y_J\in C^1(J,\RR^n),J\supseteq x_0 \text{ e $J$ è un intervallo}\right\}$$
+		allora la funzione $y$ definita su
+		$$I:=\bigcup_{(J,y_J)\in A} J$$
+		e tale che 
+		$$y(x)=y_J(x)$$
+		se $x\in J$ si dice la \textit{soluzione massimale} del sistema.
+	\end{definition}
+ 	Questa non è sempre ben definita, basti pensare al caso monodimensionale in cui $f(x,y)=\sqrt{\abs{y}}$, d'altra parte questa è ben definita sotto ipotesi di lipschitzianità locale.
+ 	\begin{proposition}[Incollare insieme soluzioni locali]
+ 		Sotto le stesse ipotesi del teorema di Cauchy Lipschitz siano $I_1,I_2$ due intervalli aperti tali che $x_0\in I_1\cap I_2$ ed esistano due soluzioni $y_1$ e $y_2$ di un certo sistema
+ 		$$
+ 		\begin{cases}
+ 			y'=f(x,y) \\
+ 			y(x_0)=y_0
+ 		\end{cases}
+ 		$$
+ 		sugli intervalli $I_1$ e $I_2$, allora $y_1=y_2$ su $I_1\cap I_2$.
+ 	\end{proposition}
+ 	\begin{proof}
+ 		Consideriamo l'insieme 
+ 		$$E:=\left\{x\in I_1\cap I_2:y_1(x)=y_2(x)\right\}$$
+ 		allora questo è chiuso nella topologia di $I_1\cap I_2$, ed è anche non vuoto perché $x_0\in E$. Allora per connessione ci basta dimostrare che $E$ è anche aperto per avere la tesi. D'altra parte preso un $x_1\in I_1\cap I_2$ per Cauchy-Lipschitz esisterà una soluzione unica nell'intervallo $[x_1-\delta,x_1+\delta]$, che per $\delta$ abbastanza piccolo apparterrà sempre a $I_1\cap I_2$, e quindi abbiamo che $[x_1-\delta,x_1+\delta]\subseteq E$, da cui la tesi per quanto detto sopra.
+ 	\end{proof}
 	
 	\newpage
 	
