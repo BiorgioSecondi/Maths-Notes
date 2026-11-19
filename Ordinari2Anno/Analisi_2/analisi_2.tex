@@ -2927,6 +2927,119 @@
  		$$E:=\left\{x\in I_1\cap I_2:y_1(x)=y_2(x)\right\}$$
  		allora questo è chiuso nella topologia di $I_1\cap I_2$, ed è anche non vuoto perché $x_0\in E$. Allora per connessione ci basta dimostrare che $E$ è anche aperto per avere la tesi. D'altra parte preso un $x_1\in I_1\cap I_2$ per Cauchy-Lipschitz esisterà una soluzione unica nell'intervallo $[x_1-\delta,x_1+\delta]$, che per $\delta$ abbastanza piccolo apparterrà sempre a $I_1\cap I_2$, e quindi abbiamo che $[x_1-\delta,x_1+\delta]\subseteq E$, da cui la tesi per quanto detto sopra.
  	\end{proof}
+ 	\begin{theorem}[Criterio di prolungamento]
+ 		Sia $f$ una funzione 
+ 		$$f:(a_0,b_0)\times \RR^n\to\RR^n$$
+ 		continua e localmente lipschitziana in $y$, con $a_0<b_0\in\overline{\RR}$. Allora una soluzione massimale $y\in  C^1((a,b),\RR^n)$ del sistema
+ 		$$
+ 		\begin{cases}
+ 			y'=f(x,y) \\
+ 			y(x_0)=y_0
+ 		\end{cases}
+ 		$$
+ 		è tale che $b=b_0$, oppure
+ 		$$\lim_{x\to b^-}\abs{y(x)}=\infty.$$
+ 		Analogamente si ha per $a$.
+ 	\end{theorem}
+ 	\begin{remark}
+ 		In teoria il fatto che $\abs{y(x)}\to \infty$ non implica che $y$ tenda a $0$. Tuttavia usando il fatto che $y$ è continua otteniamo che
+ 		$$\lim_{x\to b^-}y(x)=+\infty \quad \text{oppure} \quad \lim_{x\to b^-}y(x)=-\infty$$
+ 		e questo segue osservando che se $y$ oscillasse tra $-\infty$ e $\infty$ per continuità passerebbe frequentemente vicino a $0$.
+ 	\end{remark}
+ 	\begin{proof}
+ 		Supponiamo per assurdo che non valga nessuna delle due cose, ovvero supponiamo di avere $b<b_0$ e che esista una successione $(x_k)_{k\in\NN}\subseteq (a,b)$ tale che $x_k\to b^-$ e tale che $\sup_k\abs{y(x_k)}<\infty$. Sia $\bar{y}_0$ il punto a cui tende $y(x_k)$ (o potenzialmente una sua sottosuccessione), allora fissiamo un compatto 
+ 		$$H\subseteq (a_0,b_0)\times\RR^n$$
+ 		tale che $(b,\overline{y}_0)\in \overset{\circ}{H}$ allora per definizione di limite di successione, per ogni $\varepsilon>0$ esisterà un $\delta>0$ tale che
+ 		$$[b-2\delta,b+2\delta]\times \overline{B(\overline{y}_0,2\varepsilon)}\subseteq H$$
+ 		e come fatto per il teorema di Cauchy-Lipschitz possiamo assumere che 
+ 		$$\delta M \le \varepsilon \quad \delta L <1$$
+ 		dove $f$ è la costante di Lipschitz rispetto a $y$ di $f$ su $H$. Ma allora costituendo $b$ con la sua successione approssimante $x_k\to b^-$ abbiamo
+ 		$$bho$$
+ 	\end{proof}
+	\begin{lemma}[di Gronwall]
+		Sia $I\subseteq\RR$, $x_0\in I$ e $g:I\to\RR$ una funzione continua. Supponiamo che esistano due costanti $\alpha,\beta\ge 0$ tali che
+		$$g(x)\le \alpha+\beta \int_{x_0}^xg(t)\dif t$$
+		per ogni $x\in I$ tali che $x\ge x_0$. Allora abbiamo
+		$$g(x)\le \alpha e^{\beta (x-x_0)}$$
+		per ogni $x\ge x_0$ in $I$.
+	\end{lemma}
+	\begin{proof}
+		Definiamo la funzione
+		$$G(x):=e^{-\beta(x-x_0)}\left(\alpha+\beta\int_{x_0}^x g(t)\dif t\right)$$
+		ma allora derivando da entrambi i lati abbiamo
+		$$G'(x)=e^{-\beta(x-x-0)}\left[-\beta\left(\alpha+\beta\int_{x_0}^x g\dif t\right)+\beta g(x)\right]\le 0$$
+		che è negativo perché il secondo fattore è negativo, per le ipotesi su $g$. Ma allora $G$ decresce, e quindi se $x\ge x_0$ abbiamo
+		$$G(x)\le G(x_0)=\alpha$$
+		ovvero
+		$$\alpha e^{\beta(x-x_0)}\ge \alpha + \beta\int_{x_0}^x g(t)\dif t \ge g(x)$$
+		che era la tesi.
+	\end{proof}
+	Questo ci servirà per dimostrare il seguente fatto
+	\begin{theorem}[Esistenza globale]
+		Sia $I=(a_0,b_0)$ con$ a_0,b_0\in\overline{\RR}$. Per ogni funzione $f:I\times \RR^n\to\RR^n$ continua e localmente lipschitziana in $y$ tale che per ogni compatto $K\subseteq I$ esista una costante $C\ge 0$ tale che 
+		$$\abs{f(x,y)}\le C(1+\abs{y})$$
+		allora la soluzione massimale del sistema di equazioni differenziali
+		$$
+		\begin{cases}
+			y'=f(x,y) \\
+			y(x_0)=y_0
+		\end{cases}
+		$$
+		è definita globalmente (ovvero su tutto $I$).
+	\end{theorem}
+	\begin{remark}
+		Attenzione, questo teorema ci dice $f(x,y)$ deve essere sublineare sui compatti di $x$, non di $y$. Per questo l'ipotesi è più forte della locale lipschiztianità in $y$: se $K$ fosse un compatto \textit{di $\RR^n_y$} avremmo che localmente lipschitz implica sublineare, ma appunto $K$ è un compatto di $\RR_x$ non di $\RR^n_y$.  
+	\end{remark}
+	\begin{proof}
+		Sia $y$ la soluzione massimale definita su $(a,b)\subseteq I$, e supponiamo per assurdo che $b<b_0$ (l'altro caso, per $a>a_0$, è uguale). Allora per il criterio di prolungamento sappiamo che $\abs{y(x)}$ scoppierà in tempo finito per $x\to b^-$. Fissiamo un $C\ge 0$ come da ipotesi per un certo $K:=[x_0,b]$ allora per ogni $x\in [x_0,b)$ abbiamo 
+		$$\abs{y(x)}=\abs{y_0+\int_{x_0}^x f(t,y(t))\dif t}\le \abs{y_0}+C(b-x_0)+C\int_{x_0}^x \abs{y(t)}\dif t$$
+		e allora per Gronwall abbiamo
+		$$\abs{y(x)}\le \left[\abs{y(0)}+C(b-x_0)\right]e^{C(x-x_0)}$$
+		che contraddice il fatto che $\abs{y}\to \infty$.
+	\end{proof}
+	\begin{remark}
+		Se al posto della sublinearità abbiamo la condizione $$\abs{f(x,y)}\le a(x)y+b(x)$$
+		con $a,b$ continue e positive, allora il teorema continua a valere.
+	\end{remark}
+	\begin{example}[Una funzione per cui non si ha unicità globale]
+		Per il sistema
+		$$
+		\begin{cases}
+			y'=y^2 \\
+			y(-1)=1
+		\end{cases}
+		$$
+		non c'è unicità globale.
+	\end{example}
+	
+	\subsection{Studi Qualitativi}
+	
+	Molto spesso nella vita, le equazioni differenziali che incontreremo non saranno risolvibili esplicitamente in modo bello o significativo. Prendiamo ad esempio il sistema
+	$$
+	\begin{cases}
+		y'=x\sin y \\
+		y(0)=\alpha
+	\end{cases}
+	$$
+	e chiamiamo $y_\alpha$ la soluzione. Dato che 
+	$$f(x,y)=x\sin y$$
+	è liscia e localmente lipschitziana in $y$ (ma anche in $x$) abbiamo esistenza e unicità locale della soluzione. Inoltre dato che
+	$$\abs{f(x,y)}=\abs{x\sin y}\le \abs{x}\abs{y}$$
+	abbiamo anche esistenza globale. L'idea in questi casi è che lo stato del nostro sistema è determinato univocamente da due parametri: il valore $x$ a cui ci troviamo e il valore iniziale $\alpha$ da cui siamo partiti
+	\begin{theorem}[Dell'asintoto]
+		Se esiste il limite
+		$$\lim_{x\to\infty}f(x)=L\in\RR$$
+		e inoltre esiste il limite
+		$$\lim_{x\to\infty}f'(x)=H\in\RR$$
+		allora $H=0$.
+	\end{theorem}	
+	\begin{proof}
+		Per Lagrange abbiamo che esisterà un $\xi\in [x,x+1]$ tale che
+		$$0=\lim_{x\to\infty}\left[f(x+1)-f(x)\right]=\lim_{x\to\infty}f'(\xi)=H$$
+		e quindi $H=0$.
+	\end{proof}
+	
+	
 	
 	\newpage
 	

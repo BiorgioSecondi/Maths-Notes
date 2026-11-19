@@ -2055,4 +2055,56 @@
 	\begin{proof}
 		La tesi è chiaramente vera se $a=0$
 	\end{proof}
+	
+	\subsection{Criterio di Eisenstein}
+	
+	Ricordiamo la seguente definizione:
+	
+	\begin{definition}[Polinomio primitivo]
+		contenuto...
+	\end{definition}
+	
+	\begin{theorem}[Criterio di Eisenstein]
+		UN polinomio $f\in \ZZ[X]$ tale che
+		$$f(x)=a_nx^n+a_{n-1}x^{n-1}+\dots+a_0$$
+		allora se esiste un primo $p$ tale che
+		\begin{align*}
+			& p \nmid a_n\\
+			& p \mid a_i \quad\forall i<n \\
+			& p^2\nmid a_0
+		\end{align*}
+		allora $f$ è irriducibile in $\QQ[X]$.
+	\end{theorem}
+	\begin{proof}
+		Supponiamo per assurdo che $f$ sia riducibile, allora lo possiamo scrivere come
+		$$f(x)=(b_rx^r+\dots +b_0)\left(c_sx^s+\dots+c_0\right)$$
+		con $r+s=n$ e $r,s<n$. Allora prima di tutto abbiamo 
+		$$a_0=b_0c_0$$
+		e quindi WLOG $c_0$ non sarà divisibile per $p$, mentre $b_0$ sì. Ma allora il coefficiente subito dopo sarà
+		$$a_1=c_0b_1+b_0c_1$$
+		e riducendo tutto modulo $p$ dobbiamo avere che e quindi anche $b_1$ deve essere $0$ modulo $p$. Andando avanti così si dimostra che tutti i coefficienti $b_0,\dots,b_n$ sono congrui a $0$ modulo $p$, e quindi questo contraddice l'ipotesi che $p\nmid a_n$. 
+	\end{proof}
+	Un corollario importante di ciò è:
+	\begin{proposition}[I polinomi ciclotomici primi sono irriducibili]
+		Dato un primo $p$ il polinomio 
+		$$f(x)=1+x+x^2+\dots+x^{p-1}$$
+		è irriducibile in $\ZZ[x]$.
+	\end{proposition}
+	\begin{proof}
+		L'idea principale è che invece di applicare eisenstein a $f(x)$ lo applichiamo a $f(x+1)$, ovvero abbiamo che $f(x)$ è irriducibile se e solo se $f(x+1)$ lo è.
+	\end{proof}
+	E un'altro fatto ancora che ci torna utile è
+	\begin{proposition}[Irriducibile in un quoziente implica irriducibile nell'anello di partenza]
+		Sia $f\in \ZZ[x]$, allora per ogni $n\in\NN$ abbiamo che se $f$ è irriducibile in $\faktor{\ZZ}{n\ZZ}[x]$ allora è irriducibile anche in $\ZZ[x]$.
+	\end{proposition}
+	\begin{proof}
+		Per contronominale: se $f$ è riducibile in $\ZZ[x]$ allora semplicemente applicando l'omomorfismo
+		$$\sum_i a_ix^i \mapsto \sum \overline{a}_ix^i$$
+	\end{proof}
+	Purtroppo il criterio di Eisenstein non è perfetto:
+	\begin{example}[Un polinomio per cui Eisenstein fallisce]
+		Il polinomio
+		$$f(x)=x^4-10x^2+1\in \ZZ[x]$$
+	\end{example}
+	
 \end{document}
