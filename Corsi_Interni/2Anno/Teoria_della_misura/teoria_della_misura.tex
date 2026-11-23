@@ -2308,7 +2308,95 @@
 			\item Il primo caso è $F_\mu(x_0)\le F_\nu (y)$, qui per ogni $x<x_0$ abbiamo che
 		\end{itemize}
 	\end{proof}
+	\begin{example}[Non unicità con $c(x,y)=\abs{x-y}$]
+		Supponiamo che per ogni $x\in \text{supp}(\mu)$ e $y\in \text{supp}(\nu)$ si ha $x<y$. Nel problema di Monge questo vuol dire che tutta la distribuzione di massa di partenza è a sinistra, mentre quella di arrivo è a destra. Allora per ogni mappa di trasporto $T$ e per ogni piano di trasporto $\pi$ vale che
+		$$\int_{\RR}c(x,Tx)\dif \mu=\int_{\RR\times\RR}c(x,y)\dif \pi=\int_{\RR}y\dif \mu-\int_{\RR}x\dif \mu$$
+		se quell'espressione ha senso (non abbiamo infinito-infinito). E quindi se le due misure non sono due delta, questo implica che tutte le mappe di trasporto (o i piani di trasporto) hanno lo stesso costo, quindi l'eventuale minimo non è unico.
+	\end{example}
+	\begin{proof}
+		Da quello che abbiamo supposto dobbiamo avere che 
+		$$\abs{x-y}=x-y$$
+		vale $\pi$-quasi ovunque. Ma allora 
+		$$\int_{\RR\times \RR}\abs{x-y}\dif \pi=\int_{\RR\times\RR}\left(x-y\right)\dif \pi=\int_{\RR\times\RR}x\dif \pi-\int_{\RR\times \RR}y\dif \pi$$
+		dove con $x$ e $y$ abbiamo denotato le funzioni $(x,y)\mapsto x$ e $(x,y)\mapsto y$. Dunque dalla formula del cambio di base segue la tesi.
+	\end{proof}
+	Quando il costo è quadratico le cose ci vanno meglio invece:
+	\begin{lemma}[Le mappe non monotone non sono ottime in Monge quadratico]
+		Se $T:\RR\to\RR$ è una mappa continua di trasporto, $\mu,\nu$ non hanno atomi e $T$ non è crescente sul supporto di $\mu$ allora $T$ non è ottimale per il problema di Monge con $c(x,y)=\abs{x-y}^2$.
+	\end{lemma}
+	\begin{proof}
+		Siano $x_1,x_2\in \text{supp}(\mu)$ e $y_1,y_2\in \text{supp}(\nu)$, con 
+		$$x_1<x_2 \quad y_1<y_2$$
+		ma anche tali che 
+		$$Tx_1=y_2 \qquad Tx_2=y_1$$
+		cioè $T$ è non monotona proprio su questa coppia di valori. Esistono allora $\varepsilon_1,\varepsilon_2>0$ tali che per ogni $x'\in B(x_1,\varepsilon_1)$ e $x''\in B(x_2,\varepsilon_2)$ si abbia
+		$$Tx'>Tx''$$
+		e inoltre 
+		$$\mu(B(x_1,\varepsilon_1))=\mu(B(x_2,\varepsilon_2))$$
+		questo segue dalla continuità di $T$ e dal fatto che $\mu$ non ha atomi. Consideriamo allora $T_1$ una mappa di trasporto da $\mu_{\mid B(x_1,\varepsilon_1)}$ a $T_\#\mu_{\mu B(x_1,\varepsilon_1)}$ e $T_2$ un'altra mappa analoga, ma con dominio e codominio scambiati rispetto a $x_1$ e $\varepsilon_1$, da queste possiamo definire una mappa che abbia un costo migliore della $T$:
+		$$
+		\tilde{T}(x)=
+		\begin{cases}
+			T_1(x) & \text{se $x\in B(x_1,\varepsilon_1)$} \\
+			T_2(x) & \text{se $x\in B(x_2,\varepsilon_2)$} \\
+			T(x) & \text{altrimenti.}
+		\end{cases}.
+		$$
+		Questa è effettivamente migliore di $T$ perché per ogni $(x',x'')\in B(x_1,\varepsilon_1)\times B(x_2,\varepsilon_2)$ vorremmo mostrare che
+		$$\abs{x'-\tilde{T}x'}^2+\abs{x''-\tilde{T}x''}^2<\abs{x'-Tx'}^2+\abs{x''-Tx''}^2$$
+		d'altra parte per continuità di nuovo ci basterà mostrare la tesi per $x'=x_1$ e $x''=x_2$ e questa segue dalla disuguaglianza
+		$$\abs{x_1-y_1}^2+\abs{x_2-y_2}^2<\abs{x_1-y_2}^2+\abs{x_2-y_1}^2$$
+		che è lasciata come esercizio al lettore.
+	\end{proof}
+	In realtà l'ipotesi di continuità di $T$ può essere rimossa:
+	\begin{proposition}
+		Se l'insieme delle mappe di trasporto da $\mu$ a $\nu$ è non vuoto, e $T$ è una mappa di trasporto non monotona allora $T$ non è ottimale per il costo $\abs{x-y}^2$.
+	\end{proposition}
+	anche l'ipotesi di essere una mappa può essere rimossa, ovvero possiamo dimostrare risultati analoghi per i piani di trasporto $\pi$ tali che $(x_1,y_2)$ e $(x_2,y_1)$ ordinati come sopra stiano nel supporto di $\pi$. La generalizzazione di tutti questi concetti in dimensione più alta è un teorema abbastanza recente:
+	\begin{theorem}[Brenier, 1991]
+		Siano $\mu$ e $\nu$ due misure di Radon di probabilità su $\RR^n$ tali che $\mu\ll \mathscr{L}^n$ e inoltre
+		$$\int_{\RR^n} \abs{x}^2\dif \mu+\int_{\RR^n}\abs{y}^2\dif \nu<\infty$$
+		allora:
+		\begin{enumerate}
+			\item Il problema di Monge 
+			$$\min_{\mathcal{T}(\mu,\nu)}\int_{\RR^n}\abs{x-Tx}^2\dif \mu$$
+			ha un minimo, e questo è della forma
+			$$T=\nabla \varphi$$
+			con $\varphi:\RR^n\to(-\infty,\infty]$ una certa funzione convessa, semicontinua inferiormente e differenziabile $\mu$-quasi ovunque. 
+			\item $T$ è unica, nel senso he se $T'$ è un'altra soluzione allora $T=T'$ $\mu$-quasi ovunque.
+			\item Il piano di trasporto $\pi_T$ associato al grafico della mappa di trasporto $T$ è l'unico minimo del problema di Kantorovich. 
+		\end{enumerate}
+	\end{theorem}alla
+	\begin{proof}
+		Lunga e complicata, e segue dal teorema di esistenza generale che abbiamo mostrato in precedenza per i piani di trasporto. Una volta che si ha un minimo, uno dimostra che l'ottimalità di un certo piano di trasporto $\pi$ lo obbliga ad essere ristretto sul grafico di una funzione $\nabla \varphi$ come sopra, e quindi da quello segue che quella mappa è ottimale anche per Monge.
+	\end{proof}
 	
+	\begin{proposition}[Disuguaglianza isoperimetrica]
+		Sia $B=\left\{x\in \RR^n:\abs{x}<1\right\}$ la palla di raggio $1$. Se $A\subseteq\RR^n$ è un insieme tale che 
+		$$\mathscr{L}^n(A)=\mathscr{L}^n(B)=\omega_n$$
+		allora vale la cosiddetta \textit{disuguaglianza isoperimetrica}
+		$$\mathcal{H}^{n-1}(\partial B)\le \mathcal{H}^{n-1}(\partial A)$$
+		e l'uguaglianza vale se e solo se $A$ è una palla di raggio $1$.
+	\end{proposition}
+	\begin{proof}
+		Siano 
+		$$\mu =\mathscr{L}^n_{\mid A}\quad \nu=\mathscr{L}^n_{\mid B}$$
+		consideriamo quindi il problema di Monge con costo quadratico, e $T=\nabla \varphi$ la mappa di trasporto data dal teorema di Brenier. Si può mostrare che $T$ è in qualche modo $C^1$, non è facile ma assumeremo di averlo già fatto. Allora per la formula del cambio di variabile abbiamo che il determinante del Jacobiano di $T$ deve essere $1$
+		$$1=\det J_T=\det \nabla^2\varphi$$
+		che è d'altra parte uguale al determinante dell'Hessiana di $\varphi$. Visto che $\varphi$ è convessa l'hessiana è definita positiva ovunque, e quindi abbiamo che gli autovalori $\lambda_i$ soddisfano
+		$$1=\lambda_1\lambda_2\dots\lambda_n$$
+		e per AM-GM quindi concludiamo che
+		$$\nabla \cdot T=\tr{J_T}\ge n$$
+		ma allora
+		$$\mathscr{L}^n(A)=\int_A1\dif x=\int_A\left(\det J_T\right)^{1/n}\dif x\le \frac{1}{n}\int_A\tr{J_T}\dif x =\frac{1}{n}\int_A \nabla \cdot T \dif x$$
+		e per il teorema della divergenza quindi
+		$$\dots = \frac{1}{n}\int_{\partial A} T\cdot \vec{n}\dif \mathcal{H}^{n-1}$$
+		e usando il fatto che $\abs{Tx}\le 1$, perché $Tx\in B$ che è per definizione l'insieme con norma minore di $1$, abbiamo
+		$$\dots \le \frac{1}{n}\int_{\partial A} \dif \mathcal H^{n-1}=\frac{1}{n}\mathcal{H}^{n-1}(\partial A)$$
+		che è proprio la formula che volevamo dato che per la palla unitaria 
+		$$\mathcal{H}^{n-1}(\partial B)=n\mathcal{H}^n(B)$$
+		e quindi abbiamo finito (eccetto per il caso d'uguaglianza).
+	\end{proof}
 	
 	\newpage
 	
@@ -2571,7 +2659,25 @@
 	\end{exercise}
 	\begin{proof}[Soluzione]
 		Riscriviamo
-		$$\int_Af\dif \mu =\int_X\mathbbm{1}_Af\dif\mu$$
+		$$\int_Af\dif \mu =\int_X\mathbbm{1}_Af\dif\mu\qquad \int_Af_n\dif \mu = \int_X\mathbbm{1}_Af_n\dif\mu$$
+		portiamo avanti due calcoli in parallelo: per Fatou abbiamo
+		\begin{gather*}
+			\int_X\liminf_{n\to\infty}\mathbbm{1}_A\left(f-f_n\right)\dif \mu\le \liminf_{n\to\infty}\int_X\mathbbm{1}_A\left(f-f_n\right)\dif \mu  \\
+			\int_X\liminf_{n\to\infty}\mathbbm{1}_A\left(f_n-f\right)\dif \mu\le \liminf_{n\to\infty}\int_X\mathbbm{1}_A\left(f_n-f\right)\dif \mu 
+		\end{gather*}
+		ma dato che $f_n(x)\to f(x)$ per ogni $x$ abbiamo anche che $\mathbbm{1}(x)(f_n(x))-f(x))\to 0$ e quindi quei liminf sono dei limiti, che sono uguali esattamente a $0$. Da questo deduciamo che
+		\begin{gather*}
+			0\le \liminf_{n\to\infty}\int_X\mathbbm{1}_A\left(f-f_n\right)\dif \mu  \\
+			0\le \liminf_{n\to\infty}\int_X\mathbbm{1}_A\left(f_n-f\right)\dif \mu 
+		\end{gather*}
+		e allora per linearità dell'integrale abbiamo
+		\begin{gather*}
+			0\le \liminf_{n\to\infty}\int_X\mathbbm{1}_Af\dif \mu-\limsup_{n\to\infty}\int_X\mathbbm{1}_Af_n\dif \mu  \\
+			0\le \liminf_{n\to\infty}\int_X\mathbbm{1}_Af_n\dif\mu-\limsup_{n\to\infty}\int_X\mathbbm{1}_Af\dif\mu 
+		\end{gather*}
+		ma allora mettendo insieme tutte le condizioni e usando il fatto che $\int_X\mathbbm{1}_Af\dif \mu$ è semplicemente una costante (e quindi il suo liminf o limsup è la costante stessa) abbiamo
+		$$\int_X\mathbbm{1}_Af\dif \mu \le \liminf_{n\to\infty}\int_X\mathbbm{1}_Af_n\dif\mu \le\limsup_{n\to\infty} \int_X\mathbbm{1}_Af_n\dif \mu \le \int_X\mathbbm{1}_Af\dif\mu$$
+		ovvero abbiamo proprio che il limsup è uguale al liminf, ed entrambi sono uguali a $\abs{\abs{\mathbbm{1}_Af}}_{L^1}$, che era la tesi.
 	\end{proof}
 	
 \end{document}

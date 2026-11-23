@@ -709,7 +709,7 @@
 		$$(f,\overline{\chi}_i)=\frac{\chi_i(s_f)}{\abs{G}}$$
 		now by schur's lemma we now have that (since we are working on a closed field), since $s_f$ is an equivariant map, over any $V_i$ irreducible representation associated with $\chi_i$ we have that $s_f$ acts as a scalar on every irreducible representation of $G$, but since this scalar $k$ is just given by 
 		$$\chi_i(s_f)=k\dim_\CC V_i$$
-		we get that $s_f$ is identically on any $V_i$, which implies that $f=0$, as desired. 
+		we get that $s_f$ is identically $0$ when restricted on any $V_i$, which implies that $f=0$, as desired. 
 	\end{proof}
 	\begin{corollary}[Conjugacy classes of a group]
 		The number of conjugacy classes of $G$ equal the number of it's irreducible representations.
@@ -785,6 +785,10 @@
 		A comples number $\alpha$ is called an \textit{algebraic integer} if it is a root of some monic polynomial with integer coefficients.
 	\end{definition}
 	This definition is basically equal to the one of an algebraic number, except for the restriction on the first coefficient of the polynomial.
+	\begin{remark}[Eigenvalues of integer matrices]
+		From the definition of characteristic polynomial we see that the fact that $\alpha$ is an algebraic number is equivalent to saying that it is an eigenvalue of an integer coefficient matrix $M_n(\ZZ)$ for some $n$. 
+	\end{remark}
+	From the above fact we immediately see that any root of unity is a algebraic integer.
 	\begin{proposition}[Algebraic integers aren't rational]
 		If we denote with $A$ the set of algebraic integers then we have
 		$$\QQ\cap A=\ZZ$$
@@ -877,6 +881,10 @@
 		$$1 \normal  G_1 \normal G_2 \normal\dots \normal G_n\normal G$$
 		and for each $i\le n$ we have that the group $\faktor{G_{i+1}}{G_i}$ is abelian. Such a set of groups is called an \textit{abelian series} of $G$.
 	\end{definition}
+	An equivalent definition of this is
+	\begin{proposition}[Commutator series]
+		A group $G$ is solvable if and only if, denoting by $G^{(n)}$
+	\end{proposition}
 	\begin{lemma}[Linear combinations of roots of unity]
 		If $\varepsilon_1,\varepsilon_2,\dots,\varepsilon_n$ are roots of unity such that
 		$$\frac{\varepsilon_1+\varepsilon_2+\dots+\varepsilon_n}{n}$$
@@ -1113,7 +1121,7 @@
 			C_M:M_n(k) & \to M_n(k) \\
 			A & \mapsto M^2AM^{-2}
 		\end{align*}
-		we know from the previous step that $U^{n-1}$ is an eigenvector of this operator, whilst $2^{n-1}$ is its associated eigenvalue. But this means that if $\lambda$ is an eigenvalue of $U^{n-1}$ (as a matrix, not as an eigenvector) then also $2^{n-1}\lambda$ is an eigenvalue of $U^{n-1}$, because we have that $U^{n-1}$ and $2^{n-1}U^{n-1}$ are conjugated. Since there are only finitely many eigenvalues of $U^{n-1}$ the only possibility id $U^{n-1}=0$. This argument reiterates, and by infinite descent we must have $U=0$, which means that
+		we know from the previous step that $U^{n-1}$ is an eigenvector of this operator, whilst $2^{n-1}$ is its associated eigenvalue. But this means that if $\lambda$ is an eigenvalue of $U^{n-1}$ (as a matrix, not as an eigenvector) then also $2^{n-1}\lambda$ is an eigenvalue of $U^{n-1}$, because we have that $U^{n-1}$ and $2^{n-1}U^{n-1}$ are conjugated. Since there are only finitely many eigenvalues of $U^{n-1}$ the only possibility is $U^{n-1}=0$. This argument reiterates, and by infinite descent we must have $U=0$, which means that
 		$$N^s=I$$
 		which implies that $\rho$ is not injective.
 	\end{proof}

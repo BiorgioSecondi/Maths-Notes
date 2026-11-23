@@ -58,6 +58,7 @@
 \newcommand{\LL}{\mathbb{L}}
 \newcommand{\SO}{\text{SO}}
 \newcommand{\KK}{\mathbb{K}}
+\usepackage{MnSymbol}
 %----------------------------------
 
 %Fisica
@@ -866,6 +867,7 @@
 		$$B(w,w')=0$$
 		per ogni $w\in W$ allora $w'\in W\cap W^\perp=\left\{\vec{0}\right\}$ cioè $w'=\vec{0}$, da cui la tesi.
 	\end{proof}
+	Il punto della cosa è che 
 	\begin{proposition}[Proprietà degli ortogonali per forme non degeneri]
 		Sia $B$ una forma bilineare simmetrica o alternante e non degenere su uno spazio $V$ di dimensione finita, allora
 		\begin{enumerate}
@@ -2514,7 +2516,7 @@
 	\begin{lemma}[Proprietà del prodotto di contrazione]
 		Sia $\alpha$ una $k$-forma alternante su $V$ con $k\ge 1$. Allora si ha:
 		\begin{enumerate}
-			\item $\alpha=0$ se e solo se $v\lnot \alpha = 0$ per ogni $v\in V$.
+			\item $\alpha=0$ se e solo se $v\invneg \alpha = 0$ per ogni $v\in V$.
 			\item Applicata due volte da $0$, ovvero $v\lnot\left(v\lnot \alpha\right)=0$ per ogni $v\in V$. 
 			\item Scambiare i prodotti di contrazione fa generare un segno $-$, ovvero $v_1\lnot (v_2\lnot\alpha)=-v_2\lnot\left(v_1\lnot\alpha\right)$
 		\end{enumerate}
@@ -2531,10 +2533,10 @@
 		Il \textit{prodotto esterno} di $\alpha\in \Omega^p(V)$ e $\beta\in \Omega^q(V)$ si definisce come la $(p+q)$-forma $\alpha\land \beta$ tale che 
 		$$\left(\alpha\land \beta\right)(v_1,\dots,v_{p+q})=\sum_{\sigma\in S(p,q)}\text{sign}(\sigma)\alpha\left(v_{\sigma(1)},\dots,v_{\sigma(p)}\right)\beta\left(v_{\sigma(p+1)},\dots,v_{\sigma(p+q)}\right).$$ 
 	\end{definition}
-	\begin{remark}
+	\begin{remark}[Casi noti]
 		Per $\lambda\in \Omega^0(V)$ e $\alpha\in \Omega^p(V)$ si ha 
 		$$\lambda\land \alpha=\alpha\land \lambda=\lambda\alpha$$
-		allo stesso modo 
+		allo stesso modo se $\varphi$ e $\psi$ sono due funzionali in $V^*$ (ovvero elementi di $\Omega^1(V)$) abbiamo:
 		$$\left(\varphi\land \psi\right)(v,w)=\varphi(v)\psi(w)-\varphi(w)\psi(v)$$
 		che è la forma simplettica standard!
 	\end{remark}
@@ -2553,12 +2555,15 @@
 			\sigma^{-1}(i+1)\le p
 		\end{gather*}
 		allora le permutazioni in questi insiemi avranno segni opposti (infatti possiamo sempre andare da un insieme all'altro moltiplicando per la trasposizione $(i,i+1)$) dunque ad ogni addendo $\alpha(\dots)\beta(\dots)$ con $\sigma\in I$ corrisponde uno e un solo $(i,i+1)\sigma\in J$, con segno opposto, ma tale che 
-		$$\alpha\left(v_{\sigma(1)},\dots,v_{\sigma(p)}\right)\beta\left(v_{\sigma(p+1)},\dots,v_{\sigma(p+q)}\right)=\alpha\left(v_{(i,i+1)\sigma(1)},\dots,v_{(i,i+1)\sigma(p)}\right)\beta\left(v_{(i,i+1)\sigma(p+1)},\dots,v_{(i,i+1)\sigma(p+q)}\right)$$
+		\begin{gather*}
+			\alpha\left(v_{\sigma(1)},\dots,v_{\sigma(p)}\right)\beta\left(v_{\sigma(p+1)},\dots,v_{\sigma(p+q)}\right) \\
+			=\alpha\left(v_{(i,i+1)\sigma(1)},\dots,v_{(i,i+1)\sigma(p)}\right)\beta\left(v_{(i,i+1)\sigma(p+1)},\dots,v_{(i,i+1)\sigma(p+q)}\right)
+		\end{gather*}
 		e dunque tutti i termini si cancellano e abbiamo finito.
 	\end{proof}
-	\begin{lemma}[Bilinearità dei prodotti]
+	\begin{proposition}[Bilinearità dei prodotti]
 		Sia il prodotto esterno che quello di contrazione sono bilineari.
-	\end{lemma}
+	\end{proposition}
 	\begin{proof}
 		Conti.
 	\end{proof}
@@ -2578,6 +2583,42 @@
 	\begin{proof}
 		Per dimostrare la formula di Leibniz, prendiamo vettori $u_1,\dots,u_{p+q-1}\in V$ e due permutazioni $\sigma,\tau$ shuffle di tipo $(p-1,q)$ e $(p,q-1)$ rispettivamente.
 	\end{proof}
+	
+	\begin{definition}[Algebra delle forme alternanti]
+		Definiamo l'\textit{algebra} delle forme alternanti come
+		$$\Omega^\bullet(V):=\bigoplus_{p\in\NN}\Omega^p(V)$$
+		equipaggiata con la moltiplicazione per scalare rispetto al campo $\KK$ su cui è definito $V$, la somma sull'immagine come è chiaro, e il prodotto esterno $\land$.
+	\end{definition}
+	
+	Questa algebra è chiaramente infinitamente generata, tuttavia per ciascuno spazio vettoriale abbiamo:
+	\begin{theorem}[Dimensione delle forme multilineari]
+		Se $v_1,\dots,v_n\in V$ è una base di $V$ allora per ogni grado $p\le n$ le forme del tipo
+		$$v_{i_1}^*\land \dots \land v_{i_p}^*$$
+		formano una base di $\Omega^p(V)$, che quindi ha dimensione $\binom{n}{k}$.
+	\end{theorem}
+	\begin{definition}[Varietà di Grassmann]
+		Sia $V=\KK^n$, allora per ogni $k\le n$ definiamo l'insieme
+		$$G(k,n)=\left\{W\subseteq V:\dim W=k\right\}=\left\{L\subseteq \PP(V):\dim L = k-1\right\}=\mathbb{G}(k,\PP^{n-1})$$
+		la \textit{grassmanniana di $V$} o analogamente la sua \textit{varietà di Grassmann}.
+	\end{definition}
+	Il punto della nostra definizione di prodotto esterno a questo punto è che possiamo estendere naturalmente il concetto ai vettori: definiamo il prodotto esterno tra vettori come l'elemento $v_1\land v_2\land\dots\land v_n$ di $\Omega^\bullet(V^*)$. Questo oggetto è particolarmente interessante, perché assomiglia molto al prodotto tensoriale:
+	\begin{theorem}[Proprietà del prodotto esterno tra vettori]
+		Il prodotto esterno tra vettori $v_1\land \dots\land v_n$ è bilineare, e inoltre 
+		$$v_1\land v_2\land \dots \land v_n=0$$
+		è la forma identicamente nulla se e solo se i $v_i$ sono linearmente dipendenti.
+	\end{theorem}  
+	
+	\subsubsection{L'immersione di Pl\"ucker}
+	
+	Per ogni $k\le n$, dove $n$ è la definizione di un certo spazio $V\cong \KK^n$, definiamo la seguente mappa:
+	\begin{align*}
+		\psi:G(k,n) & \to \PP\left(\Omega^k(V^*)\right) \\
+		W & \mapsto [w_1\land w_2\land \dots \land w_b]
+	\end{align*}
+	dove $w_1,\dots,w_b$ è una base di $W$. Stiamo quindi trovando un modo per immergere spazi arbitrari in uno spazio proiettivo più grande, i cui punti sono le forme alternanti $w_1\land w_2\land \dots \land w_b$, dette \textit{totalmente decomponibili}. La prima cosa da dimostrare è che questa mappa sia effettivamente ben definita:
+	\begin{proposition}[L'immersione di Pl\"ucker è ben definita]
+		contenuto...
+	\end{proposition}
 	
 	\newpage
 	

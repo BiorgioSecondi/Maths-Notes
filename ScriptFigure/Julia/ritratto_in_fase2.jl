@@ -1,79 +1,43 @@
-# Ritratto in fase dell'equazione autonoma  x' = x*sin(x)
-# Equilibri: x = k*pi (k intero), perché x*sin(x) = 0  <=>  x = 0 oppure sin(x) = 0
-# Stabilità: f'(x) = sin(x) + x*cos(x)  =>  f'(k*pi) = k*pi*(-1)^k
-#   k = 0            : f'(0) = 0, ma f(x) ~ x^2 => semistabile
-#   k*(-1)^k < 0     : stabile      (es. k = 1, 3, -2)
-#   k*(-1)^k > 0     : instabile    (es. k = 2, -1, -3)
-# Richiede: using Pkg; Pkg.add("Plots")
+# Soluzioni di y' = 2y - y^2, y(0) = y0, al variare di y0
+# Esegui con:  julia soluzioni_logistica.jl
+# (la prima volta: using Pkg; Pkg.add("Plots"))
 
 using Plots
 
-f(x) = x * sin(x)
+# Soluzione esatta:  y(x) = 2*y0*e^(2x) / (2 + y0*(e^(2x) - 1))
+y(x, y0) = 2y0 * exp(2x) / (2 + y0 * (exp(2x) - 1))
 
-xmin, xmax = -3.5π, 3.5π
-ks = -3:3
+xmin, xmax = -2.0, 3.0
+ymin, ymax = -3.0, 4.0
+eps = 1e-3
 
-function stab(k)
-    k == 0 && return :semi
-    return k * (-1)^k < 0 ? :stable : :unstable
-end
+p = plot(xlabel = "x", ylabel = "y(x)",
+         xlims = (xmin, xmax), ylims = (ymin, ymax),
+         legend = false, size = (800, 550),
+         title = "Soluzioni di y' = 2y - y², y(0) = y₀")
 
-# ---------------- Pannello 1: grafico di f(x) e retta di fase ----------------
-xx = range(xmin, xmax; length = 800)
-p1 = plot(xx, f.(xx); lw = 2, color = :steelblue, legend = false,
-          xlabel = "x", ylabel = "x'", title = "Ritratto in fase di x' = x·sin(x)",
-          xlims = (xmin, xmax))
-hline!(p1, [0]; color = :black, lw = 1)
+# Soluzioni di equilibrio y = 0 e y = 2
+hline!(p, [0.0], color = :black, lw = 2.5)
+hline!(p, [2.0], color = :black, lw = 2.5, ls = :dash)
 
-# frecce di flusso sugli intervalli tra equilibri
-pts = [k * π for k in ks]
-edges = [xmin; pts; xmax]
-for i in 1:length(edges)-1
-    xm = (edges[i] + edges[i+1]) / 2
-    s = sign(f(xm))
-    annotate!(p1, xm, 0, text(s > 0 ? "→" : "←", 16, :crimson))
-end
-
-# equilibri: pieno = stabile, vuoto = instabile, grigio = semistabile
-for k in ks
-    st = stab(k)
-    if st == :stable
-        scatter!(p1, [k * π], [0]; markersize = 8, color = :black, markerstrokecolor = :black)
-    elseif st == :unstable
-        scatter!(p1, [k * π], [0]; markersize = 8, color = :white, markerstrokecolor = :black)
-    else
-        scatter!(p1, [k * π], [0]; markersize = 8, color = :gray, markerstrokecolor = :black)
+for y0 in vcat(-3:0.5:-0.5, 0.25:0.25:1.75, 2.25:0.5:6.0)
+    # Tempo di blow-up: 2 + y0*(e^(2x) - 1) = 0  =>  x* = (1/2) ln((y0-2)/y0)
+    if y0 < 0          # esplode in avanti (x* > 0): esiste per x < x*
+        xs = 0.5 * log((y0 - 2) / y0)
+        a, b = xmin, min(xmax, xs - eps)
+        col = :red
+    elseif y0 > 2      # esplode all'indietro (x* < 0): esiste per x > x*
+        xs = 0.5 * log((y0 - 2) / y0)
+        a, b = max(xmin, xs + eps), xmax
+        col = :green
+    else               # 0 < y0 < 2: soluzione globale
+        xs = 0.5 * log((y0 - 2) / y0)
+        a, b = xmin, xmax
+        col = :blue
     end
+    X = range(a, b, length = 800)
+    plot!(p, X, y.(X, y0), color = col, lw = 1.5)
 end
 
-# ---------------- Pannello 2: traiettorie x(t) (RK4) ----------------
-function rk4(x0, T, h)
-    ts = 0:h:T
-    xs = similar(collect(ts), Float64)
-    x = x0
-    for (i, _) in enumerate(ts)
-        xs[i] = x
-        k1 = f(x)
-        k2 = f(x + h / 2 * k1)
-        k3 = f(x + h / 2 * k2)
-        k4 = f(x + h * k3)
-        x += h / 6 * (k1 + 2k2 + 2k3 + k4)
-    end
-    return ts, xs
-end
-
-p2 = plot(; legend = false, xlabel = "t", ylabel = "x(t)",
-          title = "Traiettorie", ylims = (xmin, xmax))
-for k in ks
-    hline!(p2, [k * π]; color = :gray70, ls = :dash, lw = 1)
-end
-x0s = sort(vcat(collect(range(-3.4π, 3.4π; length = 29)),
-                [k * π + δ for k in ks for δ in (-0.15, 0.15)]))
-for x0 in x0s
-    ts, xs = rk4(x0, 8.0, 0.01)
-    plot!(p2, ts, xs; lw = 1.5)
-end
-
-p = plot(p1, p2; layout = (1, 2), size = (1200, 500))
 display(p)
-savefig(p, "ritratto_fase_autonoma.png")
+savefig(p, "soluzioni_logistica.png")
